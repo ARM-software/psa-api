@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2. Status codes &#8212; PSA Certified Status code API 1.0.1</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. Reference header file" href="../appendix/reference-headers.html" />
+    <link rel="prev" title="1. Introduction" href="../overview/intro.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="status-codes">
+<h1><span class="section-number">2. </span>Status codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">¶</a></h1>
+<section id="overview">
+<span id="error-codes"></span><h2><span class="section-number">2.1. </span>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The PSA Certified APIs are often implemented together in a larger framework. For example, the <span><em>Trusted Firmware-M</em> <a class="reference internal" href="../about.html#cite-tf-m"><span class="cite">[TF-M]</span></a></span> project implements all of the PSA functional APIs as Root of Trust Services within the Secure Processing Environment that it provides. Using a common definition for status and error codes enables easier integration and inter-operation of these APIs.</p>
+<p>The PSA Certified APIs use the convention that status codes that are negative indicate an error, and zero or positive values indicate success. These are identified in the API by the <a class="reference internal" href="#c.psa_status_t" title="psa_status_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_status_t</span></code></a> type.</p>
+<p>Status codes <code class="docutils literal notranslate"><span class="pre">-129</span></code> to <code class="docutils literal notranslate"><span class="pre">-248</span></code> are for use by PSA Certified API specifications. These codes are defined in the current PSA specifications, or are reserved for future PSA specifications. Status codes in this range are used in the following ways:</p>
+<ul class="simple">
+<li><p>A set of standard error codes that cover failure conditions that are common to more than one PSA Certified API.</p></li>
+<li><p>Error codes that are specific to an individual PSA Certified API.</p></li>
+</ul>
+<p>Status codes in this range must only be used as defined in a PSA specification.</p>
+<p>In the context of an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="../about.html#term-secure-partition-manager"><span class="term">Secure Partition Manager</span></a> (SPM) implementation can define error codes in the range <code class="docutils literal notranslate"><span class="pre">-249</span></code> to <code class="docutils literal notranslate"><span class="pre">-256</span></code> for <span class="sc">IMPLEMENTATION DEFINED</span> purposes.</p></li>
+<li><p>A <a class="reference internal" href="../about.html#term-root-of-trust-service"><span class="term">Root of Trust Service</span></a> (RoT Service) can define additional error codes in the ranges <code class="docutils literal notranslate"><span class="pre">-1</span></code> to <code class="docutils literal notranslate"><span class="pre">-128</span></code> and <code class="docutils literal notranslate"><span class="pre">-257</span></code> to <code class="docutils literal notranslate"><span class="pre">MIN_INT32</span></code> for RoT Service-specific error conditions.</p></li>
+</ul>
+<p><span><a class="reference internal" href="#tab-error-codes"><span class="numref">Table 4</span></a></span> defines the common error codes and reserved ranges for the PSA Certified APIs. See the error code macros and function definitions in <a class="reference internal" href="#api"><span class="secref">API Reference</span></a> for details on their usage.</p>
+<table class="colwidths-given longtable docutils align-right" id="tab-error-codes">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Standard error codes</span><a class="headerlink" href="#tab-error-codes" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 15%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Status code name</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Condition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>Success</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">1</span></code></p></td>
+<td><p>API-specific status code.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>General success status code.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>API-specific error</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span></code> to <code class="docutils literal notranslate"><span class="pre">-128</span></code></p></td>
+<td><p>API-specific error code.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_PROGRAMMER_ERROR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-129</span></code></p></td>
+<td><p>Connection dropped due to <a class="reference internal" href="../about.html#term-programmer-error"><span class="scterm">PROGRAMMER ERROR</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CONNECTION_REFUSED</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-130</span></code></p></td>
+<td><p>Connection to the service is not permitted.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CONNECTION_BUSY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-131</span></code></p></td>
+<td><p>Connection to the service is not possible.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-132</span></code></p></td>
+<td><p>An error not related to a specific failure cause.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-133</span></code></p></td>
+<td><p>The operation is denied by a policy.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-134</span></code></p></td>
+<td><p>The operation or a parameter is not supported.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-135</span></code></p></td>
+<td><p>One or more parameters are invalid.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_HANDLE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-136</span></code></p></td>
+<td><p>A handle parameter is not valid.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-137</span></code></p></td>
+<td><p>The operation is not valid in the current state.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BUFFER_TOO_SMALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-138</span></code></p></td>
+<td><p>An output buffer parameter is too small.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_ALREADY_EXISTS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-139</span></code></p></td>
+<td><p>An identifier or index is already in use.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-140</span></code></p></td>
+<td><p>An identified resource does not exist.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-141</span></code></p></td>
+<td><p>There is not enough runtime memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-142</span></code></p></td>
+<td><p>There is not enough persistent storage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_DATA</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-143</span></code></p></td>
+<td><p>A data source has insufficient capacity left.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_SERVICE_FAILURE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-144</span></code></p></td>
+<td><p>Failure within the service.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-145</span></code></p></td>
+<td><p>Communication failure with another component.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-146</span></code></p></td>
+<td><p>Storage failure that may have led to data loss.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_HARDWARE_FAILURE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-147</span></code></p></td>
+<td><p>General hardware failure.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>Reserved</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-148</span></code></p></td>
+<td><p>Reserved for PSA Certified APIs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-149</span></code></p></td>
+<td><p>A signature, MAC or hash is incorrect.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>Reserved</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-150</span></code></p></td>
+<td><p>Reserved for PSA Certified APIs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CORRUPTION_DETECTED</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-151</span></code></p></td>
+<td><p>Internal data has been tampered with.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-152</span></code></p></td>
+<td><p>Stored data has been corrupted.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_INVALID</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-153</span></code></p></td>
+<td><p>Data read from storage is not valid.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>Reserved</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-154</span></code> to <code class="docutils literal notranslate"><span class="pre">-247</span></code></p></td>
+<td><p>Reserved for PSA Certified APIs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_OPERATION_INCOMPLETE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-248</span></code></p></td>
+<td><p>The requested operation is not finished.</p></td>
+</tr>
+<tr class="row-even"><td><p><em>SPM Implementation error</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-249</span></code> to <code class="docutils literal notranslate"><span class="pre">-256</span></code></p></td>
+<td><p>Reserved for the SPM implementation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>API-specific error</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">-257</span></code></p></td>
+<td><p>API-specific error code.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="api-reference">
+<span id="api"></span><h2><span class="section-number">2.2. </span>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<p>These are common status and error codes for all PSA Certified APIs, and for SPM and RoT Service APIs. See <a class="reference internal" href="#error-codes"><span class="secref">Overview</span></a> for a summary of the status codes.</p>
+<p>The API elements described in the following sections <a class="reference internal" href="#status-type"><span class="std std-numref">§2.2.1</span></a> to <a class="reference internal" href="#status-pending"><span class="std std-numref">§2.2.4</span></a>, must be defined in a header file <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code>. See <a class="reference internal" href="../appendix/reference-headers.html#reference-headers"><span class="secref">Reference header file</span></a> for a reference version of this header file.</p>
+<p>It is permitted for these API elements to also be defined in header files that are part of an implementation of another PSA Certified API, for example, in <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code>.</p>
+<section id="status-type">
+<span id="id1"></span><h3><span class="section-number">2.2.1. </span>Status type<a class="headerlink" href="#status-type" title="Permalink to this headline">¶</a></h3>
+<section id="c.psa_status_t">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code> (typedef)<a class="headerlink" href="#c.psa_status_t" title="Permalink to this headline">¶</a></h4>
+<p>A status code type used for all PSA Certified APIs.</p>
+<pre class="literal-block"><em>/* Prevent multiple definitions of psa_status_t, if PSA_SUCCESS is already
+   defined in an external header
+ */</em>
+#ifndef <a class="reference internal" href="#c.PSA_SUCCESS" title="PSA_SUCCESS">PSA_SUCCESS</a>
+typedef int32_t <a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>;
+#endif</pre>
+<p>A zero or positive value indicates success, the interpretation of the value depends on the specific operation.</p>
+<p>A negative integer value indicates an error.</p>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>This definition is permitted to be present in multiple header files that are included in a single compilation.</p>
+<p>To prevent a compilation error from duplicate definitions of <a class="reference internal" href="#c.psa_status_t" title="psa_status_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_status_t</span></code></a>, the definition of <a class="reference internal" href="#c.psa_status_t" title="psa_status_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_status_t</span></code></a> must be guarded, by testing for an exiting definition of <a class="reference internal" href="#c.PSA_SUCCESS" title="PSA_SUCCESS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></a>, in any header file that defines <a class="reference internal" href="#c.psa_status_t" title="psa_status_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_status_t</span></code></a>.</p>
+<p>The definition of <a class="reference internal" href="#c.psa_status_t" title="psa_status_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_status_t</span></code></a> above shows the recommended form of the guard.</p>
+</div>
+</section>
+</section>
+<section id="success-code">
+<span id="status-success"></span><h3><span class="section-number">2.2.2. </span>Success code<a class="headerlink" href="#success-code" title="Permalink to this headline">¶</a></h3>
+<section id="c.PSA_SUCCESS">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code> (macro)<a class="headerlink" href="#c.PSA_SUCCESS" title="Permalink to this headline">¶</a></h4>
+<p>A status code to indicate general success.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_SUCCESS" title="PSA_SUCCESS">PSA_SUCCESS</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) 0)</pre>
+<p>This is a general return value to indicate success of the operation.</p>
+</section>
+</section>
+<section id="status-errors">
+<span id="id2"></span><h3><span class="section-number">2.2.3. </span>Error codes<a class="headerlink" href="#status-errors" title="Permalink to this headline">¶</a></h3>
+<section id="c.PSA_ERROR_PROGRAMMER_ERROR">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_PROGRAMMER_ERROR</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_PROGRAMMER_ERROR" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates a <a class="reference internal" href="../about.html#term-programmer-error"><span class="scterm">PROGRAMMER ERROR</span></a> in the client.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_PROGRAMMER_ERROR" title="PSA_ERROR_PROGRAMMER_ERROR">PSA_ERROR_PROGRAMMER_ERROR</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -129)</pre>
+<p>This error indicates that the function has detected an abnormal call, which typically indicates a programming error in the caller, or an abuse of the API.</p>
+<p>This error has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
+</section>
+<section id="c.PSA_ERROR_CONNECTION_REFUSED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CONNECTION_REFUSED</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_CONNECTION_REFUSED" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the caller is not permitted to connect to a Service.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_CONNECTION_REFUSED" title="PSA_ERROR_CONNECTION_REFUSED">PSA_ERROR_CONNECTION_REFUSED</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -130)</pre>
+<p>This message has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
+</section>
+<section id="c.PSA_ERROR_CONNECTION_BUSY">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CONNECTION_BUSY</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_CONNECTION_BUSY" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the caller cannot connect to a service.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_CONNECTION_BUSY" title="PSA_ERROR_CONNECTION_BUSY">PSA_ERROR_CONNECTION_BUSY</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -131)</pre>
+<p>This message has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
+</section>
+<section id="c.PSA_ERROR_GENERIC_ERROR">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_GENERIC_ERROR" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates an error that does not correspond to any defined failure cause.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_GENERIC_ERROR" title="PSA_ERROR_GENERIC_ERROR">PSA_ERROR_GENERIC_ERROR</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -132)</pre>
+<p>Functions can return this error code if none of the other standard error codes are applicable.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For new APIs, it is recommended that additional error codes are defined by the API for important error conditions which do not correspond to an existing status code.</p>
+</div>
+</section>
+<section id="c.PSA_ERROR_NOT_PERMITTED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_NOT_PERMITTED" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the requested action is denied by a policy.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_NOT_PERMITTED" title="PSA_ERROR_NOT_PERMITTED">PSA_ERROR_NOT_PERMITTED</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -133)</pre>
+<p>It is recommended that a function returns this error code when the parameters are recognized as valid and supported, and a policy explicitly denies the requested operation.</p>
+<p>If a subset of the parameters of a function call identify a forbidden operation, and another subset of the parameters are not valid or not supported, it is unspecified whether the function returns with <a class="reference internal" href="#c.PSA_ERROR_NOT_PERMITTED" title="PSA_ERROR_NOT_PERMITTED"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></a>, <a class="reference internal" href="#c.PSA_ERROR_NOT_SUPPORTED" title="PSA_ERROR_NOT_SUPPORTED"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></a>, or <a class="reference internal" href="#c.PSA_ERROR_INVALID_ARGUMENT" title="PSA_ERROR_INVALID_ARGUMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></a>.</p>
+</section>
+<section id="c.PSA_ERROR_NOT_SUPPORTED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_NOT_SUPPORTED" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the requested operation or a parameter is not supported.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_NOT_SUPPORTED" title="PSA_ERROR_NOT_SUPPORTED">PSA_ERROR_NOT_SUPPORTED</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -134)</pre>
+<p>This error code is recommended for indicating that optional functionality in an API specification is not provided by the implementation.</p>
+<p>If a combination of parameters is recognized and identified as not valid, prefer to return <a class="reference internal" href="#c.PSA_ERROR_INVALID_ARGUMENT" title="PSA_ERROR_INVALID_ARGUMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></a> instead.</p>
+</section>
+<section id="c.PSA_ERROR_INVALID_ARGUMENT">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INVALID_ARGUMENT" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the parameters passed to the function are invalid.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INVALID_ARGUMENT" title="PSA_ERROR_INVALID_ARGUMENT">PSA_ERROR_INVALID_ARGUMENT</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -135)</pre>
+<p>Functions can return this error any time a parameter or combination of parameters are recognized as invalid.</p>
+<p>It is recommended that a function returns a more specific error code where applicable, for example <a class="reference internal" href="#c.PSA_ERROR_INVALID_HANDLE" title="PSA_ERROR_INVALID_HANDLE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_HANDLE</span></code></a>, <a class="reference internal" href="#c.PSA_ERROR_DOES_NOT_EXIST" title="PSA_ERROR_DOES_NOT_EXIST"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></a>, or <a class="reference internal" href="#c.PSA_ERROR_ALREADY_EXISTS" title="PSA_ERROR_ALREADY_EXISTS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_ALREADY_EXISTS</span></code></a>.</p>
+</section>
+<section id="c.PSA_ERROR_INVALID_HANDLE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_HANDLE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INVALID_HANDLE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that a handle parameter is not valid.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INVALID_HANDLE" title="PSA_ERROR_INVALID_HANDLE">PSA_ERROR_INVALID_HANDLE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -136)</pre>
+<p>A function can return this error any time a handle parameter is invalid.</p>
+</section>
+<section id="c.PSA_ERROR_BAD_STATE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_BAD_STATE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the requested action cannot be performed in the current state.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_BAD_STATE" title="PSA_ERROR_BAD_STATE">PSA_ERROR_BAD_STATE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -137)</pre>
+<p>It is recommended that a function returns this error when an operation is requested out of sequence.</p>
+</section>
+<section id="c.PSA_ERROR_BUFFER_TOO_SMALL">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BUFFER_TOO_SMALL</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_BUFFER_TOO_SMALL" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that an output buffer parameter is too small.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_BUFFER_TOO_SMALL" title="PSA_ERROR_BUFFER_TOO_SMALL">PSA_ERROR_BUFFER_TOO_SMALL</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -138)</pre>
+<p>A function can return this error if an output parameter is too small for the requested output data.</p>
+<p>It is recommended that a function only returns this error code in cases where performing the operation with a larger output buffer would succeed. However, a function can also return this error if a function has invalid or unsupported parameters in addition to an insufficient output buffer size.</p>
+</section>
+<section id="c.PSA_ERROR_ALREADY_EXISTS">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_ALREADY_EXISTS</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_ALREADY_EXISTS" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that an identifier or index is already in use.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_ALREADY_EXISTS" title="PSA_ERROR_ALREADY_EXISTS">PSA_ERROR_ALREADY_EXISTS</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -139)</pre>
+<p>A function can return this error if the call is attempting to reuse an identifier or a resource index that is already allocated or in use.</p>
+<p>It is recommended that this error code is not used for a handle or index that is invalid. For these situations, return <a class="reference internal" href="#c.PSA_ERROR_PROGRAMMER_ERROR" title="PSA_ERROR_PROGRAMMER_ERROR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_PROGRAMMER_ERROR</span></code></a>, <a class="reference internal" href="#c.PSA_ERROR_INVALID_HANDLE" title="PSA_ERROR_INVALID_HANDLE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_HANDLE</span></code></a>, or <a class="reference internal" href="#c.PSA_ERROR_INVALID_ARGUMENT" title="PSA_ERROR_INVALID_ARGUMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></a>.</p>
+</section>
+<section id="c.PSA_ERROR_DOES_NOT_EXIST">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_DOES_NOT_EXIST" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that an identified resource does not exist.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_DOES_NOT_EXIST" title="PSA_ERROR_DOES_NOT_EXIST">PSA_ERROR_DOES_NOT_EXIST</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -140)</pre>
+<p>A function can return this error if a request identifies a resource that has not been created or is not present.</p>
+<p>It is recommended that this error code is not used for a handle or index that is invalid. For these situations, return <a class="reference internal" href="#c.PSA_ERROR_PROGRAMMER_ERROR" title="PSA_ERROR_PROGRAMMER_ERROR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_PROGRAMMER_ERROR</span></code></a>, <a class="reference internal" href="#c.PSA_ERROR_INVALID_HANDLE" title="PSA_ERROR_INVALID_HANDLE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_HANDLE</span></code></a>, or <a class="reference internal" href="#c.PSA_ERROR_INVALID_ARGUMENT" title="PSA_ERROR_INVALID_ARGUMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></a>.</p>
+</section>
+<section id="c.PSA_ERROR_INSUFFICIENT_MEMORY">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INSUFFICIENT_MEMORY" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that there is not enough runtime memory.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_MEMORY" title="PSA_ERROR_INSUFFICIENT_MEMORY">PSA_ERROR_INSUFFICIENT_MEMORY</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -141)</pre>
+<p>A function can return this error if runtime memory required for the requested operation cannot be allocated.</p>
+<p>If the operation involves multiple components, this error can refer to available memory in any of the components.</p>
+</section>
+<section id="c.PSA_ERROR_INSUFFICIENT_STORAGE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INSUFFICIENT_STORAGE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that there is not enough persistent storage.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_STORAGE" title="PSA_ERROR_INSUFFICIENT_STORAGE">PSA_ERROR_INSUFFICIENT_STORAGE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -142)</pre>
+<p>A function can return this error if the operation involves storing data in non-volatile memory, and when there is insufficient space on the host media.</p>
+<p>Operations that do not directly store persistent data can also return this error code if the implementation requires a mandatory log entry for the requested action and the log storage space is full.</p>
+</section>
+<section id="c.PSA_ERROR_INSUFFICIENT_DATA">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_DATA</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INSUFFICIENT_DATA" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that a data source has insufficient capacity left.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_DATA" title="PSA_ERROR_INSUFFICIENT_DATA">PSA_ERROR_INSUFFICIENT_DATA</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -143)</pre>
+<p>A function can return this error if the operation attempts to extract data from a source which has been exhausted.</p>
+</section>
+<section id="c.PSA_ERROR_SERVICE_FAILURE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_SERVICE_FAILURE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_SERVICE_FAILURE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates an error within the service.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_SERVICE_FAILURE" title="PSA_ERROR_SERVICE_FAILURE">PSA_ERROR_SERVICE_FAILURE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -144)</pre>
+<p>A function can return this error if it unable to operate correctly. For example, if an essential initialization operation failed.</p>
+<p>For failures that are related to hardware peripheral errors, it is recommended that the function returns <a class="reference internal" href="#c.PSA_ERROR_COMMUNICATION_FAILURE" title="PSA_ERROR_COMMUNICATION_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></a> or <a class="reference internal" href="#c.PSA_ERROR_HARDWARE_FAILURE" title="PSA_ERROR_HARDWARE_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_HARDWARE_FAILURE</span></code></a>.</p>
+</section>
+<section id="c.PSA_ERROR_COMMUNICATION_FAILURE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_COMMUNICATION_FAILURE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates a communication failure between the function and another service or component.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_COMMUNICATION_FAILURE" title="PSA_ERROR_COMMUNICATION_FAILURE">PSA_ERROR_COMMUNICATION_FAILURE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -145)</pre>
+<p>A function can return this error if there is a fault in the communication between the implementation and another service or peripheral used to provide the requested service. A communication failure may be transient or permanent depending on the cause.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If a function returns this error, it is undetermined whether the requested action has completed.</p>
+<p>Returning <a class="reference internal" href="#c.PSA_SUCCESS" title="PSA_SUCCESS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></a> is recommended on successful completion whenever possible. However, a function can return <a class="reference internal" href="#c.PSA_ERROR_COMMUNICATION_FAILURE" title="PSA_ERROR_COMMUNICATION_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></a> if the requested action was completed successfully in an external component, but there was a breakdown of communication before this was reported to the application.</p>
+</div>
+</section>
+<section id="c.PSA_ERROR_STORAGE_FAILURE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_STORAGE_FAILURE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates a storage failure that may have led to data loss.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_STORAGE_FAILURE" title="PSA_ERROR_STORAGE_FAILURE">PSA_ERROR_STORAGE_FAILURE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -146)</pre>
+<p>A function can return this error to indicate that some persistent storage could not be read or written. It does not indicate the following situations, which have specific error codes:</p>
+<ul class="simple">
+<li><p>A corruption of volatile memory — use <a class="reference internal" href="#c.PSA_ERROR_CORRUPTION_DETECTED" title="PSA_ERROR_CORRUPTION_DETECTED"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_CORRUPTION_DETECTED</span></code></a>.</p></li>
+<li><p>A communication error between the processor and the storage hardware — use <a class="reference internal" href="#c.PSA_ERROR_COMMUNICATION_FAILURE" title="PSA_ERROR_COMMUNICATION_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></a>.</p></li>
+<li><p>When the storage is in a valid state but is full — use <a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_STORAGE" title="PSA_ERROR_INSUFFICIENT_STORAGE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></a>.</p></li>
+<li><p>When the storage or stored data is corrupted — use <a class="reference internal" href="#c.PSA_ERROR_DATA_CORRUPT" title="PSA_ERROR_DATA_CORRUPT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></a>.</p></li>
+<li><p>When the stored data is not valid — use <a class="reference internal" href="#c.PSA_ERROR_DATA_INVALID" title="PSA_ERROR_DATA_INVALID"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_INVALID</span></code></a>.</p></li>
+</ul>
+<p>A storage failure does not indicate that any data that was previously read is invalid. However, this previously read data may no longer be readable from storage.</p>
+<p>It is recommended to only use this error code to report a permanent storage corruption. However, transient errors while reading the storage can also be reported using this error code.</p>
+</section>
+<section id="c.PSA_ERROR_HARDWARE_FAILURE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_HARDWARE_FAILURE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_HARDWARE_FAILURE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that a hardware failure was detected.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_HARDWARE_FAILURE" title="PSA_ERROR_HARDWARE_FAILURE">PSA_ERROR_HARDWARE_FAILURE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -147)</pre>
+<p>A function can return this error to report a general hardware fault. A hardware failure may be transient or permanent depending on the cause.</p>
+</section>
+<section id="c.PSA_ERROR_INVALID_SIGNATURE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INVALID_SIGNATURE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that a signature, MAC or hash is incorrect.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INVALID_SIGNATURE" title="PSA_ERROR_INVALID_SIGNATURE">PSA_ERROR_INVALID_SIGNATURE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>) -149)</pre>
+<p>A function can return this error to report when a verification calculation completes successfully, and the value to be verified is incorrect.</p>
+</section>
+<section id="c.PSA_ERROR_CORRUPTION_DETECTED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CORRUPTION_DETECTED</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_CORRUPTION_DETECTED" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that internal data has been tampered with.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_CORRUPTION_DETECTED" title="PSA_ERROR_CORRUPTION_DETECTED">PSA_ERROR_CORRUPTION_DETECTED</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>)-151)</pre>
+<p>A function can return this error if it detects an invalid state that cannot happen during normal operation and that indicates that the implementation’s security guarantees no longer hold. Depending on the implementation architecture and on its security and safety goals, the implementation might forcibly terminate the application.</p>
+<p>This error should not be used to indicate a hardware failure that merely makes it impossible to perform the requested operation, instead use <a class="reference internal" href="#c.PSA_ERROR_COMMUNICATION_FAILURE" title="PSA_ERROR_COMMUNICATION_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></a>, <a class="reference internal" href="#c.PSA_ERROR_STORAGE_FAILURE" title="PSA_ERROR_STORAGE_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></a>, <a class="reference internal" href="#c.PSA_ERROR_HARDWARE_FAILURE" title="PSA_ERROR_HARDWARE_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_HARDWARE_FAILURE</span></code></a>, or other applicable error code.</p>
+<p>This error should not be used to report modification of application state, or misuse of the API.</p>
+<p>If an application receives this error code, there is no guarantee that previously accessed or computed data was correct and remains confidential. In this situation, it is recommended that applications perform no further security functions and enter a safe failure state.</p>
+</section>
+<section id="c.PSA_ERROR_DATA_CORRUPT">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_DATA_CORRUPT" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that stored data has been corrupted.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_DATA_CORRUPT" title="PSA_ERROR_DATA_CORRUPT">PSA_ERROR_DATA_CORRUPT</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>)-152)</pre>
+<p>A function can return this error to indicate that some persistent storage has suffered corruption.  It does not indicate the following situations, which have specific error codes:</p>
+<ul class="simple">
+<li><p>A corruption of volatile memory — use <a class="reference internal" href="#c.PSA_ERROR_CORRUPTION_DETECTED" title="PSA_ERROR_CORRUPTION_DETECTED"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_CORRUPTION_DETECTED</span></code></a>.</p></li>
+<li><p>A communication error between the processor and its external storage — use <a class="reference internal" href="#c.PSA_ERROR_COMMUNICATION_FAILURE" title="PSA_ERROR_COMMUNICATION_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></a>.</p></li>
+<li><p>When the storage is in a valid state but is full — use <a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_STORAGE" title="PSA_ERROR_INSUFFICIENT_STORAGE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></a>.</p></li>
+<li><p>When the storage fails for other reasons — use <a class="reference internal" href="#c.PSA_ERROR_STORAGE_FAILURE" title="PSA_ERROR_STORAGE_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></a>.</p></li>
+<li><p>When the stored data is not valid — use <a class="reference internal" href="#c.PSA_ERROR_DATA_INVALID" title="PSA_ERROR_DATA_INVALID"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_INVALID</span></code></a>.</p></li>
+</ul>
+<p>Note that a storage corruption does not indicate that any data that was previously read is invalid. However this previously read data might no longer be readable from storage.</p>
+<p>It is recommended to only use this error code to report when a storage component indicates that the stored data is corrupt, or fails an integrity check.</p>
+</section>
+<section id="c.PSA_ERROR_DATA_INVALID">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_INVALID</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_DATA_INVALID" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that data read from storage is not valid for the implementation.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_DATA_INVALID" title="PSA_ERROR_DATA_INVALID">PSA_ERROR_DATA_INVALID</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>)-153)</pre>
+<p>This error indicates that some data read from storage does not have a valid format. It does not indicate the following situations, which have specific error codes:</p>
+<ul class="simple">
+<li><p>When the storage or stored data is corrupted — use <a class="reference internal" href="#c.PSA_ERROR_DATA_CORRUPT" title="PSA_ERROR_DATA_CORRUPT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></a>.</p></li>
+<li><p>When the storage fails for other reasons — use <a class="reference internal" href="#c.PSA_ERROR_STORAGE_FAILURE" title="PSA_ERROR_STORAGE_FAILURE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></a>.</p></li>
+<li><p>An invalid argument to the API — use <a class="reference internal" href="#c.PSA_ERROR_INVALID_ARGUMENT" title="PSA_ERROR_INVALID_ARGUMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></a>.</p></li>
+</ul>
+<p>This error is typically a result of an integration failure, where the implementation reading the data is not compatible with the implementation that stored the data.</p>
+<p>It is recommended to only use this error code to report when data that is successfully read from storage is invalid.</p>
+</section>
+</section>
+<section id="unfinished-operation-code">
+<span id="status-pending"></span><h3><span class="section-number">2.2.4. </span>Unfinished operation code<a class="headerlink" href="#unfinished-operation-code" title="Permalink to this headline">¶</a></h3>
+<section id="c.PSA_OPERATION_INCOMPLETE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_OPERATION_INCOMPLETE</span></code> (macro)<a class="headerlink" href="#c.PSA_OPERATION_INCOMPLETE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the requested operation is interruptible, and still has work to do.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_OPERATION_INCOMPLETE" title="PSA_OPERATION_INCOMPLETE">PSA_OPERATION_INCOMPLETE</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>)-248)</pre>
+<p>This status code does not mean that the operation has failed or that it has succeeded. The operation must be repeated until it completes with either success or failure.</p>
+<p class="rubric">Usage</p>
+<p>This is an example of how this status code can be used:</p>
+<pre class="literal-block"><a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a> r = start_operation();
+
+if (r == <a class="reference internal" href="#c.PSA_SUCCESS" title="PSA_SUCCESS">PSA_SUCCESS</a>) {
+   do {
+      r = complete_operation();
+   } while (r == <a class="reference internal" href="#c.PSA_OPERATION_INCOMPLETE" title="PSA_OPERATION_INCOMPLETE">PSA_OPERATION_INCOMPLETE</a>);
+}
+
+if (r == <a class="reference internal" href="#c.PSA_SUCCESS" title="PSA_SUCCESS">PSA_SUCCESS</a>) {
+   <em>/* Handle success */</em>
+} else {
+   <em>/* Handle errors */</em>
+}</pre>
+</section>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Status code API</b></a></h3>
+IHI 0097<br/>
+Non-confidential<br/>
+Version 1.0.1
+<span style="font-weight: bold;"></span>
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Status codes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">2.1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-reference">2.2. API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#status-type">2.2.1. Status type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#success-code">2.2.2. Success code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status-errors">2.2.3. Error codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unfinished-operation-code">2.2.4. Unfinished operation code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/reference-headers.html">A. Reference header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/change-history.html">B. Change history</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2017-2022 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

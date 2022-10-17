@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2. Example report &#8212; PSA Certified Attestation API 1.0.3</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. CDDL" href="cddl.html" />
+    <link rel="prev" title="1. Example header file" href="example-header.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="example-report">
+<span id="id1"></span><h1><span class="section-number">B. </span>Example report<a class="headerlink" href="#example-report" title="Permalink to this headline">¶</a></h1>
+<p>An example report is included here in extended <a class="reference internal" href="../about.html#term-cbor"><span class="term">CBOR</span></a> diagnostic form for illustrative purposes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>18(
+[
+/ protected / h&#39;a10126&#39; / {
+    \ alg \ 1: -7 \ ECDSA 256 \
+  } / ,
+/ unprotected / {},
+/ payload / h&#39;a93a000124fb5820000102030405060708090a0b0c0d0e0f1011121
+31415161718191a1b1c1d1e1f3a000124fa5820000102030405060708090a0b0c0d0e
+0f101112131415161718191a1b1c1d1e1f3a000124fd84a4025820000102030405060
+708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f0465332e312e34055820
+000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f01624
+24ca4025820000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c
+1d1e1f0463312e31055820000102030405060708090a0b0c0d0e0f101112131415161
+718191a1b1c1d1e1f016450526f54a4025820000102030405060708090a0b0c0d0e0f
+101112131415161718191a1b1c1d1e1f0463312e30055820000102030405060708090
+a0b0c0d0e0f101112131415161718191a1b1c1d1e1f016441526f54a4025820000102
+030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f0463322e320
+55820000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
+01634170703a000124f91930003a000124ff5820000102030405060708090a0b0c0d0
+e0f101112131415161718191a1b1c1d1e1f3a000125016c7073615f76657269666965
+723a000124f8203a00012500582101000102030405060708090a0b0c0d0e0f1011121
+31415161718191a1b1c1d1e1f3a000124f7715053415f496f545f50524f46494c455f
+31&#39; / {
+   / arm_psa_boot_seed / -75004: h&#39;000102030405060708090a0b0c0d0e0f10
+   1112131415161718191a1b1c1d1e1f&#39;,
+   / arm_psa_implementation_id / -75003: h&#39;000102030405060708090a0b0c
+   0d0e0f101112131415161718191a1b1c1d1e1f&#39;,
+   / arm_psa_sw_components / -75006: [
+        {
+          / measurement / 2: h&#39;000102030405060708090a0b0c0d0e0f101112
+          131415161718191a1b1c1d1e1f&#39;,
+          / version / 4: &quot;3.1.4&quot;,
+          / signerID / 5: h&#39;000102030405060708090a0b0c0d0e0f101112131
+          415161718191a1b1c1d1e1f&#39;,
+          / type / 1: &quot;BL&quot;
+        },
+        {
+          / measurement / 2: h&#39;000102030405060708090a0b0c0d0e0f101112
+          131415161718191a1b1c1d1e1f&#39;,
+          / version / 4: &quot;1.1&quot;,
+          / signerID / 5: h&#39;000102030405060708090a0b0c0d0e0f101112131
+          415161718191a1b1c1d1e1f&#39;,
+          / type / 1: &quot;PRoT&quot;
+        },
+        {
+          / measurement / 2: h&#39;000102030405060708090a0b0c0d0e0f101112
+          131415161718191a1b1c1d1e1f&#39;,
+          / version / 4: &quot;1.0&quot;,
+          / signerID / 5: h&#39;000102030405060708090a0b0c0d0e0f101112131
+          415161718191a1b1c1d1e1f&#39;,
+          / type / 1: &quot;ARoT&quot;
+        },
+        {
+          / measurement / 2: h&#39;000102030405060708090a0b0c0d0e0f101112
+          131415161718191a1b1c1d1e1f&#39;,
+          / version / 4: &quot;2.2&quot;,
+          / signerID / 5: h&#39;000102030405060708090a0b0c0d0e0f101112131
+          415161718191a1b1c1d1e1f&#39;,
+          / type / 1: &quot;App&quot;
+        }
+      ],
+    / arm_psa_security_lifecycle / -75002: 12288 / SECURED /,
+    / arm_psa_nonce / -75008: h&#39;000102030405060708090a0b0c0d0e0f10111
+    2131415161718191a1b1c1d1e1f&#39;,
+    / arm_psa_origination / -75010: &quot;psa_verifier&quot;,
+    / arm_psa_partition_id / -75001: -1,
+    / arm_psa_UEID / -75009: h&#39;01000102030405060708090a0b0c0d0e0f1011
+    12131415161718191a1b1c1d1e1f&#39;,
+    / arm_psa_profile_id / -75000: &quot;PSA_IOT_PROFILE_1&quot;
+  }),
+  } / ,
+/ signature / h&#39;58860508ee7e8cc48eba872dbb5d694a542b1322ad0d51023c197
+0df429f06501c683a95108a0cced0a6e80e0966f22bd63d1c0056974a11ba332d7877
+87fb4f&#39;
+]
+)
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Attestation API</b></a></h3>
+IHI 0085<br/>
+Non-confidential<br/>
+Version 1.0.3
+<span style="font-weight: bold;"></span>
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/use-cases.html">2. Use cases and rationale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/report.html">3. Initial Attestation report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">4. API reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example-header.html">A. Example header file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">B. Example report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cddl.html">C. CDDL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">D. Document history</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2018-2020, 2022 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

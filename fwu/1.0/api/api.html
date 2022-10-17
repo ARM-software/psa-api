@@ -1,0 +1,951 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>5. API reference &#8212; PSA Certified Firmware Update API 1.0-bet.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. Example header file" href="../appendix/example-header.html" />
+    <link rel="prev" title="4. Programming model" href="../overview/programming-model.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="api-reference">
+<span id="id1"></span><h1><span class="section-number">5. </span>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>To enable implementation optimization for constrained devices, the Firmware Update API does not require binary compatibility between different implementations. The Firmware Update API is defined as a source-level interface, and applications that target this interface will typically need to be recompiled for different implementations.</p>
+<section id="api-conventions">
+<span id="id2"></span><h2><span class="section-number">5.1. </span>API conventions<a class="headerlink" href="#api-conventions" title="Permalink to this headline">¶</a></h2>
+<p>The interface in this specification is defined in terms of C macros, data types, and functions.</p>
+<section id="identifier-names">
+<h3><span class="section-number">5.1.1. </span>Identifier names<a class="headerlink" href="#identifier-names" title="Permalink to this headline">¶</a></h3>
+<p>All of the identifiers defined in the Firmware Update API begin with the prefix <code class="docutils literal notranslate"><span class="pre">psa_</span></code>, for types and functions, or <code class="docutils literal notranslate"><span class="pre">PSA_</span></code> for macros.</p>
+<p>Future versions of this specification will use the same prefix for additional API elements. It is recommended that applications and implementations do not use this prefix for their own identifiers, to avoid a potential conflict with a future version of the Firmware Update API.</p>
+</section>
+<section id="basic-types">
+<h3><span class="section-number">5.1.2. </span>Basic types<a class="headerlink" href="#basic-types" title="Permalink to this headline">¶</a></h3>
+<p>This specification makes use of standard C data types, including the fixed-width integer types from the ISO C99 specification update <a class="reference internal" href="../about.html#cite-c99"><span class="cite">[C99]</span></a>. The following standard C types are used:</p>
+<table class="colwidths-auto docutils align-left">
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">int32_t</span></code></p></td>
+<td><p>a 32-bit signed integer</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uint8_t</span></code></p></td>
+<td><p>an 8-bit unsigned integer</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uint16_t</span></code></p></td>
+<td><p>a 16-bit unsigned integer</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td><p>a 32-bit unsigned integer</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">size_t</span></code></p></td>
+<td><p>an unsigned integer large enough to hold the size of an object in memory</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-types">
+<h3><span class="section-number">5.1.3. </span>Data types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h3>
+<p>Integral types are defined for specific API elements to provide clarity in the interface definition, and to improve code readability. For example, <a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_t</span></code></a> and <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code>.</p>
+<p>Structure types are declared using <code class="docutils literal notranslate"><span class="pre">typedef</span></code> instead of a <code class="docutils literal notranslate"><span class="pre">struct</span></code> tag, also to improve code readability.</p>
+<p>Fully-defined types must be declared exactly as defined in this specification. Types that are not fully defined in this specification must be defined by an implementation. See <a class="reference internal" href="#implementation-defined-type"><span class="secref">Implementation-specific types</span></a>.</p>
+</section>
+<section id="constants">
+<h3><span class="section-number">5.1.4. </span>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h3>
+<p>Constant values are defined using C macros. Constants defined in this specification have names that are all upper-case.</p>
+<p>A constant macro evaluates to a compile-time constant expression.</p>
+</section>
+<section id="functions">
+<span id="function-convention"></span><h3><span class="section-number">5.1.5. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<p>Functions defined in this specification have names that are all lower-case.</p>
+<p>An implementation is permitted to declare any API function with <code class="docutils literal notranslate"><span class="pre">static</span> <span class="pre">inline</span></code> linkage, instead of the default <code class="docutils literal notranslate"><span class="pre">extern</span></code> linkage.</p>
+<p>An implementation is permitted to also define a function-like macro with the same name as a function in this specification. If an implementation defines a function-like macro for a function from this specification, then:</p>
+<ul class="simple">
+<li><p>The implementation must also provide a definition of the function. This enables an application to take the address of a function defined in this specification.</p></li>
+<li><p>The function-like macro must expand to code that evaluates each of its arguments exactly once, as if the call was made to a C function. This enables an application to safely use arbitrary expressions as arguments to a function defined in this specification.</p></li>
+</ul>
+<p>If a non-pointer argument to a function has an invalid value (for example, a value outside the domain of the function), then the function will normally return an error, as specified in the function definition.</p>
+<p>If a pointer argument to a function has an invalid value (for example, a pointer outside the address space of the program, or a null pointer), the result is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">IMPLEMENTATION DEFINED</span></a>. See also <a class="reference internal" href="#pointer-conventions"><span class="secref">Pointer conventions</span></a>.</p>
+</section>
+<section id="return-status">
+<h3><span class="section-number">5.1.6. </span>Return status<a class="headerlink" href="#return-status" title="Permalink to this headline">¶</a></h3>
+<p>All functions return a status indication of type <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code>. This
+is an integer value, with <code class="docutils literal notranslate"><span class="pre">0</span></code> (<code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code>), or a positive value, indicating
+successful operation, and other values indicating errors.</p>
+<p>Unless specified otherwise, if multiple error conditions apply, an
+implementation is free to return any of the applicable error codes.</p>
+<p>If the behavior is undefined — for example, if a function receives an invalid pointer as a parameter — this specification does not require that the function will return an error. Implementations are encouraged to return an error or halt the application in a manner that is appropriate for the platform if the undefined behavior condition can be detected. However, application developers need to be aware that undefined behavior conditions cannot be detected in general.</p>
+</section>
+<section id="pointer-conventions">
+<span id="id3"></span><h3><span class="section-number">5.1.7. </span>Pointer conventions<a class="headerlink" href="#pointer-conventions" title="Permalink to this headline">¶</a></h3>
+<p>Unless explicitly stated in the documentation of a function, all pointers must be valid pointers to an object of the specified type.</p>
+<p>A parameter is considered to be a buffer if it points to an array of bytes. A buffer parameter always has the type <code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">*</span></code> or <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint8_t</span> <span class="pre">*</span></code>, and always has an associated parameter indicating the size of the array. Note that a parameter of type <code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*</span></code> is never considered a buffer.</p>
+<p>All parameters of pointer type must be valid non-null pointers, unless the pointer is to a buffer of length <code class="docutils literal notranslate"><span class="pre">0</span></code> or the function’s documentation explicitly describes the behavior when the pointer is null.</p>
+<p>Pointers to input parameters can be in read-only memory. Output parameters must be in writable memory.</p>
+<p>Unless otherwise documented, the content of output parameters is not defined when a function returns an error status. It is recommended that implementations set output parameters to safe defaults to reduce risk, in case the caller does not properly handle all errors.</p>
+</section>
+<section id="implementation-specific-types">
+<span id="implementation-defined-type"></span><h3><span class="section-number">5.1.8. </span>Implementation-specific types<a class="headerlink" href="#implementation-specific-types" title="Permalink to this headline">¶</a></h3>
+<p>This specification defines a number of implementation-specific types, which represent objects whose content depends on the implementation. These are defined as C <code class="docutils literal notranslate"><span class="pre">typedef</span></code> types in this specification, with a comment <em><a class="reference internal" href="#implementation-defined-type"><span class="std std-ref">/* implementation-defined type */</span></a></em> in place of the underlying type definition. For some types the specification constrains the type, for example, by requiring that the type is a <code class="docutils literal notranslate"><span class="pre">struct</span></code>, or that it is convertible to and from an unsigned integer. In the implementation’s version of the Firmware Update API header file, these types need to be defined as complete C types so that objects of these types can be instantiated by application code.</p>
+<p>Applications that rely on the implementation specific definition of any of these types might not be portable to other implementations of this specification.</p>
+</section>
+</section>
+<section id="header-file">
+<h2><span class="section-number">5.2. </span>Header file<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h2>
+<p>The header file for the Firmware Update API has the name <code class="file docutils literal notranslate"><span class="pre">psa/update.h</span></code>. All of the interface elements that are provided by an implementation must be visible to an application program that includes this header file.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &quot;psa/update.h&quot;
+</pre></div>
+</div>
+<p>Implementations must provide their own version of the <code class="file docutils literal notranslate"><span class="pre">psa/update.h</span></code> header file. <a class="reference internal" href="../appendix/example-header.html#appendix-example-header"><span class="secref">Example header file</span></a> provides an incomplete, example header file which includes all of the Firmware Update API elements.</p>
+<p>This Firmware Update API uses some of the common status codes that are defined by <span><em>PSA Certified Status code API</em> <a class="reference internal" href="../about.html#cite-psa-stat"><span class="cite">[PSA-STAT]</span></a></span> as part of the <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> header file. Applications are not required to explicitly include the <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> header file when using these status codes with the Firmware Update API. See <a class="reference internal" href="#status-codes"><span class="secref">Status codes</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The common error codes in <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> were previously defined in <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
+</div>
+<section id="required-functions">
+<span id="id4"></span><h3><span class="section-number">5.2.1. </span>Required functions<a class="headerlink" href="#required-functions" title="Permalink to this headline">¶</a></h3>
+<p>All of the API elements defined in <a class="reference internal" href="#api-reference"><span class="secref">API reference</span></a> must be present for an implementation to claim compliance with this spec.</p>
+<p>Mandatory function implementations cannot simply return <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code>. Optional functions must be present, but are permitted to always return <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code>.</p>
+<p>The following functions are mandatory for all implementations:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.psa_fwu_query" title="psa_fwu_query"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_query()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.psa_fwu_start" title="psa_fwu_start"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_start()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.psa_fwu_finish" title="psa_fwu_finish"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_finish()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_install()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.psa_fwu_cancel" title="psa_fwu_cancel"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_cancel()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a></p></li>
+</ul>
+<p>If the implementation includes components that use the STAGED state, the following functions are also mandatory:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.psa_fwu_reject" title="psa_fwu_reject"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_reject()</span></code></a></p></li>
+</ul>
+<p>If the implementation includes components that use the TRIAL state, the following functions are also mandatory:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.psa_fwu_reject" title="psa_fwu_reject"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_reject()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.psa_fwu_accept" title="psa_fwu_accept"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_accept()</span></code></a></p></li>
+</ul>
+<p>If the implementation includes components that require a system restart, the following functions are also mandatory:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.psa_fwu_request_reboot" title="psa_fwu_request_reboot"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_request_reboot()</span></code></a></p></li>
+</ul>
+</section>
+</section>
+<section id="library-management">
+<h2><span class="section-number">5.3. </span>Library management<a class="headerlink" href="#library-management" title="Permalink to this headline">¶</a></h2>
+<section id="library-version">
+<h3><span class="section-number">5.3.1. </span>Library version<a class="headerlink" href="#library-version" title="Permalink to this headline">¶</a></h3>
+<section id="c.PSA_FWU_API_VERSION_MAJOR">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_API_VERSION_MAJOR</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_API_VERSION_MAJOR" title="Permalink to this headline">¶</a></h4>
+<p>The major version of this implementation of the Firmware Update API.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_API_VERSION_MAJOR" title="PSA_FWU_API_VERSION_MAJOR">PSA_FWU_API_VERSION_MAJOR</a> 1</pre>
+</section>
+<section id="c.PSA_FWU_API_VERSION_MINOR">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_API_VERSION_MINOR</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_API_VERSION_MINOR" title="Permalink to this headline">¶</a></h4>
+<p>The minor version of this implementation of the Firmware Update API.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_API_VERSION_MINOR" title="PSA_FWU_API_VERSION_MINOR">PSA_FWU_API_VERSION_MINOR</a> 0</pre>
+</section>
+</section>
+</section>
+<section id="status-codes">
+<span id="id5"></span><h2><span class="section-number">5.4. </span>Status codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">¶</a></h2>
+<p>The Firmware Update API uses the status code definitions that are shared with the other PSA Certified APIs. The Firmware Update API also provides some Firmware Update API-specific status codes, see <a class="reference internal" href="#specific-errors"><span class="secref">Error codes specific to the Firmware Update API</span></a> and <a class="reference internal" href="#specific-success"><span class="secref">Success status codes specific to the Firmware Update API</span></a>.</p>
+<section id="common-status-codes">
+<h3><span class="section-number">5.4.1. </span>Common status codes<a class="headerlink" href="#common-status-codes" title="Permalink to this headline">¶</a></h3>
+<p>The following elements are defined in <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> from <a class="reference internal" href="../about.html#cite-psa-stat"><span class="cite">[PSA-STAT]</span></a> (previously defined in <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a>):</p>
+<pre class="literal-block">typedef int32_t psa_status_t;
+
+#define PSA_SUCCESS ((psa_status_t)0)
+
+#define PSA_ERROR_NOT_PERMITTED         ((psa_status_t)-133)
+#define PSA_ERROR_NOT_SUPPORTED         ((psa_status_t)-134)
+#define PSA_ERROR_INVALID_ARGUMENT      ((psa_status_t)-135)
+#define PSA_ERROR_BAD_STATE             ((psa_status_t)-137)
+#define PSA_ERROR_DOES_NOT_EXIST        ((psa_status_t)-140)
+#define PSA_ERROR_INSUFFICIENT_MEMORY   ((psa_status_t)-141)
+#define PSA_ERROR_INSUFFICIENT_STORAGE  ((psa_status_t)-142)
+#define PSA_ERROR_COMMUNICATION_FAILURE ((psa_status_t)-145)
+#define PSA_ERROR_STORAGE_FAILURE       ((psa_status_t)-146)
+#define PSA_ERROR_INVALID_SIGNATURE     ((psa_status_t)-149)</pre>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>An implementation is permitted to define these interface elements within the <code class="file docutils literal notranslate"><span class="pre">psa/update.h</span></code> header, or to define them via inclusion of a <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> header file that is shared with the implementation of other PSA Certified APIs.</p>
+</div>
+</section>
+<section id="error-codes-specific-to-the-api">
+<span id="specific-errors"></span><h3><span class="section-number">5.4.2. </span>Error codes specific to the Firmware Update API<a class="headerlink" href="#error-codes-specific-to-the-api" title="Permalink to this headline">¶</a></h3>
+<p>These error codes are defined in <code class="file docutils literal notranslate"><span class="pre">psa/update.h</span></code>.</p>
+<section id="c.PSA_ERROR_DEPENDENCY_NEEDED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DEPENDENCY_NEEDED</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_DEPENDENCY_NEEDED" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the firmware of another component requires updating.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_DEPENDENCY_NEEDED" title="PSA_ERROR_DEPENDENCY_NEEDED">PSA_ERROR_DEPENDENCY_NEEDED</a> ((psa_status_t)-156)</pre>
+<p>This error indicates that the firmware image depends on a newer version of the firmware for another component. The firmware of the other component must be updated before this firmware image can be installed, or both components must be updated at the same time.</p>
+<p>See <a class="reference internal" href="../overview/programming-model.html#dependencies"><span class="secref">Dependencies</span></a> and <a class="reference internal" href="../overview/programming-model.html#multi-component-updates"><span class="secref">Multi-component updates</span></a>.</p>
+</section>
+<section id="c.PSA_ERROR_FLASH_ABUSE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_FLASH_ABUSE</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_FLASH_ABUSE" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the system is limiting i/o operations to avoid rapid flash exhaustion.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_FLASH_ABUSE" title="PSA_ERROR_FLASH_ABUSE">PSA_ERROR_FLASH_ABUSE</a> ((psa_status_t)-160)</pre>
+<p>Excessive i/o operations can cause certain types of flash memories to wear out, resulting in storage device failure. This error code can be used by a system that detects unusually high i/o activity, to reduce the risk of flash exhaustion.</p>
+<p>The time-out period is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>.</p>
+</section>
+<section id="c.PSA_ERROR_INSUFFICIENT_POWER">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_POWER</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INSUFFICIENT_POWER" title="Permalink to this headline">¶</a></h4>
+<p>A status code that indicates that the system does not have enough power to carry out the request.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_POWER" title="PSA_ERROR_INSUFFICIENT_POWER">PSA_ERROR_INSUFFICIENT_POWER</a> ((psa_status_t)-161)</pre>
+<p>A function can return this error code if it determines that there is not sufficient power or energy available to reliably complete the operation.</p>
+<p>Operations that update the state of the firmware can require significant energy to reprogram the non-volatile memories. It is recommended to wait until sufficient energy is available for the update process, rather than failing to update the firmware and leaving the device temporarily or permanently non-operational.</p>
+</section>
+</section>
+<section id="success-status-codes-specific-to-the-api">
+<span id="specific-success"></span><h3><span class="section-number">5.4.3. </span>Success status codes specific to the Firmware Update API<a class="headerlink" href="#success-status-codes-specific-to-the-api" title="Permalink to this headline">¶</a></h3>
+<p>These success codes are defined in <code class="file docutils literal notranslate"><span class="pre">psa/update.h</span></code>.</p>
+<section id="c.PSA_SUCCESS_REBOOT">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS_REBOOT</span></code> (macro)<a class="headerlink" href="#c.PSA_SUCCESS_REBOOT" title="Permalink to this headline">¶</a></h4>
+<p>The action was completed successfully and requires a system reboot to complete installation.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_SUCCESS_REBOOT" title="PSA_SUCCESS_REBOOT">PSA_SUCCESS_REBOOT</a> ((psa_status_t)+1)</pre>
+</section>
+<section id="c.PSA_SUCCESS_RESTART">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS_RESTART</span></code> (macro)<a class="headerlink" href="#c.PSA_SUCCESS_RESTART" title="Permalink to this headline">¶</a></h4>
+<p>The action was completed successfully and requires a restart of the component to complete installation.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_SUCCESS_RESTART" title="PSA_SUCCESS_RESTART">PSA_SUCCESS_RESTART</a> ((psa_status_t)+2)</pre>
+</section>
+</section>
+</section>
+<section id="firmware-components">
+<h2><span class="section-number">5.5. </span>Firmware components<a class="headerlink" href="#firmware-components" title="Permalink to this headline">¶</a></h2>
+<section id="component-identifier">
+<h3><span class="section-number">5.5.1. </span>Component identifier<a class="headerlink" href="#component-identifier" title="Permalink to this headline">¶</a></h3>
+<section id="c.psa_fwu_component_t">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_component_t</span></code> (typedef)<a class="headerlink" href="#c.psa_fwu_component_t" title="Permalink to this headline">¶</a></h4>
+<p>Firmware component type identifier.</p>
+<pre class="literal-block">typedef uint8_t <a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t">psa_fwu_component_t</a>;</pre>
+<p>A value of type <a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_t</span></code></a> identifies a firmware component on this device. This is used to specify which component a function call applies to.</p>
+<p>In systems that only have a single component, it is recommended that the caller uses the value <code class="docutils literal notranslate"><span class="pre">0</span></code> in calls that require a component identifier.</p>
+</section>
+</section>
+<section id="component-version">
+<h3><span class="section-number">5.5.2. </span>Component version<a class="headerlink" href="#component-version" title="Permalink to this headline">¶</a></h3>
+<section id="c.psa_fwu_image_version_t">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_image_version_t</span></code> (struct)<a class="headerlink" href="#c.psa_fwu_image_version_t" title="Permalink to this headline">¶</a></h4>
+<p>Version information about a firmware image.</p>
+<pre class="literal-block">typedef struct <a class="reference internal" href="#c.psa_fwu_image_version_t" title="psa_fwu_image_version_t">psa_fwu_image_version_t</a> {
+    uint8_t major;
+    uint8_t minor;
+    uint16_t patch;
+    uint32_t build;
+} <a class="reference internal" href="#c.psa_fwu_image_version_t" title="psa_fwu_image_version_t">psa_fwu_image_version_t</a>;</pre>
+<p class="rubric">Fields</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">major</span></code></dt><dd><p>The major version of an image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">minor</span></code></dt><dd><p>The minor version of an image. If the image has no minor version then this field is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">patch</span></code></dt><dd><p>The revision or patch version of an image. If the image has no such version then this field is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">build</span></code></dt><dd><p>The build number of an image. If the image has no such number then this field is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="component-states">
+<span id="id6"></span><h3><span class="section-number">5.5.3. </span>Component states<a class="headerlink" href="#component-states" title="Permalink to this headline">¶</a></h3>
+<p>Each of the component states defined in <a class="reference internal" href="../overview/programming-model.html#state-model"><span class="secref">State model</span></a> has a corresponding identifier in the API. These are used to indicate the state of a component, in the <code class="docutils literal notranslate"><span class="pre">state</span></code> field of a <a class="reference internal" href="#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code></a> structure returned by a call to <a class="reference internal" href="#c.psa_fwu_query" title="psa_fwu_query"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_query()</span></code></a>.</p>
+<section id="c.PSA_FWU_READY">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_READY</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_READY" title="Permalink to this headline">¶</a></h4>
+<p>The READY state: the component is ready to start another update.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_READY" title="PSA_FWU_READY">PSA_FWU_READY</a> 0u</pre>
+<p>In this state, the update client can start a new firmware update, by calling <a class="reference internal" href="#c.psa_fwu_start" title="psa_fwu_start"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_start()</span></code></a>.</p>
+</section>
+<section id="c.PSA_FWU_WRITING">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_WRITING</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_WRITING" title="Permalink to this headline">¶</a></h4>
+<p>The WRITING state: a new firmware image is being written to the firmware store.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_WRITING" title="PSA_FWU_WRITING">PSA_FWU_WRITING</a> 1u</pre>
+<p>In this state, the update client transfers the firmware image to the firmware store, by calling <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a>.</p>
+<p>When all of the image has been transferred, the update client marks the new firmware image as ready for installation, by calling <a class="reference internal" href="#c.psa_fwu_finish" title="psa_fwu_finish"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_finish()</span></code></a>.</p>
+<p>The update client can abort an update that is in this state, by calling <a class="reference internal" href="#c.psa_fwu_cancel" title="psa_fwu_cancel"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_cancel()</span></code></a>.</p>
+</section>
+<section id="c.PSA_FWU_CANDIDATE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_CANDIDATE</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_CANDIDATE" title="Permalink to this headline">¶</a></h4>
+<p>The CANDIDATE state: a new firmware image is ready for installation.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_CANDIDATE" title="PSA_FWU_CANDIDATE">PSA_FWU_CANDIDATE</a> 2u</pre>
+<p>In this state, the update client starts the installation process of the component, by calling <a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_install()</span></code></a>.</p>
+<p>The update client can abort an update that is in this state, by calling <a class="reference internal" href="#c.psa_fwu_cancel" title="psa_fwu_cancel"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_cancel()</span></code></a>.</p>
+</section>
+<section id="c.PSA_FWU_STAGED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_STAGED</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_STAGED" title="Permalink to this headline">¶</a></h4>
+<p>The STAGED state: a new firmware image is queued for installation.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_STAGED" title="PSA_FWU_STAGED">PSA_FWU_STAGED</a> 3u</pre>
+<p>A system reboot, or component restart, is required to complete the installation process.</p>
+<p>The update client can abort an update that is in this state, by calling <a class="reference internal" href="#c.psa_fwu_reject" title="psa_fwu_reject"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_reject()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This state is transient — on a reboot the system will attempt to install the new firmware image.</p>
+</div>
+</section>
+<section id="c.PSA_FWU_FAILED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_FAILED</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_FAILED" title="Permalink to this headline">¶</a></h4>
+<p>The FAILED state: a firmware update has been cancelled or has failed.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_FAILED" title="PSA_FWU_FAILED">PSA_FWU_FAILED</a> 4u</pre>
+<p>The <code class="docutils literal notranslate"><span class="pre">error</span></code> field of the <a class="reference internal" href="#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code></a> structure will contain an status code indicating the reason for the failure.</p>
+<p>The failed firmware image needs to be erased using a call to <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> before another update can be started.</p>
+</section>
+<section id="c.PSA_FWU_TRIAL">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_TRIAL</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_TRIAL" title="Permalink to this headline">¶</a></h4>
+<p>The TRIAL state: a new firmware image requires testing prior to acceptance of the update.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_TRIAL" title="PSA_FWU_TRIAL">PSA_FWU_TRIAL</a> 5u</pre>
+<p>In this state, the update client calls <a class="reference internal" href="#c.psa_fwu_accept" title="psa_fwu_accept"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_accept()</span></code></a> or <a class="reference internal" href="#c.psa_fwu_reject" title="psa_fwu_reject"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_reject()</span></code></a> to either accept or reject the new firmware image.</p>
+<p>It is recommended that the new firmware is tested for correct operation, before accepting the update. This is particularly important to for systems that implement an update policy that prevents rollback to old firmware versions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This state is transient — on a reboot, a component in this state will be rolled back to the previous firmware image.</p>
+</div>
+</section>
+<section id="c.PSA_FWU_REJECTED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_REJECTED</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_REJECTED" title="Permalink to this headline">¶</a></h4>
+<p>The REJECTED state: a new firmware image has been rejected after testing.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_REJECTED" title="PSA_FWU_REJECTED">PSA_FWU_REJECTED</a> 6u</pre>
+<p>A system reboot, or component restart, is required to complete the process of reverting to the previous firmware image.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This state is transient — on a reboot, a component in this state will be rolled back to the previous firmware image.</p>
+</div>
+</section>
+<section id="c.PSA_FWU_UPDATED">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_UPDATED</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_UPDATED" title="Permalink to this headline">¶</a></h4>
+<p>The UPDATED state: a firmware update has been successful, and the new image is now <em>active</em>.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_UPDATED" title="PSA_FWU_UPDATED">PSA_FWU_UPDATED</a> 7u</pre>
+<p>The previous firmware image needs to be erased using a call to <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> before another update can be started.</p>
+</section>
+</section>
+<section id="component-flags">
+<span id="flags"></span><h3><span class="section-number">5.5.4. </span>Component flags<a class="headerlink" href="#component-flags" title="Permalink to this headline">¶</a></h3>
+<section id="c.PSA_FWU_FLAG_VOLATILE_STAGING">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_FLAG_VOLATILE_STAGING</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_FLAG_VOLATILE_STAGING" title="Permalink to this headline">¶</a></h4>
+<p>Flag to indicate whether the image data in the component staging area is discarded at system reset.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_FLAG_VOLATILE_STAGING" title="PSA_FWU_FLAG_VOLATILE_STAGING">PSA_FWU_FLAG_VOLATILE_STAGING</a> 0x00000001u</pre>
+<p>If set, then image data written to the staging area is discarded after a system reset. If the system restarts while the component in is WRITING or CANDIDATE state, the component will be in the READY state after the restart.</p>
+<p>If not set, then image data written to the staging area is guaranteed to exist after a system reset.</p>
+</section>
+<section id="c.PSA_FWU_FLAG_ENCRYPTION">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_FLAG_ENCRYPTION</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_FLAG_ENCRYPTION" title="Permalink to this headline">¶</a></h4>
+<p>Flag to indicate whether a firmware component expects encrypted images during an update.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_FLAG_ENCRYPTION" title="PSA_FWU_FLAG_ENCRYPTION">PSA_FWU_FLAG_ENCRYPTION</a> 0x00000002u</pre>
+<p>If set, then the firmware image for this component must be encrypted when installing.</p>
+<p>If not set, then the firmware image for this component must not be encrypted when installing.</p>
+</section>
+</section>
+<section id="component-information">
+<span id="store-info"></span><h3><span class="section-number">5.5.5. </span>Component information<a class="headerlink" href="#component-information" title="Permalink to this headline">¶</a></h3>
+<section id="c.psa_fwu_impl_info_t">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_impl_info_t</span></code> (typedef)<a class="headerlink" href="#c.psa_fwu_impl_info_t" title="Permalink to this headline">¶</a></h4>
+<p>The implementation-specific data in the component information structure.</p>
+<pre class="literal-block">typedef struct { <em><a class="reference internal" href="#implementation-defined-type"><span class="std std-ref">/* implementation-defined type */</span></a></em> } <a class="reference internal" href="#c.psa_fwu_impl_info_t" title="psa_fwu_impl_info_t">psa_fwu_impl_info_t</a>;</pre>
+<p>The members of this data structure are <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>. This can be an empty data structure.</p>
+</section>
+<section id="c.psa_fwu_component_info_t">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code> (struct)<a class="headerlink" href="#c.psa_fwu_component_info_t" title="Permalink to this headline">¶</a></h4>
+<p>Information about the firmware store for a firmware component.</p>
+<pre class="literal-block">typedef struct <a class="reference internal" href="#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t">psa_fwu_component_info_t</a> {
+    uint8_t state;
+    psa_status_t error;
+    <a class="reference internal" href="#c.psa_fwu_image_version_t" title="psa_fwu_image_version_t">psa_fwu_image_version_t</a> version;
+    uint32_t max_size;
+    uint32_t flags;
+    uint32_t location;
+    <a class="reference internal" href="#c.psa_fwu_impl_info_t" title="psa_fwu_impl_info_t">psa_fwu_impl_info_t</a> impl;
+} <a class="reference internal" href="#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t">psa_fwu_component_info_t</a>;</pre>
+<p class="rubric">Fields</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">state</span></code></dt><dd><p>State of the component. This is one of the values defined in <a class="reference internal" href="#component-states"><span class="secref">Component states</span></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">error</span></code></dt><dd><p>Error for <em>second</em> image when store state is REJECTED or FAILED.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">version</span></code></dt><dd><p>Version of <em>active</em> image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">max_size</span></code></dt><dd><p>Maximum image size in bytes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>Flags that describe extra information about the firmware component. See <a class="reference internal" href="#flags"><span class="secref">Component flags</span></a> for defined flag values.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">location</span></code></dt><dd><p>Implementation-defined image location.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">impl</span></code></dt><dd><p>Reserved for implementation-specific usage. For example, provide information about image encryption or compression.</p>
+</dd>
+</dl>
+<p class="rubric">Description</p>
+<p>The attributes of a component are retrieved using a call to <a class="reference internal" href="#c.psa_fwu_query" title="psa_fwu_query"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_query()</span></code></a>.</p>
+<div class="rationale admonition docutils container">
+<p class="admonition-title"><strong>Rationale</strong></p>
+<p>When a component is in a state that is not READY, there is a <em>second</em> image, or partial image, present in the firmware store. The Firmware Update API provides no mechanism to report the version of the <em>second</em> image, for the following reasons:</p>
+<ul>
+<li><p>During preparation of a new firmware image, the implementation is not required to extract version information from the firmware image manifest:</p>
+<ul class="simple">
+<li><p>This information might not be available if the firmware image has not been completely written.</p></li>
+<li><p>The update service might not be capable of extracting the version information. For example, in the untrusted-service deployment model, verification of the manifest can be deferred until the image is installed. See <a class="reference internal" href="../overview/architecture.html#untrusted-service"><span class="secref">Untrusted service</span></a>.</p></li>
+</ul>
+<p>If the version of an image that is being prepared is required by the update client, the update client must maintain this information locally.</p>
+</li>
+<li><p>In TRIAL or REJECTED states, the <em>second</em> image is the previously installed firmware, which is required in case of rollback. Reporting the version of this, while interesting, is of no value to the update client.</p></li>
+<li><p>In UPDATED or FAILED states, the <em>second</em> image needs to be erased. The version of the image data in this state has no effect on the behavior of the update client.</p></li>
+</ul>
+</div>
+</section>
+<section id="c.psa_fwu_query">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_query</span></code> (function)<a class="headerlink" href="#c.psa_fwu_query" title="Permalink to this headline">¶</a></h4>
+<p>Retrieve the firmware store information for a specific firmware component.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_query" title="psa_fwu_query">psa_fwu_query</a>(<a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t">psa_fwu_component_t</a> component,
+                           <a class="reference internal" href="#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t">psa_fwu_component_info_t</a> *info);</pre>
+<p class="rubric">Parameters</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">component</span></code></dt><dd><p>Firmware component for which information is requested.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">info</span></code></dt><dd><p>Output parameter for component information.</p>
+</dd>
+</dl>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Component information has been returned in the <a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_t</span></code></a> object at <code class="docutils literal notranslate"><span class="pre">*info</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>There is no firmware component with the specified Id.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The caller is not authorized to call this function.</p>
+</dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used to query the status of a component.</p>
+<p>The caller is expected to know the component identifiers for all of the firmware components. This information might be built into the update client, provided by configuration data, or provided alongside the firmware images from the update server.</p>
+</section>
+</section>
+</section>
+<section id="firmware-installation">
+<span id="api-functions"></span><h2><span class="section-number">5.6. </span>Firmware installation<a class="headerlink" href="#firmware-installation" title="Permalink to this headline">¶</a></h2>
+<p>Each of the component operations defined in <a class="reference internal" href="../overview/programming-model.html#state-model"><span class="secref">State model</span></a> has a corresponding function in the API, described in sections <span><a class="reference internal" href="#image-prep"><span class="numref">§5.6.1</span></a></span> to <span><a class="reference internal" href="#image-trial"><span class="numref">§5.6.3</span></a></span>.</p>
+<section id="image-preparation">
+<span id="image-prep"></span><h3><span class="section-number">5.6.1. </span>Image preparation<a class="headerlink" href="#image-preparation" title="Permalink to this headline">¶</a></h3>
+<p>The following functions are used to prepare a new firmware image in the component’s firmware store. They act on a single component, specified by a component identifier parameter.</p>
+<section id="c.psa_fwu_start">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_start</span></code> (function)<a class="headerlink" href="#c.psa_fwu_start" title="Permalink to this headline">¶</a></h4>
+<p>Begin a firmware update operation for a specific firmware component.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_start" title="psa_fwu_start">psa_fwu_start</a>(<a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t">psa_fwu_component_t</a> component,
+                           const void *manifest,
+                           size_t manifest_size);</pre>
+<p class="rubric">Parameters</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">component</span></code></dt><dd><p>Identifier of the firmware component to be updated.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">manifest</span></code></dt><dd><p>A pointer to a buffer containing a detached manifest for the update. If the manifest is bundled with the firmware image, <code class="docutils literal notranslate"><span class="pre">manifest</span></code> must be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">manifest_size</span></code></dt><dd><p>The size of the detached manifest. If the manifest is bundled with the firmware image, <code class="docutils literal notranslate"><span class="pre">manifest_size</span></code> must be <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+</dl>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Success: the component is now in WRITING state, and ready for the new image to be transferred using <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>There is no firmware component with the specified Id.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>The component is not in the READY state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The following conditions can result in this error:</p>
+<ul class="simple">
+<li><p>The caller is not authorized to call this function.</p></li>
+<li><p>The provided manifest is valid, but fails to comply with the update service’s firmware update policy.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></dt><dd><p>A signature or integrity check on the manifest has failed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The following conditions can result in this error:</p>
+<ul class="simple">
+<li><p>The provided manifest is unexpected, or invalid.</p></li>
+<li><p>A detached manifest was expected, but none was provided.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd></dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used to begin the process of preparing a new firmware image for a component, optionally providing a detached manifest. On success, the component is in WRITING state, and the update client can call <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a> to transfer the new firmware image.</p>
+<p>If the firmware image <a class="reference internal" href="../about.html#term-manifest"><span class="term">manifest</span></a> is detached from the firmware image, it must be provided to the update service using the <code class="docutils literal notranslate"><span class="pre">manifest</span></code> and <code class="docutils literal notranslate"><span class="pre">manifest_size</span></code> parameters in <a class="reference internal" href="#c.psa_fwu_start" title="psa_fwu_start"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_start()</span></code></a>.</p>
+<p>If a detached manifest is expected by the update service for a firmware component, but none is provided, <a class="reference internal" href="#c.psa_fwu_start" title="psa_fwu_start"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_start()</span></code></a> returns <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code>. If a detached manifest is provided for a component which expects the manifest to be bundled with the image, <a class="reference internal" href="#c.psa_fwu_start" title="psa_fwu_start"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_start()</span></code></a> returns <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code>.</p>
+<p>To abandon an update that has been started, call <a class="reference internal" href="#c.psa_fwu_cancel" title="psa_fwu_cancel"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_cancel()</span></code></a>, and then <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a>.</p>
+</section>
+<section id="c.PSA_FWU_MAX_WRITE_SIZE">
+<h4><code class="docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code> (macro)<a class="headerlink" href="#c.PSA_FWU_MAX_WRITE_SIZE" title="Permalink to this headline">¶</a></h4>
+<p>The maximum permitted size for <code class="docutils literal notranslate"><span class="pre">block</span></code> in <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a>, in bytes.</p>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE">PSA_FWU_MAX_WRITE_SIZE</a> <em>/* implementation-defined value */</em></pre>
+<p>The specific value is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>, and is greater than <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>This value is the maximum size for transferring data to the update service. The reasons for selecting a particular value can include the following:</p>
+<ul class="simple">
+<li><p>The size of the available RAM buffer within the update service used for storing the data into the firmware store.</p></li>
+<li><p>A value that is optimized for storing the data in the firmware store, for example, a multiple of the block-size of the storage media.</p></li>
+</ul>
+</div>
+</section>
+<section id="c.psa_fwu_write">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_write</span></code> (function)<a class="headerlink" href="#c.psa_fwu_write" title="Permalink to this headline">¶</a></h4>
+<p>Write a firmware image, or part of a firmware image, to its staging area.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write">psa_fwu_write</a>(<a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t">psa_fwu_component_t</a> component,
+                           size_t image_offset,
+                           const void *block,
+                           size_t block_size);</pre>
+<p class="rubric">Parameters</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">component</span></code></dt><dd><p>Identifier of the firmware component being updated.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">image_offset</span></code></dt><dd><p>The offset of the data block in the whole image. The offset of the first block is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">block</span></code></dt><dd><p>A buffer containing a block of image data. This can be a complete image or part of the image.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">block_size</span></code></dt><dd><p>Size of <code class="docutils literal notranslate"><span class="pre">block</span></code>, in bytes. <code class="docutils literal notranslate"><span class="pre">block_size</span></code> must not be greater than <a class="reference internal" href="#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>.</p>
+</dd>
+</dl>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Success: the data in <code class="docutils literal notranslate"><span class="pre">block</span></code> has been successfully stored.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>There is no firmware component with the specified Id.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>The component is not in the WRITING state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The caller is not authorized to call this function.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The following conditions can result in this error:</p>
+<ul class="simple">
+<li><p>The parameter <code class="docutils literal notranslate"><span class="pre">block_size</span></code> is greater than <a class="reference internal" href="#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>.</p></li>
+<li><p>The parameter <code class="docutils literal notranslate"><span class="pre">block_size</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p>The image region specified by <code class="docutils literal notranslate"><span class="pre">image_offset</span></code> and <code class="docutils literal notranslate"><span class="pre">block_size</span></code> does not lie inside the supported image storage.</p></li>
+</ul>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_ERROR_FLASH_ABUSE" title="PSA_ERROR_FLASH_ABUSE"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_FLASH_ABUSE</span></code></a></dt><dd><p>The system has temporarily limited i/o operations to avoid rapid flash exhaustion.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></dt><dd><p>A signature or integrity check on the provided data has failed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd></dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used to transfer all, or part, of a firmware image to the component’s firmware store. On success, the component remains in WRITING state. Once all of the firmware image has been written to the store, a call to <a class="reference internal" href="#c.psa_fwu_finish" title="psa_fwu_finish"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_finish()</span></code></a> is required to continue the installation process.</p>
+<p>If the image size is less than or equal to <a class="reference internal" href="#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>, the caller can provide the entire image in one call.</p>
+<p>If the image size is greater than <a class="reference internal" href="#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>, the caller must provide the image in parts, by calling <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a> multiple times with different data blocks.</p>
+<p>Write operations can take an extended execution time on flash memories. The caller can provide data in blocks smaller than <a class="reference internal" href="#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a> to reduce the time for each call to <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a>.</p>
+<p>When data is written in multiple calls to <a class="reference internal" href="#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a>, it is the caller’s responsibility to account for how much data is written at which offset within the image. If no persistent storage is directly available for the caller to perform accounting, then the caller can use a different storage mechanism, such as the <span><em>PSA Certified Secure Storage API</em> <a class="reference internal" href="../about.html#cite-psa-ss"><span class="cite">[PSA-SS]</span></a></span>.</p>
+<p>On error, the component will typically remain in WRITING state. In this situation, it is not possible to determine how much of the data in <code class="docutils literal notranslate"><span class="pre">block</span></code> has been written to the staging area. It is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a> whether repeating the write operation again with the same data at the same offset will correctly store the data to the staging area.</p>
+<p>If the data fails an integrity check, the implementation is permitted to transition the component to the FAILED state. From this state, the caller is required to use <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> to return the store to READY state before attempting another firmware update.</p>
+<p>To abandon an update that has been started, call <a class="reference internal" href="#c.psa_fwu_cancel" title="psa_fwu_cancel"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_cancel()</span></code></a> and then <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a>.</p>
+</section>
+<section id="c.psa_fwu_finish">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_finish</span></code> (function)<a class="headerlink" href="#c.psa_fwu_finish" title="Permalink to this headline">¶</a></h4>
+<p>Mark a firmware image in the staging area as ready for installation.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_finish" title="psa_fwu_finish">psa_fwu_finish</a>(<a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t">psa_fwu_component_t</a> component);</pre>
+<p class="rubric">Parameters</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">component</span></code></dt><dd><p>Identifier of the firmware component to install.</p>
+</dd>
+</dl>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully: the component is now in CANDIDATE state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>There is no firmware component with the specified Id.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>The component is not in the WRITING state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></dt><dd><p>A signature or integrity check for the image has failed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The firmware image is not valid.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The following conditions can result in this error:</p>
+<ul class="simple">
+<li><p>The caller is not authorized to call this function.</p></li>
+<li><p>The firmware image is valid, but fails to comply with the update service’s firmware update policy. For example, the update service can deny the installation of older versions of firmware (rollback prevention).</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd></dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used to complete the preparation of a new firmware image for a component. On success, the component is in CANDIDATE state, and the update client calls <a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_install()</span></code></a> to initiate the installation process.</p>
+<p>The validity, authenticity and integrity of the image can be checked during this operation. If this verification fails, the component is transitioned to the FAILED state. From the FAILED state, the caller is required to use <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> to return the component to READY state before attempting another firmware update.</p>
+<p>Dependencies on other firmware components are not checked as part of <a class="reference internal" href="#c.psa_fwu_finish" title="psa_fwu_finish"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_finish()</span></code></a>. If the implementation provides dependency verification, this is done as part of <a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_install()</span></code></a>, or during installation at reboot.</p>
+<p>To abandon an update that is in CANDIDATE state, call <a class="reference internal" href="#c.psa_fwu_cancel" title="psa_fwu_cancel"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_cancel()</span></code></a> and then <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a>.</p>
+</section>
+<section id="c.psa_fwu_cancel">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_cancel</span></code> (function)<a class="headerlink" href="#c.psa_fwu_cancel" title="Permalink to this headline">¶</a></h4>
+<p>Abandon an update that is in WRITING or CANDIDATE state.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_cancel" title="psa_fwu_cancel">psa_fwu_cancel</a>(<a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t">psa_fwu_component_t</a> component);</pre>
+<p class="rubric">Parameters</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">component</span></code></dt><dd><p>Identifier of the firmware component to be cancelled.</p>
+</dd>
+</dl>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Success: the new firmware image is rejected. The component is now in FAILED state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>There is no firmware component with the specified Id.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>The component is not in the WRITING or CANDIDATE state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The caller is not authorized to call this function.</p>
+</dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used when the caller wants to abort an incomplete update process, for a component in WRITING or CANDIDATE state. This will discard the uninstalled image or partial image, and leave the component in FAILED state. To prepare for a new update after this, call <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a>.</p>
+</section>
+<section id="c.psa_fwu_clean">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_clean</span></code> (function)<a class="headerlink" href="#c.psa_fwu_clean" title="Permalink to this headline">¶</a></h4>
+<p>Prepare the component for another update.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean">psa_fwu_clean</a>(<a class="reference internal" href="#c.psa_fwu_component_t" title="psa_fwu_component_t">psa_fwu_component_t</a> component);</pre>
+<p class="rubric">Parameters</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">component</span></code></dt><dd><p>Identifier of the firmware component to tidy up.</p>
+</dd>
+</dl>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Success: the staging area is ready for a new update. The component is now in state READY.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>There is no firmware component with the specified Id.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>The component is not in the FAILED or UPDATED state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The caller is not authorized to call this function.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_POWER" title="PSA_ERROR_INSUFFICIENT_POWER"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_POWER</span></code></a></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd></dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used to ensure that the component is ready to start another update process, after an update has succeeded, failed, or been rejected.</p>
+<p>If the implementation needs to perform long-running operations to erase firmware store memories, it is recommended that this is done as part of <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a>, rather than during other operations. This enables the update client to schedule this long-running operation at a time when this is less disruptive to the application.</p>
+<p>If this function is called when the component state is FAILED, then the staging area is cleaned, leaving the current <em>active</em> image installed.</p>
+<p>If this function is called when the component state is UPDATED, then the previously installed image is cleaned, leaving the new <em>active</em> image installed.</p>
+</section>
+</section>
+<section id="image-installation">
+<h3><span class="section-number">5.6.2. </span>Image installation<a class="headerlink" href="#image-installation" title="Permalink to this headline">¶</a></h3>
+<p>The following functions are used to install prepared firmware images. They act concurrently on all components that have been prepared for installation.</p>
+<section id="c.psa_fwu_install">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_install</span></code> (function)<a class="headerlink" href="#c.psa_fwu_install" title="Permalink to this headline">¶</a></h4>
+<p>Start the installation of all firmware images that have been prepared for update.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install">psa_fwu_install</a>(void);</pre>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The installation completed successfully: the affected components are now in TRIAL or UPDATED state.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_SUCCESS_REBOOT" title="PSA_SUCCESS_REBOOT"><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS_REBOOT</span></code></a></dt><dd><p>The installation has been prepared, but a system reboot is needed to complete the installation. The affected components are now in STAGED state.</p>
+<p>A system reboot can be requested using <a class="reference internal" href="#c.psa_fwu_request_reboot" title="psa_fwu_request_reboot"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_request_reboot()</span></code></a>.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_SUCCESS_RESTART" title="PSA_SUCCESS_RESTART"><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS_RESTART</span></code></a></dt><dd><p>The installation has been prepared, but the components must be restarted to complete the installation. The affected components are now in STAGED state.</p>
+<p>The component restart mechanism is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>The following conditions can result in this error:</p>
+<ul class="simple">
+<li><p>An existing installation process is in progress: there is at least one component in STAGED, TRIAL, or REJECTED state.</p></li>
+<li><p>There is no component in the CANDIDATE state.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></dt><dd><p>A signature or integrity check for the image has failed.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_ERROR_DEPENDENCY_NEEDED" title="PSA_ERROR_DEPENDENCY_NEEDED"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DEPENDENCY_NEEDED</span></code></a></dt><dd><p>A different firmware image must be installed first.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The firmware image is not valid.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The following conditions can result in this error:</p>
+<ul class="simple">
+<li><p>The caller is not authorized to call this function.</p></li>
+<li><p>The firmware image is valid, but fails to comply with the update service’s firmware update policy. For example, the update service can deny the installation of older versions of firmware (rollback prevention).</p></li>
+</ul>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_POWER" title="PSA_ERROR_INSUFFICIENT_POWER"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_POWER</span></code></a></dt><dd><p>The system does not have enough power to safely install the firmware.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd></dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function starts the installation process atomically on all components that are in CANDIDATE state. This function reports an error if there are no components in this state. If an error occurs when installing any of the images, then none of the images will be installed.</p>
+<p>Only one installation process can be in progress at a time. After a successful call to <a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_install()</span></code></a>, another call is only permitted once the affected components have transitioned to FAILED or UPDATED state.</p>
+<p>Support for concurrent installation of multiple components is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>. Concurrent installation enables new firmware images that are interdependent to be installed. If concurrent installation is not supported, each new firmware image must be compatible with the current version of other firmware components in the system.
+Device updates that affect multiple components must be carried out in line with the system capabilities. For example:</p>
+<ul class="simple">
+<li><p>An implementation is permitted to require each component to be installed separately.</p></li>
+<li><p>An implementation is permitted to support atomic installation of any combination of components.</p></li>
+<li><p>An implementation is permitted to support atomic installation of a specific subset of components, but require other components to be installed individually</p></li>
+</ul>
+<p>The validity, authenticity and integrity of the images can be checked during this operation. If this verification fails, the components are transitioned to the FAILED state. From the FAILED state, the caller is required to use <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> on each component to return them to the READY state before attempting another firmware update.</p>
+<p>Dependencies on other firmware components can be checked as part of <a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_install()</span></code></a>. The dependency check is carried out against the version of the prepared image for a component that is in CANDIDATE state, and the <em>active</em> image for other components. If this verification fails, then <a class="reference internal" href="#c.PSA_ERROR_DEPENDENCY_NEEDED" title="PSA_ERROR_DEPENDENCY_NEEDED"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ERROR_DEPENDENCY_NEEDED</span></code></a> is returned, and the components will remain in CANDIDATE state. A later call to <a class="reference internal" href="#c.psa_fwu_install" title="psa_fwu_install"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_install()</span></code></a> can be attempted after preparing a new firmware image for the dependency.</p>
+<p>On other error conditions, it is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a> whether the components are all transitioned to FAILED state, or all remain in CANDIDATE state. See <a class="reference internal" href="../overview/programming-model.html#behavior-on-error"><span class="secref">Behavior on error</span></a>.</p>
+<p>If a component restart, or system reboot, is required to complete installation then the implementation is permitted to defer verification checks to that point. Verification failures during a reboot will result in the components being transitioned to FAILED state. The failure reason is recorded in the <code class="docutils literal notranslate"><span class="pre">error</span></code> field in the <a class="reference internal" href="#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code></a> object for each firmware component, which can be queried by the update client after restart.</p>
+<p>To abandon an update that is STAGED, before restarting the system or component, call <a class="reference internal" href="#c.psa_fwu_reject" title="psa_fwu_reject"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_reject()</span></code></a> and then <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> on each component.</p>
+</section>
+<section id="c.psa_fwu_request_reboot">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_request_reboot</span></code> (function)<a class="headerlink" href="#c.psa_fwu_request_reboot" title="Permalink to this headline">¶</a></h4>
+<p>Requests the platform to reboot.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_request_reboot" title="psa_fwu_request_reboot">psa_fwu_request_reboot</a>(void);</pre>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status. It is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a> whether this function returns to the caller.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The platform will reboot soon.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The caller is not authorized to call this function.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd><p>This function call is not implemented.</p>
+</dd>
+</dl>
+<p class="rubric">Description</p>
+<p>On success, the platform initiates a reboot, and might not return to the caller.</p>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>This function is mandatory in an implementation where one or more components require a system reboot to complete installation.</p>
+<p>On other implementations, this function is optional.</p>
+<p>See <a class="reference internal" href="#required-functions"><span class="secref">Required functions</span></a>.</p>
+</div>
+</section>
+<section id="c.psa_fwu_reject">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_reject</span></code> (function)<a class="headerlink" href="#c.psa_fwu_reject" title="Permalink to this headline">¶</a></h4>
+<p>Abandon an installation that is in STAGED or TRIAL state.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_reject" title="psa_fwu_reject">psa_fwu_reject</a>(psa_status_t error);</pre>
+<p class="rubric">Parameters</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">error</span></code></dt><dd><p>An application-specific error code chosen by the application. If a specific error does not need to be reported, the value should be 0. On success, this error is recorded in the <code class="docutils literal notranslate"><span class="pre">error</span></code> field of the <a class="reference internal" href="#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code></a> structure corresponding to each affected component.</p>
+</dd>
+</dl>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Success: the new firmware images are rejected, and the previous firmware is now <em>active</em>. The affected components are now in FAILED state.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_SUCCESS_REBOOT" title="PSA_SUCCESS_REBOOT"><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS_REBOOT</span></code></a></dt><dd><p>The new firmware images are rejected, but a system reboot is needed to complete the rollback to the previous firmware. The affected components are now in REJECTED state.</p>
+<p>A system reboot can be requested using <a class="reference internal" href="#c.psa_fwu_request_reboot" title="psa_fwu_request_reboot"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_request_reboot()</span></code></a>.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_SUCCESS_RESTART" title="PSA_SUCCESS_RESTART"><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS_RESTART</span></code></a></dt><dd><p>The new firmware images are rejected, but the components must be restarted to complete the rollback to the previous firmware. The affected components are now in REJECTED state.</p>
+<p>The component restart mechanism is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>There are no components in the STAGED or TRIAL state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The caller is not authorized to call this function.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd><p>This function call is not implemented.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_POWER" title="PSA_ERROR_INSUFFICIENT_POWER"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_POWER</span></code></a></dt><dd><p>The system does not have enough power to safely uninstall the firmware.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd></dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used in the following situations:</p>
+<ul class="simple">
+<li><p>When the caller wants to abort an incomplete update process, for components in STAGED state. This will discard the uninstalled images.</p></li>
+<li><p>When the caller detects an error in new firmware that is in TRIAL state.</p></li>
+</ul>
+<p>If this function is called when the installation state is STAGED, then the state of affected components changes to FAILED. To prepare for a new update after this, call <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> for each component.</p>
+<p>If this function is called when the installation state is TRIAL, then the action depends on whether a reboot or component restart is required to complete the rollback process:</p>
+<ul>
+<li><p>If a reboot is required, the state of affected components changes to REJECTED and <a class="reference internal" href="#c.PSA_SUCCESS_REBOOT" title="PSA_SUCCESS_REBOOT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_SUCCESS_REBOOT</span></code></a> is returned. To continue the rollback process, call <a class="reference internal" href="#c.psa_fwu_request_reboot" title="psa_fwu_request_reboot"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_request_reboot()</span></code></a>.</p>
+<p>After reboot, the affected components will be in FAILED state. To prepare for a new update after this, call <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> for each component.</p>
+</li>
+<li><p>If a component restart is required, the state of affected components changes to REJECTED and <a class="reference internal" href="#c.PSA_SUCCESS_RESTART" title="PSA_SUCCESS_RESTART"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_SUCCESS_RESTART</span></code></a> is returned. To continue the rollback process, restart the affected components.</p>
+<p>After restart, the affected components will be in FAILED state. To prepare for a new update after this, call <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> for each component.</p>
+</li>
+<li><p>If no reboot or component restart is required, the state of affected components changes to FAILED and <code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code> is returned. To prepare for a new update after this, call <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> for each component.</p></li>
+</ul>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>This function is mandatory in an implementation for which any of the following are true:</p>
+<ul class="simple">
+<li><p>One or more components have a TRIAL state</p></li>
+<li><p>One or more components require a system reboot to complete installation</p></li>
+<li><p>One or more components require a component restart to complete installation</p></li>
+</ul>
+<p>On implementations where none of these hold, this function is optional.</p>
+<p>See <a class="reference internal" href="#required-functions"><span class="secref">Required functions</span></a>.</p>
+</div>
+</section>
+</section>
+<section id="image-trial">
+<span id="id7"></span><h3><span class="section-number">5.6.3. </span>Image trial<a class="headerlink" href="#image-trial" title="Permalink to this headline">¶</a></h3>
+<p>The following function is used to manage a trial of new firmware images. It acts atomically on all components that are in TRIAL state.</p>
+<section id="c.psa_fwu_accept">
+<h4><code class="docutils literal notranslate"><span class="pre">psa_fwu_accept</span></code> (function)<a class="headerlink" href="#c.psa_fwu_accept" title="Permalink to this headline">¶</a></h4>
+<p>Accept a firmware update that is currently in TRIAL state.</p>
+<pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_fwu_accept" title="psa_fwu_accept">psa_fwu_accept</a>(void);</pre>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<p>Result status.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Success: the affected components are now in UPDATED state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>There are no components in the TRIAL state.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The caller is not authorized to call this function.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd><p>This function call is not implemented.</p>
+</dd>
+<dt><a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_POWER" title="PSA_ERROR_INSUFFICIENT_POWER"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_POWER</span></code></a></dt><dd><p>The system does not have enough power to safely update the firmware.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd></dd>
+</dl>
+<p class="rubric">Description</p>
+<p>This function is used when new firmware images in TRIAL state have been determined to be functional, to permanently accept the new firmware images. If successful, the state of affected components changes to UPDATED. To prepare for another update after this, call <a class="reference internal" href="#c.psa_fwu_clean" title="psa_fwu_clean"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_clean()</span></code></a> for each component.</p>
+<p>For firmware components in TRIAL state, if <a class="reference internal" href="#c.psa_fwu_accept" title="psa_fwu_accept"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_accept()</span></code></a> is not called, then rebooting the system results in the image being automatically rejected. To explicitly reject a firmware update in TRIAL state, call <a class="reference internal" href="#c.psa_fwu_reject" title="psa_fwu_reject"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_reject()</span></code></a>.</p>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>This function is mandatory in an implementation where one or more components have a TRIAL state.</p>
+<p>On implementations where none of these hold, this function is optional.</p>
+<p>See <a class="reference internal" href="#required-functions"><span class="secref">Required functions</span></a>.</p>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Firmware Update API</b></a></h3>
+IHI 0093<br/>
+Non-confidential<br/>
+Version 1.0-bet.0
+<span style="font-weight: bold;"></span>
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/goals.html">2. Design goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/programming-model.html">4. Programming model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api-conventions">5.1. API conventions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identifier-names">5.1.1. Identifier names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-types">5.1.2. Basic types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-types">5.1.3. Data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constants">5.1.4. Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">5.1.5. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#return-status">5.1.6. Return status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pointer-conventions">5.1.7. Pointer conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implementation-specific-types">5.1.8. Implementation-specific types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#header-file">5.2. Header file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#required-functions">5.2.1. Required functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#library-management">5.3. Library management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#library-version">5.3.1. Library version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#status-codes">5.4. Status codes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-status-codes">5.4.1. Common status codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-codes-specific-to-the-api">5.4.2. Error codes specific to the Firmware Update API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#success-status-codes-specific-to-the-api">5.4.3. Success status codes specific to the Firmware Update API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#firmware-components">5.5. Firmware components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#component-identifier">5.5.1. Component identifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#component-version">5.5.2. Component version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#component-states">5.5.3. Component states</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#component-flags">5.5.4. Component flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#component-information">5.5.5. Component information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#firmware-installation">5.6. Firmware installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#image-preparation">5.6.1. Image preparation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#image-installation">5.6.2. Image installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#image-trial">5.6.3. Image trial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/example-header.html">A. Example header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/examples.html">B. Example usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/variations.html">C. Variation in system design parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/change-history.html">D. Document change history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2020-2022 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
