@@ -1,0 +1,14 @@
+.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. release:: Beta 0
+    :date: February 2022
+    :confidentiality: Non-confidential
+
+    Initial release of the 1.1 PAKE Extension specification
+
+.. release:: Beta 1
+    :date: October 2022
+    :confidentiality: Non-confidential
+
+    Relicensed as open source under CC BY-SA 4.0.

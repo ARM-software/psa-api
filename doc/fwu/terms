@@ -1,0 +1,79 @@
+.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. scterm:: Implementation Defined
+
+   Behavior that is not defined by the this specification, but is defined and documented by individual implementations.
+
+   Firmware developers can choose to depend on :sc:`IMPLEMENTATION DEFINED` behavior, but must be aware that their code might not be portable to another implementation.
+
+.. term:: PSA
+
+   Platform Security Architecture
+
+.. term:: Root of Trust
+   :abbr: RoT
+
+   This is the minimal set of software, hardware and data that is implicitly trusted in the platform --- there is no software or hardware at a deeper level that can verify that the Root of Trust is authentic and unmodified.
+
+.. term:: Platform Root of Trust
+   :abbr: PRoT
+
+   The overall trust anchor for the system. This ensures the platform is securely booted and configured, and establishes the secure environments required to protect security services. See :cite-title:`PSM`.
+
+.. term:: Immutable Platform Root of Trust
+
+   Part of the :term:`Platform Root of Trust`, which is inherently trusted. This refers to the hardware and firmware that cannot be updated on a production device. See :cite-title:`PSM`.
+
+.. term:: Updatable Platform Root of Trust
+
+   Part of the :term:`Platform Root of Trust` firmware that can be updated following manufacturing. See :cite-title:`PSM`.
+
+.. term:: Application Root of Trust
+
+   This is the security domain in which additional security services are implemented. See :cite-title:`PSM`.
+
+.. term:: Secure Processing Environment
+   :abbr: SPE
+
+   This is the security domain that includes the :term:`Platform Root of Trust` and the :term:`Application Root of Trust` domains.
+
+.. term:: Non-secure Processing Environment
+   :abbr: NSPE
+
+   This is the security domain outside of the :term:`Secure Processing Environment`. It is the Application domain, typically containing the :term:`application firmware` and hardware.
+
+.. term:: Application firmware
+
+   The main application firmware for the platform, typically comprising an Operating System (OS) and application tasks.  On a platform with isolation, the application firmware runs in the :term:`NSPE`.
+
+.. term:: Update client
+
+   Software component that is responsible for downloading firmware updates to the device. The Update client is part of the :term:`application firmware`.
+
+.. term:: MPU
+
+   Memory protection unit
+
+.. term:: Over-the-Air
+   :abbr: OTA
+
+   The procedure where a device downloads an update from a remote location ("over the air").
+
+.. term:: Secure boot
+
+   Secure boot is technology to provide a chain of trust for all the components during boot.
+
+.. term:: OEM
+
+   Original equipment manufacturer
+
+.. term:: PKI
+
+   Public key infrastructure
+
+.. term:: Manifest
+
+   Firmware image metadata that is signed with a cryptographic key. The manifest can be bundled within the firmware image, or detached from it.
+
+   See :secref:`manifest`.

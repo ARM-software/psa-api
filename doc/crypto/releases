@@ -1,0 +1,48 @@
+.. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. release:: 1.0 Beta 1
+    :date: January 2019
+    :confidentiality: Non-confidential
+
+    First public beta release.
+
+.. release:: 1.0 Beta 2
+    :date: February 2019
+    :confidentiality: Non-confidential
+
+    Update for release with other PSA Certified API specifications.
+
+.. release:: 1.0 Beta 3
+    :date: May 2019
+    :confidentiality: Non-confidential
+
+    Update for release with other PSA Certified API specifications.
+
+.. release:: 1.0 Final
+    :date: February 2020
+    :confidentiality: Non-confidential
+
+    1.0 API finalized.
+
+.. release:: 1.0.1 Final
+    :date: August 2020
+    :confidentiality: Non-confidential
+
+    Update to fix errors and provide clarifications.
+
+.. release:: 1.1.0 Final
+    :date: February 2022
+    :confidentiality: Non-confidential
+
+    New API for EdDSA, password hashing and key stretching.
+
+    Many significant clarifications and improvements across the documentation.
+
+.. release:: 1.1.1 Final
+    :date: October 2022
+    :confidentiality: Non-confidential
+
+    Relicensed as open source under CC BY-SA 4.0.
+
+    Improve support for TLS.

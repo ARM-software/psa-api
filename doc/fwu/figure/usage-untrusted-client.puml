@@ -1,0 +1,38 @@
+' SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+!include atg-spec.pumh
+!include atg-dataflow.pumh
+
+skinparam RectangleborderThickness 0
+skinparam RectanglefontColor white
+skinparam FilefontColor white
+skinparam DatabaseBorderColor #ArmMidGray
+skinparam InterfaceBorderColor #ArmMidGray
+
+file "Firmware package" <<data>> as firmware #ArmDarkBlue
+
+dfd_tb($label = "Device") {
+    rectangle "Update client" <<app>> as client #ArmMidGray
+    interface "**  Firmware**\n**Update API**" as api  #ArmGreen
+    rectangle "Update service proxy" <<library>> as proxy #ArmMidBlue
+    dfd_tb($label = "Platform Root of Trust") as rot {
+        rectangle "Update service" <<RoT service>> as service #ArmMidBlue
+        database "Firmware store" as store #ArmLightGray
+        rectangle "Bootloader" as bootloader #ArmMidBlue
+        label "<size:30>    <&key>\nTrust anchor" as anchor
+    }
+}
+
+firmware -> client
+client - api
+api -> proxy
+proxy -> service
+service --> store
+service -[hidden]right-> bootloader
+bootloader --> store
+bootloader -> anchor
+
+@enduml

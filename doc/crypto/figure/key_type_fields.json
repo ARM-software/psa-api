@@ -1,0 +1,17 @@
+{
+    "reg": [
+        { "name": "P", "bits": 1 },
+        { "name": "category-specific type", "bits": 11 },
+        { "name": "CAT", "bits": 2 },
+        { "name": "A", "bits": 1 },
+        { "name": "V", "bits": 1 }
+    ],
+    "options": {
+        "lanes": 1,
+        "fontfamily": "lato",
+        "fontsize": 11,
+        "bits": 16,
+        "vspace": 52,
+        "hspace": 300
+    }
+}

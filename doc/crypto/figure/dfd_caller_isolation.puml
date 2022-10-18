@@ -1,0 +1,38 @@
+' SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+!include atg-spec.pumh
+!include atg-dataflow.pumh
+
+dfd_agent "External system" as ext
+dfd_agent "External system" as ext2
+dfd_tb("System boundary") {
+  dfd_tb("Application boundary") {
+    dfd_process "Application" as app
+  }
+  dfd_store "NVM" as nvm
+  dfd_tb("Application boundary") {
+    dfd_process "Other application" as app2
+  }
+  dfd_tb("Cryptoprocessor boundary") {
+    dfd_process "Cryptoprocessor" as crypto
+    dfd_store "Key Store" as keys
+  }
+}
+
+ext <-> app: "ciphertext"
+ext2 <-> app2: "ciphertext"
+app <-[norank]d-> nvm: "ciphertext"
+nvm <-[norank]d-> app2: "ciphertext"
+nvm -[hidden]r- crypto
+ext -[hidden]d- ext2
+
+app --> crypto: "Crypto API\ncall"
+app <-- crypto: "response"
+crypto -> keys: "store key"
+crypto <- keys: "load key"
+crypto <-- app2: "Crypto API\ncall"
+crypto --> app2: "response"
+
+@enduml

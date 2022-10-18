@@ -1,0 +1,44 @@
+' SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+    !include atg-spec.pumh
+
+    participant User
+    participant Peer
+
+    note over User, Peer: Shared information: cipher suite, //UserId//, //PeerId//, and secret //s//
+
+    User -> User: ""psa_pake_setup()""\n""psa_pake_set_user()""\n""psa_pake_set_peer()""\n""psa_pake_set_password_key()""
+
+    note over User: Generate //x1// and //x2//\nCompute public keys //g1// and //g2//\nCompute ZKP //(V1, r1)// for //g1// and //(V2, r2)// for //g2//
+
+    / note over Peer: Generate //x3// and //x4//\nCompute public keys //g3// and //g4//\nCompute ZKPs //(V3, r3)// for //g3// and //(V4, r4)// for //g4//
+
+    User -> User: ""psa_pake_output()"" for //g1, V1, r1, g2, V2//, and //r2//
+
+    User ->> Peer: //(g1, V1, r1, g2, V2, r2)//
+    Peer ->> User: //(g3, V3, r3, g4, V4, r4)//
+
+    User -> User: ""psa_pake_input()"" for //g3, V3, r3, g4, V4//, and //r4//
+
+    note over User: Verify ZKPs and compute //A// and ZKP //(V5, r5)// for //x2//*//s//
+
+    / note over Peer: Verify ZKPs and compute //B// and ZKP //(V6, r6)// for //x4//*//s//
+
+    User -> User: ""psa_pake_output()"" for //A, V5//, and //r5//
+
+    User ->> Peer: //(A, V5, r5)//
+    Peer ->> User: //(B, V6, r6)//
+
+    User -> User: ""psa_pake_input()"" for //B, V6//, and //r6//
+
+    note over User: Verify ZKP and compute //Ka//
+    / note over Peer: Verify ZKP and compute //Kb//
+
+    note over User, Peer: If both sides used the same secret //s//, then //Ka// = //Kb//
+
+    User -> User: ""psa_pake_get_implicit_key()"" to extract //Ka//
+
+@enduml

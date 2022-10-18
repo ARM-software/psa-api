@@ -1,0 +1,82 @@
+' SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+!include atg-spec.pumh
+
+participant "Update server" as server
+participant "Update client" as client
+participant "Update service" as service
+participant "Firmware store" as store
+participant "Bootloader" as boot
+
+note over store: In READY state
+server ->> client: Get information about a component
+client -> service: ""psa_fwu_query(component_id)""
+server <<-- client: Firmware information
+
+server ->> client: Notify that an update is available
+client -> service: ""psa_fwu_start(component_id)""
+service ->> store: Set WRITING state
+loop while image is downloading
+    server ->> client: Download block of image
+    client -> service: ""psa_fwu_write(component_id, ...)""
+    service ->> store: Write block to image
+end
+client -> service: ""psa_fwu_finish(component_id)""
+service ->> store: Set CANDIDATE state
+server <<-- client: Report download complete
+
+server ->> client: Request to apply update
+
+client -> service: ""psa_fwu_install()""
+service ->> store: Check image
+
+alt dependency needed
+    client <-- service: ""PSA_ERROR_DEPENDENCY_NEEDED""
+else fail firmware image checks
+    service ->> store: Set FAILED state
+    client <-- service: ""PSA_ERROR_INVALID_ARGUMENT""
+else all dependencies met
+    service ->> store: Set STAGED state
+    client <-- service: ""PSA_SUCCESS_REBOOT""
+    client -> service: ""psa_fwu_request_reboot()""
+    service ->> boot: System restarts
+'    store <<- boot: Check component state
+'    alt component is STAGED
+        store <<- boot: Verify new image
+        alt verification fails
+            store <<- boot: Set FAILED state
+        else verification succeeds
+            store <<- boot: Install new image
+            store <<- boot: Set TRIAL state
+        end
+'    end
+    client <- boot: Boot image
+
+    alt Component in TRIAL state
+        client ->> client: Test image functionality
+        alt update is working properly
+            client -> service: ""psa_fwu_accept()""
+            service ->> boot: Set UPDATED state
+        else testing fails
+            client -> service: ""psa_fwu_reject()""
+            service ->> boot: Set REJECTED state
+            client <-- service: ""PSA_SUCCESS_REBOOT""
+            client -> service: ""psa_fwu_request_reboot()""
+            service ->> boot: System restarts
+'            store <<- boot: Check component state
+'            alt component is REJECTED
+                store <<- boot: Restore previous image
+                store <<- boot: Set FAILED state
+'            end
+            client <- boot: Boot image
+        end
+    end
+end
+server <<- client: Report update status
+client -> service: ""psa_fwu_clean(component_id)""
+service ->> store: Erase store area
+service ->> store: Set READY state
+@enduml

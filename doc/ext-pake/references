@@ -1,0 +1,30 @@
+.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. reference:: PSA-CRYPT
+    :title: PSA Certified Crypto API
+    :doc_no: IHI 0086
+    :url: arm-software.github.io/psa-api/crypto
+
+.. reference:: MBED-TLS
+    :title: Mbed TLS
+    :author: Arm Ltd
+    :url: github.com/ARMmbed/mbedtls
+
+.. reference:: SEC1
+    :title: SEC 1: Elliptic Curve Cryptography
+    :author: Standards for Efficient Cryptography
+    :publication: May 2009
+    :url: www.secg.org/sec1-v2.pdf
+
+.. reference:: RFC8235
+    :title: Schnorr Non-interactive Zero-Knowledge Proof
+    :author: IETF
+    :publication: September 2017
+    :url: tools.ietf.org/html/rfc8235.html
+
+.. reference:: RFC8236
+    :title: J-PAKE: Password-Authenticated Key Exchange by Juggling
+    :author: IETF
+    :publication: September 2017
+    :url: tools.ietf.org/html/rfc8236.html
