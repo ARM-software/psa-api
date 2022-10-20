@@ -1,0 +1,12 @@
+.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. release:: 1.0.1
+    :date: October 2022
+    :confidentiality: Non-confidential
+
+    Definition of status codes moved to a separate specification.
+
+    Incorporated some error codes from other PSA Certified APIs.
+
+    Relicensed as open source under CC BY-SA 4.0.

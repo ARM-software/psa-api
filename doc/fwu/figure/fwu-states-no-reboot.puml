@@ -1,0 +1,38 @@
+' SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+'' State diagram
+!include atg-spec.pumh
+
+
+skinparam LegendFontSize 12
+
+legend bottom
+  <color:blue>--""———""--</color> Blue transitions apply to a single component
+  <color:darkred>--""———""--</color> Red transitions apply to all compoments
+end legend
+
+state Start as "READY"
+state Staging as "WRITING"
+state Candidate as "CANDIDATE"
+state Failed as "FAILED"
+state Trial as "TRIAL"
+state Updated as "UPDATED"
+state End as "READY"
+
+Start -[#blue]-> Staging : ""start""
+Staging -[#blue]-> Staging : ""write""
+Staging -[#blue]-> Candidate : ""finish""
+Staging -d[#blue]-> Failed : ""cancel""
+Candidate -[#darkred]-> Trial : ""install"":\n//install success//
+Candidate -r[#blue]-> Failed : ""cancel""
+
+Trial -[#darkred]-> Updated : ""accept""
+
+Failed -u[#blue]-> Start: ""clean""
+Trial -u[#darkred]-> Failed : ""reject""
+
+Updated -[#blue]-> End : ""clean""
+@enduml

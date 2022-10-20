@@ -1,0 +1,25 @@
+' SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+!include atg-spec.pumh
+!include atg-dataflow.pumh
+
+dfd_agent "External system" as ext
+dfd_tb("System boundary") {
+  dfd_process "Application" as app
+  dfd_tb("Cryptoprocessor boundary") {
+    dfd_process "Cryptoprocessor" as crypto
+    dfd_store "Key Store" as keys
+  }
+  dfd_store "NVM" as nvm
+}
+
+ext <-> app: "ciphertext"
+app -> crypto: "Crypto API call"
+app <- crypto: "response"
+crypto -> keys: "store key"
+crypto <- keys: "load key"
+app <--> nvm: "ciphertext"
+
+@enduml

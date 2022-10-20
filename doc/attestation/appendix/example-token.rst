@@ -1,0 +1,88 @@
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. _example-report:
+
+Example report
+==============
+
+An example report is included here in extended :term:`CBOR` diagnostic form for illustrative purposes:
+
+.. code:: none
+
+  18(
+  [
+  / protected / h'a10126' / {
+      \ alg \ 1: -7 \ ECDSA 256 \
+    } / ,
+  / unprotected / {},
+  / payload / h'a93a000124fb5820000102030405060708090a0b0c0d0e0f1011121
+  31415161718191a1b1c1d1e1f3a000124fa5820000102030405060708090a0b0c0d0e
+  0f101112131415161718191a1b1c1d1e1f3a000124fd84a4025820000102030405060
+  708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f0465332e312e34055820
+  000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f01624
+  24ca4025820000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c
+  1d1e1f0463312e31055820000102030405060708090a0b0c0d0e0f101112131415161
+  718191a1b1c1d1e1f016450526f54a4025820000102030405060708090a0b0c0d0e0f
+  101112131415161718191a1b1c1d1e1f0463312e30055820000102030405060708090
+  a0b0c0d0e0f101112131415161718191a1b1c1d1e1f016441526f54a4025820000102
+  030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f0463322e320
+  55820000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
+  01634170703a000124f91930003a000124ff5820000102030405060708090a0b0c0d0
+  e0f101112131415161718191a1b1c1d1e1f3a000125016c7073615f76657269666965
+  723a000124f8203a00012500582101000102030405060708090a0b0c0d0e0f1011121
+  31415161718191a1b1c1d1e1f3a000124f7715053415f496f545f50524f46494c455f
+  31' / {
+     / arm_psa_boot_seed / -75004: h'000102030405060708090a0b0c0d0e0f10
+     1112131415161718191a1b1c1d1e1f',
+     / arm_psa_implementation_id / -75003: h'000102030405060708090a0b0c
+     0d0e0f101112131415161718191a1b1c1d1e1f',
+     / arm_psa_sw_components / -75006: [
+          {
+            / measurement / 2: h'000102030405060708090a0b0c0d0e0f101112
+            131415161718191a1b1c1d1e1f',
+            / version / 4: "3.1.4",
+            / signerID / 5: h'000102030405060708090a0b0c0d0e0f101112131
+            415161718191a1b1c1d1e1f',
+            / type / 1: "BL"
+          },
+          {
+            / measurement / 2: h'000102030405060708090a0b0c0d0e0f101112
+            131415161718191a1b1c1d1e1f',
+            / version / 4: "1.1",
+            / signerID / 5: h'000102030405060708090a0b0c0d0e0f101112131
+            415161718191a1b1c1d1e1f',
+            / type / 1: "PRoT"
+          },
+          {
+            / measurement / 2: h'000102030405060708090a0b0c0d0e0f101112
+            131415161718191a1b1c1d1e1f',
+            / version / 4: "1.0",
+            / signerID / 5: h'000102030405060708090a0b0c0d0e0f101112131
+            415161718191a1b1c1d1e1f',
+            / type / 1: "ARoT"
+          },
+          {
+            / measurement / 2: h'000102030405060708090a0b0c0d0e0f101112
+            131415161718191a1b1c1d1e1f',
+            / version / 4: "2.2",
+            / signerID / 5: h'000102030405060708090a0b0c0d0e0f101112131
+            415161718191a1b1c1d1e1f',
+            / type / 1: "App"
+          }
+        ],
+      / arm_psa_security_lifecycle / -75002: 12288 / SECURED /,
+      / arm_psa_nonce / -75008: h'000102030405060708090a0b0c0d0e0f10111
+      2131415161718191a1b1c1d1e1f',
+      / arm_psa_origination / -75010: "psa_verifier",
+      / arm_psa_partition_id / -75001: -1,
+      / arm_psa_UEID / -75009: h'01000102030405060708090a0b0c0d0e0f1011
+      12131415161718191a1b1c1d1e1f',
+      / arm_psa_profile_id / -75000: "PSA_IOT_PROFILE_1"
+    }),
+    } / ,
+  / signature / h'58860508ee7e8cc48eba872dbb5d694a542b1322ad0d51023c197
+  0df429f06501c683a95108a0cced0a6e80e0966f22bd63d1c0056974a11ba332d7877
+  87fb4f'
+  ]
+  )

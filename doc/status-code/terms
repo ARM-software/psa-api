@@ -1,0 +1,29 @@
+.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. scterm:: Implementation Defined
+
+    Behavior that is not defined by the this specification, but is defined and documented by individual implementations.
+
+    Software developers can choose to depend on :sc:`IMPLEMENTATION DEFINED` behavior, but must be aware that their code might not be portable to another implementation.
+
+.. scterm:: Programmer error
+
+    An error that is caused by the misuse of a programming interface.
+
+    A :sc:`PROGRAMMER ERROR` is in the caller of the interface, but it is detected by the implementer of the interface.
+
+.. term:: Root of Trust
+    :abbr: RoT
+
+    This is the minimal set of software, hardware and data that is implicitly trusted in the platform --- there is no software or hardware at a deeper level that can verify that the Root of Trust is authentic and unmodified.
+
+.. term:: Root of Trust Service
+    :abbr: RoT Service
+
+    A set of related security operations that are implemented in a :term:`Root of Trust`.
+
+.. term:: Secure Partition Manager
+    :abbr: SPM
+
+    Part of :cite-title:`PSA-FFM` that is responsible for isolating software in Partitions, managing the execution of software within Partitions, and providing communication between Partitions.

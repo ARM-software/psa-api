@@ -1,0 +1,16 @@
+.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. release:: 0.7 Beta 0
+   :date: Feb 2021
+   :confidentiality: Non-confidential
+
+   First release at Beta quality.
+
+.. release:: 1.0 Beta 0
+   :date: October 2022
+   :confidentiality: Non-confidential
+
+   Major update of programming model and API.
+
+   Relicensed as open source under CC BY-SA 4.0.

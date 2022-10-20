@@ -1,0 +1,95 @@
+.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. reference:: PSA-STAT
+    :title: PSA Certified Status code API
+    :doc_no: ARM IHI 0097
+    :url: arm-software.github.io/psa-api/status-code
+
+.. reference:: PSA-FFM
+    :title: Arm® Platform Security Architecture Firmware Framework
+    :doc_no: ARM DEN 0063
+    :url: pages.arm.com/psa-apis
+
+.. reference:: PSA-SS
+    :title: PSA Certified Secure Storage API
+    :doc_no: ARM IHI 0087
+    :url: arm-software.github.io/psa-api/storage
+
+.. reference:: PSM
+   :title: Platform Security Model
+   :doc_no: ARM DEN 0128
+   :url: developer.arm.com/documentation/den0128
+
+.. reference:: PSA-CERT
+   :title: PSA Certified™ Level 2 Lightweight Protection Profile
+   :doc_no: JSA DEN 002
+   :url: psacertified.org/development-resources/certification-resources/#leveltwo
+
+.. reference:: IR8259
+   :author: NIST
+   :doc_no: IR 8259
+   :title: Foundational Cybersecurity Activities for IoT Device Manufacturers
+   :publication: May 2020
+   :url: doi.org/10.6028/NIST.IR.8259
+
+.. reference:: EN303645
+   :title: Cyber Security for Consumer Internet of Things: Baseline Requirements
+   :author: ETSI
+   :doc_no: EN 303 645
+   :publication: June 2020
+   :url: www.etsi.org/standards/get-standards#search=303%20645
+
+.. reference:: LWM2M
+   :title: Lightweight M2M
+   :author: OMA
+   :doc_no: LwM2M v1.2
+   :publication: November 2020
+   :url: openmobilealliance.org/release/LightweightM2M
+
+.. reference:: UEFI
+   :title: Unified Extensible Firmware Interface (UEFI) Specification
+   :doc_no: UEFI v2.10
+   :author: UEFI Forum, Inc.
+   :publication: August 2022
+   :url: uefi.org/specifications
+
+.. reference:: RFC4122
+   :author: IETF
+   :title: A Universally Unique IDentifier (UUID) URN Namespace
+   :url: tools.ietf.org/html/rfc4122
+
+.. reference:: RFC8240
+   :title: Report from the Internet of Things Software Update (IoTSU) Workshop 2016
+   :author: IAB
+   :publication: September 2017
+   :url: tools.ietf.org/html/rfc8240
+
+.. reference:: RFC9019
+   :title: A Firmware Update Architecture for Internet of Things
+   :author: IETF
+   :publication: April 2021
+   :url: tools.ietf.org/html/rfc9019
+
+.. reference:: RFC9124
+   :title: A Manifest Information Model for Firmware Updates in Internet of Things (IoT) Devices
+   :author: IETF
+   :publication: January 2022
+   :url: tools.ietf.org/html/rfc9124
+
+.. reference:: SUIT-MFST
+   :title: A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest
+   :author: IETF
+   :publication: October 2022
+   :url: datatracker.ietf.org/doc/draft-ietf-suit-manifest
+
+.. reference:: C99
+    :title: ISO/IEC 9899:1999 --- Programming Languages --- C
+    :author: ISO/IEC
+    :publication: December 1999
+    :url: www.iso.org/standard/29237.html
+
+.. reference:: EBBR
+   :author: Arm Limited and Contributors
+   :title: Embedded Base Boot Requirements (EBBR) Specification
+   :url: arm-software.github.io/ebbr
