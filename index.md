@@ -1,0 +1,73 @@
+<!--
+SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
+# PSA Certified API Specifications
+
+This is the official place for the latest published documents of the PSA Certified API.
+
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified API GitHub project][psa-api-gh].
+
+Test suites to verify a correct implementation can be found in the [PSA Certified API Test suites][psa-api-ats].
+
+[psa-api-gh]:       https://github.com/arm-software/psa-api
+[psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
+
+
+## Specifications
+
+The following specifications are part of the PSA Certified API:
+
+Specification |  Latest |  |  |
+-|-|-|-
+Crypto API | [1.1.1][crypto-html] | [&darr; PDF][crypto-pdf] | [All versions](crypto/)
+Secure Storage API | [1.0.1][storage-html] | [&darr; PDF][storage-pdf] | [All versions](storage/)
+Attestation API | [1.0.3][attestation-html] | [&darr; PDF][attestation-pdf] | [All versions](attestation/)
+Firmware Update API | [1.0 Beta][fwu-html] | [&darr; PDF][fwu-pdf] | [All versions](fwu/)
+Status code API | [1.0.1][status-code-html] | [&darr; PDF][status-code-pdf] | [All versions](status-code/)
+
+## Extensions
+
+Extension specifications introduce new functionality that is not yet stable enough for inclusion in the main specification.
+
+Specification | Extension | Latest | | |
+-|-|-|-|-
+Crypto API | PAKE | [1.1 Beta 1][pake-html] | [&darr; PDF][pake-pdf] | [All versions](crypto/)
+
+[status-code-html]:  status-code/1.0/
+[status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.1.pdf
+[crypto-html]:       crypto/1.1/
+[crypto-pdf]:        crypto/1.1/IHI0086-PSA_Certified_Crypto_API-1.1.1.pdf
+[storage-html]:      storage/1.0/
+[storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.1.pdf
+[attestation-html]:  attestation/1.0/
+[attestation-pdf]:   attestation/1.0/IHI0085-PSA_Certified_Attestation_API-1.0.3.pdf
+[fwu-html]:          fwu/1.0/
+[fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0-bet.0.pdf
+[pake-html]:         crypto/1.1/ext-pake/
+[pake-pdf]:          crypto/1.1/ext-pake/AES0058-PSA_Certified_Crypto_API-1.1_PAKE_Extension-bet.1.pdf
+
+## Feedback
+
+If you have questions or comments on any of the PSA Certified API specifications, or suggestions for enhancements, please [raise a new issue][psa-api-issue] in the PSA Certified API GitHub project.
+
+Please indicate which specification the issue applies to. This can be done by:
+
+* Providing a link to the section of the specification on this website.
+* Providing the document name, full version, and section or page number in the PDF.
+
+[psa-api-issue]:    https://github.com/arm-software/psa-api/issues/new
+
+## License
+
+The PSA Certified API specifications that are hosted on this website use the Creative Commons [Attribution–Share Alike 4.0 International license][CC-BY-SA-4.0] and [Apache License, Version 2.0][APACHE-2.0]. Earlier versions of the specifications, available from arm.com, have a different license.
+
+Refer to individual documents for license details.
+
+[CC-BY-SA-4.0]:     https://creativecommons.org/licenses/by/4.0
+[APACHE-2.0]:       https://www.apache.org/licenses/LICENSE-2.0
+
+----
+
+*Copyright 2022, Arm Limited and/or its affiliates*
