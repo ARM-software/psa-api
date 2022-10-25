@@ -19,21 +19,21 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 The following specifications are part of the PSA Certified API:
 
-Specification |  Latest |  |  |
--|-|-|-
-Crypto API | [1.1.1][crypto-html] | [&darr; PDF][crypto-pdf] | [All versions](crypto/)
-Secure Storage API | [1.0.1][storage-html] | [&darr; PDF][storage-pdf] | [All versions](storage/)
-Attestation API | [1.0.3][attestation-html] | [&darr; PDF][attestation-pdf] | [All versions](attestation/)
-Firmware Update API | [1.0 Beta][fwu-html] | [&darr; PDF][fwu-pdf] | [All versions](fwu/)
-Status code API | [1.0.1][status-code-html] | [&darr; PDF][status-code-pdf] | [All versions](status-code/)
+Specification | | | | |
+-|-|-|-|-
+Crypto API | 1.1 | [HTML][crypto-html] | [&darr; PDF][crypto-pdf] | [All versions](crypto/)
+Secure Storage API | 1.0 | [HTML][storage-html] | [&darr; PDF][storage-pdf] | [All versions](storage/)
+Attestation API | 1.0 | [HTML][attestation-html] | [&darr; PDF][attestation-pdf] | [All versions](attestation/)
+Firmware Update API | 1.0 Beta | [HTML][fwu-html] | [&darr; PDF][fwu-pdf] | [All versions](fwu/)
+Status code API | 1.0 | [HTML][status-code-html] | [&darr; PDF][status-code-pdf] | [All versions](status-code/)
 
 ## Extensions
 
 Extension specifications introduce new functionality that is not yet stable enough for inclusion in the main specification.
 
-Specification | Extension | Latest | | |
--|-|-|-|-
-Crypto API | PAKE | [1.1 Beta 1][pake-html] | [&darr; PDF][pake-pdf] | [All versions](crypto/)
+Specification | Extension | | | | |
+-|-|-|-|-|-
+Crypto API | PAKE | 1.1 Beta | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [All versions](crypto/)
 
 [status-code-html]:  status-code/1.0/
 [status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.1.pdf
@@ -61,7 +61,7 @@ Please indicate which specification the issue applies to. This can be done by:
 
 ## License
 
-The PSA Certified API specifications that are hosted on this website use the Creative Commons [Attribution–Share Alike 4.0 International license][CC-BY-SA-4.0] and [Apache License, Version 2.0][APACHE-2.0]. Earlier versions of the specifications, available from arm.com, have a different license.
+The latest PSA Certified API specifications that are hosted on this website are licensed under the Creative Commons [Attribution–Share Alike 4.0 International license][CC-BY-SA-4.0] and [Apache License, Version 2.0][APACHE-2.0]. Some earlier versions of the specifications are licensed under a non-confidential license from Arm.
 
 Refer to individual documents for license details.
 

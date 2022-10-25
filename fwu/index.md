@@ -19,16 +19,15 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 ## Specifications
 
-Version | | Publication
--|-|-:
-[1.0 Beta][1-0-html] | [&darr; PDF][1-0-pdf] | October 2022
-0.7 Beta | On [arm.com&#8599;][0-7-pdf] | January 2021
+Version | | | Publication
+-|-|-|-:
+1.0 Beta | [HTML][1-0-html] | [&darr; PDF][1-0-beta-pdf] | October 2022
+0.7 Beta | [HTML][0-7-html] | [&darr; PDF][0-7-beta-pdf] | January 2021
 
-[0-7-pdf]:        https://documentation-service.arm.com/static/602536752cb3723f2020a105
-[1-0-html]:       1.0/
-[1-0-pdf]:        1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0-bet.0.pdf
+[1-0-html]:           1.0/
+[1-0-beta-pdf]:       1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0-bet.0.pdf
 
-
-----
+[0-7-html]:           0.7/
+[0-7-beta-pdf]:       0.7/IHI0093-PSA_FWU_API-0.7-beta0.pdf
 
 *Copyright 2022, Arm Limited and/or its affiliates*
