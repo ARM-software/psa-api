@@ -11,9 +11,10 @@
     :c++:
     :guard:
     :system-include: stddef.h stdint.h
+    :include: psa/error.h
 
     /* This file is a reference template for implementation of the
-     * PSA Certified Crypto API v1.1.1
+     * PSA Certified Crypto API v1.1
      */
 
 
