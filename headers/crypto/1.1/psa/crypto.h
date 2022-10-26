@@ -11,6 +11,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "psa/error.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -41,6 +43,11 @@ psa_status_t psa_crypto_init(void);
  * @brief A status code that indicates that the decrypted padding is incorrect.
  */
 #define PSA_ERROR_INVALID_PADDING ((psa_status_t)-150)
+
+/**
+ * @brief Key identifier.
+ */
+typedef uint32_t psa_key_id_t;
 
 /**
  * @brief The type of an object containing key attributes.
@@ -529,11 +536,6 @@ psa_key_lifetime_t psa_get_key_lifetime(const psa_key_attributes_t * attributes)
     ((location) << 8 | (persistence))
 
 /**
- * @brief Key identifier.
- */
-typedef uint32_t psa_key_id_t;
-
-/**
  * @brief The null key identifier.
  */
 #define PSA_KEY_ID_NULL ((psa_key_id_t)0)
@@ -575,6 +577,11 @@ void psa_set_key_id(psa_key_attributes_t * attributes,
  * @return The persistent identifier stored in the attribute object.
  */
 psa_key_id_t psa_get_key_id(const psa_key_attributes_t * attributes);
+
+/**
+ * @brief Encoding of a cryptographic algorithm.
+ */
+typedef uint32_t psa_algorithm_t;
 
 /**
  * @brief Declare the permitted algorithm policy for a key.
@@ -783,11 +790,6 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
  * @brief Sufficient buffer size for exporting any asymmetric public key.
  */
 #define PSA_EXPORT_PUBLIC_KEY_MAX_SIZE /* implementation-defined value */
-
-/**
- * @brief Encoding of a cryptographic algorithm.
- */
-typedef uint32_t psa_algorithm_t;
 
 /**
  * @brief An invalid algorithm identifier value.
