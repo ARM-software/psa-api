@@ -19,27 +19,31 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 ## Specifications
 
-Version | | Publication
--|-|-:
-[1.1.1][1-1-html] | [&darr; PDF][1-1-pdf] | October 2022
-1.1.0 | | February 2022
-1.0.1 | On [arm.com&#8599;][1-0-pdf] | August 2020
-1.0.0 | | Feburary 2020
+Version | | | Publication
+-|-|-|-:
+1.1.1 | [HTML][1-1-html] | [&darr; PDF][1-1-1-pdf] | October 2022
+1.1.0 | | [&darr; PDF][1-1-0-pdf] | February 2022
+1.0.1 | [HTML][1-0-html] | [&darr; PDF][1-0-1-pdf] | August 2020
+1.0.0 | | [&darr; PDF][1-0-0-pdf] | Feburary 2020
 
 ## Extensions
 
-Extension | Version | | Publication
--|-|-|-:
-PAKE | [1.1 Beta 1][pake-beta-html] | [&darr; PDF][pake-beta-pdf] | October 2022
-PAKE | 1.1 Beta 0 | | February 2022
+Extension | Version | | | Publication
+-|-|-|-|-:
+PAKE | 1.1 Beta 1 | [HTML][pake-beta-html] | [&darr; PDF][pake-beta-1-pdf] | October 2022
+PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
+
 
 [1-1-html]:             1.1/
-[1-1-pdf]:              1.1/IHI0086-PSA_Certified_Crypto_API-1.1.1.pdf
-[1-0-pdf]:              https://documentation-service.arm.com/static/5fae7799ca04df4095c1cab0
+[1-1-1-pdf]:            1.1/IHI0086-PSA_Certified_Crypto_API-1.1.1.pdf
+[1-1-0-pdf]:            1.1/IHI0086-PSA_Cryptography_API-1.1.0.pdf
+
+[1-0-html]:             1.0/
+[1-0-1-pdf]:            1.0/IHI0086-PSA_Cryptography_API-1.0.1.pdf
+[1-0-0-pdf]:            1.0/IHI0086-PSA_Cryptography_API-1.0.0.pdf
 
 [pake-beta-html]:       1.1/ext-pake/
-[pake-beta-pdf]:        1.1/ext-pake/AES0058-PSA_Certified_Crypto_API-1.1_PAKE_Extension-bet.1.pdf
-
-----
+[pake-beta-1-pdf]:      1.1/ext-pake/AES0058-PSA_Certified_Crypto_API-1.1_PAKE_Extension-bet.1.pdf
+[pake-beta-0-pdf]:      1.1/ext-pake/AES0058-PSA_Cryptography_API-1.1_PAKE_Extension-bet.0.pdf
 
 *Copyright 2022, Arm Limited and/or its affiliates*
