@@ -12,11 +12,11 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 The Attestation API provides a way to obtain a health-check token from a device, attesting to its components and serial numbers.
 
-See the [PSA Certified API][psa-api] page for other PSA Certified API specifications.
+See the [PSA Certified APIs][psa-api] page for other PSA Certified APIs.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified API GitHub project][psa-api-gh].
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified API Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
 
 [psa-api]:          ../
 [psa-api-gh]:       https://github.com/arm-software/psa-api

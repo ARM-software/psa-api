@@ -3,13 +3,13 @@ SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-s
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Certified API Specifications
+# PSA Certified APIs
 
-This is the official place for the latest published documents of the PSA Certified API.
+This is the official place for the latest published documents of the PSA Certified APIs.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified API GitHub project][psa-api-gh].
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified API Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
 
 [psa-api-gh]:       https://github.com/arm-software/psa-api
 [psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
@@ -17,7 +17,7 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 ## Specifications
 
-The following specifications are part of the PSA Certified API:
+The following specifications are part of the PSA Certified APIs:
 
 Specification | | | | |
 -|-|-|-|-
@@ -50,7 +50,7 @@ Crypto API | PAKE | 1.1 Beta | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [All
 
 ## Feedback
 
-If you have questions or comments on any of the PSA Certified API specifications, or suggestions for enhancements, please [raise a new issue][psa-api-issue] in the PSA Certified API GitHub project.
+If you have questions or comments on any of the specifications, or suggestions for enhancements, please [raise a new issue][psa-api-issue] in the PSA Certified APIs GitHub project.
 
 Please indicate which specification the issue applies to. This can be done by:
 
@@ -61,7 +61,7 @@ Please indicate which specification the issue applies to. This can be done by:
 
 ## License
 
-The latest PSA Certified API specifications that are hosted on this website are licensed under the Creative Commons [Attribution–Share Alike 4.0 International license][CC-BY-SA-4.0] and [Apache License, Version 2.0][APACHE-2.0]. Some earlier versions of the specifications are licensed under a non-confidential license from Arm.
+The latest versions of the PSA Certified APIs that are hosted on this website are licensed under the Creative Commons [Attribution–Share Alike 4.0 International license][CC-BY-SA-4.0] and [Apache License, Version 2.0][APACHE-2.0]. Some earlier versions of the specifications are licensed under a non-confidential license from Arm.
 
 Refer to individual documents for license details.
 
