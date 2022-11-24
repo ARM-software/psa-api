@@ -1,3 +1,8 @@
+---
+title: PSA Certified Secure Storage API
+description: The Secure Storage API supports data protection services on the device, providing integrity and confidentiality protection
+---
+
 <!--
 SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0

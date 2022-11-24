@@ -1,3 +1,8 @@
+---
+title: PSA Certified Crypto API
+description: The Crypto API provides symmetric and asymmetric cryptography, hash, RNG, and key storage services with support for different key lifetime policies
+---
+
 <!--
 SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0

@@ -1,3 +1,8 @@
+---
+title: PSA Certified Attestation API
+description: The Attestation API provides a way to obtain a health-check token from a device, attesting to its components and serial numbers
+---
+
 <!--
 SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0

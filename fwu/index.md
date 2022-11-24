@@ -1,3 +1,8 @@
+---
+title: PSA Certified Firmware Update API
+description: The Firmware Update API defines a standard firmware interface for installing firmware updates
+---
+
 <!--
 SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
