@@ -73,7 +73,7 @@ Component state
          When all components for update are prepared, they can be installed.
 
    *  -  STAGED
-      -  Installation of the *second* has been requested, but the system must be restarted as the final update operation runs within the botloader.
+      -  Installation of the *second* has been requested, but the system must be restarted as the final update operation runs within the bootloader.
 
          This state is transient.
 
