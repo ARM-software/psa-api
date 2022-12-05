@@ -116,7 +116,7 @@ Success code
 ^^^^^^^^^^^^
 
 .. macro:: PSA_SUCCESS
-   :definition: ((psa_status_t) 0)
+   :definition: ((psa_status_t)0)
 
    .. summary:: A status code to indicate general success.
 
@@ -128,7 +128,7 @@ Error codes
 ^^^^^^^^^^^
 
 .. macro:: PSA_ERROR_PROGRAMMER_ERROR
-   :definition: ((psa_status_t) -129)
+   :definition: ((psa_status_t)-129)
 
    .. summary:: A status code that indicates a :scterm:`PROGRAMMER ERROR` in the client.
 
@@ -137,7 +137,7 @@ Error codes
    This error has a specific meaning in an implementation of :cite-title:`PSA-FFM`.
 
 .. macro:: PSA_ERROR_CONNECTION_REFUSED
-   :definition: ((psa_status_t) -130)
+   :definition: ((psa_status_t)-130)
 
    .. summary:: A status code that indicates that the caller is not permitted to connect to a Service.
 
@@ -145,7 +145,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_CONNECTION_BUSY
-   :definition: ((psa_status_t) -131)
+   :definition: ((psa_status_t)-131)
 
    .. summary:: A status code that indicates that the caller cannot connect to a service.
 
@@ -153,7 +153,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_GENERIC_ERROR
-   :definition: ((psa_status_t) -132)
+   :definition: ((psa_status_t)-132)
 
    .. summary:: A status code that indicates an error that does not correspond to any defined failure cause.
 
@@ -165,7 +165,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_NOT_PERMITTED
-   :definition: ((psa_status_t) -133)
+   :definition: ((psa_status_t)-133)
 
    .. summary:: A status code that indicates that the requested action is denied by a policy.
 
@@ -175,7 +175,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_NOT_SUPPORTED
-   :definition: ((psa_status_t) -134)
+   :definition: ((psa_status_t)-134)
 
    .. summary:: A status code that indicates that the requested operation or a parameter is not supported.
 
@@ -185,7 +185,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_INVALID_ARGUMENT
-   :definition: ((psa_status_t) -135)
+   :definition: ((psa_status_t)-135)
 
    .. summary:: A status code that indicates that the parameters passed to the function are invalid.
 
@@ -195,7 +195,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_INVALID_HANDLE
-   :definition: ((psa_status_t) -136)
+   :definition: ((psa_status_t)-136)
 
    .. summary:: A status code that indicates that a handle parameter is not valid.
 
@@ -203,7 +203,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_BAD_STATE
-   :definition: ((psa_status_t) -137)
+   :definition: ((psa_status_t)-137)
 
    .. summary:: A status code that indicates that the requested action cannot be performed in the current state.
 
@@ -211,7 +211,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_BUFFER_TOO_SMALL
-   :definition: ((psa_status_t) -138)
+   :definition: ((psa_status_t)-138)
 
    .. summary:: A status code that indicates that an output buffer parameter is too small.
 
@@ -221,7 +221,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_ALREADY_EXISTS
-   :definition: ((psa_status_t) -139)
+   :definition: ((psa_status_t)-139)
 
    .. summary:: A status code that indicates that an identifier or index is already in use.
 
@@ -231,7 +231,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_DOES_NOT_EXIST
-   :definition: ((psa_status_t) -140)
+   :definition: ((psa_status_t)-140)
 
    .. summary:: A status code that indicates that an identified resource does not exist.
 
@@ -241,7 +241,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_INSUFFICIENT_MEMORY
-   :definition: ((psa_status_t) -141)
+   :definition: ((psa_status_t)-141)
 
    .. summary:: A status code that indicates that there is not enough runtime memory.
 
@@ -251,7 +251,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_INSUFFICIENT_STORAGE
-   :definition: ((psa_status_t) -142)
+   :definition: ((psa_status_t)-142)
 
    .. summary:: A status code that indicates that there is not enough persistent storage.
 
@@ -261,7 +261,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_INSUFFICIENT_DATA
-   :definition: ((psa_status_t) -143)
+   :definition: ((psa_status_t)-143)
 
    .. summary:: A status code that indicates that a data source has insufficient capacity left.
 
@@ -269,7 +269,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_SERVICE_FAILURE
-   :definition: ((psa_status_t) -144)
+   :definition: ((psa_status_t)-144)
 
    .. summary:: A status code that indicates an error within the service.
 
@@ -279,7 +279,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_COMMUNICATION_FAILURE
-   :definition: ((psa_status_t) -145)
+   :definition: ((psa_status_t)-145)
 
    .. summary:: A status code that indicates a communication failure between the function and another service or component.
 
@@ -292,7 +292,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_STORAGE_FAILURE
-   :definition: ((psa_status_t) -146)
+   :definition: ((psa_status_t)-146)
 
    .. summary:: A status code that indicates a storage failure that may have led to data loss.
 
@@ -310,7 +310,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_HARDWARE_FAILURE
-   :definition: ((psa_status_t) -147)
+   :definition: ((psa_status_t)-147)
 
    .. summary:: A status code that indicates that a hardware failure was detected.
 
@@ -318,7 +318,7 @@ Error codes
 
 
 .. macro:: PSA_ERROR_INVALID_SIGNATURE
-   :definition: ((psa_status_t) -149)
+   :definition: ((psa_status_t)-149)
 
    .. summary:: A status code that indicates that a signature, MAC or hash is incorrect.
 
