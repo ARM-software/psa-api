@@ -18,7 +18,7 @@ Officially released documents and sample code can be found in the associated [PS
 
 ## Specifications
 
-The following specifications are part of the PSA API.
+The following specifications are part of the PSA Certified API.
 
 Specification | Published | Document source | Reference headers | Dashboard
 -|-|-|-|-
