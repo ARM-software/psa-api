@@ -87,6 +87,12 @@ The API elements described in the following sections :std:numref:`status-type` t
 
 It is permitted for these API elements to also be defined in header files that are part of an implementation of another PSA Certified API, for example, in :file:`psa/crypto.h`.
 
+.. admonition:: Implementation note
+
+   In an implementation of any PSA Certified API, it essential that the status code macros are defined precisely as shown in the API specifications and reference header files. In particular, there is no white-space in the definition.
+
+   The C language only permits a macro definition to be repeated within a compilation, if every definition is identical, including the white-space separation.
+
 .. _status-type:
 
 Status type
