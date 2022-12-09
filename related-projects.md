@@ -24,11 +24,13 @@ Updated Dec 2022.
 - Oberon PSA Crypto offers a way to support both hardware and optimized software crypto routines under the PSA Crypto API
   [https://www.oberon-psa-crypto.ch/](https://www.oberon-psa-crypto.ch/)
 
-- RIOT OS uses the Crypto API at a system-level for all crypto needs
-  [https://www.riot-os.org/](https://www.riot-os.org/)
+- RIOT OS is integrating the Crypto API at a system-level for all crypto needs
+  [https://www.riot-os.org/](https://www.riot-os.org/) and the associated paper at [https://arxiv.org/abs/2208.09281](https://arxiv.org/abs/2208.09281). The RIOT OS uses the Crypto Driver Interface to integrate secure elements.
 
 
-## Hardware driver implementations
+## Crypto driver implementations
+
+Mbed TLS is developing a hardware driver interface that complements the Crypto API. The aim is to simplify the integration of cryptographic peripherals and secure elements into implementations of the Crypto API. See [https://github.com/Mbed-TLS/mbedtls/blob/development/docs/proposed/psa-driver-interface.md](https://github.com/Mbed-TLS/mbedtls/blob/development/docs/proposed/psa-driver-interface.md).
 
 - The Silicon Labs SDK uses PSA driver API conventions
   [https://www.silabs.com/developers/gecko-software-development-kit](https://www.silabs.com/developers/gecko-software-development-kit)
@@ -39,7 +41,7 @@ Updated Dec 2022.
  
 ## API usage
 
-- Mbed TLS implements TLS stack for embedded usage, based on Crypto API
+- Mbed TLS implements TLS stack for embedded usage, based on Crypto API. Mbed TLS also uses the Secure Storage API for the Crypto implementation of key storage.
   [https://mbed-tls.readthedocs.io/en/latest/](https://mbed-tls.readthedocs.io/en/latest/)
 
 - WolfSSL can consume PSA-compliant crypto backends
@@ -55,4 +57,7 @@ Updated Dec 2022.
 
 - Zephyr OS integrates PSA Crypto APIs
   [https://docs.zephyrproject.org/latest/samples/tfm_integration/psa_crypto/README.html](https://docs.zephyrproject.org/latest/samples/tfm_integration/psa_crypto/README.html)
+  
+  *Copyright 2022, Arm Limited and/or its affiliates*
+
 
