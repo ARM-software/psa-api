@@ -71,6 +71,11 @@ Reference header files for each minor version of each API are provided in the [h
 
 Source code examples of both usage, and implementation, of the PSA Certified APIs are provided in the [examples/](/examples) folder.
 
+## Related Projects
+
+Known projects that implement or use the PSA Certified APIs are listed in [related-projects](/related-projects.md).
+
+
 ## License
 
 ### Text and illustrations
