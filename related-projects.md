@@ -10,7 +10,7 @@ Updated Dec 2022.
 ## Software implementations
 
 - The reference implementation for PSA Crypto API can be found inside Mbed TLS:
-  [https://mbed-tls.readthedocs.io/en/latest/](https://mbed-tls.readthedocs.io/en/latest/)
+  [mbed-tls.readthedocs.io/en/latest](https://mbed-tls.readthedocs.io/en/latest/)
 
 - Other PSA Certified APIs are included in the TF-M project:
   [https://www.trustedfirmware.org/projects/tf-m/](https://www.trustedfirmware.org/projects/tf-m/)
