@@ -61,3 +61,7 @@ Mbed TLS is developing a hardware driver interface that complements the Crypto A
   *Copyright 2022, Arm Limited and/or its affiliates*
 
 
+----
+
+*Copyright 2022, Arm Limited and/or its affiliates*
+
