@@ -13,19 +13,19 @@ Updated Dec 2022.
   [mbed-tls.readthedocs.io/en/latest](https://mbed-tls.readthedocs.io/en/latest/)
 
 - Other PSA Certified APIs are included in the TF-M project.
-  [www.trustedfirmware.org/projects/tf-m/](https://www.trustedfirmware.org/projects/tf-m/)
+  [www.trustedfirmware.org/projects/tf-m](https://www.trustedfirmware.org/projects/tf-m/)
 
 - Trusted Services implements those services in a Trusted Execution Environment on Cortex A processors.
-  [www.trustedfirmware.org/projects/trusted-services/](https://www.trustedfirmware.org/projects/trusted-services/)
+  [www.trustedfirmware.org/projects/trusted-services](https://www.trustedfirmware.org/projects/trusted-services/)
 
 - PARSEC is a Rust-based Linux microservice based on the Crypto API.
   [parsec.community](https://parsec.community)
 
 - Oberon PSA Crypto offers a way to support both hardware and optimized software crypto routines under the PSA Crypto API.
-  [www.oberon-psa-crypto.ch/](https://www.oberon-psa-crypto.ch/)
+  [www.oberon-psa-crypto.ch](https://www.oberon-psa-crypto.ch/)
 
 - RIOT OS is integrating the Crypto API at a system-level for all crypto needs.
-  [www.riot-os.org/](https://www.riot-os.org/) and the associated paper at [https://arxiv.org/abs/2208.09281](https://arxiv.org/abs/2208.09281). The RIOT OS uses the Crypto Driver Interface to integrate secure elements.
+  [www.riot-os.org](https://www.riot-os.org/) and the associated paper at [https://arxiv.org/abs/2208.09281](https://arxiv.org/abs/2208.09281). The RIOT OS uses the Crypto Driver Interface to integrate secure elements.
 
 
 ## Crypto driver implementations
@@ -42,10 +42,10 @@ Mbed TLS is developing a hardware driver interface that complements the Crypto A
 ## API usage
 
 - Mbed TLS implements TLS stack for embedded usage, based on Crypto API. Mbed TLS also uses the Secure Storage API for the Crypto implementation of key storage.
-  [mbed-tls.readthedocs.io/en/latest/](https://mbed-tls.readthedocs.io/en/latest/)
+  [mbed-tls.readthedocs.io/en/latest](https://mbed-tls.readthedocs.io/en/latest/)
 
 - WolfSSL can consume PSA-compliant crypto backends.
-  [www.wolfssl.com/platform-security-architecture-psa-crypto-api-support-wolfssl/](https://www.wolfssl.com/platform-security-architecture-psa-crypto-api-support-wolfssl/)
+  [www.wolfssl.com/platform-security-architecture-psa-crypto-api-support-wolfssl](https://www.wolfssl.com/platform-security-architecture-psa-crypto-api-support-wolfssl/)
 
 - t_cose uses PSA Crypto APIs for portability.
   [github.com/laurencelundblade/t_cose](https://github.com/laurencelundblade/t_cose)
