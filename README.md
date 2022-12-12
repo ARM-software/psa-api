@@ -14,7 +14,7 @@ This GitHub repository contains:
 *  Discussions of updates to the specifications
 *  Proposed changes to the specifications
 
-Officially released documents and sample code can be found in the associated [PSA Certified API website](https://arm-software.github.io/psa-api/).
+Officially released specification documents can be found in the associated [PSA Certified API website](https://arm-software.github.io/psa-api/).
 
 ## Specifications
 
