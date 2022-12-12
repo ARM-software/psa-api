@@ -7,6 +7,12 @@
 Change history
 ==============
 
+Changes between version 1.0.1 and version 1.0.2
+-----------------------------------------------
+
+*  Removed the whitespace within the definition of some of the status codes. The whitespace was erroneously introduced during the separation from the :cite-title:`PSA-FFM`. This change is necessary to ensure that multiple definitions of the same status code are identical, as required by the C language.
+
+
 Changes between version 1.0.0 and version 1.0.1
 -----------------------------------------------
 
