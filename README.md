@@ -14,7 +14,7 @@ This GitHub repository contains:
 *  Discussions of updates to the specifications
 *  Proposed changes to the specifications
 
-Officially released documents and sample code can be found in the associated [PSA Certified API website](https://arm-software.github.io/psa-api/).
+Officially released specification documents can be found in the associated [PSA Certified API website](https://arm-software.github.io/psa-api/).
 
 ## Specifications
 
@@ -26,7 +26,7 @@ Crypto API | [1.1.1][crypto-specs] | [doc/crypto/] | [headers/crypto/1.1/] | [Pr
 Secure Storage API | [1.0.1][storage-specs] | [doc/storage/] |  [headers/storage/1.0/] | [Project board][storage-dash] |
 Attestation API | [1.0.3][attestation-specs] | [doc/attestation/] |  [headers/attestation/1.0/] | [Project board][attestation-dash] |
 Firmware Update API | [1.0 Beta][fwu-specs] | [doc/fwu/] |  [headers/fwu/1.0/] | [Project board][fwu-dash]
-Status code API | [1.0.1][status-specs] | [doc/status-code/] |  [headers/status-code/1.0/] | [Project board][status-code-dash] |
+Status code API | [1.0.2][status-specs] | [doc/status-code/] |  [headers/status-code/1.0/] | [Project board][status-code-dash] |
 
 [crypto-specs]:         https://arm-software.github.io/psa-api/crypto/
 [storage-specs]:        https://arm-software.github.io/psa-api/storage/
