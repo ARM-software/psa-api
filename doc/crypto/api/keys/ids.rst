@@ -1,9 +1,6 @@
 .. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
-.. header:: psa/crypto
-    :seq: 14
-
 .. _key-identifiers:
 
 Key identifiers
@@ -30,12 +27,18 @@ Valid key identifiers must have distinct values within the same application. If 
 Key identifier type
 -------------------
 
+.. header:: psa/crypto
+    :seq: 11
+
 .. typedef:: uint32_t psa_key_id_t
 
     .. summary::
         Key identifier.
 
     A key identifier can be a permanent name for a persistent key, or a transient reference to volatile key. See :secref:`key-identifiers`.
+
+.. header:: psa/crypto
+    :seq: 15
 
 .. macro:: PSA_KEY_ID_NULL
     :definition: ((psa_key_id_t)0)

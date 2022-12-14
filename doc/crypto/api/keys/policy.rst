@@ -2,7 +2,7 @@
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
-    :seq: 15
+    :seq: 17
 
 .. _key-policy:
 
