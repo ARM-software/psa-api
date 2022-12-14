@@ -36,7 +36,7 @@ Specification | Extension | | | | |
 Crypto API | PAKE | 1.1 Beta | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [All versions](crypto/)
 
 [status-code-html]:  status-code/1.0/
-[status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.1.pdf
+[status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.2.pdf
 [crypto-html]:       crypto/1.1/
 [crypto-pdf]:        crypto/1.1/IHI0086-PSA_Certified_Crypto_API-1.1.1.pdf
 [storage-html]:      storage/1.0/

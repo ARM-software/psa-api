@@ -26,12 +26,14 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
-1.0.1 | [HTML][1-0-html] | [&darr; PDF][1-0-1-pdf] | October 2022
+1.0.2 | [HTML][1-0-html] | [&darr; PDF][1-0-2-pdf] | December 2022
+1.0.1 | | [&darr; PDF][1-0-1-pdf] | October 2022
 
 Prior to version 1.0.1, the PSA status codes were defined as part of the *PSA Firmware Framework for M 1.0* specification. This can be downloaded from [arm.com&#8599;][ffm-1-0-pdf].
 
 [1-0-html]:             1.0/
 [1-0-1-pdf]:            1.0/IHI0097-PSA_Certified_Status_code_API-1.0.1.pdf
+[1-0-2-pdf]:            1.0/IHI0097-PSA_Certified_Status_code_API-1.0.2.pdf
 
 [ffm-1-0-pdf]:          https://developer.arm.com/-/media/Files/pdf/PlatformSecurityArchitecture/Architect/DEN0063-PSA_Firmware_Framework-1.0.0-2.pdf
 
