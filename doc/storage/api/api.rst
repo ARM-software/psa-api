@@ -558,14 +558,14 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
     .. retval:: PSA_SUCCESS
         The storage was successfully reserved.
-    .. retval:: PSA_ERROR_STORAGE_FAILURE
-        The operation failed because the physical storage has failed (Fatal error).
     .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
         ``capacity`` is bigger than the current available space.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The function is not implemented or one or more ``create_flags`` are not supported.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The operation failed because the ``uid`` is ``0``.
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+        The operation failed because the physical storage has failed (Fatal error).
     .. retval:: PSA_ERROR_GENERIC_ERROR
         The operation has failed due to an unspecified error.
     .. retval:: PSA_ERROR_ALREADY_EXISTS
@@ -609,8 +609,6 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
     .. retval:: PSA_SUCCESS
         The asset exists, the input parameters are correct and the data is correctly written in the physical storage.
-    .. retval:: PSA_ERROR_STORAGE_FAILURE
-        The data was not written correctly in the physical storage.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The operation failed because either:
 
@@ -623,6 +621,8 @@ These definitions must be defined in the header file :file:`psa/protected_storag
         The specified ``uid`` was not found.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The implementation does not support this function.
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+        The operation failed because the physical storage has failed (Fatal error).
     .. retval:: PSA_ERROR_GENERIC_ERROR
         The operation failed due to an unspecified error.
     .. retval:: PSA_ERROR_DATA_CORRUPT
@@ -648,13 +648,13 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
     * ``data_offset <= size``
 
-
     * ``data_offset + data_length <= capacity``
+
+    * Even if all parameters are correct, the function can fail in the case of a storage failure.
 
     On Success:
 
     * ``size = max(size, data_offset + data_length)``
-
 
     * ``capacity`` unchanged.
 
