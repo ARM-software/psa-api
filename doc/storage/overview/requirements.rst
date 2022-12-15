@@ -26,8 +26,8 @@ Internal Trusted Storage requirements
 1.  The storage underlying the Internal Trusted Storage service must be protected from read and modification by attackers with physical access to the device.
 2.  The storage underlying the Internal Trusted Storage service must be protected from direct read or write access from software partitions outside of the :term:`Platform Root of Trust`.
 3.  The technology and techniques used by the Internal Trusted Storage service must allow for frequent writes and data updates.
-4.  The Internal Trusted Storage service MAY provide confidentiality using cryptographic ciphers.
-5.  The Internal Trusted Storage service MAY provide integrity protection using cryptographic Message Authentication Codes (MAC) or signatures.
+4.  Confidentiality of data stored by the Internal Trusted Storage service can be implemented using an inaccessible deployment location, cryptographic ciphers, or a combination of these techniques.
+5.  Integrity of data stored by the Internal Trusted Storage service can be implemented using an inaccessible deployment location, cryptographic Message Authentication Codes (MAC) or signatures, or a combination of these techniques.
 6.  The Internal Trusted Storage service must provide protection from one partition accessing the storage assets of a different partition.
 7.  The Internal Trusted Storage service must use the partition identifier associated with each request for its access control mechanism.
 8.  The medium and methods utilized by a Internal Trusted Storage service must provide confidentiality within the threat model of the system.
