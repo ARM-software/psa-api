@@ -465,8 +465,6 @@ Key derivation functions
 
     See :secref:`multi-part-operations`.
 
-    Implementations must reject an attempt to derive a key of size ``0``.
-
 .. function:: psa_key_derivation_get_capacity
 
     .. summary::
@@ -751,7 +749,7 @@ Key derivation functions
 
         *   The key type is invalid, or is an asymmetric public key type.
         *   The key type is `PSA_KEY_TYPE_PASSWORD_HASH`, and the permitted-algorithm policy is not the same as the current operation's algorithm.
-        *   The key size is not valid for the key type.
+        *   The key size is not valid for the key type. Implementations must reject an attempt to derive a key of size ``0``.
         *   The key lifetime is invalid.
         *   The key identifier is not valid for the key lifetime.
         *   The key usage flags include invalid values.
