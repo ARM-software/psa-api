@@ -181,8 +181,16 @@ the use of a multi-part operation:
 *   Separating the AEAD authentication tag from the cipher text.
 
 Each multi-part operation defines a specific object type to maintain the state
-of the operation. These types are implementation-defined. All multi-part
-operations follow the same pattern of use:
+of the operation. These types are implementation-defined.
+
+All multi-part operations follow the same pattern of use, which is shown in :numref:`fig-multi-part`.
+
+.. figure::  /figure/multi_part_operation.*
+    :name: fig-multi-part
+
+    General state model for a multi-part operation
+
+The typical sequence of actions with a multi-part operation is as follows:
 
 1.  **Allocate:** Allocate memory for an operation object of the appropriate
     type. The application can use any allocation strategy: stack, heap, static, etc.
@@ -225,15 +233,18 @@ operations follow the same pattern of use:
     On success, the operation object returns to the *inactive* state. On
     failure, the operation object will enter an *error* state.
 
-An operation can be aborted at any stage during its use by calling the
-associated ``psa_xxx_abort()`` function. This will release any resources
-associated with the operation and return the operation object to the *inactive*
-state.
+#.  **Abort:** An operation can be aborted at any stage during its use by
+    calling the associated ``psa_xxx_abort()`` function. This will release any
+    resources associated with the operation and return the operation object to
+    the *inactive* state.
 
-Any error that occurs to an operation while it is in an *active* state will
-result in the operation entering an *error* state. The application must call the
-associated ``psa_xxx_abort()`` function to release the operation resources and
-return the object to the *inactive* state.
+    Any error that occurs to an operation while it is in an *active* state
+    will result in the operation entering an *error* state. The application
+    must call the associated ``psa_xxx_abort()`` function to release the
+    operation resources and return the object to the *inactive* state.
+
+    ``psa_xxx_abort()`` can be called on an *inactive* operation, and this
+    has no effect.
 
 .. rationale::
 
