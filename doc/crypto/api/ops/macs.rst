@@ -348,7 +348,7 @@ Multi-part MAC operations
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
-        Success.
+        Success. The operation is now active.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
@@ -379,18 +379,22 @@ Multi-part MAC operations
 
     The sequence of operations to calculate a MAC is as follows:
 
-    1.  Allocate an operation object which will be passed to all the functions listed here.
+    1.  Allocate a MAC operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_mac_operation_t`, e.g. `PSA_MAC_OPERATION_INIT`.
     #.  Call `psa_mac_sign_setup()` to specify the algorithm and key.
     #.  Call `psa_mac_update()` zero, one or more times, passing a fragment of the message each time. The MAC that is calculated is the MAC of the concatenation of these messages in order.
     #.  At the end of the message, call `psa_mac_sign_finish()` to finish calculating the MAC value and retrieve it.
 
-    If an error occurs at any step after a call to `psa_mac_sign_setup()`, the operation will need to be reset by a call to `psa_mac_abort()`. The application can call `psa_mac_abort()` at any time after the operation has been initialized.
-
-    After a successful call to `psa_mac_sign_setup()`, the application must eventually terminate the operation through one of the following methods:
+    After a successful call to `psa_mac_sign_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
 
     *   A successful call to `psa_mac_sign_finish()`.
     *   A call to `psa_mac_abort()`.
+
+    If `psa_mac_sign_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_mac_abort()`.
+
+    See :secref:`multi-part-operations`.
 
 .. function:: psa_mac_verify_setup
 
@@ -407,7 +411,7 @@ Multi-part MAC operations
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
-        Success.
+        Success. The operation is now active.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
@@ -438,18 +442,22 @@ Multi-part MAC operations
 
     The sequence of operations to verify a MAC is as follows:
 
-    1.  Allocate an operation object which will be passed to all the functions listed here.
+    1.  Allocate a MAC operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_mac_operation_t`, e.g. `PSA_MAC_OPERATION_INIT`.
     #.  Call `psa_mac_verify_setup()` to specify the algorithm and key.
     #.  Call `psa_mac_update()` zero, one or more times, passing a fragment of the message each time. The MAC that is calculated is the MAC of the concatenation of these messages in order.
     #.  At the end of the message, call `psa_mac_verify_finish()` to finish calculating the actual MAC of the message and verify it against the expected value.
 
-    If an error occurs at any step after a call to `psa_mac_verify_setup()`, the operation will need to be reset by a call to `psa_mac_abort()`. The application can call `psa_mac_abort()` at any time after the operation has been initialized.
-
-    After a successful call to `psa_mac_verify_setup()`, the application must eventually terminate the operation through one of the following methods:
+    After a successful call to `psa_mac_verify_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
 
     *   A successful call to `psa_mac_verify_finish()`.
     *   A call to `psa_mac_abort()`.
+
+    If `psa_mac_verify_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_mac_abort()`.
+
+    See :secref:`multi-part-operations`.
 
 .. function:: psa_mac_update
 
