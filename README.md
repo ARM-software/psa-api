@@ -67,6 +67,14 @@ Crypto API | PAKE | [1.1 Beta 1][crypto-specs] |  [doc/ext-pake/] | [headers/cry
 
 Reference header files for each minor version of each API are provided in the [headers/](headers) folder.
 
+## Test Suite
+
+Test suites are available to validate compliance of API implementations against the specifications for Crypto, Attestation, and Secure Storage APIs, from:
+[github.com/ARM-software/psa-arch-tests](https://github.com/ARM-software/psa-arch-tests)
+
+Compliance badges can be obtained from [PSA Certified](https://www.psacertified.org/getting-certified/functional-api-certification/) to showcase compatible products.
+
+
 ## Example source code
 
 Source code examples of both usage, and implementation, of the PSA Certified APIs are provided in the [examples/](/examples) folder.
