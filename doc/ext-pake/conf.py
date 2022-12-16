@@ -29,12 +29,12 @@ doc_info = {
     'quality': 'BET',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 1,
+    'issue_no': 2,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     'release_candidate': None,
     # Draft status - use this to indicate the document is not ready for publication
-    #'draft': True,
+    'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
