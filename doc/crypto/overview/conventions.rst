@@ -123,15 +123,16 @@ undefined behavior condition can be detected. However, application developers ne
 Behavior on error
 ^^^^^^^^^^^^^^^^^
 
-All function calls must be implemented atomically:
+In general, function calls must be implemented atomically:
 
 *   When a function returns a type other than :code:`psa_status_t`, the requested
     action has been carried out.
 *   When a function returns the status :code:`PSA_SUCCESS`, the requested action has
     been carried out.
 *   When a function returns another status of type :code:`psa_status_t`, no action
-    has been carried out. The content of the output parameters is undefined, but
-    otherwise the state of the system has not changed, except as described below.
+    has been carried out. Unless otherwise documented by the API or the
+    implementation, the content of output parameters is not defined. The state of
+    the system has not changed, except as described below.
 
 In general, functions that modify the system state, for example, creating or
 destroying a key, must leave the system state unchanged if they return an error
@@ -139,9 +140,9 @@ code. There are specific conditions that can result in different behavior:
 
 *   The status :code:`PSA_ERROR_BAD_STATE` indicates that a parameter was not in a
     valid state for the requested action. This parameter might have been modified
-    by the call and is now in an undefined state. The only valid action on an
-    object in an undefined state is to abort it with the appropriate
-    ``psa_abort_xxx()`` function.
+    by the call and is now in an error state. The only valid action on an
+    object in an error state is to abort it with the appropriate
+    ``psa_xxx_abort()`` function. See :secref:`multi-part-operations`.
 *   The status :code:`PSA_ERROR_INSUFFICIENT_DATA` indicates that a key
     derivation object has reached its maximum capacity. The key derivation
     operation might have been modified by the call. Any further attempt to obtain
@@ -163,11 +164,12 @@ code. There are specific conditions that can result in different behavior:
 *   Some system states cannot be rolled back, for example, the internal state of
     the random number generator or the content of access logs.
 
-Unless otherwise documented, the content of output parameters is not defined
-when a function returns a status other than :code:`PSA_SUCCESS`. It is recommended
-that implementations set output parameters to safe defaults to avoid leaking
-confidential data and limit risk, in case an application does not properly
-handle all errors.
+.. admonition:: Implementation note
+
+    When a function returns an error status, it is recommended
+    that implementations set output parameters to safe defaults to avoid leaking
+    confidential data and limit risk, in case an application does not properly
+    handle all errors.
 
 Parameter conventions
 ~~~~~~~~~~~~~~~~~~~~~
