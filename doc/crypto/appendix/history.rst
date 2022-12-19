@@ -11,6 +11,20 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.1.1* and *1.1.2*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Clarify the requirements on the ``hash`` parameter in the `psa_sign_hash()` and `psa_verify_hash()` functions.
+
+Other changes
+~~~~~~~~~~~~~
+
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
