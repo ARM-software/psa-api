@@ -648,7 +648,7 @@ PAKE step types
     *   For Montgomery curves, the encoding is little endian.
     *   For other Elliptic curves, and for Diffie-Hellman groups, the encoding is big endian. See :cite:`SEC1` §2.3.8.
 
-    In both cases leading zeroes are allowed as long as the length in bytes does not exceed the byte length of the group order.
+    In both cases leading zeroes are permitted as long as the length in bytes does not exceed the byte length of the group order.
 
     For information regarding how the group is determined, consult the documentation `PSA_PAKE_PRIMITIVE()`.
 
@@ -783,7 +783,7 @@ Multi-part PAKE operations
         Identifier of the key holding the password or a value derived from the password.
         It must remain valid until the operation terminates.
         It must be of type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        It must allow the usage :code:`PSA_KEY_USAGE_DERIVE`.
+        It must permit the usage :code:`PSA_KEY_USAGE_DERIVE`.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS

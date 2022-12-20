@@ -295,7 +295,7 @@ Input step types
 
     This is typically a key of type `PSA_KEY_TYPE_DERIVE` passed to `psa_key_derivation_input_key()`, or the shared secret resulting from a key agreement obtained via `psa_key_derivation_key_agreement()`.
 
-    The secret can also be a direct input passed to `psa_key_derivation_input_bytes()`. In this case, the derivation operation cannot be used to derive keys: the operation will not allow a call to `psa_key_derivation_output_key()`.
+    The secret can also be a direct input passed to `psa_key_derivation_input_bytes()`. In this case, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()`.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_OTHER_SECRET
     :definition: /* implementation-defined value */
@@ -313,7 +313,7 @@ Input step types
 
     This is usually a key of type `PSA_KEY_TYPE_PASSWORD` passed to `psa_key_derivation_input_key()` or a direct input passed to `psa_key_derivation_input_bytes()` that is a password or passphrase. It can also be high-entropy secret, for example, a key of type `PSA_KEY_TYPE_DERIVE`, or the shared secret resulting from a key agreement.
 
-    If the secret is a direct input, the derivation operation cannot be used to derive keys: the operation will not allow a call to `psa_key_derivation_output_key()`.
+    If the secret is a direct input, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()`.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_LABEL
     :definition: /* implementation-defined value */
@@ -538,7 +538,7 @@ Key derivation functions
         The following conditions can result in this error:
 
         *   ``step`` is not compatible with the operation's algorithm.
-        *   ``step`` does not allow direct inputs.
+        *   ``step`` does not permit direct inputs.
         *   ``data_length`` is too small or too large for ``step`` in this particular algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
@@ -582,7 +582,7 @@ Key derivation functions
         The following conditions can result in this error:
 
         *   ``step`` is not compatible with the operation's algorithm.
-        *   ``step`` does not allow numerical inputs.
+        *   ``step`` does not permit numerical inputs.
         *   ``value`` is not valid for ``step`` in the operation's algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
@@ -619,7 +619,7 @@ Key derivation functions
     .. param:: psa_key_derivation_step_t step
         Which step the input data is for.
     .. param:: psa_key_id_t key
-        Identifier of the key. The key must have an appropriate type for ``step``, it must allow the usage `PSA_KEY_USAGE_DERIVE` or `PSA_KEY_USAGE_VERIFY_DERIVATION` (see note_), and it must permit the algorithm used by the operation.
+        Identifier of the key. The key must have an appropriate type for ``step``, it must permit the usage `PSA_KEY_USAGE_DERIVE` or `PSA_KEY_USAGE_VERIFY_DERIVATION` (see note_), and it must permit the algorithm used by the operation.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -632,7 +632,7 @@ Key derivation functions
         The following conditions can result in this error:
 
         *   ``step`` is not compatible with the operation's algorithm.
-        *   ``step`` does not allow key inputs of the given type, or does not allow key inputs at all.
+        *   ``step`` does not permit key inputs of the given type, or does not permit key inputs at all.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
@@ -683,7 +683,7 @@ Key derivation functions
         Success.
         The first ``output_length`` bytes of ``output`` contain the derived data.
     .. retval:: PSA_ERROR_NOT_PERMITTED
-        One of the inputs was a key whose policy did not allow `PSA_KEY_USAGE_DERIVE`.
+        One of the inputs was a key whose policy did not permit `PSA_KEY_USAGE_DERIVE`.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
         The operation's capacity was less than ``output_length`` bytes. In this case, the following occurs:
 
@@ -759,7 +759,7 @@ Key derivation functions
         The following conditions can result in this error:
 
         *   The `PSA_KEY_DERIVATION_INPUT_SECRET` input step was neither provided through a key, nor the result of a key agreement.
-        *   One of the inputs was a key whose policy did not allow `PSA_KEY_USAGE_DERIVE`.
+        *   One of the inputs was a key whose policy did not permit `PSA_KEY_USAGE_DERIVE`.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_BAD_STATE
         The following conditions can result in this error:
@@ -940,7 +940,7 @@ Key derivation functions
         if (memcmp(expected_output, tmp, output_length) != 0)
             return PSA_ERROR_INVALID_SIGNATURE;
 
-    However, calling `psa_key_derivation_verify_bytes()` works even if the key's policy does not allow output of the bytes.
+    However, calling `psa_key_derivation_verify_bytes()` works even if the key's policy does not permit output of the bytes.
 
     If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA` or :code:`PSA_ERROR_INVALID_SIGNATURE`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
@@ -956,7 +956,7 @@ Key derivation functions
         The key derivation operation object to read from.
     .. param:: psa_key_id_t expected
         A key of type `PSA_KEY_TYPE_PASSWORD_HASH` containing the expected output.
-        The key must allow the usage `PSA_KEY_USAGE_VERIFY_DERIVATION`, and the permitted algorithm must match the operation's algorithm.
+        The key must permit the usage `PSA_KEY_USAGE_VERIFY_DERIVATION`, and the permitted algorithm must match the operation's algorithm.
 
         The value of this key is typically computed by a previous call to psa_key_derivation_output_key().
 

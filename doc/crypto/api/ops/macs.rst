@@ -159,7 +159,7 @@ MAC algorithms
     A key with a minimum-MAC-length MAC wildcard algorithm as permitted-algorithm policy can be used with all MAC algorithms sharing the same base algorithm, and where the (potentially truncated) MAC length of the specific algorithm is equal to or larger then the wildcard algorithm's minimum MAC length.
 
     ..  note::
-        When setting the minimum required MAC length to less than the smallest MAC length allowed by the base algorithm, this effectively becomes an 'any-MAC-length-allowed' policy for that base algorithm.
+        When setting the minimum required MAC length to less than the smallest MAC length permitted by the base algorithm, this effectively becomes an 'any-MAC-length-permitted' policy for that base algorithm.
 
     The untruncated MAC algorithm can be recovered using `PSA_ALG_FULL_LENGTH_MAC()`.
 
@@ -178,7 +178,7 @@ Single-part MAC functions
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation.
-        It must allow the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
+        It must permit the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
     .. param:: psa_algorithm_t alg
         The MAC algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_MAC(alg)` is true.
     .. param:: const uint8_t * input
@@ -239,7 +239,7 @@ Single-part MAC functions
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation.
-        It must allow the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
+        It must permit the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
     .. param:: psa_algorithm_t alg
         The MAC algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_MAC(alg)` is true.
     .. param:: const uint8_t * input
@@ -342,7 +342,7 @@ Multi-part MAC operations
         The operation object to set up. It must have been initialized as per the documentation for `psa_mac_operation_t` and not yet in use.
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must remain valid until the operation terminates.
-        It must allow the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
+        It must permit the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
     .. param:: psa_algorithm_t alg
         The MAC algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_MAC(alg)` is true.
 
@@ -405,7 +405,7 @@ Multi-part MAC operations
         The operation object to set up. It must have been initialized as per the documentation for `psa_mac_operation_t` and not yet in use.
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must remain valid until the operation terminates.
-        It must allow the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
+        It must permit the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
     .. param:: psa_algorithm_t alg
         The MAC algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_MAC(alg)` is true.
 

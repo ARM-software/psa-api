@@ -284,7 +284,7 @@ Single-part cipher functions
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation.
-        It must allow the usage `PSA_KEY_USAGE_ENCRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_ENCRYPT`.
     .. param:: psa_algorithm_t alg
         The cipher algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_CIPHER(alg)` is true.
     .. param:: const uint8_t * input
@@ -346,7 +346,7 @@ Single-part cipher functions
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must remain valid until the operation terminates.
-        It must allow the usage `PSA_KEY_USAGE_DECRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_DECRYPT`.
     .. param:: psa_algorithm_t alg
         The cipher algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_CIPHER(alg)` is true.
     .. param:: const uint8_t * input
@@ -463,7 +463,7 @@ Multi-part cipher operations
         The operation object to set up. It must have been initialized as per the documentation for `psa_cipher_operation_t` and not yet in use.
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must remain valid until the operation terminates.
-        It must allow the usage `PSA_KEY_USAGE_ENCRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_ENCRYPT`.
     .. param:: psa_algorithm_t alg
         The cipher algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_CIPHER(alg)` is true.
 
@@ -525,7 +525,7 @@ Multi-part cipher operations
         The operation object to set up. It must have been initialized as per the documentation for `psa_cipher_operation_t` and not yet in use.
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must remain valid until the operation terminates.
-        It must allow the usage `PSA_KEY_USAGE_DECRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_DECRYPT`.
     .. param:: psa_algorithm_t alg
         The cipher algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_CIPHER(alg)` is true.
 
