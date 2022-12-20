@@ -711,6 +711,10 @@ Multi-part cipher operations
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_cipher_abort()`.
 
+    .. note::
+
+        This function does not require the input to be aligned to any particular block boundary. If the implementation can only process a whole block at a time, it must consume all the input provided, but it might delay the end of the corresponding output until a subsequent call to `psa_cipher_update()` provides sufficient input, or a subsequent call to `psa_cipher_finish()` indicates the end of the input. The amount of data that can be delayed in this way is bounded by the associated output size macro: `PSA_CIPHER_UPDATE_OUTPUT_SIZE()` or `PSA_CIPHER_FINISH_OUTPUT_SIZE()`.
+
 .. function:: psa_cipher_finish
 
     .. summary::
@@ -719,7 +723,7 @@ Multi-part cipher operations
     .. param:: psa_cipher_operation_t * operation
         Active cipher operation.
     .. param:: uint8_t * output
-        Buffer where the output is to be written.
+        Buffer where the last part of the output is to be written.
     .. param:: size_t output_size
         Size of the ``output`` buffer in bytes. This must be appropriate for the selected algorithm and key:
 
