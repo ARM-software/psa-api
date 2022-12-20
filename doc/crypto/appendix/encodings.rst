@@ -130,7 +130,7 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
     SHAKE256-512, ``0x15``, `PSA_ALG_SHAKE256_512`, ``0x02000015``
     *wildcard* :sup:`a`, ``0xFF``, `PSA_ALG_ANY_HASH`, ``0x020000FF``
 
-a.  The wildcard hash `PSA_ALG_ANY_HASH` can be used to parameterize a signature algorithm which defines a key usage policy, allowing any hash algorithm to be specified in a signature operation using the key.
+a.  The wildcard hash `PSA_ALG_ANY_HASH` can be used to parameterize a signature algorithm which defines a key usage policy, permitting any hash algorithm to be specified in a signature operation using the key.
 
 .. _mac-encoding:
 

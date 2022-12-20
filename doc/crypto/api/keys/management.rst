@@ -164,8 +164,8 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. param:: psa_key_id_t source_key
         The key to copy.
-        It must allow the usage `PSA_KEY_USAGE_COPY`.
-        If a private or secret key is being copied outside of a secure element it must also allow `PSA_KEY_USAGE_EXPORT`.
+        It must permit the usage `PSA_KEY_USAGE_COPY`.
+        If a private or secret key is being copied outside of a secure element it must also permit `PSA_KEY_USAGE_EXPORT`.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key. This function uses the attributes as follows:
 
@@ -202,7 +202,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         The following conditions can result in this error:
 
         *   ``source_key`` does not have the `PSA_KEY_USAGE_COPY` usage flag.
-        *   ``source_key`` does not have the `PSA_KEY_USAGE_EXPORT` usage flag, and its storage location does not allow copying it to the target key's storage location.
+        *   ``source_key`` does not have the `PSA_KEY_USAGE_EXPORT` usage flag, and the location of ``target_key`` is outside the security perimeter of the ``source_key`` storage location.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
@@ -226,7 +226,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     *   The usage flags on the resulting key are the bitwise-and of the usage flags on the source policy and the usage flags in ``attributes``.
     *   If both permit the same algorithm or wildcard-based algorithm, the resulting key has the same permitted algorithm.
-    *   If either of the policies permits an algorithm and the other policy allows a wildcard-based permitted algorithm that includes this algorithm, the resulting key uses this permitted algorithm.
+    *   If either of the policies permits an algorithm and the other policy permits a wildcard-based permitted algorithm that includes this algorithm, the resulting key uses this permitted algorithm.
     *   If the policies do not permit any algorithm in common, this function fails with the status :code:`PSA_ERROR_INVALID_ARGUMENT`.
 
     The effect of this function on implementation-defined attributes is implementation-defined.
@@ -321,7 +321,7 @@ Key export
 
     .. param:: psa_key_id_t key
         Identifier of the key to export.
-        It must allow the usage `PSA_KEY_USAGE_EXPORT`, unless it is a public key.
+        It must permit the usage `PSA_KEY_USAGE_EXPORT`, unless it is a public key.
     .. param:: uint8_t * data
         Buffer where the key data is to be written.
     .. param:: size_t data_size
