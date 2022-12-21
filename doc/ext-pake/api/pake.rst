@@ -275,9 +275,9 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     Input and output during the operation can involve group elements and scalar values:
 
     *   The format for group elements is the same as that for public keys on the specific Elliptic curve.
-        For more information, consult the documentation of :code:`psa_export_public_key()`.
+        For more information, consult the documentation of key formats in `[PSA-CRYPT]`.
     *   The format for scalars is the same as that for private keys on the specific Elliptic curve.
-        For more information, consult the documentation of :code:`psa_export_key()`.
+        For more information, consult the documentation of key formats in `[PSA-CRYPT]`.
 
 
 .. macro:: PSA_PAKE_PRIMITIVE_TYPE_DH
@@ -293,9 +293,9 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     Input and output during the operation can involve group elements and scalar values:
 
     *   The format for group elements is the same as that for public keys in the specific Diffie-Hellman group.
-        For more information, consult the documentation of :code:`psa_export_public_key()`.
+        For more information, consult the documentation of key formats in `[PSA-CRYPT]`.
     *   The format for scalars is the same as that for private keys in the specific Diffie-Hellman group.
-        For more information, consult the documentation of :code:`psa_export_key()`.
+        For more information, consult the documentation of key formats in `[PSA-CRYPT]`.
 
 
 .. typedef:: uint8_t psa_pake_family_t

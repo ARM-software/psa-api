@@ -9,7 +9,21 @@ Changes to the API
 Document change history
 -----------------------
 
-This section provides the detailed changes made between published version of the document.
+This section provides the detailed changes made between published version of the document. See :secref:`key_formats`.
+
+Changes between *1.1.1* and *1.1.2*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Other changes
+~~~~~~~~~~~~~
+
+*   Moved the documentation of supported key import/export formats to a separate section of the specification.
 
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
