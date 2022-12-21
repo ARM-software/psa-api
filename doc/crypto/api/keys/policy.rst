@@ -37,12 +37,12 @@ The following algorithm policies are supported:
 *   An algorithm built from `PSA_ALG_AT_LEAST_THIS_LENGTH_MAC()` allows any MAC algorithm from the same base class (for example, CMAC) which computes or verifies a MAC length greater than or equal to the length encoded in the wildcard algorithm.
 *   An algorithm built from `PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG()` allows any AEAD algorithm from the same base class (for example, CCM) which computes or verifies a tag length greater than or equal to the length encoded in the wildcard algorithm.
 
-When a key is used in a cryptographic operation, the application must supply the algorithm to use for the operation. This algorithm is checked against the key's permitted algorithm policy.
+When a key is used in a cryptographic operation, the application must supply the algorithm to use for the operation. This algorithm is checked against the key's permitted-algorithm policy.
 
 .. function:: psa_set_key_algorithm
 
     .. summary::
-        Declare the permitted algorithm policy for a key.
+        Declare the permitted-algorithm policy for a key.
 
     .. param:: psa_key_attributes_t * attributes
         The attribute object to write to.
@@ -51,9 +51,9 @@ When a key is used in a cryptographic operation, the application must supply the
 
     .. return:: void
 
-    The permitted algorithm policy of a key encodes which algorithm or algorithms are permitted to be used with this key.
+    The permitted-algorithm policy of a key encodes which algorithm or algorithms are permitted to be used with this key.
 
-    This function overwrites any permitted algorithm policy previously set in ``attributes``.
+    This function overwrites any permitted-algorithm policy previously set in ``attributes``.
 
     .. admonition:: Implementation note
 
@@ -62,7 +62,7 @@ When a key is used in a cryptographic operation, the application must supply the
 .. function:: psa_get_key_algorithm
 
     .. summary::
-        Retrieve the permitted algorithm policy from key attributes.
+        Retrieve the permitted-algorithm policy from key attributes.
 
     .. param:: const psa_key_attributes_t * attributes
         The key attribute object to query.

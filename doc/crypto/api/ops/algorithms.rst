@@ -195,7 +195,7 @@ Algorithm categories
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    Wildcard algorithm values can only be used to set the permitted algorithm field in a key policy, wildcard values cannot be used to perform an operation.
+    Wildcard algorithm values can only be used to set the permitted-algorithm field in a key policy, wildcard values cannot be used to perform an operation.
 
     See `PSA_ALG_ANY_HASH` for example of how a wildcard algorithm can be used in a key policy.
 
