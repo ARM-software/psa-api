@@ -183,7 +183,7 @@ Hash algorithms
     .. summary::
         The SM3 message-digest algorithm.
 
-    SM3 is defined in :cite-title:`ISO10118`, and also in :cite-title:`CSTC0004` (English version :cite:`CSTC0004/E`).
+    SM3 is defined in :cite-title:`ISO10118`, and also in :cite-title:`CSTC0004`.
 
 Single-part hashing functions
 -----------------------------
