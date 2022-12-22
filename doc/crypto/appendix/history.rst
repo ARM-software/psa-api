@@ -11,6 +11,22 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.1.1* and *1.1.2*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Clarified the behavior of operation objects following a call to a setup function. Provided a diagram to illustrate :ref:`multi-part operation states <multi-part-operations>`.
+
+Other changes
+~~~~~~~~~~~~~
+
+
+
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

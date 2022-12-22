@@ -336,7 +336,7 @@ Multi-part hashing operations
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
-        Success.
+        Success. The operation is now active.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         ``alg`` is not supported or is not a hash algorithm.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -352,18 +352,22 @@ Multi-part hashing operations
 
     The sequence of operations to calculate a hash (message digest) is as follows:
 
-    1.  Allocate an operation object which will be passed to all the functions listed here.
+    1.  Allocate a hash operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_hash_operation_t`, e.g. `PSA_HASH_OPERATION_INIT`.
     #.  Call `psa_hash_setup()` to specify the algorithm.
     #.  Call `psa_hash_update()` zero, one or more times, passing a fragment of the message each time. The hash that is calculated is the hash of the concatenation of these messages in order.
     #.  To calculate the hash, call `psa_hash_finish()`. To compare the hash with an expected value, call `psa_hash_verify()`. To suspend the hash operation and extract the current state, call `psa_hash_suspend()`.
 
-    If an error occurs at any step after a call to `psa_hash_setup()`, the operation will need to be reset by a call to `psa_hash_abort()`. The application can call `psa_hash_abort()` at any time after the operation has been initialized.
-
-    After a successful call to `psa_hash_setup()`, the application must eventually terminate the operation. The following events terminate an operation:
+    After a successful call to `psa_hash_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
 
     *   A successful call to `psa_hash_finish()` or `psa_hash_verify()` or `psa_hash_suspend()`.
     *   A call to `psa_hash_abort()`.
+
+    If `psa_hash_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_hash_abort()`.
+
+    See :secref:`multi-part-operations`.
 
 .. function:: psa_hash_update
 
