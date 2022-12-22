@@ -105,7 +105,7 @@ does not support a certain algorithm or key type can define such macros in a
 simpler way that does not take unsupported argument values into account.
 
 Some macros define the minimum sufficient output buffer size for certain
-functions. In some cases, an implementation is allowed to require a buffer size
+functions. In some cases, an implementation is permitted to require a buffer size
 that is larger than the theoretical minimum. An implementation must define
 minimum-size macros in such a way that it guarantees that the buffer of the
 resulting size is sufficient for the output of the corresponding function. Refer
