@@ -313,25 +313,11 @@
     :title: GM/T 0002-2012: SM4 block cipher algorithm
     :author: Cryptography Standardization Technical Committee
     :publication: March 2012
-    :url: http://www.gmbz.org.cn/main/viewfile/20180108015408199368.html
-
-.. reference:: CSTC0002/E
-    :title: GM/T 0002-2012: SM4 block cipher algorithm
-    :author: Cryptography Standardization Technical Committee
-    :publication: April 2018 (English version)
-    :url: http://www.gmbz.org.cn/main/postDetail.html?id=20180404044052
 
 .. reference:: CSTC0004
     :title: GM/T 0004-2012: SM3 cryptographic hash algorithm
     :author: Cryptography Standardization Technical Committee
     :publication: March 2012
-    :url: http://www.gmbz.org.cn/main/viewfile/20180108023812835219.html
-
-.. reference:: CSTC0004/E
-    :title: GM/T 0004-2012: SM3 cryptographic hash algorithm
-    :author: Cryptography Standardization Technical Committee
-    :publication: July 2018 (English version)
-    :url: http://www.gmbz.org.cn/main/postDetail.html?id=20180724105928
 
 .. reference:: X9-62
     :title: Public Key Cryptography For The Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)

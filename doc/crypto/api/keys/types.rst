@@ -344,7 +344,7 @@ Symmetric keys
 
     For the XTS block cipher mode (`PSA_ALG_XTS`), the SM4 key size is 256 bits (two 16-byte keys).
 
-    The SM4 block cipher is defined in :cite-title:`CSTC0002` (English version :cite:`CSTC0002/E`).
+    The SM4 block cipher is defined in :cite-title:`CSTC0002`.
 
     .. subsection:: Compatible algorithms
 
