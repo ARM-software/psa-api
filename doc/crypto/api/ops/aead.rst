@@ -748,7 +748,9 @@ Multi-part AEAD operations
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_aead_abort()`.
 
-    This function does not require the input to be aligned to any particular block boundary. If the implementation can only process a whole block at a time, it must consume all the input provided, but it might delay the end of the corresponding output until a subsequent call to `psa_aead_update()`, `psa_aead_finish()` or `psa_aead_verify()` provides sufficient input. The amount of data that can be delayed in this way is bounded by `PSA_AEAD_UPDATE_OUTPUT_SIZE()`.
+    .. note::
+
+        This function does not require the input to be aligned to any particular block boundary. If the implementation can only process a whole block at a time, it must consume all the input provided, but it might delay the end of the corresponding output until a subsequent call to `psa_aead_update()` provides sufficient input, or a subsequent call to `psa_aead_finish()` or `psa_aead_verify()` indicates the end of the input. The amount of data that can be delayed in this way is bounded by the associated output size macro: `PSA_AEAD_UPDATE_OUTPUT_SIZE()`, `PSA_AEAD_FINISH_OUTPUT_SIZE()`, or `PSA_AEAD_VERIFY_OUTPUT_SIZE()`.
 
 .. function:: psa_aead_finish
 
@@ -874,7 +876,8 @@ Multi-part AEAD operations
 
     When this function returns successfully, the operation becomes inactive. If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_aead_abort()`.
 
-    .. note::
+    .. admonition:: Implementation note
+
         Implementations must make the best effort to ensure that the comparison between the actual tag and the expected tag is performed in constant time.
 
 .. function:: psa_aead_abort

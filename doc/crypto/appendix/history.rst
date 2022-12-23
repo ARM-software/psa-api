@@ -11,6 +11,20 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.1.1* and *1.1.2*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Explicitly describe the handling of input and output in `psa_cipher_update()`, consistent with the documentation of `psa_aead_update()`.
+
+Other changes
+~~~~~~~~~~~~~
+
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
