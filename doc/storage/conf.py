@@ -27,12 +27,12 @@ doc_info = {
     'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 1,
+    'issue_no': 2,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     'release_candidate': None,
     # Draft status - use this to indicate the document is not ready for publication
-    #'draft': True,
+    'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -57,6 +57,24 @@ doc_info = {
 
     # Declare a watermark for the PDF output
     #'watermark': 'DRAFT',
+
+    # Optional ordering of return error values
+    # This list is used to create a standard ordering of return value responses
+    # throughout the document, irrespective of their ordering in the source text
+    # Return values that are not in the ordering are sorted above any that are in
+    # the list and appear in source text order.
+
+    'error_order': [
+        'PSA_SUCCESS',
+        'PSA_ERROR_NOT_PERMITTED',
+        'PSA_ERROR_INVALID_SIGNATURE',
+        'PSA_ERROR_DOES_NOT_EXIST',
+        'PSA_ERROR_INVALID_ARGUMENT',
+        'PSA_ERROR_NOT_SUPPORTED',
+        'PSA_ERROR_INSUFFICIENT_STORAGE',
+        'PSA_ERROR_STORAGE_FAILURE',
+        'PSA_ERROR_DATA_CORRUPT',
+    ],
 
     # Include the C Identifier index. Default to True
     'identifier_index': True,

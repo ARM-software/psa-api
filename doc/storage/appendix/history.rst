@@ -31,3 +31,7 @@ Document history
       - *1.0.1 Rel*
       - * Relicensed the document under Attribution-ShareAlike 4.0 International with a patent license derived from Apache License 2.0. See :secref:`license`.
         * Documentation clarifications.
+
+    * - :issue:`TBD`
+      - *1.?.? Rel*
+      - * Documentation clarifications.
