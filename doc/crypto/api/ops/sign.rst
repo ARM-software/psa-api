@@ -15,7 +15,7 @@ There are two pairs of single-part functions for asymmetric signature:
 
 *   The functions `psa_sign_hash()` and `psa_verify_hash()` take a message hash as one of their inputs. This is useful for signing pre-computed hashes, or for implementing hash-and-sign using a :ref:`multi-part hash operation <hash-mp>` before signing the resulting hash. To determine which hash algorithm to use, call the macro `PSA_ALG_GET_HASH()` on the corresponding signature algorithm.
 
-    Some hash-and-sign algorithms add padding to the message hash before completing the signing operation. The format of the padding that is used depends on the algorithm used to construct the signature.
+    Some hash-and-sign algorithms add padding to the message hash before completing the signing operation. The format of the padding that is used depends on the algorithm used to construct the signature, see the description of the specific algorithm for details.
 
 .. _sign-algorithms:
 
@@ -40,7 +40,7 @@ Asymmetric signature algorithms
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
-    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is used as *H* from step 2 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. *H* is usually the message digest, using the ``hash_alg`` hash algorithm.
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is used as *H* from step 2 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. *H* is the message digest, computed using the ``hash_alg`` hash algorithm.
 
     .. subsection:: Compatible key types
 
@@ -57,7 +57,7 @@ Asymmetric signature algorithms
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
-    The ``hash`` parameter to `psa_sign_hash()` or `psa_verify_hash()` is used as *T* from step 3 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. *T* is normally the DER encoding of the *DigestInfo* structure produced by step 2 in the message encoding algorithm, but it can be any byte string that within the available length.
+    The ``hash`` parameter to `psa_sign_hash()` or `psa_verify_hash()` is used as *T* from step 3 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. *T* is normally the DER encoding of the *DigestInfo* structure produced by step 2 in the message encoding algorithm, but it can be any byte string within the available length.
 
     The wildcard key policy :code:`PSA_ALG_RSA_PKCS1V15_SIGN(PSA_ALG_ANY_HASH)` also permits a key to be used with the `PSA_ALG_RSA_PKCS1V15_SIGN_RAW` signature algorithm.
 
@@ -96,7 +96,9 @@ Asymmetric signature algorithms
     *   The mask generation function is *MGF1* defined by :RFC:`8017#B`.
     *   When creating a signature, the salt length is equal to the length of the hash, or the largest possible salt length for the algorithm and key size if that is smaller than the hash length.
     *   When verifying a signature, the salt length must be equal to the length of the hash, or the largest possible salt length for the algorithm and key size if that is smaller than the hash length.
-    *   The specified hash algorithm is used to hash the input message, to create the salted hash, and for the mask generation.
+    *   The specified hash algorithm, ``hash_alg``,  is used to hash the input message, to create the salted hash, and for the mask generation.
+
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
 
     .. note::
 
@@ -131,7 +133,9 @@ Asymmetric signature algorithms
     *   The mask generation function is *MGF1* defined by :RFC:`8017#B`.
     *   When creating a signature, the salt length is equal to the length of the hash, or the largest possible salt length for the algorithm and key size if that is smaller than the hash length.
     *   When verifying a signature, any salt length permitted by the RSASSA-PSS signature algorithm is accepted.
-    *   The specified hash algorithm is used to hash the input message, to create the salted hash, and for the mask generation.
+    *   The specified hash algorithm, ``hash_alg``,  is used to hash the input message, to create the salted hash, and for the mask generation.
+
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
 
     .. note::
 
@@ -157,6 +161,8 @@ Asymmetric signature algorithms
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
     This algorithm can be used with both the message and hash signature functions.
+
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -224,6 +230,8 @@ Asymmetric signature algorithms
 
     This algorithm can be used with both the message and hash signature functions.
 
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
+
     This is the deterministic ECDSA signature scheme defined by :RFC-title:`6979`.
 
     The representation of a signature is the same as with `PSA_ALG_ECDSA()`.
@@ -285,6 +293,8 @@ Asymmetric signature algorithms
 
     This computes the Ed25519ph algorithm as specified in :RFC-title:`8032#5.1`, and requires an Edwards25519 curve key. An empty string is used as the context. The prehash function is SHA-512.
 
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the SHA-512 message digest.
+
     .. subsection:: Usage
 
         This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:
@@ -313,6 +323,8 @@ Asymmetric signature algorithms
     This algorithm can be used with both the message and hash signature functions.
 
     This computes the Ed448ph algorithm as specified in :RFC-title:`8032#5.2`, and requires an Edwards448 curve key. An empty string is used as the context. The prehash function is the first 64 bytes of the output from SHAKE256.
+
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the truncated SHAKE256 message digest.
 
     .. subsection:: Usage
 
@@ -497,6 +509,7 @@ Asymmetric signature functions
         *   ``alg`` is not an asymmetric signature algorithm.
         *   ``key`` is not an asymmetric key pair, that is compatible with ``alg``.
         *   ``hash_length`` is not valid for the algorithm and key type.
+        *   ``hash`` is not a valid input value for the algorithm and key type.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -507,7 +520,13 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    With most signature mechanisms that follow the hash-and-sign paradigm, the hash input to this function is the hash of the message to sign. The hash algorithm is encoded in the signature algorithm.
+    With most signature algorithms that follow the hash-and-sign paradigm, the ``hash`` input to this function is the hash of the message to sign. The algorithm used to compute this hash is encoded in the signature algorithm. For such algorithms, ``hash_length`` must equal the length of the hash output, and the following condition is true:
+
+    .. code-block:: xref
+
+        hash_length == PSA_HASH_LENGTH(PSA_ALG_GET_HASH(alg))
+
+    The current version of this specification defines the following signature algorithms with this property: `PSA_ALG_RSA_PKCS1V15_SIGN`, `PSA_ALG_RSA_PSS`, `PSA_ALG_ECDSA`, `PSA_ALG_DETERMINISTIC_ECDSA`, `PSA_ALG_ED25519PH`, and `PSA_ALG_ED448PH`.
 
     Some hash-and-sign mechanisms apply a padding or encoding to the hash. In such cases, the encoded hash must be passed to this function. The current version of this specification defines one such signature algorithm: `PSA_ALG_RSA_PKCS1V15_SIGN_RAW`.
 
@@ -555,6 +574,7 @@ Asymmetric signature functions
         *   ``alg`` is not an asymmetric signature algorithm.
         *   ``key`` is not a public key or an asymmetric key pair, that is compatible with ``alg``.
         *   ``hash_length`` is not valid for the algorithm and key type.
+        *   ``hash`` is not a valid input value for the algorithm and key type.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -564,7 +584,13 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    With most signature mechanisms that follow the hash-and-sign paradigm, the hash input to this function is the hash of the message to sign. The hash algorithm is encoded in the signature algorithm.
+    With most signature algorithms that follow the hash-and-sign paradigm, the ``hash`` input to this function is the hash of the message to verify. The algorithm used to compute this hash is encoded in the signature algorithm. For such algorithms, ``hash_length`` must equal the length of the hash output, and the following condition is true:
+
+    .. code-block:: xref
+
+        hash_length == PSA_HASH_LENGTH(PSA_ALG_GET_HASH(alg))
+
+    The current version of this specification defines the following signature algorithms with this property: `PSA_ALG_RSA_PKCS1V15_SIGN`, `PSA_ALG_RSA_PSS`, `PSA_ALG_ECDSA`, `PSA_ALG_DETERMINISTIC_ECDSA`, `PSA_ALG_ED25519PH`, and `PSA_ALG_ED448PH`.
 
     Some hash-and-sign mechanisms apply a padding or encoding to the hash. In such cases, the encoded hash must be passed to this function. The current version of this specification defines one such signature algorithm: `PSA_ALG_RSA_PKCS1V15_SIGN_RAW`.
 
