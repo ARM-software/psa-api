@@ -1,0 +1,36 @@
+' SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+'' State diagram
+!include atg-spec.pumh
+
+skinparam LegendFontSize 12
+
+legend bottom
+  <color:blue>--""———""--</color> Blue transitions apply to a single component
+  <color:darkred>--""———""--</color> Red transitions apply to all components
+  "" † "" Transient state: **reboot** is equivalent to ""cancel"" and ""clean""
+  "" ‡ "" Transient state: **reboot** is equivalent to ""clean""
+end legend
+
+state Start as "READY"
+state Writing as "WRITING †"
+state Candidate as "CANDIDATE †"
+state Failed as "FAILED ‡"
+state Updated as "UPDATED ‡"
+state End as "READY"
+
+Start -[#blue]-> Writing : ""start""
+Writing -[#blue]-> Writing : ""write""
+Writing -[#blue]-> Candidate : ""finish""
+Writing -d[#blue]-> Failed : ""cancel""
+Candidate -[#darkred]-> Updated : ""install"":\n//install success//
+Candidate -r[#blue]-> Failed : ""cancel""
+
+Failed -u[#blue]-> Start: ""clean""
+
+Updated -[#blue]-> End : ""clean""
+
+@enduml

@@ -11,7 +11,7 @@ Changes between version *1.0 Beta* and *1.0.0*
 
 .. rubric:: General changes
 
-*
+*  Described the impact of volatile staging on the component state model. See :secref:`state-model` and :secref:`variations-volatile`.
 
 .. rubric:: API changes
 
