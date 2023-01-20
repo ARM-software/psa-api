@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Introduction
@@ -30,14 +30,14 @@ Connected devices need a reliable and secure firmware update mechanism. Incorpor
 
    A typical over-the-air firmware update scenario
 
-In this example, the new firmware is uploaded by the Firmware creator to an Update server. The Update server communicates with an Update client application on the device, announcing the availability of new firmware. The Client downloads the new firmware, and installs it into the device firmware storage.
+In this example, the new firmware is uploaded by the Firmware creator to an Update server. The Update server communicates with an Update client application on the device, announcing the availability of new firmware. The client downloads the new firmware, and installs it into the device firmware storage.
 
 In :numref:`fig-context`, the Update client has to combine the following capabilities:
 
 * The specific protocols used by the network operator in which the device is deployed
 * The specific mechanism used by the hardware platform to install firmware for execution
 
-Devices developed for the Internet of Things (IoT) have a very diverse ecosystem of hardware and software developers, and utilize a broad set of communication protocols and technologies. This will lead to a large, fragmented set of Update Clients, that are each tightly coupled to one hardware platform and one network protocol.
+Devices developed for the Internet of Things (IoT) have a very diverse ecosystem of hardware and software developers, and utilize a broad set of communication protocols and technologies. This will lead to a large, fragmented set of Update clients, that are each tightly coupled to one hardware platform and one network protocol.
 
 The |API| separates the software responsible for delivering the new firmware in the device, from the software that is responsible for storing and installing it in the device memory. :numref:`fig-api` shows how the |API| separates an Update client, which obtains the new firmware from the Firmware Server, from an Update service, which stores the firmware in the device memory.
 
