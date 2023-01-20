@@ -1,4 +1,4 @@
-' SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 ' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 @startuml
@@ -9,24 +9,24 @@
 skinparam LegendFontSize 12
 
 legend bottom
-  "" * "" Transient states that always transition at **reboot**
   <color:blue>--""———""--</color> Blue transitions apply to a single component
-  <color:darkred>--""———""--</color> Red transitions apply to all compoments
+  <color:darkred>--""———""--</color> Red transitions apply to all components
   ""---"" Dashed lines indicate a transition over **reboot**
+  "" * "" Transient state: transitions at **reboot**
 end legend
 
 state Start as "READY"
-state Staging as "WRITING"
+state Writing as "WRITING"
 state Candidate as "CANDIDATE"
 state Staged as "STAGED *"
 state Failed as "FAILED"
 state Updated as "UPDATED"
 state End as "READY"
 
-Start -[#blue]-> Staging : ""start""
-Staging -[#blue]-> Staging : ""write""
-Staging -[#blue]-> Candidate : ""finish""
-Staging -[#blue]-> Failed : ""cancel""
+Start -[#blue]-> Writing : ""start""
+Writing -[#blue]-> Writing : ""write""
+Writing -[#blue]-> Candidate : ""finish""
+Writing -[#blue]-> Failed : ""cancel""
 Candidate -r[#blue]-> Failed : ""cancel""
 Candidate -d[#darkred]-> Staged : ""install""
 

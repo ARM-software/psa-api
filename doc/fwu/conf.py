@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 # PSA Certified API specification configuration
@@ -24,14 +24,14 @@ doc_info = {
     # The short X.Y version. MANDATORY
     'version': '1.0',
     # Arm document quality status, marked as open issue if not provided
-    'quality': 'BET',
+    'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
     'issue_no': 0,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     'release_candidate': None,
-#    'draft': True,
+    'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -59,7 +59,7 @@ doc_info = {
     #'watermark': 'DRAFT',
 
     'include_content': [
-        'banner', 'rationale'
+        'rationale'
     ],
 
     # Include the C Identifier index. Default to True

@@ -5,7 +5,7 @@
 
    .. banner::
 
-      This is a Beta quality release. The content is subject to change. To provide feedback, see :secref:`feedback`.
+      This is a DRAFT release. The content is subject to change. To provide feedback, see :secref:`feedback`.
 
    .. abstract::
 

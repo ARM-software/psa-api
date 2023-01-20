@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _change-history:
@@ -6,9 +6,19 @@
 Document change history
 =======================
 
+Changes between version *1.0 Beta* and *1.0.0*
+----------------------------------------------
 
-Changes between version 0.7 and 1.0-bet
----------------------------------------
+.. rubric:: General changes
+
+*
+
+.. rubric:: API changes
+
+*
+
+Changes between version *0.7* and *1.0 Beta*
+--------------------------------------------
 
 .. rubric:: General changes
 
@@ -85,8 +95,8 @@ Changes between version 0.7 and 1.0-bet
 *  Removed Profile IDs, and discussion of SUIT and metadata formats
 
 
-Changes between version 0.6 and 0.7
------------------------------------
+Changes between version *0.6* and *0.7*
+---------------------------------------
 
 
 This section describes detailed changes between past versions.
