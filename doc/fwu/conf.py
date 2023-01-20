@@ -15,7 +15,7 @@ doc_info = {
     'author': 'Arm Limited',
 
     # Document copyright date, default to year of 'date'
-    'copyright_date': '2020-2022',
+    'copyright_date': '2020-2023',
     'copyright': 'Arm Limited and/or its affiliates',
 
     # Arm document identifier, marked as open issue if not provided
