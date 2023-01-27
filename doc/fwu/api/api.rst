@@ -1,9 +1,9 @@
 
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/update
-   :copyright: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+   :copyright: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
    :license: Apache-2.0
    :guard:
    :c++:
@@ -557,13 +557,35 @@ The following functions are used to prepare a new firmware image in the componen
 
    To abandon an update that has been started, call `psa_fwu_cancel()`, and then `psa_fwu_clean()`.
 
+.. macro:: PSA_FWU_WRITE_ALIGN
+   :definition: /* implementation-defined value */
+
+   .. summary::
+      The required alignment of firmware image data blocks when calling `psa_fwu_write()`.
+
+   This values specifies the minimum alignment of a data block within a firmware image, when written using `psa_fwu_write()`. `PSA_FWU_WRITE_ALIGN` is used to constrain the values of ``image_offset`` that are supported, and the handling of a data block of unaligned size, as follows:
+
+   *  If :code:`(image_offset % PSA_FWU_WRITE_ALIGN) != 0`, then the implementation returns :code:`PSA_ERROR_INVALID_ARGUMENT`.
+   *  If :code:`(block_size % PSA_FWU_WRITE_ALIGN) != 0`, then the implementation will pad the data with :scterm:`implementation defined` values up to the next aligned size, before writing the data to the firmware image.
+   *  This value does **not** constrain the alignment of the data buffer, ``block``.
+
+   The specific value is an :scterm:`implementation defined` unsigned integer, and is greater than ``0``. If an implementation does not require stricter-than-byte alignment, then it defines `PSA_FWU_WRITE_ALIGN` to be ``1``.
+
+   .. rationale::
+
+      This value is the minimum size and alignment for writing image data to the firmware store. For example, this can be greater than ``1`` for an implementation where the non-volatile storage used for the firmware store must be written in blocks of a specific size.
+
+      For a component with persistent staging, the data passed to `psa_fwu_write()` must be written into non-volatile storage. If this is not aligned with the blocks of storage, this can result in unnecessary complexity and cost in the implementation.
+
+      Aligning the provided data blocks with `PSA_FWU_WRITE_ALIGN` is the minimum requirement for a client. The recommended approach, shown in the :secref:`example-multi-write` example, using blocks of size `PSA_FWU_MAX_WRITE_SIZE` until the final block, always satisfies the alignment requirement.
+
 .. macro:: PSA_FWU_MAX_WRITE_SIZE
    :definition: /* implementation-defined value */
 
    .. summary::
       The maximum permitted size for ``block`` in `psa_fwu_write()`, in bytes.
 
-   The specific value is :scterm:`implementation defined`, and is greater than ``0``.
+   The specific value is an :scterm:`implementation defined` unsigned integer, and is greater than ``0``. The value must satisfy the condition :code:`(PSA_FWU_MAX_WRITE_SIZE % PSA_FWU_WRITE_ALIGN) == 0`.
 
    .. admonition:: Implementation note
 
@@ -581,10 +603,14 @@ The following functions are used to prepare a new firmware image in the componen
       Identifier of the firmware component being updated.
    .. param:: size_t image_offset
       The offset of the data block in the whole image. The offset of the first block is ``0``.
+
+      The offset must be a multiple of the image alignment value, `PSA_FWU_WRITE_ALIGN`.
    .. param:: const void *block
       A buffer containing a block of image data. This can be a complete image or part of the image.
    .. param:: size_t block_size
-      Size of ``block``, in bytes. ``block_size`` must not be greater than `PSA_FWU_MAX_WRITE_SIZE`.
+      Size of ``block``, in bytes.
+
+      ``block_size`` must not be greater than `PSA_FWU_MAX_WRITE_SIZE`.
 
    .. return:: psa_status_t
       Result status.
@@ -599,6 +625,7 @@ The following functions are used to prepare a new firmware image in the componen
    .. retval:: PSA_ERROR_INVALID_ARGUMENT
       The following conditions can result in this error:
 
+      *  The parameter ``image_offset`` is not a multiple of `PSA_FWU_WRITE_ALIGN`.
       *  The parameter ``block_size`` is greater than `PSA_FWU_MAX_WRITE_SIZE`.
       *  The parameter ``block_size`` is ``0``.
       *  The image region specified by ``image_offset`` and ``block_size`` does not lie inside the supported image storage.
@@ -618,6 +645,8 @@ The following functions are used to prepare a new firmware image in the componen
    If the image size is greater than `PSA_FWU_MAX_WRITE_SIZE`, the caller must provide the image in parts, by calling `psa_fwu_write()` multiple times with different data blocks.
 
    Write operations can take an extended execution time on flash memories. The caller can provide data in blocks smaller than `PSA_FWU_MAX_WRITE_SIZE` to reduce the time for each call to `psa_fwu_write()`.
+
+   The ``image_offset`` of a data block must satisfy the firmware image alignment requirement, provided in `PSA_FWU_WRITE_ALIGN`. If the ``block_size`` of a data block is not aligned, the data is padded with an :scterm:`implementation defined` value. It is recommended that a client only provides a block with an unaligned size when it is the final block of a firmware image.
 
    When data is written in multiple calls to `psa_fwu_write()`, it is the caller's responsibility to account for how much data is written at which offset within the image. If no persistent storage is directly available for the caller to perform accounting, then the caller can use a different storage mechanism, such as the :cite-title:`PSA-SS`.
 

@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _examples:
@@ -28,6 +28,8 @@ This example shows the installation of a single component that is smaller than `
    :language: xref
    :linenos:
    :lines: 4-
+
+.. _example-multi-write:
 
 Individual component update (multi part operation)
 --------------------------------------------------
