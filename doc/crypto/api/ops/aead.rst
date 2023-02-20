@@ -179,7 +179,7 @@ AEAD algorithms
 
         Unspecified if ``aead_alg`` is not a supported AEAD algorithm or if ``min_tag_length`` is less than ``1`` or too large for the specified AEAD algorithm.
 
-    A key with a minimum-tag-length AEAD wildcard algorithm as permitted algorithm policy can be used with all AEAD algorithms sharing the same base algorithm, and where the tag length of the specific algorithm is equal to or larger then the minimum tag length specified by the wildcard algorithm.
+    A key with a minimum-tag-length AEAD wildcard algorithm as permitted-algorithm policy can be used with all AEAD algorithms sharing the same base algorithm, and where the tag length of the specific algorithm is equal to or larger then the minimum tag length specified by the wildcard algorithm.
 
     .. note::
         When setting the minimum required tag length to less than the smallest tag length allowed by the base algorithm, this effectively becomes an 'any-tag-length-allowed' policy for that base algorithm.

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file is a reference template for implementation of the
- * PSA Certified Crypto API v1.1.1
+ * PSA Certified Crypto API v1.1
  */
 
 #ifndef PSA_CRYPTO_H
@@ -584,7 +584,7 @@ psa_key_id_t psa_get_key_id(const psa_key_attributes_t * attributes);
 typedef uint32_t psa_algorithm_t;
 
 /**
- * @brief Declare the permitted algorithm policy for a key.
+ * @brief Declare the permitted-algorithm policy for a key.
  * 
  * @param attributes The attribute object to write to.
  * @param alg        The permitted algorithm to write.
@@ -593,7 +593,7 @@ void psa_set_key_algorithm(psa_key_attributes_t * attributes,
                            psa_algorithm_t alg);
 
 /**
- * @brief Retrieve the permitted algorithm policy from key attributes.
+ * @brief Retrieve the permitted-algorithm policy from key attributes.
  * 
  * @param attributes The key attribute object to query.
  * 

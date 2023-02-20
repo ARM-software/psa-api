@@ -28,7 +28,7 @@ Key agreement algorithms
 
     This algorithm can be used directly in a call to `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
-    When used as a key's permitted algorithm policy, the following uses are permitted:
+    When used as a key's permitted-algorithm policy, the following uses are permitted:
 
     *   In a call to `psa_raw_key_agreement()`, with algorithm `PSA_ALG_FFDH`.
     *   In a call to `psa_key_derivation_key_agreement()`, with any combined key agreement and key derivation algorithm constructed with `PSA_ALG_FFDH`.
@@ -51,7 +51,7 @@ Key agreement algorithms
 
     This algorithm can be used directly in a call to `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
-    When used as a key's permitted algorithm policy, the following uses are permitted:
+    When used as a key's permitted-algorithm policy, the following uses are permitted:
 
     *   In a call to `psa_raw_key_agreement()`, with algorithm `PSA_ALG_ECDH`.
     *   In a call to `psa_key_derivation_key_agreement()`, with any combined key agreement and key derivation algorithm constructed with `PSA_ALG_ECDH`.

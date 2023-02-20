@@ -202,6 +202,8 @@ Asymmetric signature algorithms
 
     This algorithm is only recommended to sign or verify a sequence of bytes that are an already-calculated hash. Note that the input is padded with zeros on the left or truncated on the right as required to fit the curve size.
 
+    This algorithm cannot be used with the wildcard key policy :code:`PSA_ALG_ECDSA(PSA_ALG_ANY_HASH)`. It is only permitted when `PSA_ALG_ECDSA_ANY` is the key's permitted-algorithm policy.
+
     .. subsection:: Compatible key types
 
         | :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)`
@@ -789,12 +791,12 @@ Support macros
     .. summary::
         When setting a hash-and-sign algorithm in a key policy, permit any hash algorithm.
 
-    This value can be used to form the permitted algorithm attribute of a key policy for a signature algorithm that is parametrized by a hash. A key with this policy can then be used to perform operations using the same signature algorithm parametrized with any supported hash.
+    This value can be used to form the permitted-algorithm attribute of a key policy for a signature algorithm that is parametrized by a hash. A key with this policy can then be used to perform operations using the same signature algorithm parametrized with any supported hash.
     A signature algorithm created using this macro is a wildcard algorithm, and `PSA_ALG_IS_WILDCARD()` will return true.
 
     This value must not be used to build other algorithms that are parametrized over a hash. For any valid use of this macro to build an algorithm ``alg``, :code:`PSA_ALG_IS_HASH_AND_SIGN(alg)` is true.
 
-    This value must not be used to build an algorithm specification to perform an operation. It is only valid for setting the permitted algorithm in a key policy.
+    This value cannot be used to build an algorithm specification to perform an operation. If used in this way, the operation will fail with an error.
 
     .. rubric:: Usage
 
