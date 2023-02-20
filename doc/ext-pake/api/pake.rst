@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Password-authenticated key exchange (PAKE)
@@ -52,7 +52,7 @@ Changes and additions to the Programming API
 --------------------------------------------
 
 .. header:: psa/crypto-pake
-    :copyright: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
     :license: Apache-2.0
 
     /* This file contains reference definitions for implementation of the

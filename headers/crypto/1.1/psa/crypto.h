@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file is a reference template for implementation of the
@@ -67,7 +67,7 @@ psa_key_attributes_t psa_key_attributes_init(void);
 
 /**
  * @brief Retrieve the attributes of a key.
- * 
+ *
  * @param key        Identifier of the key to query.
  * @param attributes On entry, *attributes must be in a valid state.
  */
@@ -76,7 +76,7 @@ psa_status_t psa_get_key_attributes(psa_key_id_t key,
 
 /**
  * @brief Reset a key attribute object to a freshly initialized state.
- * 
+ *
  * @param attributes The attribute object to reset.
  */
 void psa_reset_key_attributes(psa_key_attributes_t * attributes);
@@ -93,21 +93,21 @@ typedef uint16_t psa_key_type_t;
 
 /**
  * @brief Whether a key type is an unstructured array of bytes.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_UNSTRUCTURED(type) /* specification-defined value */
 
 /**
  * @brief Whether a key type is asymmetric: either a key pair or a public key.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_ASYMMETRIC(type) /* specification-defined value */
 
 /**
  * @brief Whether a key type is the public part of a key pair.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_PUBLIC_KEY(type) /* specification-defined value */
@@ -115,7 +115,7 @@ typedef uint16_t psa_key_type_t;
 /**
  * @brief Whether a key type is a key pair containing a private part and a
  *        public part.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_KEY_PAIR(type) /* specification-defined value */
@@ -200,7 +200,7 @@ typedef uint16_t psa_key_type_t;
 
 /**
  * @brief Whether a key type is an RSA key.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_RSA(type) /* specification-defined value */
@@ -212,7 +212,7 @@ typedef uint8_t psa_ecc_family_t;
 
 /**
  * @brief Elliptic curve key pair: both the private and public key.
- * 
+ *
  * @param curve A value of type psa_ecc_family_t that identifies the ECC curve
  *              family to be used.
  */
@@ -220,7 +220,7 @@ typedef uint8_t psa_ecc_family_t;
 
 /**
  * @brief Elliptic curve public key.
- * 
+ *
  * @param curve A value of type psa_ecc_family_t that identifies the ECC curve
  *              family to be used.
  */
@@ -279,31 +279,31 @@ typedef uint8_t psa_ecc_family_t;
 /**
  * @brief Whether a key type is an elliptic curve key, either a key pair or a
  *        public key.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_ECC(type) /* specification-defined value */
 
 /**
  * @brief Whether a key type is an elliptic curve key pair.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_ECC_KEY_PAIR(type) /* specification-defined value */
 
 /**
  * @brief Whether a key type is an elliptic curve public key.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY(type) /* specification-defined value */
 
 /**
  * @brief Extract the curve family from an elliptic curve key type.
- * 
+ *
  * @param type An elliptic curve key type: a value of type psa_key_type_t such
  *             that PSA_KEY_TYPE_IS_ECC(type) is true.
- * 
+ *
  * @return The elliptic curve family id, if type is a supported elliptic curve
  *         key.
  */
@@ -317,7 +317,7 @@ typedef uint8_t psa_dh_family_t;
 /**
  * @brief Finite-field Diffie-Hellman key pair: both the private key and public
  *        key.
- * 
+ *
  * @param group A value of type psa_dh_family_t that identifies the Diffie-
  *              Hellman group family to be used.
  */
@@ -325,7 +325,7 @@ typedef uint8_t psa_dh_family_t;
 
 /**
  * @brief Finite-field Diffie-Hellman public key.
- * 
+ *
  * @param group A value of type psa_dh_family_t that identifies the Diffie-
  *              Hellman group family to be used.
  */
@@ -338,9 +338,9 @@ typedef uint8_t psa_dh_family_t;
 
 /**
  * @brief The key pair type corresponding to a public key type.
- * 
+ *
  * @param type A public key type or key pair type.
- * 
+ *
  * @return The corresponding key pair type.
  */
 #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
@@ -348,9 +348,9 @@ typedef uint8_t psa_dh_family_t;
 
 /**
  * @brief The public key type corresponding to a key pair type.
- * 
+ *
  * @param type A public key type or key pair type.
- * 
+ *
  * @return The corresponding public key type.
  */
 #define PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) \
@@ -359,31 +359,31 @@ typedef uint8_t psa_dh_family_t;
 /**
  * @brief Whether a key type is a Diffie-Hellman key, either a key pair or a
  *        public key.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_DH(type) /* specification-defined value */
 
 /**
  * @brief Whether a key type is a Diffie-Hellman key pair.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_DH_KEY_PAIR(type) /* specification-defined value */
 
 /**
  * @brief Whether a key type is a Diffie-Hellman public key.
- * 
+ *
  * @param type A key type: a value of type psa_key_type_t.
  */
 #define PSA_KEY_TYPE_IS_DH_PUBLIC_KEY(type) /* specification-defined value */
 
 /**
  * @brief Extract the group family from a Diffie-Hellman key type.
- * 
+ *
  * @param type A Diffie-Hellman key type: a value of type psa_key_type_t such
  *             that PSA_KEY_TYPE_IS_DH(type) is true.
- * 
+ *
  * @return The Diffie-Hellman group family id, if type is a supported Diffie-
  *         Hellman key.
  */
@@ -391,7 +391,7 @@ typedef uint8_t psa_dh_family_t;
 
 /**
  * @brief Declare the type of a key.
- * 
+ *
  * @param attributes The attribute object to write to.
  * @param type       The key type to write.
  */
@@ -400,25 +400,25 @@ void psa_set_key_type(psa_key_attributes_t * attributes,
 
 /**
  * @brief Retrieve the key type from key attributes.
- * 
+ *
  * @param attributes The key attribute object to query.
- * 
+ *
  * @return The key type stored in the attribute object.
  */
 psa_key_type_t psa_get_key_type(const psa_key_attributes_t * attributes);
 
 /**
  * @brief Retrieve the key size from key attributes.
- * 
+ *
  * @param attributes The key attribute object to query.
- * 
+ *
  * @return The key size stored in the attribute object, in bits.
  */
 size_t psa_get_key_bits(const psa_key_attributes_t * attributes);
 
 /**
  * @brief Declare the size of a key.
- * 
+ *
  * @param attributes The attribute object to write to.
  * @param bits       The key size in bits.
  */
@@ -477,7 +477,7 @@ typedef uint32_t psa_key_location_t;
 
 /**
  * @brief Set the location of a persistent key.
- * 
+ *
  * @param attributes The attribute object to write to.
  * @param lifetime   The lifetime for the key.
  */
@@ -486,16 +486,16 @@ void psa_set_key_lifetime(psa_key_attributes_t * attributes,
 
 /**
  * @brief Retrieve the lifetime from key attributes.
- * 
+ *
  * @param attributes The key attribute object to query.
- * 
+ *
  * @return The lifetime value stored in the attribute object.
  */
 psa_key_lifetime_t psa_get_key_lifetime(const psa_key_attributes_t * attributes);
 
 /**
  * @brief Extract the persistence level from a key lifetime.
- * 
+ *
  * @param lifetime The lifetime value to query: a value of type
  *                 psa_key_lifetime_t.
  */
@@ -504,7 +504,7 @@ psa_key_lifetime_t psa_get_key_lifetime(const psa_key_attributes_t * attributes)
 
 /**
  * @brief Extract the location indicator from a key lifetime.
- * 
+ *
  * @param lifetime The lifetime value to query: a value of type
  *                 psa_key_lifetime_t.
  */
@@ -513,10 +513,10 @@ psa_key_lifetime_t psa_get_key_lifetime(const psa_key_attributes_t * attributes)
 
 /**
  * @brief Whether a key lifetime indicates that the key is volatile.
- * 
+ *
  * @param lifetime The lifetime value to query: a value of type
  *                 psa_key_lifetime_t.
- * 
+ *
  * @return 1 if the key is volatile, otherwise 0.
  */
 #define PSA_KEY_LIFETIME_IS_VOLATILE(lifetime) \
@@ -524,12 +524,12 @@ psa_key_lifetime_t psa_get_key_lifetime(const psa_key_attributes_t * attributes)
 
 /**
  * @brief Construct a lifetime from a persistence level and a location.
- * 
+ *
  * @param persistence The persistence level: a value of type
  *                    psa_key_persistence_t.
  * @param location    The location indicator: a value of type
  *                    psa_key_location_t.
- * 
+ *
  * @return The constructed lifetime value.
  */
 #define PSA_KEY_LIFETIME_FROM_PERSISTENCE_AND_LOCATION(persistence, location) \
@@ -562,7 +562,7 @@ psa_key_lifetime_t psa_get_key_lifetime(const psa_key_attributes_t * attributes)
 
 /**
  * @brief Declare a key as persistent and set its key identifier.
- * 
+ *
  * @param attributes The attribute object to write to.
  * @param id         The persistent identifier for the key.
  */
@@ -571,9 +571,9 @@ void psa_set_key_id(psa_key_attributes_t * attributes,
 
 /**
  * @brief Retrieve the key identifier from key attributes.
- * 
+ *
  * @param attributes The key attribute object to query.
- * 
+ *
  * @return The persistent identifier stored in the attribute object.
  */
 psa_key_id_t psa_get_key_id(const psa_key_attributes_t * attributes);
@@ -585,7 +585,7 @@ typedef uint32_t psa_algorithm_t;
 
 /**
  * @brief Declare the permitted-algorithm policy for a key.
- * 
+ *
  * @param attributes The attribute object to write to.
  * @param alg        The permitted algorithm to write.
  */
@@ -594,9 +594,9 @@ void psa_set_key_algorithm(psa_key_attributes_t * attributes,
 
 /**
  * @brief Retrieve the permitted-algorithm policy from key attributes.
- * 
+ *
  * @param attributes The key attribute object to query.
- * 
+ *
  * @return The algorithm stored in the attribute object.
  */
 psa_algorithm_t psa_get_key_algorithm(const psa_key_attributes_t * attributes);
@@ -665,7 +665,7 @@ typedef uint32_t psa_key_usage_t;
 
 /**
  * @brief Declare usage flags for a key.
- * 
+ *
  * @param attributes  The attribute object to write to.
  * @param usage_flags The usage flags to write.
  */
@@ -674,16 +674,16 @@ void psa_set_key_usage_flags(psa_key_attributes_t * attributes,
 
 /**
  * @brief Retrieve the usage flags from key attributes.
- * 
+ *
  * @param attributes The key attribute object to query.
- * 
+ *
  * @return The usage flags stored in the attribute object.
  */
 psa_key_usage_t psa_get_key_usage_flags(const psa_key_attributes_t * attributes);
 
 /**
  * @brief Import a key in binary format.
- * 
+ *
  * @param attributes  The attributes for the new key.
  * @param data        Buffer containing the key data.
  * @param data_length Size of the data buffer in bytes.
@@ -696,7 +696,7 @@ psa_status_t psa_import_key(const psa_key_attributes_t * attributes,
 
 /**
  * @brief Generate a key or key pair.
- * 
+ *
  * @param attributes The attributes for the new key.
  * @param key        On success, an identifier for the newly created key.
  */
@@ -705,7 +705,7 @@ psa_status_t psa_generate_key(const psa_key_attributes_t * attributes,
 
 /**
  * @brief Make a copy of a key.
- * 
+ *
  * @param source_key The key to copy.
  * @param attributes The attributes for the new key.
  * @param target_key On success, an identifier for the newly created key.
@@ -716,21 +716,21 @@ psa_status_t psa_copy_key(psa_key_id_t source_key,
 
 /**
  * @brief Destroy a key.
- * 
+ *
  * @param key Identifier of the key to erase.
  */
 psa_status_t psa_destroy_key(psa_key_id_t key);
 
 /**
  * @brief Remove non-essential copies of key material from memory.
- * 
+ *
  * @param key Identifier of the key to purge.
  */
 psa_status_t psa_purge_key(psa_key_id_t key);
 
 /**
  * @brief Export a key in binary format.
- * 
+ *
  * @param key         Identifier of the key to export.
  * @param data        Buffer where the key data is to be written.
  * @param data_size   Size of the data buffer in bytes.
@@ -743,7 +743,7 @@ psa_status_t psa_export_key(psa_key_id_t key,
 
 /**
  * @brief Export a public key or the public part of a key pair in binary format.
- * 
+ *
  * @param key         Identifier of the key to export.
  * @param data        Buffer where the key data is to be written.
  * @param data_size   Size of the data buffer in bytes.
@@ -756,10 +756,10 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 
 /**
  * @brief Sufficient output buffer size for psa_export_key().
- * 
+ *
  * @param key_type A supported key type.
  * @param key_bits The size of the key in bits.
- * 
+ *
  * @return If the parameters are valid and supported, return a buffer size in
  *         bytes that guarantees that psa_export_key() or
  *         psa_export_public_key() will not fail with
@@ -770,10 +770,10 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 
 /**
  * @brief Sufficient output buffer size for psa_export_public_key().
- * 
+ *
  * @param key_type A public key or key pair key type.
  * @param key_bits The size of the key in bits.
- * 
+ *
  * @return If the parameters are valid and supported, return a buffer size in
  *         bytes that guarantees that psa_export_public_key() will not fail with
  *         PSA_ERROR_BUFFER_TOO_SMALL.
@@ -798,27 +798,27 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 
 /**
  * @brief Whether the specified algorithm is a hash algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a hash algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_HASH(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is a MAC algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a MAC algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_MAC(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is a symmetric cipher algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a symmetric cipher algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_CIPHER(alg) /* specification-defined value */
@@ -826,9 +826,9 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is an authenticated encryption with
  *        associated data (AEAD) algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an AEAD algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_AEAD(alg) /* specification-defined value */
@@ -836,9 +836,9 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is an asymmetric signature algorithm,
  *        also known as public-key signature algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an asymmetric signature algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_SIGN(alg) /* specification-defined value */
@@ -846,45 +846,45 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is an asymmetric encryption algorithm,
  *        also known as public-key encryption algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an asymmetric encryption algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is a key agreement algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a key agreement algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_KEY_AGREEMENT(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is a key derivation algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a key derivation algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_KEY_DERIVATION(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm encoding is a wildcard.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a wildcard algorithm encoding.
  */
 #define PSA_ALG_IS_WILDCARD(alg) /* specification-defined value */
 
 /**
  * @brief Get the hash used by a composite algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return The underlying hash algorithm if alg is a composite algorithm that
  *         uses a hash algorithm.
  */
@@ -977,7 +977,7 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 
 /**
  * @brief Calculate the hash (digest) of a message.
- * 
+ *
  * @param alg          The hash algorithm to compute: a value of type
  *                     psa_algorithm_t such that PSA_ALG_IS_HASH(alg) is true.
  * @param input        Buffer containing the message to hash.
@@ -997,7 +997,7 @@ psa_status_t psa_hash_compute(psa_algorithm_t alg,
 /**
  * @brief Calculate the hash (digest) of a message and compare it with a
  *        reference value.
- * 
+ *
  * @param alg          The hash algorithm to compute: a value of type
  *                     psa_algorithm_t such that PSA_ALG_IS_HASH(alg) is true.
  * @param input        Buffer containing the message to hash.
@@ -1029,7 +1029,7 @@ psa_hash_operation_t psa_hash_operation_init(void);
 
 /**
  * @brief Set up a multi-part hash operation.
- * 
+ *
  * @param operation The operation object to set up.
  * @param alg       The hash algorithm to compute: a value of type
  *                  psa_algorithm_t such that PSA_ALG_IS_HASH(alg) is true.
@@ -1039,7 +1039,7 @@ psa_status_t psa_hash_setup(psa_hash_operation_t * operation,
 
 /**
  * @brief Add a message fragment to a multi-part hash operation.
- * 
+ *
  * @param operation    Active hash operation.
  * @param input        Buffer containing the message fragment to hash.
  * @param input_length Size of the input buffer in bytes.
@@ -1050,7 +1050,7 @@ psa_status_t psa_hash_update(psa_hash_operation_t * operation,
 
 /**
  * @brief Finish the calculation of the hash of a message.
- * 
+ *
  * @param operation   Active hash operation.
  * @param hash        Buffer where the hash is to be written.
  * @param hash_size   Size of the hash buffer in bytes.
@@ -1065,7 +1065,7 @@ psa_status_t psa_hash_finish(psa_hash_operation_t * operation,
 /**
  * @brief Finish the calculation of the hash of a message and compare it with an
  *        expected value.
- * 
+ *
  * @param operation   Active hash operation.
  * @param hash        Buffer containing the expected hash value.
  * @param hash_length Size of the hash buffer in bytes.
@@ -1076,7 +1076,7 @@ psa_status_t psa_hash_verify(psa_hash_operation_t * operation,
 
 /**
  * @brief Abort a hash operation.
- * 
+ *
  * @param operation Initialized hash operation.
  */
 psa_status_t psa_hash_abort(psa_hash_operation_t * operation);
@@ -1084,7 +1084,7 @@ psa_status_t psa_hash_abort(psa_hash_operation_t * operation);
 /**
  * @brief Halt the hash operation and extract the intermediate state of the hash
  *        computation.
- * 
+ *
  * @param operation         Active hash operation.
  * @param hash_state        Buffer where the hash suspend state is to be
  *                          written.
@@ -1100,7 +1100,7 @@ psa_status_t psa_hash_suspend(psa_hash_operation_t * operation,
 /**
  * @brief Set up a multi-part hash operation using the hash suspend state from a
  *        previously suspended hash operation.
- * 
+ *
  * @param operation         The operation object to set up.
  * @param hash_state        A buffer containing the suspended hash state which
  *                          is to be resumed.
@@ -1112,7 +1112,7 @@ psa_status_t psa_hash_resume(psa_hash_operation_t * operation,
 
 /**
  * @brief Clone a hash operation.
- * 
+ *
  * @param source_operation The active hash operation to clone.
  * @param target_operation The operation object to set up.
  */
@@ -1122,11 +1122,11 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 /**
  * @brief The size of the output of psa_hash_compute() and psa_hash_finish(), in
  *        bytes.
- * 
+ *
  * @param alg A hash algorithm or an HMAC algorithm: a value of type
  *            psa_algorithm_t such that (PSA_ALG_IS_HASH(alg) ||
  *            PSA_ALG_IS_HMAC(alg)) is true.
- * 
+ *
  * @return The hash length for the specified hash algorithm.
  */
 #define PSA_HASH_LENGTH(alg) /* implementation-defined value */
@@ -1139,10 +1139,10 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 /**
  * @brief A sufficient hash suspend state buffer size for psa_hash_suspend(), in
  *        bytes.
- * 
+ *
  * @param alg A hash algorithm: a value of type psa_algorithm_t such that
  *            PSA_ALG_IS_HASH(alg) is true.
- * 
+ *
  * @return A sufficient output size for the algorithm.
  */
 #define PSA_HASH_SUSPEND_OUTPUT_SIZE(alg) /* specification-defined value */
@@ -1162,10 +1162,10 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 /**
  * @brief The size of the input-length field that is part of the output of
  *        psa_hash_suspend(), in bytes.
- * 
+ *
  * @param alg A hash algorithm: a value of type psa_algorithm_t such that
  *            PSA_ALG_IS_HASH(alg) is true.
- * 
+ *
  * @return The size, in bytes, of the input-length field of the hash suspend
  *         state for the specified hash algorithm.
  */
@@ -1175,10 +1175,10 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 /**
  * @brief The size of the hash-state field that is part of the output of
  *        psa_hash_suspend(), in bytes.
- * 
+ *
  * @param alg A hash algorithm: a value of type psa_algorithm_t such that
  *            PSA_ALG_IS_HASH(alg) is true.
- * 
+ *
  * @return The size, in bytes, of the hash-state field of the hash suspend state
  *         for the specified hash algorithm.
  */
@@ -1187,10 +1187,10 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 
 /**
  * @brief The input block size of a hash algorithm, in bytes.
- * 
+ *
  * @param alg A hash algorithm: a value of type psa_algorithm_t such that
  *            PSA_ALG_IS_HASH(alg) is true.
- * 
+ *
  * @return The block size in bytes for the specified hash algorithm.
  */
 #define PSA_HASH_BLOCK_LENGTH(alg) /* implementation-defined value */
@@ -1198,10 +1198,10 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 /**
  * @brief Macro to build an HMAC message-authentication-code algorithm from an
  *        underlying hash algorithm.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding HMAC algorithm.
  */
 #define PSA_ALG_HMAC(hash_alg) /* specification-defined value */
@@ -1220,11 +1220,11 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 
 /**
  * @brief Macro to build a truncated MAC algorithm.
- * 
+ *
  * @param mac_alg    A MAC algorithm: a value of type psa_algorithm_t such that
  *                   PSA_ALG_IS_MAC(mac_alg) is true.
  * @param mac_length Desired length of the truncated MAC in bytes.
- * 
+ *
  * @return The corresponding MAC algorithm with the specified length.
  */
 #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
@@ -1233,22 +1233,22 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 /**
  * @brief Macro to construct the MAC algorithm with an untruncated MAC, from a
  *        truncated MAC algorithm.
- * 
+ *
  * @param mac_alg A MAC algorithm: a value of type psa_algorithm_t such that
  *                PSA_ALG_IS_MAC(mac_alg) is true.
- * 
+ *
  * @return The corresponding MAC algorithm with an untruncated MAC.
  */
 #define PSA_ALG_FULL_LENGTH_MAC(mac_alg) /* specification-defined value */
 
 /**
  * @brief Macro to build a MAC minimum-MAC-length wildcard algorithm.
- * 
+ *
  * @param mac_alg        A MAC algorithm: a value of type psa_algorithm_t such
  *                       that PSA_ALG_IS_MAC(alg) is true.
  * @param min_mac_length Desired minimum length of the message authentication
  *                       code in bytes.
- * 
+ *
  * @return The corresponding MAC wildcard algorithm with the specified minimum
  *         MAC length.
  */
@@ -1257,7 +1257,7 @@ psa_status_t psa_hash_clone(const psa_hash_operation_t * source_operation,
 
 /**
  * @brief Calculate the message authentication code (MAC) of a message.
- * 
+ *
  * @param key          Identifier of the key to use for the operation.
  * @param alg          The MAC algorithm to compute: a value of type
  *                     psa_algorithm_t such that PSA_ALG_IS_MAC(alg) is true.
@@ -1278,7 +1278,7 @@ psa_status_t psa_mac_compute(psa_key_id_t key,
 
 /**
  * @brief Calculate the MAC of a message and compare it with a reference value.
- * 
+ *
  * @param key          Identifier of the key to use for the operation.
  * @param alg          The MAC algorithm to compute: a value of type
  *                     psa_algorithm_t such that PSA_ALG_IS_MAC(alg) is true.
@@ -1312,7 +1312,7 @@ psa_mac_operation_t psa_mac_operation_init(void);
 
 /**
  * @brief Set up a multi-part MAC calculation operation.
- * 
+ *
  * @param operation The operation object to set up.
  * @param key       Identifier of the key to use for the operation.
  * @param alg       The MAC algorithm to compute: a value of type
@@ -1324,7 +1324,7 @@ psa_status_t psa_mac_sign_setup(psa_mac_operation_t * operation,
 
 /**
  * @brief Set up a multi-part MAC verification operation.
- * 
+ *
  * @param operation The operation object to set up.
  * @param key       Identifier of the key to use for the operation.
  * @param alg       The MAC algorithm to compute: a value of type
@@ -1336,7 +1336,7 @@ psa_status_t psa_mac_verify_setup(psa_mac_operation_t * operation,
 
 /**
  * @brief Add a message fragment to a multi-part MAC operation.
- * 
+ *
  * @param operation    Active MAC operation.
  * @param input        Buffer containing the message fragment to add to the MAC
  *                     calculation.
@@ -1348,7 +1348,7 @@ psa_status_t psa_mac_update(psa_mac_operation_t * operation,
 
 /**
  * @brief Finish the calculation of the MAC of a message.
- * 
+ *
  * @param operation  Active MAC operation.
  * @param mac        Buffer where the MAC value is to be written.
  * @param mac_size   Size of the mac buffer in bytes.
@@ -1362,7 +1362,7 @@ psa_status_t psa_mac_sign_finish(psa_mac_operation_t * operation,
 /**
  * @brief Finish the calculation of the MAC of a message and compare it with an
  *        expected value.
- * 
+ *
  * @param operation  Active MAC operation.
  * @param mac        Buffer containing the expected MAC value.
  * @param mac_length Size of the mac buffer in bytes.
@@ -1373,16 +1373,16 @@ psa_status_t psa_mac_verify_finish(psa_mac_operation_t * operation,
 
 /**
  * @brief Abort a MAC operation.
- * 
+ *
  * @param operation Initialized MAC operation.
  */
 psa_status_t psa_mac_abort(psa_mac_operation_t * operation);
 
 /**
  * @brief Whether the specified algorithm is an HMAC algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an HMAC algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_HMAC(alg) /* specification-defined value */
@@ -1390,9 +1390,9 @@ psa_status_t psa_mac_abort(psa_mac_operation_t * operation);
 /**
  * @brief Whether the specified algorithm is a MAC algorithm based on a block
  *        cipher.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a MAC algorithm based on a block cipher, 0 otherwise.
  */
 #define PSA_ALG_IS_BLOCK_CIPHER_MAC(alg) /* specification-defined value */
@@ -1400,12 +1400,12 @@ psa_status_t psa_mac_abort(psa_mac_operation_t * operation);
 /**
  * @brief The size of the output of psa_mac_compute() and psa_mac_sign_finish(),
  *        in bytes.
- * 
+ *
  * @param key_type The type of the MAC key.
  * @param key_bits The size of the MAC key in bits.
  * @param alg      A MAC algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_MAC(alg) is true.
- * 
+ *
  * @return The MAC length for the specified algorithm with the specified key
  *         parameters.
  */
@@ -1465,7 +1465,7 @@ psa_status_t psa_mac_abort(psa_mac_operation_t * operation);
 
 /**
  * @brief Encrypt a message using a symmetric cipher.
- * 
+ *
  * @param key           Identifier of the key to use for the operation.
  * @param alg           The cipher algorithm to compute: a value of type
  *                      psa_algorithm_t such that PSA_ALG_IS_CIPHER(alg) is
@@ -1486,7 +1486,7 @@ psa_status_t psa_cipher_encrypt(psa_key_id_t key,
 
 /**
  * @brief Decrypt a message using a symmetric cipher.
- * 
+ *
  * @param key           Identifier of the key to use for the operation.
  * @param alg           The cipher algorithm to compute: a value of type
  *                      psa_algorithm_t such that PSA_ALG_IS_CIPHER(alg) is
@@ -1523,7 +1523,7 @@ psa_cipher_operation_t psa_cipher_operation_init(void);
 
 /**
  * @brief Set the key for a multi-part symmetric encryption operation.
- * 
+ *
  * @param operation The operation object to set up.
  * @param key       Identifier of the key to use for the operation.
  * @param alg       The cipher algorithm to compute: a value of type
@@ -1535,7 +1535,7 @@ psa_status_t psa_cipher_encrypt_setup(psa_cipher_operation_t * operation,
 
 /**
  * @brief Set the key for a multi-part symmetric decryption operation.
- * 
+ *
  * @param operation The operation object to set up.
  * @param key       Identifier of the key to use for the operation.
  * @param alg       The cipher algorithm to compute: a value of type
@@ -1548,7 +1548,7 @@ psa_status_t psa_cipher_decrypt_setup(psa_cipher_operation_t * operation,
 /**
  * @brief Generate an initialization vector (IV) for a symmetric encryption
  *        operation.
- * 
+ *
  * @param operation Active cipher operation.
  * @param iv        Buffer where the generated IV is to be written.
  * @param iv_size   Size of the iv buffer in bytes.
@@ -1562,7 +1562,7 @@ psa_status_t psa_cipher_generate_iv(psa_cipher_operation_t * operation,
 /**
  * @brief Set the initialization vector (IV) for a symmetric encryption or
  *        decryption operation.
- * 
+ *
  * @param operation Active cipher operation.
  * @param iv        Buffer containing the IV to use.
  * @param iv_length Size of the IV in bytes.
@@ -1573,7 +1573,7 @@ psa_status_t psa_cipher_set_iv(psa_cipher_operation_t * operation,
 
 /**
  * @brief Encrypt or decrypt a message fragment in an active cipher operation.
- * 
+ *
  * @param operation     Active cipher operation.
  * @param input         Buffer containing the message fragment to encrypt or
  *                      decrypt.
@@ -1592,7 +1592,7 @@ psa_status_t psa_cipher_update(psa_cipher_operation_t * operation,
 
 /**
  * @brief Finish encrypting or decrypting a message in a cipher operation.
- * 
+ *
  * @param operation     Active cipher operation.
  * @param output        Buffer where the output is to be written.
  * @param output_size   Size of the output buffer in bytes.
@@ -1606,29 +1606,29 @@ psa_status_t psa_cipher_finish(psa_cipher_operation_t * operation,
 
 /**
  * @brief Abort a cipher operation.
- * 
+ *
  * @param operation Initialized cipher operation.
  */
 psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief Whether the specified algorithm is a stream cipher.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a stream cipher algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_STREAM_CIPHER(alg) /* specification-defined value */
 
 /**
  * @brief A sufficient output buffer size for psa_cipher_encrypt(), in bytes.
- * 
+ *
  * @param key_type     A symmetric key type that is compatible with algorithm
  *                     alg.
  * @param alg          A cipher algorithm: a value of type psa_algorithm_t such
  *                     that PSA_ALG_IS_CIPHER(alg) is true.
  * @param input_length Size of the input in bytes.
- * 
+ *
  * @return A sufficient output size for the specified key type and algorithm.
  */
 #define PSA_CIPHER_ENCRYPT_OUTPUT_SIZE(key_type, alg, input_length) \
@@ -1637,7 +1637,7 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 /**
  * @brief A sufficient output buffer size for psa_cipher_encrypt(), for any of
  *        the supported key types and cipher algorithms.
- * 
+ *
  * @param input_length Size of the input in bytes.
  */
 #define PSA_CIPHER_ENCRYPT_OUTPUT_MAX_SIZE(input_length) \
@@ -1645,13 +1645,13 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief A sufficient output buffer size for psa_cipher_decrypt(), in bytes.
- * 
+ *
  * @param key_type     A symmetric key type that is compatible with algorithm
  *                     alg.
  * @param alg          A cipher algorithm: a value of type psa_algorithm_t such
  *                     that PSA_ALG_IS_CIPHER(alg) is true.
  * @param input_length Size of the input in bytes.
- * 
+ *
  * @return A sufficient output size for the specified key type and algorithm.
  */
 #define PSA_CIPHER_DECRYPT_OUTPUT_SIZE(key_type, alg, input_length) \
@@ -1660,7 +1660,7 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 /**
  * @brief A sufficient output buffer size for psa_cipher_decrypt(), for any of
  *        the supported key types and cipher algorithms.
- * 
+ *
  * @param input_length Size of the input in bytes.
  */
 #define PSA_CIPHER_DECRYPT_OUTPUT_MAX_SIZE(input_length) \
@@ -1668,11 +1668,11 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief The default IV size for a cipher algorithm, in bytes.
- * 
+ *
  * @param key_type A symmetric key type that is compatible with algorithm alg.
  * @param alg      A cipher algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_CIPHER(alg) is true.
- * 
+ *
  * @return The default IV size for the specified key type and algorithm.
  */
 #define PSA_CIPHER_IV_LENGTH(key_type, alg) /* implementation-defined value */
@@ -1686,13 +1686,13 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief A sufficient output buffer size for psa_cipher_update(), in bytes.
- * 
+ *
  * @param key_type     A symmetric key type that is compatible with algorithm
  *                     alg.
  * @param alg          A cipher algorithm: a value of type psa_algorithm_t such
  *                     that PSA_ALG_IS_CIPHER(alg) is true.
  * @param input_length Size of the input in bytes.
- * 
+ *
  * @return A sufficient output size for the specified key type and algorithm.
  */
 #define PSA_CIPHER_UPDATE_OUTPUT_SIZE(key_type, alg, input_length) \
@@ -1701,7 +1701,7 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 /**
  * @brief A sufficient output buffer size for psa_cipher_update(), for any of
  *        the supported key types and cipher algorithms.
- * 
+ *
  * @param input_length Size of the input in bytes.
  */
 #define PSA_CIPHER_UPDATE_OUTPUT_MAX_SIZE(input_length) \
@@ -1709,11 +1709,11 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief A sufficient output buffer size for psa_cipher_finish().
- * 
+ *
  * @param key_type A symmetric key type that is compatible with algorithm alg.
  * @param alg      A cipher algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_CIPHER(alg) is true.
- * 
+ *
  * @return A sufficient output size for the specified key type and algorithm.
  */
 #define PSA_CIPHER_FINISH_OUTPUT_SIZE(key_type, alg) \
@@ -1727,9 +1727,9 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief The block size of a block cipher.
- * 
+ *
  * @param type A cipher key type: a value of type psa_key_type_t.
- * 
+ *
  * @return The block size for a block cipher, or 1 for a stream cipher.
  */
 #define PSA_BLOCK_CIPHER_BLOCK_LENGTH(type) /* specification-defined value */
@@ -1757,11 +1757,11 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief Macro to build a AEAD algorithm with a shortened tag.
- * 
+ *
  * @param aead_alg   An AEAD algorithm: a value of type psa_algorithm_t such
  *                   that PSA_ALG_IS_AEAD(aead_alg) is true.
  * @param tag_length Desired length of the authentication tag in bytes.
- * 
+ *
  * @return The corresponding AEAD algorithm with the specified tag length.
  */
 #define PSA_ALG_AEAD_WITH_SHORTENED_TAG(aead_alg, tag_length) \
@@ -1769,10 +1769,10 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief An AEAD algorithm with the default tag length.
- * 
+ *
  * @param aead_alg An AEAD algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_AEAD(aead_alg) is true.
- * 
+ *
  * @return The corresponding AEAD algorithm with the default tag length for that
  *         algorithm.
  */
@@ -1781,12 +1781,12 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief Macro to build an AEAD minimum-tag-length wildcard algorithm.
- * 
+ *
  * @param aead_alg       An AEAD algorithm: a value of type psa_algorithm_t such
  *                       that PSA_ALG_IS_AEAD(aead_alg) is true.
  * @param min_tag_length Desired minimum length of the authentication tag in
  *                       bytes.
- * 
+ *
  * @return The corresponding AEAD wildcard algorithm with the specified minimum
  *         tag length.
  */
@@ -1795,7 +1795,7 @@ psa_status_t psa_cipher_abort(psa_cipher_operation_t * operation);
 
 /**
  * @brief Process an authenticated encryption operation.
- * 
+ *
  * @param key                    Identifier of the key to use for the operation.
  * @param alg                    The AEAD algorithm to compute: a value of type
  *                               psa_algorithm_t such that PSA_ALG_IS_AEAD(alg)
@@ -1827,7 +1827,7 @@ psa_status_t psa_aead_encrypt(psa_key_id_t key,
 
 /**
  * @brief Process an authenticated decryption operation.
- * 
+ *
  * @param key                    Identifier of the key to use for the operation.
  * @param alg                    The AEAD algorithm to compute: a value of type
  *                               psa_algorithm_t such that PSA_ALG_IS_AEAD(alg)
@@ -1874,7 +1874,7 @@ psa_aead_operation_t psa_aead_operation_init(void);
 
 /**
  * @brief Set the key for a multi-part authenticated encryption operation.
- * 
+ *
  * @param operation The operation object to set up.
  * @param key       Identifier of the key to use for the operation.
  * @param alg       The AEAD algorithm: a value of type psa_algorithm_t such
@@ -1886,7 +1886,7 @@ psa_status_t psa_aead_encrypt_setup(psa_aead_operation_t * operation,
 
 /**
  * @brief Set the key for a multi-part authenticated decryption operation.
- * 
+ *
  * @param operation The operation object to set up.
  * @param key       Identifier of the key to use for the operation.
  * @param alg       The AEAD algorithm to compute: a value of type
@@ -1898,7 +1898,7 @@ psa_status_t psa_aead_decrypt_setup(psa_aead_operation_t * operation,
 
 /**
  * @brief Declare the lengths of the message and additional data for AEAD.
- * 
+ *
  * @param operation        Active AEAD operation.
  * @param ad_length        Size of the non-encrypted additional authenticated
  *                         data in bytes.
@@ -1910,7 +1910,7 @@ psa_status_t psa_aead_set_lengths(psa_aead_operation_t * operation,
 
 /**
  * @brief Generate a random nonce for an authenticated encryption operation.
- * 
+ *
  * @param operation    Active AEAD operation.
  * @param nonce        Buffer where the generated nonce is to be written.
  * @param nonce_size   Size of the nonce buffer in bytes.
@@ -1923,7 +1923,7 @@ psa_status_t psa_aead_generate_nonce(psa_aead_operation_t * operation,
 
 /**
  * @brief Set the nonce for an authenticated encryption or decryption operation.
- * 
+ *
  * @param operation    Active AEAD operation.
  * @param nonce        Buffer containing the nonce to use.
  * @param nonce_length Size of the nonce in bytes.
@@ -1934,7 +1934,7 @@ psa_status_t psa_aead_set_nonce(psa_aead_operation_t * operation,
 
 /**
  * @brief Pass additional data to an active AEAD operation.
- * 
+ *
  * @param operation    Active AEAD operation.
  * @param input        Buffer containing the fragment of additional data.
  * @param input_length Size of the input buffer in bytes.
@@ -1945,7 +1945,7 @@ psa_status_t psa_aead_update_ad(psa_aead_operation_t * operation,
 
 /**
  * @brief Encrypt or decrypt a message fragment in an active AEAD operation.
- * 
+ *
  * @param operation     Active AEAD operation.
  * @param input         Buffer containing the message fragment to encrypt or
  *                      decrypt.
@@ -1964,7 +1964,7 @@ psa_status_t psa_aead_update(psa_aead_operation_t * operation,
 
 /**
  * @brief Finish encrypting a message in an AEAD operation.
- * 
+ *
  * @param operation         Active AEAD operation.
  * @param ciphertext        Buffer where the last part of the ciphertext is to
  *                          be written.
@@ -1987,7 +1987,7 @@ psa_status_t psa_aead_finish(psa_aead_operation_t * operation,
 
 /**
  * @brief Finish authenticating and decrypting a message in an AEAD operation.
- * 
+ *
  * @param operation        Active AEAD operation.
  * @param plaintext        Buffer where the last part of the plaintext is to be
  *                         written.
@@ -2006,16 +2006,16 @@ psa_status_t psa_aead_verify(psa_aead_operation_t * operation,
 
 /**
  * @brief Abort an AEAD operation.
- * 
+ *
  * @param operation Initialized AEAD operation.
  */
 psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief Whether the specified algorithm is an AEAD mode on a block cipher.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an AEAD algorithm which is an AEAD mode based on a block
  *         cipher, 0 otherwise.
  */
@@ -2023,13 +2023,13 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief A sufficient ciphertext buffer size for psa_aead_encrypt(), in bytes.
- * 
+ *
  * @param key_type         A symmetric key type that is compatible with
  *                         algorithm alg.
  * @param alg              An AEAD algorithm: a value of type psa_algorithm_t
  *                         such that PSA_ALG_IS_AEAD(alg) is true.
  * @param plaintext_length Size of the plaintext in bytes.
- * 
+ *
  * @return The AEAD ciphertext size for the specified key type and algorithm.
  */
 #define PSA_AEAD_ENCRYPT_OUTPUT_SIZE(key_type, alg, plaintext_length) \
@@ -2038,7 +2038,7 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 /**
  * @brief A sufficient ciphertext buffer size for psa_aead_encrypt(), for any of
  *        the supported key types and AEAD algorithms.
- * 
+ *
  * @param plaintext_length Size of the plaintext in bytes.
  */
 #define PSA_AEAD_ENCRYPT_OUTPUT_MAX_SIZE(plaintext_length) \
@@ -2046,13 +2046,13 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief A sufficient plaintext buffer size for psa_aead_decrypt(), in bytes.
- * 
+ *
  * @param key_type          A symmetric key type that is compatible with
  *                          algorithm alg.
  * @param alg               An AEAD algorithm: a value of type psa_algorithm_t
  *                          such that PSA_ALG_IS_AEAD(alg) is true.
  * @param ciphertext_length Size of the ciphertext in bytes.
- * 
+ *
  * @return The AEAD plaintext size for the specified key type and algorithm.
  */
 #define PSA_AEAD_DECRYPT_OUTPUT_SIZE(key_type, alg, ciphertext_length) \
@@ -2061,7 +2061,7 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 /**
  * @brief A sufficient plaintext buffer size for psa_aead_decrypt(), for any of
  *        the supported key types and AEAD algorithms.
- * 
+ *
  * @param ciphertext_length Size of the ciphertext in bytes.
  */
 #define PSA_AEAD_DECRYPT_OUTPUT_MAX_SIZE(ciphertext_length) \
@@ -2069,11 +2069,11 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief The default nonce size for an AEAD algorithm, in bytes.
- * 
+ *
  * @param key_type A symmetric key type that is compatible with algorithm alg.
  * @param alg      An AEAD algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_AEAD(alg) is true.
- * 
+ *
  * @return The default nonce size for the specified key type and algorithm.
  */
 #define PSA_AEAD_NONCE_LENGTH(key_type, alg) /* implementation-defined value */
@@ -2087,13 +2087,13 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief A sufficient output buffer size for psa_aead_update().
- * 
+ *
  * @param key_type     A symmetric key type that is compatible with algorithm
  *                     alg.
  * @param alg          An AEAD algorithm: a value of type psa_algorithm_t such
  *                     that PSA_ALG_IS_AEAD(alg) is true.
  * @param input_length Size of the input in bytes.
- * 
+ *
  * @return A sufficient output buffer size for the specified key type and
  *         algorithm.
  */
@@ -2103,7 +2103,7 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 /**
  * @brief A sufficient output buffer size for psa_aead_update(), for any of the
  *        supported key types and AEAD algorithms.
- * 
+ *
  * @param input_length Size of the input in bytes.
  */
 #define PSA_AEAD_UPDATE_OUTPUT_MAX_SIZE(input_length) \
@@ -2111,11 +2111,11 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief A sufficient ciphertext buffer size for psa_aead_finish().
- * 
+ *
  * @param key_type A symmetric key type that is compatible with algorithm alg.
  * @param alg      An AEAD algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_AEAD(alg) is true.
- * 
+ *
  * @return A sufficient ciphertext buffer size for the specified key type and
  *         algorithm.
  */
@@ -2130,12 +2130,12 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief The length of a tag for an AEAD algorithm, in bytes.
- * 
+ *
  * @param key_type The type of the AEAD key.
  * @param key_bits The size of the AEAD key in bits.
  * @param alg      An AEAD algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_AEAD(alg) is true.
- * 
+ *
  * @return The tag length for the specified algorithm and key.
  */
 #define PSA_AEAD_TAG_LENGTH(key_type, key_bits, alg) \
@@ -2150,11 +2150,11 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief A sufficient plaintext buffer size for psa_aead_verify(), in bytes.
- * 
+ *
  * @param key_type A symmetric key type that is compatible with algorithm alg.
  * @param alg      An AEAD algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_AEAD(alg) is true.
- * 
+ *
  * @return A sufficient plaintext buffer size for the specified key type and
  *         algorithm.
  */
@@ -2169,50 +2169,50 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 
 /**
  * @brief Macro to build an HKDF algorithm.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding HKDF algorithm.
  */
 #define PSA_ALG_HKDF(hash_alg) /* specification-defined value */
 
 /**
  * @brief Macro to build an HKDF-Extract algorithm.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding HKDF-Extract algorithm.
  */
 #define PSA_ALG_HKDF_EXTRACT(hash_alg) /* specification-defined value */
 
 /**
  * @brief Macro to build an HKDF-Expand algorithm.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding HKDF-Expand algorithm.
  */
 #define PSA_ALG_HKDF_EXPAND(hash_alg) /* specification-defined value */
 
 /**
  * @brief Macro to build a TLS-1.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding TLS-1.
  */
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */
 
 /**
  * @brief Macro to build a TLS-1.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding TLS-1.
  */
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
@@ -2220,10 +2220,10 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 /**
  * @brief Macro to build a PBKDF2-HMAC password-hashing or key-stretching
  *        algorithm.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding PBKDF2-HMAC-XXX algorithm.
  */
 #define PSA_ALG_PBKDF2_HMAC(hash_alg) /* specification-defined value */
@@ -2303,7 +2303,7 @@ psa_key_derivation_operation_t psa_key_derivation_operation_init(void);
 
 /**
  * @brief Set up a key derivation operation.
- * 
+ *
  * @param operation The key derivation operation object to set up.
  * @param alg       The algorithm to compute.
  */
@@ -2312,7 +2312,7 @@ psa_status_t psa_key_derivation_setup(psa_key_derivation_operation_t * operation
 
 /**
  * @brief Retrieve the current capacity of a key derivation operation.
- * 
+ *
  * @param operation The operation to query.
  * @param capacity  On success, the capacity of the operation.
  */
@@ -2321,7 +2321,7 @@ psa_status_t psa_key_derivation_get_capacity(const psa_key_derivation_operation_
 
 /**
  * @brief Set the maximum capacity of a key derivation operation.
- * 
+ *
  * @param operation The key derivation operation object to modify.
  * @param capacity  The new capacity of the operation.
  */
@@ -2330,7 +2330,7 @@ psa_status_t psa_key_derivation_set_capacity(psa_key_derivation_operation_t * op
 
 /**
  * @brief Provide an input for key derivation or key agreement.
- * 
+ *
  * @param operation   The key derivation operation object to use.
  * @param step        Which step the input data is for.
  * @param data        Input data to use.
@@ -2343,7 +2343,7 @@ psa_status_t psa_key_derivation_input_bytes(psa_key_derivation_operation_t * ope
 
 /**
  * @brief Provide a numeric input for key derivation or key agreement.
- * 
+ *
  * @param operation The key derivation operation object to use.
  * @param step      Which step the input data is for.
  * @param value     The value of the numeric input.
@@ -2354,7 +2354,7 @@ psa_status_t psa_key_derivation_input_integer(psa_key_derivation_operation_t * o
 
 /**
  * @brief Provide an input for key derivation in the form of a key.
- * 
+ *
  * @param operation The key derivation operation object to use.
  * @param step      Which step the input data is for.
  * @param key       Identifier of the key.
@@ -2365,7 +2365,7 @@ psa_status_t psa_key_derivation_input_key(psa_key_derivation_operation_t * opera
 
 /**
  * @brief Read some data from a key derivation operation.
- * 
+ *
  * @param operation     The key derivation operation object to read from.
  * @param output        Buffer where the output will be written.
  * @param output_length Number of bytes to output.
@@ -2376,7 +2376,7 @@ psa_status_t psa_key_derivation_output_bytes(psa_key_derivation_operation_t * op
 
 /**
  * @brief Derive a key from an ongoing key derivation operation.
- * 
+ *
  * @param attributes The attributes for the new key.
  * @param operation  The key derivation operation object to read from.
  * @param key        On success, an identifier for the newly created key.
@@ -2388,7 +2388,7 @@ psa_status_t psa_key_derivation_output_key(const psa_key_attributes_t * attribut
 /**
  * @brief Compare output data from a key derivation operation to an expected
  *        value.
- * 
+ *
  * @param operation       The key derivation operation object to read from.
  * @param expected_output Buffer containing the expected derivation output.
  * @param output_length   Length ot the expected output.
@@ -2400,7 +2400,7 @@ psa_status_t psa_key_derivation_verify_bytes(psa_key_derivation_operation_t * op
 /**
  * @brief Compare output data from a key derivation operation to an expected
  *        value stored in a key.
- * 
+ *
  * @param operation The key derivation operation object to read from.
  * @param expected  A key of type PSA_KEY_TYPE_PASSWORD_HASH containing the
  *                  expected output.
@@ -2410,7 +2410,7 @@ psa_status_t psa_key_derivation_verify_key(psa_key_derivation_operation_t * oper
 
 /**
  * @brief Abort a key derivation operation.
- * 
+ *
  * @param operation The operation to abort.
  */
 psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation);
@@ -2418,9 +2418,9 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 /**
  * @brief Whether the specified algorithm is a key-stretching or password-
  *        hashing algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a key-stretching or password-hashing algorithm, 0
  *         otherwise.
  */
@@ -2430,9 +2430,9 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 /**
  * @brief Whether the specified algorithm is an HKDF algorithm
  *        (PSA_ALG_HKDF(hash_alg)).
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an HKDF algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_HKDF(alg) /* specification-defined value */
@@ -2440,9 +2440,9 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 /**
  * @brief Whether the specified algorithm is an HKDF-Extract algorithm
  *        (PSA_ALG_HKDF_EXTRACT(hash_alg)).
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an HKDF-Extract algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_HKDF_EXTRACT(alg) /* specification-defined value */
@@ -2450,36 +2450,36 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 /**
  * @brief Whether the specified algorithm is an HKDF-Expand algorithm
  *        (PSA_ALG_HKDF_EXPAND(hash_alg)).
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an HKDF-Expand algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_HKDF_EXPAND(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is a TLS-1.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a TLS-1.
  */
 #define PSA_ALG_IS_TLS12_PRF(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is a TLS-1.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a TLS-1.
  */
 #define PSA_ALG_IS_TLS12_PSK_TO_MS(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is a PBKDF2-HMAC algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a PBKDF2-HMAC algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_PBKDF2_HMAC(alg) /* specification-defined value */
@@ -2498,10 +2498,10 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 
 /**
  * @brief The RSA PKCS#1 v1.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding RSA PKCS#1 v1.
  */
 #define PSA_ALG_RSA_PKCS1V15_SIGN(hash_alg) /* specification-defined value */
@@ -2513,30 +2513,30 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 
 /**
  * @brief The RSA PSS message signature scheme, with hashing.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding RSA PSS signature algorithm.
  */
 #define PSA_ALG_RSA_PSS(hash_alg) /* specification-defined value */
 
 /**
  * @brief The RSA PSS message signature scheme, with hashing.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding RSA PSS signature algorithm.
  */
 #define PSA_ALG_RSA_PSS_ANY_SALT(hash_alg) /* specification-defined value */
 
 /**
  * @brief The randomized ECDSA signature scheme, with hashing.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding randomized ECDSA signature algorithm.
  */
 #define PSA_ALG_ECDSA(hash_alg) /* specification-defined value */
@@ -2548,10 +2548,10 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 
 /**
  * @brief Deterministic ECDSA signature scheme, with hashing.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding deterministic ECDSA signature algorithm.
  */
 #define PSA_ALG_DETERMINISTIC_ECDSA(hash_alg) /* specification-defined value */
@@ -2576,7 +2576,7 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 
 /**
  * @brief Sign a message with a private key.
- * 
+ *
  * @param key              Identifier of the key to use for the operation.
  * @param alg              An asymmetric signature algorithm: a value of type
  *                         psa_algorithm_t such that
@@ -2598,7 +2598,7 @@ psa_status_t psa_sign_message(psa_key_id_t key,
 
 /**
  * @brief Verify the signature of a message with a public key.
- * 
+ *
  * @param key              Identifier of the key to use for the operation.
  * @param alg              An asymmetric signature algorithm: a value of type
  *                         psa_algorithm_t such that
@@ -2617,7 +2617,7 @@ psa_status_t psa_verify_message(psa_key_id_t key,
 
 /**
  * @brief Sign an already-calculated hash with a private key.
- * 
+ *
  * @param key              Identifier of the key to use for the operation.
  * @param alg              An asymmetric signature algorithm that separates the
  *                         hash and sign operations: a value of type
@@ -2640,7 +2640,7 @@ psa_status_t psa_sign_hash(psa_key_id_t key,
 
 /**
  * @brief Verify the signature of a hash or short message using a public key.
- * 
+ *
  * @param key              Identifier of the key to use for the operation.
  * @param alg              An asymmetric signature algorithm that separates the
  *                         hash and sign operations: a value of type
@@ -2661,9 +2661,9 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is a signature algorithm that can be
  *        used with psa_sign_message() and psa_verify_message().
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a signature algorithm that can be used to sign a message.
  */
 #define PSA_ALG_IS_SIGN_MESSAGE(alg) /* specification-defined value */
@@ -2671,27 +2671,27 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is a signature algorithm that can be
  *        used with psa_sign_hash() and psa_verify_hash().
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a signature algorithm that can be used to sign a hash.
  */
 #define PSA_ALG_IS_SIGN_HASH(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is an RSA PKCS#1 v1.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an RSA PKCS#1 v1.
  */
 #define PSA_ALG_IS_RSA_PKCS1V15_SIGN(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is an RSA PSS signature algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an RSA PSS signature algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_RSA_PSS(alg) /* specification-defined value */
@@ -2699,9 +2699,9 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is an RSA PSS signature algorithm that
  *        permits any salt length.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an RSA PSS signature algorithm that permits any salt
  *         length, 0 otherwise.
  */
@@ -2710,9 +2710,9 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is an RSA PSS signature algorithm that
  *        requires the standard salt length.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an RSA PSS signature algorithm that requires the standard
  *         salt length, 0 otherwise.
  */
@@ -2720,36 +2720,36 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 
 /**
  * @brief Whether the specified algorithm is ECDSA.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an ECDSA algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_ECDSA(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is deterministic ECDSA.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a deterministic ECDSA algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_DETERMINISTIC_ECDSA(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is randomized ECDSA.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a randomized ECDSA algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) /* specification-defined value */
 
 /**
  * @brief Whether the specified algorithm is HashEdDSA.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a HashEdDSA algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_HASH_EDDSA(alg) /* specification-defined value */
@@ -2757,9 +2757,9 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 /**
  * @brief Whether the specified algorithm is a hash-and-sign algorithm that
  *        signs exactly the hash value.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a hash-and-sign algorithm that signs exactly the hash
  *         value, 0 otherwise.
  */
@@ -2774,11 +2774,11 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 /**
  * @brief Sufficient signature buffer size for psa_sign_message() and
  *        psa_sign_hash().
- * 
+ *
  * @param key_type An asymmetric key type.
  * @param key_bits The size of the key in bits.
  * @param alg      The signature algorithm.
- * 
+ *
  * @return A sufficient signature buffer size for the specified asymmetric
  *         signature algorithm and key parameters.
  */
@@ -2799,17 +2799,17 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 
 /**
  * @brief The RSA OAEP asymmetric encryption algorithm.
- * 
+ *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
- * 
+ *
  * @return The corresponding RSA OAEP encryption algorithm.
  */
 #define PSA_ALG_RSA_OAEP(hash_alg) /* specification-defined value */
 
 /**
  * @brief Encrypt a short message with a public key.
- * 
+ *
  * @param key           Identifer of the key to use for the operation.
  * @param alg           The asymmetric encryption algorithm to compute: a value
  *                      of type psa_algorithm_t such that
@@ -2836,7 +2836,7 @@ psa_status_t psa_asymmetric_encrypt(psa_key_id_t key,
 
 /**
  * @brief Decrypt a short message with a private key.
- * 
+ *
  * @param key           Identifier of the key to use for the operation.
  * @param alg           The asymmetric encryption algorithm to compute: a value
  *                      of type psa_algorithm_t such that
@@ -2863,22 +2863,22 @@ psa_status_t psa_asymmetric_decrypt(psa_key_id_t key,
 
 /**
  * @brief Whether the specified algorithm is an RSA OAEP encryption algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an RSA OAEP algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_RSA_OAEP(alg) /* specification-defined value */
 
 /**
  * @brief Sufficient output buffer size for psa_asymmetric_encrypt().
- * 
+ *
  * @param key_type An asymmetric key type, either a key pair or a public key.
  * @param key_bits The size of the key in bits.
  * @param alg      An asymmetric encryption algorithm: a value of type
  *                 psa_algorithm_t such that
  *                 PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg) is true.
- * 
+ *
  * @return A sufficient output buffer size for the specified asymmetric
  *         encryption algorithm and key parameters.
  */
@@ -2894,13 +2894,13 @@ psa_status_t psa_asymmetric_decrypt(psa_key_id_t key,
 
 /**
  * @brief Sufficient output buffer size for psa_asymmetric_decrypt().
- * 
+ *
  * @param key_type An asymmetric key type, either a key pair or a public key.
  * @param key_bits The size of the key in bits.
  * @param alg      An asymmetric encryption algorithm: a value of type
  *                 psa_algorithm_t such that
  *                 PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg) is true.
- * 
+ *
  * @return A sufficient output buffer size for the specified asymmetric
  *         encryption algorithm and key parameters.
  */
@@ -2927,12 +2927,12 @@ psa_status_t psa_asymmetric_decrypt(psa_key_id_t key,
 /**
  * @brief Macro to build a combined algorithm that chains a key agreement with a
  *        key derivation.
- * 
+ *
  * @param ka_alg  A key agreement algorithm: a value of type psa_algorithm_t
  *                such that PSA_ALG_IS_KEY_AGREEMENT(ka_alg) is true.
  * @param kdf_alg A key derivation algorithm: a value of type psa_algorithm_t
  *                such that PSA_ALG_IS_KEY_DERIVATION(kdf_alg) is true.
- * 
+ *
  * @return The corresponding key agreement and derivation algorithm.
  */
 #define PSA_ALG_KEY_AGREEMENT(ka_alg, kdf_alg) \
@@ -2940,7 +2940,7 @@ psa_status_t psa_asymmetric_decrypt(psa_key_id_t key,
 
 /**
  * @brief Perform a key agreement and return the raw shared secret.
- * 
+ *
  * @param alg             The key agreement algorithm to compute: a value of
  *                        type psa_algorithm_t such that
  *                        PSA_ALG_IS_RAW_KEY_AGREEMENT(alg) is true.
@@ -2963,7 +2963,7 @@ psa_status_t psa_raw_key_agreement(psa_algorithm_t alg,
 /**
  * @brief Perform a key agreement and use the shared secret as input to a key
  *        derivation.
- * 
+ *
  * @param operation       The key derivation operation object to use.
  * @param step            Which step the input data is for.
  * @param private_key     Identifier of the private key to use.
@@ -2979,10 +2979,10 @@ psa_status_t psa_key_derivation_key_agreement(psa_key_derivation_operation_t * o
 /**
  * @brief Get the raw key agreement algorithm from a full key agreement
  *        algorithm.
- * 
+ *
  * @param alg A key agreement algorithm: a value of type psa_algorithm_t such
  *            that PSA_ALG_IS_KEY_AGREEMENT(alg) is true.
- * 
+ *
  * @return The underlying raw key agreement algorithm if alg is a key agreement
  *         algorithm.
  */
@@ -2991,10 +2991,10 @@ psa_status_t psa_key_derivation_key_agreement(psa_key_derivation_operation_t * o
 /**
  * @brief Get the key derivation algorithm used in a full key agreement
  *        algorithm.
- * 
+ *
  * @param alg A key agreement algorithm: a value of type psa_algorithm_t such
  *            that PSA_ALG_IS_KEY_AGREEMENT(alg) is true.
- * 
+ *
  * @return The underlying key derivation algorithm if alg is a key agreement
  *         algorithm.
  */
@@ -3002,9 +3002,9 @@ psa_status_t psa_key_derivation_key_agreement(psa_key_derivation_operation_t * o
 
 /**
  * @brief Whether the specified algorithm is a raw key agreement algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a raw key agreement algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_RAW_KEY_AGREEMENT(alg) /* specification-defined value */
@@ -3012,9 +3012,9 @@ psa_status_t psa_key_derivation_key_agreement(psa_key_derivation_operation_t * o
 /**
  * @brief Whether the specified algorithm is a finite field Diffie-Hellman
  *        algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a finite field Diffie-Hellman algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_FFDH(alg) /* specification-defined value */
@@ -3022,19 +3022,19 @@ psa_status_t psa_key_derivation_key_agreement(psa_key_derivation_operation_t * o
 /**
  * @brief Whether the specified algorithm is an elliptic curve Diffie-Hellman
  *        algorithm.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is an elliptic curve Diffie-Hellman algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_ECDH(alg) /* specification-defined value */
 
 /**
  * @brief Sufficient output buffer size for psa_raw_key_agreement().
- * 
+ *
  * @param key_type A supported key type.
  * @param key_bits The size of the key in bits.
- * 
+ *
  * @return A sufficient output buffer size for the specified key type and size.
  */
 #define PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(key_type, key_bits) \
@@ -3049,7 +3049,7 @@ psa_status_t psa_key_derivation_key_agreement(psa_key_derivation_operation_t * o
 
 /**
  * @brief Generate random bytes.
- * 
+ *
  * @param output      Output buffer for the generated data.
  * @param output_size Number of bytes to generate and output.
  */

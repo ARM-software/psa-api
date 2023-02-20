@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 # PSA Certified API document configuration
@@ -15,7 +15,7 @@ doc_info = {
     'author': 'Arm Limited',
 
     # Document copyright date, default to year of 'date'
-    'copyright_date': '2018-2022',
+    'copyright_date': '2018-2023',
     'copyright': 'Arm Limited and/or its affiliates',
 
     # Arm document identifier, marked as open issue if not provided
