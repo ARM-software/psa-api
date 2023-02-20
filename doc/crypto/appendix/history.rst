@@ -20,10 +20,11 @@ Changes to the API
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-*   Clarify the requirements on the ``hash`` parameter in the `psa_sign_hash()` and `psa_verify_hash()` functions.
-*   Explicitly describe the handling of input and output in `psa_cipher_update()`, consistent with the documentation of `psa_aead_update()`.
+*   Clarified the requirements on the ``hash`` parameter in the `psa_sign_hash()` and `psa_verify_hash()` functions.
+*   Explicitly described the handling of input and output in `psa_cipher_update()`, consistent with the documentation of `psa_aead_update()`.
 *   Clarified the behavior of operation objects following a call to a setup function. Provided a diagram to illustrate :ref:`multi-part operation states <multi-part-operations>`.
-*   Clarify the key policy requirement for `PSA_ALG_ECDSA_ANY`.
+*   Clarified the key policy requirement for `PSA_ALG_ECDSA_ANY`.
+*   Clarified `PSA_KEY_USAGE_EXPORT`: "it permits moving a key outside of its current security boundary". This improves understanding of why it is not only required for `psa_export_key()`, but can also be required for `psa_copy_key()` in some situations.
 
 Other changes
 ~~~~~~~~~~~~~

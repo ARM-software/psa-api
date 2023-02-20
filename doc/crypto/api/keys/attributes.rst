@@ -99,9 +99,9 @@ Managing key attributes
         *   -   key size
             -   ``0`` --- meaning that the size is unspecified.
         *   -   usage flags
-            -   ``0`` --- which allows no usage except exporting a public key.
+            -   ``0`` --- which permits no usage except exporting a public key.
         *   -   algorithm
-            -   `PSA_ALG_NONE` --- which does not allow cryptographic usage, but allows exporting.
+            -   `PSA_ALG_NONE` --- which does not permit cryptographic usage, but permits exporting.
 
     .. rubric:: Usage
 

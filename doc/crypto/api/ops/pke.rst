@@ -63,7 +63,7 @@ Asymmetric encryption functions
 
     .. param:: psa_key_id_t key
         Identifer of the key to use for the operation. It must be a public key or an asymmetric key pair.
-        It must allow the usage `PSA_KEY_USAGE_ENCRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_ENCRYPT`.
     .. param:: psa_algorithm_t alg
         The asymmetric encryption algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg)` is true.
     .. param:: const uint8_t * input
@@ -129,7 +129,7 @@ Asymmetric encryption functions
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must be an asymmetric key pair.
-        It must allow the usage `PSA_KEY_USAGE_DECRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_DECRYPT`.
     .. param:: psa_algorithm_t alg
         The asymmetric encryption algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg)` is true.
     .. param:: const uint8_t * input

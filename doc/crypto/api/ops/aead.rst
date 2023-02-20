@@ -172,7 +172,7 @@ AEAD algorithms
     .. param:: aead_alg
         An AEAD algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_AEAD(aead_alg)` is true.
     .. param:: min_tag_length
-        Desired minimum length of the authentication tag in bytes. This must be at least ``1`` and at most the largest allowed tag length of the algorithm.
+        Desired minimum length of the authentication tag in bytes. This must be at least ``1`` and at most the largest permitted tag length of the algorithm.
 
     .. return::
         The corresponding AEAD wildcard algorithm with the specified minimum tag length.
@@ -182,7 +182,7 @@ AEAD algorithms
     A key with a minimum-tag-length AEAD wildcard algorithm as permitted-algorithm policy can be used with all AEAD algorithms sharing the same base algorithm, and where the tag length of the specific algorithm is equal to or larger then the minimum tag length specified by the wildcard algorithm.
 
     .. note::
-        When setting the minimum required tag length to less than the smallest tag length allowed by the base algorithm, this effectively becomes an 'any-tag-length-allowed' policy for that base algorithm.
+        When setting the minimum required tag length to less than the smallest tag length permitted by the base algorithm, this effectively becomes an 'any-tag-length-permitted' policy for that base algorithm.
 
     The AEAD algorithm with a default length tag can be recovered using `PSA_ALG_AEAD_WITH_DEFAULT_LENGTH_TAG()`.
 
@@ -201,7 +201,7 @@ Single-part AEAD functions
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation.
-        It must allow the usage `PSA_KEY_USAGE_ENCRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_ENCRYPT`.
     .. param:: psa_algorithm_t alg
         The AEAD algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_AEAD(alg)` is true.
     .. param:: const uint8_t * nonce
@@ -267,7 +267,7 @@ Single-part AEAD functions
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation.
-        It must allow the usage `PSA_KEY_USAGE_DECRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_DECRYPT`.
     .. param:: psa_algorithm_t alg
         The AEAD algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_AEAD(alg)` is true.
     .. param:: const uint8_t * nonce
@@ -406,7 +406,7 @@ Multi-part AEAD operations
         The operation object to set up. It must have been initialized as per the documentation for `psa_aead_operation_t` and not yet in use.
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must remain valid until the operation terminates.
-        It must allow the usage `PSA_KEY_USAGE_ENCRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_ENCRYPT`.
     .. param:: psa_algorithm_t alg
         The AEAD algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_AEAD(alg)` is true.
 
@@ -470,7 +470,7 @@ Multi-part AEAD operations
         The operation object to set up. It must have been initialized as per the documentation for `psa_aead_operation_t` and not yet in use.
     .. param:: psa_key_id_t key
         Identifier of the key to use for the operation. It must remain valid until the operation terminates.
-        It must allow the usage `PSA_KEY_USAGE_DECRYPT`.
+        It must permit the usage `PSA_KEY_USAGE_DECRYPT`.
     .. param:: psa_algorithm_t alg
         The AEAD algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_AEAD(alg)` is true.
 

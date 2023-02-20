@@ -123,7 +123,7 @@ Standalone key agreement
         The key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is true.
     .. param:: psa_key_id_t private_key
         Identifier of the private key to use.
-        It must allow the usage `PSA_KEY_USAGE_DERIVE`.
+        It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
         Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
     .. param:: size_t peer_key_length
@@ -190,7 +190,7 @@ Combining key agreement and key derivation
         Which step the input data is for.
     .. param:: psa_key_id_t private_key
         Identifier of the private key to use.
-        It must allow the usage `PSA_KEY_USAGE_DERIVE`.
+        It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
         Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
     .. param:: size_t peer_key_length
@@ -212,7 +212,7 @@ Combining key agreement and key derivation
         The following conditions can result in this error:
 
         *   The operation's algorithm is not a key agreement algorithm.
-        *   ``step`` does not allow an input resulting from a key agreement.
+        *   ``step`` does not permit an input resulting from a key agreement.
         *   ``private_key`` is not compatible with the operation's algorithm.
         *   ``peer_key`` is not a valid public key corresponding to ``private_key``.
     .. retval:: PSA_ERROR_NOT_SUPPORTED

@@ -357,7 +357,7 @@ Asymmetric signature functions
         Sign a message with a private key. For hash-and-sign algorithms, this includes the hashing step.
 
     .. param:: psa_key_id_t key
-        Identifier of the key to use for the operation. It must be an asymmetric key pair. The key must allow the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
+        Identifier of the key to use for the operation. It must be an asymmetric key pair. The key must permit the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_MESSAGE(alg)` is true.
     .. param:: const uint8_t * input
@@ -418,7 +418,7 @@ Asymmetric signature functions
         Verify the signature of a message with a public key. For hash-and-sign algorithms, this includes the hashing step.
 
     .. param:: psa_key_id_t key
-        Identifier of the key to use for the operation. It must be a public key or an asymmetric key pair. The key must allow the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
+        Identifier of the key to use for the operation. It must be a public key or an asymmetric key pair. The key must permit the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_MESSAGE(alg)` is true.
     .. param:: const uint8_t * input
@@ -470,7 +470,7 @@ Asymmetric signature functions
         Sign an already-calculated hash with a private key.
 
     .. param:: psa_key_id_t key
-        Identifier of the key to use for the operation. It must be an asymmetric key pair. The key must allow the usage `PSA_KEY_USAGE_SIGN_HASH`.
+        Identifier of the key to use for the operation. It must be an asymmetric key pair. The key must permit the usage `PSA_KEY_USAGE_SIGN_HASH`.
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm that separates the hash and sign operations: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_HASH(alg)` is true.
     .. param:: const uint8_t * hash
@@ -543,7 +543,7 @@ Asymmetric signature functions
         Verify the signature of a hash or short message using a public key.
 
     .. param:: psa_key_id_t key
-        Identifier of the key to use for the operation. It must be a public key or an asymmetric key pair. The key must allow the usage `PSA_KEY_USAGE_VERIFY_HASH`.
+        Identifier of the key to use for the operation. It must be a public key or an asymmetric key pair. The key must permit the usage `PSA_KEY_USAGE_VERIFY_HASH`.
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm that separates the hash and sign operations: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_HASH(alg)` is true.
     .. param:: const uint8_t * hash
