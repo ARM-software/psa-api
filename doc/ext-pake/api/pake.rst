@@ -720,7 +720,7 @@ Multi-part PAKE operations
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
-        Success.
+        Success. The operation is now active.
     .. retval:: PSA_ERROR_BAD_STATE
         The following conditions can result in this error:
 
@@ -743,7 +743,7 @@ Multi-part PAKE operations
 
     The sequence of operations to set up a password-authenticated key exchange operation is as follows:
 
-    1.  Allocate an operation object which will be passed to all the functions listed here.
+    1.  Allocate a PAKE operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_pake_operation_t`.
         For example, using `PSA_PAKE_OPERATION_INIT`.
     #.  Call `psa_pake_setup()` to specify the cipher suite.
@@ -755,19 +755,22 @@ Multi-part PAKE operations
     1.  Call :code:`psa_pake_output(operation, PSA_PAKE_STEP_KEY_SHARE, ...)` to get the key share that needs to be sent to the peer.
     #.  Call :code:`psa_pake_input(operation, PSA_PAKE_STEP_KEY_SHARE, ...)` to provide the key share that was received from the peer.
     #.  Depending on the algorithm additional calls to `psa_pake_output()` and `psa_pake_input()` might be necessary.
-    #.  Call `psa_pake_get_implicit_key()` for accessing the shared secret.
+    #.  Call `psa_pake_get_implicit_key()` to access the shared secret.
 
     Refer to the documentation of individual PAKE algorithms for details on the required set up and operation for each algorithm.
     See :secref:`pake-algorithms`.
 
-    If an error occurs at any step after a call to `psa_pake_setup()`, the operation will need to be reset by a call to `psa_pake_abort()`.
-    The application may call `psa_pake_abort()` at any time after the operation has been initialized.
+    After a successful call to `psa_pake_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
 
-    After a successful call to `psa_pake_setup()`, the application must eventually terminate the operation.
-    The following events terminate an operation:
-
-    *   A call to `psa_pake_abort()`.
     *   A successful call to `psa_pake_get_implicit_key()`.
+    *   A call to `psa_pake_abort()`.
+
+    If `psa_pake_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_pake_abort()`.
+
+    ..
+        See :secref:`multi-part-operations`.
 
 .. function:: psa_pake_set_password_key
 

@@ -469,7 +469,7 @@ Multi-part cipher operations
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
-        Success.
+        Success. The operation is now active.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
@@ -498,19 +498,23 @@ Multi-part cipher operations
 
     The sequence of operations to encrypt a message with a symmetric cipher is as follows:
 
-    1.  Allocate an operation object which will be passed to all the functions listed here.
+    1.  Allocate a cipher operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_cipher_operation_t`, e.g. `PSA_CIPHER_OPERATION_INIT`.
     #.  Call `psa_cipher_encrypt_setup()` to specify the algorithm and key.
     #.  Call either `psa_cipher_generate_iv()` or `psa_cipher_set_iv()` to generate or set the initialization vector (IV), if the algorithm requires one. It is recommended to use `psa_cipher_generate_iv()` unless the protocol being implemented requires a specific IV value.
     #.  Call `psa_cipher_update()` zero, one or more times, passing a fragment of the message each time.
     #.  Call `psa_cipher_finish()`.
 
-    If an error occurs at any step after a call to `psa_cipher_encrypt_setup()`, the operation will need to be reset by a call to `psa_cipher_abort()`. The application can call `psa_cipher_abort()` at any time after the operation has been initialized.
-
-    After a successful call to `psa_cipher_encrypt_setup()`, the application must eventually terminate the operation. The following events terminate an operation:
+    After a successful call to `psa_cipher_encrypt_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
 
     *   A successful call to `psa_cipher_finish()`.
     *   A call to `psa_cipher_abort()`.
+
+    If `psa_cipher_encrypt_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_cipher_abort()`.
+
+    See :secref:`multi-part-operations`.
 
 .. function:: psa_cipher_decrypt_setup
 
@@ -527,7 +531,7 @@ Multi-part cipher operations
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
-        Success.
+        Success. The operation is now active.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
@@ -556,19 +560,23 @@ Multi-part cipher operations
 
     The sequence of operations to decrypt a message with a symmetric cipher is as follows:
 
-    1.  Allocate an operation object which will be passed to all the functions listed here.
+    1.  Allocate a cipher operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_cipher_operation_t`, e.g. `PSA_CIPHER_OPERATION_INIT`.
     #.  Call `psa_cipher_decrypt_setup()` to specify the algorithm and key.
     #.  Call `psa_cipher_set_iv()` with the initialization vector (IV) for the decryption, if the algorithm requires one. This must match the IV used for the encryption.
     #.  Call `psa_cipher_update()` zero, one or more times, passing a fragment of the message each time.
     #.  Call `psa_cipher_finish()`.
 
-    If an error occurs at any step after a call to `psa_cipher_decrypt_setup()`, the operation will need to be reset by a call to `psa_cipher_abort()`. The application can call `psa_cipher_abort()` at any time after the operation has been initialized.
-
-    After a successful call to `psa_cipher_decrypt_setup()`, the application must eventually terminate the operation. The following events terminate an operation:
+    After a successful call to `psa_cipher_decrypt_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
 
     *   A successful call to `psa_cipher_finish()`.
     *   A call to `psa_cipher_abort()`.
+
+    If `psa_cipher_decrypt_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_cipher_abort()`.
+
+    See :secref:`multi-part-operations`.
 
 .. function:: psa_cipher_generate_iv
 

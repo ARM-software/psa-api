@@ -429,7 +429,7 @@ Key derivation functions
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
-        Success.
+        Success. The operation is now active.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         ``alg`` is neither a key derivation algorithm, nor a key agreement and derivation algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -447,20 +447,23 @@ Key derivation functions
 
     A key agreement and derivation algorithm uses a key agreement protocol to provide a shared secret which is used for the key derivation. See `psa_key_derivation_key_agreement()`.
 
-    To derive a key:
+    The sequence of operations to derive a key is as follows:
 
-    1.  Start with an initialized object of type `psa_key_derivation_operation_t`.
-    #.  Call `psa_key_derivation_setup()` to select the algorithm.
+    1.  Allocate a key derivation operation object which will be passed to all the functions listed here.
+    #.  Initialize the operation object with one of the methods described in the documentation for `psa_key_derivation_operation_t`, e.g. `PSA_KEY_DERIVATION_OPERATION_INIT`.
+    #.  Call `psa_key_derivation_setup()` to specify the algorithm.
     #.  Provide the inputs for the key derivation by calling `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_key()` as appropriate. Which inputs are needed, in what order, whether keys are permitted, and what type of keys depends on the algorithm.
     #.  Optionally set the operation's maximum capacity with `psa_key_derivation_set_capacity()`. This can be done before, in the middle of, or after providing inputs. For some algorithms, this step is mandatory because the output depends on the maximum capacity.
     #.  To derive a key, call `psa_key_derivation_output_key()`. To derive a byte string for a different purpose, call `psa_key_derivation_output_bytes()`. Successive calls to these functions use successive output bytes calculated by the key derivation algorithm.
     #.  Clean up the key derivation operation object with `psa_key_derivation_abort()`.
 
-    If this function returns an error, the key derivation operation object is not changed.
+    After a successful call to `psa_key_derivation_setup()`, the operation is active, and the application must eventually terminate the operation with a call to `psa_key_derivation_abort()`.
 
-    If an error occurs at any step after a call to `psa_key_derivation_setup()`, the operation will need to be reset by a call to `psa_key_derivation_abort()`.
+    If `psa_key_derivation_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
 
-    Implementations must reject an attempt to derive a key of size ``0``.
+    To abandon an active operation, or reset an operation in an error state, call `psa_key_derivation_abort()`.
+
+    See :secref:`multi-part-operations`.
 
 .. function:: psa_key_derivation_get_capacity
 
@@ -746,7 +749,7 @@ Key derivation functions
 
         *   The key type is invalid, or is an asymmetric public key type.
         *   The key type is `PSA_KEY_TYPE_PASSWORD_HASH`, and the permitted-algorithm policy is not the same as the current operation's algorithm.
-        *   The key size is not valid for the key type.
+        *   The key size is not valid for the key type. Implementations must reject an attempt to derive a key of size ``0``.
         *   The key lifetime is invalid.
         *   The key identifier is not valid for the key lifetime.
         *   The key usage flags include invalid values.

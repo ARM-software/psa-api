@@ -22,9 +22,11 @@ Clarifications and fixes
 
 *   Clarify the requirements on the ``hash`` parameter in the `psa_sign_hash()` and `psa_verify_hash()` functions.
 *   Explicitly describe the handling of input and output in `psa_cipher_update()`, consistent with the documentation of `psa_aead_update()`.
+*   Clarified the behavior of operation objects following a call to a setup function. Provided a diagram to illustrate :ref:`multi-part operation states <multi-part-operations>`.
 
 Other changes
 ~~~~~~~~~~~~~
+
 
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
