@@ -796,7 +796,7 @@ Support macros
 
     This value must not be used to build other algorithms that are parametrized over a hash. For any valid use of this macro to build an algorithm ``alg``, :code:`PSA_ALG_IS_HASH_AND_SIGN(alg)` is true.
 
-    This value cannot be used to build an algorithm specification to perform an operation. If used in this way, the operation wil fail with an error.
+    This value cannot be used to build an algorithm specification to perform an operation. If used in this way, the operation will fail with an error.
 
     .. rubric:: Usage
 
