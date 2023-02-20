@@ -202,7 +202,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         The following conditions can result in this error:
 
         *   ``source_key`` does not have the `PSA_KEY_USAGE_COPY` usage flag.
-        *   ``source_key`` does not have the `PSA_KEY_USAGE_EXPORT` usage flag, and the location of ``target_key`` is outside the security perimeter of the ``source_key`` storage location.
+        *   ``source_key`` does not have the `PSA_KEY_USAGE_EXPORT` usage flag, and the location of ``target_key`` is outside the security boundary of the ``source_key`` storage location.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE

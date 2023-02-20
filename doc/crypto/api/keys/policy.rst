@@ -82,7 +82,7 @@ Key usage flags
 
 The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. Four kinds of usage flag can be specified:
 
-*   The extractable flag `PSA_KEY_USAGE_EXPORT` determines whether the key material can be extracted from the cryptoprocessor, or copied outside of its current security domain.
+*   The extractable flag `PSA_KEY_USAGE_EXPORT` determines whether the key material can be extracted from the cryptoprocessor, or copied outside of its current security boundary.
 *   The copyable flag `PSA_KEY_USAGE_COPY` determines whether the key material can be copied into a new key, which can have a different lifetime or a more restrictive policy.
 *   The cacheable flag `PSA_KEY_USAGE_CACHE` determines whether the implementation is permitted to retain non-essential copies of the key material in RAM. This policy only applies to persistent keys. See also :secref:`key-material`.
 *   The other usage flags, for example, `PSA_KEY_USAGE_ENCRYPT` and `PSA_KEY_USAGE_SIGN_MESSAGE`, determine whether the corresponding operation is permitted on the key.
