@@ -21,6 +21,7 @@ Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 *   Clarify the requirements on the ``hash`` parameter in the `psa_sign_hash()` and `psa_verify_hash()` functions.
+*   Explicitly describe the handling of input and output in `psa_cipher_update()`, consistent with the documentation of `psa_aead_update()`.
 
 Other changes
 ~~~~~~~~~~~~~
