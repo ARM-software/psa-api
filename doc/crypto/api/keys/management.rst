@@ -552,7 +552,7 @@ This section defines the format of the key data that an implementation is requir
 
             For HMAC keys that are shorter than, or equal in size to, the block size of ``hash_alg``, the format is the raw bytes of the key.
 
-            For HMAC keys that are longer than the block size of ``hash_alg``, the format is an :scterm:`implementation defined` choice between the following formats:
+            HMAC keys that are longer than the block size of ``hash_alg``, are permitted in a call to `psa_import_key()`. For such a key, the output of `psa_export_key()` is an :scterm:`implementation defined` choice between the following:
 
             1.  The raw bytes of the key.
             #.  The raw bytes of the hash of the key, using ``hash_alg``.
