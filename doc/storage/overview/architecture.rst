@@ -87,6 +87,7 @@ In the event of power failure or other interruption of operations that modify st
 
 .. list-table:: Properties of storage operations
    :name: tab-acid
+   :class: longtable
    :stub-columns: 1
    :widths: 1 5
 
@@ -110,6 +111,7 @@ Components
 
 .. list-table:: Components in a system that implements the Trusted Storage API
    :name: tab-components
+   :class: longtable
    :header-rows: 1
    :widths: 1 3
 

@@ -14,6 +14,7 @@ Information model
 The following table describes the mandatory and optional claims in the report:
 
 ..  list-table::
+   :class: longtable
    :header-rows: 1
    :widths: 20 15 50
 

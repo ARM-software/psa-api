@@ -97,6 +97,7 @@ Cryptography is used as a mitigation to the risk of disclosure or tampering with
 
 .. list-table:: Security goals
     :name: table-sg
+    :class: longtable
     :header-rows: 1
     :widths: 1,9
 
@@ -129,6 +130,7 @@ A specific implementation of the |API| might not include all of these adversaria
 
 .. list-table:: Adversarial models
     :name: table-adversaries
+    :class: longtable
     :header-rows: 1
     :widths: 1,9
 
@@ -168,6 +170,7 @@ Adversarial models that are outside the scope of this assessment are shown in :n
 
 .. list-table:: Adversarial models that are outside the scope of this SRA
     :name: table-out-of-scope-adversaries
+    :class: longtable
     :header-rows: 1
     :widths: 1,9
 
@@ -194,6 +197,7 @@ See :secref:`risk-assessment` for an evaluation of the risks posed by these thre
 
 .. list-table:: Threats and attacks
     :name: table-threats
+    :class: longtable
     :header-rows: 2
     :widths: 2,5,2,2,14
 
@@ -310,6 +314,7 @@ It is recommended that this assessment is repeated for a specific implementation
 
 .. list-table:: Risk assessment
     :name: table-risks
+    :class: longtable
     :header-rows: 1
     :widths: 1,1,1,1,1
 
@@ -393,6 +398,7 @@ The objectives in :numref:`table-objectives` are a high-level description of wha
 
 .. list-table:: Mitigation objectives
     :name: table-objectives
+    :class: longtable
     :header-rows: 1
     :widths: 1,7,5
 
@@ -443,6 +449,7 @@ The design of the API can mitigate, or enable a cryptoprocessor to mitigate, som
 
 .. list-table:: Security requirements
     :name: tab-security-requirements
+    :class: longtable
     :header-rows: 1
     :widths: 1,4,4,4
 
@@ -541,6 +548,7 @@ Implementation remediations
 
 .. list-table:: Implementation remediations
     :name: tab-remediation
+    :class: longtable
     :header-rows: 1
     :widths: 1,4,8
 
@@ -604,6 +612,7 @@ Threats T.2-T.4, and T.7-T.9 are fully mitigated in the API design, as described
 
 .. list-table:: Residual risk
     :name: tab-residual-risk
+    :class: longtable
     :header-rows: 1
     :widths: 1,4,8
 

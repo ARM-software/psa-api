@@ -51,6 +51,7 @@ Component state
 
 .. list-table:: Component states
    :name: tab-states
+   :class: longtable
    :header-rows: 1
    :widths: 1 6
 
@@ -182,6 +183,7 @@ The complexity of the state model is a response to the requirements that follow 
 
 .. list-table:: Use case implications for the state model
    :name: tab-model-rationale
+   :class: longtable
    :header-rows: 1
    :widths: 1 3
 
