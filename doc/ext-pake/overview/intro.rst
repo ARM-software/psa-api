@@ -124,6 +124,7 @@ Some schemes like that are:
 
 .. list-table::
     :header-rows: 1
+    :class: longtable
     :widths: auto
     :align: left
 

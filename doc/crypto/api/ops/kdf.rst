@@ -790,6 +790,7 @@ Key derivation functions
 
     .. list-table:: Standard key derivation process
         :name: std-key-derivation
+        :class: longtable
         :header-rows: 1
         :widths: 2,5
 

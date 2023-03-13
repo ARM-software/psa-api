@@ -7,6 +7,7 @@ Document history
 ================
 
 ..  list-table::
+    :class: longtable
     :header-rows: 1
     :widths: 3 3 14
 

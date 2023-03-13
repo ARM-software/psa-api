@@ -48,6 +48,7 @@ Common error codes
 Some of the common status codes have a more precise meaning when returned by a function in the |API|, compared to the definitions in `[PSA-STAT]`.
 
 .. list-table::
+    :class: longtable
     :header-rows: 1
     :widths: 1 2
 

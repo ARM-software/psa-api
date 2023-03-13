@@ -103,6 +103,7 @@ Lifetime encodings
 
     .. list-table:: Key persistence level values
         :name: persistence-levels
+        :class: longtable
         :header-rows: 1
         :widths: 2,3
         :align: left
@@ -152,6 +153,7 @@ Lifetime encodings
 
     .. list-table:: Key location indicator values
         :name: location-indicators
+        :class: longtable
         :header-rows: 1
         :widths: 1,3
         :align: left
