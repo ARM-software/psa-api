@@ -54,24 +54,24 @@ Some of the common status codes have a more precise meaning when returned by a f
     * - Error code
       - Meaning in the |API|
 
-    * - PSA_ERROR_INVALID_HANDLE
+    * - :code:`PSA_ERROR_INVALID_HANDLE`
       - A key identifier is not valid. See also :secref:`key-ids`.
 
-    * - PSA_ERROR_BAD_STATE
+    * - :code:`PSA_ERROR_BAD_STATE`
       - Multi-part operations return this error when one of the functions is called out of sequence. Refer to the function descriptions for permitted sequencing of functions.
 
         Implementations can return this error if the caller has not initialized the library by a call to `psa_crypto_init()`.
 
-    * - PSA_ERROR_BUFFER_TOO_SMALL
+    * - :code:`PSA_ERROR_BUFFER_TOO_SMALL`
       - Applications can call the ``PSA_xxx_SIZE`` macro listed in the function description to determine a sufficient buffer size.
 
-    * - PSA_ERROR_STORAGE_FAILURE
+    * - :code:`PSA_ERROR_STORAGE_FAILURE`
       - When a storage failure occurs, it is no longer possible to ensure the global integrity of the keystore. Depending on the global integrity guarantees offered by the implementation, access to other data might fail even if the data is still readable but its integrity cannot be guaranteed.
 
-    * - PSA_ERROR_CORRUPTION_DETECTED
+    * - :code:`PSA_ERROR_CORRUPTION_DETECTED`
       - This error code is intended as a last resort when a security breach is detected and it is unsure whether the keystore data is still protected. Implementations must only return this error code to report an alarm from a tampering detector, to indicate that the confidentiality of stored data can no longer be guaranteed, or to indicate that the integrity of previously returned data is now considered compromised.
 
-    * - PSA_ERROR_DATA_CORRUPT
+    * - :code:`PSA_ERROR_DATA_CORRUPT`
       - When a storage failure occurs, it is no longer possible to ensure the global integrity of the keystore. Depending on the global integrity guarantees offered by the implementation, access to other data might fail even if the data is still readable but its integrity cannot be guaranteed.
 
 
