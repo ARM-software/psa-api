@@ -1594,7 +1594,8 @@ psa_status_t psa_cipher_update(psa_cipher_operation_t * operation,
  * @brief Finish encrypting or decrypting a message in a cipher operation.
  *
  * @param operation     Active cipher operation.
- * @param output        Buffer where the output is to be written.
+ * @param output        Buffer where the last part of the output is to be
+ *                      written.
  * @param output_size   Size of the output buffer in bytes.
  * @param output_length On success, the number of bytes that make up the
  *                      returned output.
