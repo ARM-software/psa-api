@@ -14,9 +14,6 @@ This section provides the detailed changes made between published version of the
 Changes between *1.1.1* and *1.1.2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Changes to the API
-~~~~~~~~~~~~~~~~~~
-
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
