@@ -20,6 +20,8 @@ Protected Storage requirements
 11. In the event of power failures or unexpected flash write failures, the implementation must attempt to fallback to allow retention of old content.
 12. The creation of a ``uid`` with value ``0`` (zero) must be treated as an error.
 
+.. _its-requirements:
+
 Internal Trusted Storage requirements
 -------------------------------------
 
