@@ -527,6 +527,7 @@ This section defines the format of the key data that an implementation is requir
 
 .. list-table:: Standard key formats
     :name: std-key-formats
+    :class: longtable
     :header-rows: 1
     :widths: 2,5
 

@@ -474,7 +474,9 @@ Asymmetric signature functions
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm that separates the hash and sign operations: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_HASH(alg)` is true.
     .. param:: const uint8_t * hash
-        The input to sign. This is usually the hash of a message. See the detailed description of this function and the description of individual signature algorithms for a detailed description of acceptable inputs.
+        The input to sign. This is usually the hash of a message.
+
+        See the description of this function, or the description of individual signature algorithms, for details of the acceptable inputs.
     .. param:: size_t hash_length
         Size of the ``hash`` buffer in bytes.
     .. param:: uint8_t * signature
@@ -547,7 +549,9 @@ Asymmetric signature functions
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm that separates the hash and sign operations: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_HASH(alg)` is true.
     .. param:: const uint8_t * hash
-        The input whose signature is to be verified. This is usually the hash of a message. See the detailed description of this function and the description of individual signature algorithms for a detailed description of acceptable inputs.
+        The input whose signature is to be verified. This is usually the hash of a message.
+
+        See the description of this function, or the description of individual signature algorithms, for details of the acceptable inputs.
     .. param:: size_t hash_length
         Size of the ``hash`` buffer in bytes.
     .. param:: const uint8_t * signature
