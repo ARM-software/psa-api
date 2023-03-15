@@ -29,6 +29,7 @@ Clarifications and fixes
 Other changes
 ~~~~~~~~~~~~~
 
+*   Moved the documentation of supported key import/export formats to a separate section of the specification. See :secref:`key_formats`.
 
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
