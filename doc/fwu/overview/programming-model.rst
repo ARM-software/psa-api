@@ -426,7 +426,7 @@ The bootloader checks the state of each component:
 Install components
 ^^^^^^^^^^^^^^^^^^
 
-If the implementation defers verification of the updated firmware to the bootloader, or the bootloader does not trust the update service (see :secref:`untrusted-service`), the bootloader must verify all components that are in STAGED state. If verification fails, all STAGED components are set to FAILED state, and the reason for failure stored for retrieval by the update client. The bootloader proceeds to boot the existing firmware. See :secref:`boot-execute`.
+If the implementation defers verification of the updated firmware to the bootloader, or the bootloader does not trust the staged firmware image (see :secref:`untrusted-staging`), the bootloader must verify all components that are in STAGED state. If verification fails, all STAGED components are set to FAILED state, and the reason for failure stored for retrieval by the update client. The bootloader proceeds to boot the existing firmware. See :secref:`boot-execute`.
 
 The new firmware images for all STAGED components are installed as the *active* firmware. If the installation fails for any component, the previous images are restored for all components, the components are set to FAILED state, and the reason for failure stored for retrieval by the update client. The bootloader proceeds to boot the existing firmware. See :secref:`boot-execute`.
 

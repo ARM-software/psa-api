@@ -178,23 +178,23 @@ This architecture enables all of the firmware verification requirements to be fu
 
 As the PRoT trusts the update service, but not the update client, this architecture is referred to as an "untrusted client" implementation.
 
-.. _untrusted-service:
+.. _untrusted-staging:
 
-Untrusted service
+Untrusted staging
 ^^^^^^^^^^^^^^^^^
 
-:numref:`fig-untrusted-service` shows an implementation architecture for a system where the *active* image is protected by the :term:`Platform Root of Trust` (PRoT), but the staging area for a new firmware image is not protected.
+:numref:`fig-untrusted-staging` shows an implementation architecture for a system where the *active* image is protected by the :term:`Platform Root of Trust` (PRoT), but the staging area for a new firmware image is not protected from access by the update client.
 
-.. figure:: /figure/arch/untrusted-service.*
-   :name: fig-untrusted-service
+.. figure:: /figure/arch/untrusted-staging.*
+   :name: fig-untrusted-staging
 
-   Implementation architecture with an untrusted update service
+   Implementation architecture with an untrusted update service and staging
 
-The staging area is accessible to untrusted components, so the bootloader cannot rely on any verification done by the update service prior to system restart. The bootloader must do all firmware verification prior to completing installation of the firmware.
+The staging area is accessible to untrusted components, so the bootloader cannot trust any verification done by the update service prior to system restart. The bootloader must do all firmware verification prior to completing installation of the firmware.
 
 In this type of implementation, it is still beneficial for the update service to perform some verification of firmware updates: this can reduce the system impact of a malicious or accidental invalid update.
 
-As the PRoT does not trust the update service, this architecture is referred to as an "untrusted service" implementation.
+As the PRoT does not trust the staging, or the update service which writes to it, this architecture is referred to as an "untrusted staging" implementation.
 
 .. _trusted-client:
 

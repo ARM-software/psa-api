@@ -467,7 +467,7 @@ Component information
       *  During preparation of a new firmware image, the implementation is not required to extract version information from the firmware image manifest:
 
          -  This information might not be available if the firmware image has not been completely written.
-         -  The update service might not be capable of extracting the version information. For example, in the untrusted-service deployment model, verification of the manifest can be deferred until the image is installed. See :secref:`untrusted-service`.
+         -  The update service might not be capable of extracting the version information. For example, in the untrusted-staging deployment model, verification of the manifest can be deferred until the image is installed. See :secref:`untrusted-staging`.
 
          If the version of an image that is being prepared is required by the update client, the update client must maintain this information locally.
 
