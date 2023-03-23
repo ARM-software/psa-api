@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _document-history:
@@ -33,6 +33,7 @@ Document history
       - * Relicensed the document under Attribution-ShareAlike 4.0 International with a patent license derived from Apache License 2.0. See :secref:`license`.
         * Documentation clarifications.
 
-    * - :issue:`TBD`
-      - *1.?.? Rel*
-      - * Documentation clarifications.
+    * - 2023-03-23
+      - *1.0.2 Rel*
+      - * Clarified the protection requirements for ITS. See :secref:`its-requirements`.
+        * Fixed inconsistent descriptions of :code:`PSA_ERROR_STORAGE_FAILURE` errors.

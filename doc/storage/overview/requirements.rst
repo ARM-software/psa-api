@@ -1,4 +1,4 @@
-﻿.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+﻿.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Requirements
@@ -19,6 +19,8 @@ Protected Storage requirements
 10. If implemented inside the ARoT, the Protected Storage service can use helper services outside of the ARoT to perform actual read and write operations through the external interface or file system.
 11. In the event of power failures or unexpected flash write failures, the implementation must attempt to fallback to allow retention of old content.
 12. The creation of a ``uid`` with value ``0`` (zero) must be treated as an error.
+
+.. _its-requirements:
 
 Internal Trusted Storage requirements
 -------------------------------------
