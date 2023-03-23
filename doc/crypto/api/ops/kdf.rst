@@ -132,7 +132,7 @@ Key derivation algorithms
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
     .. return::
-        The corresponding HKDF-Expand algorithm. For example, :code:`PSA_ALG_HKDF_EXTRACT(PSA_ALG_SHA_256)` is HKDF-Expand using HMAC-SHA-256.
+        The corresponding HKDF-Expand algorithm. For example, :code:`PSA_ALG_HKDF_EXPAND(PSA_ALG_SHA_256)` is HKDF-Expand using HMAC-SHA-256.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
