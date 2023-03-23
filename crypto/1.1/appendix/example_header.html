@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="1. Example header file" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="Each implementation of the Crypto API must provide a header file named psa/crypto.h, in which the API elements in this specification are defined. This appendix provides a example of the psa/crypto...." />
 <meta name="description" content="Each implementation of the Crypto API must provide a header file named psa/crypto.h, in which the API elements in this specification are defined. This appendix provides a example of the psa/crypto...." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,7 +51,7 @@
           <div class="body" role="main">
             
   <section id="example-header-file">
-<span id="appendix-example-header"></span><h1><span class="section-number">A. </span>Example header file<a class="headerlink" href="#example-header-file" title="Permalink to this headline">¶</a></h1>
+<span id="appendix-example-header"></span><h1><span class="section-number">A. </span>Example header file<a class="headerlink" href="#example-header-file" title="Permalink to this heading">¶</a></h1>
 <p>Each implementation of the Crypto API must provide a header file named <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code>, in which the API elements in this specification are defined.</p>
 <p>This appendix provides a example of the <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code> header file with all of the API elements. This can be used as a starting point or reference for an implementation.</p>
 <div class="admonition note">
@@ -57,9 +60,9 @@
 <p>The header will not compile without these missing definitions, and might require reordering to satisfy C compilation rules.</p>
 </div>
 <section id="psa-crypto-h">
-<h2><span class="section-number">A.1. </span>psa/crypto.h<a class="headerlink" href="#psa-crypto-h" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">A.1. </span>psa/crypto.h<a class="headerlink" href="#psa-crypto-h" title="Permalink to this heading">¶</a></h2>
 <pre class="literal-block"><em>/* This file is a reference template for implementation of the
- * PSA Certified Crypto API v1.1.1
+ * PSA Certified Crypto API v1.1
  */</em>
 
 #ifndef PSA_CRYPTO_H
@@ -67,6 +70,8 @@
 
 #include &lt;stddef.h&gt;
 #include &lt;stdint.h&gt;
+
+#include &quot;psa/error.h&quot;
 
 #ifdef __cplusplus
 extern &quot;C&quot; {
@@ -77,6 +82,7 @@ extern &quot;C&quot; {
 psa_status_t <a class="reference internal" href="../api/library/library.html#c.psa_crypto_init" title="psa_crypto_init">psa_crypto_init</a>(void);
 #define <a class="reference internal" href="../api/library/status.html#c.PSA_ERROR_INSUFFICIENT_ENTROPY" title="PSA_ERROR_INSUFFICIENT_ENTROPY">PSA_ERROR_INSUFFICIENT_ENTROPY</a> ((psa_status_t)-148)
 #define <a class="reference internal" href="../api/library/status.html#c.PSA_ERROR_INVALID_PADDING" title="PSA_ERROR_INVALID_PADDING">PSA_ERROR_INVALID_PADDING</a> ((psa_status_t)-150)
+typedef uint32_t <a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a>;
 typedef <em><a class="reference internal" href="../overview/implementation.html#implementation-defined-type"><span class="std std-ref">/* implementation-defined type */</span></a></em> <a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a>;
 #define <a class="reference internal" href="../api/keys/attributes.html#c.PSA_KEY_ATTRIBUTES_INIT" title="PSA_KEY_ATTRIBUTES_INIT">PSA_KEY_ATTRIBUTES_INIT</a> <em><a class="reference internal" href="../overview/implementation.html#implementation-defined-value"><span class="std std-ref">/* implementation-defined value */</span></a></em>
 <a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> <a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_init" title="psa_key_attributes_init">psa_key_attributes_init</a>(void);
@@ -161,7 +167,6 @@ void <a class="reference internal" href="../api/keys/lifetimes.html#c.psa_set_ke
     (<a class="reference internal" href="../api/keys/lifetimes.html#c.PSA_KEY_LIFETIME_GET_PERSISTENCE" title="PSA_KEY_LIFETIME_GET_PERSISTENCE">PSA_KEY_LIFETIME_GET_PERSISTENCE</a>(lifetime) == <a class="reference internal" href="../api/keys/lifetimes.html#c.PSA_KEY_PERSISTENCE_VOLATILE" title="PSA_KEY_PERSISTENCE_VOLATILE">PSA_KEY_PERSISTENCE_VOLATILE</a>)
 #define <a class="reference internal" href="../api/keys/lifetimes.html#c.PSA_KEY_LIFETIME_FROM_PERSISTENCE_AND_LOCATION" title="PSA_KEY_LIFETIME_FROM_PERSISTENCE_AND_LOCATION">PSA_KEY_LIFETIME_FROM_PERSISTENCE_AND_LOCATION</a>(persistence, location) \
     ((location) &lt;&lt; 8 | (persistence))
-typedef uint32_t <a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a>;
 #define <a class="reference internal" href="../api/keys/ids.html#c.PSA_KEY_ID_NULL" title="PSA_KEY_ID_NULL">PSA_KEY_ID_NULL</a> ((<a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a>)0)
 #define <a class="reference internal" href="../api/keys/ids.html#c.PSA_KEY_ID_USER_MIN" title="PSA_KEY_ID_USER_MIN">PSA_KEY_ID_USER_MIN</a> ((<a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a>)0x00000001)
 #define <a class="reference internal" href="../api/keys/ids.html#c.PSA_KEY_ID_USER_MAX" title="PSA_KEY_ID_USER_MAX">PSA_KEY_ID_USER_MAX</a> ((<a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a>)0x3fffffff)
@@ -170,6 +175,7 @@ typedef uint32_t <a class="reference internal" href="../api/keys/ids.html#c.psa_
 void <a class="reference internal" href="../api/keys/ids.html#c.psa_set_key_id" title="psa_set_key_id">psa_set_key_id</a>(<a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes,
                     <a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a> id);
 <a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a> <a class="reference internal" href="../api/keys/ids.html#c.psa_get_key_id" title="psa_get_key_id">psa_get_key_id</a>(const <a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes);
+typedef uint32_t <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>;
 void <a class="reference internal" href="../api/keys/policy.html#c.psa_set_key_algorithm" title="psa_set_key_algorithm">psa_set_key_algorithm</a>(<a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes,
                            <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a> alg);
 <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a> <a class="reference internal" href="../api/keys/policy.html#c.psa_get_key_algorithm" title="psa_get_key_algorithm">psa_get_key_algorithm</a>(const <a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes);
@@ -213,7 +219,6 @@ psa_status_t <a class="reference internal" href="../api/keys/management.html#c.p
     <em><a class="reference internal" href="../overview/implementation.html#implementation-defined-value"><span class="std std-ref">/* implementation-defined value */</span></a></em>
 #define <a class="reference internal" href="../api/keys/management.html#c.PSA_EXPORT_KEY_PAIR_MAX_SIZE" title="PSA_EXPORT_KEY_PAIR_MAX_SIZE">PSA_EXPORT_KEY_PAIR_MAX_SIZE</a> <em><a class="reference internal" href="../overview/implementation.html#implementation-defined-value"><span class="std std-ref">/* implementation-defined value */</span></a></em>
 #define <a class="reference internal" href="../api/keys/management.html#c.PSA_EXPORT_PUBLIC_KEY_MAX_SIZE" title="PSA_EXPORT_PUBLIC_KEY_MAX_SIZE">PSA_EXPORT_PUBLIC_KEY_MAX_SIZE</a> <em><a class="reference internal" href="../overview/implementation.html#implementation-defined-value"><span class="std std-ref">/* implementation-defined value */</span></a></em>
-typedef uint32_t <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>;
 #define <a class="reference internal" href="../api/ops/algorithms.html#c.PSA_ALG_NONE" title="PSA_ALG_NONE">PSA_ALG_NONE</a> ((<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)0)
 #define <a class="reference internal" href="../api/ops/algorithms.html#c.PSA_ALG_IS_HASH" title="PSA_ALG_IS_HASH">PSA_ALG_IS_HASH</a>(alg) <em><a class="reference internal" href="../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
 #define <a class="reference internal" href="../api/ops/algorithms.html#c.PSA_ALG_IS_MAC" title="PSA_ALG_IS_MAC">PSA_ALG_IS_MAC</a>(alg) <em><a class="reference internal" href="../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
@@ -690,7 +695,7 @@ psa_status_t <a class="reference internal" href="../api/ops/rng.html#c.psa_gener
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -730,13 +735,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

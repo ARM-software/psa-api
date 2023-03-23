@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="About this document" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="Release information: The change history table lists the changes that have been made to this document. Document revision history:,,,, Date, Version, Confidentiality, Change,,, January 2019, 1.0 Beta..." />
 <meta name="description" content="Release information: The change history table lists the changes that have been made to this document. Document revision history:,,,, Date, Version, Confidentiality, Change,,, January 2019, 1.0 Beta..." />
@@ -25,7 +26,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="#" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -48,9 +51,9 @@
           <div class="body" role="main">
             
   <section id="about-this-document">
-<span id="id1"></span><h1>About this document<a class="headerlink" href="#about-this-document" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>About this document<a class="headerlink" href="#about-this-document" title="Permalink to this heading">¶</a></h1>
 <section id="release-information">
-<h2>Release information<a class="headerlink" href="#release-information" title="Permalink to this headline">¶</a></h2>
+<h2>Release information<a class="headerlink" href="#release-information" title="Permalink to this heading">¶</a></h2>
 <p>The change history table lists the changes that have been made to this document.</p>
 <table class="colwidths-given docutils align-default" id="id4">
 <caption><span class="caption-number">Table 1 </span><span class="caption-text">Document revision history</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
@@ -107,15 +110,20 @@
 <p>Improve support for TLS.</p>
 </td>
 </tr>
+<tr class="row-odd"><td><p>March 2023</p></td>
+<td><p>1.1.2 Final</p></td>
+<td><p>Non-confidential</p></td>
+<td><p>Clarifications and fixes</p></td>
+</tr>
 </tbody>
 </table>
 <p>The detailed changes in each release are described in <a class="reference internal" href="appendix/history.html#changes"><span class="secref">Document change history</span></a>.</p>
 </section>
 <p><span class="sectiontitle">PSA Certified Crypto API</span></p>
-<p>Copyright © 2018-2022 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
+<p>Copyright © 2018-2023 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
 draft issues of this document have been released, to a limited circulation.</p>
 <section id="license">
-<span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h2>
 <div class="license docutils container">
 <p><span class="sectiontitle">Text and illustrations</span></p>
 <p>Text and illustrations in this work are licensed under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). To view a copy of the license, visit <a class="reference external" href="https://creativecommons.org/licenses/by-sa/4.0">creativecommons.org/licenses/by-sa/4.0</a>.</p>
@@ -135,7 +143,7 @@ draft issues of this document have been released, to a limited circulation.</p>
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
 <p>This document refers to the following documents.</p>
 <table class="longtable colwidths-given docutils align-default" id="id5">
 <caption><span class="caption-number">Table 2 </span><span class="caption-text">Arm documents referenced by this document</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
@@ -191,16 +199,10 @@ draft issues of this document have been released, to a limited circulation.</p>
 <td><p>Clulow, Jolyon, <em>On the Security of PKCS #11</em>, 2003. <a class="reference external" href="https://link.springer.com/chapter/10.1007/978-3-540-45238-6_32">link.springer.com/chapter/10.1007/978-3-540-45238-6_32</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="target" id="cite-cstc0002"></span>[CSTC0002]</p></td>
-<td><p>Cryptography Standardization Technical Committee, <em>GM/T 0002-2012: SM4 block cipher algorithm</em>, March 2012. <a class="reference external" href="http://www.gmbz.org.cn/main/viewfile/20180108015408199368.html">http://www.gmbz.org.cn/main/viewfile/20180108015408199368.html</a></p></td>
+<td><p>Cryptography Standardization Technical Committee, <em>GM/T 0002-2012: SM4 block cipher algorithm</em>, March 2012. </p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-cstc0002-e"></span>[CSTC0002/E]</p></td>
-<td><p>Cryptography Standardization Technical Committee, <em>GM/T 0002-2012: SM4 block cipher algorithm</em>, April 2018 (English version). <a class="reference external" href="http://www.gmbz.org.cn/main/postDetail.html?id=20180404044052">http://www.gmbz.org.cn/main/postDetail.html?id=20180404044052</a></p></td>
-</tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-cstc0004"></span>[CSTC0004]</p></td>
-<td><p>Cryptography Standardization Technical Committee, <em>GM/T 0004-2012: SM3 cryptographic hash algorithm</em>, March 2012. <a class="reference external" href="http://www.gmbz.org.cn/main/viewfile/20180108023812835219.html">http://www.gmbz.org.cn/main/viewfile/20180108023812835219.html</a></p></td>
-</tr>
-<tr class="row-even"><td><p><span class="target" id="cite-cstc0004-e"></span>[CSTC0004/E]</p></td>
-<td><p>Cryptography Standardization Technical Committee, <em>GM/T 0004-2012: SM3 cryptographic hash algorithm</em>, July 2018 (English version). <a class="reference external" href="http://www.gmbz.org.cn/main/postDetail.html?id=20180724105928">http://www.gmbz.org.cn/main/postDetail.html?id=20180724105928</a></p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-cstc0004"></span>[CSTC0004]</p></td>
+<td><p>Cryptography Standardization Technical Committee, <em>GM/T 0004-2012: SM3 cryptographic hash algorithm</em>, March 2012. </p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="target" id="cite-curve25519"></span>[Curve25519]</p></td>
 <td><p>Bernstein et al., <em>Curve25519: new Diffie-Hellman speed records</em>, LNCS 3958, 2006. <a class="reference external" href="https://www.iacr.org/archive/pkc2006/39580209/39580209.pdf">www.iacr.org/archive/pkc2006/39580209/39580209.pdf</a></p></td>
@@ -350,7 +352,7 @@ draft issues of this document have been released, to a limited circulation.</p>
 </table>
 </section>
 <section id="terms-and-abbreviations">
-<h2>Terms and abbreviations<a class="headerlink" href="#terms-and-abbreviations" title="Permalink to this headline">¶</a></h2>
+<h2>Terms and abbreviations<a class="headerlink" href="#terms-and-abbreviations" title="Permalink to this heading">¶</a></h2>
 <p>This document uses the following terms and abbreviations.</p>
 <table class="longtable colwidths-given docutils align-default" id="id7">
 <caption><span class="caption-number">Table 4 </span><span class="caption-text">Terms and abbreviations</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
@@ -525,7 +527,7 @@ a block cipher or a stream cipher.</p></td>
 </table>
 </section>
 <section id="potential-for-change">
-<h2>Potential for change<a class="headerlink" href="#potential-for-change" title="Permalink to this headline">¶</a></h2>
+<h2>Potential for change<a class="headerlink" href="#potential-for-change" title="Permalink to this heading">¶</a></h2>
 <p>The contents of this specification are stable for version 1.1.</p>
 <p>The following may change in updates to the version 1.1 specification:</p>
 <ul class="simple">
@@ -535,9 +537,9 @@ a block cipher or a stream cipher.</p></td>
 <p>Significant additions, or any changes that affect the compatibility of the interfaces defined in this specification will only be included in a new major or minor version of the specification.</p>
 </section>
 <section id="conventions">
-<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this heading">¶</a></h2>
 <section id="typographical-conventions">
-<h3>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this headline">¶</a></h3>
+<h3>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this heading">¶</a></h3>
 <p>The typographical conventions are:</p>
 <dl>
 <dt><em>italic</em></dt><dd><p>Introduces special terminology, and denotes citations.</p>
@@ -562,7 +564,7 @@ in the <em>Terms and abbreviations</em>.</p>
 </dl>
 </section>
 <section id="numbers">
-<h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this headline">¶</a></h3>
+<h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this heading">¶</a></h3>
 <p>Numbers are normally written in decimal. Binary numbers are preceded by 0b, and
 hexadecimal numbers by <code class="docutils literal notranslate"><span class="pre">0x</span></code>.</p>
 <p>In both cases, the prefix and the associated value are written in a monospace
@@ -573,12 +575,12 @@ a number.</p>
 </section>
 </section>
 <section id="feedback">
-<span id="id3"></span><h2>Feedback<a class="headerlink" href="#feedback" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h2>
 <p>We welcome feedback on the PSA Certified API documentation.</p>
 <p>If you have comments on the content of this book, visit <a class="reference external" href="https://github.com/arm-software/psa-api/issues">github.com/arm-software/psa-api/issues</a> to create a new issue at the PSA Certified API GitHub project. Give:</p>
 <ul class="simple">
 <li><p>The title (Crypto API).</p></li>
-<li><p>The number and issue (IHI 0086 1.1.1).</p></li>
+<li><p>The number and issue (IHI 0086 1.1.2).</p></li>
 <li><p>The location in the document to which your comments apply.</p></li>
 <li><p>A concise explanation of your comments.</p></li>
 </ul>
@@ -599,7 +601,7 @@ a number.</p>
 <h3><a href="index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul class="current">
@@ -645,13 +647,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

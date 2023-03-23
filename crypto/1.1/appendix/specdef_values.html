@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="3. Example macro implementations" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="This appendix provides example implementations of the function-like macros that have specification-defined values. The examples here provide correct results for the valid inputs defined by each API..." />
 <meta name="description" content="This appendix provides example implementations of the function-like macros that have specification-defined values. The examples here provide correct results for the valid inputs defined by each API..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,7 +51,7 @@
           <div class="body" role="main">
             
   <section id="example-macro-implementations">
-<span id="appendix-specdef-values"></span><h1><span class="section-number">C. </span>Example macro implementations<a class="headerlink" href="#example-macro-implementations" title="Permalink to this headline">¶</a></h1>
+<span id="appendix-specdef-values"></span><h1><span class="section-number">C. </span>Example macro implementations<a class="headerlink" href="#example-macro-implementations" title="Permalink to this heading">¶</a></h1>
 <p>This appendix provides example implementations of the function-like macros that have specification-defined values.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -60,7 +63,7 @@
 <li><p>If the implementation provides vendor-specific algorithms or key types, it needs to extend the definitions of applicable macros.</p></li>
 </ul>
 <section id="algorithm-macros">
-<h2><span class="section-number">C.1. </span>Algorithm macros<a class="headerlink" href="#algorithm-macros" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">C.1. </span>Algorithm macros<a class="headerlink" href="#algorithm-macros" title="Permalink to this heading">¶</a></h2>
 <pre class="literal-block">#define <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_AEAD_WITH_DEFAULT_LENGTH_TAG" title="PSA_ALG_AEAD_WITH_DEFAULT_LENGTH_TAG">PSA_ALG_AEAD_WITH_DEFAULT_LENGTH_TAG</a>(aead_alg) \
     ((((aead_alg) &amp; ~0x003f8000) == 0x05400100) ? <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_CCM" title="PSA_ALG_CCM">PSA_ALG_CCM</a> : \
      (((aead_alg) &amp; ~0x003f8000) == 0x05400200) ? <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_GCM" title="PSA_ALG_GCM">PSA_ALG_GCM</a> : \
@@ -243,7 +246,7 @@
     ((<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>) (((mac_alg) &amp; ~0x003f8000) | (((mac_length) &amp; 0x3f) &lt;&lt; 16)))</pre>
 </section>
 <section id="key-type-macros">
-<h2><span class="section-number">C.2. </span>Key type macros<a class="headerlink" href="#key-type-macros" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">C.2. </span>Key type macros<a class="headerlink" href="#key-type-macros" title="Permalink to this heading">¶</a></h2>
 <pre class="literal-block">#define <a class="reference internal" href="../api/ops/ciphers.html#c.PSA_BLOCK_CIPHER_BLOCK_LENGTH" title="PSA_BLOCK_CIPHER_BLOCK_LENGTH">PSA_BLOCK_CIPHER_BLOCK_LENGTH</a>(type) \
     (1u &lt;&lt; (((type) &gt;&gt; 8) &amp; 7))
 
@@ -305,7 +308,7 @@
     ((<a class="reference internal" href="../api/keys/types.html#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>) ((type) &amp; ~0x3000))</pre>
 </section>
 <section id="hash-suspend-state-macros">
-<h2><span class="section-number">C.3. </span>Hash suspend state macros<a class="headerlink" href="#hash-suspend-state-macros" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">C.3. </span>Hash suspend state macros<a class="headerlink" href="#hash-suspend-state-macros" title="Permalink to this heading">¶</a></h2>
 <pre class="literal-block">#define <a class="reference internal" href="../api/ops/hashes.html#c.PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH" title="PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH">PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH</a>(alg) \
     ((alg)==<a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_MD2" title="PSA_ALG_MD2">PSA_ALG_MD2</a> ? 64 : \
      (alg)==<a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_MD4" title="PSA_ALG_MD4">PSA_ALG_MD4</a> || (alg)==<a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_MD5" title="PSA_ALG_MD5">PSA_ALG_MD5</a> ? 16 : \
@@ -344,7 +347,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -386,13 +389,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

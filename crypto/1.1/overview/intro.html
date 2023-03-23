@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="1. Introduction" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="About Platform Security Architecture: This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of PSA Certified on..." />
 <meta name="description" content="About Platform Security Architecture: This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of PSA Certified on..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,13 +51,13 @@
           <div class="body" role="main">
             
   <section id="introduction">
-<h1><span class="section-number">1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
 <section id="about-platform-security-architecture">
-<h2><span class="section-number">1.1. </span>About Platform Security Architecture<a class="headerlink" href="#about-platform-security-architecture" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.1. </span>About Platform Security Architecture<a class="headerlink" href="#about-platform-security-architecture" title="Permalink to this heading">¶</a></h2>
 <p>This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of PSA Certified on Arm-based platforms. The PSA Certified scheme provides a framework and methodology that helps silicon manufacturers, system software providers and OEMs to develop more secure products. Arm resources that support PSA Certified range from threat models, standard architectures that simplify development and increase portability, and open-source partnerships that provide ready-to-use software. You can read more about PSA Certified here at <a class="reference external" href="https://www.psacertified.org">www.psacertified.org</a> and find more Arm resources here at <a class="reference external" href="https://developer.arm.com/platform-security-resources">developer.arm.com/platform-security-resources</a>.</p>
 </section>
 <section id="about-the-api">
-<h2><span class="section-number">1.2. </span>About the Crypto API<a class="headerlink" href="#about-the-api" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.2. </span>About the Crypto API<a class="headerlink" href="#about-the-api" title="Permalink to this heading">¶</a></h2>
 <p>The interface described in this document is a PSA Certified API, that provides a portable programming interface to cryptographic operations, and key storage functionality, on a wide range of hardware.</p>
 <p>The interface is user-friendly, while still providing access to the low-level primitives used in modern cryptography. It does not require that the user has access to the key material. Instead, it uses opaque key identifiers.</p>
 <p>You can find additional resources relating to the Crypto API here at <a class="reference external" href="https://arm-software.github.io/psa-api/crypto">arm-software.github.io/psa-api/crypto</a>, and find other PSA Certified APIs here at <a class="reference external" href="https://arm-software.github.io/psa-api">arm-software.github.io/psa-api</a>.</p>
@@ -86,7 +89,7 @@ provide.</p>
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -127,13 +130,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 
