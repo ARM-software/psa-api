@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="2. Document history" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
 <meta property="og:description" content=",,, Date, Release, Details,,, 2019-02-25, 1.0 Beta 2, First Release,, 2019-06-12, 1.0 Rel, Final 1.0 API The protected storage API now supports flags PSA_STORAGE_FLAG_NO_CONFIDENTIALITY and PSA_STO..." />
 <meta name="description" content=",,, Date, Release, Details,,, 2019-02-25, 1.0 Beta 2, First Release,, 2019-06-12, 1.0 Rel, Final 1.0 API The protected storage API now supports flags PSA_STORAGE_FLAG_NO_CONFIDENTIALITY and PSA_STO..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -47,8 +50,8 @@
           <div class="body" role="main">
             
   <section id="document-history">
-<span id="id1"></span><h1><span class="section-number">B. </span>Document history<a class="headerlink" href="#document-history" title="Permalink to this headline">¶</a></h1>
-<table class="colwidths-given longtable docutils align-right">
+<span id="id1"></span><h1><span class="section-number">B. </span>Document history<a class="headerlink" href="#document-history" title="Permalink to this heading">¶</a></h1>
+<table class="colwidths-given longtable docutils align-default">
 <colgroup>
 <col style="width: 15%" />
 <col style="width: 15%" />
@@ -84,6 +87,14 @@
 </ul>
 </td>
 </tr>
+<tr class="row-odd"><td><p>2023-03-23</p></td>
+<td><p><em>1.0.2 Rel</em></p></td>
+<td><ul class="simple">
+<li><p>Clarified the protection requirements for ITS. See <a class="reference internal" href="../overview/requirements.html#its-requirements"><span class="secref">Internal Trusted Storage requirements</span></a>.</p></li>
+<li><p>Fixed inconsistent descriptions of <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code> errors.</p></li>
+</ul>
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -101,7 +112,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.1
+Version 1.0.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -130,13 +141,13 @@ Version 1.0.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
       
     </div>
 
