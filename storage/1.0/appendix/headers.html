@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="1. Example header files" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
 <meta property="og:description" content="Each implementation of the Secure Storage API must provide a header file named psa/storage_common.h, and also any of psa/internal_trusted_storage.h and psa/protected_storage.h for the APIs that are..." />
 <meta name="description" content="Each implementation of the Secure Storage API must provide a header file named psa/storage_common.h, and also any of psa/internal_trusted_storage.h and psa/protected_storage.h for the APIs that are..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,11 +51,11 @@
           <div class="body" role="main">
             
   <section id="example-header-files">
-<span id="appendix-headers"></span><h1><span class="section-number">A. </span>Example header files<a class="headerlink" href="#example-header-files" title="Permalink to this headline">¶</a></h1>
+<span id="appendix-headers"></span><h1><span class="section-number">A. </span>Example header files<a class="headerlink" href="#example-header-files" title="Permalink to this heading">¶</a></h1>
 <p>Each implementation of the Secure Storage API must provide a header file named <code class="file docutils literal notranslate"><span class="pre">psa/storage_common.h</span></code>, and also any of <code class="file docutils literal notranslate"><span class="pre">psa/internal_trusted_storage.h</span></code> and <code class="file docutils literal notranslate"><span class="pre">psa/protected_storage.h</span></code> for the APIs that are implemented.</p>
 <p>This appendix provides examples of the header files with all of the API elements. This can be used as a starting point or reference for an implementation.</p>
 <section id="psa-storage-common-h">
-<h2><span class="section-number">A.1. </span>psa/storage_common.h<a class="headerlink" href="#psa-storage-common-h" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">A.1. </span>psa/storage_common.h<a class="headerlink" href="#psa-storage-common-h" title="Permalink to this heading">¶</a></h2>
 <pre class="literal-block"><em>/* This file is a reference template for implementation of the
  * PSA Certified Secure Storage API v1.0.1
  *
@@ -90,7 +93,7 @@ typedef uint64_t <a class="reference internal" href="../api/api.html#c.psa_stora
 </pre>
 </section>
 <section id="psa-internal-trusted-storage-h">
-<h2><span class="section-number">A.2. </span>psa/internal_trusted_storage.h<a class="headerlink" href="#psa-internal-trusted-storage-h" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">A.2. </span>psa/internal_trusted_storage.h<a class="headerlink" href="#psa-internal-trusted-storage-h" title="Permalink to this heading">¶</a></h2>
 <pre class="literal-block"><em>/* This file is a reference template for implementation of the
  * PSA Certified Secure Storage API v1.0.1
  *
@@ -133,7 +136,7 @@ psa_status_t <a class="reference internal" href="../api/api.html#c.psa_its_remov
 </pre>
 </section>
 <section id="psa-protected-storage-h">
-<h2><span class="section-number">A.3. </span>psa/protected_storage.h<a class="headerlink" href="#psa-protected-storage-h" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">A.3. </span>psa/protected_storage.h<a class="headerlink" href="#psa-protected-storage-h" title="Permalink to this heading">¶</a></h2>
 <pre class="literal-block"><em>/* This file is a reference template for implementation of the
  * PSA Certified Secure Storage API v1.0.1
  *
@@ -198,7 +201,7 @@ uint32_t <a class="reference internal" href="../api/api.html#c.psa_ps_get_suppor
 <h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.1
+Version 1.0.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -232,13 +235,13 @@ Version 1.0.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
       
     </div>
 

@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="4. Theory of Operation" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
 <meta property="og:description" content="Internal Trusted Storage API: The Internal Trusted Storage service that implements the Internal Trusted Storage API is not expected to replace the need for a filesystem that resides on external sto..." />
 <meta name="description" content="Internal Trusted Storage API: The Internal Trusted Storage service that implements the Internal Trusted Storage API is not expected to replace the need for a filesystem that resides on external sto..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,9 +51,9 @@
           <div class="body" role="main">
             
   <section id="theory-of-operation">
-<h1><span class="section-number">4. </span>Theory of Operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">4. </span>Theory of Operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this heading">¶</a></h1>
 <section id="internal-trusted-storage-api">
-<h2><span class="section-number">4.1. </span>Internal Trusted Storage API<a class="headerlink" href="#internal-trusted-storage-api" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.1. </span>Internal Trusted Storage API<a class="headerlink" href="#internal-trusted-storage-api" title="Permalink to this heading">¶</a></h2>
 <p>The Internal Trusted Storage service that implements the Internal Trusted Storage API is not expected to replace the need for a filesystem that resides on external storage. Instead, it’s intended to be used to interface to a small piece of storage that is only accessible to software that is part of the <a class="reference internal" href="../about.html#term-platform-root-of-trust"><span class="term">Platform Root of Trust</span></a>. The Internal Trusted Storage API can be made accessible to the <a class="reference internal" href="../about.html#term-non-secure-processing-environment"><span class="term">Non-secure Processing Environment</span></a> as well as the <a class="reference internal" href="../about.html#term-secure-processing-environment"><span class="term">Secure Processing Environment</span></a>.</p>
 <p>Internally the Internal Trusted Storage service should be designed such that one partition cannot access the data owned by another partition. The method of doing this is not specified here, but one method would be to store metadata with the data indicating the partition that owns it.</p>
 <p><span><a class="reference internal" href="#fig-crypto-storage"><span class="numref">Figure 1</span></a></span> provides a simple example of how an Internal Trusted Storage service can be used by a service that implements <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="../about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span> to secure key-store material. This is illustrative and not prescriptive.</p>
@@ -61,7 +64,7 @@
 </figure>
 </section>
 <section id="memory-access-errors">
-<h2><span class="section-number">4.2. </span>Memory access errors<a class="headerlink" href="#memory-access-errors" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.2. </span>Memory access errors<a class="headerlink" href="#memory-access-errors" title="Permalink to this heading">¶</a></h2>
 <p>When specifying an input or output buffer, the caller should ensure that the entire buffer is within memory it can access.</p>
 <p>Attempting to reference memory that does not belong to the caller will either result in a memory access violation or will cause the function to return <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code>.</p>
 <p>Implementations of the Internal Trusted Storage API and Protected Storage API must check the length parameters of a buffer before attempting to access them. It is permissible to pass a null pointer to a zero length buffer.</p>
@@ -81,7 +84,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.1
+Version 1.0.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -114,13 +117,13 @@ Version 1.0.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
       
     </div>
 

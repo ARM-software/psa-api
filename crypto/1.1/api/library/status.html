@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="8.1. Status codes" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="The Crypto API uses the status code definitions that are shared with the other PSA Certified APIs. The Crypto API also provides some Crypto API-specific status codes, see Error codes specific to th..." />
 <meta name="description" content="The Crypto API uses the status code definitions that are shared with the other PSA Certified APIs. The Crypto API also provides some Crypto API-specific status codes, see Error codes specific to th..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -48,7 +51,7 @@
           <div class="body" role="main">
             
   <section id="status-codes">
-<span id="id1"></span><h1><span class="section-number">8.1. </span>Status codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">8.1. </span>Status codes<a class="headerlink" href="#status-codes" title="Permalink to this heading">¶</a></h1>
 <p>The Crypto API uses the status code definitions that are shared with the other PSA Certified APIs. The Crypto API also provides some Crypto API-specific status codes, see <a class="reference internal" href="#specific-errors"><span class="secref">Error codes specific to the Crypto API</span></a>.</p>
 <p>The following elements are defined in <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> from <span><em>PSA Certified Status code API</em> <a class="reference internal" href="../../about.html#cite-psa-stat"><span class="cite">[PSA-STAT]</span></a></span> (previously defined in <a class="reference internal" href="../../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a>):</p>
 <pre class="literal-block">typedef int32_t psa_status_t;
@@ -80,9 +83,9 @@
 <p>An implementation is permitted to define the status code interface elements within the <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code> header file, or to define them via inclusion of a <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> header file that is shared with the implementation of other PSA Certified APIs.</p>
 </div>
 <section id="common-error-codes">
-<h2><span class="section-number">8.1.1. </span>Common error codes<a class="headerlink" href="#common-error-codes" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.1.1. </span>Common error codes<a class="headerlink" href="#common-error-codes" title="Permalink to this heading">¶</a></h2>
 <p>Some of the common status codes have a more precise meaning when returned by a function in the Crypto API, compared to the definitions in <a class="reference internal" href="../../about.html#cite-psa-stat"><span class="cite atg_c atg_c-cite">[PSA-STAT]</span></a>.</p>
-<table class="colwidths-given longtable docutils align-right">
+<table class="colwidths-given longtable docutils align-default">
 <colgroup>
 <col style="width: 33%" />
 <col style="width: 67%" />
@@ -93,41 +96,41 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>PSA_ERROR_INVALID_HANDLE</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_HANDLE</span></code></p></td>
 <td><p>A key identifier is not valid. See also <a class="reference internal" href="../../overview/functionality.html#key-ids"><span class="secref">Key identifiers</span></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p>PSA_ERROR_BAD_STATE</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></p></td>
 <td><p>Multi-part operations return this error when one of the functions is called out of sequence. Refer to the function descriptions for permitted sequencing of functions.</p>
 <p>Implementations can return this error if the caller has not initialized the library by a call to <a class="reference internal" href="library.html#c.psa_crypto_init" title="psa_crypto_init"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_crypto_init()</span></code></a>.</p>
 </td>
 </tr>
-<tr class="row-even"><td><p>PSA_ERROR_BUFFER_TOO_SMALL</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BUFFER_TOO_SMALL</span></code></p></td>
 <td><p>Applications can call the <code class="docutils literal notranslate"><span class="pre">PSA_xxx_SIZE</span></code> macro listed in the function description to determine a sufficient buffer size.</p></td>
 </tr>
-<tr class="row-odd"><td><p>PSA_ERROR_STORAGE_FAILURE</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p></td>
 <td><p>When a storage failure occurs, it is no longer possible to ensure the global integrity of the keystore. Depending on the global integrity guarantees offered by the implementation, access to other data might fail even if the data is still readable but its integrity cannot be guaranteed.</p></td>
 </tr>
-<tr class="row-even"><td><p>PSA_ERROR_CORRUPTION_DETECTED</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CORRUPTION_DETECTED</span></code></p></td>
 <td><p>This error code is intended as a last resort when a security breach is detected and it is unsure whether the keystore data is still protected. Implementations must only return this error code to report an alarm from a tampering detector, to indicate that the confidentiality of stored data can no longer be guaranteed, or to indicate that the integrity of previously returned data is now considered compromised.</p></td>
 </tr>
-<tr class="row-odd"><td><p>PSA_ERROR_DATA_CORRUPT</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></p></td>
 <td><p>When a storage failure occurs, it is no longer possible to ensure the global integrity of the keystore. Depending on the global integrity guarantees offered by the implementation, access to other data might fail even if the data is still readable but its integrity cannot be guaranteed.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="error-codes-specific-to-the-api">
-<span id="specific-errors"></span><h2><span class="section-number">8.1.2. </span>Error codes specific to the Crypto API<a class="headerlink" href="#error-codes-specific-to-the-api" title="Permalink to this headline">¶</a></h2>
+<span id="specific-errors"></span><h2><span class="section-number">8.1.2. </span>Error codes specific to the Crypto API<a class="headerlink" href="#error-codes-specific-to-the-api" title="Permalink to this heading">¶</a></h2>
 <p>The following elements are defined in the <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code> header file.</p>
 <section id="c.PSA_ERROR_INSUFFICIENT_ENTROPY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_ENTROPY</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INSUFFICIENT_ENTROPY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_ENTROPY</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INSUFFICIENT_ENTROPY" title="Permalink to this heading">¶</a></h3>
 <p>A status code that indicates that there is not enough entropy to generate random data needed for the requested action.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INSUFFICIENT_ENTROPY" title="PSA_ERROR_INSUFFICIENT_ENTROPY">PSA_ERROR_INSUFFICIENT_ENTROPY</a> ((psa_status_t)-148)</pre>
 <p>This error indicates a failure of a hardware random generator. Application writers must note that this error can be returned not only by functions whose purpose is to generate random data, such as key, IV or nonce generation, but also by functions that execute an algorithm with a randomized result, as well as functions that use randomization of intermediate computations as a countermeasure to certain attacks.</p>
 <p>It is recommended that implementations do not return this error after <a class="reference internal" href="library.html#c.psa_crypto_init" title="psa_crypto_init"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_crypto_init()</span></code></a> has succeeded. This can be achieved if the implementation generates sufficient entropy during initialization and subsequently a cryptographically secure pseudorandom generator (PRNG) is used. However, implementations might return this error at any time, for example, if a policy requires the PRNG to be reseeded during normal operation.</p>
 </section>
 <section id="c.PSA_ERROR_INVALID_PADDING">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_PADDING</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INVALID_PADDING" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_PADDING</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_INVALID_PADDING" title="Permalink to this heading">¶</a></h3>
 <p>A status code that indicates that the decrypted padding is incorrect.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_INVALID_PADDING" title="PSA_ERROR_INVALID_PADDING">PSA_ERROR_INVALID_PADDING</a> ((psa_status_t)-150)</pre>
 <div class="admonition warning">
@@ -152,7 +155,7 @@
 <h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -197,13 +200,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -38,9 +38,9 @@ Crypto API | PAKE | 1.1 Beta | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [All
 [status-code-html]:  status-code/1.0/
 [status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.2.pdf
 [crypto-html]:       crypto/1.1/
-[crypto-pdf]:        crypto/1.1/IHI0086-PSA_Certified_Crypto_API-1.1.1.pdf
+[crypto-pdf]:        crypto/1.1/IHI0086-PSA_Certified_Crypto_API-1.1.2.pdf
 [storage-html]:      storage/1.0/
-[storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.1.pdf
+[storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.2.pdf
 [attestation-html]:  attestation/1.0/
 [attestation-pdf]:   attestation/1.0/IHI0085-PSA_Certified_Attestation_API-1.0.3.pdf
 [fwu-html]:          fwu/1.0/
@@ -70,4 +70,4 @@ Refer to individual documents for license details.
 
 ----
 
-*Copyright 2022, Arm Limited and/or its affiliates*
+*Copyright 2022-2023, Arm Limited and/or its affiliates*

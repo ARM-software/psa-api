@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="5. Library conventions" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="Header files: The header file for the Crypto API has the name psa/crypto.h. All of the API elements that are provided by an implementation must be visible to an application program that includes th..." />
 <meta name="description" content="Header files: The header file for the Crypto API has the name psa/crypto.h. All of the API elements that are provided by an implementation must be visible to an application program that includes th..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,9 +51,9 @@
           <div class="body" role="main">
             
   <section id="library-conventions">
-<span id="id1"></span><h1><span class="section-number">5. </span>Library conventions<a class="headerlink" href="#library-conventions" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">5. </span>Library conventions<a class="headerlink" href="#library-conventions" title="Permalink to this heading">¶</a></h1>
 <section id="header-files">
-<h2><span class="section-number">5.1. </span>Header files<a class="headerlink" href="#header-files" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.1. </span>Header files<a class="headerlink" href="#header-files" title="Permalink to this heading">¶</a></h2>
 <p>The header file for the Crypto API has the name <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code>. All of the API elements that are provided by an implementation must be visible to an application program that includes this header file.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &quot;psa/crypto.h&quot;
 </pre></div>
@@ -59,15 +62,15 @@
 <p>The Crypto API uses the status code definitions that are shared with the other PSA Certified APIs. <span><em>PSA Certified Status code API</em> <a class="reference internal" href="../about.html#cite-psa-stat"><span class="cite">[PSA-STAT]</span></a></span> defines these status codes in the <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> header file. Applications are not required to explicitly include the <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> header file when using these status codes with the Crypto API. See <a class="reference internal" href="../api/library/status.html#status-codes"><span class="secref">Status codes</span></a>.</p>
 </section>
 <section id="api-conventions">
-<span id="id2"></span><h2><span class="section-number">5.2. </span>API conventions<a class="headerlink" href="#api-conventions" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><span class="section-number">5.2. </span>API conventions<a class="headerlink" href="#api-conventions" title="Permalink to this heading">¶</a></h2>
 <p>The interface in this specification is defined in terms of C macros, data types, and functions.</p>
 <section id="identifier-names">
-<h3><span class="section-number">5.2.1. </span>Identifier names<a class="headerlink" href="#identifier-names" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.1. </span>Identifier names<a class="headerlink" href="#identifier-names" title="Permalink to this heading">¶</a></h3>
 <p>All of the identifiers defined in the Crypto API begin with the prefix <code class="docutils literal notranslate"><span class="pre">psa_</span></code>, for types and functions, or <code class="docutils literal notranslate"><span class="pre">PSA_</span></code> for macros.</p>
 <p>Future versions of this specification will use the same prefix for additional API elements. It is recommended that applications and implementations do not use this prefix for their own identifiers, to avoid a potential conflict with a future version of the Crypto API.</p>
 </section>
 <section id="basic-types">
-<h3><span class="section-number">5.2.2. </span>Basic types<a class="headerlink" href="#basic-types" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.2. </span>Basic types<a class="headerlink" href="#basic-types" title="Permalink to this heading">¶</a></h3>
 <p>This specification makes use of standard C data types, including the fixed-width integer types from the ISO C99 specification update <a class="reference internal" href="../about.html#cite-c99"><span class="cite">[C99]</span></a>. The following standard C types are used:</p>
 <table class="colwidths-auto docutils align-left">
 <tbody>
@@ -93,25 +96,25 @@
 </table>
 </section>
 <section id="data-types">
-<h3><span class="section-number">5.2.3. </span>Data types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.3. </span>Data types<a class="headerlink" href="#data-types" title="Permalink to this heading">¶</a></h3>
 <p>Integral types are defined for specific API elements to provide clarity in the interface definition, and to improve code readability. For example, <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a> and <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code>.</p>
 <p>Structure types are declared using <code class="docutils literal notranslate"><span class="pre">typedef</span></code> instead of a <code class="docutils literal notranslate"><span class="pre">struct</span></code> tag, also to improve code readability.</p>
 <p>Fully-defined types must be declared exactly as defined in this specification. Types that are not fully defined in this specification must be defined by an implementation. See <a class="reference internal" href="implementation.html#implementation-defined-type"><span class="secref">Implementation-specific types</span></a>.</p>
 </section>
 <section id="constants">
-<h3><span class="section-number">5.2.4. </span>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.4. </span>Constants<a class="headerlink" href="#constants" title="Permalink to this heading">¶</a></h3>
 <p>Constant values are defined using C macros. Constants defined in this specification have names that are all upper-case.</p>
 <p>A constant macro evaluates to a compile-time constant expression.</p>
 </section>
 <section id="function-like-macros">
-<h3><span class="section-number">5.2.5. </span>Function-like macros<a class="headerlink" href="#function-like-macros" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.5. </span>Function-like macros<a class="headerlink" href="#function-like-macros" title="Permalink to this heading">¶</a></h3>
 <p>Function-like macros are C macros that take parameters, providing supporting functionality in the API. Function-like macros defined in this specification have names that are all upper-case.</p>
 <p>Function-like macros are permitted to evaluate each argument multiple times or zero times. Providing arguments that have side effects will result in <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">IMPLEMENTATION DEFINED</span></a> behavior, and is non-portable.</p>
 <p>If all of the arguments to a function-like macro are compile-time constant expressions, the then result evaluates to a compile-time constant expression.</p>
 <p>If an argument to a function-like macro has an invalid value (for example, a value outside the domain of the function-like macro), then the result is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">IMPLEMENTATION DEFINED</span></a>.</p>
 </section>
 <section id="functions">
-<h3><span class="section-number">5.2.6. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.6. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h3>
 <p>Functions defined in this specification have names that are all lower-case.</p>
 <p>An implementation is permitted to declare any API function with <code class="docutils literal notranslate"><span class="pre">static</span> <span class="pre">inline</span></code> linkage, instead of the default <code class="docutils literal notranslate"><span class="pre">extern</span></code> linkage.</p>
 <p>An implementation is permitted to also define a function-like macro with the same name as a function in this specification. If an implementation defines a function-like macro for a function from this specification, then:</p>
@@ -124,9 +127,9 @@
 </section>
 </section>
 <section id="error-handling">
-<span id="id3"></span><h2><span class="section-number">5.3. </span>Error handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><span class="section-number">5.3. </span>Error handling<a class="headerlink" href="#error-handling" title="Permalink to this heading">¶</a></h2>
 <section id="return-status">
-<h3><span class="section-number">5.3.1. </span>Return status<a class="headerlink" href="#return-status" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.1. </span>Return status<a class="headerlink" href="#return-status" title="Permalink to this heading">¶</a></h3>
 <p>Almost all functions return a status indication of type <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code>. This
 is an enumeration of integer values, with <code class="docutils literal notranslate"><span class="pre">0</span></code> (<code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code>) indicating
 successful operation and other values indicating errors. The exceptions are
@@ -145,16 +148,17 @@ the application in a manner that is appropriate for the platform if the
 undefined behavior condition can be detected. However, application developers need to be aware that undefined behavior conditions cannot be detected in general.</p>
 </section>
 <section id="behavior-on-error">
-<h3><span class="section-number">5.3.2. </span>Behavior on error<a class="headerlink" href="#behavior-on-error" title="Permalink to this headline">¶</a></h3>
-<p>All function calls must be implemented atomically:</p>
+<h3><span class="section-number">5.3.2. </span>Behavior on error<a class="headerlink" href="#behavior-on-error" title="Permalink to this heading">¶</a></h3>
+<p>In general, function calls must be implemented atomically:</p>
 <ul class="simple">
 <li><p>When a function returns a type other than <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code>, the requested
 action has been carried out.</p></li>
 <li><p>When a function returns the status <code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code>, the requested action has
 been carried out.</p></li>
 <li><p>When a function returns another status of type <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code>, no action
-has been carried out. The content of the output parameters is undefined, but
-otherwise the state of the system has not changed, except as described below.</p></li>
+has been carried out. Unless otherwise documented by the API or the
+implementation, the content of output parameters is not defined. The state of
+the system has not changed, except as described below.</p></li>
 </ul>
 <p>In general, functions that modify the system state, for example, creating or
 destroying a key, must leave the system state unchanged if they return an error
@@ -162,9 +166,9 @@ code. There are specific conditions that can result in different behavior:</p>
 <ul class="simple">
 <li><p>The status <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code> indicates that a parameter was not in a
 valid state for the requested action. This parameter might have been modified
-by the call and is now in an undefined state. The only valid action on an
-object in an undefined state is to abort it with the appropriate
-<code class="docutils literal notranslate"><span class="pre">psa_abort_xxx()</span></code> function.</p></li>
+by the call and is now in an error state. The only valid action on an
+object in an error state is to abort it with the appropriate
+<code class="docutils literal notranslate"><span class="pre">psa_xxx_abort()</span></code> function. See <a class="reference internal" href="functionality.html#multi-part-operations"><span class="secref">Multi-part operations</span></a>.</p></li>
 <li><p>The status <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_DATA</span></code> indicates that a key
 derivation object has reached its maximum capacity. The key derivation
 operation might have been modified by the call. Any further attempt to obtain
@@ -186,17 +190,19 @@ though the function call failed.</p></li>
 <li><p>Some system states cannot be rolled back, for example, the internal state of
 the random number generator or the content of access logs.</p></li>
 </ul>
-<p>Unless otherwise documented, the content of output parameters is not defined
-when a function returns a status other than <code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code>. It is recommended
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>When a function returns an error status, it is recommended
 that implementations set output parameters to safe defaults to avoid leaking
 confidential data and limit risk, in case an application does not properly
 handle all errors.</p>
+</div>
 </section>
 </section>
 <section id="parameter-conventions">
-<h2><span class="section-number">5.4. </span>Parameter conventions<a class="headerlink" href="#parameter-conventions" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.4. </span>Parameter conventions<a class="headerlink" href="#parameter-conventions" title="Permalink to this heading">¶</a></h2>
 <section id="pointer-conventions">
-<span id="id4"></span><h3><span class="section-number">5.4.1. </span>Pointer conventions<a class="headerlink" href="#pointer-conventions" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3><span class="section-number">5.4.1. </span>Pointer conventions<a class="headerlink" href="#pointer-conventions" title="Permalink to this heading">¶</a></h3>
 <p>Unless explicitly stated in the documentation of a function, all pointers must
 be valid pointers to an object of the specified type.</p>
 <p>A parameter is considered a <strong>buffer</strong> if it points to an array of bytes. A
@@ -216,7 +222,7 @@ parameter and read back the same value, as explained in
 <a class="reference internal" href="#stability-of-parameters"><span class="secref">Stability of parameters</span></a>.</p>
 </section>
 <section id="input-buffer-sizes">
-<h3><span class="section-number">5.4.2. </span>Input buffer sizes<a class="headerlink" href="#input-buffer-sizes" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.2. </span>Input buffer sizes<a class="headerlink" href="#input-buffer-sizes" title="Permalink to this heading">¶</a></h3>
 <p>For input buffers, the parameter convention is:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint8_t</span> <span class="pre">*foo</span></code></dt><dd><p>Pointer to the first byte of the data. The pointer
@@ -228,7 +234,7 @@ can be invalid if the buffer size is <code class="docutils literal notranslate">
 <p>The interface never uses input-output buffers.</p>
 </section>
 <section id="output-buffer-sizes">
-<span id="output-buffers"></span><h3><span class="section-number">5.4.3. </span>Output buffer sizes<a class="headerlink" href="#output-buffer-sizes" title="Permalink to this headline">¶</a></h3>
+<span id="output-buffers"></span><h3><span class="section-number">5.4.3. </span>Output buffer sizes<a class="headerlink" href="#output-buffer-sizes" title="Permalink to this heading">¶</a></h3>
 <p>For output buffers, the parameter convention is:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">*foo</span></code></dt><dd><p>Pointer to the first byte of the data. The pointer can be
@@ -263,7 +269,7 @@ successful.</p>
 </dl>
 </section>
 <section id="overlap-between-parameters">
-<span id="buffer-overlap"></span><h3><span class="section-number">5.4.4. </span>Overlap between parameters<a class="headerlink" href="#overlap-between-parameters" title="Permalink to this headline">¶</a></h3>
+<span id="buffer-overlap"></span><h3><span class="section-number">5.4.4. </span>Overlap between parameters<a class="headerlink" href="#overlap-between-parameters" title="Permalink to this heading">¶</a></h3>
 <p>Output parameters that are not buffers must not overlap with any input buffer or
 with any other output parameter. Otherwise, the behavior is undefined.</p>
 <p>Output buffers can overlap with input buffers. In this event, the implementation
@@ -276,7 +282,7 @@ the caller shares with another security context, as described in
 <a class="reference internal" href="#stability-of-parameters"><span class="secref">Stability of parameters</span></a>.</p>
 </section>
 <section id="stability-of-parameters">
-<span id="id5"></span><h3><span class="section-number">5.4.5. </span>Stability of parameters<a class="headerlink" href="#stability-of-parameters" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3><span class="section-number">5.4.5. </span>Stability of parameters<a class="headerlink" href="#stability-of-parameters" title="Permalink to this heading">¶</a></h3>
 <p>In some environments, it is possible for the content of a parameter to change
 while a function is executing. It might also be possible for the content of an
 output parameter to be read before the function terminates. This can happen if
@@ -312,7 +318,7 @@ parameter once a function call has returned.</p>
 </section>
 </section>
 <section id="key-types-and-algorithms">
-<h2><span class="section-number">5.5. </span>Key types and algorithms<a class="headerlink" href="#key-types-and-algorithms" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.5. </span>Key types and algorithms<a class="headerlink" href="#key-types-and-algorithms" title="Permalink to this heading">¶</a></h2>
 <p>Types of cryptographic keys and cryptographic algorithms are encoded separately.
 Each is encoded by using an integral type: <a class="reference internal" href="../api/keys/types.html#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a> and
 <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>, respectively.</p>
@@ -326,7 +332,7 @@ determined by the key type.</p>
 <p>Key types do not encode the key size. For example, AES-128, AES-192 and AES-256
 share a key type <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_AES" title="PSA_KEY_TYPE_AES"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_AES</span></code></a>.</p>
 <section id="structure-of-key-types-and-algorithms">
-<h3><span class="section-number">5.5.1. </span>Structure of key types and algorithms<a class="headerlink" href="#structure-of-key-types-and-algorithms" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.5.1. </span>Structure of key types and algorithms<a class="headerlink" href="#structure-of-key-types-and-algorithms" title="Permalink to this heading">¶</a></h3>
 <p>Both types use a partial bitmask structure, which allows the analysis and
 building of values from parts. However, the interface defines constants, so that
 applications do not need to depend on the encoding, and an implementation might
@@ -350,7 +356,7 @@ parametrized around a hash function encode the hash in the 8 lowest bits.</p></l
 </section>
 </section>
 <section id="concurrent-calls">
-<span id="concurrency"></span><h2><span class="section-number">5.6. </span>Concurrent calls<a class="headerlink" href="#concurrent-calls" title="Permalink to this headline">¶</a></h2>
+<span id="concurrency"></span><h2><span class="section-number">5.6. </span>Concurrent calls<a class="headerlink" href="#concurrent-calls" title="Permalink to this heading">¶</a></h2>
 <p>In some environments, an application can make calls to the Crypto API in
 separate threads. In such an environment, <em>concurrent calls</em> are two or more
 calls to the API whose execution can overlap in time.</p>
@@ -390,7 +396,7 @@ progress, the behavior is undefined.</p>
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -457,13 +463,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

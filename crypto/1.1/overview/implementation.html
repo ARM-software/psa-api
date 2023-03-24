@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="6. Implementation considerations" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="Implementation-specific aspects of the interface: Implementation profile: Implementations can implement a subset of the API and a subset of the available algorithms. The implemented subset is known..." />
 <meta name="description" content="Implementation-specific aspects of the interface: Implementation profile: Implementations can implement a subset of the API and a subset of the available algorithms. The implemented subset is known..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,11 +51,11 @@
           <div class="body" role="main">
             
   <section id="implementation-considerations">
-<span id="id1"></span><h1><span class="section-number">6. </span>Implementation considerations<a class="headerlink" href="#implementation-considerations" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">6. </span>Implementation considerations<a class="headerlink" href="#implementation-considerations" title="Permalink to this heading">¶</a></h1>
 <section id="implementation-specific-aspects-of-the-interface">
-<h2><span class="section-number">6.1. </span>Implementation-specific aspects of the interface<a class="headerlink" href="#implementation-specific-aspects-of-the-interface" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.1. </span>Implementation-specific aspects of the interface<a class="headerlink" href="#implementation-specific-aspects-of-the-interface" title="Permalink to this heading">¶</a></h2>
 <section id="implementation-profile">
-<h3><span class="section-number">6.1.1. </span>Implementation profile<a class="headerlink" href="#implementation-profile" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.1.1. </span>Implementation profile<a class="headerlink" href="#implementation-profile" title="Permalink to this heading">¶</a></h3>
 <p>Implementations can implement a subset of the API and a subset of the available
 algorithms. The implemented subset is known as the implementation’s profile. The
 documentation for each implementation must describe the profile that it
@@ -60,7 +63,7 @@ implements. This specification’s companion documents also define a number of
 standard profiles.</p>
 </section>
 <section id="implementation-specific-types">
-<span id="implementation-defined-type"></span><h3><span class="section-number">6.1.2. </span>Implementation-specific types<a class="headerlink" href="#implementation-specific-types" title="Permalink to this headline">¶</a></h3>
+<span id="implementation-defined-type"></span><h3><span class="section-number">6.1.2. </span>Implementation-specific types<a class="headerlink" href="#implementation-specific-types" title="Permalink to this heading">¶</a></h3>
 <p>This specification defines a number of implementation-specific types, which
 represent objects whose content depends on the implementation. These are defined
 as C <code class="docutils literal notranslate"><span class="pre">typedef</span></code> types in this specification, with a comment
@@ -74,7 +77,7 @@ types can be instantiated by application code.</p>
 types might not be portable to other implementations of this specification.</p>
 </section>
 <section id="implementation-specific-macros">
-<span id="implementation-specific-macro"></span><h3><span class="section-number">6.1.3. </span>Implementation-specific macros<a class="headerlink" href="#implementation-specific-macros" title="Permalink to this headline">¶</a></h3>
+<span id="implementation-specific-macro"></span><h3><span class="section-number">6.1.3. </span>Implementation-specific macros<a class="headerlink" href="#implementation-specific-macros" title="Permalink to this heading">¶</a></h3>
 <p>Some macro constants and function-like macros are precisely defined by this
 specification. The use of an exact definition is essential if the definition can
 appear in more than one header file within a compilation.</p>
@@ -119,7 +122,7 @@ relevant algorithms and types into account. Conversely, an implementation that
 does not support a certain algorithm or key type can define such macros in a
 simpler way that does not take unsupported argument values into account.</p>
 <p>Some macros define the minimum sufficient output buffer size for certain
-functions. In some cases, an implementation is allowed to require a buffer size
+functions. In some cases, an implementation is permitted to require a buffer size
 that is larger than the theoretical minimum. An implementation must define
 minimum-size macros in such a way that it guarantees that the buffer of the
 resulting size is sufficient for the output of the corresponding function. Refer
@@ -127,16 +130,16 @@ to each macro’s documentation for the applicable requirements.</p>
 </section>
 </section>
 <section id="porting-to-a-platform">
-<h2><span class="section-number">6.2. </span>Porting to a platform<a class="headerlink" href="#porting-to-a-platform" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.2. </span>Porting to a platform<a class="headerlink" href="#porting-to-a-platform" title="Permalink to this heading">¶</a></h2>
 <section id="platform-assumptions">
-<h3><span class="section-number">6.2.1. </span>Platform assumptions<a class="headerlink" href="#platform-assumptions" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.1. </span>Platform assumptions<a class="headerlink" href="#platform-assumptions" title="Permalink to this heading">¶</a></h3>
 <p>This specification is designed for a C99 platform. The interface is defined in
 terms of C macros, functions and objects.</p>
 <p>The specification assumes 8-bit bytes, and “byte” and “octet” are used
 synonymously.</p>
 </section>
 <section id="platform-specific-types">
-<h3><span class="section-number">6.2.2. </span>Platform-specific types<a class="headerlink" href="#platform-specific-types" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.2. </span>Platform-specific types<a class="headerlink" href="#platform-specific-types" title="Permalink to this heading">¶</a></h3>
 <p>The specification makes use of some types defined in C99. These types must be
 defined in the implementation version of <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code> or by a header
 included in this file. The following C99 types are used:</p>
@@ -147,7 +150,7 @@ These types are defined by the C99 header <code class="file docutils literal not
 </dl>
 </section>
 <section id="cryptographic-hardware-support">
-<h3><span class="section-number">6.2.3. </span>Cryptographic hardware support<a class="headerlink" href="#cryptographic-hardware-support" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.3. </span>Cryptographic hardware support<a class="headerlink" href="#cryptographic-hardware-support" title="Permalink to this heading">¶</a></h3>
 <p>Implementations are encouraged to make use of hardware accelerators where
 available. A future version of this specification will define a function
 interface that calls drivers for hardware accelerators and external
@@ -155,9 +158,9 @@ cryptographic hardware.</p>
 </section>
 </section>
 <section id="security-requirements-and-recommendations">
-<h2><span class="section-number">6.3. </span>Security requirements and recommendations<a class="headerlink" href="#security-requirements-and-recommendations" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.3. </span>Security requirements and recommendations<a class="headerlink" href="#security-requirements-and-recommendations" title="Permalink to this heading">¶</a></h2>
 <section id="error-detection">
-<h3><span class="section-number">6.3.1. </span>Error detection<a class="headerlink" href="#error-detection" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.3.1. </span>Error detection<a class="headerlink" href="#error-detection" title="Permalink to this heading">¶</a></h3>
 <p>Implementations that provide <a class="reference internal" href="../about.html#term-isolation"><span class="term">isolation</span></a> between the caller and the cryptography
 processing environment must validate parameters to ensure that the cryptography
 processing environment is protected from attacks caused by passing invalid
@@ -166,7 +169,7 @@ parameters.</p>
 parameters and fail-safe where possible.</p>
 </section>
 <section id="indirect-object-references">
-<h3><span class="section-number">6.3.2. </span>Indirect object references<a class="headerlink" href="#indirect-object-references" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.3.2. </span>Indirect object references<a class="headerlink" href="#indirect-object-references" title="Permalink to this heading">¶</a></h3>
 <p>Implementations can use different strategies for allocating key identifiers,
 and other types of indirect object reference.</p>
 <p>Implementations that provide isolation between the caller and the cryptography
@@ -193,7 +196,7 @@ different key. This reduces the risk of an attack that is able to exploit a key
 identifier reuse vulnerability within an application.</p>
 </section>
 <section id="memory-cleanup">
-<span id="id2"></span><h3><span class="section-number">6.3.3. </span>Memory cleanup<a class="headerlink" href="#memory-cleanup" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><span class="section-number">6.3.3. </span>Memory cleanup<a class="headerlink" href="#memory-cleanup" title="Permalink to this heading">¶</a></h3>
 <p>Implementations must wipe all sensitive data from memory when it is no longer
 used. It is recommended that they wipe this sensitive data as soon as possible. All
 temporary data used during the execution of a function, such as stack buffers,
@@ -205,7 +208,7 @@ system is compromised. If sensitive data is wiped immediately after use, only
 data that is currently in use can be leaked. It does not compromise past data.</p>
 </section>
 <section id="managing-key-material">
-<span id="key-material"></span><h3><span class="section-number">6.3.4. </span>Managing key material<a class="headerlink" href="#managing-key-material" title="Permalink to this headline">¶</a></h3>
+<span id="key-material"></span><h3><span class="section-number">6.3.4. </span>Managing key material<a class="headerlink" href="#managing-key-material" title="Permalink to this heading">¶</a></h3>
 <p>In implementations that have limited volatile memory for keys, the
 implementation is permitted to store a <a class="reference internal" href="../about.html#term-volatile-key"><span class="term">volatile key</span></a> to a
 temporary location in non-volatile memory. The implementation must delete any
@@ -234,7 +237,7 @@ keep the key open in the secure element.</p></li>
 <a class="reference internal" href="../api/keys/management.html#c.psa_purge_key" title="psa_purge_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_purge_key()</span></code></a>, to request that the key material is cleaned from memory.</p>
 </section>
 <section id="safe-outputs-on-error">
-<h3><span class="section-number">6.3.5. </span>Safe outputs on error<a class="headerlink" href="#safe-outputs-on-error" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.3.5. </span>Safe outputs on error<a class="headerlink" href="#safe-outputs-on-error" title="Permalink to this heading">¶</a></h3>
 <p>Implementations must ensure that confidential data is not written to output
 parameters before validating that the disclosure of this confidential data is
 authorized. This requirement is particularly important for implementations where
@@ -252,7 +255,7 @@ strategies are to leave output parameters unchanged, in case of errors, or
 zeroing them out.</p>
 </section>
 <section id="attack-resistance">
-<h3><span class="section-number">6.3.6. </span>Attack resistance<a class="headerlink" href="#attack-resistance" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.3.6. </span>Attack resistance<a class="headerlink" href="#attack-resistance" title="Permalink to this heading">¶</a></h3>
 <p>Cryptographic code tends to manipulate high-value secrets, from which other
 secrets can be unlocked. As such, it is a high-value target for attacks. There
 is a vast body of literature on attack types, such as side channel attacks and
@@ -266,9 +269,9 @@ certain use cases.</p>
 </section>
 </section>
 <section id="other-implementation-considerations">
-<h2><span class="section-number">6.4. </span>Other implementation considerations<a class="headerlink" href="#other-implementation-considerations" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.4. </span>Other implementation considerations<a class="headerlink" href="#other-implementation-considerations" title="Permalink to this heading">¶</a></h2>
 <section id="philosophy-of-resource-management">
-<h3><span class="section-number">6.4.1. </span>Philosophy of resource management<a class="headerlink" href="#philosophy-of-resource-management" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.4.1. </span>Philosophy of resource management<a class="headerlink" href="#philosophy-of-resource-management" title="Permalink to this heading">¶</a></h3>
 <p>The specification allows most functions to return
 <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code>. This gives implementations the freedom to
 manage memory as they please.</p>
@@ -302,7 +305,7 @@ number of operations inside the cryptoprocessor.</p></li>
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -366,13 +369,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

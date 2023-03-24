@@ -4,16 +4,17 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="PSA Certified  Crypto API 1.1" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
-<meta property="og:description" content="Arm PSA Certified Crypto API 1.1:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 1,, Confidentiality:, Non-confidential,, Date of Issue:, 17/10/2022,,,, Abstract This docum..." />
-<meta name="description" content="Arm PSA Certified Crypto API 1.1:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 1,, Confidentiality:, Non-confidential,, Date of Issue:, 17/10/2022,,,, Abstract This docum..." />
+<meta property="og:description" content="Arm PSA Certified Crypto API 1.1:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 2,, Confidentiality:, Non-confidential,, Date of Issue:, 23/03/2022,,,, Abstract This docum..." />
+<meta name="description" content="Arm PSA Certified Crypto API 1.1:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 2,, Confidentiality:, Non-confidential,, Date of Issue:, 23/03/2022,,,, Abstract This docum..." />
 
     <title>PSA Certified Crypto API 1.1 &#8212; PSA Certified Crypto API 1.1</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -25,7 +26,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,8 +50,8 @@
           <div class="body" role="main">
             
   <img alt="Arm" class="titlelogo" src="_images/Arm_logo_blue_RGB.svg" /><section id="docrsttitle-docversion">
-<h1>PSA Certified <br /> Crypto API 1.1<a class="headerlink" href="#docrsttitle-docversion" title="Permalink to this headline">¶</a></h1>
-<table class="titletable docutils align-right">
+<h1>PSA Certified <br /> Crypto API 1.1<a class="headerlink" href="#docrsttitle-docversion" title="Permalink to this heading">¶</a></h1>
+<table class="titletable borderless docutils align-default">
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />
@@ -61,13 +64,13 @@
 <td><p>Final</p></td>
 </tr>
 <tr class="row-odd"><td><p>Issue Number:</p></td>
-<td><p>1</p></td>
+<td><p>2</p></td>
 </tr>
 <tr class="row-even"><td><p>Confidentiality:</p></td>
 <td><p>Non-confidential</p></td>
 </tr>
 <tr class="row-odd"><td><p>Date of Issue:</p></td>
-<td><p>17/10/2022</p></td>
+<td><p>23/03/2022</p></td>
 </tr>
 </tbody>
 </table>
@@ -260,6 +263,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/keys/management.html#key-creation">9.6.1. Key creation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/management.html#key-destruction">9.6.2. Key destruction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/management.html#key-export">9.6.3. Key export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/keys/management.html#key-formats">9.6.4. Key formats</a></li>
 </ul>
 </li>
 </ul>
@@ -394,12 +398,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="appendix/history.html">E. Changes to the API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="appendix/history.html#document-change-history">E.1. Document change history</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-0-and-1-1-1">E.1.1. Changes between <em>1.1.0</em> and <em>1.1.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-1-and-1-1-0">E.1.2. Changes between <em>1.0.1</em> and <em>1.1.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-0-and-1-0-1">E.1.3. Changes between <em>1.0.0</em> and <em>1.0.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-3-and-1-0-0">E.1.4. Changes between <em>1.0 beta 3</em> and <em>1.0.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-2-and-1-0-beta-3">E.1.5. Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-1-and-1-0-beta-2">E.1.6. Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-1-and-1-1-2">E.1.1. Changes between <em>1.1.1</em> and <em>1.1.2</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-0-and-1-1-1">E.1.2. Changes between <em>1.1.0</em> and <em>1.1.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-1-and-1-1-0">E.1.3. Changes between <em>1.0.1</em> and <em>1.1.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-0-and-1-0-1">E.1.4. Changes between <em>1.0.0</em> and <em>1.0.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-3-and-1-0-0">E.1.5. Changes between <em>1.0 beta 3</em> and <em>1.0.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-2-and-1-0-beta-3">E.1.6. Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-1-and-1-0-beta-2">E.1.7. Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="appendix/history.html#planned-changes-for-version-1-1-x">E.2. Planned changes for version 1.1.x</a></li>
@@ -423,7 +428,7 @@
 <h3><a href="#"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -460,13 +465,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

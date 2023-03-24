@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="3. Functionality overview" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="This section provides a high-level overview of the functionality provided by the interface defined in this specification. Refer to the API definition for a detailed description, which begins with L..." />
 <meta name="description" content="This section provides a high-level overview of the functionality provided by the interface defined in this specification. Refer to the API definition for a detailed description, which begins with L..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,7 +51,7 @@
           <div class="body" role="main">
             
   <section id="functionality-overview">
-<span id="id1"></span><h1><span class="section-number">3. </span>Functionality overview<a class="headerlink" href="#functionality-overview" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">3. </span>Functionality overview<a class="headerlink" href="#functionality-overview" title="Permalink to this heading">¶</a></h1>
 <p>This section provides a high-level overview of the functionality provided by the
 interface defined in this specification. Refer to the
 API definition for a detailed description, which begins with <a class="reference internal" href="../api/library/index.html#library-management"><span class="secref">Library management reference</span></a>.</p>
@@ -57,12 +60,12 @@ specification.</p>
 <p>Due to the modularity of the interface, almost every part of the library is
 optional. The only mandatory function is <a class="reference internal" href="../api/library/library.html#c.psa_crypto_init" title="psa_crypto_init"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_crypto_init()</span></code></a>.</p>
 <section id="library-management">
-<h2><span class="section-number">3.1. </span>Library management<a class="headerlink" href="#library-management" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1. </span>Library management<a class="headerlink" href="#library-management" title="Permalink to this heading">¶</a></h2>
 <p>Applications must call <a class="reference internal" href="../api/library/library.html#c.psa_crypto_init" title="psa_crypto_init"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_crypto_init()</span></code></a> to initialize the library before
 using any other function.</p>
 </section>
 <section id="key-management">
-<span id="key-overview"></span><h2><span class="section-number">3.2. </span>Key management<a class="headerlink" href="#key-management" title="Permalink to this headline">¶</a></h2>
+<span id="key-overview"></span><h2><span class="section-number">3.2. </span>Key management<a class="headerlink" href="#key-management" title="Permalink to this heading">¶</a></h2>
 <p>Applications always access keys indirectly via an identifier, and can perform
 operations using a key without accessing the key material. This allows keys to
 be <em>non-extractable</em>, where an application can use a key but is not permitted to
@@ -95,13 +98,13 @@ operations that are using the key to fail. Therefore an application must not
 destroy a key while an operation using that key is in progress, unless the
 application is prepared to handle a failure of the operation.</p>
 <section id="key-types">
-<span id="key-types-intro"></span><h3><span class="section-number">3.2.1. </span>Key types<a class="headerlink" href="#key-types" title="Permalink to this headline">¶</a></h3>
+<span id="key-types-intro"></span><h3><span class="section-number">3.2.1. </span>Key types<a class="headerlink" href="#key-types" title="Permalink to this heading">¶</a></h3>
 <p>Each cryptographic algorithm requires a key that has the right form, in terms of the size of the key material and its numerical properties. The key type and key size encode that information about a key, and determine whether the key is compatible with a cryptographic algorithm.</p>
 <p>Additional non-cryptographic key types enable applications to store other secret values in the keystore.</p>
 <p>See <a class="reference internal" href="../api/keys/types.html#key-types"><span class="secref">Key types</span></a>.</p>
 </section>
 <section id="key-identifiers">
-<span id="key-ids"></span><h3><span class="section-number">3.2.2. </span>Key identifiers<a class="headerlink" href="#key-identifiers" title="Permalink to this headline">¶</a></h3>
+<span id="key-ids"></span><h3><span class="section-number">3.2.2. </span>Key identifiers<a class="headerlink" href="#key-identifiers" title="Permalink to this heading">¶</a></h3>
 <p>Key identifiers are integral values that act as permanent names for persistent keys, or as transient references to volatile keys. Key identifiers are defined by the application for persistent keys, and by the implementation for volatile keys and for built-in keys.</p>
 <p>Key identifiers are output from a successful call to one of the key creation functions.</p>
 <p>Valid key identifiers must have distinct values within the same application. If
@@ -110,7 +113,7 @@ identifiers are local to each application.</p>
 <p>See <a class="reference internal" href="../api/keys/ids.html#key-identifiers"><span class="secref">Key identifiers</span></a>.</p>
 </section>
 <section id="key-lifetimes">
-<span id="key-life"></span><h3><span class="section-number">3.2.3. </span>Key lifetimes<a class="headerlink" href="#key-lifetimes" title="Permalink to this headline">¶</a></h3>
+<span id="key-life"></span><h3><span class="section-number">3.2.3. </span>Key lifetimes<a class="headerlink" href="#key-lifetimes" title="Permalink to this heading">¶</a></h3>
 <p>The lifetime of a key indicates where it is stored and which application and system actions will create and destroy it.</p>
 <p>There are two main types of lifetimes: <em>volatile</em> and <em>persistent</em>.</p>
 <p>Volatile keys are automatically destroyed when the application instance terminates or on a power reset of the device. Volatile key identifiers are allocated by the implementation when the key is created. Volatile keys can be explicitly destroyed with a call to <a class="reference internal" href="../api/keys/management.html#c.psa_destroy_key" title="psa_destroy_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_destroy_key()</span></code></a>.</p>
@@ -118,11 +121,11 @@ identifiers are local to each application.</p>
 <p>See <a class="reference internal" href="../api/keys/lifetimes.html#key-lifetimes"><span class="secref">Key lifetimes</span></a>.</p>
 </section>
 <section id="key-policies">
-<span id="key-usage-policies"></span><h3><span class="section-number">3.2.4. </span>Key policies<a class="headerlink" href="#key-policies" title="Permalink to this headline">¶</a></h3>
+<span id="key-usage-policies"></span><h3><span class="section-number">3.2.4. </span>Key policies<a class="headerlink" href="#key-policies" title="Permalink to this heading">¶</a></h3>
 <p>All keys have an associated policy that regulates which operations are permitted on the key. Each key policy is a set of usage flags and a specific algorithm that is permitted with the key. See <a class="reference internal" href="../api/keys/policy.html#key-policy"><span class="secref">Key policies</span></a>.</p>
 </section>
 <section id="recommendations-of-minimum-standards-for-key-management">
-<h3><span class="section-number">3.2.5. </span>Recommendations of minimum standards for key management<a class="headerlink" href="#recommendations-of-minimum-standards-for-key-management" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.5. </span>Recommendations of minimum standards for key management<a class="headerlink" href="#recommendations-of-minimum-standards-for-key-management" title="Permalink to this heading">¶</a></h3>
 <p>Most implementations provide the following functions:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../api/keys/management.html#c.psa_import_key" title="psa_import_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_import_key()</span></code></a>. The exceptions are implementations that only give access
@@ -142,7 +145,7 @@ non-extractable keys, do not need to provide this function.</p></li>
 </section>
 </section>
 <section id="symmetric-cryptography">
-<h2><span class="section-number">3.3. </span>Symmetric cryptography<a class="headerlink" href="#symmetric-cryptography" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.3. </span>Symmetric cryptography<a class="headerlink" href="#symmetric-cryptography" title="Permalink to this heading">¶</a></h2>
 <p>This specification defines interfaces for the following types of symmetric
 cryptographic operation:</p>
 <ul class="simple">
@@ -160,7 +163,7 @@ encrypt and decrypt.</p></li>
 </ul>
 <p>Key derivation only provides multi-part operation, to support the flexibility required by these type of algorithms.</p>
 <section id="single-part-functions">
-<h3><span class="section-number">3.3.1. </span>Single-part Functions<a class="headerlink" href="#single-part-functions" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.3.1. </span>Single-part Functions<a class="headerlink" href="#single-part-functions" title="Permalink to this heading">¶</a></h3>
 <p>Single-part functions are APIs that implement the cryptographic operation in a
 single function call. This is the easiest API to use when all of the inputs and
 outputs fit into the application memory.</p>
@@ -169,7 +172,7 @@ require non-default configuration of the algorithm. These use cases require the
 use of a <a class="reference internal" href="#multi-part-operations"><span class="std std-ref">multi-part operation</span></a>.</p>
 </section>
 <section id="multi-part-operations">
-<span id="id2"></span><h3><span class="section-number">3.3.2. </span>Multi-part operations<a class="headerlink" href="#multi-part-operations" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><span class="section-number">3.3.2. </span>Multi-part operations<a class="headerlink" href="#multi-part-operations" title="Permalink to this heading">¶</a></h3>
 <p>Multi-part operations are APIs which split a single cryptographic operation into
 a sequence of separate steps. This enables fine control over the configuration
 of the cryptographic operation, and allows the message data to be processed in
@@ -182,8 +185,14 @@ the use of a multi-part operation:</p>
 <li><p>Separating the AEAD authentication tag from the cipher text.</p></li>
 </ul>
 <p>Each multi-part operation defines a specific object type to maintain the state
-of the operation. These types are implementation-defined. All multi-part
-operations follow the same pattern of use:</p>
+of the operation. These types are implementation-defined.</p>
+<p>All multi-part operations follow the same pattern of use, which is shown in <span><a class="reference internal" href="#fig-multi-part"><span class="numref">Figure 1</span></a></span>.</p>
+<figure class="align-default" id="fig-multi-part">
+<img alt="../_images/multi_part_operation.svg" src="../_images/multi_part_operation.svg" /><figcaption>
+<p><span class="caption-number">Figure 1 </span><span class="caption-text">General state model for a multi-part operation</span><a class="headerlink" href="#fig-multi-part" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The typical sequence of actions with a multi-part operation is as follows:</p>
 <ol class="arabic">
 <li><p><strong>Allocate:</strong> Allocate memory for an operation object of the appropriate
 type. The application can use any allocation strategy: stack, heap, static, etc.</p></li>
@@ -221,15 +230,18 @@ release any resources associated with the operation.</p>
 <p>On success, the operation object returns to the <em>inactive</em> state. On
 failure, the operation object will enter an <em>error</em> state.</p>
 </li>
+<li><p><strong>Abort:</strong> An operation can be aborted at any stage during its use by
+calling the associated <code class="docutils literal notranslate"><span class="pre">psa_xxx_abort()</span></code> function. This will release any
+resources associated with the operation and return the operation object to
+the <em>inactive</em> state.</p>
+<p>Any error that occurs to an operation while it is in an <em>active</em> state
+will result in the operation entering an <em>error</em> state. The application
+must call the associated <code class="docutils literal notranslate"><span class="pre">psa_xxx_abort()</span></code> function to release the
+operation resources and return the object to the <em>inactive</em> state.</p>
+<p><code class="docutils literal notranslate"><span class="pre">psa_xxx_abort()</span></code> can be called on an <em>inactive</em> operation, and this
+has no effect.</p>
+</li>
 </ol>
-<p>An operation can be aborted at any stage during its use by calling the
-associated <code class="docutils literal notranslate"><span class="pre">psa_xxx_abort()</span></code> function. This will release any resources
-associated with the operation and return the operation object to the <em>inactive</em>
-state.</p>
-<p>Any error that occurs to an operation while it is in an <em>active</em> state will
-result in the operation entering an <em>error</em> state. The application must call the
-associated <code class="docutils literal notranslate"><span class="pre">psa_xxx_abort()</span></code> function to release the operation resources and
-return the object to the <em>inactive</em> state.</p>
 <p>Once an operation object is returned to the <em>inactive</em> state, it can be reused
 by calling one of the applicable setup functions again.</p>
 <p>If a multi-part operation object is not initialized before use, the behavior is
@@ -257,7 +269,7 @@ Documentation for the specific operation describes the configuration and update
 functions, and any requirements about their usage and ordering.</p>
 </section>
 <section id="example-of-the-symmetric-cryptography-api">
-<span id="symmetric-crypto-example"></span><h3><span class="section-number">3.3.3. </span>Example of the symmetric cryptography API<a class="headerlink" href="#example-of-the-symmetric-cryptography-api" title="Permalink to this headline">¶</a></h3>
+<span id="symmetric-crypto-example"></span><h3><span class="section-number">3.3.3. </span>Example of the symmetric cryptography API<a class="headerlink" href="#example-of-the-symmetric-cryptography-api" title="Permalink to this heading">¶</a></h3>
 <p>Here is an example of a use case where a master key is used to generate both a
 message encryption key and an IV for the encryption, and the derived key and IV
 are then used to encrypt a message.</p>
@@ -295,7 +307,7 @@ memory.</p></li>
 </section>
 </section>
 <section id="asymmetric-cryptography">
-<h2><span class="section-number">3.4. </span>Asymmetric cryptography<a class="headerlink" href="#asymmetric-cryptography" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4. </span>Asymmetric cryptography<a class="headerlink" href="#asymmetric-cryptography" title="Permalink to this heading">¶</a></h2>
 <p>This specification defines interfaces for the following types of asymmetric cryptographic operation:</p>
 <ul class="simple">
 <li><p>Asymmetric encryption (also known as public key encryption). See <a class="reference internal" href="../api/ops/pke.html#pke"><span class="secref">Asymmetric encryption</span></a>.</p></li>
@@ -305,7 +317,7 @@ memory.</p></li>
 <p>For asymmetric encryption and signature, the API provides <em>single-part</em> functions. For key agreement, the API provides a single-part function and an additional input method for a key derivation operation.</p>
 </section>
 <section id="randomness-and-key-generation">
-<h2><span class="section-number">3.5. </span>Randomness and key generation<a class="headerlink" href="#randomness-and-key-generation" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.5. </span>Randomness and key generation<a class="headerlink" href="#randomness-and-key-generation" title="Permalink to this heading">¶</a></h2>
 <p>We strongly recommended that implementations include a random generator,
 consisting of a cryptographically secure pseudo-random generator (CSPRNG), which
 is adequately seeded with a cryptographic-quality hardware entropy source,
@@ -334,7 +346,7 @@ function <a class="reference internal" href="../api/ops/rng.html#c.psa_generate_
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -390,13 +402,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

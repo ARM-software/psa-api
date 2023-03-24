@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="9.2. Key types" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="Key type encoding: psa_key_type_t(typedef): Encoding of a key type. This is a structured bitfield that identifies the category and type of key. The range of key type values is divided as follows: P..." />
 <meta name="description" content="Key type encoding: psa_key_type_t(typedef): Encoding of a key type. This is a structured bitfield that identifies the category and type of key. The range of key type values is divided as follows: P..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -48,11 +51,11 @@
           <div class="body" role="main">
             
   <section id="key-types">
-<span id="id1"></span><h1><span class="section-number">9.2. </span>Key types<a class="headerlink" href="#key-types" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">9.2. </span>Key types<a class="headerlink" href="#key-types" title="Permalink to this heading">¶</a></h1>
 <section id="key-type-encoding">
-<h2><span class="section-number">9.2.1. </span>Key type encoding<a class="headerlink" href="#key-type-encoding" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">9.2.1. </span>Key type encoding<a class="headerlink" href="#key-type-encoding" title="Permalink to this heading">¶</a></h2>
 <section id="c.psa_key_type_t">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_key_type_t</span></code> (typedef)<a class="headerlink" href="#c.psa_key_type_t" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_key_type_t</span></code> (typedef)<a class="headerlink" href="#c.psa_key_type_t" title="Permalink to this heading">¶</a></h3>
 <p>Encoding of a key type.</p>
 <pre class="literal-block">typedef uint16_t <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>;</pre>
 <p>This is a structured bitfield that identifies the category and type of key. The range of key type values is divided as follows:</p>
@@ -71,64 +74,76 @@ The related support macros will be easier to write if these key encodings also r
 <p>The <a class="reference internal" href="../../appendix/encodings.html#appendix-encodings"><span class="secref">Algorithm and key type encoding</span></a> appendix provides a full definition of the key type encoding.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_NONE">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_NONE</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_NONE" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_NONE</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_NONE" title="Permalink to this heading">¶</a></h3>
 <p>An invalid key type value.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_NONE" title="PSA_KEY_TYPE_NONE">PSA_KEY_TYPE_NONE</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x0000)</pre>
 <p>Zero is not the encoding of any key type.</p>
 </section>
 </section>
 <section id="key-categories">
-<h2><span class="section-number">9.2.2. </span>Key categories<a class="headerlink" href="#key-categories" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">9.2.2. </span>Key categories<a class="headerlink" href="#key-categories" title="Permalink to this heading">¶</a></h2>
 <section id="c.PSA_KEY_TYPE_IS_UNSTRUCTURED">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_UNSTRUCTURED</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_UNSTRUCTURED" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_UNSTRUCTURED</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_UNSTRUCTURED" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is an unstructured array of bytes.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_UNSTRUCTURED" title="PSA_KEY_TYPE_IS_UNSTRUCTURED">PSA_KEY_TYPE_IS_UNSTRUCTURED</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>This encompasses both symmetric keys and non-key data.</p>
 <p>See <a class="reference internal" href="#symmetric-keys"><span class="secref">Symmetric keys</span></a> for a list of symmetric key types.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_ASYMMETRIC">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ASYMMETRIC</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ASYMMETRIC" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ASYMMETRIC</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ASYMMETRIC" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is asymmetric: either a key pair or a public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_ASYMMETRIC" title="PSA_KEY_TYPE_IS_ASYMMETRIC">PSA_KEY_TYPE_IS_ASYMMETRIC</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="#asymmetric-keys"><span class="secref">RSA keys</span></a> for a list of asymmetric key types.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_PUBLIC_KEY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_PUBLIC_KEY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_PUBLIC_KEY" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is the public part of a key pair.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_PUBLIC_KEY" title="PSA_KEY_TYPE_IS_PUBLIC_KEY">PSA_KEY_TYPE_IS_PUBLIC_KEY</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_KEY_PAIR">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_KEY_PAIR" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_KEY_PAIR" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is a key pair containing a private part and a public part.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_KEY_PAIR" title="PSA_KEY_TYPE_IS_KEY_PAIR">PSA_KEY_TYPE_IS_KEY_PAIR</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 </section>
 <section id="symmetric-keys">
-<span id="id2"></span><h2><span class="section-number">9.2.3. </span>Symmetric keys<a class="headerlink" href="#symmetric-keys" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><span class="section-number">9.2.3. </span>Symmetric keys<a class="headerlink" href="#symmetric-keys" title="Permalink to this heading">¶</a></h2>
 <section id="c.PSA_KEY_TYPE_RAW_DATA">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RAW_DATA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_RAW_DATA" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RAW_DATA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_RAW_DATA" title="Permalink to this heading">¶</a></h3>
 <p>Raw data.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_RAW_DATA" title="PSA_KEY_TYPE_RAW_DATA">PSA_KEY_TYPE_RAW_DATA</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x1001)</pre>
 <p>A “key” of this type cannot be used for any cryptographic operation. Applications can use this type to store arbitrary data in the keystore.</p>
@@ -143,7 +158,7 @@ The related support macros will be easier to write if these key encodings also r
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_HMAC">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_HMAC</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_HMAC" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_HMAC</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_HMAC" title="Permalink to this heading">¶</a></h3>
 <p>HMAC key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_HMAC" title="PSA_KEY_TYPE_HMAC">PSA_KEY_TYPE_HMAC</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x1100)</pre>
 <p>The key policy determines which underlying hash algorithm the key can be used for.</p>
@@ -160,7 +175,7 @@ The related support macros will be easier to write if these key encodings also r
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_DERIVE">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DERIVE</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DERIVE" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DERIVE</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DERIVE" title="Permalink to this heading">¶</a></h3>
 <p>A secret for key derivation.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_DERIVE" title="PSA_KEY_TYPE_DERIVE">PSA_KEY_TYPE_DERIVE</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x1200)</pre>
 <p>This key type is for high-entropy secrets only. For low-entropy secrets, <a class="reference internal" href="#c.PSA_KEY_TYPE_PASSWORD" title="PSA_KEY_TYPE_PASSWORD"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD</span></code></a> should be used instead.</p>
@@ -177,7 +192,7 @@ The related support macros will be easier to write if these key encodings also r
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_PASSWORD">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PASSWORD" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PASSWORD" title="Permalink to this heading">¶</a></h3>
 <p>A low-entropy secret for password hashing or key derivation.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_PASSWORD" title="PSA_KEY_TYPE_PASSWORD">PSA_KEY_TYPE_PASSWORD</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x1203)</pre>
 <p>This key type is suitable for passwords and passphrases which are typically intended to be memorizable by humans, and have a low entropy relative to their size.
@@ -194,7 +209,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_PASSWORD_HASH">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD_HASH</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PASSWORD_HASH" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD_HASH</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PASSWORD_HASH" title="Permalink to this heading">¶</a></h3>
 <p>A secret value that can be used to verify a password hash.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_PASSWORD_HASH" title="PSA_KEY_TYPE_PASSWORD_HASH">PSA_KEY_TYPE_PASSWORD_HASH</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x1205)</pre>
 <p>The key policy determines which key derivation algorithm the key can be used for, among the same permissible subset as for <a class="reference internal" href="#c.PSA_KEY_TYPE_PASSWORD" title="PSA_KEY_TYPE_PASSWORD"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD</span></code></a>.</p>
@@ -205,7 +220,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_PEPPER">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PEPPER</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PEPPER" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PEPPER</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PEPPER" title="Permalink to this heading">¶</a></h3>
 <p>A secret value that can be used when computing a password hash.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_PEPPER" title="PSA_KEY_TYPE_PEPPER">PSA_KEY_TYPE_PEPPER</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x1206)</pre>
 <p>The key policy determines which key derivation algorithm the key can be used for, among the subset of algorithms that can use pepper.</p>
@@ -216,7 +231,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_AES">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_AES</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_AES" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_AES</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_AES" title="Permalink to this heading">¶</a></h3>
 <p>Key for a cipher, AEAD or MAC algorithm based on the AES block cipher.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_AES" title="PSA_KEY_TYPE_AES">PSA_KEY_TYPE_AES</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x2400)</pre>
 <p>The size of the key is related to the AES algorithm variant. For algorithms except the XTS block cipher mode, the following key sizes are used:</p>
@@ -248,7 +263,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_ARIA">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ARIA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ARIA" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ARIA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ARIA" title="Permalink to this heading">¶</a></h3>
 <p>Key for a cipher, AEAD or MAC algorithm based on the ARIA block cipher.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_ARIA" title="PSA_KEY_TYPE_ARIA">PSA_KEY_TYPE_ARIA</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x2406)</pre>
 <p>The size of the key is related to the ARIA algorithm variant. For algorithms except the XTS block cipher mode, the following key sizes are used:</p>
@@ -280,7 +295,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_DES">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DES</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DES" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DES</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DES" title="Permalink to this heading">¶</a></h3>
 <p>Key for a cipher or MAC algorithm based on DES or 3DES (Triple-DES).</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_DES" title="PSA_KEY_TYPE_DES">PSA_KEY_TYPE_DES</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x2301)</pre>
 <p>The size of the key determines which DES algorithm is used:</p>
@@ -309,7 +324,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_CAMELLIA">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CAMELLIA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_CAMELLIA" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CAMELLIA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_CAMELLIA" title="Permalink to this heading">¶</a></h3>
 <p>Key for a cipher, AEAD or MAC algorithm based on the Camellia block cipher.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_CAMELLIA" title="PSA_KEY_TYPE_CAMELLIA">PSA_KEY_TYPE_CAMELLIA</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x2403)</pre>
 <p>The size of the key is related to the Camellia algorithm variant. For algorithms except the XTS block cipher mode, the following key sizes are used:</p>
@@ -341,12 +356,12 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_SM4">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SM4</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_SM4" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SM4</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_SM4" title="Permalink to this heading">¶</a></h3>
 <p>Key for a cipher, AEAD or MAC algorithm based on the SM4 block cipher.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_SM4" title="PSA_KEY_TYPE_SM4">PSA_KEY_TYPE_SM4</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x2405)</pre>
 <p>For algorithms except the XTS block cipher mode, the SM4 key size is 128 bits (16 bytes).</p>
 <p>For the XTS block cipher mode (<a class="reference internal" href="../ops/ciphers.html#c.PSA_ALG_XTS" title="PSA_ALG_XTS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_XTS</span></code></a>), the SM4 key size is 256 bits (two 16-byte keys).</p>
-<p>The SM4 block cipher is defined in <span><em>GM/T 0002-2012: SM4 block cipher algorithm</em> <a class="reference internal" href="../../about.html#cite-cstc0002"><span class="cite">[CSTC0002]</span></a></span> (English version <a class="reference internal" href="../../about.html#cite-cstc0002-e"><span class="cite">[CSTC0002/E]</span></a>).</p>
+<p>The SM4 block cipher is defined in <span><em>GM/T 0002-2012: SM4 block cipher algorithm</em> <a class="reference internal" href="../../about.html#cite-cstc0002"><span class="cite">[CSTC0002]</span></a></span>.</p>
 <p class="rubric">Compatible algorithms</p>
 <div class="line-block">
 <div class="line"><a class="reference internal" href="../ops/macs.html#c.PSA_ALG_CBC_MAC" title="PSA_ALG_CBC_MAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CBC_MAC</span></code></a></div>
@@ -363,7 +378,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_ARC4">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ARC4</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ARC4" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ARC4</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ARC4" title="Permalink to this heading">¶</a></h3>
 <p>Key for the ARC4 stream cipher.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_ARC4" title="PSA_KEY_TYPE_ARC4">PSA_KEY_TYPE_ARC4</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x2002)</pre>
 <div class="admonition warning">
@@ -378,7 +393,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_CHACHA20">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CHACHA20</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_CHACHA20" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CHACHA20</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_CHACHA20" title="Permalink to this heading">¶</a></h3>
 <p>Key for the ChaCha20 stream cipher or the ChaCha20-Poly1305 AEAD algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_CHACHA20" title="PSA_KEY_TYPE_CHACHA20">PSA_KEY_TYPE_CHACHA20</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x2004)</pre>
 <p>The ChaCha20 key size is 256 bits (32 bytes).</p>
@@ -394,9 +409,9 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </section>
 </section>
 <section id="rsa-keys">
-<span id="asymmetric-keys"></span><h2><span class="section-number">9.2.4. </span>RSA keys<a class="headerlink" href="#rsa-keys" title="Permalink to this headline">¶</a></h2>
+<span id="asymmetric-keys"></span><h2><span class="section-number">9.2.4. </span>RSA keys<a class="headerlink" href="#rsa-keys" title="Permalink to this heading">¶</a></h2>
 <section id="c.PSA_KEY_TYPE_RSA_KEY_PAIR">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_RSA_KEY_PAIR" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_RSA_KEY_PAIR" title="Permalink to this heading">¶</a></h3>
 <p>RSA key pair: both the private and public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_RSA_KEY_PAIR" title="PSA_KEY_TYPE_RSA_KEY_PAIR">PSA_KEY_TYPE_RSA_KEY_PAIR</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x7001)</pre>
 <p>The size of an RSA key is the bit size of the modulus.</p>
@@ -411,7 +426,7 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_RSA_PUBLIC_KEY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_RSA_PUBLIC_KEY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_RSA_PUBLIC_KEY" title="Permalink to this heading">¶</a></h3>
 <p>RSA public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_RSA_PUBLIC_KEY" title="PSA_KEY_TYPE_RSA_PUBLIC_KEY">PSA_KEY_TYPE_RSA_PUBLIC_KEY</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x4001)</pre>
 <p>The size of an RSA key is the bit size of the modulus.</p>
@@ -426,20 +441,23 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_RSA">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_RSA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_RSA" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_RSA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_RSA" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is an RSA key. This includes both key pairs and public keys.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_RSA" title="PSA_KEY_TYPE_IS_RSA">PSA_KEY_TYPE_IS_RSA</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 </section>
 <section id="elliptic-curve-keys">
-<h2><span class="section-number">9.2.5. </span>Elliptic Curve keys<a class="headerlink" href="#elliptic-curve-keys" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">9.2.5. </span>Elliptic Curve keys<a class="headerlink" href="#elliptic-curve-keys" title="Permalink to this heading">¶</a></h2>
 <section id="c.psa_ecc_family_t">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_ecc_family_t</span></code> (typedef)<a class="headerlink" href="#c.psa_ecc_family_t" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_ecc_family_t</span></code> (typedef)<a class="headerlink" href="#c.psa_ecc_family_t" title="Permalink to this heading">¶</a></h3>
 <p>The type of identifiers of an elliptic curve family.</p>
 <pre class="literal-block">typedef uint8_t <a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>;</pre>
 <p>The curve identifier is required to create an ECC key using the <a class="reference internal" href="#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="PSA_KEY_TYPE_ECC_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR()</span></code></a> or <a class="reference internal" href="#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="PSA_KEY_TYPE_ECC_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_PUBLIC_KEY()</span></code></a> macros.</p>
@@ -454,14 +472,17 @@ Unallocated values in this range are reserved for future use.</p>
 </dl>
 </section>
 <section id="c.PSA_KEY_TYPE_ECC_KEY_PAIR">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="Permalink to this heading">¶</a></h3>
 <p>Elliptic curve key pair: both the private and public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="PSA_KEY_TYPE_ECC_KEY_PAIR">PSA_KEY_TYPE_ECC_KEY_PAIR</a>(curve) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">curve</span></code></dt><dd><p>A value of type <a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ecc_family_t</span></code></a> that identifies the ECC curve family to be used.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">curve</span></code></p>
+</dt><dd><p>A value of type <a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ecc_family_t</span></code></a> that identifies the ECC curve family to be used.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of <em>q</em> for a curve over a field <em>F</em><sub>q</sub>. See the documentation of each Elliptic curve family for details.</p>
 <p class="rubric">Compatible algorithms</p>
@@ -469,14 +490,17 @@ Unallocated values in this range are reserved for future use.</p>
 <p>The set of compatible algorithms depends on the Elliptic curve key family. See the Elliptic curve family for details.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_ECC_PUBLIC_KEY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="Permalink to this heading">¶</a></h3>
 <p>Elliptic curve public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="PSA_KEY_TYPE_ECC_PUBLIC_KEY">PSA_KEY_TYPE_ECC_PUBLIC_KEY</a>(curve) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">curve</span></code></dt><dd><p>A value of type <a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ecc_family_t</span></code></a> that identifies the ECC curve family to be used.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">curve</span></code></p>
+</dt><dd><p>A value of type <a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ecc_family_t</span></code></a> that identifies the ECC curve family to be used.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>The size of an elliptic curve public key is the same as the corresponding private key. See <a class="reference internal" href="#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="PSA_KEY_TYPE_ECC_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR()</span></code></a> and the documentation of each Elliptic curve family for details.</p>
 <p class="rubric">Compatible algorithms</p>
@@ -484,7 +508,7 @@ Unallocated values in this range are reserved for future use.</p>
 <p>The set of compatible algorithms depends on the Elliptic curve key family. See each Elliptic curve family for details.</p>
 </section>
 <section id="c.PSA_ECC_FAMILY_SECP_K1">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_K1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECP_K1" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_K1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECP_K1" title="Permalink to this heading">¶</a></h3>
 <p>SEC Koblitz curves over prime fields.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_SECP_K1" title="PSA_ECC_FAMILY_SECP_K1">PSA_ECC_FAMILY_SECP_K1</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x17)</pre>
 <p>This family comprises the following curves:</p>
@@ -503,7 +527,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_SECP_R1">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_R1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECP_R1" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_R1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECP_R1" title="Permalink to this heading">¶</a></h3>
 <p>SEC random curves over prime fields.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_SECP_R1" title="PSA_ECC_FAMILY_SECP_R1">PSA_ECC_FAMILY_SECP_R1</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x12)</pre>
 <p>This family comprises the following curves:</p>
@@ -524,7 +548,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_SECP_R2">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_R2</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECP_R2" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_R2</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECP_R2" title="Permalink to this heading">¶</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This family of curves is weak and deprecated.</p>
@@ -544,7 +568,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_SECT_K1">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_K1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECT_K1" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_K1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECT_K1" title="Permalink to this heading">¶</a></h3>
 <p>SEC Koblitz curves over binary fields.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_SECT_K1" title="PSA_ECC_FAMILY_SECT_K1">PSA_ECC_FAMILY_SECT_K1</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x27)</pre>
 <p>This family comprises the following curves:</p>
@@ -570,7 +594,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_SECT_R1">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_R1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECT_R1" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_R1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECT_R1" title="Permalink to this heading">¶</a></h3>
 <p>SEC random curves over binary fields.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_SECT_R1" title="PSA_ECC_FAMILY_SECT_R1">PSA_ECC_FAMILY_SECT_R1</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x22)</pre>
 <p>This family comprises the following curves:</p>
@@ -595,7 +619,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_SECT_R2">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_R2</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECT_R2" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_R2</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_SECT_R2" title="Permalink to this heading">¶</a></h3>
 <p>SEC additional random curves over binary fields.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_SECT_R2" title="PSA_ECC_FAMILY_SECT_R2">PSA_ECC_FAMILY_SECT_R2</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x2b)</pre>
 <p>This family comprises the following curves:</p>
@@ -616,7 +640,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_BRAINPOOL_P_R1">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_BRAINPOOL_P_R1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_BRAINPOOL_P_R1" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_BRAINPOOL_P_R1</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_BRAINPOOL_P_R1" title="Permalink to this heading">¶</a></h3>
 <p>Brainpool P random curves.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_BRAINPOOL_P_R1" title="PSA_ECC_FAMILY_BRAINPOOL_P_R1">PSA_ECC_FAMILY_BRAINPOOL_P_R1</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x30)</pre>
 <p>This family comprises the following curves:</p>
@@ -643,7 +667,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_FRP">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_FRP</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_FRP" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_FRP</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_FRP" title="Permalink to this heading">¶</a></h3>
 <p>Curve used primarily in France and elsewhere in Europe.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_FRP" title="PSA_ECC_FAMILY_FRP">PSA_ECC_FAMILY_FRP</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x33)</pre>
 <p>This family comprises one 256-bit curve:</p>
@@ -660,7 +684,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_MONTGOMERY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_MONTGOMERY</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_MONTGOMERY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_MONTGOMERY</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_MONTGOMERY" title="Permalink to this heading">¶</a></h3>
 <p>Montgomery curves.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_MONTGOMERY" title="PSA_ECC_FAMILY_MONTGOMERY">PSA_ECC_FAMILY_MONTGOMERY</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x41)</pre>
 <p>This family comprises the following Montgomery curves:</p>
@@ -675,7 +699,7 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_ECC_FAMILY_TWISTED_EDWARDS">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_TWISTED_EDWARDS</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_TWISTED_EDWARDS" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_TWISTED_EDWARDS</span></code> (macro)<a class="headerlink" href="#c.PSA_ECC_FAMILY_TWISTED_EDWARDS" title="Permalink to this heading">¶</a></h3>
 <p>Twisted Edwards curves.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ECC_FAMILY_TWISTED_EDWARDS" title="PSA_ECC_FAMILY_TWISTED_EDWARDS">PSA_ECC_FAMILY_TWISTED_EDWARDS</a> ((<a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t">psa_ecc_family_t</a>) 0x42)</pre>
 <p>This family comprises the following twisted Edwards curves:</p>
@@ -692,52 +716,64 @@ Unallocated values in this range are reserved for future use.</p>
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_ECC">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ECC" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ECC" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is an elliptic curve key, either a key pair or a public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_ECC" title="PSA_KEY_TYPE_IS_ECC">PSA_KEY_TYPE_IS_ECC</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_ECC_KEY_PAIR">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ECC_KEY_PAIR" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ECC_KEY_PAIR" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is an elliptic curve key pair.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_ECC_KEY_PAIR" title="PSA_KEY_TYPE_IS_ECC_KEY_PAIR">PSA_KEY_TYPE_IS_ECC_KEY_PAIR</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is an elliptic curve public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY" title="PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY">PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.PSA_KEY_TYPE_ECC_GET_FAMILY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_GET_FAMILY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ECC_GET_FAMILY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_GET_FAMILY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_ECC_GET_FAMILY" title="Permalink to this heading">¶</a></h3>
 <p>Extract the curve family from an elliptic curve key type.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_ECC_GET_FAMILY" title="PSA_KEY_TYPE_ECC_GET_FAMILY">PSA_KEY_TYPE_ECC_GET_FAMILY</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>An elliptic curve key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a> such that <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_ECC" title="PSA_KEY_TYPE_IS_ECC"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">type</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> is true.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>An elliptic curve key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a> such that <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_ECC" title="PSA_KEY_TYPE_IS_ECC"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_ECC</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">type</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> is true.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <a class="reference internal" href="#c.psa_ecc_family_t" title="psa_ecc_family_t"><code class="docutils literal notranslate"><span class="pre">psa_ecc_family_t</span></code></a></p>
 <p>The elliptic curve family id, if <code class="docutils literal notranslate"><span class="pre">type</span></code> is a supported elliptic curve key. Unspecified if <code class="docutils literal notranslate"><span class="pre">type</span></code> is not a supported elliptic curve key.</p>
 </section>
 </section>
 <section id="diffie-hellman-keys">
-<h2><span class="section-number">9.2.6. </span>Diffie Hellman keys<a class="headerlink" href="#diffie-hellman-keys" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">9.2.6. </span>Diffie Hellman keys<a class="headerlink" href="#diffie-hellman-keys" title="Permalink to this heading">¶</a></h2>
 <section id="c.psa_dh_family_t">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code> (typedef)<a class="headerlink" href="#c.psa_dh_family_t" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code> (typedef)<a class="headerlink" href="#c.psa_dh_family_t" title="Permalink to this heading">¶</a></h3>
 <p>The type of identifiers of a finite-field Diffie-Hellman group family.</p>
 <pre class="literal-block">typedef uint8_t <a class="reference internal" href="#c.psa_dh_family_t" title="psa_dh_family_t">psa_dh_family_t</a>;</pre>
 <p>The group family identifier is required to create a finite-field Diffie-Hellman key using the <a class="reference internal" href="#c.PSA_KEY_TYPE_DH_KEY_PAIR" title="PSA_KEY_TYPE_DH_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_KEY_PAIR()</span></code></a> or <a class="reference internal" href="#c.PSA_KEY_TYPE_DH_PUBLIC_KEY" title="PSA_KEY_TYPE_DH_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_PUBLIC_KEY()</span></code></a> macros.</p>
@@ -752,127 +788,155 @@ Unallocated values in this range are reserved for future use.</p>
 </dl>
 </section>
 <section id="c.PSA_KEY_TYPE_DH_KEY_PAIR">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DH_KEY_PAIR" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DH_KEY_PAIR" title="Permalink to this heading">¶</a></h3>
 <p>Finite-field Diffie-Hellman key pair: both the private key and public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_DH_KEY_PAIR" title="PSA_KEY_TYPE_DH_KEY_PAIR">PSA_KEY_TYPE_DH_KEY_PAIR</a>(group) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">group</span></code></dt><dd><p>A value of type <a class="reference internal" href="#c.psa_dh_family_t" title="psa_dh_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code></a> that identifies the Diffie-Hellman group family to be used.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">group</span></code></p>
+</dt><dd><p>A value of type <a class="reference internal" href="#c.psa_dh_family_t" title="psa_dh_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code></a> that identifies the Diffie-Hellman group family to be used.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Compatible algorithms</p>
 <div class="line-block">
 <div class="line"><a class="reference internal" href="../ops/ka.html#c.PSA_ALG_FFDH" title="PSA_ALG_FFDH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_FFDH</span></code></a></div>
 </div>
 </section>
 <section id="c.PSA_KEY_TYPE_DH_PUBLIC_KEY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DH_PUBLIC_KEY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DH_PUBLIC_KEY" title="Permalink to this heading">¶</a></h3>
 <p>Finite-field Diffie-Hellman public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_DH_PUBLIC_KEY" title="PSA_KEY_TYPE_DH_PUBLIC_KEY">PSA_KEY_TYPE_DH_PUBLIC_KEY</a>(group) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">group</span></code></dt><dd><p>A value of type <a class="reference internal" href="#c.psa_dh_family_t" title="psa_dh_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code></a> that identifies the Diffie-Hellman group family to be used.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">group</span></code></p>
+</dt><dd><p>A value of type <a class="reference internal" href="#c.psa_dh_family_t" title="psa_dh_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code></a> that identifies the Diffie-Hellman group family to be used.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Compatible algorithms</p>
 <p>None. Finite-field Diffie-Hellman public keys are exported to use in a key agreement algorithm, and the peer key is provided to the <a class="reference internal" href="../ops/ka.html#c.PSA_ALG_FFDH" title="PSA_ALG_FFDH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_FFDH</span></code></a> key agreement algorithm as a buffer of key data.</p>
 </section>
 <section id="c.PSA_DH_FAMILY_RFC7919">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_DH_FAMILY_RFC7919</span></code> (macro)<a class="headerlink" href="#c.PSA_DH_FAMILY_RFC7919" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_DH_FAMILY_RFC7919</span></code> (macro)<a class="headerlink" href="#c.PSA_DH_FAMILY_RFC7919" title="Permalink to this heading">¶</a></h3>
 <p>Finite-field Diffie-Hellman groups defined for TLS in RFC 7919.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_DH_FAMILY_RFC7919" title="PSA_DH_FAMILY_RFC7919">PSA_DH_FAMILY_RFC7919</a> ((<a class="reference internal" href="#c.psa_dh_family_t" title="psa_dh_family_t">psa_dh_family_t</a>) 0x03)</pre>
 <p>This family includes groups with the following key sizes (in bits): 2048, 3072, 4096, 6144, 8192.
 An implementation can support all of these sizes or only a subset.</p>
 <p>Keys is this group can only be used with the <a class="reference internal" href="../ops/ka.html#c.PSA_ALG_FFDH" title="PSA_ALG_FFDH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_FFDH</span></code></a> key agreement algorithm.</p>
-<p>These groups are defined by <span><em>Negotiated Finite Field Diffie-Hellman Ephemeral Parameters for Transport Layer Security (TLS)</em> <a class="reference internal" href="../../about.html#cite-rfc7919"><span class="cite">[RFC7919]</span></a></span> <a class="reference external" href="https://tools.ietf.org/html/rfc7919.html#appendix-A">Appendix A</a>.</p>
+<p>These groups are defined by <span><em>Negotiated Finite Field Diffie-Hellman Ephemeral Parameters for Transport Layer Security (TLS)</em> <a class="reference internal" href="../../about.html#cite-rfc7919"><span class="cite">[RFC7919]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc7919.html#appendix-A">Appendix A</a>.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY" title="Permalink to this heading">¶</a></h3>
 <p>The key pair type corresponding to a public key type.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY" title="PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY">PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY</a>(type) \
     <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A public key type or key pair type.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A public key type or key pair type.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p>The corresponding key pair type. If <code class="docutils literal notranslate"><span class="pre">type</span></code> is not a public key or a key pair, the return value is undefined.</p>
 <p class="rubric">Description</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">type</span></code> is a key pair type, it will be left unchanged.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR" title="Permalink to this heading">¶</a></h3>
 <p>The public key type corresponding to a key pair type.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR" title="PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR">PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR</a>(type) \
     <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A public key type or key pair type.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A public key type or key pair type.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p>The corresponding public key type. If <code class="docutils literal notranslate"><span class="pre">type</span></code> is not a public key or a key pair, the return value is undefined.</p>
 <p class="rubric">Description</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">type</span></code> is a public key type, it will be left unchanged.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_DH">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_DH" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_DH" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is a Diffie-Hellman key, either a key pair or a public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_DH" title="PSA_KEY_TYPE_IS_DH">PSA_KEY_TYPE_IS_DH</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_DH_KEY_PAIR">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_DH_KEY_PAIR" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_DH_KEY_PAIR" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is a Diffie-Hellman key pair.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_DH_KEY_PAIR" title="PSA_KEY_TYPE_IS_DH_KEY_PAIR">PSA_KEY_TYPE_IS_DH_KEY_PAIR</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.PSA_KEY_TYPE_IS_DH_PUBLIC_KEY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_DH_PUBLIC_KEY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_DH_PUBLIC_KEY" title="Permalink to this heading">¶</a></h3>
 <p>Whether a key type is a Diffie-Hellman public key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_DH_PUBLIC_KEY" title="PSA_KEY_TYPE_IS_DH_PUBLIC_KEY">PSA_KEY_TYPE_IS_DH_PUBLIC_KEY</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.PSA_KEY_TYPE_DH_GET_FAMILY">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_GET_FAMILY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DH_GET_FAMILY" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_GET_FAMILY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_DH_GET_FAMILY" title="Permalink to this heading">¶</a></h3>
 <p>Extract the group family from a Diffie-Hellman key type.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_DH_GET_FAMILY" title="PSA_KEY_TYPE_DH_GET_FAMILY">PSA_KEY_TYPE_DH_GET_FAMILY</a>(type) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>A Diffie-Hellman key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a> such that <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_DH" title="PSA_KEY_TYPE_IS_DH"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">type</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> is true.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A Diffie-Hellman key type: a value of type <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a> such that <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_DH" title="PSA_KEY_TYPE_IS_DH"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_DH</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">type</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> is true.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <a class="reference internal" href="#c.psa_dh_family_t" title="psa_dh_family_t"><code class="docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code></a></p>
 <p>The Diffie-Hellman group family id, if <code class="docutils literal notranslate"><span class="pre">type</span></code> is a supported Diffie-Hellman key. Unspecified if <code class="docutils literal notranslate"><span class="pre">type</span></code> is not a supported Diffie-Hellman key.</p>
 </section>
 </section>
 <section id="attribute-accessors">
-<h2><span class="section-number">9.2.7. </span>Attribute accessors<a class="headerlink" href="#attribute-accessors" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">9.2.7. </span>Attribute accessors<a class="headerlink" href="#attribute-accessors" title="Permalink to this heading">¶</a></h2>
 <section id="c.psa_set_key_type">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_set_key_type</span></code> (function)<a class="headerlink" href="#c.psa_set_key_type" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_set_key_type</span></code> (function)<a class="headerlink" href="#c.psa_set_key_type" title="Permalink to this heading">¶</a></h3>
 <p>Declare the type of a key.</p>
 <pre class="literal-block">void <a class="reference internal" href="#c.psa_set_key_type" title="psa_set_key_type">psa_set_key_type</a>(<a class="reference internal" href="attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes,
                       <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a> type);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">attributes</span></code></dt><dd><p>The attribute object to write to.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">attributes</span></code></p>
+</dt><dd><p>The attribute object to write to.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>The key type to write. If this is <a class="reference internal" href="#c.PSA_KEY_TYPE_NONE" title="PSA_KEY_TYPE_NONE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_NONE</span></code></a>, the key type in <code class="docutils literal notranslate"><span class="pre">attributes</span></code> becomes unspecified.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>The key type to write. If this is <a class="reference internal" href="#c.PSA_KEY_TYPE_NONE" title="PSA_KEY_TYPE_NONE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_NONE</span></code></a>, the key type in <code class="docutils literal notranslate"><span class="pre">attributes</span></code> becomes unspecified.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">void</span></code></p>
 <p class="rubric">Description</p>
 <p>This function overwrites any key type previously set in <code class="docutils literal notranslate"><span class="pre">attributes</span></code>.</p>
@@ -882,14 +946,17 @@ An implementation can support all of these sizes or only a subset.</p>
 </div>
 </section>
 <section id="c.psa_get_key_type">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_get_key_type</span></code> (function)<a class="headerlink" href="#c.psa_get_key_type" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_get_key_type</span></code> (function)<a class="headerlink" href="#c.psa_get_key_type" title="Permalink to this heading">¶</a></h3>
 <p>Retrieve the key type from key attributes.</p>
 <pre class="literal-block"><a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a> <a class="reference internal" href="#c.psa_get_key_type" title="psa_get_key_type">psa_get_key_type</a>(const <a class="reference internal" href="attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">attributes</span></code></dt><dd><p>The key attribute object to query.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">attributes</span></code></p>
+</dt><dd><p>The key attribute object to query.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t"><code class="docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a></p>
 <p>The key type stored in the attribute object.</p>
 <p class="rubric">Description</p>
@@ -899,14 +966,17 @@ An implementation can support all of these sizes or only a subset.</p>
 </div>
 </section>
 <section id="c.psa_get_key_bits">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_get_key_bits</span></code> (function)<a class="headerlink" href="#c.psa_get_key_bits" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_get_key_bits</span></code> (function)<a class="headerlink" href="#c.psa_get_key_bits" title="Permalink to this heading">¶</a></h3>
 <p>Retrieve the key size from key attributes.</p>
 <pre class="literal-block">size_t <a class="reference internal" href="#c.psa_get_key_bits" title="psa_get_key_bits">psa_get_key_bits</a>(const <a class="reference internal" href="attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">attributes</span></code></dt><dd><p>The key attribute object to query.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">attributes</span></code></p>
+</dt><dd><p>The key attribute object to query.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">size_t</span></code></p>
 <p>The key size stored in the attribute object, in bits.</p>
 <p class="rubric">Description</p>
@@ -916,17 +986,21 @@ An implementation can support all of these sizes or only a subset.</p>
 </div>
 </section>
 <section id="c.psa_set_key_bits">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_set_key_bits</span></code> (function)<a class="headerlink" href="#c.psa_set_key_bits" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_set_key_bits</span></code> (function)<a class="headerlink" href="#c.psa_set_key_bits" title="Permalink to this heading">¶</a></h3>
 <p>Declare the size of a key.</p>
 <pre class="literal-block">void <a class="reference internal" href="#c.psa_set_key_bits" title="psa_set_key_bits">psa_set_key_bits</a>(<a class="reference internal" href="attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes,
                       size_t bits);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">attributes</span></code></dt><dd><p>The attribute object to write to.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">attributes</span></code></p>
+</dt><dd><p>The attribute object to write to.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">bits</span></code></dt><dd><p>The key size in bits. If this is <code class="docutils literal notranslate"><span class="pre">0</span></code>, the key size in <code class="docutils literal notranslate"><span class="pre">attributes</span></code> becomes unspecified. Keys of size <code class="docutils literal notranslate"><span class="pre">0</span></code> are not supported.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">bits</span></code></p>
+</dt><dd><p>The key size in bits. If this is <code class="docutils literal notranslate"><span class="pre">0</span></code>, the key size in <code class="docutils literal notranslate"><span class="pre">attributes</span></code> becomes unspecified. Keys of size <code class="docutils literal notranslate"><span class="pre">0</span></code> are not supported.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">void</span></code></p>
 <p class="rubric">Description</p>
 <p>This function overwrites any key size previously set in <code class="docutils literal notranslate"><span class="pre">attributes</span></code>.</p>
@@ -951,7 +1025,7 @@ An implementation can support all of these sizes or only a subset.</p>
 <h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -1005,13 +1079,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

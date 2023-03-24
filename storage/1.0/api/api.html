@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="5. API Reference" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
 <meta property="og:description" content="Status codes: The Secure Storage API uses the status code definitions that are shared with the other PSA Certified APIs. The following elements are defined in psa/error.h from PSA Certified Status ..." />
 <meta name="description" content="Status codes: The Secure Storage API uses the status code definitions that are shared with the other PSA Certified APIs. The following elements are defined in psa/error.h from PSA Certified Status ..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,9 +51,9 @@
           <div class="body" role="main">
             
   <section id="api-reference">
-<h1><span class="section-number">5. </span>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">5. </span>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">¶</a></h1>
 <section id="status-codes">
-<h2><span class="section-number">5.1. </span>Status codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.1. </span>Status codes<a class="headerlink" href="#status-codes" title="Permalink to this heading">¶</a></h2>
 <p>The Secure Storage API uses the status code definitions that are shared with the other PSA Certified APIs.</p>
 <p>The following elements are defined in <code class="file docutils literal notranslate"><span class="pre">psa/error.h</span></code> from <span><em>PSA Certified Status code API</em> <a class="reference internal" href="../about.html#cite-psa-stat"><span class="cite">[PSA-STAT]</span></a></span> (previously defined in <a class="reference internal" href="../about.html#cite-psa-ff-m"><span class="cite">[PSA-FF-M]</span></a>):</p>
 <pre class="literal-block">typedef int32_t psa_status_t;
@@ -73,10 +76,10 @@
 </div>
 </section>
 <section id="general-definitions">
-<h2><span class="section-number">5.2. </span>General Definitions<a class="headerlink" href="#general-definitions" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.2. </span>General Definitions<a class="headerlink" href="#general-definitions" title="Permalink to this heading">¶</a></h2>
 <p>These definitions must be defined in the header file <code class="file docutils literal notranslate"><span class="pre">psa/storage_common.h</span></code>.</p>
 <section id="c.psa_storage_info_t">
-<h3><span class="section-number">5.2.1. </span><code class="docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code> (struct)<a class="headerlink" href="#c.psa_storage_info_t" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.1. </span><code class="docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code> (struct)<a class="headerlink" href="#c.psa_storage_info_t" title="Permalink to this heading">¶</a></h3>
 <p>A container for metadata associated with a specific <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">struct <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t">psa_storage_info_t</a> {
     size_t capacity;
@@ -84,106 +87,125 @@
     <a class="reference internal" href="#c.psa_storage_create_flags_t" title="psa_storage_create_flags_t">psa_storage_create_flags_t</a> flags;
 };</pre>
 <p class="rubric">Fields</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">capacity</span></code></dt><dd><p>The allocated capacity of the storage associated with a <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">capacity</span></code></p>
+</dt><dd><p>The allocated capacity of the storage associated with a <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">size</span></code></dt><dd><p>The size of the data associated with a <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">size</span></code></p>
+</dt><dd><p>The size of the data associated with a <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">flags</span></code></dt><dd><p>The flags set when the <code class="docutils literal notranslate"><span class="pre">uid</span></code> was create</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">flags</span></code></p>
+</dt><dd><p>The flags set when the <code class="docutils literal notranslate"><span class="pre">uid</span></code> was create</p>
 </dd>
 </dl>
+</div>
 </section>
 <section id="c.psa_storage_create_flags_t">
-<h3><span class="section-number">5.2.2. </span><code class="docutils literal notranslate"><span class="pre">psa_storage_create_flags_t</span></code> (typedef)<a class="headerlink" href="#c.psa_storage_create_flags_t" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.2. </span><code class="docutils literal notranslate"><span class="pre">psa_storage_create_flags_t</span></code> (typedef)<a class="headerlink" href="#c.psa_storage_create_flags_t" title="Permalink to this heading">¶</a></h3>
 <p>Flags used when creating a data entry.</p>
 <pre class="literal-block">typedef uint32_t <a class="reference internal" href="#c.psa_storage_create_flags_t" title="psa_storage_create_flags_t">psa_storage_create_flags_t</a>;</pre>
 </section>
 <section id="c.psa_storage_uid_t">
-<h3><span class="section-number">5.2.3. </span><code class="docutils literal notranslate"><span class="pre">psa_storage_uid_t</span></code> (typedef)<a class="headerlink" href="#c.psa_storage_uid_t" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.3. </span><code class="docutils literal notranslate"><span class="pre">psa_storage_uid_t</span></code> (typedef)<a class="headerlink" href="#c.psa_storage_uid_t" title="Permalink to this heading">¶</a></h3>
 <p>A type for <code class="docutils literal notranslate"><span class="pre">uid</span></code> used for identifying data.</p>
 <pre class="literal-block">typedef uint64_t <a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a>;</pre>
 </section>
 <section id="c.PSA_STORAGE_FLAG_NONE">
-<h3><span class="section-number">5.2.4. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NONE</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_NONE" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.4. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NONE</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_NONE" title="Permalink to this heading">¶</a></h3>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_STORAGE_FLAG_NONE" title="PSA_STORAGE_FLAG_NONE">PSA_STORAGE_FLAG_NONE</a> 0u</pre>
 <p>No flags to pass.</p>
 </section>
 <section id="c.PSA_STORAGE_FLAG_WRITE_ONCE">
-<h3><span class="section-number">5.2.5. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.5. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="Permalink to this heading">¶</a></h3>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE">PSA_STORAGE_FLAG_WRITE_ONCE</a> (1u &lt;&lt; 0)</pre>
 <p>The data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> will not be able to be modified or deleted. Intended to be used to set bits in <a class="reference internal" href="#c.psa_storage_create_flags_t" title="psa_storage_create_flags_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_storage_create_flags_t</span></code></a>.</p>
 </section>
 <section id="c.PSA_STORAGE_FLAG_NO_CONFIDENTIALITY">
-<h3><span class="section-number">5.2.6. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_CONFIDENTIALITY</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_NO_CONFIDENTIALITY" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.6. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_CONFIDENTIALITY</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_NO_CONFIDENTIALITY" title="Permalink to this heading">¶</a></h3>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_STORAGE_FLAG_NO_CONFIDENTIALITY" title="PSA_STORAGE_FLAG_NO_CONFIDENTIALITY">PSA_STORAGE_FLAG_NO_CONFIDENTIALITY</a> (1u &lt;&lt; 1)</pre>
 <p>The data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> is public and therefore does not require confidentiality. It therefore only needs to be integrity protected.</p>
 </section>
 <section id="c.PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION">
-<h3><span class="section-number">5.2.7. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.7. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION" title="Permalink to this heading">¶</a></h3>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION" title="PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION">PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION</a> (1u &lt;&lt; 2)</pre>
 <p>The data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> does not require replay protection. This can permit faster storage — but it permits an attacker with physical access to revert to an earlier version of the data.</p>
 </section>
 <section id="c.PSA_STORAGE_SUPPORT_SET_EXTENDED">
-<h3><span class="section-number">5.2.8. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_SUPPORT_SET_EXTENDED</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_SUPPORT_SET_EXTENDED" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.2.8. </span><code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_SUPPORT_SET_EXTENDED</span></code> (macro)<a class="headerlink" href="#c.PSA_STORAGE_SUPPORT_SET_EXTENDED" title="Permalink to this heading">¶</a></h3>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_STORAGE_SUPPORT_SET_EXTENDED" title="PSA_STORAGE_SUPPORT_SET_EXTENDED">PSA_STORAGE_SUPPORT_SET_EXTENDED</a> (1u &lt;&lt; 0)</pre>
 <p>Flag indicating that <a class="reference internal" href="#c.psa_ps_create" title="psa_ps_create"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_create()</span></code></a> and <a class="reference internal" href="#c.psa_ps_set_extended" title="psa_ps_set_extended"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_set_extended()</span></code></a> are supported.</p>
 </section>
 </section>
 <section id="internal-trusted-storage-api">
-<span id="its-api"></span><h2><span class="section-number">5.3. </span>Internal Trusted Storage API<a class="headerlink" href="#internal-trusted-storage-api" title="Permalink to this headline">¶</a></h2>
+<span id="its-api"></span><h2><span class="section-number">5.3. </span>Internal Trusted Storage API<a class="headerlink" href="#internal-trusted-storage-api" title="Permalink to this heading">¶</a></h2>
 <p>These definitions must be defined in the header file <code class="file docutils literal notranslate"><span class="pre">psa/internal_trusted_storage.h</span></code>.</p>
 <section id="c.PSA_ITS_API_VERSION_MAJOR">
-<h3><span class="section-number">5.3.1. </span><code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MAJOR</span></code> (macro)<a class="headerlink" href="#c.PSA_ITS_API_VERSION_MAJOR" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.1. </span><code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MAJOR</span></code> (macro)<a class="headerlink" href="#c.PSA_ITS_API_VERSION_MAJOR" title="Permalink to this heading">¶</a></h3>
 <p>The major version number of the Internal Trusted Storage API.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ITS_API_VERSION_MAJOR" title="PSA_ITS_API_VERSION_MAJOR">PSA_ITS_API_VERSION_MAJOR</a> 1</pre>
 <p>It will be incremented on significant updates that can include breaking changes.</p>
 </section>
 <section id="c.PSA_ITS_API_VERSION_MINOR">
-<h3><span class="section-number">5.3.2. </span><code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MINOR</span></code> (macro)<a class="headerlink" href="#c.PSA_ITS_API_VERSION_MINOR" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.2. </span><code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MINOR</span></code> (macro)<a class="headerlink" href="#c.PSA_ITS_API_VERSION_MINOR" title="Permalink to this heading">¶</a></h3>
 <p>The minor version number of the Internal Trusted Storage API.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ITS_API_VERSION_MINOR" title="PSA_ITS_API_VERSION_MINOR">PSA_ITS_API_VERSION_MINOR</a> 0</pre>
 <p>It will be incremented in small updates that are unlikely to include breaking changes.</p>
 </section>
 <section id="c.psa_its_set">
-<h3><span class="section-number">5.3.3. </span><code class="docutils literal notranslate"><span class="pre">psa_its_set</span></code> (function)<a class="headerlink" href="#c.psa_its_set" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.3. </span><code class="docutils literal notranslate"><span class="pre">psa_its_set</span></code> (function)<a class="headerlink" href="#c.psa_its_set" title="Permalink to this heading">¶</a></h3>
 <p>Set the data associated with the specified <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_its_set" title="psa_its_set">psa_its_set</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                          size_t data_length,
                          const void * p_data,
                          <a class="reference internal" href="#c.psa_storage_create_flags_t" title="psa_storage_create_flags_t">psa_storage_create_flags_t</a> create_flags);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The identifier for the data.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The identifier for the data.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_length</span></code></dt><dd><p>The size in bytes of the data in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_length</span></code></p>
+</dt><dd><p>The size in bytes of the data in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.
 If <code class="docutils literal notranslate"><span class="pre">data_length</span> <span class="pre">==</span> <span class="pre">0</span></code> the implementation will create a zero-length asset associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code>.
 While no data can be stored in such an asset, a call to <a class="reference internal" href="#c.psa_its_get_info" title="psa_its_get_info"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_its_get_info()</span></code></a> will return <code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_data</span></code></dt><dd><p>A buffer of <code class="docutils literal notranslate"><span class="pre">data_length</span></code> containing the data to store.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_data</span></code></p>
+</dt><dd><p>A buffer of <code class="docutils literal notranslate"><span class="pre">data_length</span></code> containing the data to store.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">create_flags</span></code></dt><dd><p>The flags that the data will be stored with.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">create_flags</span></code></p>
+</dt><dd><p>The flags that the data will be stored with.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was already created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was already created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd><p>The operation failed because one or more of the flags provided in <code class="docutils literal notranslate"><span class="pre">create_flags</span></code> is not supported or is not valid.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd><p>The operation failed because there was insufficient space on the storage medium.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because either:</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because either:</p>
 <ul class="simple">
 <li><p>the <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p>caller cannot access some or all of the memory in the range [<code class="docutils literal notranslate"><span class="pre">p_data</span></code>, <code class="docutils literal notranslate"><span class="pre">p_data</span> <span class="pre">+</span> <span class="pre">data_length</span> <span class="pre">-</span> <span class="pre">1</span></code>].</p></li>
 </ul>
 </dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></p>
+</dt><dd><p>The operation failed because one or more of the flags provided in <code class="docutils literal notranslate"><span class="pre">create_flags</span></code> is not supported or is not valid.</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></p>
+</dt><dd><p>The operation failed because there was insufficient space on the storage medium.</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+</dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Stores data in the internal storage.</p>
 <ul class="simple">
@@ -194,7 +216,7 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_its_get">
-<h3><span class="section-number">5.3.4. </span><code class="docutils literal notranslate"><span class="pre">psa_its_get</span></code> (function)<a class="headerlink" href="#c.psa_its_get" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.4. </span><code class="docutils literal notranslate"><span class="pre">psa_its_get</span></code> (function)<a class="headerlink" href="#c.psa_its_get" title="Permalink to this heading">¶</a></h3>
 <p>Retrieve data associated with a provided <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_its_get" title="psa_its_get">psa_its_get</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                          size_t data_offset,
@@ -202,35 +224,48 @@ While no data can be stored in such an asset, a call to <a class="reference inte
                          void * p_data,
                          size_t * p_data_length);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_offset</span></code></dt><dd><p>The starting offset of the data requested.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_offset</span></code></p>
+</dt><dd><p>The starting offset of the data requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_size</span></code></dt><dd><p>The amount of data requested.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_size</span></code></p>
+</dt><dd><p>The amount of data requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_data</span></code></dt><dd><p>On success, the buffer where the data will be placed.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_data</span></code></p>
+</dt><dd><p>On success, the buffer where the data will be placed.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_data_length</span></code></dt><dd><p>On success, this will contain size of the data placed in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_data_length</span></code></p>
+</dt><dd><p>On success, this will contain size of the data placed in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because either:</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because either:</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p>The caller cannot access some or all of the memory in the range [<code class="docutils literal notranslate"><span class="pre">p_data</span></code>, <code class="docutils literal notranslate"><span class="pre">p_data</span> <span class="pre">+</span> <span class="pre">data_size</span> <span class="pre">-</span> <span class="pre">1</span></code>].</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">data_offset</span></code> is larger than the size of the data associated with <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p></li>
 </ul>
 </dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+</dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Retrieves data associated with <code class="docutils literal notranslate"><span class="pre">uid</span></code>, starting at <code class="docutils literal notranslate"><span class="pre">data_offset</span></code> bytes from the beginning of the data. Fetches the lesser of <code class="docutils literal notranslate"><span class="pre">data_size</span></code> or <code class="docutils literal notranslate"><span class="pre">uid.size</span> <span class="pre">-</span> <span class="pre">data_offset</span></code> bytes, which can be zero.</p>
 <p><a class="reference internal" href="#c.psa_its_get" title="psa_its_get"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_its_get()</span></code></a> must not return bytes from beyond the end of <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
@@ -247,33 +282,43 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_its_get_info">
-<h3><span class="section-number">5.3.5. </span><code class="docutils literal notranslate"><span class="pre">psa_its_get_info</span></code> (function)<a class="headerlink" href="#c.psa_its_get_info" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.5. </span><code class="docutils literal notranslate"><span class="pre">psa_its_get_info</span></code> (function)<a class="headerlink" href="#c.psa_its_get_info" title="Permalink to this heading">¶</a></h3>
 <p>Retrieve the metadata about the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_its_get_info" title="psa_its_get_info">psa_its_get_info</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                               struct <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t">psa_storage_info_t</a> * p_info);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_info</span></code></dt><dd><p>A pointer to the <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a> struct that will be populated with the metadata.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_info</span></code></p>
+</dt><dd><p>A pointer to the <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a> struct that will be populated with the metadata.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because either:</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because either:</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p>The caller cannot access some or all of the memory in the range [<code class="docutils literal notranslate"><span class="pre">p_info</span></code>, <code class="docutils literal notranslate"><span class="pre">p_info</span></code><code class="docutils literal notranslate"> <span class="pre">+</span> </code><code class="docutils literal notranslate"><span class="pre">sizeof</span></code><code class="docutils literal notranslate"><span class="pre">(</span></code><a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a><code class="docutils literal notranslate"><span class="pre">)</span> <span class="pre">-</span> <span class="pre">1</span></code>]</p></li>
 </ul>
 </dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+</dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Retrieves the metadata stored for a given <code class="docutils literal notranslate"><span class="pre">uid</span></code> as a <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a> structure.</p>
 <ul class="simple">
@@ -284,28 +329,38 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_its_remove">
-<h3><span class="section-number">5.3.6. </span><code class="docutils literal notranslate"><span class="pre">psa_its_remove</span></code> (function)<a class="headerlink" href="#c.psa_its_remove" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.6. </span><code class="docutils literal notranslate"><span class="pre">psa_its_remove</span></code> (function)<a class="headerlink" href="#c.psa_its_remove" title="Permalink to this heading">¶</a></h3>
 <p>Remove the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> and its associated data from the storage.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_its_remove" title="psa_its_remove">psa_its_remove</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Deletes the data from internal storage.</p>
 <ul class="simple">
@@ -316,62 +371,77 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </section>
 </section>
 <section id="protected-storage-api">
-<span id="ps-api"></span><h2><span class="section-number">5.4. </span>Protected Storage API<a class="headerlink" href="#protected-storage-api" title="Permalink to this headline">¶</a></h2>
+<span id="ps-api"></span><h2><span class="section-number">5.4. </span>Protected Storage API<a class="headerlink" href="#protected-storage-api" title="Permalink to this heading">¶</a></h2>
 <p>These definitions must be defined in the header file <code class="file docutils literal notranslate"><span class="pre">psa/protected_storage.h</span></code>.</p>
 <section id="c.PSA_PS_API_VERSION_MAJOR">
-<h3><span class="section-number">5.4.1. </span><code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MAJOR</span></code> (macro)<a class="headerlink" href="#c.PSA_PS_API_VERSION_MAJOR" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.1. </span><code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MAJOR</span></code> (macro)<a class="headerlink" href="#c.PSA_PS_API_VERSION_MAJOR" title="Permalink to this heading">¶</a></h3>
 <p>The major version number of the Protected Storage API.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_PS_API_VERSION_MAJOR" title="PSA_PS_API_VERSION_MAJOR">PSA_PS_API_VERSION_MAJOR</a> 1</pre>
 <p>It will be incremented on significant updates that can include breaking changes.</p>
 </section>
 <section id="c.PSA_PS_API_VERSION_MINOR">
-<h3><span class="section-number">5.4.2. </span><code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MINOR</span></code> (macro)<a class="headerlink" href="#c.PSA_PS_API_VERSION_MINOR" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.2. </span><code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MINOR</span></code> (macro)<a class="headerlink" href="#c.PSA_PS_API_VERSION_MINOR" title="Permalink to this heading">¶</a></h3>
 <p>The minor version number of the Protected Storage API.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_PS_API_VERSION_MINOR" title="PSA_PS_API_VERSION_MINOR">PSA_PS_API_VERSION_MINOR</a> 0</pre>
 <p>It will be incremented in small updates that are unlikely to include breaking changes.</p>
 </section>
 <section id="c.psa_ps_set">
-<h3><span class="section-number">5.4.3. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_set</span></code> (function)<a class="headerlink" href="#c.psa_ps_set" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.3. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_set</span></code> (function)<a class="headerlink" href="#c.psa_ps_set" title="Permalink to this heading">¶</a></h3>
 <p>Set the data associated with the specified <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_ps_set" title="psa_ps_set">psa_ps_set</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                         size_t data_length,
                         const void * p_data,
                         <a class="reference internal" href="#c.psa_storage_create_flags_t" title="psa_storage_create_flags_t">psa_storage_create_flags_t</a> create_flags);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The identifier for the data.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The identifier for the data.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_length</span></code></dt><dd><p>The size in bytes of the data in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_length</span></code></p>
+</dt><dd><p>The size in bytes of the data in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.
 If <code class="docutils literal notranslate"><span class="pre">data_length</span> <span class="pre">==</span> <span class="pre">0</span></code> the implementation will create a zero-length asset associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code>.
 While no data can be stored in such an asset, a call to <a class="reference internal" href="#c.psa_ps_get_info" title="psa_ps_get_info"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_get_info()</span></code></a> will return <code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_data</span></code></dt><dd><p>A buffer containing the data.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_data</span></code></p>
+</dt><dd><p>A buffer containing the data.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">create_flags</span></code></dt><dd><p>The flags indicating the properties of the data.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">create_flags</span></code></p>
+</dt><dd><p>The flags indicating the properties of the data.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was already created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was already created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because either:</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because either:</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p>The operation failed because caller cannot access some or all of the memory in the range [<code class="docutils literal notranslate"><span class="pre">p_data</span></code>, <code class="docutils literal notranslate"><span class="pre">p_data</span> <span class="pre">+</span> <span class="pre">data_length</span> <span class="pre">-</span> <span class="pre">1</span></code>].</p></li>
 </ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd><p>The operation failed because one or more of the flags provided in <code class="docutils literal notranslate"><span class="pre">create_flags</span></code> is not supported or is not valid.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></p>
+</dt><dd><p>The operation failed because one or more of the flags provided in <code class="docutils literal notranslate"><span class="pre">create_flags</span></code> is not supported or is not valid.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd><p>The operation failed because there was insufficient space on the storage medium.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></p>
+</dt><dd><p>The operation failed because there was insufficient space on the storage medium.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></dt><dd><p>The operation failed because of an unspecified internal failure.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></p>
+</dt><dd><p>The operation failed because of an unspecified internal failure.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>The newly created asset has a capacity and size that are equal to <code class="docutils literal notranslate"><span class="pre">data_length</span></code>.</p>
 <ul class="simple">
@@ -382,7 +452,7 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_ps_get">
-<h3><span class="section-number">5.4.4. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_get</span></code> (function)<a class="headerlink" href="#c.psa_ps_get" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.4. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_get</span></code> (function)<a class="headerlink" href="#c.psa_ps_get" title="Permalink to this heading">¶</a></h3>
 <p>Retrieve data associated with a provided <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_ps_get" title="psa_ps_get">psa_ps_get</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                         size_t data_offset,
@@ -390,41 +460,57 @@ While no data can be stored in such an asset, a call to <a class="reference inte
                         void * p_data,
                         size_t * p_data_length);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> value.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_offset</span></code></dt><dd><p>The starting offset of the data requested. This must be less than or equal to <code class="docutils literal notranslate"><span class="pre">uid.size</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_offset</span></code></p>
+</dt><dd><p>The starting offset of the data requested. This must be less than or equal to <code class="docutils literal notranslate"><span class="pre">uid.size</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_size</span></code></dt><dd><p>The amount of data requested.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_size</span></code></p>
+</dt><dd><p>The amount of data requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_data</span></code></dt><dd><p>On success, the buffer where the data will be placed.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_data</span></code></p>
+</dt><dd><p>On success, the buffer where the data will be placed.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_data_length</span></code></dt><dd><p>On success, will contain size of the data placed in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_data_length</span></code></p>
+</dt><dd><p>On success, will contain size of the data placed in <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because either:</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></p>
+</dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> failed authentication.</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because either:</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p>The caller cannot access some or all of the memory in the range [<code class="docutils literal notranslate"><span class="pre">p_data</span></code>, <code class="docutils literal notranslate"><span class="pre">p_data</span> <span class="pre">+</span> <span class="pre">data_size</span> <span class="pre">-</span> <span class="pre">1</span></code>].</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">data_offset</span></code> is larger than the size of the data associated with <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p></li>
 </ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></p>
+</dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> has been corrupted.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></dt><dd><p>The operation failed because of an unspecified internal failure.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> has been corrupted.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> failed authentication.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></p>
+</dt><dd><p>The operation failed because of an unspecified internal failure.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Retrieves data associated with <code class="docutils literal notranslate"><span class="pre">uid</span></code>, starting at <code class="docutils literal notranslate"><span class="pre">data_offset</span></code> bytes from the beginning of the data. Fetches the smaller of   <code class="docutils literal notranslate"><span class="pre">data_size</span></code> or <code class="docutils literal notranslate"><span class="pre">uid.size</span> <span class="pre">-</span> <span class="pre">data_offset</span></code> bytes.  This can be zero.</p>
 <p><a class="reference internal" href="#c.psa_ps_get" title="psa_ps_get"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_get()</span></code></a> must not return bytes from beyond the end of <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
@@ -442,39 +528,52 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_ps_get_info">
-<h3><span class="section-number">5.4.5. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_get_info</span></code> (function)<a class="headerlink" href="#c.psa_ps_get_info" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.5. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_get_info</span></code> (function)<a class="headerlink" href="#c.psa_ps_get_info" title="Permalink to this heading">¶</a></h3>
 <p>Retrieve the metadata about the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_ps_get_info" title="psa_ps_get_info">psa_ps_get_info</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                              struct <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t">psa_storage_info_t</a> * p_info);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The identifier for the data.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The identifier for the data.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_info</span></code></dt><dd><p>A pointer to the <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a> struct that will be populated with the metadata.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_info</span></code></p>
+</dt><dd><p>A pointer to the <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a> struct that will be populated with the metadata.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because either:</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></p>
+</dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> failed authentication.</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because either:</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p>The caller cannot access some or all of the memory in the range [<code class="docutils literal notranslate"><span class="pre">p_info</span></code>, <code class="docutils literal notranslate"><span class="pre">p_info</span></code><code class="docutils literal notranslate"> <span class="pre">+</span> </code><code class="docutils literal notranslate"><span class="pre">sizeof</span></code><code class="docutils literal notranslate"><span class="pre">(</span></code><a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a><code class="docutils literal notranslate"><span class="pre">)</span> <span class="pre">-</span> <span class="pre">1</span></code>]</p></li>
 </ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></p>
+</dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> has been corrupted.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></dt><dd><p>The operation failed because of an unspecified internal failure.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> has been corrupted.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></dt><dd><p>The operation failed because the data associated with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> failed authentication.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></p>
+</dt><dd><p>The operation failed because of an unspecified internal failure.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Retrieves the metadata stored for a given <code class="docutils literal notranslate"><span class="pre">uid</span></code> as a <a class="reference internal" href="#c.psa_storage_info_t" title="psa_storage_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code></a> structure.</p>
 <ul class="simple">
@@ -485,30 +584,41 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_ps_remove">
-<h3><span class="section-number">5.4.6. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_remove</span></code> (function)<a class="headerlink" href="#c.psa_ps_remove" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.6. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_remove</span></code> (function)<a class="headerlink" href="#c.psa_ps_remove" title="Permalink to this heading">¶</a></h3>
 <p>Remove the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> and its associated data from the storage.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_ps_remove" title="psa_ps_remove">psa_ps_remove</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The identifier for the data to be removed.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The identifier for the data to be removed.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
 <p>A status indicating the success or failure of the operation.</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The operation completed successfully.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The operation completed successfully.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p>
+</dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was not found in the storage.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The operation failed because the provided <code class="docutils literal notranslate"><span class="pre">uid</span></code> value was created with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></dt><dd><p>The operation failed because of an unspecified internal failure.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></p>
+</dt><dd><p>The operation failed because of an unspecified internal failure.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Removes previously stored data and any associated metadata, including rollback protection data.</p>
 <ul class="simple">
@@ -518,37 +628,51 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_ps_create">
-<h3><span class="section-number">5.4.7. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_create</span></code> (function)<a class="headerlink" href="#c.psa_ps_create" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.7. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_create</span></code> (function)<a class="headerlink" href="#c.psa_ps_create" title="Permalink to this heading">¶</a></h3>
 <p>Reserves storage for the specified <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_ps_create" title="psa_ps_create">psa_ps_create</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                            size_t capacity,
                            <a class="reference internal" href="#c.psa_storage_create_flags_t" title="psa_storage_create_flags_t">psa_storage_create_flags_t</a> create_flags);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>A unique identifier for the asset.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>A unique identifier for the asset.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">capacity</span></code></dt><dd><p>The allocated capacity, in bytes, of the <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">capacity</span></code></p>
+</dt><dd><p>The allocated capacity, in bytes, of the <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">create_flags</span></code></dt><dd><p>Flags indicating properties of the storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">create_flags</span></code></p>
+</dt><dd><p>Flags indicating properties of the storage.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The storage was successfully reserved.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The storage was successfully reserved.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because the <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">capacity</span></code> is bigger than the current available space.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></p>
+</dt><dd><p>The function is not implemented or one or more <code class="docutils literal notranslate"><span class="pre">create_flags</span></code> are not supported.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd><p>The function is not implemented or one or more <code class="docutils literal notranslate"><span class="pre">create_flags</span></code> are not supported.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_STORAGE</span></code></p>
+</dt><dd><p><code class="docutils literal notranslate"><span class="pre">capacity</span></code> is bigger than the current available space.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because the <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></dt><dd><p>The operation has failed due to an unspecified error.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></p>
+</dt><dd><p>The operation has failed due to an unspecified error.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_ALREADY_EXISTS</span></code></dt><dd><p>Storage for the specified <code class="docutils literal notranslate"><span class="pre">uid</span></code> already exists.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_ALREADY_EXISTS</span></code></p>
+</dt><dd><p>Storage for the specified <code class="docutils literal notranslate"><span class="pre">uid</span></code> already exists.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Reserves storage for the specified <code class="docutils literal notranslate"><span class="pre">uid</span></code>. Upon success, the capacity of the storage is <code class="docutils literal notranslate"><span class="pre">capacity</span></code>, and the size is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 <p>It is only necessary to call this function for assets that will be written with the <a class="reference internal" href="#c.psa_ps_set_extended" title="psa_ps_set_extended"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_set_extended()</span></code></a> function. If only the <a class="reference internal" href="#c.psa_ps_set" title="psa_ps_set"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_set()</span></code></a> function is needed, calls to this function are redundant.</p>
@@ -563,49 +687,66 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_ps_set_extended">
-<h3><span class="section-number">5.4.8. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_set_extended</span></code> (function)<a class="headerlink" href="#c.psa_ps_set_extended" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.8. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_set_extended</span></code> (function)<a class="headerlink" href="#c.psa_ps_set_extended" title="Permalink to this heading">¶</a></h3>
 <p>Overwrite part of the data of the specified <code class="docutils literal notranslate"><span class="pre">uid</span></code>.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_ps_set_extended" title="psa_ps_set_extended">psa_ps_set_extended</a>(<a class="reference internal" href="#c.psa_storage_uid_t" title="psa_storage_uid_t">psa_storage_uid_t</a> uid,
                                  size_t data_offset,
                                  size_t data_length,
                                  const void * p_data);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">uid</span></code></dt><dd><p>The unique identifier for the asset.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p>
+</dt><dd><p>The unique identifier for the asset.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_offset</span></code></dt><dd><p>Offset within the asset to start the write.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_offset</span></code></p>
+</dt><dd><p>Offset within the asset to start the write.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">data_length</span></code></dt><dd><p>The size in bytes of the data in <code class="docutils literal notranslate"><span class="pre">p_data</span></code> to write.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">data_length</span></code></p>
+</dt><dd><p>The size in bytes of the data in <code class="docutils literal notranslate"><span class="pre">p_data</span></code> to write.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">p_data</span></code></dt><dd><p>Pointer to a buffer which contains the data to write.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">p_data</span></code></p>
+</dt><dd><p>Pointer to a buffer which contains the data to write.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>The asset exists, the input parameters are correct and the data is correctly written in the physical storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>The asset exists, the input parameters are correct and the data is correctly written in the physical storage.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></dt><dd><p>The data was not written correctly in the physical storage.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p>
+</dt><dd><p>The operation failed because it was attempted on an asset which was written with the flag <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></dt><dd><p>The operation failed because either:</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></p>
+</dt><dd><p>The operation failed because the existing data failed authentication (MAC check failed).</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></p>
+</dt><dd><p>The specified <code class="docutils literal notranslate"><span class="pre">uid</span></code> was not found.</p>
+</dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_ARGUMENT</span></code></p>
+</dt><dd><p>The operation failed because either:</p>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">uid</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p>The caller cannot access some or all of the memory in the range [<code class="docutils literal notranslate"><span class="pre">p_data</span></code>, <code class="docutils literal notranslate"><span class="pre">p_data</span> <span class="pre">+</span> <span class="pre">data_size</span> <span class="pre">-</span> <span class="pre">1</span></code>].</p></li>
 <li><p>One or more of the preconditions regarding <code class="docutils literal notranslate"><span class="pre">data_offset</span></code>, <code class="docutils literal notranslate"><span class="pre">size</span></code>, or <code class="docutils literal notranslate"><span class="pre">data_length</span></code> was violated.</p></li>
 </ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code></dt><dd><p>The specified <code class="docutils literal notranslate"><span class="pre">uid</span></code> was not found.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></p>
+</dt><dd><p>The implementation does not support this function.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd><p>The implementation does not support this function.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_STORAGE_FAILURE</span></code></p>
+</dt><dd><p>The operation failed because the physical storage has failed (Fatal error).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></dt><dd><p>The operation failed due to an unspecified error.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></p>
+</dt><dd><p>The operation failed because the existing data has been corrupted.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DATA_CORRUPT</span></code></dt><dd><p>The operation failed because the existing data has been corrupted.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code></dt><dd><p>The operation failed because the existing data failed authentication (MAC check failed).</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></dt><dd><p>The operation failed because it was attempted on an asset which was written with the flag <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code></p>
+</dt><dd><p>The operation failed due to an unspecified error.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <p>Sets partial data into an asset based on the given identifier, <code class="docutils literal notranslate"><span class="pre">data_offset</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">length</span></code> and <code class="docutils literal notranslate"><span class="pre">p_data</span></code>.</p>
 <p>Before calling this function, the storage must have been reserved with a call to <a class="reference internal" href="#c.psa_ps_create" title="psa_ps_create"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_create()</span></code></a>. It can also be used to overwrite data in an asset that was created with a call to <a class="reference internal" href="#c.psa_ps_set" title="psa_ps_set"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_ps_set()</span></code></a>.</p>
@@ -617,6 +758,7 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 <li><p>If <code class="docutils literal notranslate"><span class="pre">uid</span></code> exists it must not have been created as with <a class="reference internal" href="#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a> - would result in <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">data_offset</span> <span class="pre">&lt;=</span> <span class="pre">size</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">data_offset</span> <span class="pre">+</span> <span class="pre">data_length</span> <span class="pre">&lt;=</span> <span class="pre">capacity</span></code></p></li>
+<li><p>Even if all parameters are correct, the function can fail in the case of a storage failure.</p></li>
 </ul>
 <p>On Success:</p>
 <ul class="simple">
@@ -625,7 +767,7 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 </ul>
 </section>
 <section id="c.psa_ps_get_support">
-<h3><span class="section-number">5.4.9. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_get_support</span></code> (function)<a class="headerlink" href="#c.psa_ps_get_support" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.9. </span><code class="docutils literal notranslate"><span class="pre">psa_ps_get_support</span></code> (function)<a class="headerlink" href="#c.psa_ps_get_support" title="Permalink to this heading">¶</a></h3>
 <p>Returns a bitmask with flags set for the optional features supported by the implementation.</p>
 <pre class="literal-block">uint32_t <a class="reference internal" href="#c.psa_ps_get_support" title="psa_ps_get_support">psa_ps_get_support</a>(void);</pre>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p>
@@ -651,7 +793,7 @@ While no data can be stored in such an asset, a call to <a class="reference inte
 <h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.1
+Version 1.0.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -715,13 +857,13 @@ Version 1.0.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
       
     </div>
 

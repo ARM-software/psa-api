@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="3. Requirements" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
 <meta property="og:description" content="Protected Storage requirements: The technology and techniques used by the Protected Storage service must allow for frequent writes and data updates., If writing to external storage, the Protected S..." />
 <meta name="description" content="Protected Storage requirements: The technology and techniques used by the Protected Storage service must allow for frequent writes and data updates., If writing to external storage, the Protected S..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,9 +51,9 @@
           <div class="body" role="main">
             
   <section id="requirements">
-<h1><span class="section-number">3. </span>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">3. </span>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h1>
 <section id="protected-storage-requirements">
-<h2><span class="section-number">3.1. </span>Protected Storage requirements<a class="headerlink" href="#protected-storage-requirements" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1. </span>Protected Storage requirements<a class="headerlink" href="#protected-storage-requirements" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>The technology and techniques used by the Protected Storage service must allow for frequent writes and data updates.</p></li>
 <li><p>If writing to external storage, the Protected Storage service must provide confidentiality — unless the caller specifically requests integrity only.</p></li>
@@ -67,13 +70,13 @@
 </ol>
 </section>
 <section id="internal-trusted-storage-requirements">
-<h2><span class="section-number">3.2. </span>Internal Trusted Storage requirements<a class="headerlink" href="#internal-trusted-storage-requirements" title="Permalink to this headline">¶</a></h2>
+<span id="its-requirements"></span><h2><span class="section-number">3.2. </span>Internal Trusted Storage requirements<a class="headerlink" href="#internal-trusted-storage-requirements" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>The storage underlying the Internal Trusted Storage service must be protected from read and modification by attackers with physical access to the device.</p></li>
 <li><p>The storage underlying the Internal Trusted Storage service must be protected from direct read or write access from software partitions outside of the <a class="reference internal" href="../about.html#term-platform-root-of-trust"><span class="term">Platform Root of Trust</span></a>.</p></li>
 <li><p>The technology and techniques used by the Internal Trusted Storage service must allow for frequent writes and data updates.</p></li>
-<li><p>The Internal Trusted Storage service MAY provide confidentiality using cryptographic ciphers.</p></li>
-<li><p>The Internal Trusted Storage service MAY provide integrity protection using cryptographic Message Authentication Codes (MAC) or signatures.</p></li>
+<li><p>Confidentiality of data stored by the Internal Trusted Storage service can be implemented using an inaccessible deployment location, cryptographic ciphers, or a combination of these techniques.</p></li>
+<li><p>Integrity of data stored by the Internal Trusted Storage service can be implemented using an inaccessible deployment location, cryptographic Message Authentication Codes (MAC) or signatures, or a combination of these techniques.</p></li>
 <li><p>The Internal Trusted Storage service must provide protection from one partition accessing the storage assets of a different partition.</p></li>
 <li><p>The Internal Trusted Storage service must use the partition identifier associated with each request for its access control mechanism.</p></li>
 <li><p>The medium and methods utilized by a Internal Trusted Storage service must provide confidentiality within the threat model of the system.</p></li>
@@ -102,7 +105,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.1
+Version 1.0.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -135,13 +138,13 @@ Version 1.0.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
       
     </div>
 

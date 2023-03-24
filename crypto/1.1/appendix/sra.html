@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="4. Security Risk Assessment" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="This Security Risk Assessment (SRA) analyses the security of the Crypto API itself, not of any specific implementation of the API, or any specific use of the API. However, the security of an implem..." />
 <meta name="description" content="This Security Risk Assessment (SRA) analyses the security of the Crypto API itself, not of any specific implementation of the API, or any specific use of the API. However, the security of an implem..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,23 +51,23 @@
           <div class="body" role="main">
             
   <section id="security-risk-assessment">
-<span id="sra"></span><h1><span class="section-number">D. </span>Security Risk Assessment<a class="headerlink" href="#security-risk-assessment" title="Permalink to this headline">¶</a></h1>
+<span id="sra"></span><h1><span class="section-number">D. </span>Security Risk Assessment<a class="headerlink" href="#security-risk-assessment" title="Permalink to this heading">¶</a></h1>
 <p>This Security Risk Assessment (SRA) analyses the security of the Crypto API itself, not of any specific implementation of the API, or any specific use of the API. However, the security of an implementation of the Crypto API depends on the implementation design, the capabilities of the system in which it is deployed, and the need to address some of the threats identified in this assessment.</p>
 <p>To enable the Crypto API to be suitable for a wider range of security use cases, this SRA considers a broad range of adversarial models and threats to the application and the implementation, as well as to the API.</p>
 <p>This approach allows the assessment to identify API design requirements that affect the ability for an implementation to mitigate threats that do not directly attack the API.</p>
 <p>The scope is described in <a class="reference internal" href="#adversarial-models"><span class="secref">Adversarial models</span></a>.</p>
 <section id="architecture">
-<h2><span class="section-number">D.1. </span>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">D.1. </span>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h2>
 <section id="system-definition">
-<h3><span class="section-number">D.1.1. </span>System definition<a class="headerlink" href="#system-definition" title="Permalink to this headline">¶</a></h3>
-<p><span><a class="reference internal" href="#fig-system-entities"><span class="numref">Figure 18</span></a></span> shows the Crypto API as the defined interface that an Application uses to interact with the Cryptoprocessor.</p>
+<h3><span class="section-number">D.1.1. </span>System definition<a class="headerlink" href="#system-definition" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#fig-system-entities"><span class="numref">Figure 19</span></a></span> shows the Crypto API as the defined interface that an Application uses to interact with the Cryptoprocessor.</p>
 <figure class="align-default" id="fig-system-entities">
 <img alt="../_images/system-entities.svg" src="../_images/system-entities.svg" /><figcaption>
-<p><span class="caption-number">Figure 18 </span><span class="caption-text">Crypto API</span><a class="headerlink" href="#fig-system-entities" title="Permalink to this image">¶</a></p>
+<p><span class="caption-number">Figure 19 </span><span class="caption-text">Crypto API</span><a class="headerlink" href="#fig-system-entities" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <section id="assumptions-constraints-and-interacting-entities">
-<h4>Assumptions, constraints, and interacting entities<a class="headerlink" href="#assumptions-constraints-and-interacting-entities" title="Permalink to this headline">¶</a></h4>
+<h4>Assumptions, constraints, and interacting entities<a class="headerlink" href="#assumptions-constraints-and-interacting-entities" title="Permalink to this heading">¶</a></h4>
 <p>This SRA makes the following assumptions about the Crypto API design:</p>
 <ul class="simple">
 <li><p>The API does not provide arguments that identify the caller, because they can be spoofed easily, and cannot be relied upon. It is assumed that the implementation of the API can determine the caller identity, where this is required. See <a class="reference internal" href="../overview/goals.html#isolation"><span class="secref">Optional isolation</span></a>.</p></li>
@@ -73,31 +76,31 @@
 </ul>
 </section>
 <section id="trust-boundaries-and-information-flow">
-<span id="dfd"></span><h4>Trust boundaries and information flow<a class="headerlink" href="#trust-boundaries-and-information-flow" title="Permalink to this headline">¶</a></h4>
+<span id="dfd"></span><h4>Trust boundaries and information flow<a class="headerlink" href="#trust-boundaries-and-information-flow" title="Permalink to this heading">¶</a></h4>
 <p>The Crypto API is the interface available to the programmer, and is the main attack surface that is analyzed here. However, to ensure that the API enables the mitigation of other threats to an implementation, we also consider the system context in which the Crypto API is used.</p>
-<p><span><a class="reference internal" href="#fig-dfd-no-isolation"><span class="numref">Figure 19</span></a></span> shows the data flow for a typical application usage of the Crypto API, for example, to exchange ciphertext with an external system, or for at rest protection in system non-volatile storage. The Application uses the Crypto API to interact with the Cryptoprocessor. The Cryptoprocessor stores persistent keys in a Key Store.</p>
+<p><span><a class="reference internal" href="#fig-dfd-no-isolation"><span class="numref">Figure 20</span></a></span> shows the data flow for a typical application usage of the Crypto API, for example, to exchange ciphertext with an external system, or for at rest protection in system non-volatile storage. The Application uses the Crypto API to interact with the Cryptoprocessor. The Cryptoprocessor stores persistent keys in a Key Store.</p>
 <figure class="align-default" id="fig-dfd-no-isolation">
 <img alt="../_images/dfd_no_isolation.svg" src="../_images/dfd_no_isolation.svg" /><figcaption>
-<p><span class="caption-number">Figure 19 </span><span class="caption-text">Crypto API dataflow diagram for an implementation with no isolation</span><a class="headerlink" href="#fig-dfd-no-isolation" title="Permalink to this image">¶</a></p>
+<p><span class="caption-number">Figure 20 </span><span class="caption-text">Crypto API dataflow diagram for an implementation with no isolation</span><a class="headerlink" href="#fig-dfd-no-isolation" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>For some adversarial models, <a class="reference internal" href="../about.html#term-cryptoprocessor-isolation"><span class="term">Cryptoprocessor isolation</span></a> or <a class="reference internal" href="../about.html#term-caller-isolation"><span class="term">Caller isolation</span></a> is required in the implementation to achieve the security goals. See <a class="reference internal" href="#security-goals"><span class="secref">Security goals</span></a>, and remediations R.1 and R.2 in <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a>.</p>
-<p>The Cryptoprocessor can optionally include a trust boundary within its implementation of the API. The trust boundary shown in <span><a class="reference internal" href="#fig-dfd-crypto-isolation"><span class="numref">Figure 20</span></a></span> corresponds to Cryptoprocessor isolation. The Cryptoprocessor boundary protects the confidentiality and integrity of the Cryptoprocessor and Key Store state from system components that are outside of the boundary.</p>
+<p>The Cryptoprocessor can optionally include a trust boundary within its implementation of the API. The trust boundary shown in <span><a class="reference internal" href="#fig-dfd-crypto-isolation"><span class="numref">Figure 21</span></a></span> corresponds to Cryptoprocessor isolation. The Cryptoprocessor boundary protects the confidentiality and integrity of the Cryptoprocessor and Key Store state from system components that are outside of the boundary.</p>
 <figure class="align-default" id="fig-dfd-crypto-isolation">
 <img alt="../_images/dfd_crypto_isolation.svg" src="../_images/dfd_crypto_isolation.svg" /><figcaption>
-<p><span class="caption-number">Figure 20 </span><span class="caption-text">Crypto API dataflow diagram for an implementation with cryptoprocessor isolation</span><a class="headerlink" href="#fig-dfd-crypto-isolation" title="Permalink to this image">¶</a></p>
+<p><span class="caption-number">Figure 21 </span><span class="caption-text">Crypto API dataflow diagram for an implementation with cryptoprocessor isolation</span><a class="headerlink" href="#fig-dfd-crypto-isolation" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>If the implementation supports multiple, independent client Applications within the system, each Application has its own view of the Cryptoprocessor and key store. The additional trust boundaries required for a caller isolated implementation are shown in <span><a class="reference internal" href="#fig-dfd-caller-isolation"><span class="numref">Figure 21</span></a></span>. The Application boundary restricts the capabilities of the Application, and protects the confidentiality and integrity of system state from the Application.</p>
+<p>If the implementation supports multiple, independent client Applications within the system, each Application has its own view of the Cryptoprocessor and key store. The additional trust boundaries required for a caller isolated implementation are shown in <span><a class="reference internal" href="#fig-dfd-caller-isolation"><span class="numref">Figure 22</span></a></span>. The Application boundary restricts the capabilities of the Application, and protects the confidentiality and integrity of system state from the Application.</p>
 <figure class="align-default" id="fig-dfd-caller-isolation">
 <img alt="../_images/dfd_caller_isolation.svg" src="../_images/dfd_caller_isolation.svg" /><figcaption>
-<p><span class="caption-number">Figure 21 </span><span class="caption-text">Crypto API dataflow diagram for an implementation with caller isolation</span><a class="headerlink" href="#fig-dfd-caller-isolation" title="Permalink to this image">¶</a></p>
+<p><span class="caption-number">Figure 22 </span><span class="caption-text">Crypto API dataflow diagram for an implementation with caller isolation</span><a class="headerlink" href="#fig-dfd-caller-isolation" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 </section>
 </section>
 <section id="assets-and-stakeholders">
-<h3><span class="section-number">D.1.2. </span>Assets and stakeholders<a class="headerlink" href="#assets-and-stakeholders" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">D.1.2. </span>Assets and stakeholders<a class="headerlink" href="#assets-and-stakeholders" title="Permalink to this heading">¶</a></h3>
 <ol class="arabic">
 <li><p>Cryptographic keys and key-related assets. This includes the key properties, such as the key type, identity and policies.</p>
 <p>Stakeholders can include the SiP, the OEM, the system or application owner. Owners of a key need to be able to use the key for cryptographic operations, such as encryption or signature, and where permitted, delete, copy or extract the key.</p>
@@ -113,10 +116,10 @@
 </ol>
 </section>
 <section id="security-goals">
-<span id="id1"></span><h3><span class="section-number">D.1.3. </span>Security goals<a class="headerlink" href="#security-goals" title="Permalink to this headline">¶</a></h3>
-<p>Cryptography is used as a mitigation to the risk of disclosure or tampering with data assets that require protection, where isolation of the attacker from the data asset is unavailable or inadequate. Using cryptography introduces new threats related to the incorrect use of cryptography and mismanagement of cryptographic keys. <span><a class="reference internal" href="#table-sg"><span class="numref">Table 26</span></a></span> lists the security goals for the Crypto API to address these threats.</p>
-<table class="colwidths-given longtable docutils align-right" id="table-sg">
-<caption><span class="caption-number">Table 26 </span><span class="caption-text">Security goals</span><a class="headerlink" href="#table-sg" title="Permalink to this table">¶</a></caption>
+<span id="id1"></span><h3><span class="section-number">D.1.3. </span>Security goals<a class="headerlink" href="#security-goals" title="Permalink to this heading">¶</a></h3>
+<p>Cryptography is used as a mitigation to the risk of disclosure or tampering with data assets that require protection, where isolation of the attacker from the data asset is unavailable or inadequate. Using cryptography introduces new threats related to the incorrect use of cryptography and mismanagement of cryptographic keys. <span><a class="reference internal" href="#table-sg"><span class="numref">Table 27</span></a></span> lists the security goals for the Crypto API to address these threats.</p>
+<table class="colwidths-given longtable docutils align-default" id="table-sg">
+<caption><span class="caption-number">Table 27 </span><span class="caption-text">Security goals</span><a class="headerlink" href="#table-sg" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -144,14 +147,14 @@
 </section>
 </section>
 <section id="threat-model">
-<h2><span class="section-number">D.2. </span>Threat Model<a class="headerlink" href="#threat-model" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">D.2. </span>Threat Model<a class="headerlink" href="#threat-model" title="Permalink to this heading">¶</a></h2>
 <section id="adversarial-models">
-<span id="id2"></span><h3><span class="section-number">D.2.1. </span>Adversarial models<a class="headerlink" href="#adversarial-models" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><span class="section-number">D.2.1. </span>Adversarial models<a class="headerlink" href="#adversarial-models" title="Permalink to this heading">¶</a></h3>
 <p>The API itself has limited ability to mitigate threats. However, mitigation of some of the threats within the cryptoprocessor can place requirements on the API design. This analysis considers a broad attack surface, to also identify requirements that enable the mitigation of specific threats within a cryptoprocessor implementation.</p>
-<p><span><a class="reference internal" href="#table-adversaries"><span class="numref">Table 27</span></a></span> describes the adversarial models that are considered in this assessment.</p>
+<p><span><a class="reference internal" href="#table-adversaries"><span class="numref">Table 28</span></a></span> describes the adversarial models that are considered in this assessment.</p>
 <p>A specific implementation of the Crypto API might not include all of these adversarial models within its own threat model. In this case, the related threats, risks, and mitigations might not be required for that implementation.</p>
-<table class="colwidths-given longtable docutils align-right" id="table-adversaries">
-<caption><span class="caption-number">Table 27 </span><span class="caption-text">Adversarial models</span><a class="headerlink" href="#table-adversaries" title="Permalink to this table">¶</a></caption>
+<table class="colwidths-given longtable docutils align-default" id="table-adversaries">
+<caption><span class="caption-number">Table 28 </span><span class="caption-text">Adversarial models</span><a class="headerlink" href="#table-adversaries" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -197,9 +200,9 @@
 </tr>
 </tbody>
 </table>
-<p>Adversarial models that are outside the scope of this assessment are shown in <span><a class="reference internal" href="#table-out-of-scope-adversaries"><span class="numref">Table 28</span></a></span>.</p>
-<table class="colwidths-given longtable docutils align-right" id="table-out-of-scope-adversaries">
-<caption><span class="caption-number">Table 28 </span><span class="caption-text">Adversarial models that are outside the scope of this SRA</span><a class="headerlink" href="#table-out-of-scope-adversaries" title="Permalink to this table">¶</a></caption>
+<p>Adversarial models that are outside the scope of this assessment are shown in <span><a class="reference internal" href="#table-out-of-scope-adversaries"><span class="numref">Table 29</span></a></span>.</p>
+<table class="colwidths-given longtable docutils align-default" id="table-out-of-scope-adversaries">
+<caption><span class="caption-number">Table 29 </span><span class="caption-text">Adversarial models that are outside the scope of this SRA</span><a class="headerlink" href="#table-out-of-scope-adversaries" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -226,11 +229,11 @@
 </table>
 </section>
 <section id="threats-and-attacks">
-<h3><span class="section-number">D.2.2. </span>Threats and attacks<a class="headerlink" href="#threats-and-attacks" title="Permalink to this headline">¶</a></h3>
-<p><span><a class="reference internal" href="#table-threats"><span class="numref">Table 29</span></a></span> describes threats to the Security Goals, and provides examples of corresponding attacks. This table identifies which Security goals are affected by the attacks, and which Adversarial model or models are required to execute the attack.</p>
+<h3><span class="section-number">D.2.2. </span>Threats and attacks<a class="headerlink" href="#threats-and-attacks" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#table-threats"><span class="numref">Table 30</span></a></span> describes threats to the Security Goals, and provides examples of corresponding attacks. This table identifies which Security goals are affected by the attacks, and which Adversarial model or models are required to execute the attack.</p>
 <p>See <a class="reference internal" href="#risk-assessment"><span class="secref">Risk assessment</span></a> for an evaluation of the risks posed by these threats, <a class="reference internal" href="#mitigations"><span class="secref">Mitigations</span></a> for mitigation requirements in the API design, and <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a> for mitigation recommendations in the cryptoprocessor implementation.</p>
-<table class="colwidths-given longtable docutils align-right" id="table-threats">
-<caption><span class="caption-number">Table 29 </span><span class="caption-text">Threats and attacks</span><a class="headerlink" href="#table-threats" title="Permalink to this table">¶</a></caption>
+<table class="colwidths-given longtable docutils align-default" id="table-threats">
+<caption><span class="caption-number">Table 30 </span><span class="caption-text">Threats and attacks</span><a class="headerlink" href="#table-threats" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 8%" />
 <col style="width: 20%" />
@@ -292,7 +295,7 @@
 <td><p>Direct access to cryptoprocessor state</p></td>
 <td><p>G.3 G.4</p></td>
 <td><p>M.1</p></td>
-<td><p><strong>A.C7</strong>: Without a cryptoprocessor boundary, an attacker can directly access the cryptoprocessor state from an application. See <span><a class="reference internal" href="#fig-dfd-no-isolation"><span class="numref">Figure 19</span></a></span>.</p>
+<td><p><strong>A.C7</strong>: Without a cryptoprocessor boundary, an attacker can directly access the cryptoprocessor state from an application. See <span><a class="reference internal" href="#fig-dfd-no-isolation"><span class="numref">Figure 20</span></a></span>.</p>
 <p><strong>A.C8</strong>: A misconfigured cryptoprocessor boundary can allow an attacker to directly access the cryptoprocessor state from an Application.</p>
 </td>
 </tr>
@@ -300,7 +303,7 @@
 <td><p>Access and use another application’s assets</p></td>
 <td><p>G.1 G.2</p></td>
 <td><p>M.1</p></td>
-<td><p><strong>A.C9</strong>: Without application boundaries, the cryptoprocessor provides a unified view of the application assets. All keys are accessible to all callers of the Crypto API. See <span><a class="reference internal" href="#fig-dfd-caller-isolation"><span class="numref">Figure 21</span></a></span>.</p>
+<td><p><strong>A.C9</strong>: Without application boundaries, the cryptoprocessor provides a unified view of the application assets. All keys are accessible to all callers of the Crypto API. See <span><a class="reference internal" href="#fig-dfd-caller-isolation"><span class="numref">Figure 22</span></a></span>.</p>
 <p><strong>A.C10</strong>: The attacker can spoof the application identity within a caller-isolated implementation to gain access to another application’s assets.</p>
 </td>
 </tr>
@@ -340,12 +343,12 @@
 </table>
 </section>
 <section id="risk-assessment">
-<span id="id3"></span><h3><span class="section-number">D.2.3. </span>Risk assessment<a class="headerlink" href="#risk-assessment" title="Permalink to this headline">¶</a></h3>
-<p>The risk ratings in <span><a class="reference internal" href="#table-risks"><span class="numref">Table 30</span></a></span> follow a version of the risk assessment scheme in <span><em>NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments</em> <a class="reference internal" href="../about.html#cite-sp800-30"><span class="cite">[SP800-30]</span></a></span>. Likelihood of an attack and its impact are evaluated independently, and then they are combined to obtain the overall risk of the attack.</p>
+<span id="id3"></span><h3><span class="section-number">D.2.3. </span>Risk assessment<a class="headerlink" href="#risk-assessment" title="Permalink to this heading">¶</a></h3>
+<p>The risk ratings in <span><a class="reference internal" href="#table-risks"><span class="numref">Table 31</span></a></span> follow a version of the risk assessment scheme in <span><em>NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments</em> <a class="reference internal" href="../about.html#cite-sp800-30"><span class="cite">[SP800-30]</span></a></span>. Likelihood of an attack and its impact are evaluated independently, and then they are combined to obtain the overall risk of the attack.</p>
 <p>The risk assessment is used to prioritize the threats that require mitigation. This helps to identify the mitigations that have the highest priority for implementation. Mitigations are described in <a class="reference internal" href="#mitigations"><span class="secref">Mitigations</span></a> and <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a>.</p>
-<p>It is recommended that this assessment is repeated for a specific implementation or product, taking into consideration the Adversarial models that are within scope, and re-evaluating the impact based on the assets at risk. <span><a class="reference internal" href="#table-risks"><span class="numref">Table 30</span></a></span> repeats the association in <span><a class="reference internal" href="#table-threats"><span class="numref">Table 29</span></a></span> between an Adversarial model and the Threats that it enables. This aids filtering of the assessment based on the models that are in scope for a specific implementation.</p>
-<table class="colwidths-given longtable docutils align-right" id="table-risks">
-<caption><span class="caption-number">Table 30 </span><span class="caption-text">Risk assessment</span><a class="headerlink" href="#table-risks" title="Permalink to this table">¶</a></caption>
+<p>It is recommended that this assessment is repeated for a specific implementation or product, taking into consideration the Adversarial models that are within scope, and re-evaluating the impact based on the assets at risk. <span><a class="reference internal" href="#table-risks"><span class="numref">Table 31</span></a></span> repeats the association in <span><a class="reference internal" href="#table-threats"><span class="numref">Table 30</span></a></span> between an Adversarial model and the Threats that it enables. This aids filtering of the assessment based on the models that are in scope for a specific implementation.</p>
+<table class="colwidths-given longtable docutils align-default" id="table-risks">
+<caption><span class="caption-number">Table 31 </span><span class="caption-text">Risk assessment</span><a class="headerlink" href="#table-risks" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 20%" />
 <col style="width: 20%" />
@@ -431,7 +434,7 @@
 </tbody>
 </table>
 <ol class="loweralpha simple">
-<li><p>The impact of an attack is dependent on the impact of the disclosure or modification of the application data that is cryptographically protected. This is ultimately determined by the requirements and risk assessment for the product which is using the Crypto API. <span><a class="reference internal" href="#table-risks"><span class="numref">Table 30</span></a></span> allocates the impact as follows:</p>
+<li><p>The impact of an attack is dependent on the impact of the disclosure or modification of the application data that is cryptographically protected. This is ultimately determined by the requirements and risk assessment for the product which is using the Crypto API. <span><a class="reference internal" href="#table-risks"><span class="numref">Table 31</span></a></span> allocates the impact as follows:</p>
 <ul class="simple">
 <li><p>‘Medium’ if unspecified cryptoprocessor state or application data assets are affected.</p></li>
 <li><p>‘High’ if an application’s cryptographic assets are affected.</p></li>
@@ -442,12 +445,12 @@
 </section>
 </section>
 <section id="mitigations">
-<span id="id4"></span><h2><span class="section-number">D.3. </span>Mitigations<a class="headerlink" href="#mitigations" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2><span class="section-number">D.3. </span>Mitigations<a class="headerlink" href="#mitigations" title="Permalink to this heading">¶</a></h2>
 <section id="objectives">
-<h3><span class="section-number">D.3.1. </span>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h3>
-<p>The objectives in <span><a class="reference internal" href="#table-objectives"><span class="numref">Table 31</span></a></span> are a high-level description of what the design must achieve in order to mitigate the threats. Detailed requirements that describe how the API or cryptoprocessor implementation can deliver the objectives are provided in <a class="reference internal" href="#mitigation-requirements"><span class="secref">Requirements</span></a> and <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a>.</p>
-<table class="colwidths-given longtable docutils align-right" id="table-objectives">
-<caption><span class="caption-number">Table 31 </span><span class="caption-text">Mitigation objectives</span><a class="headerlink" href="#table-objectives" title="Permalink to this table">¶</a></caption>
+<h3><span class="section-number">D.3.1. </span>Objectives<a class="headerlink" href="#objectives" title="Permalink to this heading">¶</a></h3>
+<p>The objectives in <span><a class="reference internal" href="#table-objectives"><span class="numref">Table 32</span></a></span> are a high-level description of what the design must achieve in order to mitigate the threats. Detailed requirements that describe how the API or cryptoprocessor implementation can deliver the objectives are provided in <a class="reference internal" href="#mitigation-requirements"><span class="secref">Requirements</span></a> and <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a>.</p>
+<table class="colwidths-given longtable docutils align-default" id="table-objectives">
+<caption><span class="caption-number">Table 32 </span><span class="caption-text">Mitigation objectives</span><a class="headerlink" href="#table-objectives" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 8%" />
 <col style="width: 54%" />
@@ -498,10 +501,10 @@
 </table>
 </section>
 <section id="requirements">
-<span id="mitigation-requirements"></span><h3><span class="section-number">D.3.2. </span>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
-<p>The design of the API can mitigate, or enable a cryptoprocessor to mitigate, some of the identified attacks. <span><a class="reference internal" href="#tab-security-requirements"><span class="numref">Table 32</span></a></span> describes these mitigations. Mitigations that are delegated to the cryptoprocessor or application are described in <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a>.</p>
-<table class="colwidths-given longtable docutils align-right" id="tab-security-requirements">
-<caption><span class="caption-number">Table 32 </span><span class="caption-text">Security requirements</span><a class="headerlink" href="#tab-security-requirements" title="Permalink to this table">¶</a></caption>
+<span id="mitigation-requirements"></span><h3><span class="section-number">D.3.2. </span>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h3>
+<p>The design of the API can mitigate, or enable a cryptoprocessor to mitigate, some of the identified attacks. <span><a class="reference internal" href="#tab-security-requirements"><span class="numref">Table 33</span></a></span> describes these mitigations. Mitigations that are delegated to the cryptoprocessor or application are described in <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a>.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-security-requirements">
+<caption><span class="caption-number">Table 33 </span><span class="caption-text">Security requirements</span><a class="headerlink" href="#tab-security-requirements" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 8%" />
 <col style="width: 31%" />
@@ -598,12 +601,12 @@
 </section>
 </section>
 <section id="remediation-residual-risk">
-<h2><span class="section-number">D.4. </span>Remediation &amp; residual risk<a class="headerlink" href="#remediation-residual-risk" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">D.4. </span>Remediation &amp; residual risk<a class="headerlink" href="#remediation-residual-risk" title="Permalink to this heading">¶</a></h2>
 <section id="implementation-remediations">
-<span id="remediation"></span><h3><span class="section-number">D.4.1. </span>Implementation remediations<a class="headerlink" href="#implementation-remediations" title="Permalink to this headline">¶</a></h3>
-<p><span><a class="reference internal" href="#tab-remediation"><span class="numref">Table 33</span></a></span> includes all recommended remediations for an implementation, assuming the full adversarial model described in <a class="reference internal" href="#adversarial-models"><span class="secref">Adversarial models</span></a>. When an implementation has a subset of the adversarial models, then individual remediations can be excluded from an implementation, if the associated threat is not relevant for that implementation.</p>
-<table class="colwidths-given longtable docutils align-right" id="tab-remediation">
-<caption><span class="caption-number">Table 33 </span><span class="caption-text">Implementation remediations</span><a class="headerlink" href="#tab-remediation" title="Permalink to this table">¶</a></caption>
+<span id="remediation"></span><h3><span class="section-number">D.4.1. </span>Implementation remediations<a class="headerlink" href="#implementation-remediations" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-remediation"><span class="numref">Table 34</span></a></span> includes all recommended remediations for an implementation, assuming the full adversarial model described in <a class="reference internal" href="#adversarial-models"><span class="secref">Adversarial models</span></a>. When an implementation has a subset of the adversarial models, then individual remediations can be excluded from an implementation, if the associated threat is not relevant for that implementation.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-remediation">
+<caption><span class="caption-number">Table 34 </span><span class="caption-text">Implementation remediations</span><a class="headerlink" href="#tab-remediation" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 8%" />
 <col style="width: 31%" />
@@ -666,11 +669,11 @@
 </table>
 </section>
 <section id="residual-risk">
-<h3><span class="section-number">D.4.2. </span>Residual risk<a class="headerlink" href="#residual-risk" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">D.4.2. </span>Residual risk<a class="headerlink" href="#residual-risk" title="Permalink to this heading">¶</a></h3>
 <p>Threats T.2-T.4, and T.7-T.9 are fully mitigated in the API design, as described in <a class="reference internal" href="#mitigations"><span class="secref">Mitigations</span></a>, or the cryptoprocessor implementation, as described in <a class="reference internal" href="#remediation"><span class="secref">Implementation remediations</span></a>.</p>
-<p><span><a class="reference internal" href="#tab-residual-risk"><span class="numref">Table 34</span></a></span> describes the remaining risks related to T.1, T.5, and T.6 that cannot be mitigated fully by the API or cryptoprocessor implementation. Responsibility for managing these risks lies with the application developers and system integrators.</p>
-<table class="colwidths-given longtable docutils align-right" id="tab-residual-risk">
-<caption><span class="caption-number">Table 34 </span><span class="caption-text">Residual risk</span><a class="headerlink" href="#tab-residual-risk" title="Permalink to this table">¶</a></caption>
+<p><span><a class="reference internal" href="#tab-residual-risk"><span class="numref">Table 35</span></a></span> describes the remaining risks related to T.1, T.5, and T.6 that cannot be mitigated fully by the API or cryptoprocessor implementation. Responsibility for managing these risks lies with the application developers and system integrators.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-residual-risk">
+<caption><span class="caption-number">Table 35 </span><span class="caption-text">Residual risk</span><a class="headerlink" href="#tab-residual-risk" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 8%" />
 <col style="width: 31%" />
@@ -714,7 +717,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -775,13 +778,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

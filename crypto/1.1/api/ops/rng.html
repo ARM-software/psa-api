@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="10.10. Other cryptographic services" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="Random number generation: psa_generate_random(function): Generate random bytes. Parameters output, Output buffer for the generated data.,, output_size, Number of bytes to generate and output.,. Ret..." />
 <meta name="description" content="Random number generation: psa_generate_random(function): Generate random bytes. Parameters output, Output buffer for the generated data.,, output_size, Number of bytes to generate and output.,. Ret..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -48,34 +51,47 @@
           <div class="body" role="main">
             
   <section id="other-cryptographic-services">
-<h1><span class="section-number">10.10. </span>Other cryptographic services<a class="headerlink" href="#other-cryptographic-services" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">10.10. </span>Other cryptographic services<a class="headerlink" href="#other-cryptographic-services" title="Permalink to this heading">¶</a></h1>
 <section id="random-number-generation">
-<span id="rng"></span><h2><span class="section-number">10.10.1. </span>Random number generation<a class="headerlink" href="#random-number-generation" title="Permalink to this headline">¶</a></h2>
+<span id="rng"></span><h2><span class="section-number">10.10.1. </span>Random number generation<a class="headerlink" href="#random-number-generation" title="Permalink to this heading">¶</a></h2>
 <section id="c.psa_generate_random">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_generate_random</span></code> (function)<a class="headerlink" href="#c.psa_generate_random" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_generate_random</span></code> (function)<a class="headerlink" href="#c.psa_generate_random" title="Permalink to this heading">¶</a></h3>
 <p>Generate random bytes.</p>
 <pre class="literal-block">psa_status_t <a class="reference internal" href="#c.psa_generate_random" title="psa_generate_random">psa_generate_random</a>(uint8_t * output,
                                  size_t output_size);</pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">output</span></code></dt><dd><p>Output buffer for the generated data.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">output</span></code></p>
+</dt><dd><p>Output buffer for the generated data.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">output_size</span></code></dt><dd><p>Number of bytes to generate and output.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">output_size</span></code></p>
+</dt><dd><p>Number of bytes to generate and output.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></dt><dd><p>Success.
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code></p>
+</dt><dd><p>Success.
 <code class="docutils literal notranslate"><span class="pre">output</span></code> contains <code class="docutils literal notranslate"><span class="pre">output_size</span></code> bytes of generated random data.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></dt><dd><p>The library requires initializing by a call to <a class="reference internal" href="../library/library.html#c.psa_crypto_init" title="psa_crypto_init"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_crypto_init()</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code></p>
+</dt><dd><p>The library requires initializing by a call to <a class="reference internal" href="../library/library.html#c.psa_crypto_init" title="psa_crypto_init"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_crypto_init()</span></code></a>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></dt><dd></dd>
-<dt><a class="reference internal" href="../library/status.html#c.PSA_ERROR_INSUFFICIENT_ENTROPY" title="PSA_ERROR_INSUFFICIENT_ENTROPY"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_ENTROPY</span></code></a></dt><dd></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></dt><dd></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></dt><dd></dd>
-<dt><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CORRUPTION_DETECTED</span></code></dt><dd></dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code></p>
+</dt><dd></dd>
+<dt><p><a class="reference internal" href="../library/status.html#c.PSA_ERROR_INSUFFICIENT_ENTROPY" title="PSA_ERROR_INSUFFICIENT_ENTROPY"><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_ENTROPY</span></code></a></p>
+</dt><dd></dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSUFFICIENT_MEMORY</span></code></p>
+</dt><dd></dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code></p>
+</dt><dd></dd>
+<dt><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CORRUPTION_DETECTED</span></code></p>
+</dt><dd></dd>
 </dl>
+</div>
 <p class="rubric">Description</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -102,7 +118,7 @@
 <h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -154,13 +170,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 

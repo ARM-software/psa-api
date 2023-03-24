@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="10.1. Algorithms" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.1" />
 <meta property="og:description" content="This specification encodes algorithms into a structured 32-bit integer value. Algorithm identifiers are used for two purposes in the Crypto API: To specify a specific algorithm to use in a cryptogr..." />
 <meta name="description" content="This specification encodes algorithms into a structured 32-bit integer value. Algorithm identifiers are used for two purposes in the Crypto API: To specify a specific algorithm to use in a cryptogr..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -48,7 +51,7 @@
           <div class="body" role="main">
             
   <section id="algorithms">
-<span id="id1"></span><h1><span class="section-number">10.1. </span>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">10.1. </span>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this heading">¶</a></h1>
 <p>This specification encodes algorithms into a structured 32-bit integer value.</p>
 <p>Algorithm identifiers are used for two purposes in the Crypto API:</p>
 <ol class="arabic simple">
@@ -67,9 +70,9 @@
 <li><p><a class="reference internal" href="ka.html#key-agreement-algorithms"><span class="secref">Key agreement algorithms</span></a></p></li>
 </ul>
 <section id="algorithm-encoding">
-<h2><span class="section-number">10.1.1. </span>Algorithm encoding<a class="headerlink" href="#algorithm-encoding" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">10.1.1. </span>Algorithm encoding<a class="headerlink" href="#algorithm-encoding" title="Permalink to this heading">¶</a></h2>
 <section id="c.psa_algorithm_t">
-<h3><code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code> (typedef)<a class="headerlink" href="#c.psa_algorithm_t" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code> (typedef)<a class="headerlink" href="#c.psa_algorithm_t" title="Permalink to this heading">¶</a></h3>
 <p>Encoding of a cryptographic algorithm.</p>
 <pre class="literal-block">typedef uint32_t <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>;</pre>
 <p>This is a structured bitfield that identifies the category and type of algorithm. The range of algorithm identifier values is divided as follows:</p>
@@ -89,152 +92,182 @@ The related support macros will be easier to write if these algorithm identifier
 <p>The <a class="reference internal" href="../../appendix/encodings.html#appendix-encodings"><span class="secref">Algorithm and key type encoding</span></a> appendix provides a full definition of the algorithm identifier encoding.</p>
 </section>
 <section id="c.PSA_ALG_NONE">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_NONE</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_NONE" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_NONE</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_NONE" title="Permalink to this heading">¶</a></h3>
 <p>An invalid algorithm identifier value.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_NONE" title="PSA_ALG_NONE">PSA_ALG_NONE</a> ((<a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)0)</pre>
 <p>Zero is not the encoding of any algorithm.</p>
 </section>
 </section>
 <section id="algorithm-categories">
-<h2><span class="section-number">10.1.2. </span>Algorithm categories<a class="headerlink" href="#algorithm-categories" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">10.1.2. </span>Algorithm categories<a class="headerlink" href="#algorithm-categories" title="Permalink to this heading">¶</a></h2>
 <section id="c.PSA_ALG_IS_HASH">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_HASH</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_HASH" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_HASH</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_HASH" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is a hash algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_HASH" title="PSA_ALG_IS_HASH">PSA_ALG_IS_HASH</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a hash algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="hashes.html#hash-algorithms"><span class="secref">Hash algorithms</span></a> for a list of defined hash algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_MAC">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_MAC</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_MAC" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_MAC</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_MAC" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is a MAC algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_MAC" title="PSA_ALG_IS_MAC">PSA_ALG_IS_MAC</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a MAC algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="macs.html#mac-algorithms"><span class="secref">MAC algorithms</span></a> for a list of defined MAC algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_CIPHER">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_CIPHER</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_CIPHER" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_CIPHER</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_CIPHER" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is a symmetric cipher algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_CIPHER" title="PSA_ALG_IS_CIPHER">PSA_ALG_IS_CIPHER</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a symmetric cipher algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="ciphers.html#cipher-algorithms"><span class="secref">Cipher algorithms</span></a> for a list of defined cipher algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_AEAD">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_AEAD</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_AEAD" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_AEAD</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_AEAD" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is an authenticated encryption with associated data (AEAD) algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_AEAD" title="PSA_ALG_IS_AEAD">PSA_ALG_IS_AEAD</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is an AEAD algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="aead.html#aead-algorithms"><span class="secref">AEAD algorithms</span></a> for a list of defined AEAD algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_SIGN">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_SIGN</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_SIGN" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_SIGN</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_SIGN" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is an asymmetric signature algorithm, also known as public-key signature algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_SIGN" title="PSA_ALG_IS_SIGN">PSA_ALG_IS_SIGN</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is an asymmetric signature algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="sign.html#sign-algorithms"><span class="secref">Asymmetric signature algorithms</span></a> for a list of defined signature algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_ASYMMETRIC_ENCRYPTION">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_ASYMMETRIC_ENCRYPTION</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_ASYMMETRIC_ENCRYPTION" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_ASYMMETRIC_ENCRYPTION</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_ASYMMETRIC_ENCRYPTION" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is an asymmetric encryption algorithm, also known as public-key encryption algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_ASYMMETRIC_ENCRYPTION" title="PSA_ALG_IS_ASYMMETRIC_ENCRYPTION">PSA_ALG_IS_ASYMMETRIC_ENCRYPTION</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is an asymmetric encryption algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="pke.html#asymmetric-encryption-algorithms"><span class="secref">Asymmetric encryption algorithms</span></a> for a list of defined asymmetric encryption algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_KEY_AGREEMENT">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_KEY_AGREEMENT</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_KEY_AGREEMENT" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_KEY_AGREEMENT</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_KEY_AGREEMENT" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is a key agreement algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_KEY_AGREEMENT" title="PSA_ALG_IS_KEY_AGREEMENT">PSA_ALG_IS_KEY_AGREEMENT</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a key agreement algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="ka.html#key-agreement-algorithms"><span class="secref">Key agreement algorithms</span></a> for a list of defined key agreement algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_KEY_DERIVATION">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_KEY_DERIVATION</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_KEY_DERIVATION" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_KEY_DERIVATION</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_KEY_DERIVATION" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm is a key derivation algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_KEY_DERIVATION" title="PSA_ALG_IS_KEY_DERIVATION">PSA_ALG_IS_KEY_DERIVATION</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a key derivation algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
 <p>See <a class="reference internal" href="kdf.html#key-derivation-algorithms"><span class="secref">Key derivation algorithms</span></a> for a list of defined key derivation algorithms.</p>
 </section>
 <section id="c.PSA_ALG_IS_WILDCARD">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_WILDCARD</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_WILDCARD" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_WILDCARD</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_WILDCARD" title="Permalink to this heading">¶</a></h3>
 <p>Whether the specified algorithm encoding is a wildcard.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_WILDCARD" title="PSA_ALG_IS_WILDCARD">PSA_ALG_IS_WILDCARD</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a wildcard algorithm encoding.</p>
 <p><code class="docutils literal notranslate"><span class="pre">0</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a non-wildcard algorithm encoding that is suitable for an operation.</p>
 <p>This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
 <p class="rubric">Description</p>
-<p>Wildcard algorithm values can only be used to set the permitted algorithm field in a key policy, wildcard values cannot be used to perform an operation.</p>
+<p>Wildcard algorithm values can only be used to set the permitted-algorithm field in a key policy, wildcard values cannot be used to perform an operation.</p>
 <p>See <a class="reference internal" href="sign.html#c.PSA_ALG_ANY_HASH" title="PSA_ALG_ANY_HASH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ANY_HASH</span></code></a> for example of how a wildcard algorithm can be used in a key policy.</p>
 </section>
 <section id="c.PSA_ALG_GET_HASH">
-<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_GET_HASH</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_GET_HASH" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_GET_HASH</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_GET_HASH" title="Permalink to this heading">¶</a></h3>
 <p>Get the hash used by a composite algorithm.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_GET_HASH" title="PSA_ALG_GET_HASH">PSA_ALG_GET_HASH</a>(alg) <em><a class="reference internal" href="../../overview/implementation.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
 <p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">alg</span></code></dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Returns</p>
 <p>The underlying hash algorithm if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a composite algorithm that uses a hash algorithm.</p>
 <p><a class="reference internal" href="#c.PSA_ALG_NONE" title="PSA_ALG_NONE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_NONE</span></code></a> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a composite algorithm that uses a hash.</p>
@@ -271,7 +304,7 @@ The related support macros will be easier to write if these algorithm identifier
 <h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.1.1
+Version 1.1.2
 <span style="font-weight: bold;"></span>
 <hr />
 <ul>
@@ -324,13 +357,13 @@ Version 1.1.1
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2022 Arm Limited and/or its affiliates.
+      &copy; 2018-2023 Arm Limited and/or its affiliates.
       
     </div>
 
