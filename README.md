@@ -22,8 +22,8 @@ The following specifications are part of the PSA Certified API.
 
 Specification | Published | Document source | Reference headers | Dashboard
 -|-|-|-|-
-Crypto API | [1.1.1][crypto-specs] | [doc/crypto/] | [headers/crypto/1.1/] | [Project board][crypto-dash]
-Secure Storage API | [1.0.1][storage-specs] | [doc/storage/] |  [headers/storage/1.0/] | [Project board][storage-dash] |
+Crypto API | [1.1.2][crypto-specs] | [doc/crypto/] | [headers/crypto/1.1/] | [Project board][crypto-dash]
+Secure Storage API | [1.0.2][storage-specs] | [doc/storage/] |  [headers/storage/1.0/] | [Project board][storage-dash] |
 Attestation API | [1.0.3][attestation-specs] | [doc/attestation/] |  [headers/attestation/1.0/] | [Project board][attestation-dash] |
 Firmware Update API | [1.0 Beta][fwu-specs] | [doc/fwu/] |  [headers/fwu/1.0/] | [Project board][fwu-dash]
 Status code API | [1.0.2][status-specs] | [doc/status-code/] |  [headers/status-code/1.0/] | [Project board][status-code-dash] |
