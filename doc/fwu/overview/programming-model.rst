@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _programming-model:
@@ -44,6 +44,18 @@ During the course of an update, a specific firmware image can change from being 
 State model
 -----------
 
+The full set of use cases for the |API| requires a fine-grained state model to track each component through the update process. See :secref:`state-rationale` for an explanation of the relationship between state model features and use cases.
+
+This section describes the full state model, which is required for components that have the following properties:
+
+1. A reboot is required to complete installation of a new image.
+2. The image must be tested prior to acceptance.
+3. A partially prepared image is persistent across a reboot, before it is staged for installation.
+
+For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of the states are visible to the update client. For components that have volatile staging, most component states are transient, and will transition when the system restarts. Some common variations are described in :secref:`variations`, including the changes in the state model for such components.
+
+.. _component-state:
+
 Component state
 ^^^^^^^^^^^^^^^
 
@@ -68,10 +80,14 @@ Component state
 
          When writing is complete, it can be prepared for installation.
 
+         This state is transient for components that have volatile staging.
+
    *  -  CANDIDATE
       -  The update client has completed transfer of the new firmware image to the *second* image.
 
          When all components for update are prepared, they can be installed.
+
+         This state is transient for components that have volatile staging.
 
    *  -  STAGED
       -  Installation of the *second* has been requested, but the system must be restarted as the final update operation runs within the bootloader.
@@ -93,23 +109,18 @@ Component state
 
          The *second* needs to be cleaned before another update can be attempted.
 
+         This state is transient for components that have volatile staging.
+
    *  -  UPDATED
       -  The *active* trial image has been accepted.
 
          The *second* contains the now-expired previous firmware image, which needs to be cleaned before another update can be started.
 
-The full set of states is necessary for components that require both of the following:
-
-1. A reboot is required to complete installation of a new image.
-2. The image must be tested prior to acceptance.
-
-The description of the state model in :secref:`state-transitions` assumes this type of component.
-
-For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of these states are visible to the update client. Some common variations are describe in :secref:`variations`, including the impact on the state model for such components.
+         This state is transient for components that have volatile staging.
 
 .. admonition:: Implementation note
 
-   An implementation might support additional internal states, provided that implementation-specific states are not visible to the caller of the |API|.
+   An implementation can have additional internal states, provided that implementation-specific states are not visible to the caller of the |API|.
 
 .. _state-transitions:
 
@@ -142,12 +153,13 @@ The ``install``, ``accept``, and ``reject`` operations apply to all components i
 
 .. figure:: /figure/fwu-states.*
    :name: fig-states
+   :scale: 90%
 
    The component state model transitions
 
 Note, that the READY state at the end is distinct from the starting READY state --- at the end the *active* firmware image is the updated version. The component is ready to start the process again from the beginning for the next update.
 
-The depicted flow does not show the behavior in error scenarios, except for the transitions over reboot where a failure can only be reported to the update client by changing the state of the component.
+The behavior in error scenarios is not shown, except for the transitions over reboot where a failure can only be reported to the update client by changing the state of the component.
 
 .. _behavior-on-error:
 
@@ -175,6 +187,8 @@ The following behavior is required by every implementation:
 If an operation fails because of other conditions, it is :scterm:`implementation defined` whether the component state is unchanged, or is transitioned to FAILED state. In this situation, it is recommended that the update client abort the update process with a ``cancel`` operation.
 
 If an unexpected system restart interrupts an operation, it is :sc:`implementation defined` whether the component state is unchanged, is transitioned to FAILED state, or is processed to a following state by the bootloader as described by the state model. In this situation, the update client must query the component status when it restarts, to determine the result.
+
+.. _state-rationale:
 
 Rationale
 ^^^^^^^^^
@@ -428,5 +442,6 @@ Sample sequence during firmware update
 
 .. figure:: /figure/sequence.*
    :name: fig-sequence
+   :scale: 58%
 
    A sequence diagram showing an example flow
