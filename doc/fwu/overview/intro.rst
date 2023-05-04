@@ -18,6 +18,8 @@ The interface enables the software and systems that manage and deliver a firmwar
 
 You can find additional resources relating to the |API| here at :url:`arm-software.github.io/psa-api/fwu`, and find other PSA Certified APIs here at :url:`arm-software.github.io/psa-api`.
 
+.. _intro:
+
 Firmware update
 ---------------
 

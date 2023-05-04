@@ -250,6 +250,8 @@ The complexity of the state model is a response to the requirements that follow 
       -  Erasing non-volatile storage can be a high-latency operation. In some systems, this activity might block other memory i/o operations, including code execution. Isolating the erase activity within the ``clean`` operation enables an update client to manage when such disruptive actions take place.
 
 
+.. _verifying-an-update:
+
 Verifying an update
 -------------------
 

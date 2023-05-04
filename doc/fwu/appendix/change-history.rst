@@ -19,6 +19,8 @@ Changes between version *1.0 Beta* and *1.0.0*
    -  Added additional example state model diagrams for components with volatile staging.
    -  See :secref:`state-model`, :secref:`volatile-states`, and :secref:`variations`.
 
+*  Added a Security Risk Assessment appendix for the |API|. See :secref:`sra`.
+
 .. rubric:: API changes
 
 *  Added `PSA_FWU_LOG2_WRITE_ALIGN`, which the implementation uses to specify the required alignment of the data blocks written using `psa_fwu_write()`.

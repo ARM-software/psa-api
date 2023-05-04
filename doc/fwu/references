@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. reference:: PSA-STAT
@@ -79,9 +79,15 @@
 
 .. reference:: SUIT-MFST
    :title: A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest
-   :author: IETF
-   :publication: October 2022
+   :author: IETF, (draft)
+   :publication: February 2023
    :url: datatracker.ietf.org/doc/draft-ietf-suit-manifest
+
+.. reference:: SUIT-ENC
+   :title: Encrypted Payloads in SUIT Manifests
+   :author: IETF, (draft)
+   :publication: April 2023
+   :url: datatracker.ietf.org/doc/draft-ietf-suit-firmware-encryption
 
 .. reference:: C99
     :title: ISO/IEC 9899:1999 --- Programming Languages --- C
@@ -93,3 +99,9 @@
    :author: Arm Limited and Contributors
    :title: Embedded Base Boot Requirements (EBBR) Specification
    :url: arm-software.github.io/ebbr
+
+.. reference:: SP800-30
+    :title: NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments
+    :author: NIST
+    :publication: September 2012
+    :url: doi.org/10.6028/NIST.SP.800-30r1
