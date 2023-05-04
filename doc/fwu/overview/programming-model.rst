@@ -162,7 +162,7 @@ Table :numref:`tab-operations` shows the operations that the update client uses 
 .. csv-table:: Operations on components
    :name: tab-operations
    :widths: auto
-   :align: left
+   :align: right
 
    ``start``, Begin a firmware update operation
    ``write``, "Write all, or part, of a firmware image"
@@ -389,7 +389,7 @@ Cleaning up the firmware store
 
 After a successful, failed, or abandoned update, the storage containing the inactive firmware image needs to be reclaimed for reuse. The update client calls to `psa_fwu_clean()` to do this.
 
-.. rationale::
+.. rationale:: Rationale
 
    Erasing non-volatile storage can be a high-latency operation. In some systems, this activity might block other memory i/o operations, including code execution. Isolating the erase activity within the call to `psa_fwu_clean()` enables an update client to manage when such disruptive actions take place.
 
