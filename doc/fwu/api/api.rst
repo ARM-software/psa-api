@@ -78,7 +78,6 @@ An implementation is permitted to declare any API function with ``static inline`
 An implementation is permitted to also define a function-like macro with the same name as a function in this specification. If an implementation defines a function-like macro for a function from this specification, then:
 
 *  The implementation must also provide a definition of the function. This enables an application to take the address of a function defined in this specification.
-
 *  The function-like macro must expand to code that evaluates each of its arguments exactly once, as if the call was made to a C function. This enables an application to safely use arbitrary expressions as arguments to a function defined in this specification.
 
 If a non-pointer argument to a function has an invalid value (for example, a value outside the domain of the function), then the function will normally return an error, as specified in the function definition.
@@ -88,12 +87,9 @@ If a pointer argument to a function has an invalid value (for example, a pointer
 Return status
 ^^^^^^^^^^^^^
 
-All functions return a status indication of type :code:`psa_status_t`. This
-is an integer value, with ``0`` (:code:`PSA_SUCCESS`), or a positive value, indicating
-successful operation, and other values indicating errors.
+All functions return a status indication of type :code:`psa_status_t`. This is an integer value, with ``0`` (:code:`PSA_SUCCESS`), or a positive value, indicating successful operation, and other values indicating errors.
 
-Unless specified otherwise, if multiple error conditions apply, an
-implementation is free to return any of the applicable error codes.
+Unless specified otherwise, if multiple error conditions apply, an implementation is free to return any of the applicable error codes.
 
 If the behavior is undefined --- for example, if a function receives an invalid pointer as a parameter --- this specification does not require that the function will return an error. Implementations are encouraged to return an error or halt the application in a manner that is appropriate for the platform if the undefined behavior condition can be detected. However, application developers need to be aware that undefined behavior conditions cannot be detected in general.
 
@@ -104,11 +100,15 @@ Pointer conventions
 
 Unless explicitly stated in the documentation of a function, all pointers must be valid pointers to an object of the specified type.
 
-A parameter is considered to be a buffer if it points to an array of bytes. A buffer parameter always has the type ``uint8_t *`` or ``const uint8_t *``, and always has an associated parameter indicating the size of the array. Note that a parameter of type ``void *`` is never considered a buffer.
+A parameter is considered to be a *buffer* if it points to an array of bytes. A buffer parameter always has the type ``uint8_t *`` or ``const uint8_t *``, and always has an associated parameter indicating the size of the array. Note that a parameter of type ``void *`` is never considered a buffer.
 
 All parameters of pointer type must be valid non-null pointers, unless the pointer is to a buffer of length ``0`` or the function's documentation explicitly describes the behavior when the pointer is null.
 
 Pointers to input parameters can be in read-only memory. Output parameters must be in writable memory.
+
+The implementation will only access memory referenced by a pointer or buffer parameter for the duration of the function call.
+
+Input buffers are fully consumed by the implementation after a successful function call.
 
 Unless otherwise documented, the content of output parameters is not defined when a function returns an error status. It is recommended that implementations set output parameters to safe defaults to reduce risk, in case the caller does not properly handle all errors.
 
