@@ -737,7 +737,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
       .. note::
 
-         It is challenging to implement encryption of firmware images that is secure *at scale*. For example, the problems and some solutions are described in :cite-title:`SUIT-ENC`.
+         There are challenges when implementing encryption of firmware in a manner that is secure *at scale*. For example, the problems and some solutions are described in :cite-title:`SUIT-ENC`.
 
       Protection of installed firmware images is outside the scope of the firmware update process.
 
