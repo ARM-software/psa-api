@@ -481,8 +481,8 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
       This can cause device malfunction, or enable elevation of privilege.
 
-   .. security-goal:: `SG.AUTHENTIC` `SG.RELIABLE`
-   .. adversarial-model:: `AM.0` `AM.1`
+   .. security-goal:: `SG.AUTHENTIC`, `SG.RELIABLE`
+   .. adversarial-model:: `AM.0`, `AM.1`
 
    .. unmitigated::
       :impact: H
@@ -507,7 +507,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       An attacker sends a firmware update to a device that is known to not function correctly. If the firmware update function is non-operational following this update, the device also cannot be recovered without a physical repair.
 
    .. security-goal:: `SG.RELIABLE`
-   .. adversarial-model:: `AM.0` `AM.1`
+   .. adversarial-model:: `AM.0`, `AM.1`
 
    .. unmitigated::
       :impact: H
@@ -527,7 +527,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       An attacker sends an old, but otherwise valid, firmware update to a device. If there is a known vulnerability in the provided firmware image, this may allow an attacker to exploit the vulnerability and gain control of the device.
 
    .. security-goal:: `SG.AUTHENTIC`
-   .. adversarial-model:: `AM.0` `AM.1`
+   .. adversarial-model:: `AM.0`, `AM.1`
 
    .. unmitigated::
       :impact: H
@@ -551,7 +551,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       Following update the device might operate incorrectly, or can be left completely inoperable.
 
    .. security-goal:: `SG.RELIABLE`
-   .. adversarial-model:: `AM.0` `AM.1`
+   .. adversarial-model:: `AM.0`, `AM.1`
 
    .. unmitigated::
       :impact: H
@@ -571,7 +571,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    An attacker repeatedly causes an attempted installation of invalid firmware, to make the installation process disrupt the application availability, or excessively degrade the firmware store non-volatile memory.
 
    .. security-goal:: `SG.RELIABLE`
-   .. adversarial-model:: `AM.0` `AM.1`
+   .. adversarial-model:: `AM.0`, `AM.1`
 
    .. unmitigated:: UNTRUSTED_CLIENT
       :impact: H
@@ -645,7 +645,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       An attacker modifies a manifest, or a firmware image, after it is authenticated (time of check) but before it is used (time of use). The attacker can place any content whatsoever in the affected asset.
 
    .. security-goal:: `SG.AUTHENTIC`
-   .. adversarial-model:: `AM.1` `AM.2`
+   .. adversarial-model:: `AM.1`, `AM.2`
 
    .. unmitigated:: UNTRUSTED_CLIENT
       :impact: H
@@ -682,7 +682,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       For example, where an update requires multiple images to be installed concurrently, the attacker might attempt to trigger the installation by forcing the device to restart. A partial installation might render the device inoperable.
 
    .. security-goal:: `SG.RELIABLE`
-   .. adversarial-model:: `AM.0` `AM.1` `AM.2`
+   .. adversarial-model:: `AM.0`, `AM.1`, `AM.2`
 
    .. unmitigated::
       :impact: H
@@ -703,8 +703,8 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    .. description::
       An attacker sends a valid firmware image, for the wrong type of device, signed by a key with firmware installation permission on both device types. This could have wide-ranging consequences. For devices that are similar, it could cause minor breakage or expose security vulnerabilities. For devices that are very different, it is likely to render devices inoperable.
 
-   .. security-goal:: `SG.AUTHENTIC` `SG.RELIABLE`
-   .. adversarial-model:: `AM.0` `AM.1`
+   .. security-goal:: `SG.AUTHENTIC`, `SG.RELIABLE`
+   .. adversarial-model:: `AM.0`, `AM.1`
 
    .. unmitigated::
       :impact: H
@@ -726,7 +726,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       The firmware image might be obtained while in transit from the firmware creator to the device, or while stored in the update server, or on the device prior to installation.
 
    .. security-goal:: `SG.CONFIDENTIAL`
-   .. adversarial-model:: `AM.0` `AM.1` `AM.2`
+   .. adversarial-model:: `AM.0`, `AM.1`, `AM.2`
 
    .. unmitigated::
       :impact: M
@@ -807,7 +807,7 @@ Architectural mitigations
 
    *  -  `M.TRIAL`
       -  Provide a firmware image state where a failure to run a new firmware image will cause a roll back to the previously installed firmware.
-      -  `T.TAMPER` `T.NON_FUNCTIONAL` `T.ROLLBACK`
+      -  `T.TAMPER`, `T.NON_FUNCTIONAL`, `T.ROLLBACK`
 
 .. list-table:: Mitigations **transferred** to the firmware image and manifest formats
    :name: tab-sra-format-mitigations
@@ -825,7 +825,7 @@ Architectural mitigations
 
    *  -  `M.CHECK_DEPENDENCY`
       -  Dependencies between firmware images are declared in the firmware image or manifest.
-      -  `T.SKIP_INTERMEDIATE` `T.PARTIAL_UPDATE`
+      -  `T.SKIP_INTERMEDIATE`, `T.PARTIAL_UPDATE`
 
    *  -  `M.AUTHENTICATE`
       -  Authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key.
@@ -865,7 +865,7 @@ Implementation-level mitigations
 
    *  -  `M.CHECK_DEPENDENCY`
       -  Dependencies between firmware images are verified by the implementation prior to installation.
-      -  `T.SKIP_INTERMEDIATE` `T.PARTIAL_UPDATE`
+      -  `T.SKIP_INTERMEDIATE`, `T.PARTIAL_UPDATE`
 
    *  -  `M.AUTHENTICATE`
       -  Verify the authenticity of the firmware image manifest and firmware images against a trust anchor within the implementation, prior to installation.
@@ -885,7 +885,7 @@ Implementation-level mitigations
 
    *  -  `M.TRIAL`
       -  Use the provided TRIAL state in the firmware update process, to enable recovery of a failed update
-      -  `T.TAMPER` `T.NON_FUNCTIONAL` `T.ROLLBACK`
+      -  `T.TAMPER`, `T.NON_FUNCTIONAL`, `T.ROLLBACK`
 
    *  -  `M.PROTECT_THEN_VERIFY`
       -  Verification of firmware images and manifests must be done on a copy of the asset that is protected from tampering by untrusted components.
