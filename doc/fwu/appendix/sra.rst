@@ -468,6 +468,30 @@ Threats
 
 Because |API| can be used in a wide range of deployment models and a wide range of threats, not all mitigating actions apply to all scenarios. As a result, various mitigations are optional to implement, depending on which threats exist in a particular domain of application, and which firmware update use cases are important for deployments.
 
+:numref:`tab-sra-threats` summarizes the threats.
+
+.. csv-table:: Summary of threats
+   :name: tab-sra-threats
+   :class: longtable
+   :widths: 1 3
+   :header-rows: 1
+
+   Threat, Description
+   `T.TAMPER`, Tampering with the firmware image or manifest
+   `T.NON_FUNCTIONAL`, Install defective firmware
+   `T.ROLLBACK`, Install old firmware
+   `T.SKIP_INTERMEDIATE`, Skip intermediate update
+   `T.DEGRADE_DEVICE`, Repeatedly install invalid firmware
+   `T.INTERFACE_ABUSE`, Call the API with illegal inputs
+   `T.TOCTOU`, Modify asset between authentication and use
+   `T.PARTIAL_UPDATE`, Trigger installation of incomplete update
+   `T.INCOMPATIBLE`, Install firmware for a different device
+   `T.DISCLOSURE`, Unauthorized disclosure of a firmware image or manifest
+   `T.SERVER`, Exploiting or spoofing the update server
+   `T.CREATOR`, Spoofing the firmware creator
+   `T.NETWORK`, Manipulation of network traffic outside the device
+
+
 .. threat:: Tampering with the firmware image or manifest
    :id: TAMPER
 
