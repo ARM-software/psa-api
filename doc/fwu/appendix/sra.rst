@@ -43,6 +43,7 @@ Impact. Each is evaluated on a 5-level scale, as defined in :numref:`tab-sra-lik
 
 .. list-table:: Likelihood levels
    :name: tab-sra-likelihood
+   :class: longtable
    :header-rows: 1
    :stub-columns: 1
    :widths: 1 6
@@ -63,6 +64,7 @@ Impact. Each is evaluated on a 5-level scale, as defined in :numref:`tab-sra-lik
 
 .. list-table:: Impact levels
    :name: tab-sra-impact
+   :class: longtable
    :header-rows: 1
    :stub-columns: 1
    :widths: 1 3 3
@@ -93,9 +95,11 @@ For both Likelihood and Impact, when in doubt always choose the higher value. Th
 
 .. csv-table:: Overall risk calculation
    :name: tab-sra-overall-risk
+   :class: longtable
    :header-rows: 2
    :stub-columns: 1
-   :align: right
+   :widths: 1 1 1 1 1 1
+   :align: left
 
    ,Impact,,,,
    Likelihood, Very Low, Low, Medium, High, Very High
