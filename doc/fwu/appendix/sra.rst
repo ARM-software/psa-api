@@ -596,7 +596,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    :id: DEGRADE_DEVICE
    :deployment-models: UNTRUSTED_CLIENT, UNTRUSTED_STAGING
 
-   An attacker repeatedly causes an attempted installation of invalid firmware, to make the installation process disrupt the application availability, or excessively degrade the firmware store non-volatile memory.
+   An attacker repeatedly causes an attempted installation of invalid firmware, to make the installation process disrupt the application availability, exhaust the device power supply, or excessively degrade the firmware store non-volatile memory.
 
    .. security-goal:: `SG.RELIABLE`
    .. adversarial-model:: `AM.0`, `AM.1`
@@ -729,7 +729,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    :id: INCOMPATIBLE
 
    .. description::
-      An attacker sends a valid firmware image, for the wrong type of device, signed by a key with firmware installation permission on both device types. This could have wide-ranging consequences. For devices that are similar, it could cause minor breakage or expose security vulnerabilities. For devices that are very different, it is likely to render devices inoperable.
+      An attacker sends a valid firmware image, for the wrong type of device, signed by a key with firmware installation permission on both device types. This could have wide-ranging consequences. This could cause minor breakage, expose security vulnerabilities, or render devices inoperable.
 
    .. security-goal:: `SG.AUTHENTIC`, `SG.RELIABLE`
    .. adversarial-model:: `AM.0`, `AM.1`
