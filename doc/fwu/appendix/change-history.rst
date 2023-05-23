@@ -15,7 +15,7 @@ Changes between version *1.0 Beta* and *1.0.0*
 
 .. rubric:: API changes
 
-*  Added `PSA_FWU_WRITE_ALIGN`, which the implementation uses to specify the required alignment of the data blocks written using `psa_fwu_write()`.
+*  Added `PSA_FWU_LOG2_WRITE_ALIGN`, which the implementation uses to specify the required alignment of the data blocks written using `psa_fwu_write()`.
 
 Changes between version *0.7* and *1.0 Beta*
 --------------------------------------------

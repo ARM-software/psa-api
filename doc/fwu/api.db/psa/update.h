@@ -27,13 +27,13 @@ typedef struct psa_fwu_image_version_t {
 #define PSA_FWU_FAILED 4u
 #define PSA_FWU_FLAG_ENCRYPTION 0x00000002u
 #define PSA_FWU_FLAG_VOLATILE_STAGING 0x00000001u
+#define PSA_FWU_LOG2_WRITE_ALIGN /* implementation-defined value */
 #define PSA_FWU_MAX_WRITE_SIZE /* implementation-defined value */
 #define PSA_FWU_READY 0u
 #define PSA_FWU_REJECTED 6u
 #define PSA_FWU_STAGED 3u
 #define PSA_FWU_TRIAL 5u
 #define PSA_FWU_UPDATED 7u
-#define PSA_FWU_WRITE_ALIGN /* implementation-defined value */
 #define PSA_FWU_WRITING 1u
 #define PSA_SUCCESS_REBOOT ((psa_status_t)+1)
 #define PSA_SUCCESS_RESTART ((psa_status_t)+2)
