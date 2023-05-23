@@ -151,7 +151,7 @@ The ``install``, ``accept``, and ``reject`` operations apply to all components i
 
 :numref:`fig-states` shows the typical flow through the component states.
 
-.. figure:: /figure/fwu-states.*
+.. figure:: /figure/states/default.*
    :name: fig-states
    :scale: 90%
 

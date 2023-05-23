@@ -25,7 +25,7 @@ Connected devices need a reliable and secure firmware update mechanism. Incorpor
 
 :numref:`fig-context` depicts the actors and agents involved in a typical firmware update scenario.
 
-.. figure:: /figure/context.*
+.. figure:: /figure/intro/context.*
    :name: fig-context
 
    A typical over-the-air firmware update scenario
@@ -41,7 +41,7 @@ Devices developed for the Internet of Things (IoT) have a very diverse ecosystem
 
 The |API| separates the software responsible for delivering the new firmware in the device, from the software that is responsible for storing and installing it in the device memory. :numref:`fig-api` shows how the |API| separates an Update client, which obtains the new firmware from the Firmware Server, from an Update service, which stores the firmware in the device memory.
 
-.. figure:: /figure/fwu-api.*
+.. figure:: /figure/intro/fwu-api.*
    :name: fig-api
 
    The |API|

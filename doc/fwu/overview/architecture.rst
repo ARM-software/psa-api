@@ -13,7 +13,7 @@ This section describes important concepts and terminology used in the |API| spec
 
 :numref:`fig-architecture` identifies the main actors and agents involved in a typical firmware update scenario.
 
-.. figure:: /figure/fwu-context.*
+.. figure:: /figure/arch/components.*
    :name: fig-architecture
 
    The |API| in context
@@ -165,7 +165,7 @@ Untrusted client
 
 :numref:`fig-untrusted-client` shows an implementation architecture for a system where the firmware store is fully protected by the :term:`Platform Root of Trust` (PRoT).
 
-.. figure:: /figure/usage-untrusted-client.*
+.. figure:: /figure/arch/untrusted-client.*
    :name: fig-untrusted-client
 
    Implementation architecture with an untrusted update client
@@ -185,7 +185,7 @@ Untrusted service
 
 :numref:`fig-untrusted-service` shows an implementation architecture for a system where the *active* image is protected by the :term:`Platform Root of Trust` (PRoT), but the staging area for a new firmware image is not protected.
 
-.. figure:: /figure/usage-untrusted-service.*
+.. figure:: /figure/arch/untrusted-service.*
    :name: fig-untrusted-service
 
    Implementation architecture with an untrusted update service
@@ -203,7 +203,7 @@ Trusted client
 
 :numref:`fig-trusted-client` shows an implementation architecture for a system where the update client application is within the system's Root of Trust.
 
-.. figure:: /figure/usage-trusted-client.*
+.. figure:: /figure/arch/trusted-client.*
    :name: fig-trusted-client
 
    Implementation architecture with a trusted update client
