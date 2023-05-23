@@ -42,7 +42,7 @@ If a component does not require testing before committing the update, the the TR
 
 The simplified flow is shown in :numref:`fig-states-no-trial`.
 
-.. figure:: /figure/fwu-states-no-trial.*
+.. figure:: /figure/states/no-trial.*
    :name: fig-states-no-trial
    :scale: 90%
 
@@ -59,7 +59,7 @@ This use case also removes the REJECTED state, because the ``reject`` operation 
 
 The simplified flow is shown in :numref:`fig-states-no-reboot`:
 
-.. figure:: /figure/fwu-states-no-reboot.*
+.. figure:: /figure/states/no-reboot.*
    :name: fig-states-no-reboot
    :scale: 90%
 
@@ -78,7 +78,7 @@ If a component does not require a reboot to complete installation, and does not 
 
 The simplified flow is shown in :numref:`fig-states-no-reboot-no-trial`:
 
-.. figure:: /figure/fwu-states-no-reboot-no-trial.*
+.. figure:: /figure/states/no-reboot-no-trial.*
    :name: fig-states-no-reboot-no-trial
    :scale: 90%
 
@@ -103,25 +103,25 @@ The modified flows are shown in the following figures:
 *  Modified reboot transitions are shown explicitly in the diagrams.
 *  New reboot transitions are indicated with '*', '†', and '‡' marks on the state, and described in the diagram legend.
 
-.. figure:: /figure/fwu-states-volatile.*
+.. figure:: /figure/states/volatile.*
    :name: fig-states-volatile
    :scale: 90%
 
    Full state model for a component with volatile staging
 
-.. figure:: /figure/fwu-states-no-trial-volatile.*
+.. figure:: /figure/states/no-trial-volatile.*
    :name: fig-states-no-trial-volatile
    :scale: 90%
 
    State model for a component with volatile staging that does not require a trial
 
-.. figure:: /figure/fwu-states-no-reboot-volatile.*
+.. figure:: /figure/states/no-reboot-volatile.*
    :name: fig-states-no-reboot-volatile
    :scale: 90%
 
    State model for a component with volatile staging that does not require a reboot
 
-.. figure:: /figure/fwu-states-no-reboot-no-trial-volatile.*
+.. figure:: /figure/states/no-reboot-no-trial-volatile.*
    :name: fig-states-no-reboot-no-trial-volatile
    :scale: 90%
 
