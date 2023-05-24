@@ -574,7 +574,7 @@ The following functions are used to prepare a new firmware image in the componen
 
    .. admonition:: Implementation note
 
-      It is recommended that `PSA_FWU_LOG2_WRITE_ALIGN` is not greater than ``17``, which corresponds to a block size of 128 KB.
+      It is recommended that `PSA_FWU_LOG2_WRITE_ALIGN` is not greater than ``17``, which corresponds to a block size of 128 KB. This limit ensures compatibility with block-based file transfer protocols that are used within IoT systems.
 
    .. rationale::
 
