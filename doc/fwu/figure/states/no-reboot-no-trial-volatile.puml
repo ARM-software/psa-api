@@ -8,11 +8,14 @@
 
 skinparam LegendFontSize 12
 
-legend bottom
-  <color:blue>--""———""--</color> Blue transitions apply to a single component
-  <color:darkred>--""———""--</color> Red transitions apply to all components
-  "" † "" Transient state: **reboot** is equivalent to ""cancel"" and ""clean""
-  "" ‡ "" Transient state: **reboot** is equivalent to ""clean""
+legend
+  **Transitions**
+  <color:blue>--""———""--</color> Applies to a single component
+  <color:darkred>--""———""--</color> Applies to all components
+
+  **Volatile states**
+  "" † "" Always: **reboot** is equivalent to ""cancel"" and ""clean""
+  "" ‡ "" Always: **reboot** is equivalent to ""clean""
 end legend
 
 state Start as "READY"
@@ -25,12 +28,12 @@ state End as "READY"
 Start -[#blue]-> Writing : ""start""
 Writing -[#blue]-> Writing : ""write""
 Writing -[#blue]-> Candidate : ""finish""
-Writing -d[#blue]-> Failed : ""cancel""
+Writing -[#blue]-> Failed : ""cancel""
 Candidate -[#darkred]-> Updated : ""install"":\n//install success//
 Candidate -r[#blue]-> Failed : ""cancel""
 
 Failed -u[#blue]-> Start: ""clean""
 
-Updated -[#blue]-> End : ""clean""
+Updated -r[#blue]-> End : ""clean""
 
 @enduml

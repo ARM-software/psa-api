@@ -9,23 +9,28 @@
 
 skinparam LegendFontSize 12
 
-legend bottom
-  <color:blue>--""———""--</color> Blue transitions apply to a single component
-  <color:darkred>--""———""--</color> Red transitions apply to all components
+legend
+  **Transitions**
+  <color:blue>--""———""--</color> Applies to a single component
+  <color:darkred>--""———""--</color> Applies to all components
+
+  **Volatile states**
+  "" † "" Optional: **reboot** is equivalent to ""cancel"" and ""clean""
+  "" ‡ "" Optional: **reboot** is equivalent to ""clean""
 end legend
 
 state Start as "READY"
-state Writing as "WRITING"
+state Writing as "WRITING †"
 state Candidate as "CANDIDATE"
-state Failed as "FAILED"
+state Failed as "FAILED ‡"
 state Trial as "TRIAL"
-state Updated as "UPDATED"
+state Updated as "UPDATED ‡"
 state End as "READY"
 
 Start -[#blue]-> Writing : ""start""
 Writing -[#blue]-> Writing : ""write""
 Writing -[#blue]-> Candidate : ""finish""
-Writing -d[#blue]-> Failed : ""cancel""
+Writing -[#blue]-> Failed : ""cancel""
 Candidate -[#darkred]-> Trial : ""install"":\n//install success//
 Candidate -r[#blue]-> Failed : ""cancel""
 
@@ -34,5 +39,5 @@ Trial -[#darkred]-> Updated : ""accept""
 Failed -u[#blue]-> Start: ""clean""
 Trial -u[#darkred]-> Failed : ""reject""
 
-Updated -[#blue]-> End : ""clean""
+Updated -r[#blue]-> End : ""clean""
 @enduml

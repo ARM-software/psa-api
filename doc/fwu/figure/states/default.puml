@@ -6,44 +6,47 @@
 ' State diagram
 !include atg-spec.pumh
 
-skinparam LegendFontSize 12
+legend
+  **Transitions**
+  <color:blue>--""———""--</color> Applies to a single component
+  <color:darkred>--""———""--</color> Applies to all components
+  ""---"" Transition over **reboot**.
 
-legend bottom
-  <color:blue>--""———""--</color> Blue transitions apply to a single component
-  <color:darkred>--""———""--</color> Red transitions apply to all components
-  ""---"" Dashed lines indicate a transition over **reboot**
-  "" * "" Transient state: transitions at **reboot**
+  **Volatile states**
+  "" * "" Always: **reboot** transition as shown
+  "" † "" Optional: **reboot** is equivalent to ""cancel"" and ""clean""
+  "" ‡ "" Optional: **reboot** is equivalent to ""clean""
 end legend
 
 state Start as "READY"
-state Writing as "WRITING"
+state Writing as "WRITING †"
 state Candidate as "CANDIDATE"
 state Staged as "STAGED *"
-state Failed as "FAILED"
+state Failed as "FAILED ‡"
 state Rejected as "REJECTED *"
 state Trial as "TRIAL *"
-state Updated as "UPDATED"
+state Updated as "UPDATED ‡"
 state End as "READY"
 
 Start -[#blue]-> Writing : ""start""
 Writing -[#blue]-> Writing : ""write""
 Writing -[#blue]-> Candidate : ""finish""
-Writing -d[#blue]-> Failed : ""cancel""
+Writing -[#blue]-> Failed : ""cancel""
 Candidate -[#darkred]-> Staged : ""install""
 Candidate -r[#blue]-> Failed : ""cancel""
 
-Staged -[#darkred,dashed]-> Trial : ""reboot"":\n//install success//
-Staged -u[#darkred,dashed]-> Failed : ""reboot"":\n//install failed//
+Staged -r[#darkred,dashed]-> Trial : **reboot**:\n//install success//
+Staged -u[#darkred,dashed]-> Failed : **reboot**:\n//install failed//
 Staged -u[#darkred]-> Failed : ""reject""
 
 Trial -[#darkred]-> Updated : ""accept""
 
 Failed -u[#blue]-> Start: ""clean""
-Trial -u[#darkred]-> Rejected : ""reject""
-Rejected -u[#darkred,dashed]-> Failed : ""reboot"":\n//rollback//
+Trial -r[#darkred]-> Rejected : ""reject""
+Rejected -u[#darkred,dashed]-> Failed : **reboot**:\n//rollback//
 
-Trial -[#darkred,dashed,norank]-> Failed : ""reboot"":\n//rollback//
+Trial -[#darkred,dashed]-> Failed : **reboot**:\n//rollback//
 
-Updated -[#blue]-> End : ""clean""
+Updated -r[#blue]-> End : ""clean""
 
 @enduml

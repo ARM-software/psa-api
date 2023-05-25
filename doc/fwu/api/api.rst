@@ -357,7 +357,7 @@ Each of the component states defined in :secref:`state-model` has a correspondin
    The update client can abort an update that is in this state, by calling `psa_fwu_reject()`.
 
    .. note::
-      This state is transient --- on a reboot the system will attempt to install the new firmware image.
+      This state is always volatile --- on a reboot the system will attempt to install the new firmware image.
 
 .. macro:: PSA_FWU_FAILED
    :definition: 4u
@@ -378,7 +378,7 @@ Each of the component states defined in :secref:`state-model` has a correspondin
    It is recommended that the new firmware is tested for correct operation, before accepting the update. This is particularly important to for systems that implement an update policy that prevents rollback to old firmware versions.
 
    .. note::
-      This state is transient --- on a reboot, a component in this state will be rolled back to the previous firmware image.
+      This state is always volatile --- on a reboot, a component in this state will be rolled back to the previous firmware image.
 
 .. macro:: PSA_FWU_REJECTED
    :definition: 6u
@@ -388,7 +388,7 @@ Each of the component states defined in :secref:`state-model` has a correspondin
    A system reboot, or component restart, is required to complete the process of reverting to the previous firmware image.
 
    .. note::
-      This state is transient --- on a reboot, a component in this state will be rolled back to the previous firmware image.
+      This state is always volatile --- on a reboot, a component in this state will be rolled back to the previous firmware image.
 
 .. macro:: PSA_FWU_UPDATED
    :definition: 7u
@@ -402,15 +402,17 @@ Each of the component states defined in :secref:`state-model` has a correspondin
 Component flags
 ^^^^^^^^^^^^^^^
 
+These flags can be present in the ``flags`` member of a `psa_fwu_component_info_t` object returned by a call to `psa_fwu_query()`.
+
 .. macro:: PSA_FWU_FLAG_VOLATILE_STAGING
    :definition: 0x00000001u
 
    .. summary::
-      Flag to indicate whether the image data in the component staging area is discarded at system reset.
+      Flag to indicate whether a prepared image in the component staging area is discarded at system reset.
 
-   If set, then image data written to the staging area is discarded after a system reset. If the system restarts while the component in is WRITING or CANDIDATE state, the component will be in the READY state after the restart.
+   If set, then image data written to the staging area is discarded after a system reset. If the system restarts while the component in is WRITING, CANDIDATE, FAILED, or UPDATED state, the component will be in the READY state after the restart.
 
-   If not set, then image data written to the staging area is guaranteed to exist after a system reset.
+   If not set, then a prepared image --- in CANDIDATE state --- written to the staging area is retained after a system reset. It is :scterm:`implementation defined` whether a partially prepared image in WRITING state, or a discarded image in FAILED or UPDATED state is retained after a system reset.
 
 .. macro:: PSA_FWU_FLAG_ENCRYPTION
    :definition: 0x00000002u
@@ -653,7 +655,7 @@ The following functions are used to prepare a new firmware image in the componen
 
    The ``image_offset`` of a data block must satisfy the firmware image alignment requirement, provided by `PSA_FWU_LOG2_WRITE_ALIGN`. If the ``block_size`` of a data block is not aligned, the data is padded with an :scterm:`implementation defined` value. It is recommended that a client only provides a block with an unaligned size when it is the final block of a firmware image.
 
-   When data is written in multiple calls to `psa_fwu_write()`, it is the caller's responsibility to account for how much data is written at which offset within the image. If no persistent storage is directly available for the caller to perform accounting, then the caller can use a different storage mechanism, such as the :cite-title:`PSA-SS`.
+   When data is written in multiple calls to `psa_fwu_write()`, it is the caller's responsibility to account for how much data is written at which offset within the image.
 
    On error, the component can remain in WRITING state. In this situation, it is not possible to determine how much of the data in ``block`` has been written to the staging area. It is :scterm:`implementation defined` whether repeating the write operation again with the same data at the same offset will correctly store the data to the staging area.
 
@@ -799,9 +801,10 @@ The following functions are used to install prepared firmware images. They act c
 
    This function starts the installation process atomically on all components that are in CANDIDATE state. This function reports an error if there are no components in this state. If an error occurs when installing any of the images, then none of the images will be installed.
 
-   Only one installation process can be in progress at a time. After a successful call to `psa_fwu_install()`, another call is only permitted once the affected components have transitioned to FAILED or UPDATED state.
+   Only one installation process can be in progress at a time. After a successful call to `psa_fwu_install()`, another call is only permitted once the affected components have transitioned to FAILED, UPDATED, or READY state.
 
    Support for concurrent installation of multiple components is :scterm:`implementation defined`. Concurrent installation enables new firmware images that are interdependent to be installed. If concurrent installation is not supported, each new firmware image must be compatible with the current version of other firmware components in the system.
+
    Device updates that affect multiple components must be carried out in line with the system capabilities. For example:
 
    *  An implementation is permitted to require each component to be installed separately.
