@@ -102,7 +102,7 @@ Depending on the system design, the installation process can be implemented with
 Firmware store
 ^^^^^^^^^^^^^^
 
-The firmware store is the location where firmware images are stored. Conceptually the Firmware store is shared between the update service and the bootloader. Both components share access to the firmware store to manage the firmware update process.
+The firmware store is the location where firmware images are stored. Conceptually the firmware store is shared between the update service and the bootloader. Both components share access to the firmware store to manage the firmware update process.
 
 The |API| presents a separate firmware store for each component. Each component's firmware store can have one or more images present. The state of the firmware store determines how those images are used, and what is required to proceed with a firmware update.
 
@@ -174,7 +174,7 @@ Untrusted client
 
 In this architecture, part of the update service must run as a service within the PRoT, to query and update the firmware store. The update client accesses this service via an update service proxy library, which implements the |API|.
 
-The |API| is designed for implementation across a security boundary, as used in this architecture.
+The |API| is designed for implementation across a security boundary, as used in this architecture. The interface between the update service proxy and the update service itself is :scterm:`implementation defined`.
 
 This architecture enables all of the firmware verification requirements to be fulfilled by the update service within the PRoT.
 
@@ -210,12 +210,12 @@ Trusted client
 
    Implementation architecture with a trusted update client
 
-In this architecture, it is possible for verification of an update to happen in any component, including the update client itself. This approach can be suitable for highly constrained devices, and relies on the security provided by the protocol used between the update server and update client.
+In this architecture, it is permitted for verification of an update to happen in any component, including the update client itself. This approach can be suitable for highly constrained devices, and relies on the security provided by the protocol used between the update server and update client.
 
 .. warning::
 
    If the implementation assumes that manifests and firmware images provided by the client are valid, and carries out the preparation and installation without further verification, then the |API| is being used purely as a hardware abstraction layer (HAL) for the firmware store.
 
-   An implementation like this must clearly document this assumption to ensure update clients carry out sufficient verification of firmware images before calling the |API|.
+   An implementation like this must clearly document this assumption to ensure update clients carry out sufficient verification of firmware manifests, firmware images, and firmware dependencies before calling the |API|.
 
-This implementation architecture can also be used in a device that does not enforce a :term:`secure boot` policy. For example, this can enable code reuse by using a single API for firmware update across devices that have different security requirements and policies. Although permitted by the |API|, this usage is not a focus for the specification.
+This implementation architecture can also be used in a device that does not enforce a :term:`secure boot` policy. For example, this can enable code reuse by using a single API for firmware update across devices that have different security requirements and policies. Although permitted by the |API|, this usage is not a focus for this specification.

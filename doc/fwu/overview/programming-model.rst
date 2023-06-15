@@ -272,13 +272,13 @@ The manifest must conform to a format that is expected by the implementation. It
 
 The manifest describes the type of device, and component, that the firmware is for. The implementation must check that this information matches the device and component being updated.
 
-The manifest provides the version of the new firmware image. The implementation must only install a later version of firmware than is currently installed.
+The manifest provides the version, or sequence number, of the new firmware image. For some deployments, the implementation must not install an earlier version of firmware than is currently installed. This security requirement prevents a firmware downgrade that can expose a known security vulnerability.
 
 The manifest can provide information about dependencies on other firmware images. The implementation must only install the new firmware if its dependencies are satisfied. See :secref:`dependencies`.
 
 .. admonition:: Implementation note
 
-   In a trusted-client implementation of the |API|, these steps can be carried out by the update client, and no verification is done by the implementation. See :secref:`trusted-client`.
+   In a trusted-client implementation of the |API|, these steps can be carried out by the update client, and then no verification is done by the implementation. See :secref:`trusted-client`.
 
 Firmware image verification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -289,6 +289,9 @@ In a system that implements :term:`secure boot`, the firmware verification proce
 
 The implementation is permitted to defer all of the verification of the manifest and firmware image to the bootloader. However, it is recommended that as much verification as possible is carried out before rebooting the system. This reduces the loss of system availability during a reboot, or the cost of storing the firmware image, when it can be determined ahead of time that the update will fail at least one verification check. This recommendation is also made for systems which repeat the verification in the bootloader, prior to final installation and execution of the new firmware.
 
+.. admonition:: Implementation note
+
+   In a trusted-client implementation of the |API|, this verification can be carried out by the update client, and then no verification is done by the implementation. See :secref:`trusted-client`.
 
 .. _dependencies:
 
@@ -299,7 +302,11 @@ A firmware image can have a dependency on another component's firmware image. Wh
 
 A dependency can be satisfied by a firmware image that is already installed, or by a firmware image that is installed at the same time as the dependent image. In the latter case, both images must be prepared as candiate images before the ``install`` operation. If new firmware images for multiple components are inter-dependent, then the components must be installed at the same time. The :secref:`multi-component-example` example shows how this can be done.
 
-Dependencies are described in the firmware image manifest. It is the responsibility of the update client to update components in an order that ensures that dependencies are met during the installation process. Typically, the firmware creator and update server ensure that firmware image updates are presented to the update client in an appropriate order. In more advanced systems, a manifest might provide the update client with sufficient information to determine dependencies and installation order of multiple components itself.
+Dependencies are typically described in the firmware image manifest. It is the responsibility of the update client to update components in an order that ensures that dependencies are met during the installation process. Typically, the firmware creator and update server ensure that firmware image updates are presented to the update client in an appropriate order. In more advanced systems, a manifest might provide the update client with sufficient information to determine dependencies and installation order of multiple components itself.
+
+.. admonition:: Implementation note
+
+   In a trusted-client implementation of the |API|, dependency verification can be carried out by the update client, and then no verification is done by the implementation. See :secref:`trusted-client`.
 
 
 Update client operation
