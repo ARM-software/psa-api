@@ -19,7 +19,7 @@ Algorithm identifier encoding
 
 Algorithm identifiers are 32-bit integer values of the type `psa_algorithm_t`. Algorithm identifier values have the structure shown in :numref:`fig-algorithm-fields`.
 
-.. figure:: ../figure/algorithm_fields.*
+.. figure:: ../figure/encoding/algorithm.*
     :name: fig-algorithm-fields
 
     Encoding of `psa_algorithm_t`
@@ -97,7 +97,7 @@ Hash algorithm encoding
 
 The algorithm identifier for hash algorithms defined in this specification are encoded as shown in :numref:`fig-hash-fields`.
 
-.. figure:: ../figure/hash_fields.*
+.. figure:: ../figure/encoding/hash.*
     :name: fig-hash-fields
 
     Hash algorithm encoding
@@ -139,7 +139,7 @@ MAC algorithm encoding
 
 The algorithm identifier for MAC algorithms defined in this specification are encoded as shown in :numref:`fig-mac-fields`.
 
-.. figure:: ../figure/mac_fields.*
+.. figure:: ../figure/encoding/mac.*
     :name: fig-mac-fields
 
     MAC algorithm encoding
@@ -179,7 +179,7 @@ Cipher algorithm encoding
 
 The algorithm identifier for CIPHER algorithms defined in this specification are encoded as shown in :numref:`fig-cipher-fields`.
 
-.. figure:: ../figure/cipher_fields.*
+.. figure:: ../figure/encoding/cipher.*
     :name: fig-cipher-fields
 
     CIPHER algorithm encoding
@@ -213,7 +213,7 @@ AEAD algorithm encoding
 
 The algorithm identifier for AEAD algorithms defined in this specification are encoded as shown in :numref:`fig-aead-fields`.
 
-.. figure:: ../figure/aead_fields.*
+.. figure:: ../figure/encoding/aead.*
     :name: fig-aead-fields
 
     AEAD algorithm encoding
@@ -249,7 +249,7 @@ Key derivation algorithm encoding
 
 The algorithm identifier for key derivation algorithms defined in this specification are encoded as shown in :numref:`fig-kdf-fields`.
 
-.. figure:: ../figure/kdf_fields.*
+.. figure:: ../figure/encoding/kdf.*
     :name: fig-kdf-fields
 
     Key derivation algorithm encoding
@@ -282,7 +282,7 @@ Asymmetric signature algorithm encoding
 
 The algorithm identifier for asymmetric signature algorithms defined in this specification are encoded as shown in :numref:`fig-sign-fields`.
 
-.. figure:: ../figure/sign_fields.*
+.. figure:: ../figure/encoding/sign.*
     :name: fig-sign-fields
 
     Asymmetric signature algorithm encoding
@@ -321,7 +321,7 @@ Asymmetric encryption algorithm encoding
 
 The algorithm identifier for asymmetric encryption algorithms defined in this specification are encoded as shown in :numref:`fig-pke-fields`.
 
-.. figure:: ../figure/pke_fields.*
+.. figure:: ../figure/encoding/pke.*
     :name: fig-pke-fields
 
     Asymmetric encryption algorithm encoding
@@ -351,7 +351,7 @@ A key agreement algorithm identifier can either be for the raw key agreement alg
 
 The algorithm identifier for raw key agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
 
-.. figure:: ../figure/ka_raw_fields.*
+.. figure:: ../figure/encoding/ka_raw.*
     :name: fig-ka-raw-fields
 
     Raw key agreement algorithm encoding
@@ -370,7 +370,7 @@ The defined values for KA-TYPE are shown in :numref:`table-ka-type`.
 
 A combined key agreement is constructed by a bitwise OR of the raw key agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
 
-.. figure:: ../figure/ka_combined_fields.*
+.. figure:: ../figure/encoding/ka_combined.*
 
     Combined key agreement algorithm encoding
 
@@ -384,7 +384,7 @@ Key type encoding
 
 Key types are 16-bit integer values of the type `psa_key_type_t`. Key type values have the structure shown in :numref:`fig-key-type-fields`.
 
-.. figure:: ../figure/key_type_fields.*
+.. figure:: ../figure/encoding/key_type.*
     :name: fig-key-type-fields
 
     Encoding of `psa_key_type_t`
@@ -450,7 +450,7 @@ Raw key encoding
 
 The key type for raw keys defined in this specification are encoded as shown in :numref:`fig-raw-key-fields`.
 
-.. figure:: ../figure/raw_key_fields.*
+.. figure:: ../figure/encoding/raw_key.*
     :name: fig-raw-key-fields
 
     Raw key encoding
@@ -478,7 +478,7 @@ Symmetric key encoding
 
 The key type for symmetric keys defined in this specification are encoded as shown in :numref:`fig-symmetric-key-fields`.
 
-.. figure:: ../figure/symmetric_key_fields.*
+.. figure:: ../figure/encoding/symmetric_key.*
     :name: fig-symmetric-key-fields
 
     Symmetric key encoding
@@ -509,7 +509,7 @@ Asymmetric key encoding
 
 The key type for asymmetric keys defined in this specification are encoded as shown in :numref:`fig-asymmetric-key-fields`.
 
-.. figure:: ../figure/asymmetric_key_fields.*
+.. figure:: ../figure/encoding/asymmetric_key.*
     :name: fig-asymmetric-key-fields
 
     Asymmetric key encoding
@@ -536,7 +536,7 @@ RSA key encoding
 
 The key type for RSA keys defined in this specification are encoded as shown in :numref:`fig-rsa-key-fields`.
 
-.. figure:: ../figure/rsa_key_fields.*
+.. figure:: ../figure/encoding/rsa_key.*
     :name: fig-rsa-key-fields
 
     RSA key encoding
@@ -562,7 +562,7 @@ Elliptic Curve key encoding
 
 The key type for Elliptic Curve keys defined in this specification are encoded as shown in :numref:`fig-ecc-key-fields`.
 
-.. figure:: ../figure/ecc_key_fields.*
+.. figure:: ../figure/encoding/ecc_key.*
     :name: fig-ecc-key-fields
 
     Elliptic Curve key encoding
@@ -598,7 +598,7 @@ Diffie Hellman key encoding
 
 The key type for Diffie Hellman keys defined in this specification are encoded as shown in :numref:`fig-dh-key-fields`.
 
-.. figure:: ../figure/dh_key_fields.*
+.. figure:: ../figure/encoding/dh_key.*
     :name: fig-dh-key-fields
 
     Diffie Hellman key encoding
