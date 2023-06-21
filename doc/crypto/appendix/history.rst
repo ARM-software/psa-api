@@ -11,6 +11,18 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.1.2* and *1.2.0*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Other changes
+~~~~~~~~~~~~~
+
 Changes between *1.1.1* and *1.1.2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -722,12 +734,12 @@ Other changes
 *   Document formatting improvements.
 
 
-Planned changes for version 1.1.x
+Planned changes for version 1.2.x
 ---------------------------------
 
-Future versions of this specification that use a 1.1.x version will describe the same API as this specification. Any changes will not affect application compatibility and will not introduce major features. These updates are intended to add minor requirements on implementations, introduce optional definitions, make corrections, clarify potential or actual ambiguities, or improve the documentation.
+Future versions of this specification that use a 1.2.x version will describe the same API as this specification. Any changes will not affect application compatibility and will not introduce major features. These updates are intended to add minor requirements on implementations, introduce optional definitions, make corrections, clarify potential or actual ambiguities, or improve the documentation.
 
-These are the changes that might be included in a version 1.1.x:
+These are the changes that might be included in a version 1.2.x:
 
 *   Declare identifiers for additional cryptographic algorithms.
 *   Mandate certain checks when importing some types of asymmetric keys.
