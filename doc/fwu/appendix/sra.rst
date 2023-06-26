@@ -6,7 +6,7 @@
 Security Risk Assessment
 ========================
 
-This appendix provides a Security Risk Assessment (SRA) of the |API|. It describes the threats presented by various types of adversary against the security goals for an implementation of Firmware Update, and mitigating actions for those threats.
+This appendix provides a Security Risk Assessment (SRA) of the |API|. It describes the threats presented by various types of adversary against the security goals for an implementation of the firmware update process, and mitigating actions for those threats.
 
 *  :secref:`sra-about` describes the assessment methodology.
 *  :secref:`sra-definition` defines the security problem.
@@ -22,17 +22,17 @@ About this assessment
 Subject and scope
 ^^^^^^^^^^^^^^^^^
 
-Secure firmware update has been the subject of a number of recent studies and working groups. These examine the challenges faced when implementing over-the-air updates to secure devices at scale, or present architectures for addressing those challenges. For example, see :rfc-title:`8240`, :rfc-title:`9019`, and :rfc-title:`9124`.
-
-This SRA analyses the security of the |API| itself, not of any specific implementation of the API, or any specific use of the API.
+This SRA analyses the security of the |API| itself, not of any specific implementation of the API, or any specific application of the API.
 
 The purpose of the SRA is to identify requirements on the design of the |API|. Those requirements can arise from threats that directly affect the caller and implementation of the API, but also from threats against the whole firmware update process. As a result, the assessment considers a broad set of threats to the entire firmware update process.
+
+Secure firmware update has been the subject of a number of recent studies and working groups. These examine the challenges faced when implementing over-the-air updates to secure devices at scale, or present architectures for addressing those challenges. For example, see :rfc-title:`8240`, :rfc-title:`9019`, and :rfc-title:`9124`.
 
 This SRA does not cover the :secref:`trusted-client` deployment architecture. :secref:`sra-operation` describes the effects of the deployment model on the security analysis.
 
 .. note::
 
-   This document is not a substitute for performing a security risk assessment of the firmware update process for a system that incorporates the |API|. However, this SRA can be used as a foundation for such an implementation-specific assessment.
+   This document is not a substitute for performing a security risk assessment of the overall firmware update process for a system that incorporates the |API|. However, this SRA can be used as a foundation for such an implementation-specific assessment.
 
 Risk assessment methodology
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -179,18 +179,16 @@ The firmware creator and update server components are representative: in a real 
 
 The |API| supports implementation in various deployment architectures, described in :secref:`deployment`. The operation and dataflow of the firmware update process is similar across these deployments. However, the trust boundaries within the device are different.
 
-:numref:`fig-dm-trusted-client` shows the simplest deployment --- *Trusted client* --- which has no trust boundaries within the device. This deployment is described in :secref:`trusted-client`.
+:numref:`fig-dm-trusted-client` shows the simplest deployment --- *trusted client* --- which has no trust boundaries within the device. The individual dataflows are described in :numref:`tab-dm-dataflow`. This deployment is described in :secref:`trusted-client`.
 
-However, the threat model for this deployment shares very little with the threat model for the other deployments, which include a :term:`Root of Trust`. In particular, the attack surface lies outside of the |API| and its implementation, and mitigations for relevant threats to this deployment do not result in additional security requirements for the API.
+In the *trusted client* deployment, the attack surface lies outside of the |API| and its implementation, and mitigations for relevant threats to this deployment do not result in additional security requirements for the API. However, the threat model for the other deployments are very different, because they have a security boundary inside the implementation that protects the device's :term:`Root of Trust`. :secref:`sra-deployments` describes the dataflows for the other deployment models.
 
-As a consequence, this SRA **does not** provide an assessment of the mitigations required for the *Trusted client* deployment architecture. See also :secref:`sra-assumptions`.
+As a consequence, this SRA **does not** provide an assessment of the mitigations required for the *trusted client* deployment architecture. See also :secref:`sra-assumptions`.
 
 .. figure:: /figure/sra/dm-trusted-client.*
    :name: fig-dm-trusted-client
 
-   Operational dataflow diagram for firmware update in a 'Trusted client' deployment
-
-   The individual dataflows are described in :numref:`tab-dm-dataflow`.
+   Operational dataflow diagram for firmware update in a *trusted client* deployment
 
 .. list-table:: Dataflow descriptions for the firmware update process
    :name: tab-dm-dataflow
@@ -217,10 +215,12 @@ As a consequence, this SRA **does not** provide an assessment of the mitigations
       -  Bootloader i/o to the *second* image, to verify an update and install it.
 
 
+.. _sra-deployments:
+
 Deployment models
 ^^^^^^^^^^^^^^^^^
 
-This SRA is relevant for the deployment architectures, described in :secref:`deployment`, that include a Root of Trust within the device.
+This SRA is relevant for the deployment architectures --- described in :secref:`deployment` --- that include a Root of Trust within the device.
 
 :deployment-model:`UNTRUSTED_CLIENT` deployment model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -232,9 +232,7 @@ A detailed dataflow is provided in :secref:`sra-characterization`.
 .. figure:: /figure/sra/dm-untrusted-client.*
    :name: fig-dm-untrusted-client
 
-   Operational dataflow diagram for `DM.UNTRUSTED_CLIENT`
-
-   The individual dataflows are described in :numref:`tab-dm-dataflow`.
+   Operational dataflow diagram for firmware update in an *untrusted client* deployment
 
 
 :deployment-model:`UNTRUSTED_STAGING` deployment model
@@ -247,9 +245,7 @@ A detailed dataflow is provided in :secref:`sra-characterization`.
 .. figure:: /figure/sra/dm-untrusted-staging.*
    :name: fig-dm-untrusted-staging
 
-   Operational dataflow diagram for `DM.UNTRUSTED_STAGING`
-
-   The individual dataflows are described in :numref:`tab-dm-dataflow`.
+   Operational dataflow diagram for firmware update in an *untrusted staging* deployment
 
 The *second* image in the firmware store is accessible to untrusted software. The Root of Trust protects the *active* image from modification by untrusted software. In this deployment model, there is no benefit from implementing the update service within the Root of Trust:
 
@@ -399,7 +395,7 @@ The following diagrams expand on the diagrams in :secref:`sra-operation` to show
    *  -  DF.2
       -  Firmware information in response to |API| query.
    *  -  DF.3
-      -  [Optional] Cient reports device firmware status to online Status Tracker.
+      -  [Optional] Client reports device firmware status to online Status Tracker.
    *  -  DF.4
       -  Firmware creator loads a firmware update containing new firmware images to the update server. Images are signed by firmware creator to authenticate their origin. See :secref:`sra-assumptions`.
    *  -  DF.5

@@ -176,7 +176,7 @@ The |API| is designed for implementation across a security boundary, as used in 
 
 This architecture enables all of the firmware verification requirements to be fulfilled by the update service within the PRoT.
 
-As the PRoT trusts the update service, but not the update client, this architecture is referred to as an "untrusted client" implementation.
+As the PRoT trusts the update service, but not the update client, this architecture is referred to as an *untrusted client* implementation.
 
 .. _untrusted-staging:
 
@@ -194,7 +194,7 @@ The staging area is accessible to untrusted components, so the bootloader cannot
 
 In this type of implementation, it is still beneficial for the update service to perform some verification of firmware updates: this can reduce the system impact of a malicious or accidental invalid update.
 
-As the PRoT does not trust the staging, or the update service which writes to it, this architecture is referred to as an "untrusted staging" implementation.
+As the PRoT does not trust the staging, or the update service which writes to it, this architecture is referred to as an *untrusted staging* implementation.
 
 .. _trusted-client:
 
