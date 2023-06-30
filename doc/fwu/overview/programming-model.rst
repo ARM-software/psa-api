@@ -46,13 +46,15 @@ State model
 
 The full set of use cases for the |API| requires a fine-grained state model to track each component through the update process. See :secref:`state-rationale` for an explanation of the relationship between state model features and use cases.
 
-This section describes the full state model, which is required for components that have the following properties:
+This section describes the complete state model. Some of the states and transitions in the state model are only necessary for specific use cases. In addition, the persistence of the component states following a reboot depends on the implementation capabilities.
+
+The complete state model is applicable for components that have the following properties:
 
 1. A reboot is required to complete installation of a new image.
 2. The image must be tested prior to acceptance.
-3. A partially prepared image is persistent across a reboot, before it is staged for installation.
+3. A prepared image is persistent across a reboot, before it is staged for installation.
 
-For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of the states are visible to the update client. For components that have volatile staging, most component states are transient, and will transition when the system restarts. Some common variations are described in :secref:`variations`, including the changes in the state model for such components.
+For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of the states are visible to the update client. For components that do not retain a prepared update following a reboot, almost all component states are volatile that will always transition when the system restarts. Some common examples of alternative component update characteristics are described in :secref:`variations`, including the changes in the state model for such components.
 
 .. _component-state:
 
@@ -76,58 +78,84 @@ Component state
          The component is ready for a new firmware update to be started.
 
    *  -  WRITING
-      -  The update client is writing a new firmware image to the *second*, in preparation for installation.
+      -  The update client is writing a new firmware image to the staging area, in preparation for installation.
 
          When writing is complete, it can be prepared for installation.
 
-         This state is transient for components that have volatile staging.
+         This state is always volatile for components that have volatile staging. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+
+         When this state is volatile, the incomplete image is discarded at reboot.
 
    *  -  CANDIDATE
-      -  The update client has completed transfer of the new firmware image to the *second* image.
+      -  The update client has completed transfer of the new firmware image to the staging area.
 
          When all components for update are prepared, they can be installed.
 
-         This state is transient for components that have volatile staging.
+         This state is always volatile for components that have volatile staging. For other components, it is always persistent.
+
+         When this state is volatile, the prepared image is discarded at reboot.
 
    *  -  STAGED
-      -  Installation of the *second* has been requested, but the system must be restarted as the final update operation runs within the bootloader.
+      -  Installation of the prepared image has been requested, but the system must be restarted as the final update operation runs within the bootloader.
 
-         This state is transient.
+         This state is always volatile.
 
    *  -  TRIAL
-      -  Installation of the *second* has succeeded, and is now the *active* running in 'trial mode'. This state is transient, and requires the update client to explicitly accept the trial to make the update permanent.
+      -  Installation of the staged image has succeeded, and is now the *active* image running in 'trial mode'. This state is always volatile, and requires the update client to explicitly accept the trial to make the update permanent.
 
-         In this state, the previously installed *active* image is preserved as the *second*. If the trial is explicitly rejected, or the system restarts without accepting the trial, the previously installed image is re-installed and the trial image is rejected.
+         In this state, the previously installed *active* image is preserved as the *second* image. If the trial is explicitly rejected, or the system restarts without accepting the trial, the previously installed image is re-installed and the trial image is rejected.
 
    *  -  REJECTED
-      -  The *active* trial image has been rejected, but the system must be restarted so the bootloader can revert to the previous image, which was previously saved as the *second*.
+      -  The *active* trial image has been rejected, but the system must be restarted so the bootloader can revert to the previous image, which was previously saved as the *second* image.
 
-         This state is transient.
+         This state is always volatile.
 
    *  -  FAILED
-      -  An installation of the *second* has been attempted, but has been cancelled or failed for some reason. The failure reason is recorded in the firmware store.
+      -  An update to a new image has been attempted, but has failed, or been cancelled for some reason. The failure reason is recorded in the firmware store.
 
-         The *second* needs to be cleaned before another update can be attempted.
+         The *second* image needs to be cleaned before another update can be attempted.
 
-         This state is transient for components that have volatile staging.
+         This state is always volatile for components that have volatile staging. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+
+         When this state is volatile, the *second* image is cleaned at reboot.
 
    *  -  UPDATED
       -  The *active* trial image has been accepted.
 
-         The *second* contains the now-expired previous firmware image, which needs to be cleaned before another update can be started.
+         The *second* image contains the now-expired previous firmware image, which needs to be cleaned before another update can be started.
 
-         This state is transient for components that have volatile staging.
+         This state is always volatile for components that have volatile staging. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+
+         When this state is volatile, the *second* image is cleaned at reboot.
 
 .. admonition:: Implementation note
 
    An implementation can have additional internal states, provided that implementation-specific states are not visible to the caller of the |API|.
+
+.. _volatile-states:
+
+Volatile states
+^^^^^^^^^^^^^^^
+
+A component state is 'volatile', if the state is not preserved when the system reboots.
+
+Volatile states are not optional for an implementation of the |API|. Until a device reboots, the update service must follow the state transitions and report the resulting states as shown in the state model appropriate for the component update characteristics.
+
+*  READY state is never volatile.
+*  STAGED, TRIAL, and REJECTED states are always volatile.
+*  If the component sets the component flag `PSA_FWU_FLAG_VOLATILE_STAGING`, then CANDIDATE, WRITING, FAILED, and UPDATED states are volatile.
+*  If the component does not set component flag `PSA_FWU_FLAG_VOLATILE_STAGING`, then CANDIDATE state is non-volatile, and it is :scterm:`implementation defined` whether WRITING, FAILED, or UPDATED states are volatile.
+
+In most cases, at reboot the implementation effectively implements one or more transitions to a final, non-volatile state. The exception is for a component that is STAGED, and enters TRIAL state following a successful installation at reboot.
+
+The transitions for volatile states are described as part of the appropriate state models for different types of firmware component. See :secref:`variations`.
 
 .. _state-transitions:
 
 State transitions
 ^^^^^^^^^^^^^^^^^
 
-The state transitions occur either as a result of an function call from the update client, or when the bootloader carries out an installation operation. The installation operations that occur within the bootloader are determined by the state of the component, and do not depend on the reason for the restart.
+The state transitions occur either as a result of an function call from the update client, when the bootloader carries out an installation operation, or transitions over reboot from a volatile state. The transitions that occur within the bootloader are determined by the state of the component, and do not depend on the reason for the restart.
 
 Table :numref:`tab-operations` shows the operations that the update client uses to trigger transitions in the state model. The operations have corresponding elements in the API, see :secref:`api-functions`.
 
@@ -155,7 +183,7 @@ The ``install``, ``accept``, and ``reject`` operations apply to all components i
    :name: fig-states
    :scale: 90%
 
-   The component state model transitions
+   The standard component state model transitions
 
 Note, that the READY state at the end is distinct from the starting READY state --- at the end the *active* firmware image is the updated version. The component is ready to start the process again from the beginning for the next update.
 
@@ -182,7 +210,11 @@ The following behavior is required by every implementation:
 
 *  If there is a failure when verifying or installing a new firmware image during a component restart, or system reboot, the component is transitioned to FAILED state.
 
-*  A component does not follow a transition that is not shown in the state model, except for transitions to FAILED state as described in these rules.
+*  A component always follows a transition that is shown in the appropriate state model, except for:
+
+   -  If FAILED is a volatile state, a reboot transition that is shown to end in the FAILED state must include a ``clean`` operation to end in READY state.
+   -  Other transitions to FAILED state, as described in the preceding rules.
+   -  If UPDATED is a volatile state, a reboot transition that is shown to end in the UPDATED state must include a ``clean`` operation to end in READY state.
 
 If an operation fails because of other conditions, it is :scterm:`implementation defined` whether the component state is unchanged, or is transitioned to FAILED state. In this situation, it is recommended that the update client abort the update process with a ``cancel`` operation.
 
@@ -204,8 +236,8 @@ The complexity of the state model is a response to the requirements that follow 
    *  -  State model feature
       -  Rationale
 
-   *  -  Persistent WRITING state
-      -  Devices with slow download due to bandwidth or energy constraints can take an extended period to obtain the firmware image.
+   *  -  Optional non-volatile WRITING state
+      -  Devices with slow download due to bandwidth or energy constraints can take an extended period to obtain the firmware image. When this is not a constraint, it is more efficient to not need to retain persistent state necessary to resume a download.
    *  -  Incremental image transfer in WRITING state
       -  Devices with limited RAM cannot store the entire image in the update client before writing to the firmware store.
    *  -  CANDIDATE state
@@ -382,6 +414,7 @@ The bootloader checks the state of each component:
 
 *  If there are any STAGED components, proceed to install them. See :secref:`boot-install`.
 *  If there are any TRIAL or REJECTED components, proceed to roll them back. See :secref:`boot-rollback`.
+*  If staging is volatile, and there are any WRITING, FAILED, or UPDATED components, proceed to clean their firmware store.
 *  Otherwise, proceed to boot the firmware. See :secref:`boot-execute`.
 
 .. note::

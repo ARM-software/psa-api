@@ -6,20 +6,22 @@
 Variation in system design parameters
 =====================================
 
-Depending on the system design and product requirements, an implementation can collapse a chain of transitions for a component, where this does not remove information that is required by the update client, or compromise other system requirements. This can result in some states and transitions being eliminated from the state model for that component's firmware store.
+Depending on the system design and product requirements, an implementation is permitted to collapse a chain of transitions for a component, where this does not remove information that is required by the update client, or compromise other system requirements. This can result in some states and transitions being eliminated from the state model for that component's firmware store.
 
-An implementation is also permitted to provide either volatile or persistent staging for images that are being prepared. For components with volatile staging, additional transitions can occur at reboot, compared to the full state model described in :secref:`state-model`.
+An implementation is also permitted to provide either volatile or persistent behavior for the WRITING, CANDIDATE, FAILED, and UPDATED states. See also :secref:`volatile-states`. Volatile states cause additional transitions to occur at reboot.
 
-The following variations are described in this specification:
+:numref:`tab-variations` lists a sample of the possible variations that are illustrated in this appendix, as well as the complete state model provided in :secref:`programming-model`.
 
-.. csv-table::
+.. csv-table:: Variations of the state model
+   :name: tab-variations
+   :class: longtable
    :header-rows: 1
    :align: left
    :widths: 2 2 2 5
 
-   Reboot required, Trial required, Staging type, Description
-   Yes, Yes, Persistent, See :ref:`full state model <state-transitions>`
-   Yes, Yes, Volatile, See :ref:`full state model with volatile staging <fig-states-volatile>`
+   Reboot required, Trial required, Staging type :sup:`a`, Description
+   Yes, Yes, Persistent, See :ref:`complete model <state-transitions>`
+   Yes, Yes, Volatile, See :ref:`complete model with volatile staging <fig-states-volatile>`
    Yes, No, Persistent, See :ref:`no-trial model <states-reboot-no-trial>`
    Yes, No, Volatile, See :ref:`no-trial model with volatile staging <fig-states-no-trial-volatile>`
    No, Yes, Persistent, See :ref:`no-reboot model <states-no-reboot-trial>`
@@ -27,18 +29,28 @@ The following variations are described in this specification:
    No, No, Persistent, See :ref:`basic state model <states-no-reboot-no-trial>`
    No, No, Volatile, See :ref:`basic state model with volatile staging <fig-states-no-reboot-no-trial-volatile>`
 
+a)
+   If the staging type is persistent, then CANDIDATE state is persistent, and it is :scterm:`implementation defined` whether WRITING, FAILED, and UPDATED states are persistent.
 
-Components that have persistent staging
----------------------------------------
+Component with persistent staging
+---------------------------------
 
-Components that do not have the `PSA_FWU_FLAG_VOLATILE_STAGING` flag set in the information reported by `psa_fwu_query()`, will maintain the component state across a reboot.
+A component that does not have the `PSA_FWU_FLAG_VOLATILE_STAGING` flag set in the information reported by `psa_fwu_query()`, will maintain the CANDIDATE component state across a reboot, and can optionally maintain the WRITING, FAILED, adn UPDATED component states across a reboot.
+
+*  Additional reboot transitions for states with optional volatility are indicated with '†' and '‡' marks on the state, and described in the figure legend.
+
+See :secref:`variations-volatile` for example state models for a component that has volatile staging.
 
 .. _states-reboot-no-trial:
 
-Components that require a reboot, but no trial
+Component that requires a reboot, but no trial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If a component does not require testing before committing the update, the the TRIAL and REJECTED states are not used. The ``reboot`` operation that installs the firmware will transition to UPDATED on success, or FAILED on failure. The ``accept`` operation is never used, the ``reject`` operation is still used to abandon an update that has been STAGED.
+If a component does not require testing before committing the update, the the TRIAL and REJECTED states are not used.
+
+*  The reboot that installs the firmware will transition the component to UPDATED on success, or FAILED on failure, unless the target state is volatile, in which case the reboot will transition the component to READY.
+*  The ``accept`` operation is never used.
+*  The ``reject`` operation is only used to abandon an update that has been STAGED.
 
 The simplified flow is shown in :numref:`fig-states-no-trial`.
 
@@ -50,12 +62,13 @@ The simplified flow is shown in :numref:`fig-states-no-trial`.
 
 .. _states-no-reboot-trial:
 
-Components that require a trial, but no reboot
+Component that requires a trial, but no reboot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If a component does not require a reboot to complete installation, the STAGED state is not required. The ``install`` operation will complete the installation immediately, transitioning to TRIAL if successful.
+If a component does not require a reboot to complete installation, the STAGED and REJECTED states are not used.
 
-This use case also removes the REJECTED state, because the ``reject`` operation from TRIAL state does not require a ``reboot`` to complete.a A ``reject`` operation from TRIAL states transitions directly to FAILED.
+*  The ``install`` operation will complete the installation immediately, transitioning to TRIAL if successful.
+*  The ``reject`` operation from TRIAL state does not require a reboot to complete. A ``reject`` operation from TRIAL states transitions directly to FAILED.
 
 The simplified flow is shown in :numref:`fig-states-no-reboot`:
 
@@ -67,14 +80,17 @@ The simplified flow is shown in :numref:`fig-states-no-reboot`:
 
 .. admonition:: Implementation note
 
-   There is no ability for the update service to automatically reject a TRIAL, because the "``reboot`` without ``accept``" condition used for this purpose in the full state model is not available in this use case.
+   There is no ability for the update service to automatically reject a TRIAL, because a reboot does not affect this component's installation.
 
 .. _states-no-reboot-no-trial:
 
-Components that require neither a reboot, nor a trial
+Component that requires neither a reboot, nor a trial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If a component does not require a reboot to complete installation, and does not require testing before committing the update, then the STAGED, TRIAL, and REJECTED states are not required. The ``install`` operation will complete the installation immediately, transitioning to UPDATED if successful. The ``accept`` and ``reject`` operations are not used.
+If a component does not require a reboot to complete installation, and does not require testing before committing the update, then the STAGED, TRIAL, and REJECTED states are not used.
+
+*  The ``install`` operation will complete the installation immediately, transitioning to UPDATED if successful.
+*  The ``accept`` and ``reject`` operations are not used.
 
 The simplified flow is shown in :numref:`fig-states-no-reboot-no-trial`:
 
@@ -86,17 +102,17 @@ The simplified flow is shown in :numref:`fig-states-no-reboot-no-trial`:
 
 .. _variations-volatile:
 
-Components that have volatile staging
+Component with volatile staging
 -------------------------------------
 
-Components that have the `PSA_FWU_FLAG_VOLATILE_STAGING` flag set in the information reported by `psa_fwu_query()`, do not maintain the component state across a reboot.
+A component that has the `PSA_FWU_FLAG_VOLATILE_STAGING` flag set in the information reported by `psa_fwu_query()`, does not maintain the WRITING, CANDIDATE, FAILED, and UPDATED component states across a reboot.
 
-For such a component, all the component states, except READY, are transient. In each case the state model is very similar to the associated state model for a component with persistent staging, except that a reboot now affects almost all states:
+In each case the state model is very similar to the associated state model for a component with persistent staging, except that a reboot now affects almost all states:
 
-1. WRITING, CANDIDATE, and FAILED states will revert to READY, discarding any image that had been prepared or rejected.
-2. UPDATED state is progressed to READY.
-3. Existing reboot transitions from STAGED, TRIAL, and REJECTED, that go to FAILED in the persistent-staging model, are reverted to READY.
-4. The existing reboot transition from STAGED to UPDATED for a successful installation in the 'no trial' model, transitions to READY.
+*  WRITING, CANDIDATE, and FAILED states will always revert to READY, discarding any image that had been prepared or rejected.
+*  UPDATED state is progressed to READY.
+*  Existing reboot transitions from STAGED, TRIAL, and REJECTED, that go to FAILED in the persistent-staging model, are reverted to READY.
+*  The existing reboot transition from STAGED to UPDATED for a successful installation in the 'no trial' model, transitions to READY.
 
 The modified flows are shown in the following figures:
 

@@ -11,7 +11,13 @@ Changes between version *1.0 Beta* and *1.0.0*
 
 .. rubric:: General changes
 
-*  Described the impact of volatile staging on the component state model. See :secref:`state-model` and :secref:`variations-volatile`.
+*  Clarified the definition of 'volatile staging' and relaxed the requirements for 'non-volatile staging'
+
+   -  Defined the effects of the `PSA_FWU_FLAG_VOLATILE_STAGING` flag.
+   -  Permitted the volatility of the WRITING, FAILED, and UPDATED states to be :sc:`implementation defined` when the CANDIDATE state is persistent.
+   -  Defined the impact on the state transitions when these states are volatile.
+   -  Added additional example state model diagrams for components with volatile staging.
+   -  See :secref:`state-model`, :secref:`volatile-states`, and :secref:`variations`.
 
 .. rubric:: API changes
 
@@ -52,7 +58,7 @@ Changes between version *0.7* and *1.0 Beta*
    -  Renamed :code:`PENDING_INSTALL` state to :code:`TRIAL` state. The new definition is :code:`PSA_FWU_TRIAL`.
    -  Renamed :code:`INSTALLED` state to :code:`UPDATED` state. The new definition is :code:`PSA_FWU_UPDATED`.
    -  Renamed :code:`REJECTED` state to :code:`FAILED` state. The new definition is :code:`PSA_FWU_FAILED`.
-   -  Reintroduced :code:`REJECTED` as a transient state when rollback has been requested, but reboot has not yet occurred.
+   -  Reintroduced :code:`REJECTED` as a volatile state when rollback has been requested, but reboot has not yet occurred.
 
 *  Renamed some of the installation functions:
 
