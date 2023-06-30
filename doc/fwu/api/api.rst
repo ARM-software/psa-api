@@ -1,9 +1,9 @@
 
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/update
-   :copyright: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+   :copyright: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
    :license: Apache-2.0
    :guard:
    :c++:
@@ -557,13 +557,40 @@ The following functions are used to prepare a new firmware image in the componen
 
    To abandon an update that has been started, call `psa_fwu_cancel()`, and then `psa_fwu_clean()`.
 
+.. macro:: PSA_FWU_LOG2_WRITE_ALIGN
+   :definition: /* implementation-defined value */
+
+   .. summary::
+      Base-2 logarithm of the required alignment of firmware image data blocks when calling `psa_fwu_write()`.
+
+   This value specifies the minimum alignment of a data block within a firmware image, when written using `psa_fwu_write()`. The value is the base-2 log of the alignment size. `PSA_FWU_LOG2_WRITE_ALIGN` is used to constrain the values of ``image_offset`` that are supported, and the handling of a data block of unaligned size, as follows:
+
+   *  Let :code:`WRITE_ALIGN_MASK = (1<<PSA_FWU_LOG2_WRITE_ALIGN) - 1`
+   *  If :code:`(image_offset & WRITE_ALIGN_MASK) != 0`, then the implementation returns :code:`PSA_ERROR_INVALID_ARGUMENT`.
+   *  If :code:`(block_size & WRITE_ALIGN_MASK) != 0`, then the implementation will pad the data with :scterm:`implementation defined` values up to the next aligned size, before writing the data to the firmware image.
+   *  This value does **not** constrain the alignment of the data buffer, ``block``.
+
+   The specific value of `PSA_FWU_LOG2_WRITE_ALIGN` is an :scterm:`implementation defined`, non-negative integer. If an implementation has no alignment requirement, then it defines `PSA_FWU_LOG2_WRITE_ALIGN` to be ``0``.
+
+   .. admonition:: Implementation note
+
+      It is recommended that `PSA_FWU_LOG2_WRITE_ALIGN` is not greater than ``17``, which corresponds to a block size of 128 KB. This limit ensures compatibility with block-based file transfer protocols that are used within IoT systems.
+
+   .. rationale::
+
+      This value is the minimum size and alignment for writing image data to the firmware store. For example, this can be set to ``3`` for an implementation where the non-volatile storage used for the firmware store only supports aligned, 64-bit writes.
+
+      For a component with persistent staging, the data passed to `psa_fwu_write()` must be written into non-volatile storage. If this is not aligned with the blocks of storage, this can result in unnecessary complexity and cost in the implementation.
+
+      Aligning the provided data blocks with `PSA_FWU_LOG2_WRITE_ALIGN` is the minimum requirement for a client. The method demonstrated in the :secref:`example-multi-write` example, using blocks of size `PSA_FWU_MAX_WRITE_SIZE` until the final block, always satisfies the alignment requirement.
+
 .. macro:: PSA_FWU_MAX_WRITE_SIZE
    :definition: /* implementation-defined value */
 
    .. summary::
       The maximum permitted size for ``block`` in `psa_fwu_write()`, in bytes.
 
-   The specific value is :scterm:`implementation defined`, and is greater than ``0``.
+   The specific value is an :scterm:`implementation defined` unsigned integer, and is greater than ``0``. The value must satisfy the condition :code:`(PSA_FWU_MAX_WRITE_SIZE & ((1<<PSA_FWU_LOG2_WRITE_ALIGN) - 1)) == 0`.
 
    .. admonition:: Implementation note
 
@@ -581,10 +608,14 @@ The following functions are used to prepare a new firmware image in the componen
       Identifier of the firmware component being updated.
    .. param:: size_t image_offset
       The offset of the data block in the whole image. The offset of the first block is ``0``.
+
+      The offset must be a multiple of the image alignment size, :code:`(1<<PSA_FWU_LOG2_WRITE_ALIGN)`.
    .. param:: const void *block
       A buffer containing a block of image data. This can be a complete image or part of the image.
    .. param:: size_t block_size
-      Size of ``block``, in bytes. ``block_size`` must not be greater than `PSA_FWU_MAX_WRITE_SIZE`.
+      Size of ``block``, in bytes.
+
+      ``block_size`` must not be greater than `PSA_FWU_MAX_WRITE_SIZE`.
 
    .. return:: psa_status_t
       Result status.
@@ -599,6 +630,7 @@ The following functions are used to prepare a new firmware image in the componen
    .. retval:: PSA_ERROR_INVALID_ARGUMENT
       The following conditions can result in this error:
 
+      *  The parameter ``image_offset`` is not a multiple of :code:`(1<<PSA_FWU_LOG2_WRITE_ALIGN)`.
       *  The parameter ``block_size`` is greater than `PSA_FWU_MAX_WRITE_SIZE`.
       *  The parameter ``block_size`` is ``0``.
       *  The image region specified by ``image_offset`` and ``block_size`` does not lie inside the supported image storage.
@@ -619,9 +651,11 @@ The following functions are used to prepare a new firmware image in the componen
 
    Write operations can take an extended execution time on flash memories. The caller can provide data in blocks smaller than `PSA_FWU_MAX_WRITE_SIZE` to reduce the time for each call to `psa_fwu_write()`.
 
+   The ``image_offset`` of a data block must satisfy the firmware image alignment requirement, provided by `PSA_FWU_LOG2_WRITE_ALIGN`. If the ``block_size`` of a data block is not aligned, the data is padded with an :scterm:`implementation defined` value. It is recommended that a client only provides a block with an unaligned size when it is the final block of a firmware image.
+
    When data is written in multiple calls to `psa_fwu_write()`, it is the caller's responsibility to account for how much data is written at which offset within the image. If no persistent storage is directly available for the caller to perform accounting, then the caller can use a different storage mechanism, such as the :cite-title:`PSA-SS`.
 
-   On error, the component will typically remain in WRITING state. In this situation, it is not possible to determine how much of the data in ``block`` has been written to the staging area. It is :scterm:`implementation defined` whether repeating the write operation again with the same data at the same offset will correctly store the data to the staging area.
+   On error, the component can remain in WRITING state. In this situation, it is not possible to determine how much of the data in ``block`` has been written to the staging area. It is :scterm:`implementation defined` whether repeating the write operation again with the same data at the same offset will correctly store the data to the staging area.
 
    If the data fails an integrity check, the implementation is permitted to transition the component to the FAILED state. From this state, the caller is required to use `psa_fwu_clean()` to return the store to READY state before attempting another firmware update.
 

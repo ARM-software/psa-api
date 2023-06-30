@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 typedef uint8_t psa_fwu_component_t;
@@ -27,6 +27,7 @@ typedef struct psa_fwu_image_version_t {
 #define PSA_FWU_FAILED 4u
 #define PSA_FWU_FLAG_ENCRYPTION 0x00000002u
 #define PSA_FWU_FLAG_VOLATILE_STAGING 0x00000001u
+#define PSA_FWU_LOG2_WRITE_ALIGN /* implementation-defined value */
 #define PSA_FWU_MAX_WRITE_SIZE /* implementation-defined value */
 #define PSA_FWU_READY 0u
 #define PSA_FWU_REJECTED 6u
