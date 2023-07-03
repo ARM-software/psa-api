@@ -517,9 +517,6 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
       :mitigation:`AUTHENTICATE`. **Transfer** to firmware creator and implementation: authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key. The |API| design must enable authentication of firmware images and manifests.
 
-      :mitigation:`TRIAL`. **Control** by API design: provide a firmware image state where a failure to run a new firmware image will cause a roll back to the previously installed firmware, instead of making the device inoperable, without bypassing `M.SEQUENCE`. **Transfer** to implementation and update client: use the provided TRIAL state in the firmware update process.
-
-
    .. residual::
       :impact: H
       :likelihood: VL
@@ -538,7 +535,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :likelihood: M
 
    .. mitigations::
-      `M.TRIAL`. Ensure a device can recover if a new firmware image cannot boot.
+      :mitigation:`TRIAL`. **Control** by API design: provide a firmware image state where a failure to run a new firmware image will cause a roll back to the previously installed firmware, instead of making the device inoperable, without bypassing `M.SEQUENCE`. **Transfer** to implementation and update client: use the provided TRIAL state in the firmware update process.
 
    .. residual::
       :impact: H
@@ -831,7 +828,7 @@ Architectural mitigations
 
    *  -  `M.TRIAL`
       -  Provide a firmware image state where a failure to run a new firmware image will cause a roll back to the previously installed firmware.
-      -  `T.TAMPER`, `T.NON_FUNCTIONAL`, `T.ROLLBACK`
+      -  `T.NON_FUNCTIONAL`, `T.ROLLBACK`
 
 .. list-table:: Mitigations **transferred** to the firmware image and manifest formats
    :name: tab-sra-format-mitigations
@@ -909,7 +906,7 @@ Implementation-level mitigations
 
    *  -  `M.TRIAL`
       -  Use the provided TRIAL state in the firmware update process, to enable recovery of a failed update
-      -  `T.TAMPER`, `T.NON_FUNCTIONAL`, `T.ROLLBACK`
+      -  `T.NON_FUNCTIONAL`, `T.ROLLBACK`
 
    *  -  `M.PROTECT_THEN_VERIFY`
       -  Verification of firmware images and manifests must be done on a copy of the asset that is protected from tampering by untrusted components.
