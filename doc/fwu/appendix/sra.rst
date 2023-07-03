@@ -164,7 +164,7 @@ Lifecycle
 
 The software implementing the on-device firmware update functionality, and the credentials for authorizing the update process, are installed or provisioned to device prior to its operational phase.
 
-The firmware update process, and the |API| are active during the operational phase, implemented within the boot-time and run-time software.
+The overall firmware update process is active during the operational phase. The |API| is used within the run-time software to prepare an update. The implementation of the API prepares the update at run-time, and installs the update at boot-time.
 
 .. _sra-operation:
 
