@@ -22,7 +22,7 @@ System definition
 
 :numref:`fig-system-entities` shows the |API| as the defined interface that an Application uses to interact with the Cryptoprocessor.
 
-..  figure:: /figure/system-entities.*
+..  figure:: /figure/sra/system-entities.*
     :name: fig-system-entities
 
     |API|
@@ -48,7 +48,7 @@ The |API| is the interface available to the programmer, and is the main attack s
 
 :numref:`fig-dfd-no-isolation` shows the data flow for a typical application usage of the |API|, for example, to exchange ciphertext with an external system, or for at rest protection in system non-volatile storage. The Application uses the |API| to interact with the Cryptoprocessor. The Cryptoprocessor stores persistent keys in a Key Store.
 
-..  figure:: /figure/dfd_no_isolation.*
+..  figure:: /figure/sra/dfd_no_isolation.*
     :name: fig-dfd-no-isolation
 
     |API| dataflow diagram for an implementation with no isolation
@@ -57,14 +57,14 @@ For some adversarial models, :term:`Cryptoprocessor isolation` or :term:`Caller 
 
 The Cryptoprocessor can optionally include a trust boundary within its implementation of the API. The trust boundary shown in :numref:`fig-dfd-crypto-isolation` corresponds to Cryptoprocessor isolation. The Cryptoprocessor boundary protects the confidentiality and integrity of the Cryptoprocessor and Key Store state from system components that are outside of the boundary.
 
-..  figure:: /figure/dfd_crypto_isolation.*
+..  figure:: /figure/sra/dfd_crypto_isolation.*
     :name: fig-dfd-crypto-isolation
 
     |API| dataflow diagram for an implementation with cryptoprocessor isolation
 
 If the implementation supports multiple, independent client Applications within the system, each Application has its own view of the Cryptoprocessor and key store. The additional trust boundaries required for a caller isolated implementation are shown in :numref:`fig-dfd-caller-isolation`. The Application boundary restricts the capabilities of the Application, and protects the confidentiality and integrity of system state from the Application.
 
-..  figure:: /figure/dfd_caller_isolation.*
+..  figure:: /figure/sra/dfd_caller_isolation.*
     :name: fig-dfd-caller-isolation
 
     |API| dataflow diagram for an implementation with caller isolation
