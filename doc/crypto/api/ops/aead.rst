@@ -121,6 +121,24 @@ AEAD algorithms
 
         | `PSA_KEY_TYPE_CHACHA20`
 
+.. macro:: PSA_ALG_XCHACHA20_POLY1305
+    :definition: ((psa_algorithm_t)0x05100600)
+
+    .. summary::
+        The XChaCha20-Poly1305 AEAD algorithm.
+
+    XChaCha20-Poly1305 is a variation of the ChaCha20-Poly1305 AEAD algorithm, but uses a 192-bit nonce. The larger nonce provides much lower probability of nonce misuse.
+
+    XChaCha20-Poly1305 requires a 24-byte nonce.
+
+    Implementations must support 16-byte tags. It is recommended that truncated tag sizes are rejected.
+
+    XChaCha20-Poly1305 is defined in :cite-title:`XCHACHA`.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_XCHACHA20`
+
 .. macro:: PSA_ALG_AEAD_WITH_SHORTENED_TAG
     :definition: /* specification-defined value */
 

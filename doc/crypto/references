@@ -336,6 +336,12 @@
     :url: http://cr.yp.to/chacha/chacha-20080128.pdf
     :publication: January 2008
 
+.. reference:: XCHACHA
+    :title: XChaCha: eXtended-nonce ChaCha and AEAD_XChaCha20_Poly1305
+    :author: Arciszewski
+    :publication: January 2020
+    :url: datatracker.ietf.org/doc/html/draft-irtf-cfrg-xchacha-03
+
 .. reference:: CLULOW
     :author: Clulow, Jolyon
     :title: On the Security of PKCS #11

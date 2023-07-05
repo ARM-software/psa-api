@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _appendix-encodings:
@@ -236,7 +236,8 @@ W is a flag to indicate a wildcard permitted-algorithm policy:
     AEAD algorithm, B, AEAD-TYPE, Algorithm identifier, Algorithm value
     CCM :sup:`a`, 1, ``0x01``, `PSA_ALG_CCM`, ``0x05500100`` :sup:`b`
     GCM :sup:`a`, 1, ``0x02``, `PSA_ALG_GCM`, ``0x05500200`` :sup:`b`
-    ChaCha20-poly1305, 0, ``0x05``, `PSA_ALG_CHACHA20_POLY1305`, ``0x05100500`` :sup:`b`
+    ChaCha20-Poly1305, 0, ``0x05``, `PSA_ALG_CHACHA20_POLY1305`, ``0x05100500`` :sup:`b`
+    XChaCha20-Poly1305, 0, ``0x06``, `PSA_ALG_XCHACHA20_POLY1305`, ``0x05100600`` :sup:`b`
 
 a.  This is an AEAD mode of an underlying block cipher. The block cipher is determined by the key type that is provided to the AEAD operation.
 
@@ -499,6 +500,7 @@ The defined values for BLK, SYM-TYPE and P are shown in :numref:`table-symmetric
     Symmetric key type, BLK, SYM-TYPE, P, Key type, Key type value
     ARC4, 0, 1, 0, `PSA_KEY_TYPE_ARC4`, ``0x2002``
     ChaCha20, 0, 2, 0, `PSA_KEY_TYPE_CHACHA20`, ``0x2004``
+    XChaCha20, 0, 3, 1, `PSA_KEY_TYPE_XCHACHA20`, ``0x2007``
     DES, 3, 0, 1, `PSA_KEY_TYPE_DES`, ``0x2301``
     AES, 4, 0, 0, `PSA_KEY_TYPE_AES`, ``0x2400``
     CAMELLIA, 4, 1, 1, `PSA_KEY_TYPE_CAMELLIA`, ``0x2403``
