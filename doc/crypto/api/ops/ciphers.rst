@@ -59,7 +59,7 @@ Cipher algorithms
 
         To use ChaCha20, use a key type of `PSA_KEY_TYPE_CHACHA20` and algorithm id `PSA_ALG_STREAM_CIPHER`.
 
-        Implementations must support the variant that is defined in :rfc-title:`7539#2.4`, which has a 96-bit nonce and a 32-bit counter. Implementations can optionally also support the original variant, as defined in :cite-title:`CHACHA20`, which has a 64-bit nonce and a 64-bit counter. Except where noted, the :RFC:`7539` variant must be used.
+        Implementations must support the variant that is defined in :rfc-title:`8439#2.4`, which has a 96-bit nonce and a 32-bit counter. Implementations can optionally also support the original variant, as defined in :cite-title:`CHACHA20`, which has a 64-bit nonce and a 64-bit counter. Except where noted, the :RFC:`8439` variant must be used.
 
         ChaCha20 defines a nonce and an initial counter to be provided to the encryption and decryption operations. When using a ChaCha20 key with the `PSA_ALG_STREAM_CIPHER` algorithm, these values are provided using the initialization vector (IV) functions in the following ways:
 

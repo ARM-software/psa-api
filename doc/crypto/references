@@ -261,12 +261,6 @@
     :publication: August 2013
     :url: tools.ietf.org/html/rfc6979.html
 
-.. reference:: RFC7539
-    :title: ChaCha20 and Poly1305 for IETF Protocols
-    :author: IETF
-    :publication: May 2015
-    :url: tools.ietf.org/html/rfc7539.html
-
 .. reference:: RFC7748
     :title: Elliptic Curves for Security
     :author: IETF
@@ -296,6 +290,12 @@
     :author: IRTF
     :publication: January 2017
     :url: tools.ietf.org/html/rfc8032.html
+
+.. reference:: RFC8439
+    :title: ChaCha20 and Poly1305 for IETF Protocols
+    :author: IRTF
+    :publication: June 2018
+    :url: tools.ietf.org/html/rfc8439.html
 
 .. reference:: RIPEMD
     :title: RIPEMD-160: A Strengthened Version of RIPEMD
