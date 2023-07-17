@@ -9,12 +9,7 @@
 .. reference:: PSA-FFM
     :title: Arm® Platform Security Architecture Firmware Framework
     :doc_no: ARM DEN 0063
-    :url: pages.arm.com/psa-apis
-
-.. reference:: PSA-SS
-    :title: PSA Certified Secure Storage API
-    :doc_no: ARM IHI 0087
-    :url: arm-software.github.io/psa-api/storage
+    :url: developer.arm.com/documentation/den0063
 
 .. reference:: PSM
    :title: Platform Security Model

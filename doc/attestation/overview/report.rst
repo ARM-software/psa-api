@@ -47,7 +47,7 @@ The following table describes the mandatory and optional claims in the report:
       -  Uniquely identifies the underlying :term:`Immutable Platform Root of Trust`. A verification service can use this claim to locate the details of the verification process. Such details include the implementation's origin and associated certification state. The full definition is in `[PSM]`.
    *  -  Client ID
       -  Yes
-      -  Represents the Partition ID of the caller. It is a signed integer whereby negative values represent callers from the :term:`NSPE` and where positive IDs represent callers from the :term:`SPE`. The value ``0`` is not permitted. The full definition of a Partition ID is provided by :cite-title:`PSA-FF-M`.
+      -  Represents the Partition ID of the caller. It is a signed integer whereby negative values represent callers from the :term:`NSPE` and where positive IDs represent callers from the :term:`SPE`. The value ``0`` is not permitted. The full definition of a Partition ID is provided by :cite-title:`PSA-FFM`.
 
          It is essential that this claim is checked in the verification process to ensure that a security domain cannot spoof a report from another security domain.
    *  -  Security Lifecycle
