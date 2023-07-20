@@ -487,6 +487,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    `T.PARTIAL_UPDATE`, Trigger installation of incomplete update
    `T.INCOMPATIBLE`, Install firmware for a different device
    `T.DISCLOSURE`, Unauthorized disclosure of a firmware image or manifest
+   `T.DISRUPT_DOWNLOAD`, Corrupt image by disrupting writes
    `T.SERVER`, Exploiting or spoofing the update server
    `T.CREATOR`, Spoofing the firmware creator
    `T.NETWORK`, Manipulation of network traffic outside the device
@@ -718,7 +719,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :impact: H
       :likelihood: VL
 
-.. threat:: Mismatched Firmware
+.. threat:: Mismatched firmware
    :id: INCOMPATIBLE
 
    .. description::
@@ -764,6 +765,30 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
    .. residual::
       :impact: M
+      :likelihood: VL
+
+.. threat:: Corrupt image by disrupting writes
+   :id: DISRUPT_DOWNLOAD
+
+   .. description::
+      In a component with a persistent WRITING state, an attacker attempts to corrupt the firmware image being staged by causing a device restart while firmware image data is being written. When the update process resumes following restart, an incomplete write might not be detected, or corrected.
+
+   .. security-goal:: `SG.RELIABLE`
+   .. adversarial-model:: `AM.0`, `AM.1`, `AM.2`
+
+   .. unmitigated::
+      :impact: H
+      :likelihood: M
+
+   .. mitigations::
+      :mitigation:`ROBUST_DOWNLOAD`. **Transfer** to the update client and the implementation: implement a protocol for reliably synchronizing the partially written image status between the update client and implementation when the device restarts. This should include detecting situations that cannot be resumed due to incompletely written or corrupted data, and require the update to restart from the beginning.
+
+      .. note::
+
+         This threat is related to `T.TAMPER`. Authentication of the complete image via `M.AUTHENTICATE` will detect the corruption. However, a device will implement a persistent WRITING state when the transfer and storage of firmware update images is relatively expensive. For example, in systems with very low bandwidth, or small energy budgets.
+
+   .. residual::
+      :impact: H
       :likelihood: VL
 
 .. threat:: Attack from exploited update server
@@ -814,6 +839,10 @@ Architectural mitigations
       -  Description
       -  Mitigated threats
 
+   *  -  `M.EXPLICIT_STAGING`
+      -  Firmware images that have been prepared require an explicit API call to stage for installation.
+      -  `T.PARTIAL_UPDATE`
+
    *  -  `M.MEMORY_BUFFER`
       -  The implementation use of memory buffers in the API is fully specified.
       -  `T.INTERFACE_ABUSE`
@@ -821,10 +850,6 @@ Architectural mitigations
    *  -  `M.STATE_MODEL`
       -  The valid operation sequence for the API is fully specified by the API.
       -  `T.INTERFACE_ABUSE`
-
-   *  -  `M.EXPLICIT_STAGING`
-      -  Firmware images that have been prepared require an explicit API call to stage for installation.
-      -  `T.PARTIAL_UPDATE`
 
    *  -  `M.TRIAL`
       -  Provide a firmware image state where a failure to run a new firmware image will cause a roll back to the previously installed firmware.
@@ -840,25 +865,25 @@ Architectural mitigations
       -  Description
       -  Mitigated threats
 
-   *  -  `M.COMPATIBILITY`
-      -  Include authenticated device type information in the manifest.
-      -  `T.INCOMPATIBLE`
+   *  -  `M.AUTHENTICATE`
+      -  Authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key.
+      -  `T.TAMPER`
 
    *  -  `M.CHECK_DEPENDENCY`
       -  Dependencies between firmware images are declared in the firmware image or manifest.
       -  `T.SKIP_INTERMEDIATE`, `T.PARTIAL_UPDATE`
 
-   *  -  `M.AUTHENTICATE`
-      -  Authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key.
-      -  `T.TAMPER`
-
-   *  -  `M.SEQUENCE`
-      -  Firmware images, or their manifests, must be monotonically sequenced for the device, or for each component within a device.
-      -  `T.ROLLBACK`
+   *  -  `M.COMPATIBILITY`
+      -  Include authenticated device type information in the manifest.
+      -  `T.INCOMPATIBLE`
 
    *  -  `M.ENCRYPT`
       -  Use encryption to protect the firmware image.
       -  `T.DISCLOSURE`
+
+   *  -  `M.SEQUENCE`
+      -  Firmware images, or their manifests, must be monotonically sequenced for the device, or for each component within a device.
+      -  `T.ROLLBACK`
 
 
 Implementation-level mitigations
@@ -876,29 +901,33 @@ Implementation-level mitigations
       -  Description
       -  Mitigated threats
 
-   *  -  `M.VALIDATE_PARAMETER`
-      -  Check all API parameters to lie within valid ranges, including memory access permissions.
-      -  `T.INTERFACE_ABUSE`
-
-   *  -  `M.COMPATIBILITY`
-      -  Verify firmware image compatibility prior to installation.
-      -  `T.INCOMPATIBLE`
+   *  -  `M.AUTHENTICATE`
+      -  Verify the authenticity of the firmware image manifest and firmware images against a trust anchor within the implementation, prior to installation.
+      -  `T.TAMPER`
 
    *  -  `M.CHECK_DEPENDENCY`
       -  Dependencies between firmware images are verified by the implementation prior to installation.
       -  `T.SKIP_INTERMEDIATE`, `T.PARTIAL_UPDATE`
 
-   *  -  `M.AUTHENTICATE`
-      -  Verify the authenticity of the firmware image manifest and firmware images against a trust anchor within the implementation, prior to installation.
-      -  `T.TAMPER`
-
-   *  -  `M.SEQUENCE`
-      -  Deny an attempt to install an update with a sequence number that is lower than the currently installed firmware.
-      -  `T.ROLLBACK`
+   *  -  `M.COMPATIBILITY`
+      -  Verify firmware image compatibility prior to installation.
+      -  `T.INCOMPATIBLE`
 
    *  -  `M.ENCRYPT`
       -  Use cryptographic encryption to protect the firmware image.
       -  `T.DISCLOSURE`
+
+   *  -  `M.PROTECT_THEN_VERIFY`
+      -  Verification of firmware images and manifests must be done on a copy of the asset that is protected from tampering by untrusted components.
+      -  `T.TOCTOU`
+
+   *  -  `M.ROBUST_DOWNLOAD`
+      -  Synchronize a partially written image status between the update client and implementation when the device restarts.
+      -  `T.DISRUPT_DOWNLOAD`
+
+   *  -  `M.SEQUENCE`
+      -  Deny an attempt to install an update with a sequence number that is lower than the currently installed firmware.
+      -  `T.ROLLBACK`
 
    *  -  `M.STATE_MODEL`
       -  Enforce the state model defined by the API.
@@ -908,9 +937,9 @@ Implementation-level mitigations
       -  Use the provided TRIAL state in the firmware update process, to enable recovery of a failed update
       -  `T.NON_FUNCTIONAL`, `T.ROLLBACK`
 
-   *  -  `M.PROTECT_THEN_VERIFY`
-      -  Verification of firmware images and manifests must be done on a copy of the asset that is protected from tampering by untrusted components.
-      -  `T.TOCTOU`
+   *  -  `M.VALIDATE_PARAMETER`
+      -  Check all API parameters to lie within valid ranges, including memory access permissions.
+      -  `T.INTERFACE_ABUSE`
 
    *  -  `M.VERIFY_EARLY`
       -  Verify firmware images as early as possible in the update process, to detect and reject an invalid update.
@@ -930,6 +959,10 @@ User-level mitigations
    *  -  Mitigation
       -  Description
       -  Mitigated threats
+
+   *  -  `M.ROBUST_DOWNLOAD`
+      -  Synchronize a partially written image status between the update client and implementation when the device restarts.
+      -  `T.DISRUPT_DOWNLOAD`
 
    *  -  `M.VERIFY_EARLY`
       -  Verify firmware images as early as possible in the update process, to detect and reject an invalid update.
