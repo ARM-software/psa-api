@@ -270,6 +270,7 @@ Assumptions and constraints
 
    For example, this might be achieved by an adversary that initially has remote access to the device (`AM.0`), who then exploits a vulnerability in the firmware to achieved local code execution (`AM.1`).
 
+*  Reliable update is a design goal for the |API|. That is, the firmware update process should be robust against failure that would result in an inoperable device. However, the API cannot prevent a denial of service of the overall firmware update process, and this is not in scope for this SRA.
 
 As a result of these assumptions:
 
