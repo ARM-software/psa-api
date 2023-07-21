@@ -208,7 +208,7 @@ As a consequence, this SRA **does not** provide an assessment of the mitigations
    *  -  DF.D
       -  *Active* firmware image state read by the update service.
    *  -  DF.E
-      -  Update service i/o to the *second* image, to read the component state and prepare images for update.
+      -  Update service i/o to the *second* image, to read the component state and prepare candidate images for update.
    *  -  DF.F
       -  Bootloader i/o to the *active* image, to install a firmware image, or to authenticate it.
    *  -  DF.G
@@ -406,7 +406,7 @@ The following diagrams expand on the diagrams in :secref:`sra-operation` to show
    *  -  DF.6, DF.7
       -  Device requests and downloads firmware update images from the update server.
    *  -  DF.8
-      -  Update client uses |API| to prepare the firmware images for update.
+      -  Update client uses |API| to prepare the candidate firmware images for update.
    *  -  DF.9
       -  Update service writes new firmware images into the firmware store's staging area.
    *  -  DF.10
@@ -418,7 +418,7 @@ The following diagrams expand on the diagrams in :secref:`sra-operation` to show
    *  -  DF.12
       -  Update client uses |API| to request installation of the update.
    *  -  DF.13
-      -  Update service marks the prepare firmware update as ready for installation.
+      -  Update service marks the candidate firmware images as ready for installation.
    *  -  DF.14
       -  Bootloader inspects the *second* image, to determine if an update is ready for installation.
    *  -  DF.15, DF.16
@@ -700,7 +700,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    :id: PARTIAL_UPDATE
 
    .. description::
-      An attacker triggers the installation of an update before all of the firmware images have been prepared.
+      An attacker triggers the installation of an update before all of the candidate firmware images have been prepared.
 
       For example, where an update requires multiple images to be installed concurrently, the attacker might attempt to trigger the installation by forcing the device to restart. A partial installation might render the device inoperable.
 
@@ -712,7 +712,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :likelihood: M
 
    .. mitigations::
-      :mitigation:`EXPLICIT_STAGING`. **Control** by |API| design: firmware images that have been prepared are not automatically staged for installation. An explicit API call is used to stage all prepared images.
+      :mitigation:`EXPLICIT_STAGING`. **Control** by |API| design: candidate firmware images that have been prepared are not automatically staged for installation. An explicit API call is used to stage all candidate images.
 
       `M.CHECK_DEPENDENCY`. Verify that all dependencies are satisfied before installation.
 
@@ -841,7 +841,7 @@ Architectural mitigations
       -  Mitigated threats
 
    *  -  `M.EXPLICIT_STAGING`
-      -  Firmware images that have been prepared require an explicit API call to stage for installation.
+      -  Candidate firmware images that have been prepared require an explicit API call to stage for installation.
       -  `T.PARTIAL_UPDATE`
 
    *  -  `M.MEMORY_BUFFER`
