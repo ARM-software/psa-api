@@ -103,7 +103,7 @@ The simplified flow is shown in :numref:`fig-states-no-reboot-no-trial`:
 .. _variations-volatile:
 
 Component with volatile staging
--------------------------------------
+-------------------------------
 
 A component that has the `PSA_FWU_FLAG_VOLATILE_STAGING` flag set in the information reported by `psa_fwu_query()`, does not maintain the WRITING, CANDIDATE, FAILED, and UPDATED component states across a reboot.
 

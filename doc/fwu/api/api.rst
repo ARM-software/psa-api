@@ -408,11 +408,11 @@ These flags can be present in the ``flags`` member of a `psa_fwu_component_info_
    :definition: 0x00000001u
 
    .. summary::
-      Flag to indicate whether a prepared image in the component staging area is discarded at system reset.
+      Flag to indicate whether a candidate image in the component staging area is discarded at system reset.
 
    If set, then image data written to the staging area is discarded after a system reset. If the system restarts while the component in is WRITING, CANDIDATE, FAILED, or UPDATED state, the component will be in the READY state after the restart.
 
-   If not set, then a prepared image --- in CANDIDATE state --- written to the staging area is retained after a system reset. It is :scterm:`implementation defined` whether a partially prepared image in WRITING state, or a discarded image in FAILED or UPDATED state is retained after a system reset.
+   If not set, then an image in CANDIDATE state is retained after a system reset. It is :scterm:`implementation defined` whether a partially prepared image in WRITING state, or a discarded image in FAILED or UPDATED state, is retained after a system reset.
 
 .. macro:: PSA_FWU_FLAG_ENCRYPTION
    :definition: 0x00000002u
@@ -471,7 +471,7 @@ Component information
 
          If the version of an image that is being prepared is required by the update client, the update client must maintain this information locally.
 
-      *  In TRIAL or REJECTED states, the *second* image is the previously installed firmware, which is required in case of rollback. Reporting the version of this, while interesting, is of no value to the update client.
+      *  In TRIAL or REJECTED states, the *second* image is the previously installed firmware, which is required in case of rollback. Reporting the version of this is not required by the update client.
 
       *  In UPDATED or FAILED states, the *second* image needs to be erased. The version of the image data in this state has no effect on the behavior of the update client.
 
@@ -509,10 +509,10 @@ Each of the component operations defined in :secref:`state-model` has a correspo
 
 .. _image-prep:
 
-Image preparation
-^^^^^^^^^^^^^^^^^
+Candidate image preparation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The following functions are used to prepare a new firmware image in the component's firmware store. They act on a single component, specified by a component identifier parameter.
+The following functions are used to prepare a new candidate firmware image in the component's firmware store. They act on a single component, specified by a component identifier parameter.
 
 .. function:: psa_fwu_start
 
@@ -693,7 +693,7 @@ The following functions are used to prepare a new firmware image in the componen
    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
    .. retval:: PSA_ERROR_STORAGE_FAILURE
 
-   This function is used to complete the preparation of a new firmware image for a component. On success, the component is in CANDIDATE state, and the update client calls `psa_fwu_install()` to initiate the installation process.
+   This function is used to complete the preparation of the candidate firmware image for a component. On success, the component is in CANDIDATE state, and the update client calls `psa_fwu_install()` to initiate the installation process.
 
    The validity, authenticity and integrity of the image can be checked during this operation. If this verification fails, the component is transitioned to the FAILED state. From the FAILED state, the caller is required to use `psa_fwu_clean()` to return the component to READY state before attempting another firmware update.
 
@@ -757,23 +757,23 @@ The following functions are used to prepare a new firmware image in the componen
 Image installation
 ^^^^^^^^^^^^^^^^^^
 
-The following functions are used to install prepared firmware images. They act concurrently on all components that have been prepared for installation.
+The following functions are used to install candidate firmware images. They act concurrently on all components that have been prepared as candidates for installation.
 
 .. function:: psa_fwu_install
 
    .. summary::
-      Start the installation of all firmware images that have been prepared for update.
+      Start the installation of all candidate firmware images.
 
    .. return:: psa_status_t
       Result status.
    .. retval:: PSA_SUCCESS
       The installation completed successfully: the affected components are now in TRIAL or UPDATED state.
    .. retval:: PSA_SUCCESS_REBOOT
-      The installation has been prepared, but a system reboot is needed to complete the installation. The affected components are now in STAGED state.
+      The installation has been initiated, but a system reboot is needed to complete the installation. The affected components are now in STAGED state.
 
       A system reboot can be requested using `psa_fwu_request_reboot()`.
    .. retval:: PSA_SUCCESS_RESTART
-      The installation has been prepared, but the components must be restarted to complete the installation. The affected components are now in STAGED state.
+      The installation has been initiated, but the components must be restarted to complete the installation. The affected components are now in STAGED state.
 
       The component restart mechanism is :scterm:`implementation defined`.
    .. retval:: PSA_ERROR_BAD_STATE
@@ -813,7 +813,7 @@ The following functions are used to install prepared firmware images. They act c
 
    The validity, authenticity and integrity of the images can be checked during this operation. If this verification fails, the components are transitioned to the FAILED state. From the FAILED state, the caller is required to use `psa_fwu_clean()` on each component to return them to the READY state before attempting another firmware update.
 
-   Dependencies on other firmware components can be checked as part of `psa_fwu_install()`. The dependency check is carried out against the version of the prepared image for a component that is in CANDIDATE state, and the *active* image for other components. If this verification fails, then `PSA_ERROR_DEPENDENCY_NEEDED` is returned, and the components will remain in CANDIDATE state. A later call to `psa_fwu_install()` can be attempted after preparing a new firmware image for the dependency.
+   Dependencies on other firmware components can be checked as part of `psa_fwu_install()`. The dependency check is carried out against the version of the candidate image for a component that is in CANDIDATE state, and the *active* image for other components. If this verification fails, then `PSA_ERROR_DEPENDENCY_NEEDED` is returned, and the components will remain in CANDIDATE state. A later call to `psa_fwu_install()` can be attempted after preparing a new firmware image for the dependency.
 
    On other error conditions, it is :scterm:`implementation defined` whether the components are all transitioned to FAILED state, or all remain in CANDIDATE state. See :secref:`behavior-on-error`.
 
