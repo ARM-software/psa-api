@@ -20,22 +20,24 @@ An implementation is also permitted to provide either volatile or persistent beh
    :widths: 2 2 2 5
 
    Reboot required, Trial required, Staging type :sup:`a`, Description
-   Yes, Yes, Persistent, See :ref:`complete model <state-transitions>`
+   Yes, Yes, Non-volatile, See :ref:`complete model <state-transitions>`
    Yes, Yes, Volatile, See :ref:`complete model with volatile staging <fig-states-volatile>`
-   Yes, No, Persistent, See :ref:`no-trial model <states-reboot-no-trial>`
+   Yes, No, Non-volatile, See :ref:`no-trial model <states-reboot-no-trial>`
    Yes, No, Volatile, See :ref:`no-trial model with volatile staging <fig-states-no-trial-volatile>`
-   No, Yes, Persistent, See :ref:`no-reboot model <states-no-reboot-trial>`
+   No, Yes, Non-volatile, See :ref:`no-reboot model <states-no-reboot-trial>`
    No, Yes, Volatile, See :ref:`no-reboot model with volatile staging <fig-states-no-reboot-volatile>`
-   No, No, Persistent, See :ref:`basic state model <states-no-reboot-no-trial>`
+   No, No, Non-volatile, See :ref:`basic state model <states-no-reboot-no-trial>`
    No, No, Volatile, See :ref:`basic state model with volatile staging <fig-states-no-reboot-no-trial-volatile>`
 
 a)
-   If the staging type is persistent, then CANDIDATE state is persistent, and it is :scterm:`implementation defined` whether WRITING, FAILED, and UPDATED states are persistent.
+   If the staging type is volatile, then CANDIDATE, WRITING, FAILED, and UPDATED states are volatile.
 
-Component with persistent staging
----------------------------------
+   If the staging type is non-volatile, then CANDIDATE state is non-volatile, and it is :scterm:`implementation defined` whether WRITING, FAILED, and UPDATED states are volatile.
 
-A component that does not have the `PSA_FWU_FLAG_VOLATILE_STAGING` flag set in the information reported by `psa_fwu_query()`, will maintain the CANDIDATE component state across a reboot, and can optionally maintain the WRITING, FAILED, adn UPDATED component states across a reboot.
+Component with non-volatile staging
+-----------------------------------
+
+A component that does not have :term:`volatile staging` will maintain the CANDIDATE component state across a reboot, and can optionally maintain the WRITING, FAILED, and UPDATED component states across a reboot.
 
 *  Additional reboot transitions for states with optional volatility are indicated with '†' and '‡' marks on the state, and described in the figure legend.
 
@@ -105,13 +107,13 @@ The simplified flow is shown in :numref:`fig-states-no-reboot-no-trial`:
 Component with volatile staging
 -------------------------------
 
-A component that has the `PSA_FWU_FLAG_VOLATILE_STAGING` flag set in the information reported by `psa_fwu_query()`, does not maintain the WRITING, CANDIDATE, FAILED, and UPDATED component states across a reboot.
+A component that has :term:`volatile staging` does not maintain the WRITING, CANDIDATE, FAILED, and UPDATED component states across a reboot.
 
-In each case the state model is very similar to the associated state model for a component with persistent staging, except that a reboot now affects almost all states:
+In each case the state model is very similar to the associated state model for a component with non-volatile staging, except that a reboot now affects almost all states:
 
 *  WRITING, CANDIDATE, and FAILED states will always revert to READY, discarding any image that had been prepared or rejected.
 *  UPDATED state is progressed to READY.
-*  Existing reboot transitions from STAGED, TRIAL, and REJECTED, that go to FAILED in the persistent-staging model, are reverted to READY.
+*  Existing reboot transitions from STAGED, TRIAL, and REJECTED, that go to FAILED in the non-volatile-staging model, are reverted to READY.
 *  The existing reboot transition from STAGED to UPDATED for a successful installation in the 'no trial' model, transitions to READY.
 
 The modified flows are shown in the following figures:

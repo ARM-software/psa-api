@@ -338,6 +338,11 @@ Each of the component states defined in :secref:`state-model` has a correspondin
 
    The update client can abort an update that is in this state, by calling `psa_fwu_cancel()`.
 
+   .. note::
+      This state is volatile for components that have :term:`volatile staging`. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+
+      When this state is volatile, the incomplete image is discarded at reboot.
+
 .. macro:: PSA_FWU_CANDIDATE
    :definition: 2u
 
@@ -346,6 +351,11 @@ Each of the component states defined in :secref:`state-model` has a correspondin
    In this state, the update client starts the installation process of the component, by calling `psa_fwu_install()`.
 
    The update client can abort an update that is in this state, by calling `psa_fwu_cancel()`.
+
+   .. note::
+      This state is volatile for components that have :term:`volatile staging`. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+
+      When this state is volatile, the candidate image is discarded at reboot.
 
 .. macro:: PSA_FWU_STAGED
    :definition: 3u
@@ -367,6 +377,11 @@ Each of the component states defined in :secref:`state-model` has a correspondin
    The ``error`` field of the `psa_fwu_component_info_t` structure will contain an status code indicating the reason for the failure.
 
    The failed firmware image needs to be erased using a call to `psa_fwu_clean()` before another update can be started.
+
+   .. note::
+      This state is volatile for components that have :term:`volatile staging`. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+
+      When this state is volatile, the failed firmware image is discarded at reboot.
 
 .. macro:: PSA_FWU_TRIAL
    :definition: 5u
@@ -397,6 +412,11 @@ Each of the component states defined in :secref:`state-model` has a correspondin
 
    The previous firmware image needs to be erased using a call to `psa_fwu_clean()` before another update can be started.
 
+   .. note::
+      This state is volatile for components that have :term:`volatile staging`. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+
+      When this state is volatile, the previously installed firmware image is discarded at reboot.
+
 .. _flags:
 
 Component flags
@@ -408,11 +428,13 @@ These flags can be present in the ``flags`` member of a `psa_fwu_component_info_
    :definition: 0x00000001u
 
    .. summary::
-      Flag to indicate whether a candidate image in the component staging area is discarded at system reset.
+      Flag to indicate whether a candidate image in the component :term:`staging area` is discarded at system reset.
 
-   If set, then image data written to the staging area is discarded after a system reset. If the system restarts while the component in is WRITING, CANDIDATE, FAILED, or UPDATED state, the component will be in the READY state after the restart.
+   A component with :term:`volatile staging` sets this flag in the `psa_fwu_component_info_t` object returned by a call to `psa_fwu_query`.
 
-   If not set, then an image in CANDIDATE state is retained after a system reset. It is :scterm:`implementation defined` whether a partially prepared image in WRITING state, or a discarded image in FAILED or UPDATED state, is retained after a system reset.
+   If this flag is set, then image data written to the staging area is discarded after a system reset. If the system restarts while the component in is WRITING, CANDIDATE, FAILED, or UPDATED state, the component will be in the READY state after the restart.
+
+   If this flag is not set, then an image in CANDIDATE state is retained after a system reset. It is :scterm:`implementation defined` whether a partially prepared image in WRITING state, or a discarded image in FAILED or UPDATED state, is retained after a system reset.
 
 .. macro:: PSA_FWU_FLAG_ENCRYPTION
    :definition: 0x00000002u
@@ -582,7 +604,7 @@ The following functions are used to prepare a new candidate firmware image in th
 
       This value is the minimum size and alignment for writing image data to the firmware store. For example, this can be set to ``3`` for an implementation where the non-volatile storage used for the firmware store only supports aligned, 64-bit writes.
 
-      For a component with persistent staging, the data passed to `psa_fwu_write()` must be written into non-volatile storage. If this is not aligned with the blocks of storage, this can result in unnecessary complexity and cost in the implementation.
+      For a component that has a non-volatile WRITING state, the data passed to `psa_fwu_write()` must be written into non-volatile storage. If this is not aligned with the blocks of storage, this can result in significant complexity and cost in the implementation.
 
       Aligning the provided data blocks with `PSA_FWU_LOG2_WRITE_ALIGN` is the minimum requirement for a client. The method demonstrated in the :secref:`example-multi-write` example, using blocks of size `PSA_FWU_MAX_WRITE_SIZE` until the final block, always satisfies the alignment requirement.
 

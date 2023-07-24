@@ -97,6 +97,8 @@ The update service is a software component that stores a firmware image in devic
 
 Depending on the system design, the installation process can be implemented within the update service, or it can be implemented within a bootloader or other system component.
 
+.. _arch-firmware-store:
+
 Firmware store
 ^^^^^^^^^^^^^^
 
@@ -104,7 +106,7 @@ The firmware store is the location where firmware images are stored. Conceptuall
 
 The |API| presents a separate firmware store for each component. Each component's firmware store can have one or more images present. The state of the firmware store determines how those images are used, and what is required to proceed with a firmware update.
 
-The "staging area" is a region within a firmware store used for a firmware image that is being transferred to the device. Once transfer is complete, the image in the staging area can be verified during installation.
+The :term:`staging area` is a region within a firmware store used for a firmware image that is being transferred to the device. Once transfer is complete, the image in the staging area can be verified during installation.
 
 Bootloader
 ^^^^^^^^^^

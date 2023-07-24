@@ -54,7 +54,7 @@ The complete state model is applicable for components that have the following pr
 2. The image must be tested prior to acceptance.
 3. A candidate image is persistent across a reboot, before it is staged for installation.
 
-For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of the states are visible to the update client. For components that do not retain a candidate image following a reboot, most component states will transition when the system restarts. Some common examples of alternative component update characteristics are described in :secref:`variations`, including the changes in the state model for such components.
+For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of the states are visible to the update client. For components with :term:`volatile staging`, almost all component states will transition when the system restarts. Some common examples of alternative component update characteristics are described in :secref:`variations`, including the changes in the state model for such components.
 
 .. _component-state:
 
@@ -82,7 +82,7 @@ Component state
 
          When writing is complete, the image becomes a CANDIDATE for installation.
 
-         This state is always volatile for components that have volatile staging. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+         This state is always volatile for components that have :term:`volatile staging`. For other components, it is :scterm:`implementation defined` whether this state is volatile.
 
          When this state is volatile, the incomplete image is discarded at reboot.
 
@@ -139,12 +139,12 @@ Volatile states
 
 A component state is 'volatile', if the state is not preserved when the system reboots.
 
-Volatile states are not optional for an implementation of the |API|. Until a device reboots, the update service must follow the state transitions and report the resulting states as shown in the state model appropriate for the component update characteristics.
+States that are volatile are not optional for an implementation of the |API|. Until a device reboots, the update service must follow the state transitions and report the resulting states as shown in the state model appropriate for the component update characteristics.
 
 *  READY state is never volatile.
 *  STAGED, TRIAL, and REJECTED states are always volatile.
-*  If the component sets the component flag `PSA_FWU_FLAG_VOLATILE_STAGING`, then CANDIDATE, WRITING, FAILED, and UPDATED states are volatile.
-*  If the component does not set component flag `PSA_FWU_FLAG_VOLATILE_STAGING`, then CANDIDATE state is non-volatile, and it is :scterm:`implementation defined` whether WRITING, FAILED, or UPDATED states are volatile.
+*  If the component has :term:`volatile staging`, then CANDIDATE, WRITING, FAILED, and UPDATED states are volatile.
+*  If the component does not have volatile staging, then CANDIDATE state is non-volatile, and it is :scterm:`implementation defined` whether WRITING, FAILED, or UPDATED states are volatile.
 
 In most cases, at reboot the implementation effectively implements one or more transitions to a final, non-volatile state. The exception is for a component that is STAGED, and enters TRIAL state following a successful installation at reboot.
 
