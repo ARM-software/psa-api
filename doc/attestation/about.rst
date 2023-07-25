@@ -70,10 +70,10 @@
     :doc_no: ARM IHI 0097
     :url: arm-software.github.io/psa-api/status-code
 
-.. reference:: PSA-FF-M
+.. reference:: PSA-FFM
     :title: Arm® Platform Security Architecture Firmware Framework
     :doc_no: ARM DEN 0063
-    :url: pages.arm.com/psa-apis
+    :url: developer.arm.com/documentation/den0063
 
 .. reference:: C99
     :title: ISO/IEC 9899:1999 --- Programming Languages --- C

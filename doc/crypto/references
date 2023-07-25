@@ -14,7 +14,7 @@
 .. reference:: PSA-FFM
     :title: Arm® Platform Security Architecture Firmware Framework
     :doc_no: ARM DEN 0063
-    :url: pages.arm.com/psa-apis
+    :url: developer.arm.com/documentation/den0063
 
 .. reference:: PSA-STAT
     :title: PSA Certified Status code API
