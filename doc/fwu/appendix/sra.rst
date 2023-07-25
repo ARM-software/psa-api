@@ -772,7 +772,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    :id: DISRUPT_DOWNLOAD
 
    .. description::
-      In a component with a persistent WRITING state, an attacker attempts to corrupt the firmware image being staged by causing a device restart while firmware image data is being written. When the update process resumes following restart, an incomplete write might not be detected, or corrected.
+      In a component with a non-volatile WRITING state, an attacker attempts to corrupt the firmware image being staged by causing a device restart while firmware image data is being written. When the update process resumes following restart, an incomplete write might not be detected, or corrected.
 
    .. security-goal:: `SG.RELIABLE`
    .. adversarial-model:: `AM.0`, `AM.1`, `AM.2`
@@ -786,7 +786,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
       .. note::
 
-         This threat is related to `T.TAMPER`. Authentication of the complete image via `M.AUTHENTICATE` will detect the corruption. However, a device will implement a persistent WRITING state when the transfer and storage of firmware update images is relatively expensive. For example, in systems with very low bandwidth, or small energy budgets.
+         This threat is related to `T.TAMPER`. Authentication of the complete image via `M.AUTHENTICATE` will detect the corruption. However, a device will implement a non-volatile WRITING state when the transfer and storage of firmware update images is relatively expensive. For example, in systems with very low bandwidth, or small energy budgets.
 
    .. residual::
       :impact: H
