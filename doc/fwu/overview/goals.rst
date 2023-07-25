@@ -31,7 +31,7 @@ For example, the following resource constraints can affect the |API|:
    *  -  Delivery bandwidth
       -  Firmware download can take an extended period of time. The device might restart during this process.
    *  -  Energy and power
-      -  Downloading and installing updates must be reliable to wasting energy on failed or repeated update attempts.
+      -  Downloading and installing updates must be reliable to avoid wasting energy on failed or repeated update attempts.
    *  -  Performance of cryptographic primitives
       -  The use of cryptographic protection for firmware updates must match the security requirements for the device.
 
