@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file is a reference template for implementation of the
@@ -121,8 +121,8 @@ typedef struct psa_fwu_image_version_t {
 #define PSA_FWU_UPDATED 7u
 
 /**
- * @brief Flag to indicate whether the image data in the component staging area
- *        is discarded at system reset.
+ * @brief Flag to indicate whether a candidate image in the component staging
+ *        area is discarded at system reset.
  */
 #define PSA_FWU_FLAG_VOLATILE_STAGING 0x00000001u
 
@@ -162,10 +162,10 @@ typedef struct psa_fwu_component_info_t {
 /**
  * @brief Retrieve the firmware store information for a specific firmware
  *        component.
- * 
+ *
  * @param component Firmware component for which information is requested.
  * @param info      Output parameter for component information.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_query(psa_fwu_component_t component,
@@ -173,17 +173,23 @@ psa_status_t psa_fwu_query(psa_fwu_component_t component,
 
 /**
  * @brief Begin a firmware update operation for a specific firmware component.
- * 
+ *
  * @param component     Identifier of the firmware component to be updated.
  * @param manifest      A pointer to a buffer containing a detached manifest for
  *                      the update.
  * @param manifest_size The size of the detached manifest.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_start(psa_fwu_component_t component,
                            const void *manifest,
                            size_t manifest_size);
+
+/**
+ * @brief Base-2 logarithm of the required alignment of firmware image data
+ *        blocks when calling psa_fwu_write().
+ */
+#define PSA_FWU_LOG2_WRITE_ALIGN /* implementation-defined value */
 
 /**
  * @brief The maximum permitted size for block in psa_fwu_write(), in bytes.
@@ -193,12 +199,12 @@ psa_status_t psa_fwu_start(psa_fwu_component_t component,
 /**
  * @brief Write a firmware image, or part of a firmware image, to its staging
  *        area.
- * 
+ *
  * @param component    Identifier of the firmware component being updated.
  * @param image_offset The offset of the data block in the whole image.
  * @param block        A buffer containing a block of image data.
  * @param block_size   Size of block, in bytes.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_write(psa_fwu_component_t component,
@@ -208,58 +214,57 @@ psa_status_t psa_fwu_write(psa_fwu_component_t component,
 
 /**
  * @brief Mark a firmware image in the staging area as ready for installation.
- * 
+ *
  * @param component Identifier of the firmware component to install.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_finish(psa_fwu_component_t component);
 
 /**
  * @brief Abandon an update that is in WRITING or CANDIDATE state.
- * 
+ *
  * @param component Identifier of the firmware component to be cancelled.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_cancel(psa_fwu_component_t component);
 
 /**
  * @brief Prepare the component for another update.
- * 
+ *
  * @param component Identifier of the firmware component to tidy up.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_clean(psa_fwu_component_t component);
 
 /**
- * @brief Start the installation of all firmware images that have been prepared
- *        for update.
- * 
+ * @brief Start the installation of all candidate firmware images.
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_install(void);
 
 /**
  * @brief Requests the platform to reboot.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_request_reboot(void);
 
 /**
  * @brief Abandon an installation that is in STAGED or TRIAL state.
- * 
+ *
  * @param error An application-specific error code chosen by the application.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_reject(psa_status_t error);
 
 /**
  * @brief Accept a firmware update that is currently in TRIAL state.
- * 
+ *
  * @return Result status.
  */
 psa_status_t psa_fwu_accept(void);
