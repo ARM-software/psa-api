@@ -19,19 +19,15 @@
    .. reference-table:: Documents referenced by this document
       :sorted:
 
-.. current-status::
-
-   This document is at Beta quality status which has a particular meaning to Arm of which the recipient must be aware.
-   A Beta quality specification will be sufficiently stable & committed for initial product development, however all aspects of the architecture described herein remain SUBJECT TO CHANGE.
-   Please ensure that you have the latest revision.
-
 .. potential-for-change::
+
+   The contents of this specification are stable for version |docversion|.
 
    The following may change in updates to the version |docversion| specification:
 
-   *  Important API changes required before issuing a final v1.0.0 specification.
-   *  Optional feature additions.
-   *  Corrections and additions to the informative chapters, use cases and examples.
+   *  Small optional feature additions.
    *  Clarifications.
+
+   Significant additions, or any changes that affect the compatibility of the interfaces defined in this specification will only be included in a new major or minor version of the specification.
 
 .. about::

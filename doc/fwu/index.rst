@@ -23,18 +23,6 @@
    overview/programming-model
    api/api
 
-..
-   maintoc::
-
-   intro
-   goals
-   terminology
-   security
-   design
-   api
-
-
-
 ..  appendix::
 
    appendix/example-header
