@@ -255,7 +255,7 @@ Verifying an update
 
 A firmware update is essentially authorized remote code execution. Any security weaknesses in the update process expose that remote code execution system. Failure to secure the firmware update process will help attackers take control of devices.
 
-It is not sufficient to rely on a :term:`secure boot` process to prevent execution of unauthorized firmware. This situation can easily result in an unusable device, as the installed firmware cannot be run, and the device can no longer update itself.
+Where the installation results in the loss of the previous image, verification of the image during a :term:`secure boot` process is not sufficient. If the boot time verification fails, then it is possible that the device can no longer operate, unless additional recovery mechanisms are implemented.
 
 It is important for the update process to verify that an update is appropriate for the device, authentic, correctly authorized, and not expected to result in a non-functioning system. This is achieved by verifying various aspects of the firmware and its manifest. The various checks can take place at different points in the update process, depending on the firmware update implementation architecture --- as a result, a verification failure can cause an error response in different function calls depending on the implementation.
 
