@@ -173,7 +173,7 @@ The following operational dataflow diagrams include all of the main components i
 
 The firmware creator and update server components are representative: in a real implementation of the process these roles may be distributed amongst multiple systems and stakeholders.
 
-|API| is a C language API. Therefore, any implementation of the API must execute, at least partially, within the context of the calling application. When an implementation includes a trust boundary, the mechanism and protocol for communication across the boundary is :scterm:`implementation defined`.
+The |API| is a C language API. Therefore, any implementation of the API must execute, at least partially, within the context of the calling application. When an implementation includes a trust boundary, the mechanism and protocol for communication across the boundary is :scterm:`implementation defined`.
 
 The |API| supports implementation in various deployment architectures, described in :secref:`deployment`. The operation and dataflow of the firmware update process is similar across these deployments. However, the trust boundaries within the device are different.
 
