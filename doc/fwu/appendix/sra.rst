@@ -37,9 +37,7 @@ This SRA does not cover the :secref:`trusted-client` deployment architecture. :s
 Risk assessment methodology
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Our risk ratings follow the five-level version of the Arm ATG SRA methodology, which is derived
-from :cite-title:`SP800-30`: for each Threat, we determine its Likelihood and the
-Impact. Each is evaluated on a 5-level scale, as defined in :numref:`tab-sra-likelihood` and :numref:`tab-sra-impact`.
+Our risk ratings use an approach derived from :cite-title:`SP800-30`: for each Threat, we determine its Likelihood and the Impact. Each is evaluated on a 5-level scale, as defined in :numref:`tab-sra-likelihood` and :numref:`tab-sra-impact`.
 
 .. list-table:: Likelihood levels
    :name: tab-sra-likelihood
