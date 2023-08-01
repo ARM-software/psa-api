@@ -31,7 +31,7 @@ For example, the following resource constraints can affect the |API|:
    *  -  Delivery bandwidth
       -  Firmware download can take an extended period of time. The device might restart during this process.
    *  -  Energy and power
-      -  Downloading and installing updates must be reliable to wasting energy on failed or repeated update attempts.
+      -  Downloading and installing updates must be reliable to avoid wasting energy on failed or repeated update attempts.
    *  -  Performance of cryptographic primitives
       -  The use of cryptographic protection for firmware updates must match the security requirements for the device.
 
@@ -44,7 +44,7 @@ The |API| is suitable for updating the device's :term:`Platform Root of Trust` (
 
 The :cite-title:`PSM` requires all of the :term:`Updatable Platform Root of Trust` firmware to be updatable. This can include bootloaders, Secure Partition Manager, Trusted OS, and runtime services. In some implementations, the PRoT can include a trusted subsystem with its own isolated and updatable firmware.
 
-The :cite:`PSM` requirements for firmware update are also reflected in certifications like :cite-title:`IR8259`, :cite-title:`EN303645`, and :cite-title:`PSA-CERT`. `[PSA-CERT]` provides the following definition of the F.FIRMWARE_UPDATE security function, where the Target of Evaluation (TOE) refers to the PRoT:
+The :cite:`PSM` requirements for firmware update are also reflected in publications such as :cite-title:`IR8259` and :cite-title:`EN303645`, and in certification schemes such as :cite-title:`PSA-CERT`. `[PSA-CERT]` provides the following definition of the F.FIRMWARE_UPDATE security function, where the Target of Evaluation (TOE) refers to the PRoT:
 
    The TOE verifies the integrity and authenticity of the TOE update prior to performing the update.
 

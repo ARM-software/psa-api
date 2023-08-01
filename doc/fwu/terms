@@ -77,3 +77,17 @@
    Firmware image metadata that is signed with a cryptographic key. The manifest can be bundled within the firmware image, or detached from it.
 
    See :secref:`manifest`.
+
+.. term:: Volatile staging
+
+   A component with volatile staging does not preserve a firmware image that is in the :term:`staging area` after a reboot.
+
+   A component without volatile staging preserves a prepared candidate firmware image after a reboot. It is :scterm:`implementation defined` whether a partially prepared image in in the staging area is retained after a system reset.
+
+   See `PSA_FWU_FLAG_VOLATILE_STAGING`.
+
+.. term:: Staging area
+
+   A region within the firmware store used for a firmware image that is being transferred to the device. Once transfer is complete, the image in the staging area can be verified during installation.
+
+   See :secref:`arch-firmware-store`.

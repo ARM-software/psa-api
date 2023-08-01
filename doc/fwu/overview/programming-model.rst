@@ -15,7 +15,7 @@ For each component, depending on the state or progress of a firmware update, the
 
 *  An *active* image that is actively in use by the system.
 *  A *staged* image that is being prepared for installation.
-*  A *backup* of a previously installed image, used to recover if an attempted update fails.
+*  A *backup* of the previous image that is being replaced, used to recover if an attempted update fails.
 *  A *dirty* image that can be erased.
 
 For a component that is essential for system operation, there will always be exactly one *active* image. Other images might, or might not, be present in the firmware store.
@@ -52,9 +52,9 @@ The complete state model is applicable for components that have the following pr
 
 1. A reboot is required to complete installation of a new image.
 2. The image must be tested prior to acceptance.
-3. A prepared image is persistent across a reboot, before it is staged for installation.
+3. A candidate image is persistent across a reboot, before it is staged for installation.
 
-For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of the states are visible to the update client. For components that do not retain a prepared update following a reboot, almost all component states are volatile that will always transition when the system restarts. Some common examples of alternative component update characteristics are described in :secref:`variations`, including the changes in the state model for such components.
+For components that do not require testing of new firmware before acceptance, or components that do not require a reboot to complete installation, only a subset of the states are visible to the update client. For components with :term:`volatile staging`, almost all component states will transition when the system restarts. Some common examples of alternative component update characteristics are described in :secref:`variations`, including the changes in the state model for such components.
 
 .. _component-state:
 
@@ -78,30 +78,30 @@ Component state
          The component is ready for a new firmware update to be started.
 
    *  -  WRITING
-      -  The update client is writing a new firmware image to the staging area, in preparation for installation.
+      -  A new firmware image is being written to the staging area, in preparation for installation.
 
-         When writing is complete, it can be prepared for installation.
+         When writing is complete, the image becomes a CANDIDATE for installation.
 
-         This state is always volatile for components that have volatile staging. For other components, it is :scterm:`implementation defined` whether this state is volatile.
+         This state is always volatile for components that have :term:`volatile staging`. For other components, it is :scterm:`implementation defined` whether this state is volatile.
 
          When this state is volatile, the incomplete image is discarded at reboot.
 
    *  -  CANDIDATE
-      -  The update client has completed transfer of the new firmware image to the staging area.
+      -  Transfer of the new firmware image to the staging area is complete.
 
-         When all components for update are prepared, they can be installed.
+         When all components that require update are in CANDIDATE state, they can be installed.
 
          This state is always volatile for components that have volatile staging. For other components, it is always persistent.
 
-         When this state is volatile, the prepared image is discarded at reboot.
+         When this state is volatile, the candidate image is discarded at reboot.
 
    *  -  STAGED
-      -  Installation of the prepared image has been requested, but the system must be restarted as the final update operation runs within the bootloader.
+      -  Installation of the candidate image has been requested, but the system must be restarted as the final update operation runs within the bootloader.
 
          This state is always volatile.
 
    *  -  TRIAL
-      -  Installation of the staged image has succeeded, and is now the *active* image running in 'trial mode'. This state is always volatile, and requires the update client to explicitly accept the trial to make the update permanent.
+      -  Installation of the staged image has succeeded, and is now the *active* image running in 'trial mode'. This state is always volatile, and requires the trial to be explicitly accepted to make the update permanent.
 
          In this state, the previously installed *active* image is preserved as the *second* image. If the trial is explicitly rejected, or the system restarts without accepting the trial, the previously installed image is re-installed and the trial image is rejected.
 
@@ -139,12 +139,12 @@ Volatile states
 
 A component state is 'volatile', if the state is not preserved when the system reboots.
 
-Volatile states are not optional for an implementation of the |API|. Until a device reboots, the update service must follow the state transitions and report the resulting states as shown in the state model appropriate for the component update characteristics.
+States that are volatile are not optional for an implementation of the |API|. Until a device reboots, the update service must follow the state transitions and report the resulting states as shown in the state model appropriate for the component update characteristics.
 
 *  READY state is never volatile.
 *  STAGED, TRIAL, and REJECTED states are always volatile.
-*  If the component sets the component flag `PSA_FWU_FLAG_VOLATILE_STAGING`, then CANDIDATE, WRITING, FAILED, and UPDATED states are volatile.
-*  If the component does not set component flag `PSA_FWU_FLAG_VOLATILE_STAGING`, then CANDIDATE state is non-volatile, and it is :scterm:`implementation defined` whether WRITING, FAILED, or UPDATED states are volatile.
+*  If the component has :term:`volatile staging`, then CANDIDATE, WRITING, FAILED, and UPDATED states are volatile.
+*  If the component does not have volatile staging, then CANDIDATE state is non-volatile, and it is :scterm:`implementation defined` whether WRITING, FAILED, or UPDATED states are volatile.
 
 In most cases, at reboot the implementation effectively implements one or more transitions to a final, non-volatile state. The exception is for a component that is STAGED, and enters TRIAL state following a successful installation at reboot.
 
@@ -166,9 +166,9 @@ Table :numref:`tab-operations` shows the operations that the update client uses 
 
    ``start``, Begin a firmware update operation
    ``write``, "Write all, or part, of a firmware image"
-   ``finish``, Complete preparation of a firmware image
+   ``finish``, Complete preparation of a candidate firmware image
    ``cancel``, Abandon a firmware image that is being prepared
-   ``install``, Start the installation of new firmware images
+   ``install``, Start the installation of candidate firmware images
    ``accept``, Accept an installation that is being trialed
    ``reject``, Abandon an installation
    ``clean``, Erase firmware storage before starting a new update
@@ -255,7 +255,7 @@ Verifying an update
 
 A firmware update is essentially authorized remote code execution. Any security weaknesses in the update process expose that remote code execution system. Failure to secure the firmware update process will help attackers take control of devices.
 
-It is not sufficient to rely on a :term:`secure boot` process to prevent execution of unauthorized firmware. This situation can easily result in an unusable device, as the installed firmware cannot be run, and the device can no longer update itself.
+Where the installation results in the loss of the previous image, verification of the image during a :term:`secure boot` process is not sufficient. If the boot time verification fails, then it is possible that the device can no longer operate, unless additional recovery mechanisms are implemented.
 
 It is important for the update process to verify that an update is appropriate for the device, authentic, correctly authorized, and not expected to result in a non-functioning system. This is achieved by verifying various aspects of the firmware and its manifest. The various checks can take place at different points in the update process, depending on the firmware update implementation architecture --- as a result, a verification failure can cause an error response in different function calls depending on the implementation.
 
@@ -272,13 +272,13 @@ The manifest must conform to a format that is expected by the implementation. It
 
 The manifest describes the type of device, and component, that the firmware is for. The implementation must check that this information matches the device and component being updated.
 
-The manifest provides the version of the new firmware image. The implementation must only install a later version of firmware than is currently installed.
+The manifest provides the version, or sequence number, of the new firmware image. For some deployments, the implementation must not install an earlier version of firmware than is currently installed. This security requirement prevents a firmware downgrade that can expose a known security vulnerability.
 
 The manifest can provide information about dependencies on other firmware images. The implementation must only install the new firmware if its dependencies are satisfied. See :secref:`dependencies`.
 
 .. admonition:: Implementation note
 
-   In a trusted-client implementation of the |API|, these steps can be carried out by the update client, and no verification is done by the implementation. See :secref:`trusted-client`.
+   In a trusted-client implementation of the |API|, these steps can be carried out by the update client, and then no verification is done by the implementation. See :secref:`trusted-client`.
 
 Firmware image verification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -289,6 +289,9 @@ In a system that implements :term:`secure boot`, the firmware verification proce
 
 The implementation is permitted to defer all of the verification of the manifest and firmware image to the bootloader. However, it is recommended that as much verification as possible is carried out before rebooting the system. This reduces the loss of system availability during a reboot, or the cost of storing the firmware image, when it can be determined ahead of time that the update will fail at least one verification check. This recommendation is also made for systems which repeat the verification in the bootloader, prior to final installation and execution of the new firmware.
 
+.. admonition:: Implementation note
+
+   In a trusted-client implementation of the |API|, this verification can be carried out by the update client, and then no verification is done by the implementation. See :secref:`trusted-client`.
 
 .. _dependencies:
 
@@ -297,9 +300,13 @@ Dependencies
 
 A firmware image can have a dependency on another component's firmware image. When a firmware image has a dependency it cannot be installed until all of its dependencies are satisfied.
 
-A dependency can be satisfied by a firmware image that is already installed, or by a firmware image that is installed at the same time as the dependent image. In the latter case, both images must be prepared, and in CANDIDATE state, before the ``install`` operation. If new firmware images for multiple components are inter-dependent, then the components must be installed at the same time. The :secref:`multi-component-example` example shows how this can be done.
+A dependency can be satisfied by a firmware image that is already installed, or by a firmware image that is installed at the same time as the dependent image. In the latter case, both images must be prepared as candiate images before the ``install`` operation. If new firmware images for multiple components are inter-dependent, then the components must be installed at the same time. The :secref:`multi-component-example` example shows how this can be done.
 
-Dependencies are described in the firmware image manifest. It is the responsibility of the update client to update components in an order that ensures that dependencies are met during the installation process. Typically, the firmware creator and update server ensure that firmware image updates are presented to the update client in an appropriate order. In more advanced systems, a manifest might provide the update client with sufficient information to determine dependencies and installation order of multiple components itself.
+Dependencies are typically described in the firmware image manifest. It is the responsibility of the update client to update components in an order that ensures that dependencies are met during the installation process. Typically, the firmware creator and update server ensure that firmware image updates are presented to the update client in an appropriate order. In more advanced systems, a manifest might provide the update client with sufficient information to determine dependencies and installation order of multiple components itself.
+
+.. admonition:: Implementation note
+
+   In a trusted-client implementation of the |API|, dependency verification can be carried out by the update client, and then no verification is done by the implementation. See :secref:`trusted-client`.
 
 
 Update client operation
@@ -341,7 +348,7 @@ To prepare a new firmware image for a component, the update client calls `psa_fw
 
 The update client can now transfer the firmware image data to the firmware store by calling `psa_fwu_write()` one or more times. In systems with sufficient resources, the firmware image can be transferred in a single call. In systems with limited RAM, the update client can transfer the image incrementally, and specify the location of the provided data within the overall firmware image.
 
-When all of the firmware image has been transferred to the update service, the update client calls `psa_fwu_finish()` to complete the preparation of the firmware image. The implementation can verify the manifest and verify the image at this point, or can defer this until later in the process.
+When all of the firmware image has been transferred to the update service, the update client calls `psa_fwu_finish()` to complete the preparation of the candidate firmware image. The implementation can verify the manifest and verify the image at this point, or can defer this until later in the process.
 
 If preparation is successful, the component is now in CANDIDATE state.
 
@@ -354,12 +361,12 @@ Multi-component updates
 
 A system with multiple components might sometimes require that more than one component is updated atomically.
 
-To update multiple components atomically, all of the new firmware images must be prepared before proceeding to the installation step.
+To update multiple components atomically, all of the new firmware images must be prepared as candidates before proceeding to the installation step.
 
-Installing the new firmware image
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Installing the candidate firmware image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Once the images have been prepared, the update client calls `psa_fwu_install()` to begin the installation process. This operation will apply to all components in CANDIDATE state. The implementation will complete the verification of the manifest data at this point, and can also verify the new firmware image.
+Once the images have been prepared as candidates, the update client calls `psa_fwu_install()` to begin the installation process. This operation will apply to all components in CANDIDATE state. The implementation will complete the verification of the manifest data at this point, and can also verify the new firmware image.
 
 Invoking the new firmware image can require part, or all, of the system to be restarted. If this is required, the affected components will be in STAGED state, and the call to `psa_fwu_install()` returns a status code that informs the update client of the action required.
 

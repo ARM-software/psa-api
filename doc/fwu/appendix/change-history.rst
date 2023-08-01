@@ -11,10 +11,10 @@ Changes between version *1.0 Beta* and *1.0.0*
 
 .. rubric:: General changes
 
-*  Clarified the definition of 'volatile staging' and relaxed the requirements for 'non-volatile staging'
+*  Clarified the definition of :term:`volatile staging` and relaxed the requirements for non-volatile staging.
 
    -  Defined the effects of the `PSA_FWU_FLAG_VOLATILE_STAGING` flag.
-   -  Permitted the volatility of the WRITING, FAILED, and UPDATED states to be :sc:`implementation defined` when the CANDIDATE state is persistent.
+   -  Permitted the volatility of the WRITING, FAILED, and UPDATED states to be :scterm:`implementation defined` when the CANDIDATE state is not volatile.
    -  Defined the impact on the state transitions when these states are volatile.
    -  Added additional example state model diagrams for components with volatile staging.
    -  See :secref:`state-model`, :secref:`volatile-states`, and :secref:`variations`.
