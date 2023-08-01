@@ -264,11 +264,15 @@ Assumptions and constraints
 
    Although the |API| can be used to provide a firmware update service in a system that does not have a Root of Trust, or implement Secure boot, such a system is not considered within this SRA.
 
+*  Attacks against the firmware supply chain are not considered as part of this assessment. It is assumed that firmware creators and the off-device update infrastructure are designed to protect the credentials and processes that are involved in signing firmware images and updates.
+
 *  Within the scope of `AM.1`, the adversary is assumed to have the ability to execute software within the context of the caller of the |API|, or other untrusted components. The adversary is assumed to not have software execution capability within the Root of Trust.
 
    For example, this might be achieved by an adversary that initially has remote access to the device (`AM.0`), who then exploits a vulnerability in the firmware to achieved local code execution (`AM.1`).
 
-*  Reliable update is a design goal for the |API|. That is, the firmware update process should be robust against failure that would result in an inoperable device. However, the API cannot prevent a denial of service of the overall firmware update process, and this is not in scope for this SRA.
+*  Reliable update is a design goal for the |API|. That is, the firmware update process is robust against failures that would result in an inoperable device. However, the API cannot prevent a denial of service of the overall firmware update process, and this is not in scope for this SRA.
+
+*  This API is designed for implementation in small microprocessor systems, which generally use SRAM or PSRAM memory, rather than the DDR memories that are typical in larger systems. Attacks against DDR memory, such as Rowhammer, are out of scope for this assessment.
 
 As a result of these assumptions:
 
@@ -486,7 +490,9 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    `T.PARTIAL_UPDATE`, Trigger installation of incomplete update
    `T.INCOMPATIBLE`, Install firmware for a different device
    `T.DISCLOSURE`, Unauthorized disclosure of a firmware image or manifest
+   `T.DISRUPT_INSTALL`, Corrupt image by disrupting installer
    `T.DISRUPT_DOWNLOAD`, Corrupt image by disrupting writes
+   `T.FAULT_INJECTION`, Verification bypass via glitching
    `T.SERVER`, Exploiting or spoofing the update server
    `T.CREATOR`, Spoofing the firmware creator
    `T.NETWORK`, Manipulation of network traffic outside the device
@@ -515,7 +521,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    .. mitigations::
       Secure boot (see :secref:`sra-assumptions`) will prevent tampered firmware images from executing, but installation of such images can leave the device inoperable.
 
-      :mitigation:`AUTHENTICATE`. **Transfer** to firmware creator and implementation: authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key. The |API| design must enable authentication of firmware images and manifests.
+      :mitigation:`AUTHENTICATE`. **Transfer** to firmware creator and implementation: authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. Authentication must occur within a trusted component. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key. The |API| design must enable authentication of firmware images and manifests.
 
    .. residual::
       :impact: H
@@ -555,7 +561,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :likelihood: M
 
    .. mitigations::
-      :mitigation:`SEQUENCE`. **Transfer** to the firmware creator and implementation. Firmware images, or their manifests, must be monotonically sequenced for the device, or for each component within a device. The implementation will deny an attempt to install an update with a sequence number that is lower than the currently installed firmware.
+      :mitigation:`SEQUENCE`. **Transfer** to the firmware creator and implementation. Firmware images, or their manifests, must be monotonically sequenced for the device, or for each component within a device. The implementation will deny an attempt to install an update with a sequence number that is lower than the currently installed firmware. Verification of sequence numbers must occur within a trusted component.
 
       This mitigation creates a fragility when an update is non-functional, and requires the implementation of `M.TRIAL` to maintain availability in case of a non-functional update. See also `T.NON_FUNCTIONAL`.
 
@@ -579,7 +585,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :likelihood: M
 
    .. mitigations::
-      :mitigation:`CHECK_DEPENDENCY`. **Transfer** to the implementation: dependencies between firmware images are declared in the firmware image or manifest, and verified by the implementation. The |API| design must enable verification of firmware images.
+      :mitigation:`CHECK_DEPENDENCY`. **Transfer** to the implementation: dependencies between firmware images are declared in the authenticated firmware image or manifest, and verified by the implementation. Dependency verification must occur within a trusted component. The |API| design must enable verification of firmware images.
 
    .. residual::
       :impact: H
@@ -732,7 +738,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :likelihood: M
 
    .. mitigations::
-     :mitigation:`COMPATIBILITY`. **Transfer** to the firmware creator and implementation: include authenticated device type information in the manifest, and verify it prior to installation. The |API| design must enable authentication of firmware manifests, and validation of device type.
+     :mitigation:`COMPATIBILITY`. **Transfer** to the firmware creator and implementation: include authenticated device type information in the manifest, and verify it prior to installation. Verification must occur within a trusted component. The |API| design must enable authentication of firmware manifests, and validation of device type.
 
    .. residual::
       :impact: H
@@ -766,6 +772,30 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :impact: M
       :likelihood: VL
 
+.. threat:: Corrupt image by disrupting installer
+   :id: DISRUPT_INSTALL
+
+   .. description::
+      An attacker attempts to corrupt the firmware store by causing a device restart while an installation operation is in process. For example, causing a device restart while the bootloader is copying or swapping images, or cleaning the firmware store. After restart the corrupted firmware store can result in an inoperable device.
+
+      .. note::
+
+         For implementations where the bootloader does the installation, this threat only relevant for an attacker with physical access (`AM.2`).
+
+   .. security-goal:: `SG.RELIABLE`
+   .. adversarial-model:: `AM.0`, `AM.1`, `AM.2`
+
+   .. unmitigated::
+      :impact: H
+      :likelihood: M
+
+   .. mitigations::
+      :mitigation:`ROBUST_INSTALL`. **Transfer** to the implementation: updates to the firmware store must be resilient to a power failure or reset interrupting the installation process. This requires that the installer can detect when an update process has been interrupted in this way, and then either recover and resume the installation, or revert to the previous firmware image.
+
+   .. residual::
+      :impact: H
+      :likelihood: VL
+
 .. threat:: Corrupt image by disrupting writes
    :id: DISRUPT_DOWNLOAD
 
@@ -788,6 +818,26 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
    .. residual::
       :impact: H
+      :likelihood: VL
+
+.. threat:: Verification bypass via glitching
+   :id: FAULT_INJECTION
+
+   .. description::
+      An attacker attempts to bypass verification of a firmware update by injecting faults, enabling the installation of non-authentic, non-functional, incompatible, or known to be vulnerable firmware images.
+
+   .. security-goal:: `SG.AUTHENTIC`, `SG.RELIABLE`
+   .. adversarial-model:: `AM.2`
+
+   .. unmitigated::
+      :impact: VH
+      :likelihood: L
+
+   .. mitigations::
+      :mitigation:`FAULT_HARDENING`. **Transfer** to the implementation: use fault-injection-hardening techniques in the design and implementation of the update service and bootloader.
+
+   .. residual::
+      :impact: VH
       :likelihood: VL
 
 .. threat:: Attack from exploited update server
@@ -916,6 +966,10 @@ Implementation-level mitigations
       -  Use cryptographic encryption to protect the firmware image.
       -  `T.DISCLOSURE`
 
+   *  -  `M.FAULT_HARDENING`
+      -  Use fault-injection-hardening techniques.
+      -  `T.FAULT_INJECTION`
+
    *  -  `M.PROTECT_THEN_VERIFY`
       -  Verification of firmware images and manifests must be done on a copy of the asset that is protected from tampering by untrusted components.
       -  `T.TOCTOU`
@@ -923,6 +977,10 @@ Implementation-level mitigations
    *  -  `M.ROBUST_DOWNLOAD`
       -  Synchronize a partially written image status between the update client and implementation when the device restarts.
       -  `T.DISRUPT_DOWNLOAD`
+
+   *  -  `M.ROBUST_INSTALL`
+      -  Updates to the firmware store must be resilient to a power failure or reset interrupting the installation process.
+      -  `T.DISRUPT_INSTALL`
 
    *  -  `M.SEQUENCE`
       -  Deny an attempt to install an update with a sequence number that is lower than the currently installed firmware.
