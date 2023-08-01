@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="3. Architecture" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Firmware Update API 1.0" />
 <meta property="og:description" content="Concepts and terminology: This section describes important concepts and terminology used in the Firmware Update API specification. Figure 3 identifies the main actors and agents involved in a typic..." />
 <meta name="description" content="Concepts and terminology: This section describes important concepts and terminology used in the Firmware Update API specification. Figure 3 identifies the main actors and agents involved in a typic..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,23 +51,23 @@
           <div class="body" role="main">
             
   <section id="architecture">
-<span id="id1"></span><h1><span class="section-number">3. </span>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">3. </span>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h1>
 <section id="concepts-and-terminology">
-<h2><span class="section-number">3.1. </span>Concepts and terminology<a class="headerlink" href="#concepts-and-terminology" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1. </span>Concepts and terminology<a class="headerlink" href="#concepts-and-terminology" title="Permalink to this heading">¶</a></h2>
 <p>This section describes important concepts and terminology used in the Firmware Update API specification.</p>
 <p><span><a class="reference internal" href="#fig-architecture"><span class="numref">Figure 3</span></a></span> identifies the main actors and agents involved in a typical firmware update scenario.</p>
 <figure class="align-default" id="fig-architecture">
-<img alt="../_images/fwu-context.svg" src="../_images/fwu-context.svg" /><figcaption>
+<img alt="../_images/components.svg" src="../_images/components.svg" /><figcaption>
 <p><span class="caption-number">Figure 3 </span><span class="caption-text">The Firmware Update API in context</span><a class="headerlink" href="#fig-architecture" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <section id="firmware-image">
-<h3><span class="section-number">3.1.1. </span>Firmware image<a class="headerlink" href="#firmware-image" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.1. </span>Firmware image<a class="headerlink" href="#firmware-image" title="Permalink to this heading">¶</a></h3>
 <p>A firmware image, or simply the “image”, is a binary that can contain the complete software of a device or a subset of it. A firmware image can consist of multiple images if the device contains more than one microcontroller. It can also be a compressed archive that contains code, configuration data, and even the entire file system. An image may consist of a differential update for performance reasons.</p>
 <p>The terms “firmware image”, “firmware”, and “image” are used in this document and are interchangeable.</p>
 </section>
 <section id="manifest">
-<span id="id2"></span><h3><span class="section-number">3.1.2. </span>Manifest<a class="headerlink" href="#manifest" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><span class="section-number">3.1.2. </span>Manifest<a class="headerlink" href="#manifest" title="Permalink to this heading">¶</a></h3>
 <p>A manifest contains metadata about the firmware image. The manifest is typically protected against modification using a signed hash of its contents, see <a class="reference internal" href="programming-model.html#manifest-verification"><span class="secref">Manifest verification</span></a>.</p>
 <p>Metadata that can be in a manifest includes the following:</p>
 <ul class="simple">
@@ -80,7 +83,7 @@
 <p>A manifest can be bundled within the firmware image, or detached from it.</p>
 </section>
 <section id="component">
-<h3><span class="section-number">3.1.3. </span>Component<a class="headerlink" href="#component" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.3. </span>Component<a class="headerlink" href="#component" title="Permalink to this heading">¶</a></h3>
 <p>A component is a logical part of the device which needs a firmware image. Each firmware image is designed for exactly one component.</p>
 <p>A component can have a one to one correspondence with a physical processor in the system, other mappings are possible:</p>
 <ul class="simple">
@@ -94,51 +97,51 @@
 </ul>
 </section>
 <section id="component-identifier">
-<h3><span class="section-number">3.1.4. </span>Component identifier<a class="headerlink" href="#component-identifier" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.4. </span>Component identifier<a class="headerlink" href="#component-identifier" title="Permalink to this heading">¶</a></h3>
 <p>The component identifier is a small numerical value, that precisely identifies the component within this device.</p>
 <p>The identifier values are typically allocated by the device developer or integrator. A component identifier can be used within the manifest during the update process, or can be translated from another identification scheme via a mapping configured in the update client.</p>
 </section>
 <section id="firmware-creator">
-<h3><span class="section-number">3.1.5. </span>Firmware creator<a class="headerlink" href="#firmware-creator" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.5. </span>Firmware creator<a class="headerlink" href="#firmware-creator" title="Permalink to this heading">¶</a></h3>
 <p>A developer or integrator of the firmware for the device being updated.</p>
 <p>The firmware creator is responsible for constructing firmware images and manifests for the device. For devices that implement a <a class="reference internal" href="../about.html#term-secure-boot"><span class="term">secure boot</span></a> protocol, the firmware creator signs the manifest using a signing key associated with a trust anchor on the device. See <a class="reference internal" href="#trust-anchor"><span class="secref">Trust anchor</span></a>.</p>
 <p>In systems with multiple components, each component can have a different firmware creator.</p>
 </section>
 <section id="update-server">
-<h3><span class="section-number">3.1.6. </span>Update server<a class="headerlink" href="#update-server" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.6. </span>Update server<a class="headerlink" href="#update-server" title="Permalink to this heading">¶</a></h3>
 <p>A system within the operational network of the device that hosts firmware images and manages the rollout of updates to devices within that network.</p>
 </section>
 <section id="update-client">
-<h3><span class="section-number">3.1.7. </span>Update client<a class="headerlink" href="#update-client" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.7. </span>Update client<a class="headerlink" href="#update-client" title="Permalink to this heading">¶</a></h3>
 <p>The update client is a software component that obtains firmware images. For example, this can be downloaded from an update server, or accessed from an attached storages device. When it obtains an image, it transfers it to the update service using the interface described in this document.</p>
 <p>The update client runs as part of the <a class="reference internal" href="../about.html#term-application-firmware"><span class="term">application firmware</span></a>.</p>
 <p>It can report device identity and installation state to a remote party, such as the update server. For example, the reported installation state can include the versions of installed images and error information of images that did not install successfully.</p>
 </section>
 <section id="update-service">
-<h3><span class="section-number">3.1.8. </span>Update service<a class="headerlink" href="#update-service" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.8. </span>Update service<a class="headerlink" href="#update-service" title="Permalink to this heading">¶</a></h3>
 <p>The update service is a software component that stores a firmware image in device memory, ready for installation. The update service implements the interface described in this document.</p>
 <p>Depending on the system design, the installation process can be implemented within the update service, or it can be implemented within a bootloader or other system component.</p>
 </section>
 <section id="firmware-store">
-<h3><span class="section-number">3.1.9. </span>Firmware store<a class="headerlink" href="#firmware-store" title="Permalink to this headline">¶</a></h3>
-<p>The firmware store is the location where firmware images are stored. Conceptually the Firmware store is shared between the update service and the bootloader. Both components share access to the firmware store to manage the firmware update process.</p>
+<span id="arch-firmware-store"></span><h3><span class="section-number">3.1.9. </span>Firmware store<a class="headerlink" href="#firmware-store" title="Permalink to this heading">¶</a></h3>
+<p>The firmware store is the location where firmware images are stored. Conceptually the firmware store is shared between the update service and the bootloader. Both components share access to the firmware store to manage the firmware update process.</p>
 <p>The Firmware Update API presents a separate firmware store for each component. Each component’s firmware store can have one or more images present. The state of the firmware store determines how those images are used, and what is required to proceed with a firmware update.</p>
-<p>The “staging area” is a region within a firmware store used for a firmware image that is being transferred to the device. Once transfer is complete, the image in the staging area can be verified during installation.</p>
+<p>The <a class="reference internal" href="../about.html#term-staging-area"><span class="term">staging area</span></a> is a region within a firmware store used for a firmware image that is being transferred to the device. Once transfer is complete, the image in the staging area can be verified during installation.</p>
 </section>
 <section id="bootloader">
-<h3><span class="section-number">3.1.10. </span>Bootloader<a class="headerlink" href="#bootloader" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.10. </span>Bootloader<a class="headerlink" href="#bootloader" title="Permalink to this heading">¶</a></h3>
 <p>A bootloader selects a firmware image to execute when a device boots. The bootloader can also implement the verification and installation process for a firmware update.</p>
 <p>In a system that implements <a class="reference internal" href="../about.html#term-secure-boot"><span class="term">secure boot</span></a>, the bootloader will always verify the authenticity of the firmware image prior to execution.</p>
 </section>
 <section id="trust-anchor">
-<span id="id3"></span><h3><span class="section-number">3.1.11. </span>Trust anchor<a class="headerlink" href="#trust-anchor" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3><span class="section-number">3.1.11. </span>Trust anchor<a class="headerlink" href="#trust-anchor" title="Permalink to this heading">¶</a></h3>
 <p>A device contains one or more trust anchors. A trust anchor is used to check if an image, or its manifest, are signed by a signing authority that the device trusts.</p>
 <p>Each trust anchor is pre-provisioned on the device. A trust anchor can be implemented in many ways, but typically takes the form of a public key or a certificate chain, depending on the complexity of the trust model.</p>
 <p>The management and provisioning of trust anchors is not within the scope of this document.</p>
 </section>
 </section>
 <section id="firmware-image-format">
-<span id="formats"></span><h2><span class="section-number">3.2. </span>Firmware image format<a class="headerlink" href="#firmware-image-format" title="Permalink to this headline">¶</a></h2>
+<span id="formats"></span><h2><span class="section-number">3.2. </span>Firmware image format<a class="headerlink" href="#firmware-image-format" title="Permalink to this heading">¶</a></h2>
 <p>The Firmware Update API does not define the format for the firmware image and manifest. This is defined and documented by the implementation, so that a firmware creator can construct valid firmware images and manifests for the device.</p>
 <p>The Firmware Update API assumes that manifests and firmware images passed to the update service conform to the format expected by the implementation. The implementation is responsible for verifying that data provided by the client represents a valid manifest or firmware image.</p>
 <p>Examples of the firmware image and manifest design details that need to be provided by the implementation, include the following:</p>
@@ -153,50 +156,50 @@
 <p>For some deployments, the firmware and manifest formats used by a device can be affected by the protocols used by the update server and update client to notify and transfer firmware updates. In other deployments, the update server and update client can have independent formats for describing firmware updates, to those used by the firmware creator and update service.</p>
 </section>
 <section id="deployment-scenarios">
-<span id="deployment"></span><h2><span class="section-number">3.3. </span>Deployment scenarios<a class="headerlink" href="#deployment-scenarios" title="Permalink to this headline">¶</a></h2>
+<span id="deployment"></span><h2><span class="section-number">3.3. </span>Deployment scenarios<a class="headerlink" href="#deployment-scenarios" title="Permalink to this heading">¶</a></h2>
 <p>There are different ways in which the Firmware Update API can be implemented, that apply to different system designs. The primary differences relate to the presence and location of trust boundaries within the system, in particular trust boundaries that protect a device <a class="reference internal" href="../about.html#term-root-of-trust"><span class="term">Root of Trust</span></a>.</p>
 <p>The implementation architecture can affect the behavior of the Firmware Update API, particularly in regard to if, and when, a firmware update is verified.</p>
 <p>These implementation architectures provide use cases for the design of the Firmware Update API.</p>
 <section id="untrusted-client">
-<span id="id4"></span><h3><span class="section-number">3.3.1. </span>Untrusted client<a class="headerlink" href="#untrusted-client" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3><span class="section-number">3.3.1. </span>Untrusted client<a class="headerlink" href="#untrusted-client" title="Permalink to this heading">¶</a></h3>
 <p><span><a class="reference internal" href="#fig-untrusted-client"><span class="numref">Figure 4</span></a></span> shows an implementation architecture for a system where the firmware store is fully protected by the <a class="reference internal" href="../about.html#term-platform-root-of-trust"><span class="term">Platform Root of Trust</span></a> (PRoT).</p>
 <figure class="align-default" id="fig-untrusted-client">
-<img alt="../_images/usage-untrusted-client.svg" src="../_images/usage-untrusted-client.svg" /><figcaption>
+<img alt="../_images/untrusted-client.svg" src="../_images/untrusted-client.svg" /><figcaption>
 <p><span class="caption-number">Figure 4 </span><span class="caption-text">Implementation architecture with an untrusted update client</span><a class="headerlink" href="#fig-untrusted-client" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>In this architecture, part of the update service must run as a service within the PRoT, to query and update the firmware store. The update client accesses this service via an update service proxy library, which implements the Firmware Update API.</p>
-<p>The Firmware Update API is designed for implementation across a security boundary, as used in this architecture.</p>
+<p>The Firmware Update API is designed for implementation across a security boundary, as used in this architecture. The interface between the update service proxy and the update service itself is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>.</p>
 <p>This architecture enables all of the firmware verification requirements to be fulfilled by the update service within the PRoT.</p>
-<p>As the PRoT trusts the update service, but not the update client, this architecture is referred to as an “untrusted client” implementation.</p>
+<p>As the PRoT trusts the update service, but not the update client, this architecture is referred to as an <em>untrusted client</em> implementation.</p>
 </section>
-<section id="untrusted-service">
-<span id="id5"></span><h3><span class="section-number">3.3.2. </span>Untrusted service<a class="headerlink" href="#untrusted-service" title="Permalink to this headline">¶</a></h3>
-<p><span><a class="reference internal" href="#fig-untrusted-service"><span class="numref">Figure 5</span></a></span> shows an implementation architecture for a system where the <em>active</em> image is protected by the <a class="reference internal" href="../about.html#term-platform-root-of-trust"><span class="term">Platform Root of Trust</span></a> (PRoT), but the staging area for a new firmware image is not protected.</p>
-<figure class="align-default" id="fig-untrusted-service">
-<img alt="../_images/usage-untrusted-service.svg" src="../_images/usage-untrusted-service.svg" /><figcaption>
-<p><span class="caption-number">Figure 5 </span><span class="caption-text">Implementation architecture with an untrusted update service</span><a class="headerlink" href="#fig-untrusted-service" title="Permalink to this image">¶</a></p>
+<section id="untrusted-staging">
+<span id="id5"></span><h3><span class="section-number">3.3.2. </span>Untrusted staging<a class="headerlink" href="#untrusted-staging" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#fig-untrusted-staging"><span class="numref">Figure 5</span></a></span> shows an implementation architecture for a system where the <em>active</em> image is protected by the <a class="reference internal" href="../about.html#term-platform-root-of-trust"><span class="term">Platform Root of Trust</span></a> (PRoT), but the staging area for a new firmware image is not protected from access by the update client.</p>
+<figure class="align-default" id="fig-untrusted-staging">
+<img alt="../_images/untrusted-staging.svg" src="../_images/untrusted-staging.svg" /><figcaption>
+<p><span class="caption-number">Figure 5 </span><span class="caption-text">Implementation architecture with an untrusted update service and staging</span><a class="headerlink" href="#fig-untrusted-staging" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The staging area is accessible to untrusted components, so the bootloader cannot rely on any verification done by the update service prior to system restart. The bootloader must do all firmware verification prior to completing installation of the firmware.</p>
+<p>The staging area is accessible to untrusted components, so the bootloader cannot trust any verification done by the update service prior to system restart. The bootloader must do all firmware verification prior to completing installation of the firmware.</p>
 <p>In this type of implementation, it is still beneficial for the update service to perform some verification of firmware updates: this can reduce the system impact of a malicious or accidental invalid update.</p>
-<p>As the PRoT does not trust the update service, this architecture is referred to as an “untrusted service” implementation.</p>
+<p>As the PRoT does not trust the staging, or the update service which writes to it, this architecture is referred to as an <em>untrusted staging</em> implementation.</p>
 </section>
 <section id="trusted-client">
-<span id="id6"></span><h3><span class="section-number">3.3.3. </span>Trusted client<a class="headerlink" href="#trusted-client" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3><span class="section-number">3.3.3. </span>Trusted client<a class="headerlink" href="#trusted-client" title="Permalink to this heading">¶</a></h3>
 <p><span><a class="reference internal" href="#fig-trusted-client"><span class="numref">Figure 6</span></a></span> shows an implementation architecture for a system where the update client application is within the system’s Root of Trust.</p>
 <figure class="align-default" id="fig-trusted-client">
-<img alt="../_images/usage-trusted-client.svg" src="../_images/usage-trusted-client.svg" /><figcaption>
+<img alt="../_images/trusted-client.svg" src="../_images/trusted-client.svg" /><figcaption>
 <p><span class="caption-number">Figure 6 </span><span class="caption-text">Implementation architecture with a trusted update client</span><a class="headerlink" href="#fig-trusted-client" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>In this architecture, it is possible for verification of an update to happen in any component, including the update client itself. This approach can be suitable for highly constrained devices, and relies on the security provided by the protocol used between the update server and update client.</p>
+<p>In this architecture, it is permitted for verification of an update to happen in any component, including the update client itself. This approach can be suitable for highly constrained devices, and relies on the security provided by the protocol used between the update server and update client.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If the implementation assumes that manifests and firmware images provided by the client are valid, and carries out the preparation and installation without further verification, then the Firmware Update API is being used purely as a hardware abstraction layer (HAL) for the firmware store.</p>
-<p>An implementation like this must clearly document this assumption to ensure update clients carry out sufficient verification of firmware images before calling the Firmware Update API.</p>
+<p>An implementation like this must clearly document this assumption to ensure update clients carry out sufficient verification of firmware manifests, firmware images, and firmware dependencies before calling the Firmware Update API.</p>
 </div>
-<p>This implementation architecture can also be used in a device that does not enforce a <a class="reference internal" href="../about.html#term-secure-boot"><span class="term">secure boot</span></a> policy. For example, this can enable code reuse by using a single API for firmware update across devices that have different security requirements and policies. Although permitted by the Firmware Update API, this usage is not a focus for the specification.</p>
+<p>This implementation architecture can also be used in a device that does not enforce a <a class="reference internal" href="../about.html#term-secure-boot"><span class="term">secure boot</span></a> policy. For example, this can enable code reuse by using a single API for firmware update across devices that have different security requirements and policies. Although permitted by the Firmware Update API, this usage is not a focus for this specification.</p>
 </section>
 </section>
 </section>
@@ -214,8 +217,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Firmware Update API</b></a></h3>
 IHI 0093<br/>
 Non-confidential<br/>
-Version 1.0-bet.0
-<span style="font-weight: bold;"></span>
+Version 1.0.0
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -241,7 +243,7 @@ Version 1.0-bet.0
 <li class="toctree-l2"><a class="reference internal" href="#firmware-image-format">3.2. Firmware image format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deployment-scenarios">3.3. Deployment scenarios</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#untrusted-client">3.3.1. Untrusted client</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#untrusted-service">3.3.2. Untrusted service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#untrusted-staging">3.3.2. Untrusted staging</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trusted-client">3.3.3. Trusted client</a></li>
 </ul>
 </li>
@@ -254,7 +256,8 @@ Version 1.0-bet.0
 <li class="toctree-l1"><a class="reference internal" href="../appendix/example-header.html">A. Example header file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../appendix/examples.html">B. Example usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../appendix/variations.html">C. Variation in system design parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/change-history.html">D. Document change history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/sra.html">D. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/change-history.html">E. Document change history</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
@@ -268,13 +271,13 @@ Version 1.0-bet.0
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2020-2022 Arm Limited and/or its affiliates.
+      &copy; 2020-2023 Arm Limited and/or its affiliates.
       
     </div>
 
