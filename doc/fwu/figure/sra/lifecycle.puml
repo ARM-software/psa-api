@@ -1,0 +1,61 @@
+' SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+!include atg-spec.pumh
+!include atg-dataflow.pumh
+
+
+skinparam rectangle {
+    backgroundColor #ArmMidBlue
+    borderColor darkred
+    borderThickness 0
+    fontColor white
+}
+
+skinparam rectangle {
+    backgroundColor<<Operational phase>> #0091BD20
+    borderColor<<Operational phase>> #ArmMidBlue
+    borderstyle<<Operational phase>> dashed
+    borderThickness<<Operational phase>> 1
+    fontColor<<Operational phase>> black
+}
+
+left to right direction
+
+note "SiP and OEM" as n1
+rectangle "System\nmanufacturing\nand initialization" as lc1
+n1 . lc1
+
+note "SiP, OEM,\nand/or Owner" as n2
+rectangle "Provision of\nauthorization\ncredentials" as lc2
+n2 . lc2
+
+   note "[everybody]" as n3
+
+rectangle " " as r3 <<Operational phase>> {
+   rectangle "Boot\n(Install update)" as lc31
+   rectangle "Operation\n(Prepare update)" as lc32
+   rectangle "Reset" as lc33
+}
+n3 -[hidden]r- lc31
+note "SiP, OEM,\nand Owner" as n4
+rectangle "Return to\nManufacturer" as lc4
+n4 . lc4
+
+n1 -[hidden]d- n2
+lc1 --> lc2
+
+n2 -[hidden]d- n3
+lc2 --> lc31
+
+n3 -[hidden]r- lc32
+lc31 --> lc32
+lc32 --> lc33
+lc31 <-- lc33
+
+n3 -[hidden]d- n4
+lc33 --> lc4
+
+@enduml

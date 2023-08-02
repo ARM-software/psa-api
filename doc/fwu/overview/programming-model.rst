@@ -162,7 +162,7 @@ Table :numref:`tab-operations` shows the operations that the update client uses 
 .. csv-table:: Operations on components
    :name: tab-operations
    :widths: auto
-   :align: left
+   :align: right
 
    ``start``, Begin a firmware update operation
    ``write``, "Write all, or part, of a firmware image"
@@ -249,6 +249,8 @@ The complexity of the state model is a response to the requirements that follow 
    *  -  UPDATED state and ``cancel`` operation
       -  Erasing non-volatile storage can be a high-latency operation. In some systems, this activity might block other memory i/o operations, including code execution. Isolating the erase activity within the ``clean`` operation enables an update client to manage when such disruptive actions take place.
 
+
+.. _verifying-an-update:
 
 Verifying an update
 -------------------
@@ -396,7 +398,7 @@ Cleaning up the firmware store
 
 After a successful, failed, or abandoned update, the storage containing the inactive firmware image needs to be reclaimed for reuse. The update client calls to `psa_fwu_clean()` to do this.
 
-.. rationale::
+.. rationale:: Rationale
 
    Erasing non-volatile storage can be a high-latency operation. In some systems, this activity might block other memory i/o operations, including code execution. Isolating the erase activity within the call to `psa_fwu_clean()` enables an update client to manage when such disruptive actions take place.
 
@@ -433,7 +435,7 @@ The bootloader checks the state of each component:
 Install components
 ^^^^^^^^^^^^^^^^^^
 
-If the implementation defers verification of the updated firmware to the bootloader, or the bootloader does not trust the update service (see :secref:`untrusted-service`), the bootloader must verify all components that are in STAGED state. If verification fails, all STAGED components are set to FAILED state, and the reason for failure stored for retrieval by the update client. The bootloader proceeds to boot the existing firmware. See :secref:`boot-execute`.
+If the implementation defers verification of the updated firmware to the bootloader, or the bootloader does not trust the staged firmware image (see :secref:`untrusted-staging`), the bootloader must verify all components that are in STAGED state. If verification fails, all STAGED components are set to FAILED state, and the reason for failure stored for retrieval by the update client. The bootloader proceeds to boot the existing firmware. See :secref:`boot-execute`.
 
 The new firmware images for all STAGED components are installed as the *active* firmware. If the installation fails for any component, the previous images are restored for all components, the components are set to FAILED state, and the reason for failure stored for retrieval by the update client. The bootloader proceeds to boot the existing firmware. See :secref:`boot-execute`.
 
