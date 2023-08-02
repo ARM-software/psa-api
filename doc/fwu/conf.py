@@ -31,7 +31,7 @@ doc_info = {
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     #'release_candidate': 2,
-    'draft': True,
+    #'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -42,7 +42,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '31/7/2022',
+    'date': '1/8/2023',
 
 
     # psa_spec: default header file for API definitions
