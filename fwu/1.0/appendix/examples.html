@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="2. Example usage" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Firmware Update API 1.0" />
 <meta property="og:description" content="Retrieve versions of installed images: This example shows the retrieval of image versions for all components. Individual component update (single part operation): This example shows the installatio..." />
 <meta name="description" content="Retrieve versions of installed images: This example shows the retrieval of image versions for all components. Individual component update (single part operation): This example shows the installatio..." />
@@ -25,7 +26,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,13 +51,13 @@
           <div class="body" role="main">
             
   <section id="example-usage">
-<span id="examples"></span><h1><span class="section-number">B. </span>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h1>
+<span id="examples"></span><h1><span class="section-number">B. </span>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>These examples are for illustrative purposes only and are not guaranteed to compile. Many error codes are not handled in order to keep the examples brief. A real implementation will need to initialize variables appropriately and handle failures as they see fit.</p>
 </div>
 <section id="retrieve-versions-of-installed-images">
-<h2><span class="section-number">B.1. </span>Retrieve versions of installed images<a class="headerlink" href="#retrieve-versions-of-installed-images" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">B.1. </span>Retrieve versions of installed images<a class="headerlink" href="#retrieve-versions-of-installed-images" title="Permalink to this heading">¶</a></h2>
 <p>This example shows the retrieval of image versions for all components.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   
@@ -79,7 +82,7 @@
 21   }</pre>
 </section>
 <section id="individual-component-update-single-part-operation">
-<h2><span class="section-number">B.2. </span>Individual component update (single part operation)<a class="headerlink" href="#individual-component-update-single-part-operation" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">B.2. </span>Individual component update (single part operation)<a class="headerlink" href="#individual-component-update-single-part-operation" title="Permalink to this heading">¶</a></h2>
 <p>This example shows the installation of a single component that is smaller than <a class="reference internal" href="../api/api.html#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   
@@ -118,7 +121,7 @@
 35   }</pre>
 </section>
 <section id="individual-component-update-multi-part-operation">
-<h2><span class="section-number">B.3. </span>Individual component update (multi part operation)<a class="headerlink" href="#individual-component-update-multi-part-operation" title="Permalink to this headline">¶</a></h2>
+<span id="example-multi-write"></span><h2><span class="section-number">B.3. </span>Individual component update (multi part operation)<a class="headerlink" href="#individual-component-update-multi-part-operation" title="Permalink to this heading">¶</a></h2>
 <p>This example shows the installation of a component that can be larger than <a class="reference internal" href="../api/api.html#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>, and requires writing in multiple blocks.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   #include &lt;stdlib.h&gt;
@@ -189,7 +192,7 @@
 67   }</pre>
 </section>
 <section id="multiple-components-with-dependent-images">
-<span id="multi-component-example"></span><h2><span class="section-number">B.4. </span>Multiple components with dependent images<a class="headerlink" href="#multiple-components-with-dependent-images" title="Permalink to this headline">¶</a></h2>
+<span id="multi-component-example"></span><h2><span class="section-number">B.4. </span>Multiple components with dependent images<a class="headerlink" href="#multiple-components-with-dependent-images" title="Permalink to this heading">¶</a></h2>
 <p>This example shows how multiple components can be installed together. This is required if the images are inter-dependent, and it is not possible to install them in sequence because of the dependencies.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -276,7 +279,7 @@
 79   }</pre>
 </section>
 <section id="clean-up-all-component-updates">
-<h2><span class="section-number">B.5. </span>Clean up all component updates<a class="headerlink" href="#clean-up-all-component-updates" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">B.5. </span>Clean up all component updates<a class="headerlink" href="#clean-up-all-component-updates" title="Permalink to this heading">¶</a></h2>
 <p>This example removes any prepared and failed update images for all components.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   
@@ -334,8 +337,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Firmware Update API</b></a></h3>
 IHI 0093<br/>
 Non-confidential<br/>
-Version 1.0-bet.0
-<span style="font-weight: bold;"></span>
+Version 1.0.0
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -358,7 +360,8 @@ Version 1.0-bet.0
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="variations.html">C. Variation in system design parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="change-history.html">D. Document change history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sra.html">D. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="change-history.html">E. Document change history</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
@@ -372,13 +375,13 @@ Version 1.0-bet.0
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2020-2022 Arm Limited and/or its affiliates.
+      &copy; 2020-2023 Arm Limited and/or its affiliates.
       
     </div>
 

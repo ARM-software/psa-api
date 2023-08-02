@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="About this document" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Firmware Update API 1.0" />
 <meta property="og:description" content="Release information: The change history table lists the changes that have been made to this document. Document revision history:,,,, Date, Version, Confidentiality, Change,,, Feb 2021, 0.7 Beta 0, ..." />
 <meta name="description" content="Release information: The change history table lists the changes that have been made to this document. Document revision history:,,,, Date, Version, Confidentiality, Change,,, Feb 2021, 0.7 Beta 0, ..." />
@@ -25,7 +26,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="#" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -48,9 +51,9 @@
           <div class="body" role="main">
             
   <section id="about-this-document">
-<span id="id1"></span><h1>About this document<a class="headerlink" href="#about-this-document" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>About this document<a class="headerlink" href="#about-this-document" title="Permalink to this heading">¶</a></h1>
 <section id="release-information">
-<h2>Release information<a class="headerlink" href="#release-information" title="Permalink to this headline">¶</a></h2>
+<h2>Release information<a class="headerlink" href="#release-information" title="Permalink to this heading">¶</a></h2>
 <p>The change history table lists the changes that have been made to this document.</p>
 <table class="colwidths-given docutils align-default" id="id4">
 <caption><span class="caption-number">Table 1 </span><span class="caption-text">Document revision history</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
@@ -80,15 +83,22 @@
 <p>Relicensed as open source under CC BY-SA 4.0.</p>
 </td>
 </tr>
+<tr class="row-even"><td><p>August 2023</p></td>
+<td><p>1.0.0</p></td>
+<td><p>Non-confidential</p></td>
+<td><p>Finalize API for version 1.0.</p>
+<p>Include Security Risk Assessment.</p>
+</td>
+</tr>
 </tbody>
 </table>
 <p>For a detailed list of changes, see <a class="reference internal" href="appendix/change-history.html#change-history"><span class="secref">Document change history</span></a>.</p>
 </section>
 <p><span class="sectiontitle">PSA Certified Firmware Update API</span></p>
-<p>Copyright © 2020-2022 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
+<p>Copyright © 2020-2023 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
 draft issues of this document have been released, to a limited circulation.</p>
 <section id="license">
-<span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h2>
 <div class="license docutils container">
 <p><span class="sectiontitle">Text and illustrations</span></p>
 <p>Text and illustrations in this work are licensed under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). To view a copy of the license, visit <a class="reference external" href="https://creativecommons.org/licenses/by-sa/4.0">creativecommons.org/licenses/by-sa/4.0</a>.</p>
@@ -108,7 +118,7 @@ draft issues of this document have been released, to a limited circulation.</p>
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
 <p>This document refers to the following documents.</p>
 <table class="longtable colwidths-given docutils align-default" id="id5">
 <caption><span class="caption-number">Table 2 </span><span class="caption-text">Documents referenced by this document</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
@@ -150,41 +160,45 @@ draft issues of this document have been released, to a limited circulation.</p>
 </tr>
 <tr class="row-even"><td><p><span class="target" id="cite-psa-ffm"></span>[PSA-FFM]</p></td>
 <td><p>ARM DEN 0063</p></td>
-<td><p><em>Arm® Platform Security Architecture Firmware Framework</em>. <a class="reference external" href="https://pages.arm.com/psa-apis">pages.arm.com/psa-apis</a></p></td>
+<td><p><em>Arm® Platform Security Architecture Firmware Framework</em>. <a class="reference external" href="https://developer.arm.com/documentation/den0063">developer.arm.com/documentation/den0063</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-psa-ss"></span>[PSA-SS]</p></td>
-<td><p>ARM IHI 0087</p></td>
-<td><p><em>PSA Certified Secure Storage API</em>. <a class="reference external" href="https://arm-software.github.io/psa-api/storage">arm-software.github.io/psa-api/storage</a></p></td>
-</tr>
-<tr class="row-even"><td><p><span class="target" id="cite-psa-stat"></span>[PSA-STAT]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-psa-stat"></span>[PSA-STAT]</p></td>
 <td><p>ARM IHI 0097</p></td>
 <td><p><em>PSA Certified Status code API</em>. <a class="reference external" href="https://arm-software.github.io/psa-api/status-code">arm-software.github.io/psa-api/status-code</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-psm"></span>[PSM]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-psm"></span>[PSM]</p></td>
 <td><p>ARM DEN 0128</p></td>
 <td><p><em>Platform Security Model</em>. <a class="reference external" href="https://developer.arm.com/documentation/den0128">developer.arm.com/documentation/den0128</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc4122"></span>[RFC4122]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc4122"></span>[RFC4122]</p></td>
 <td></td>
 <td><p>IETF, <em>A Universally Unique IDentifier (UUID) URN Namespace</em>. <a class="reference external" href="https://tools.ietf.org/html/rfc4122">tools.ietf.org/html/rfc4122</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc8240"></span>[RFC8240]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc8240"></span>[RFC8240]</p></td>
 <td></td>
 <td><p>IAB, <em>Report from the Internet of Things Software Update (IoTSU) Workshop 2016</em>, September 2017. <a class="reference external" href="https://tools.ietf.org/html/rfc8240">tools.ietf.org/html/rfc8240</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc9019"></span>[RFC9019]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc9019"></span>[RFC9019]</p></td>
 <td></td>
 <td><p>IETF, <em>A Firmware Update Architecture for Internet of Things</em>, April 2021. <a class="reference external" href="https://tools.ietf.org/html/rfc9019">tools.ietf.org/html/rfc9019</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc9124"></span>[RFC9124]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc9124"></span>[RFC9124]</p></td>
 <td></td>
 <td><p>IETF, <em>A Manifest Information Model for Firmware Updates in Internet of Things (IoT) Devices</em>, January 2022. <a class="reference external" href="https://tools.ietf.org/html/rfc9124">tools.ietf.org/html/rfc9124</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-suit-mfst"></span>[SUIT-MFST]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-sp800-30"></span>[SP800-30]</p></td>
 <td></td>
-<td><p>IETF, <em>A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest</em>, October 2022. <a class="reference external" href="https://datatracker.ietf.org/doc/draft-ietf-suit-manifest">datatracker.ietf.org/doc/draft-ietf-suit-manifest</a></p></td>
+<td><p>NIST, <em>NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments</em>, September 2012. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-30r1">doi.org/10.6028/NIST.SP.800-30r1</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-uefi"></span>[UEFI]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-suit-enc"></span>[SUIT-ENC]</p></td>
+<td></td>
+<td><p>IETF, (draft), <em>Encrypted Payloads in SUIT Manifests</em>, April 2023. <a class="reference external" href="https://datatracker.ietf.org/doc/draft-ietf-suit-firmware-encryption">datatracker.ietf.org/doc/draft-ietf-suit-firmware-encryption</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="target" id="cite-suit-mfst"></span>[SUIT-MFST]</p></td>
+<td></td>
+<td><p>IETF, (draft), <em>A Concise Binary Object Representation (CBOR)-based Serialization Format for the Software Updates for Internet of Things (SUIT) Manifest</em>, February 2023. <a class="reference external" href="https://datatracker.ietf.org/doc/draft-ietf-suit-manifest">datatracker.ietf.org/doc/draft-ietf-suit-manifest</a></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="target" id="cite-uefi"></span>[UEFI]</p></td>
 <td><p>UEFI v2.10</p></td>
 <td><p>UEFI Forum, Inc., <em>Unified Extensible Firmware Interface (UEFI) Specification</em>, August 2022. <a class="reference external" href="https://uefi.org/specifications">uefi.org/specifications</a></p></td>
 </tr>
@@ -192,7 +206,7 @@ draft issues of this document have been released, to a limited circulation.</p>
 </table>
 </section>
 <section id="terms-and-abbreviations">
-<h2>Terms and abbreviations<a class="headerlink" href="#terms-and-abbreviations" title="Permalink to this headline">¶</a></h2>
+<h2>Terms and abbreviations<a class="headerlink" href="#terms-and-abbreviations" title="Permalink to this heading">¶</a></h2>
 <p>This document uses the following terms and abbreviations.</p>
 <table class="longtable colwidths-given docutils align-default" id="id6">
 <caption><span class="caption-number">Table 3 </span><span class="caption-text">Terms and abbreviations</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
@@ -270,29 +284,40 @@ draft issues of this document have been released, to a limited circulation.</p>
 <tr class="row-odd"><td><span><span class="target" id="term-spe"></span><span>SPE</span></span></td>
 <td><span>See <a class="reference internal" href="#term-secure-processing-environment"><span class="term">Secure Processing Environment</span></a>.</span></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-updatable-platform-root-of-trust"></span><span>Updatable Platform Root of Trust</span></span></td>
+<tr class="row-even"><td><span><span class="target" id="term-staging-area"></span><span>Staging area</span></span></td>
+<td><p>A region within the firmware store used for a firmware image that is being transferred to the device. Once transfer is complete, the image in the staging area can be verified during installation.</p>
+<p>See <a class="reference internal" href="overview/architecture.html#arch-firmware-store"><span class="secref">Firmware store</span></a>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><span><span class="target" id="term-updatable-platform-root-of-trust"></span><span>Updatable Platform Root of Trust</span></span></td>
 <td><p>Part of the <a class="reference internal" href="#term-platform-root-of-trust"><span class="term">Platform Root of Trust</span></a> firmware that can be updated following manufacturing. See <span><em>Platform Security Model</em> <a class="reference internal" href="#cite-psm"><span class="cite">[PSM]</span></a></span>.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-update-client"></span><span>Update client</span></span></td>
+<tr class="row-even"><td><span><span class="target" id="term-update-client"></span><span>Update client</span></span></td>
 <td><p>Software component that is responsible for downloading firmware updates to the device. The Update client is part of the <a class="reference internal" href="#term-application-firmware"><span class="term">application firmware</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><span><span class="target" id="term-volatile-staging"></span><span>Volatile staging</span></span></td>
+<td><p>A component with volatile staging does not preserve a firmware image that is in the <a class="reference internal" href="#term-staging-area"><span class="term">staging area</span></a> after a reboot.</p>
+<p>A component without volatile staging preserves a prepared candidate firmware image after a reboot. It is <a class="reference internal" href="#term-implementation-defined"><span class="scterm">implementation defined</span></a> whether a partially prepared image in in the staging area is retained after a system reset.</p>
+<p>See <a class="reference internal" href="api/api.html#c.PSA_FWU_FLAG_VOLATILE_STAGING" title="PSA_FWU_FLAG_VOLATILE_STAGING"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_FLAG_VOLATILE_STAGING</span></code></a>.</p>
+</td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="potential-for-change">
-<h2>Potential for change<a class="headerlink" href="#potential-for-change" title="Permalink to this headline">¶</a></h2>
+<h2>Potential for change<a class="headerlink" href="#potential-for-change" title="Permalink to this heading">¶</a></h2>
+<p>The contents of this specification are stable for version 1.0.</p>
 <p>The following may change in updates to the version 1.0 specification:</p>
 <ul class="simple">
-<li><p>Important API changes required before issuing a final v1.0.0 specification.</p></li>
-<li><p>Optional feature additions.</p></li>
-<li><p>Corrections and additions to the informative chapters, use cases and examples.</p></li>
+<li><p>Small optional feature additions.</p></li>
 <li><p>Clarifications.</p></li>
 </ul>
+<p>Significant additions, or any changes that affect the compatibility of the interfaces defined in this specification will only be included in a new major or minor version of the specification.</p>
 </section>
 <section id="conventions">
-<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this heading">¶</a></h2>
 <section id="typographical-conventions">
-<h3>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this headline">¶</a></h3>
+<h3>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this heading">¶</a></h3>
 <p>The typographical conventions are:</p>
 <dl>
 <dt><em>italic</em></dt><dd><p>Introduces special terminology, and denotes citations.</p>
@@ -317,7 +342,7 @@ in the <em>Terms and abbreviations</em>.</p>
 </dl>
 </section>
 <section id="numbers">
-<h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this headline">¶</a></h3>
+<h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this heading">¶</a></h3>
 <p>Numbers are normally written in decimal. Binary numbers are preceded by 0b, and
 hexadecimal numbers by <code class="docutils literal notranslate"><span class="pre">0x</span></code>.</p>
 <p>In both cases, the prefix and the associated value are written in a monospace
@@ -327,19 +352,13 @@ written with an underscore separator between every four characters, for example
 a number.</p>
 </section>
 </section>
-<section id="current-status-and-anticipated-changes">
-<h2>Current status and anticipated changes<a class="headerlink" href="#current-status-and-anticipated-changes" title="Permalink to this headline">¶</a></h2>
-<p>This document is at Beta quality status which has a particular meaning to Arm of which the recipient must be aware.
-A Beta quality specification will be sufficiently stable &amp; committed for initial product development, however all aspects of the architecture described herein remain SUBJECT TO CHANGE.
-Please ensure that you have the latest revision.</p>
-</section>
 <section id="feedback">
-<span id="id3"></span><h2>Feedback<a class="headerlink" href="#feedback" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h2>
 <p>We welcome feedback on the PSA Certified API documentation.</p>
 <p>If you have comments on the content of this book, visit <a class="reference external" href="https://github.com/arm-software/psa-api/issues">github.com/arm-software/psa-api/issues</a> to create a new issue at the PSA Certified API GitHub project. Give:</p>
 <ul class="simple">
 <li><p>The title (Firmware Update API).</p></li>
-<li><p>The number and issue (IHI 0093 1.0 Beta (Issue 0)).</p></li>
+<li><p>The number and issue (IHI 0093 1.0.0).</p></li>
 <li><p>The location in the document to which your comments apply.</p></li>
 <li><p>A concise explanation of your comments.</p></li>
 </ul>
@@ -360,8 +379,7 @@ Please ensure that you have the latest revision.</p>
 <h3><a href="index.html"><b>PSA Certified<br />Firmware Update API</b></a></h3>
 IHI 0093<br/>
 Non-confidential<br/>
-Version 1.0-bet.0
-<span style="font-weight: bold;"></span>
+Version 1.0.0
 <hr />
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">About this document</a><ul>
@@ -371,7 +389,6 @@ Version 1.0-bet.0
 <li class="toctree-l2"><a class="reference internal" href="#terms-and-abbreviations">Terms and abbreviations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#potential-for-change">Potential for change</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#conventions">Conventions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#current-status-and-anticipated-changes">Current status and anticipated changes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#feedback">Feedback</a></li>
 </ul>
 </li>
@@ -387,7 +404,8 @@ Version 1.0-bet.0
 <li class="toctree-l1"><a class="reference internal" href="appendix/example-header.html">A. Example header file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix/examples.html">B. Example usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix/variations.html">C. Variation in system design parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/change-history.html">D. Document change history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">D. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/change-history.html">E. Document change history</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="atg_c-identifiers.html">Index of API elements</a></li>
@@ -401,13 +419,13 @@ Version 1.0-bet.0
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2020-2022 Arm Limited and/or its affiliates.
+      &copy; 2020-2023 Arm Limited and/or its affiliates.
       
     </div>
 

@@ -24,7 +24,7 @@ Specification | | | | |
 Crypto API | 1.1 | [HTML][crypto-html] | [&darr; PDF][crypto-pdf] | [All versions](crypto/)
 Secure Storage API | 1.0 | [HTML][storage-html] | [&darr; PDF][storage-pdf] | [All versions](storage/)
 Attestation API | 1.0 | [HTML][attestation-html] | [&darr; PDF][attestation-pdf] | [All versions](attestation/)
-Firmware Update API | 1.0 Beta | [HTML][fwu-html] | [&darr; PDF][fwu-pdf] | [All versions](fwu/)
+Firmware Update API | 1.0 | [HTML][fwu-html] | [&darr; PDF][fwu-pdf] | [All versions](fwu/)
 Status code API | 1.0 | [HTML][status-code-html] | [&darr; PDF][status-code-pdf] | [All versions](status-code/)
 
 ## Extensions
@@ -44,7 +44,7 @@ Crypto API | PAKE | 1.1 Beta | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [All
 [attestation-html]:  attestation/1.0/
 [attestation-pdf]:   attestation/1.0/IHI0085-PSA_Certified_Attestation_API-1.0.3.pdf
 [fwu-html]:          fwu/1.0/
-[fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0-bet.0.pdf
+[fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.0.pdf
 [pake-html]:         crypto/1.1/ext-pake/
 [pake-pdf]:          crypto/1.1/ext-pake/AES0058-PSA_Certified_Crypto_API-1.1_PAKE_Extension-bet.1.pdf
 
