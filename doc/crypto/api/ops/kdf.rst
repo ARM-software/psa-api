@@ -226,6 +226,28 @@ Key derivation algorithms
         | `PSA_KEY_TYPE_DERIVE` (for the PSK)
         | `PSA_KEY_TYPE_RAW_DATA` (for the other inputs)
 
+.. macro:: PSA_ALG_TLS12_ECJPAKE_TO_PMS
+    :definition: ((psa_algorithm_t)0x08000609)
+
+    .. summary::
+        The TLS 1.2 ECJPAKE-to-PMS key-derivation algorithm.
+
+    This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using the extension to the |API| defined in :cite-title:`PSA-PAKE`.
+
+    This KDF takes the shared secret *K* (an uncompressed EC point in case of EC J-PAKE) and calculates SHA256(*K.X*).
+
+    This function takes a single input:
+
+    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the shared secret K from EC J-PAKE. For secp256r1, the input is exactly 65 bytes.
+
+        The input can be supplied to the key derivation operation by calling :code:`psa_pake_get_implicit_key()`, part of the PAKE extension API defined in :cite:`PSA-PAKE`.
+
+    The 32-byte output has to be read in a single call to either `psa_key_derivation_output_bytes()` or `psa_key_derivation_output_key()`. The size of the output is defined as `PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE`.
+
+    .. subsection:: Compatible key types
+
+        None --- the secret input is extracted from a PAKE operation by calling :code:`psa_pake_get_implicit_key()`.
+
 .. macro:: PSA_ALG_PBKDF2_HMAC
     :definition: /* specification-defined value */
 
@@ -1139,3 +1161,11 @@ Support macros
         TLS implementations supporting these cipher suites MUST support arbitrary PSK identities up to 128 octets in length, and arbitrary PSKs up to 64 octets in length. Supporting longer identities and keys is RECOMMENDED.
 
     Therefore, it is recommended that implementations define `PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE` with a value greater than or equal to ``64``.
+
+.. macro:: PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE
+    :definition: 32
+
+    .. summary::
+        The size of the output from the TLS 1.2 ECJPAKE-to-PMS key-derivation algorithm, in bytes.
+
+    This value can be used when extracting the result of a key-derivation operation that was set up with the `PSA_ALG_TLS12_ECJPAKE_TO_PMS` algorithm.
