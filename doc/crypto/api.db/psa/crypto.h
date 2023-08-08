@@ -176,7 +176,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_CIPHER_UPDATE_OUTPUT_SIZE(key_type, alg, input_length) \
     /* implementation-defined value */
 #define PSA_CRYPTO_API_VERSION_MAJOR 1
-#define PSA_CRYPTO_API_VERSION_MINOR 1
+#define PSA_CRYPTO_API_VERSION_MINOR 2
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
 #define PSA_ECC_FAMILY_BRAINPOOL_P_R1 ((psa_ecc_family_t) 0x30)
 #define PSA_ECC_FAMILY_FRP ((psa_ecc_family_t) 0x33)
