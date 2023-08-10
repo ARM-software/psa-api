@@ -150,6 +150,39 @@ Cipher algorithms
         | `PSA_KEY_TYPE_CAMELLIA`
         | `PSA_KEY_TYPE_SM4`
 
+.. macro:: PSA_ALG_CCM_STAR_NO_TAG
+    :definition: ((psa_algorithm_t)0x04c01300)
+
+    .. summary::
+        The CCM* cipher mode without authentication.
+
+    This is CCM* as specified in :cite-title:`IEEE-CCM` §7, with a tag length of 0. For CCM* with a nonzero tag length, use the AEAD algorithm `PSA_ALG_CCM`.
+
+    The underlying block cipher is determined by the key type.
+
+    The IV generated or set in the cipher API is used as the nonce in the CCM* operation. An implementation must support the default IV length of 13. Support for setting a shorter IV is optional.
+
+    The maximum message length that can be encrypted is dependent on the length of the IV. See `PSA_ALG_CCM` for details of this relationship.
+
+    .. subsection:: Usage in zigbee
+
+        The zigbee message encryption algorithm is based on CCM*. This is detailed in :cite-title:`ZIGBEE` §B.1.1 and §A.
+
+        *   For unauthenticated messages — when *M* = 0 --- the `PSA_ALG_CCM_STAR_NO_TAG` algorithm is used with an AES-128 key in a multi-part cipher operation. The 13-byte IV must be constructed as specified in `[ZIGBEE]`, and provided to the operation using `psa_cipher_set_iv()`.
+
+            An implementation of zigbee cannot use the single-part cipher functions, as these generate a random IV, which is not valid for the zigbee protocol.
+
+        *   For authenticated messages — when *M* ∈ {4, 8, 16} --- the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` algorithm is used with an AES-128 key, where ``tag_length`` is the required value of *M*. The 13-byte nonce must be constructed as specified in `[ZIGBEE]`.
+
+        *   To enable a single AES-128 key to be used for both the `PSA_ALG_CCM_STAR_NO_TAG` cipher and `PSA_ALG_CCM` AEAD algorithm, the key can be defined with the wildcard `PSA_ALG_CCM_STAR_ANY_TAG` permitted algorithm.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_AES`
+        | `PSA_KEY_TYPE_ARIA`
+        | `PSA_KEY_TYPE_CAMELLIA`
+        | `PSA_KEY_TYPE_SM4`
+
 .. macro:: PSA_ALG_CFB
     :definition: ((psa_algorithm_t)0x04c01100)
 
@@ -832,6 +865,14 @@ Support macros
         ``1`` if ``alg`` is a stream cipher algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier or if it is not a symmetric cipher algorithm.
 
     A stream cipher is a symmetric cipher that encrypts or decrypts messages by applying a bitwise-xor with a stream of bytes that is generated from a key.
+
+.. macro:: PSA_ALG_CCM_STAR_ANY_TAG
+    :definition: ((psa_algorithm_t)0x04c09300)
+
+    .. summary::
+        A wildcard algorithm that permits the use of the key with CCM* as both an AEAD and an unauthenticated cipher algorithm.
+
+    If a block-cipher key specifies `PSA_ALG_CCM_STAR_ANY_TAG` as its permitted algorithm, then the key can be used with the `PSA_ALG_CCM_STAR_NO_TAG` unauthenticated cipher, the `PSA_ALG_CCM` AEAD algorithm, and truncated `PSA_ALG_CCM` AEAD algorithms.
 
 .. macro:: PSA_CIPHER_ENCRYPT_OUTPUT_SIZE
     :definition: /* implementation-defined value */

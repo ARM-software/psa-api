@@ -198,6 +198,8 @@ The defined values for S, B, and CIPHER-TYPE are shown in :numref:`table-cipher-
     CTR mode :sup:`b`, 1, 1, ``0x10``, `PSA_ALG_CTR`, ``0x04C01000``
     CFB mode :sup:`b`, 1, 1, ``0x11``, `PSA_ALG_CFB`, ``0x04C01100``
     OFB mode :sup:`b`, 1, 1, ``0x12``, `PSA_ALG_OFB`, ``0x04C01200``
+    CCM* with zero-length tag :sup:`b`, 1, 1, ``0x13``, `PSA_ALG_CCM_STAR_NO_TAG`, ``0x04C01300``
+    *CCM\* wildcard* :sup:`c`, 1, 1, ``0x93``, `PSA_ALG_CCM_STAR_ANY_TAG`, ``0x04c09300``
     XTS mode :sup:`b`, 0, 1, ``0xFF``, `PSA_ALG_XTS`, ``0x0440FF00``
     CBC mode without padding :sup:`b`, 0, 1, ``0x40``, `PSA_ALG_CBC_NO_PADDING`, ``0x04404000``
     CBC mode with PKCS#7 padding :sup:`b`, 0, 1, ``0x41``, `PSA_ALG_CBC_PKCS7`, ``0x04404100``
@@ -206,6 +208,8 @@ The defined values for S, B, and CIPHER-TYPE are shown in :numref:`table-cipher-
 a.  The stream cipher algorithm identifier `PSA_ALG_STREAM_CIPHER` is used with specific stream cipher key types, such as `PSA_KEY_TYPE_CHACHA20`.
 
 b.  This is a cipher mode of an underlying block cipher. The block cipher is determined by the key type that is provided to the cipher operation.
+
+c.  The wildcard algorithm `PSA_ALG_CCM_STAR_ANY_TAG` permits a key to be used with any CCM\* algorithm: unauthenticated cipher `PSA_ALG_CCM_STAR_NO_TAG`, and AEAD algorithm `PSA_ALG_CCM`.
 
 .. _aead-encoding:
 

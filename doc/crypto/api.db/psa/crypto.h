@@ -55,6 +55,8 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_CBC_NO_PADDING ((psa_algorithm_t)0x04404000)
 #define PSA_ALG_CBC_PKCS7 ((psa_algorithm_t)0x04404100)
 #define PSA_ALG_CCM ((psa_algorithm_t)0x05500100)
+#define PSA_ALG_CCM_STAR_ANY_TAG ((psa_algorithm_t)0x04c09300)
+#define PSA_ALG_CCM_STAR_NO_TAG ((psa_algorithm_t)0x04c01300)
 #define PSA_ALG_CFB ((psa_algorithm_t)0x04c01100)
 #define PSA_ALG_CHACHA20_POLY1305 ((psa_algorithm_t)0x05100500)
 #define PSA_ALG_CMAC ((psa_algorithm_t)0x03c00200)

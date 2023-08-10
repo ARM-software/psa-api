@@ -359,3 +359,9 @@
     :title: zigbee Specification
     :url: csa-iot.org/wp-content/uploads/2022/01/docs-05-3474-22-0csg-zigbee-specification-1.pdf
     :publication: April 2017
+
+.. reference:: IEEE-CCM
+    :author: IEEE
+    :title: IEEE Standard for Low-Rate Wireless Networks
+    :url: standards.ieee.org/ieee/802.15.4/7029/
+    :publication: 2020
