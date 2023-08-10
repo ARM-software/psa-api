@@ -353,3 +353,9 @@
     :author: Cragie, Hao
     :publication: June 2016
     :url: datatracker.ietf.org/doc/html/draft-cragie-tls-ecjpake-01
+
+.. reference:: ZIGBEE
+    :author: zigbee alliance
+    :title: zigbee Specification
+    :url: csa-iot.org/wp-content/uploads/2022/01/docs-05-3474-22-0csg-zigbee-specification-1.pdf
+    :publication: April 2017
