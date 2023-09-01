@@ -23,10 +23,11 @@ Expected PAKE API Flow :
 
 ### Ciphersuite
 
-The current PAKE ciphersuite does not have encoding for MAC. The SPAKE2+ draft recommends HMAC and CMAC for the MAC operation, therefore we should add MAC field in the ciphersuite.
-### Out of band set up
+The current PAKE ciphersuite does not have encoding for MAC. The SPAKE2+ draft recommends HMAC and CMAC for the MAC operation, therefore MAC field should be added to the ciphersuite.
 
-SPAKE2+ has an offline initialization step where both parties may share parties identities and additional data (the context). This step is considered out of scope but these shared information may be required for SPAKE2+ protocol execution.
+### Key types
+
+Define a new asymmetric key type for SPAKE2+ with `w0 || w1` as private key and `w0 || L` as public key.
 
 **Shared Information** : ProverID, VerifierID and Context.
 
@@ -36,32 +37,28 @@ SPAKE2+ has an offline initialization step where both parties may share parties 
     *   `psa_pake_set_user()` to input ProverID
     *   `psa_pake_set_peer()` to input VerifierID
     *   `psa_pake_set_role()` to set role as client/server
-    *   `psa_pake_input()` with *(new)* `PSA_PAKE_STEP_ADDITIONAL_DATA` step to input context (additional data).
+*   Additional proposed API
+    *   `psa_pake_set_context()` to input context (additional data)
 
-### Password, PBKDF Output and Verification value (W0, W1, L)
+### Registration
 
-SPAKE2+ requires PBKDF Output and Verification value (W0, W1, L) generated from password as below :
+Propose a new API `psa_pake_registration()` which will take as input:
+* PAKE operation with user and peer IDs
+* PBKDF operation which is initialized with the key attributes, PBKDF parameters and password received OOB
+* key attributes for the output
 
- `w0s || w1s = PBKDF(len(pw) || pw || len(A) || A || len(B) || B)`  
- `W0 = w0s mod p`  
- `W1 = w1s mod p`  
- `L = w1*P`
+The function will compute `w0 || w1` if role is set as prover or `w0 || L` if role is set as verifier and store the result as a key.
 
-Computing these values is considered Out of Scope for PAKE API as this a registration phase which could happen out of actual protocol flow.
-
-Since W0 & W1 and L serve as registartion records and verification value, these values can be treated as secrets.
-
-**Input methods** : Proposing two different approaches, protocol flow diagram has approach 2 mentioned below
-
-1.  Given secret nature of these values, we can use current `psa_pake_set_password_key()` to input these secrets.
-    1.  `W0||W1` as secret key on Prover side.
-    2.  `W0||L` as secret key on Verifier side.
-2.  Rename `psa_pake_set_password_key()` as `psa_pake_input_key()` to input mutiple secret keys and define steps for different keys
-    1.  For W0 and W1 on Prover side
-    2.  For W0 and L on Verifier side
+```
+psa_status_t psa_pake_registration(psa_pake_operation_t *pake, psa_key_derivation_operation_t *pbkdf, psa_key_attributes_t *attributes);
+```
 
 ### Key confirmation
 
 Key confirmation is part of the SPAKE2+ protocol. Current PSA Cryptography API 1.1 PAKE Extension only supports implicit key confirmation.
 
-*   New API `psa_pake_get_explicit_key()`  is required to provide keys with explicit key confirmation.
+*   New API `psa_pake_get_explicit_key()`  which will take as input the current PAKE operation and the attributes for the explicit key and return the key id of the explicit key.
+  ```
+  psa_pake_get_explicit_key(psa_pake_operation_t *pake, psa_key_attributes_t *attributes, psa_key_id_t *explicit_key);
+  ```
+
