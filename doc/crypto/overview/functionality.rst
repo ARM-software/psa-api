@@ -339,7 +339,7 @@ This specification defines interfaces for the following types of asymmetric cryp
 *   Asymmetric signature. See :secref:`sign`.
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
 
-For asymmetric encryption and signature, the API provides *single-part* functions. For key agreement, the API provides a single-part function and an additional input method for a key derivation operation.
+For asymmetric encryption and signature, the API provides *single-part* functions. For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
 
 
 Randomness and key generation

@@ -9,11 +9,19 @@
 Key agreement
 =============
 
-Two functions are provided for a Diffie-Hellman-style key agreement where each party combines its own private key with the peer’s public key.
+Three functions are provided for a Diffie-Hellman-style key agreement where each party combines its own private key with the peer’s public key:
 
-*   The recommended approach is to use a :ref:`key derivation operation <kdf>` with the `psa_key_derivation_key_agreement()` input function, which calculates a shared secret for the key derivation function.
+*   A call to `psa_key_agreement()` will compute the shared secret and store the result in a new derivation key.
 
-*   Where an application needs direct access to the shared secret, it can call `psa_raw_key_agreement()` instead. Note that in general the shared secret is not directly suitable for use as a key because it is biased.
+*   If the resulting shared secret will be used for a single key derivation, a :ref:`key derivation operation <kdf>` can be used with the `psa_key_derivation_key_agreement()` input function. This calculates the shared secret and inputs it directly to the key derivation operation.
+
+*   Where an application needs direct access to the shared secret, it can call `psa_raw_key_agreement()` instead.
+
+Using `psa_key_agreement()` or `psa_key_derivation_key_agreement()` is recommended, as these do not expose the shared secret to the application.
+
+.. note::
+
+    In general the shared secret is not directly suitable for use as a key because it is biased.
 
 .. _key-agreement-algorithms:
 
@@ -26,11 +34,11 @@ Key agreement algorithms
     .. summary::
         The finite-field Diffie-Hellman (DH) key agreement algorithm.
 
-    This algorithm can be used directly in a call to `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
+    This algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
     When used as a key's permitted-algorithm policy, the following uses are permitted:
 
-    *   In a call to `psa_raw_key_agreement()`, with algorithm `PSA_ALG_FFDH`.
+    *   In a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, with algorithm `PSA_ALG_FFDH`.
     *   In a call to `psa_key_derivation_key_agreement()`, with any combined key agreement and key derivation algorithm constructed with `PSA_ALG_FFDH`.
 
     When used as part of a multi-part key derivation operation, this implements a Diffie-Hellman key agreement scheme using a single Diffie-Hellman key-pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
@@ -49,11 +57,11 @@ Key agreement algorithms
     .. summary::
         The elliptic curve Diffie-Hellman (ECDH) key agreement algorithm.
 
-    This algorithm can be used directly in a call to `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
+    This algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
     When used as a key's permitted-algorithm policy, the following uses are permitted:
 
-    *   In a call to `psa_raw_key_agreement()`, with algorithm `PSA_ALG_ECDH`.
+    *   In a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, with algorithm `PSA_ALG_ECDH`.
     *   In a call to `psa_key_derivation_key_agreement()`, with any combined key agreement and key derivation algorithm constructed with `PSA_ALG_ECDH`.
 
     When used as part of a multi-part key derivation operation, this implements a Diffie-Hellman key agreement scheme using a single elliptic curve key-pair for each participant. This includes the *Ephemeral unified model*, the *Static unified model*, and the *One-pass Diffie-Hellman* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
@@ -114,6 +122,90 @@ Key agreement algorithms
 Standalone key agreement
 ------------------------
 
+.. function:: psa_key_agreement
+
+    .. summary::
+        Perform a key agreement and return the shared secret as a derivation key.
+
+    .. param:: psa_algorithm_t alg
+        The key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is true.
+    .. param:: psa_key_id_t private_key
+        Identifier of the private key to use.
+        It must permit the usage `PSA_KEY_USAGE_DERIVE`.
+    .. param:: const uint8_t * peer_key
+        Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
+    .. param:: size_t peer_key_length
+        Size of ``peer_key`` in bytes.
+
+    .. param:: const psa_key_attributes_t * attributes
+        The attributes for the new key.
+        This function uses the attributes as follows:
+
+        *   The key type must either be `PSA_KEY_TYPE_NONE` (``0``), or `PSA_KEY_TYPE_DERIVE`. :issue:`(Is this ok, or should we allow other unstructured (or just raw?) key types to be returned? Or should we mandate exactly one of those options, because the function always returns KEY_TYPE DERIVE?)`
+        *   The key size must either be ``0``, or the size of the key agreement output, in bits. :issue:`(Is this ok, or should we mandate leaving as default zero? Or should we permit the secret to be truncated into the output key?)`
+
+            The output size, in bits, of the key agreement is :code:`8 * PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` is the type of ``private_key`` and ``bits`` is the bit-size of either ``private_key`` or the ``peer_key``.
+
+        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
+        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
+        *   The key lifetime and identifier are required for a persistent key.
+
+        .. note::
+            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+
+    .. param:: psa_key_id_t * key
+        On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The new key contains the share secret.
+        If the key is persistent, the key material and the key's metadata have been saved to persistent storage.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``private_key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The following conditions can result in this error:
+
+        *   ``private_key`` does not have the `PSA_KEY_USAGE_DERIVE` flag, or it does not permit the requested algorithm.
+        *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``alg`` is not a key agreement algorithm.
+        *   ``private_key`` is not compatible with ``alg``.
+        *   ``peer_key`` is not a valid public key corresponding to ``private_key``.
+        *   The output key attribuets in ``attributes`` are not valid :
+
+            -   The key type is neither `PSA_KEY_TYPE_NONE`, nor a valid type fo.
+            -   The key size is neither ``0``, nor the correct output size for the algorithm.
+            -   The key lifetime is invalid.
+            -   The key identifier is not valid for the key lifetime.
+            -   The key usage flags include invalid values.
+            -   The key's permitted-usage algorithm is invalid.
+            -   The key attributes, as a whole, are invalid.
+
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The following conditions can result in this error:
+
+        *   ``alg`` is not supported or is not a key agreement algorithm.
+        *   ``private_key`` is not supported for use with ``alg``.
+        *   The output key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_BAD_STATE
+        The library requires initializing by a call to `psa_crypto_init()`.
+
+    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is returned as a derivation key, for use in a key derivation operation.
+
+    .. warning::
+        The raw result of a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key derivation algorithm.
+
+        The output of this function can be input to a key derivation operation using `psa_key_derivation_input_key()`.
+
 .. function:: psa_raw_key_agreement
 
     .. summary::
@@ -146,6 +238,8 @@ Standalone key agreement
         The first ``(*output_length)`` bytes of ``output`` contain the raw shared secret.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``private_key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_ALREADY_EXISTS
+        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
         ``private_key`` does not have the `PSA_KEY_USAGE_DERIVE` flag, or it does not permit the requested algorithm.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -168,11 +262,16 @@ Standalone key agreement
     .. retval:: PSA_ERROR_STORAGE_FAILURE
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
+    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is returned in the ``output`` buffer.
+
     .. warning::
-        The raw result of a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for use as key material. Instead it is recommended that the result is used as input to a key derivation algorithm. To chain a key agreement with a key derivation, use `psa_key_derivation_key_agreement()` and other functions from the key derivation interface.
+        The result of a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key derivation algorithm.
+
+        To chain a key agreement with a key derivation, either use `psa_key_agreement()` to obtain the result of the key agreement as a derivation key, or use `psa_key_derivation_key_agreement()` and other functions from the key derivation interface.
 
 Combining key agreement and key derivation
 ------------------------------------------
@@ -227,6 +326,12 @@ Combining key agreement and key derivation
     A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is passed as input to the key derivation operation. The output of this key derivation can be extracted by reading from the resulting operation to produce keys and other cryptographic material.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
+
+    .. note::
+
+        This function cannot be used when the resulting shared secret is required for multiple key derivations.
+
+        Instead, the application can call `psa_key_agreement()` to obtain the shared secret as a derivation key. This key can be used as input to as many key derivation operations as required.
 
 Support macros
 --------------
