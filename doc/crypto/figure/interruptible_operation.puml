@@ -1,0 +1,44 @@
+' SPDX-FileCopyrightText: Copyright 2023-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+!include atg-spec.pumh
+
+skinparam LegendFontSize 12
+
+legend bottom
+  --""———""-- Solid lines show successful operation
+  <color:darkred>""---""</color> Dashed lines show error flows
+  <color:blue>""………""</color> Dotted lines show operation cancellation
+end legend
+
+state inactive as "//inactive//"
+state starting as "//starting//"
+state active as "//active//"
+state finishing as "//finishing//"
+state error as "<color:darkred>//error//" ##darkred
+
+[*] --> inactive: **Initialize**
+note as N1
+   Operation object starts as
+   uninitialised memory
+end note
+inactive --> starting: **Setup**
+starting --> starting: **Setup-complete**\n//incomplete//
+starting --> active: **Setup-complete**
+active --> active: **Update**
+active --> finishing: **Finish**\n//incomplete//
+active --> inactive: **Finish**
+finishing --> finishing: **Finish**\n//incomplete//
+finishing --> inactive: **Finish**
+error -[#darkred,dashed]-> inactive: <color:darkred>**Abort**
+inactive -[#darkred,dashed]-> inactive: <color:darkred>**Setup**\n<color:darkred>//fails//
+starting -[#darkred,dashed]-> error: <color:darkred>**Setup-complete**\n<color:darkred>//fails//
+active -[#darkred,dashed]-> error: <color:darkred>**Update**\n<color:darkred>//fails//
+active -[#darkred,dashed]-> error: <color:darkred>**Finish**\n<color:darkred>//fails//
+finishing -[#darkred,dashed]-> error: <color:darkred>**Finish**\n<color:darkred>//fails//
+starting -[#blue,dotted]-> inactive: <color:blue>**Abort**
+active -[#blue,dotted]-> inactive: <color:blue>**Abort**
+finishing -[#blue,dotted]-> inactive: <color:blue>**Abort**
+
+@enduml
