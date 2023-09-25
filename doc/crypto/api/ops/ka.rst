@@ -141,8 +141,11 @@ Standalone key agreement
         The attributes for the new key.
         This function uses the attributes as follows:
 
-        *   The key type must either be `PSA_KEY_TYPE_NONE` (``0``), or `PSA_KEY_TYPE_DERIVE`. :issue:`(Is this ok, or should we allow other unstructured (or just raw?) key types to be returned? Or should we mandate exactly one of those options, because the function always returns KEY_TYPE DERIVE?)`
-        *   The key size must either be ``0``, or the size of the key agreement output, in bits. :issue:`(Is this ok, or should we mandate leaving as default zero? Or should we permit the secret to be truncated into the output key?)`
+        *   The key type must be one of `PSA_KEY_TYPE_DERIVE`, `PSA_KEY_TYPE_RAW_DATA`, `PSA_KEY_TYPE_HMAC`, or `PSA_KEY_TYPE_PASSWORD`.
+
+            Implementations must support the `PSA_KEY_TYPE_DERIVE` and `PSA_KEY_TYPE_RAW_DATA` key types. Support for output as `PSA_KEY_TYPE_HMAC` or `PSA_KEY_TYPE_PASSWORD` is :scterm:`implementation defined` .
+
+        *   The key size is always determined from the key agreement's shared secret. If the key size in ``attributes`` is nonzero, it must be equal to the size of the shared secret, in bits.
 
             The output size, in bits, of the key agreement is :code:`8 * PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` is the type of ``private_key`` and ``bits`` is the bit-size of either ``private_key`` or the ``peer_key``.
 
@@ -176,8 +179,8 @@ Standalone key agreement
         *   ``peer_key`` is not a valid public key corresponding to ``private_key``.
         *   The output key attribuets in ``attributes`` are not valid :
 
-            -   The key type is neither `PSA_KEY_TYPE_NONE`, nor a valid type fo.
-            -   The key size is neither ``0``, nor the correct output size for the algorithm.
+            -   The key type is not valid for key agreement output.
+            -   The key size is nonzero, and is not the size of the shared secret.
             -   The key lifetime is invalid.
             -   The key identifier is not valid for the key lifetime.
             -   The key usage flags include invalid values.
@@ -199,12 +202,10 @@ Standalone key agreement
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is returned as a derivation key, for use in a key derivation operation.
+    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, returned as a derivation key. The output of this function can be input to a key derivation operation using `psa_key_derivation_input_key()`.
 
     .. warning::
         The raw result of a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key derivation algorithm.
-
-        The output of this function can be input to a key derivation operation using `psa_key_derivation_input_key()`.
 
 .. function:: psa_raw_key_agreement
 
@@ -266,7 +267,7 @@ Standalone key agreement
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is returned in the ``output`` buffer.
+    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, returned in the ``output`` buffer.
 
     .. warning::
         The result of a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key derivation algorithm.
@@ -323,7 +324,7 @@ Combining key agreement and key derivation
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is passed as input to the key derivation operation. The output of this key derivation can be extracted by reading from the resulting operation to produce keys and other cryptographic material.
+    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, which is directly input to the key derivation operation. The output of the key derivation can be extracted by reading from the resulting operation to produce keys and other cryptographic material.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
