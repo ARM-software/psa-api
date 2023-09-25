@@ -276,14 +276,100 @@ This specification defines interfaces for the following types of asymmetric cryp
 
 For asymmetric encryption, the API provides *single-part* functions.
 
-For asymmetric signature, the API provides single-part functions.
+For asymmetric signature, the API provides single-part functions and *interruptible operations* (see :secref:`interruptible-operations`).
 
-For key agreement, the API provides single-part functions and an additional input method for a key-derivation operation.
+For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
 
 For key encapsulation, the API provides single-part functions.
 
 For PAKE, the API provides a *multi-part* operation.
 
+.. _interruptible-operations:
+
+Interruptible operations
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Interruptible operations are APIs which split a single computationally-expensive operation into a sequence of separate function calls, each of which has a bounded execution time. Interruptible operations are useful in application contexts where responsiveness is critical, and techniques such a multi-threading are not available. This is achieved by limiting the amount of computational progress that is made for each function call.
+
+For some use cases, this can be achieved by controlling the amount of data processed by the function. For example, a hash can be computed using a multi-part operation to break up the computation into smaller blocks. For other use cases, the execution time is a consequence of the computational complexity of the algorithm, and a multi-part operation does not enable a caller to bound the runtime of each function. For example, verifying an asymmetric signature.
+
+.. note::
+
+    Unlike multi-part operations, an interruptible operation does not provide additional control over the inputs to an algorithm. If an application does not need to interrupt the operation, it is recommended that the appropriate single-part function is used.
+
+There are three components in an interruptible operation:
+
+*   A specific object type to maintain the state of the operation, in a similar way to multi-part operations. These types are implementation-defined.
+*   A non-error status code, :code:`PSA_OPERATION_INCOMPLETE`, that is returned by some interruptible operation functions to indicate that the computation is incomplete. The same function must be called repeatedly until it returns either a success or an error status.
+*   The concept of a unit of work --- called *ops* --- that can be carried out by an interruptible operation function. The amount of computation done, or time duration, for one *op* is implementation- and function- specific, and can depend on the algorithm inputs, for example, the key size.
+
+    An application can set an overall *max ops* value, that limits the *ops* performed within any interruptible function called by that application. The current *max ops* value can also be queried.
+
+    Each interruptible operation also provides a function to report the cumulative number of *ops* used by the operation. This value is only reset when the operation object is set up for a new operation, which permits the value to be queried after an operation has finished.
+
+All interruptible operations follow the same pattern of use, which is shown in :numref:`fig-interruptible`.
+
+.. figure::  /figure/interruptible_operation.*
+    :name: fig-interruptible
+
+    General state model for an interruptible operation
+
+The typical sequence of actions with a interruptible operation is as follows:
+
+1.  **Allocate:** Allocate memory for an operation object of the appropriate type. The application can use any allocation strategy: stack, heap, static, etc.
+
+#.  **Initialize:** Initialize or assign the operation object by one of the following methods:
+
+    -   Set it to logical zero. This is automatic for static and global variables. Explicit initialization must use the associated ``PSA_xxx_INIT`` macro as the type is implementation-defined.
+    -   Set it to all-bits zero. This is automatic if the object was allocated with ``calloc()``.
+    -   Assign the value of the associated macro ``PSA_xxx_INIT``.
+    -   Assign the result of calling the associated function ``psa_xxx_init()``.
+
+    The resulting object is now *inactive*.
+    It is an error to initialize an operation object that is in *active* or *error* states. This can leak memory or other resources.
+
+#.  **Begin-setup:** Start a new interruptible operation on an *inactive* operation object. Each operation object will define one or more setup functions to start a specific operation.
+
+    On success, an operation object enters a *starting* state. On failure, the operation object will remain *inactive*.
+
+#.  **Complete-setup:** Complete the operation setup on an interruptible operation object that is *starting*.
+
+    If the setup computation is interrupted, a the operation remains in *starting* state. If setup completes successfully, the operation enters an *active* state. On failure, the operation object will enter an *error* state.
+
+    An application needs to repeat this step until the setup completes with success or an error status.
+
+#.  **Update:** Update an *active* interruptible operation object. The update function can provide additional parameters, supply data for processing or generate outputs.
+
+    On success, the operation object remains *active*. On failure, the operation object will enter an *error* state.
+
+#.  **Finish:** To end an interruptible operation, call the applicable finishing function. This will take any final inputs, produce any final outputs, and then release any resources associated with the operation.
+
+    If the finishing computation is interrupted, a the operation is left in *finishing* state. If finishing completes successfully, the operation enters an *inactive* state. On failure, the operation object will enter an *error* state.
+
+    An application needs to repeat this step until the finishing function completes with success or an error status.
+
+#.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_abort()`` function. This will release any resources associated with the operation and return the operation object to the *inactive* state.
+
+    Any error that occurs to an operation while it is in an *active* state will result in the operation entering an *error* state. The application must call the associated ``psa_xxx_abort()`` function to release the operation resources and return the object to the *inactive* state.
+
+    ``psa_xxx_abort()`` can be called on an *inactive* operation, and this has no effect.
+
+Once an interruptible operation object is returned to the *inactive* state, it can be reused by calling one of the applicable setup functions again.
+
+If an interruptible operation object is not initialized before use, the behavior is undefined.
+
+If an interruptible operation function determines that the operation object is not in any valid state, it can return :code:`PSA_ERROR_CORRUPTION_DETECTED`.
+
+If an interruptible operation function is called with an operation object in the wrong state, the function will return :code:`PSA_ERROR_BAD_STATE` and the operation object will enter the *error* state.
+
+It is safe to move an interruptible operation object to a different memory location, for example, using a bitwise copy, and then to use the object in the new location. For example, an application can allocate an operation object on the stack and return it, or the operation object can be allocated within memory managed by a garbage collector. However, this does not permit the following behaviors:
+
+*   Moving the object while a function is being called on the object. See also :secref:`concurrency`.
+*   Working with both the original and the copied operation objects.
+
+Each type of interruptible operation can have multiple *starting*, *active*, and *finishing* states. Documentation for the specific operation describes the setup, update and finishing functions, and any requirements about their usage and ordering.
+
+See :secref:`interruptible_example` for an example of using an interruptible operation.
 
 Randomness and key generation
 -----------------------------
