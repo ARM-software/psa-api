@@ -366,7 +366,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
         An implementations can report attribute values that are equivalent to the original one, but have a different encoding. For example, an implementation can use a more compact representation for attributes where many bit-patterns are invalid or not supported, and store all values that it does not support as a special marker value. In such an implementation, after setting an invalid value, the corresponding get function returns an invalid value which might not be the one that was originally stored.
 
-    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in in implementation-specific behavior, and are non-portable.
+    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
     Before calling any function on a PAKE cipher suite object, the application must initialize it by any of the following means:
 
@@ -691,7 +691,7 @@ Multi-part PAKE operations
             psa_pake_operation_t operation;
             operation = psa_pake_operation_init();
 
-    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in in implementation-specific behavior, and are non-portable.
+    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
 .. macro:: PSA_PAKE_OPERATION_INIT
     :definition: /* implementation-defined value */

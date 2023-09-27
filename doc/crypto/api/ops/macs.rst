@@ -318,7 +318,7 @@ Multi-part MAC operations
             psa_mac_operation_t operation;
             operation = psa_mac_operation_init();
 
-    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in in implementation-specific behavior, and are non-portable.
+    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
 .. macro:: PSA_MAC_OPERATION_INIT
     :definition: /* implementation-defined value */

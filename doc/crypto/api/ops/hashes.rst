@@ -309,7 +309,7 @@ Multi-part hashing operations
             psa_hash_operation_t operation;
             operation = psa_hash_operation_init();
 
-    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in in implementation-specific behavior, and are non-portable.
+    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
 .. macro:: PSA_HASH_OPERATION_INIT
     :definition: /* implementation-defined value */

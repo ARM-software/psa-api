@@ -48,7 +48,7 @@ See :secref:`variations-volatile` for example state models for a component that 
 Component that requires a reboot, but no trial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If a component does not require testing before committing the update, the the TRIAL and REJECTED states are not used.
+If a component does not require testing before committing the update, the TRIAL and REJECTED states are not used.
 
 *  The reboot that installs the firmware will transition the component to UPDATED on success, or FAILED on failure, unless the target state is volatile, in which case the reboot will transition the component to READY.
 *  The ``accept`` operation is never used.
