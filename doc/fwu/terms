@@ -82,7 +82,7 @@
 
    A component with volatile staging does not preserve a firmware image that is in the :term:`staging area` after a reboot.
 
-   A component without volatile staging preserves a prepared candidate firmware image after a reboot. It is :scterm:`implementation defined` whether a partially prepared image in in the staging area is retained after a system reset.
+   A component without volatile staging preserves a prepared candidate firmware image after a reboot. It is :scterm:`implementation defined` whether a partially prepared image in the staging area is retained after a system reset.
 
    See `PSA_FWU_FLAG_VOLATILE_STAGING`.
 

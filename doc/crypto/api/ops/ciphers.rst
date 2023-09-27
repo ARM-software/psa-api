@@ -439,7 +439,7 @@ Multi-part cipher operations
             psa_cipher_operation_t operation;
             operation = psa_cipher_operation_init();
 
-    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in in implementation-specific behavior, and are non-portable.
+    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
 .. macro:: PSA_CIPHER_OPERATION_INIT
     :definition: /* implementation-defined value */
