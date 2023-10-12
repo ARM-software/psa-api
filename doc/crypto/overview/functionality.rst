@@ -303,7 +303,7 @@ There are three components in an interruptible operation:
 *   A non-error status code, :code:`PSA_OPERATION_INCOMPLETE`, that is returned by some interruptible operation functions to indicate that the computation is incomplete. The same function must be called repeatedly until it returns either a success or an error status.
 *   The concept of a unit of work --- called *ops* --- that can be carried out by an interruptible operation function. The amount of computation done, or time duration, for one *op* is implementation- and function- specific, and can depend on the algorithm inputs, for example, the key size.
 
-    An application can set an overall *max ops* value, that limits the *ops* performed within any interruptible function called by that application. The current *max ops* value can also be queried.
+    An application can set an overall *maximum ops* value, that limits the *ops* performed within any interruptible function called by that application. The current *maximum ops* value can also be queried. If the *maximum ops* is not set by an application, interruptible functions will not return until the operation is complete.
 
     Each interruptible operation also provides a function to report the cumulative number of *ops* used by the operation. This value is only reset when the operation object is set up for a new operation, which permits the value to be queried after an operation has finished.
 
@@ -334,25 +334,25 @@ The typical sequence of actions with a interruptible operation is as follows:
 
 #.  **Complete-setup:** Complete the operation setup on an interruptible operation object that is *starting*.
 
-    If the setup computation is interrupted, a the operation remains in *starting* state. If setup completes successfully, the operation enters an *active* state. On failure, the operation object will enter an *error* state.
+    If the setup computation is interrupted, a the operation remains in *setup* state. If setup completes successfully, the operation enters an *input* state. On failure, the operation object will enter an *error* state.
 
     An application needs to repeat this step until the setup completes with success or an error status.
 
-#.  **Update:** Update an *active* interruptible operation object. The update function can provide additional parameters, supply data for processing or generate outputs.
+#.  **Update:** Update an interruptible operation object in *input* state. The update function can provide additional parameters, supply data for processing or generate outputs.
 
-    On success, the operation object remains *active*. On failure, the operation object will enter an *error* state.
+    On success, the operation object remains in *input* state. On failure, the operation object will enter an *error* state.
 
-#.  **Finish:** To end an interruptible operation, call the applicable finishing function. This will take any final inputs, produce any final outputs, and then release any resources associated with the operation.
+#.  **Complete:** To end an interruptible operation, call the applicable completion function. This will perform the final computation, produce any final outputs, and then release any resources associated with the operation.
 
-    If the finishing computation is interrupted, a the operation is left in *finishing* state. If finishing completes successfully, the operation enters an *inactive* state. On failure, the operation object will enter an *error* state.
+    If the finishing computation is interrupted, a the operation is left in *completing* state. If the operation completes successfully, the operation enters an *inactive* state. On failure, the operation object will enter an *error* state.
 
-    An application needs to repeat this step until the finishing function completes with success or an error status.
+    An application needs to repeat this step until the completion function completes with success or an error status.
 
-#.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_abort()`` function. This will release any resources associated with the operation and return the operation object to the *inactive* state.
+#.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_interruptible_abort()`` function. This will release any resources associated with the operation and return the operation object to the *inactive* state.
 
-    Any error that occurs to an operation while it is in an *active* state will result in the operation entering an *error* state. The application must call the associated ``psa_xxx_abort()`` function to release the operation resources and return the object to the *inactive* state.
+    Any error that occurs to an operation while it is not in an *inactive* state will result in the operation entering an *error* state. The application must call the associated ``psa_xxx_interruptible_abort()`` function to release the operation resources and return the object to the *inactive* state.
 
-    ``psa_xxx_abort()`` can be called on an *inactive* operation, and this has no effect.
+    ``psa_xxx_interruptible_abort()`` can be called on an *inactive* operation, and this has no effect.
 
 Once an interruptible operation object is returned to the *inactive* state, it can be reused by calling one of the applicable setup functions again.
 
@@ -367,9 +367,9 @@ It is safe to move an interruptible operation object to a different memory locat
 *   Moving the object while a function is being called on the object. See also :secref:`concurrency`.
 *   Working with both the original and the copied operation objects.
 
-Each type of interruptible operation can have multiple *starting*, *active*, and *finishing* states. Documentation for the specific operation describes the setup, update and finishing functions, and any requirements about their usage and ordering.
+Each type of interruptible operation can have multiple *setup*, *input*, and *completing* states. Documentation for the specific operation describes the setup, update and completion functions, and any requirements about their usage and ordering.
 
-See :secref:`interruptible_example` for an example of using an interruptible operation.
+See :secref:`interruptible_sign` for an example of using an interruptible operation.
 
 Randomness and key generation
 -----------------------------
