@@ -17,6 +17,8 @@ Changes between *1.1.2* and *1.2.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
+*   Added interruptible operations for asymmetric sign and verify. See :secref:`sign` and :secref:`interruptible-operations`.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
