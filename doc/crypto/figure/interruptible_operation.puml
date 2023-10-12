@@ -13,9 +13,9 @@ legend bottom
 end legend
 
 state inactive as "//inactive//"
-state starting as "//starting//"
-state active as "//active//"
-state finishing as "//finishing//"
+state setup as "//setup//"
+state input as "//input//"
+state completing as "//completing//"
 state error as "<color:darkred>//error//" ##darkred
 
 [*] --> inactive: **Initialize**
@@ -23,22 +23,22 @@ note as N1
    Operation object starts as
    uninitialised memory
 end note
-inactive --> starting: **Setup**
-starting --> starting: **Setup-complete**\n//incomplete//
-starting --> active: **Setup-complete**
-active --> active: **Update**
-active --> finishing: **Finish**\n//incomplete//
-active --> inactive: **Finish**
-finishing --> finishing: **Finish**\n//incomplete//
-finishing --> inactive: **Finish**
+inactive --> setup: **Setup**
+setup --> setup: **Setup-complete**\n//incomplete//
+setup --> input: **Setup-complete**
+input --> input: **Update**
+input --> completing: **Complete**\n//incomplete//
+input --> inactive: **Complete**
+completing --> completing: **Complete**\n//incomplete//
+completing --> inactive: **Complete**
 error -[#darkred,dashed]-> inactive: <color:darkred>**Abort**
 inactive -[#darkred,dashed]-> inactive: <color:darkred>**Setup**\n<color:darkred>//fails//
-starting -[#darkred,dashed]-> error: <color:darkred>**Setup-complete**\n<color:darkred>//fails//
-active -[#darkred,dashed]-> error: <color:darkred>**Update**\n<color:darkred>//fails//
-active -[#darkred,dashed]-> error: <color:darkred>**Finish**\n<color:darkred>//fails//
-finishing -[#darkred,dashed]-> error: <color:darkred>**Finish**\n<color:darkred>//fails//
-starting -[#blue,dotted]-> inactive: <color:blue>**Abort**
-active -[#blue,dotted]-> inactive: <color:blue>**Abort**
-finishing -[#blue,dotted]-> inactive: <color:blue>**Abort**
+setup -[#darkred,dashed]-> error: <color:darkred>**Setup-complete**\n<color:darkred>//fails//
+input -[#darkred,dashed]-> error: <color:darkred>**Update**\n<color:darkred>//fails//
+input -[#darkred,dashed]-> error: <color:darkred>**Complete**\n<color:darkred>//fails//
+completing -[#darkred,dashed]-> error: <color:darkred>**Complete**\n<color:darkred>//fails//
+setup -[#blue,dotted]-> inactive: <color:blue>**Abort**
+input -[#blue,dotted]-> inactive: <color:blue>**Abort**
+completing -[#blue,dotted]-> inactive: <color:blue>**Abort**
 
 @enduml
