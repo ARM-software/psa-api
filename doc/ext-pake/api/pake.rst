@@ -56,7 +56,7 @@ Changes and additions to the Programming API
     :license: Apache-2.0
 
     /* This file contains reference definitions for implementation of the
-     * PSA Certified Crypto API v1.1 PAKE Extension beta.1
+     * PSA Certified Crypto API v1.2 PAKE Extension beta.2
      *
      * These definitions must be embedded in, or included by, psa/crypto.h
      */
