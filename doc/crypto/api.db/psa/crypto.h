@@ -17,6 +17,8 @@ typedef uint8_t psa_key_persistence_t;
 typedef uint16_t psa_key_type_t;
 typedef uint32_t psa_key_usage_t;
 typedef /* implementation-defined type */ psa_mac_operation_t;
+typedef /* implementation-defined type */ psa_sign_interruptible_operation_t;
+typedef /* implementation-defined type */ psa_verify_interruptible_operation_t;
 #define PSA_AEAD_DECRYPT_OUTPUT_MAX_SIZE(ciphertext_length) \
     /* implementation-defined value */
 #define PSA_AEAD_DECRYPT_OUTPUT_SIZE(key_type, alg, ciphertext_length) \
@@ -207,6 +209,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
     /* specification-defined value */
 #define PSA_HASH_SUSPEND_OUTPUT_MAX_SIZE /* implementation-defined value */
 #define PSA_HASH_SUSPEND_OUTPUT_SIZE(alg) /* specification-defined value */
+#define PSA_INTERRUPTIBLE_MAX_OPS_UNLIMITED UINT32_MAX
 #define PSA_KEY_ATTRIBUTES_INIT /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_CONTEXT /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_COST /* implementation-defined value */
@@ -298,9 +301,13 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(key_type, key_bits) \
     /* implementation-defined value */
 #define PSA_SIGNATURE_MAX_SIZE /* implementation-defined value */
+#define PSA_SIGN_INTERRUPTIBLE_OPERATION_INIT \
+    /* implementation-defined value */
 #define PSA_SIGN_OUTPUT_SIZE(key_type, key_bits, alg) \
     /* implementation-defined value */
 #define PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE /* implementation-defined value */
+#define PSA_VERIFY_INTERRUPTIBLE_OPERATION_INIT \
+    /* implementation-defined value */
 psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 psa_status_t psa_aead_decrypt(psa_key_id_t key,
                               psa_algorithm_t alg,
@@ -483,6 +490,8 @@ psa_status_t psa_import_key(const psa_key_attributes_t * attributes,
                             const uint8_t * data,
                             size_t data_length,
                             psa_key_id_t * key);
+uint32_t psa_interruptible_get_max_ops(void);
+void psa_interruptible_set_max_ops(uint32_t max_ops);
 psa_key_attributes_t psa_key_attributes_init(void);
 psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation);
 psa_status_t psa_key_derivation_get_capacity(const psa_key_derivation_operation_t * operation,
@@ -577,6 +586,23 @@ psa_status_t psa_sign_hash(psa_key_id_t key,
                            uint8_t * signature,
                            size_t signature_size,
                            size_t * signature_length);
+psa_status_t psa_sign_interruptible_abort(psa_sign_interruptible_operation_t * operation);
+psa_status_t psa_sign_interruptible_complete(psa_sign_interruptible_operation_t * operation,
+                                             uint8_t * signature,
+                                             size_t signature_size,
+                                             size_t * signature_length);
+uint32_t psa_sign_interruptible_get_num_ops(psa_sign_interruptible_operation_t * operation);
+psa_status_t psa_sign_interruptible_hash(psa_sign_interruptible_operation_t * operation,
+                                         const uint8_t * hash,
+                                         size_t hash_length);
+psa_sign_interruptible_operation_t psa_sign_interruptible_operation_init(void);
+psa_status_t psa_sign_interruptible_setup(psa_sign_interruptible_operation_t * operation,
+                                          psa_key_id_t key,
+                                          psa_algorithm_t alg);
+psa_status_t psa_sign_interruptible_setup_complete(psa_sign_interruptible_operation_t * operation);
+psa_status_t psa_sign_interruptible_update(psa_sign_interruptible_operation_t * operation,
+                                           const uint8_t * input,
+                                           size_t input_length);
 psa_status_t psa_sign_message(psa_key_id_t key,
                               psa_algorithm_t alg,
                               const uint8_t * input,
@@ -590,6 +616,22 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
                              size_t hash_length,
                              const uint8_t * signature,
                              size_t signature_length);
+psa_status_t psa_verify_interruptible_abort(psa_verify_interruptible_operation_t * operation);
+psa_status_t psa_verify_interruptible_complete(psa_verify_interruptible_operation_t * operation);
+uint32_t psa_verify_interruptible_get_num_ops(psa_verify_interruptible_operation_t * operation);
+psa_status_t psa_verify_interruptible_hash(psa_verify_interruptible_operation_t * operation,
+                                           const uint8_t * hash,
+                                           size_t hash_length);
+psa_verify_interruptible_operation_t psa_verify_interruptible_operation_init(void);
+psa_status_t psa_verify_interruptible_setup(psa_verify_interruptible_operation_t * operation,
+                                            psa_key_id_t key,
+                                            psa_algorithm_t alg,
+                                            const uint8_t * signature,
+                                            size_t signature_length);
+psa_status_t psa_verify_interruptible_setup_complete(psa_verify_interruptible_operation_t * operation);
+psa_status_t psa_verify_interruptible_update(psa_verify_interruptible_operation_t * operation,
+                                             const uint8_t * input,
+                                             size_t input_length);
 psa_status_t psa_verify_message(psa_key_id_t key,
                                 psa_algorithm_t alg,
                                 const uint8_t * input,
