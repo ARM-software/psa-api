@@ -24,6 +24,9 @@ API changes
 *   Add the `PSA_PAKE_STEP_CONFIRM` PAKE step for input and output of key confirmation values.
 *   Add `psa_pake_set_context()` to set context data for a PAKE operation.
 
+*   Replaced :code:`psa_pake_get_implicit_key()` with :code:`psa_pake_get_shared_key()`. This returns a new key containing the shared secret, instead of injecting the shared secret into a key derivation operation.
+*   Added a key confirmation attribute to the PAKE cipher suite. This indicates whether the application wants to extract the shared secret before, or after, key confirmation. See :secref:`pake-cipher-suite`.
+
 Clarifications
 ~~~~~~~~~~~~~~
 
