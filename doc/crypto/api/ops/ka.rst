@@ -177,7 +177,7 @@ Standalone key agreement
         *   ``alg`` is not a key agreement algorithm.
         *   ``private_key`` is not compatible with ``alg``.
         *   ``peer_key`` is not a valid public key corresponding to ``private_key``.
-        *   The output key attribuets in ``attributes`` are not valid :
+        *   The output key attributes in ``attributes`` are not valid :
 
             -   The key type is not valid for key agreement output.
             -   The key size is nonzero, and is not the size of the shared secret.
