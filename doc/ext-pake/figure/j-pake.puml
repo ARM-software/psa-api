@@ -8,9 +8,9 @@
     participant User
     participant Peer
 
-    note over User, Peer: Shared information: cipher suite, //UserId//, //PeerId//, and secret //s//
+    note over User, Peer: Shared information: cipher suite, secret //s//, //UserId//, and //PeerId//
 
-    User -> User: ""psa_pake_setup()""\n""psa_pake_set_user()""\n""psa_pake_set_peer()""\n""psa_pake_set_password_key()""
+    User -> User: ""psa_pake_setup()""\n""psa_pake_set_user()""\n""psa_pake_set_peer()""
 
     note over User: Generate //x1// and //x2//\nCompute public keys //g1// and //g2//\nCompute ZKP //(V1, r1)// for //g1// and //(V2, r2)// for //g2//
 

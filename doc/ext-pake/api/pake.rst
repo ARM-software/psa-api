@@ -127,17 +127,16 @@ PAKE algorithms
 
             psa_pake_operation_t jpake = PSA_PAKE_OPERATION_INIT;
 
-            psa_pake_setup(&jpake, &cipher_suite);
+            psa_pake_setup(&jpake, pake_key, &cipher_suite);
             psa_pake_set_user(&jpake, ...);
             psa_pake_set_peer(&jpake, ...);
-            psa_pake_set_password_key(&jpake, ...);
 
-        The password is provided as a key.
+        The password is provided as key ``pake_key``, with type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
         This can be the password text itself, in an agreed character encoding, or some value derived from the password as required by a higher level protocol.
 
         The key material is used as an array of bytes, which is converted to an integer as described in :cite-title:`SEC1` §2.3.8, before reducing it modulo *q*.
         Here, *q* is the order of the group defined by the cipher-suite primitive.
-        `psa_pake_set_password_key()` will return an error if the result of the conversion and reduction is ``0``.
+        `psa_pake_setup()` will return an error if the result of the conversion and reduction is ``0``.
 
     After setup, the key exchange flow for J-PAKE is as follows:
 
@@ -709,14 +708,21 @@ Multi-part PAKE operations
 .. function:: psa_pake_setup
 
     .. summary::
-        Set the session information for a password-authenticated key exchange.
+        Setup a password-authenticated key exchange.
 
     .. param:: psa_pake_operation_t *operation
         The operation object to set up.
         It must have been initialized as per the documentation for `psa_pake_operation_t` and not yet in use.
+    .. param:: psa_key_id_t password_key
+        Identifier of the key holding the password or a value derived from the password.
+        It must remain valid until the operation terminates.
+        It must be of type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
+        It must permit the usage :code:`PSA_KEY_USAGE_DERIVE`.
     .. param:: const psa_pake_cipher_suite_t *cipher_suite
         The cipher suite to use.
         A PAKE cipher suite fully characterizes a PAKE algorithm, including the PAKE algorithm.
+
+        The cipher suite must be compatible with the key type of ``password_key``.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -726,20 +732,30 @@ Multi-part PAKE operations
 
         *   The operation state is not valid: it must be inactive.
         *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``password_key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        ``psssword_key`` does not have the :code:`PSA_KEY_USAGE_DERIVE` flag, or it does not permit the algorithm in ``cipher_suite``.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
         *   The algorithm in ``cipher_suite`` is not a PAKE algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not compatible with the PAKE algorithm.
         *   The hash algorithm in ``cipher_suite`` is invalid, or not compatible with the PAKE algorithm and primitive.
+        *   The key type for ``password_key`` is not :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
+        *   ``password_key`` is not compatible with ``cipher_suite``.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
         *   The algorithm in ``cipher_suite`` is not a supported PAKE algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not supported or not compatible with the PAKE algorithm.
         *   The hash algorithm in ``cipher_suite`` is not supported, or not compatible with the PAKE algorithm and primitive.
-    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+        *   The key type or key size of ``password_key`` is not supported with ``cipher suite``.
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
 
     The sequence of operations to set up a password-authenticated key exchange operation is as follows:
 
@@ -757,7 +773,7 @@ Multi-part PAKE operations
     #.  Depending on the algorithm additional calls to `psa_pake_output()` and `psa_pake_input()` might be necessary.
     #.  Call `psa_pake_get_implicit_key()` to access the shared secret.
 
-    Refer to the documentation of individual PAKE algorithms for details on the required set up and operation for each algorithm.
+    Refer to the documentation of individual PAKE algorithms for details on the required set up and operation for each algorithm, and for constraints on the format and content of valid passwords.
     See :secref:`pake-algorithms`.
 
     After a successful call to `psa_pake_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
@@ -772,18 +788,16 @@ Multi-part PAKE operations
     ..
         See :secref:`multi-part-operations`.
 
-.. function:: psa_pake_set_password_key
+.. function:: psa_pake_set_role
 
     .. summary::
-        Set the password for a password-authenticated key exchange using a key.
+        Set the application role for a password-authenticated key exchange.
 
     .. param:: psa_pake_operation_t *operation
         Active PAKE operation.
-    .. param:: psa_key_id_t password
-        Identifier of the key holding the password or a value derived from the password.
-        It must remain valid until the operation terminates.
-        It must be of type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        It must permit the usage :code:`PSA_KEY_USAGE_DERIVE`.
+    .. param:: psa_pake_role_t role
+        A value of type `psa_pake_role_t` indicating the application role in the PAKE algorithm.
+        See :secref:`pake-roles`.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -791,26 +805,22 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_BAD_STATE
         The following conditions can result in this error:
 
-        *   The operation state is not valid: it must be active, and `psa_pake_set_password_key()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
+        *   The operation state is not valid: it must be active, and `psa_pake_set_role()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
         *   The library requires initializing by a call to :code:`psa_crypto_init()`.
-    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
-    .. retval:: PSA_ERROR_INVALID_HANDLE
-        ``password`` is not a valid key identifier.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        The following conditions can result in this error:
-
-        *   The key type for ``password`` is not :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        *   ``password`` is not compatible with the operation's cipher suite.
+        ``role`` is not a valid PAKE role in the operation's algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        The key type or key size of ``password`` is not supported with the operation's cipher suite.
-    .. retval:: PSA_ERROR_NOT_PERMITTED
-        The key does not have the :code:`PSA_KEY_USAGE_DERIVE` flag, or it does not permit the operation's algorithm.
+        ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
-    .. retval:: PSA_ERROR_STORAGE_FAILURE
-    .. retval:: PSA_ERROR_DATA_CORRUPT
-    .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
-    Refer to the documentation of individual PAKE algorithms for constraints on the format and content of valid passwords.
+    Not all PAKE algorithms need to differentiate the communicating participants.
+    For PAKE algorithms that do not require a role to be specified, the application can do either of the following:
+
+    *   Not call `psa_pake_set_role()` on the PAKE operation.
+    *   Call `psa_pake_set_role()` with the `PSA_PAKE_ROLE_NONE` role.
+
+    Refer to the documentation of individual PAKE algorithms for more information.
     See :secref:`pake-algorithms`.
 
 .. function:: psa_pake_set_user
@@ -880,41 +890,6 @@ Multi-part PAKE operations
 
     Call this function in addition to `psa_pake_set_user()` for PAKE algorithms that associate a user identifier with both participants in the session.
     For PAKE algorithms that associate a single user identifier with the session, call `psa_pake_set_user()` only.
-
-    Refer to the documentation of individual PAKE algorithms for more information.
-    See :secref:`pake-algorithms`.
-
-.. function:: psa_pake_set_role
-
-    .. summary::
-        Set the application role for a password-authenticated key exchange.
-
-    .. param:: psa_pake_operation_t *operation
-        Active PAKE operation.
-    .. param:: psa_pake_role_t role
-        A value of type `psa_pake_role_t` indicating the application role in the PAKE algorithm.
-        See :secref:`pake-roles`.
-
-    .. return:: psa_status_t
-    .. retval:: PSA_SUCCESS
-        Success.
-    .. retval:: PSA_ERROR_BAD_STATE
-        The following conditions can result in this error:
-
-        *   The operation state is not valid: it must be active, and `psa_pake_set_role()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
-    .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        ``role`` is not a valid PAKE role in the operation's algorithm.
-    .. retval:: PSA_ERROR_NOT_SUPPORTED
-        ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
-    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
-    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
-
-    Not all PAKE algorithms need to differentiate the communicating participants.
-    For PAKE algorithms that do not require a role to be specified, the application can do either of the following:
-
-    *   Not call `psa_pake_set_role()` on the PAKE operation.
-    *   Call `psa_pake_set_role()` with the `PSA_PAKE_ROLE_NONE` role.
 
     Refer to the documentation of individual PAKE algorithms for more information.
     See :secref:`pake-algorithms`.
