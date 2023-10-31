@@ -116,9 +116,10 @@ PAKE algorithms
 
         psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
 
-        psa_pake_cs_set_algorithm(cipher_suite, PSA_ALG_JPAKE(hash));
-        psa_pake_cs_set_primitive(cipher_suite,
+        psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE(hash));
+        psa_pake_cs_set_primitive(&cipher_suite,
                                   PSA_PAKE_PRIMITIVE(type, family, bits));
+        psa_pake_cs_set_key_confirmation(&cipher_suite, PSA_PAKE_UNCONFIRMED_KEY);
 
     More information on selecting a specific Elliptic curve or Diffie-Hellman field is provided with the `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH` constants.
 
@@ -417,7 +418,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. list-table::
         :header-rows: 1
-        :widths: auto
+        :widths: 1 4
         :align: left
 
         *   -   Attribute
@@ -428,7 +429,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
         *   -   primitive
             -   ``0`` --- an invalid PAKE primitive.
         *   -   key confirmation
-            -   `PSA_PAKE_UNCONFIRMED_KEY` --- requesting that the unconfirmed secret key is returned.
+            -   `PSA_PAKE_CONFIRMED_KEY` --- requesting that the secret key is confirmed before it can be returned.
 
     The algorithm and primitive values must be set for all PAKE algorithms, the key confirmation values is only required for some PAKE algorithms.
 
@@ -521,25 +522,27 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
         This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
 
-.. macro:: PSA_PAKE_UNCONFIRMED_KEY
+.. macro:: PSA_PAKE_CONFIRMED_KEY
     :definition: 0
+
+    .. summary:: A key confirmation value that indicates an confirmed key in a PAKE cipher suite.
+
+    This key confirmation value will result in the PAKE algorithm exchanging data to verify that the shared key is identical for both parties. This is the default key confirmation value in an initialized PAKE cipher suite object.
+
+    Some algorithms do not include confirmation of the shared key.
+
+.. macro:: PSA_PAKE_UNCONFIRMED_KEY
+    :definition: 1
 
     .. summary:: A key confirmation value that indicates an unconfirmed key in a PAKE cipher suite.
 
     This key confirmation value will result in the PAKE algorithm terminating prior to confirming that the resulting shared key is identical for both parties.
+
     Some algorithms do not support returning an unconfirmed shared key.
 
     .. warning::
 
         When the shared key is not confirmed as part of the PAKE operation, the application is responsible for mitigating risks that arise from the possible mismatch in the output keys.
-
-.. macro:: PSA_PAKE_CONFIRMED_KEY
-    :definition: 1
-
-    .. summary:: A key confirmation value that indicates an confirmed key in a PAKE cipher suite.
-
-    This key confirmation value will result in the PAKE algorithm exchanging data to verify that the shared key is identical for both parties.
-    Some algorithms do not include confirmation of the shared key.
 
 .. function:: psa_pake_cs_get_key_confirmation
 
@@ -550,7 +553,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
         The cipher suite object to query.
 
     .. return:: uint32_t
-        A key confirmation value: either `PSA_PAKE_UNCONFIRMED_KEY` or `PSA_PAKE_CONFIRMED_KEY`.
+        A key confirmation value: either `PSA_PAKE_CONFIRMED_KEY` or `PSA_PAKE_UNCONFIRMED_KEY`.
 
     .. admonition:: Implementation note
 
@@ -565,7 +568,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     .. param:: psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to write to.
     .. param:: uint32_t key_confirmation
-        The key confirmation value to write: either `PSA_PAKE_UNCONFIRMED_KEY` or `PSA_PAKE_CONFIRMED_KEY`.
+        The key confirmation value to write: either `PSA_PAKE_CONFIRMED_KEY` or `PSA_PAKE_UNCONFIRMED_KEY`.
 
     .. return:: void
 
