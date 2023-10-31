@@ -11,7 +11,7 @@ typedef uint8_t psa_pake_step_t;
 #define PSA_ALG_IS_PAKE(alg) /* specification-defined value */
 #define PSA_ALG_JPAKE ((psa_algorithm_t)0x0a000100)
 #define PSA_PAKE_CIPHER_SUITE_INIT /* implementation-defined value */
-#define PSA_PAKE_CONFIRMED_KEY 1
+#define PSA_PAKE_CONFIRMED_KEY 0
 #define PSA_PAKE_INPUT_MAX_SIZE /* implementation-defined value */
 #define PSA_PAKE_INPUT_SIZE(alg, primitive, input_step) \
     /* implementation-defined value */
@@ -33,7 +33,7 @@ typedef uint8_t psa_pake_step_t;
 #define PSA_PAKE_STEP_KEY_SHARE ((psa_pake_step_t)0x01)
 #define PSA_PAKE_STEP_ZK_PROOF ((psa_pake_step_t)0x03)
 #define PSA_PAKE_STEP_ZK_PUBLIC ((psa_pake_step_t)0x02)
-#define PSA_PAKE_UNCONFIRMED_KEY 0
+#define PSA_PAKE_UNCONFIRMED_KEY 1
 psa_status_t psa_pake_abort(psa_pake_operation_t * operation);
 psa_pake_cipher_suite_t psa_pake_cipher_suite_init(void);
 psa_algorithm_t psa_pake_cs_get_algorithm(const psa_pake_cipher_suite_t* cipher_suite);
