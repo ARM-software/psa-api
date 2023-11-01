@@ -14,6 +14,11 @@ This section provides the detailed changes made between published version of the
 Changes between *Beta 1* and *Beta 2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+API changes
+~~~~~~~~~~~
+
+*    Added a hash algorithm parameter to the `PSA_PAKE_INPUT_SIZE()` and `PSA_PAKE_OUTPUT_SIZE()` macros. This is required for some PAKE algorithms where the size of the inputs and outputs can depend on the hash algorithm used in the PAKE cipher suite.
+
 Clarifications
 ~~~~~~~~~~~~~~
 

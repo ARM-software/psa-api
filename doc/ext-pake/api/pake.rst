@@ -935,7 +935,7 @@ Multi-part PAKE operations
         Size of the ``output`` buffer in bytes.
         This must be appropriate for the cipher suite and output step:
 
-        *   A sufficient output size is :code:`PSA_PAKE_OUTPUT_SIZE(alg, primitive, step)` where ``alg`` and ``primitive`` are the PAKE algorithm and primitive in the operation's cipher suite, and ``step`` is the output step.
+        *   A sufficient output size is :code:`PSA_PAKE_OUTPUT_SIZE(alg, primitive, hash_alg, step)` where ``alg``, ``primitive``, and ``hash_alg`` are the PAKE algorithm, primitive, and hash algorithm in the operation's cipher suite, and ``step`` is the output step.
         *   `PSA_PAKE_OUTPUT_MAX_SIZE` evaluates to the maximum output size of any supported PAKE algorithm, primitive and step.
     .. param:: size_t *output_length
         On success, the number of bytes of the returned output.
@@ -1111,12 +1111,14 @@ Support macros
         A PAKE algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
     .. param:: primitive
         A primitive of type `psa_pake_primitive_t` that is compatible with algorithm ``alg``.
+    .. param:: hash_alg
+        A hash algorithm that is compatible with algorithm ``alg``: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(alg)` is true.
     .. param:: output_step
         A value of type `psa_pake_step_t` that is valid for the algorithm ``alg``.
 
     .. return::
-        A sufficient output buffer size for the specified PAKE algorithm, primitive, and output step.
-        An implementation can return either ``0`` or a correct size for a PAKE algorithm, primitive, and output step that it recognizes, but does not support.
+        A sufficient output buffer size for the specified PAKE algorithm, primitive, hash algorithm, and output step.
+        An implementation can return either ``0`` or a correct size for a PAKE algorithm, primitive, hash algorithm, and output step that it recognizes, but does not support.
         If the parameters are not valid, the return value is unspecified.
 
     If the size of the output buffer is at least this large, it is guaranteed that `psa_pake_output()` will not fail due to an insufficient buffer size.
@@ -1128,7 +1130,7 @@ Support macros
     :definition: /* implementation-defined value */
 
     .. summary::
-        Sufficient output buffer size for `psa_pake_output()` for any of the supported PAKE algorithms, primitives and output steps.
+        Sufficient output buffer size for `psa_pake_output()` for any of the supported PAKE algorithms, primitives, hash algorithms, and output steps.
 
     If the size of the output buffer is at least this large, it is guaranteed that `psa_pake_output()` will not fail due to an insufficient buffer size.
 
@@ -1144,12 +1146,14 @@ Support macros
         A PAKE algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
     .. param:: primitive
         A primitive of type `psa_pake_primitive_t` that is compatible with algorithm ``alg``.
+    .. param:: hash_alg
+        A hash algorithm that is compatible with algorithm ``alg``: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(alg)` is true.
     .. param:: input_step
         A value of type `psa_pake_step_t` that is valid for the algorithm ``alg``.
 
     .. return::
-        A sufficient buffer size for the specified PAKE algorithm, primitive, and input step.
-        An implementation can return either ``0`` or a correct size for a PAKE algorithm, primitive, and output step that it recognizes, but does not support.
+        A sufficient buffer size for the specified PAKE algorithm, primitive, hash algorithm, and input step.
+        An implementation can return either ``0`` or a correct size for a PAKE algorithm, primitive, hash algorithm, and input step that it recognizes, but does not support.
         If the parameters are not valid, the return value is unspecified.
 
     The value returned by this macro is guaranteed to be large enough for any valid input to `psa_pake_input()` in an operation with the specified parameters.
@@ -1163,7 +1167,7 @@ Support macros
     :definition: /* implementation-defined value */
 
     .. summary::
-        Sufficient buffer size for inputs to `psa_pake_input()` for any of the supported PAKE algorithms, primitives and input steps.
+        Sufficient buffer size for inputs to `psa_pake_input()` for any of the supported PAKE algorithms, primitives, hash algorithms, and input steps.
 
     This macro can be useful when transferring inputs from the peer into the PAKE operation.
 

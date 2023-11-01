@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 typedef /* implementation-defined type */ psa_pake_cipher_suite_t;
@@ -12,11 +12,11 @@ typedef uint8_t psa_pake_step_t;
 #define PSA_ALG_JPAKE ((psa_algorithm_t)0x0a000100)
 #define PSA_PAKE_CIPHER_SUITE_INIT /* implementation-defined value */
 #define PSA_PAKE_INPUT_MAX_SIZE /* implementation-defined value */
-#define PSA_PAKE_INPUT_SIZE(alg, primitive, input_step) \
+#define PSA_PAKE_INPUT_SIZE(alg, primitive, hash_alg, input_step) \
     /* implementation-defined value */
 #define PSA_PAKE_OPERATION_INIT /* implementation-defined value */
 #define PSA_PAKE_OUTPUT_MAX_SIZE /* implementation-defined value */
-#define PSA_PAKE_OUTPUT_SIZE(alg, primitive, output_step) \
+#define PSA_PAKE_OUTPUT_SIZE(alg, primitive, hash_alg, output_step) \
     /* implementation-defined value */
 #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
     /* specification-defined value */
