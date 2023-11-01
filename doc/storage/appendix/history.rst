@@ -37,3 +37,13 @@ Document history
       - *1.0.2 Rel*
       - * Clarified the protection requirements for ITS. See :secref:`its-requirements`.
         * Fixed inconsistent descriptions of :code:`PSA_ERROR_STORAGE_FAILURE` errors.
+        
+    * - 2023-08-1
+      - *1.0.3 RC1*
+      - * Introduced a Security Risk Assessment 
+
+    * - 2023-11-1
+      - *1.0.3 RC2*
+      - * Updates following Security Risk Assessment review
+
+        
