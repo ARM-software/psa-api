@@ -1107,10 +1107,6 @@ Multi-part PAKE operations
     .. param:: psa_pake_operation_t *operation
         Active PAKE operation.
     .. param:: const psa_key_attributes_t * attributes
-
-        .. todo::
-            Decide where this parameter should go - :code:`psa_key_derivation_output_key()` has this as 1st parameter, before the operation object.
-
         The attributes for the new key.
         This function uses the attributes as follows:
 
@@ -1152,8 +1148,6 @@ Multi-part PAKE operations
         *   The library requires initializing by a call to :code:`psa_crypto_init()`.
     .. retval:: PSA_ERROR_ALREADY_EXISTS
         This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
-    .. retval:: PSA_ERROR_INSUFFICIENT_DATA
-        There was not enough data to create the desired key. :issue:`Is this the appropriate error for this condition?`
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The key attributes, as a whole, are not supported for creation from a PAKE secret, either by the implementation in general or in the specified storage location.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
