@@ -361,9 +361,9 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
 PAKE cipher suites
 ~~~~~~~~~~~~~~~~~~
 
-Most PAKE algorithms have parameters that must be specified by the application. These parameters include:
+Most PAKE algorithms have parameters that must be specified by the application. These parameters include the following:
 
-*   The cryptographic primitive used for for key establishment, specified using a `PAKE primitive <pake-primitive>`.
+*   The cryptographic primitive used for key establishment, specified using a `PAKE primitive <pake-primitive>`.
 *   A cryptographic hash algorithm.
 *   Whether the application requires the shared secret before, or after, it is confirmed.
 
