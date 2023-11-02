@@ -127,8 +127,6 @@ Standalone key agreement
     .. summary::
         Perform a key agreement and return the shared secret as a derivation key.
 
-    .. param:: psa_algorithm_t alg
-        The key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is true.
     .. param:: psa_key_id_t private_key
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
@@ -136,7 +134,8 @@ Standalone key agreement
         Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
-
+    .. param:: psa_algorithm_t alg
+        The key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is true.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
         This function uses the attributes as follows:
@@ -155,7 +154,6 @@ Standalone key agreement
 
         .. note::
             This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
-
     .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
 
