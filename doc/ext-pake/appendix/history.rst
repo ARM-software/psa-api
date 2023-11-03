@@ -14,6 +14,11 @@ This section provides the detailed changes made between published version of the
 Changes between *Beta 1* and *Beta 2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+API changes
+~~~~~~~~~~~
+
+*   Add the `PSA_PAKE_STEP_CONFIRM` PAKE step for input and output of key confirmation values.
+
 Clarifications
 ~~~~~~~~~~~~~~
 
