@@ -52,6 +52,9 @@ psa_status_t psa_pake_output(psa_pake_operation_t *operation,
                              uint8_t *output,
                              size_t output_size,
                              size_t *output_length);
+psa_status_t psa_pake_set_context(psa_pake_operation_t *operation,
+                                  const uint8_t *context,
+                                  size_t context_len);
 psa_status_t psa_pake_set_peer(psa_pake_operation_t *operation,
                                const uint8_t *peer_id,
                                size_t peer_id_len);
