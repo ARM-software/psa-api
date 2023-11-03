@@ -967,7 +967,7 @@ Key derivation functions
 
     However, calling `psa_key_derivation_verify_bytes()` works even if the key's policy does not permit output of the bytes.
 
-    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA` or :code:`PSA_ERROR_INVALID_SIGNATURE`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
+    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
     .. note::
         Implementations must make the best effort to ensure that the comparison between the actual key derivation output and the expected output is performed in constant time.
@@ -1021,7 +1021,7 @@ Key derivation functions
 
     This is functionally equivalent to exporting the ``expected`` key and calling `psa_key_derivation_verify_bytes()` on the result, except that it works when the key cannot be exported.
 
-    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA` or :code:`PSA_ERROR_INVALID_SIGNATURE`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
+    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
     .. note::
         Implementations must make the best effort to ensure that the comparison between the actual key derivation output and the expected output is performed in constant time.

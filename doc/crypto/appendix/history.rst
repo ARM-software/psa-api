@@ -19,6 +19,7 @@ Changes to the API
 
 *   Added support for TLS 1.2 ECJPAKE-to-PMS key-derivation. See `PSA_ALG_TLS12_ECJPAKE_TO_PMS`.
 *   Changed the policy for `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()`, so that these functions are also permitted when an input key has the `PSA_KEY_USAGE_DERIVE` usage flag.
+*   Removed the special treatment of :code:`PSA_ERROR_INVALID_SIGNATURE` for key derivation operations. A verification failure in `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()` now puts the operation into an error state.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
