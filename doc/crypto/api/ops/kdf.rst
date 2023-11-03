@@ -685,7 +685,7 @@ Key derivation functions
 
         *   `psa_key_derivation_output_bytes()` --- if each input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
         *   `psa_key_derivation_output_key()` --- if the input for step `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` was a key with usage flag `PSA_KEY_USAGE_DERIVE`, and every other input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
-        *   `psa_key_derivation_verify_bytes()` --- if each input was either a direct input or a key with usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION`.
+        *   `psa_key_derivation_verify_bytes()` --- if each input was either a direct input, a key with usage flag `PSA_KEY_USAGE_DERIVE`, or a key with usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION`.
         *   `psa_key_derivation_verify_key()` --- under the same conditions as `psa_key_derivation_verify_bytes()`.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
@@ -935,7 +935,7 @@ Key derivation functions
         Success.
         The output of the key derivation operation matches ``expected_output``.
     .. retval:: PSA_ERROR_NOT_PERMITTED
-        One of the inputs is a key whose policy does not permit `PSA_KEY_USAGE_VERIFY_DERIVATION`.
+        One of the inputs is a key whose policy permits neither `PSA_KEY_USAGE_DERIVE` nor `PSA_KEY_USAGE_VERIFY_DERIVATION`.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
         The output of the key derivation operation does not match the value in ``expected_output``.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
@@ -996,8 +996,8 @@ Key derivation functions
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The following conditions can result in this error:
 
-        *   The key does not have the `PSA_KEY_USAGE_VERIFY_DERIVATION` flag, or it does not permit the requested algorithm.
-        *   One of the inputs is a key whose policy does not permit `PSA_KEY_USAGE_VERIFY_DERIVATION`.
+        *   The ``expected`` key does not have the `PSA_KEY_USAGE_VERIFY_DERIVATION` flag, or it does not permit the requested algorithm.
+        *   One of the inputs is a key whose policy permits neither `PSA_KEY_USAGE_DERIVE` nor `PSA_KEY_USAGE_VERIFY_DERIVATION`.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
         The output of the key derivation operation does not match the value of the ``expected`` key.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
