@@ -24,6 +24,8 @@ Changes to the API
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+*   Clarified the behavior of a key derivation operation when there is insufficient capacity for a call to `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, `psa_key_derivation_verify_bytes()`, or `psa_key_derivation_verify_key()`.
+
 Other changes
 ~~~~~~~~~~~~~
 
