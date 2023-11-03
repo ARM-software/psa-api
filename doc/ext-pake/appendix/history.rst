@@ -14,6 +14,11 @@ This section provides the detailed changes made between published version of the
 Changes between *Beta 1* and *Beta 2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+API changes
+~~~~~~~~~~~
+
+*   Added asymmetric key types for SPAKE2+ registration, `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`. Documented the import/export public key format and key derivation process for these keys.
+
 Clarifications
 ~~~~~~~~~~~~~~
 

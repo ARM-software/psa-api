@@ -48,6 +48,77 @@ The defined values for PAKE-TYPE are shown in :numref:`table-pake-type`.
     PAKE algorithm, PAKE-TYPE, Algorithm identifier, Algorithm value
     J-PAKE, ``0x01``, `PSA_ALG_JPAKE`, ``0x0A000100``
 
+Key encoding
+------------
+
+A new type of asymmetric key is added for the SPAKE2+ algorithms. The Asymmetric key sub-type values table in `[PSA-CRYPT]` Appendix B is extended with the information in :numref:`table-spake2p-keys`.
+
+.. csv-table:: New SPAKE2+ asymmetric key sub-type
+    :name: table-spake2p-keys
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Asymmetric key type, ASYM-TYPE, Details
+    SPAKE2+, 4, See :secref:`spakep2-key-encoding`
+
+.. rationale::
+
+    The ASYM-TYPE value 4 is selected as this has the same parity as the ECC sub-type, which have the value 1. The enables the same ECC-FAMILY and P values to be used when encoding a SPAKE2+ key type, as is used in the Elliptic Curve key types.
+
+.. _spakep2-key-encoding:
+
+SPAKE2+ key encoding
+~~~~~~~~~~~~~~~~~~~~
+
+The key type for SPAKE2+ keys defined in this specification are encoded as shown in :numref:`fig-spake2p-key-fields`.
+
+.. figure:: ../figure/spake2p_key.*
+    :name: fig-spake2p-key-fields
+
+    SPAKE2+ key encoding
+
+PAIR is either 0 for a public key, or 3 for a key pair.
+
+The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type`.
+
+.. csv-table:: SPAKE2+ key family values
+    :name: table-spake2p-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public key value, Key pair value
+    SECP R1, 0x09, 0, :code:`PSA_ECC_FAMILY_SECP_R1`, ``0x4412``, ``0x7412``
+    Twisted Edwards, 0x21, 0, :code:`PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4442``, ``0x7442``
+
+a.  The key type value is constructed from the Elliptic Curve family using either :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(family)` as required.
+
+Key formats
+-----------
+
+A SPAKE2+ public key can be exported and imported, to enable use cases that require offline registration.
+
+The public key consists of the two values w0 and L, which result from the SPAKE2+ registration phase. w0 is a scalar in the same range as a private Elliptic curve key from the group used as the SPAKE2+ primitive group. L is a point on the curve, similar to a public key from the same group.
+
+The default format for the SPAKE2+ public key is the concatenation of the formatted values for w0 and L, using the the standard formats for Elliptic curve keys. For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be:
+
+    [ w0 ]\ :sub:`32` || 0x04 || [ x\ :sub:`L` ]\ :sub:`32` || [ y\ :sub:`L` ]\ :sub:`32`
+
+Where [ v ]\ :sub:`n` is an n-byte, big-endian encoding of the integer value v.
+
+.. todo::
+    In this example, how does using a 'concatenation of elements' depiction compare to the 'bullet list of elements' approach used in the Weierstrass public key format in §9.6.4?
+
+.. todo::
+    In this example, how does the short-hand notation --- [ v ]\ :sub:`n` --- compare with the text description approach used in the Weierstrass public key format in §9.6.4, or the function-based (e.g. ``I2OSP()``) approach used in texts such as SEC1?
+
+.. todo::
+    Would it be better to provide an explicit definition for all of the elliptic curves over which SPAKE2+ is defined, rather than just provide a single example?
+
+.. todo::
+    It might also be time to decide on how to style/format pseudo-mathematical content of the specification. Presently there is a arbitrary mixture of ``monospace code/LaTeX-source-style material a^b = 1, F_q`` (as typical in IETF RFCs) and *emphasized* or regular font .rst material a\ :sup:`b` = 1, *F*\ :sub:`q` (seen in NIST publications, and some IETF RFCs). But we also have the ability to use the ``:math:`` role to :math:`\text{render like LaTeX: } a^b=1, \mathbb{F}_q` (used in SECG and some NIST publications).
+
 Changes and additions to the Programming API
 --------------------------------------------
 
@@ -61,6 +132,139 @@ Changes and additions to the Programming API
      * These definitions must be embedded in, or included by, psa/crypto.h
      */
 
+.. _pake-keys:
+
+SPAKE2+ keys
+~~~~~~~~~~~~
+
+The SPAKE2+ protocol consists of three phases:
+
+1.  Registration
+2.  Authenticated key exchange
+3.  Key confirmation
+
+The registration phase can be carried out immediately prior to the other phases, or can be carried out offline, and the result of the registration phase transferred to the participants in the protocol for later online authentication.
+
+The |API| uses an asymmetric key-pair, and public-key, to store the output of the registration, for input to the authentication protocol. The registration is carried out using a key derivation operation, and the key exchange and confirmation is carried out using a PAKE operation. For a SPAKE2+ PAKE operation, the prover, or client, role requires a SPAKE2+ key-pair, while the verifier, or server, role can use either a SPAKE2+ key-pair or SPAKE2+ public key.
+
+The SPAKE2+ algorithms are based on Elliptic curve groups, and a SPAKE2+ key is parameterized by a specific Elliptic curve. The Elliptic curve families are used to parameterize the key type, and the key size selects the specific curve. :issue:`Is this overkill? - RFC9383 only specifies cipher-suites that use the SECP R1 curves and the Edwards curves, we could have a custom set of families`
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ key pair: both the prover and verifier key.
+
+    The size of a SPAKE2+ key is the size associated with the Elliptic curve group, that is, ceil(log2(q)) for a curve over a field F\ :sub:`q`. See the documentation of each Elliptic curve family for details.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
+
+    .. subsection:: Compatible algorithms
+
+        SPAEK2+ key pairs can be used in SPAKE2+ PAKE algorithms.
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ public key: the verifier key.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
+
+    The size of an SPAKE2+ public key is the same as the corresponding private key. See `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and the documentation of each Elliptic curve family for details.
+
+    .. subsection:: Compatible algorithms
+
+        SPAEK2+ key pairs can be used in SPAKE2+ PAKE algorithms.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key, either a key pair or a public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key pair.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the curve family from a SPAKE2+ key type.
+
+    .. param:: type
+        A SPAKE2+ key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SPAKE2P(type)` is true.
+
+    .. return:: psa_ecc_family_t
+        The elliptic curve family id, if ``type`` is a supported SPAKE2+ key. Unspecified if ``type`` is not a supported SPAKE2+ key.
+
+Key derivation of SPAKE2+ keys
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The SPAKE2+ key types can be output from a key derivation using :code:`psa_key_derivation_output_key()`. The SPAKE2+ protocol recommends that a key-stretching kdf, such as PBKDF2, is used to hash the SPAKE2+ password. See RFC 9383 for details.
+
+For example, after setting up the PBKDF2 operation, the following process will derive the SPAKE2+ key pair for use with the P-256 Elliptic curve group :issue:`(This example may be more than necessary in the specification?)`:
+
+1.  Allocate and initialize a key attributes object:
+
+    .. code-block:: xref
+
+        psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
+
+#.  Set the key type and size:
+
+    .. code-block:: xref
+
+        psa_set_key_type(&att, PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(PSA_ECC_FAMILY_SECP_R1));
+        psa_set_key_bits(&att, 256);            // for P-256
+
+#.  Set the key policy:
+
+    .. code-block:: xref
+
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_????);
+        psa_set_key_algorithm(&att, PSA_ALG_SPAKE2P);
+
+    :issue:`Do we need a new usage flag for augmented PAKEs? For example PSA_KEY_USAGE_PROVE/VERIFY. Or do we just use PSA_KEY_USAGE_DERIVE as specified by psa_pake_set_password_key()?`
+
+#.  Derive the key:
+
+    .. code-block:: xref
+
+        psa_key_id_t sp2_key;
+        psa_key_derivation_output_key(&att, &kdf_op, &sp2_key);
+
+The key derivation process in :code:`psa_key_derivation_output_key()` follows the recommendations for the registration process in RFC 9383, and matches the specification of this process in the Matter specification.
+
+For the |API|:
+
+*   The derivation of SPAKE2+ keys extracts ceil(log2(p)/8) + 8 bytes from the PBKDF for each of w0s and w1s, where p is the prime factor of the order of the elliptic curve group.
+*   The calculation of w0, w1, and L then proceeds as described in the RFC.
+*   A SPAKE2+ key-pair is the pair (w0, w1).
+*   A SPAKE2+ public key is the pair (w0, L).
+
+.. todo::
+    Would a table of required w0s/w1s lengths for each of the supported SPAKE2+ elliptic curve groups be useful here?
 
 .. _pake-algorithms:
 
