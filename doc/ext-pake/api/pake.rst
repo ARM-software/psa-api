@@ -610,6 +610,15 @@ PAKE step types
 
     For information regarding how the group is determined, consult the documentation `PSA_PAKE_PRIMITIVE()`.
 
+.. macro:: PSA_PAKE_STEP_CONFIRM
+    :definition: ((psa_pake_step_t)0x04)
+
+    .. summary::
+        The key confirmation value.
+
+    This value is used during the key confirmation phase of a PAKE protocol. The format of the value depends on the algorithm and cipher suite:
+
+    *   For :code:`PSA_ALG_SPAKE2P`, the format for both input and output at this step is the same as the output of the MAC algorithm specified in the cipher suite.
 
 .. _pake-operation:
 

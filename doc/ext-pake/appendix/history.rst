@@ -21,6 +21,8 @@ API changes
 
 *   Moved the hash algorithm parameter to the PAKE cipher suite into the PAKE algorithm identifier, instead of a separate attribute of the cipher suite. This also makes the hash algorithm value available to the `PSA_PAKE_OUTPUT_SIZE()` and `PSA_PAKE_INPUT_SIZE()` macros.
 
+*   Add the `PSA_PAKE_STEP_CONFIRM` PAKE step for input and output of key confirmation values.
+
 Clarifications
 ~~~~~~~~~~~~~~
 
