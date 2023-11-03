@@ -14,10 +14,11 @@ This section provides the detailed changes made between published version of the
 Changes between *Beta 1* and *Beta 2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Clarifications
-~~~~~~~~~~~~~~
+Clarifications and bug fixes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *   Clarified the behavior of the PAKE operation following a call to `psa_pake_setup()`.
+*   Fixed the return type to `psa_pake_cs_get_hash()`.
 
 Changes between *Beta 0* and *Beta 1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

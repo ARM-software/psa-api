@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 typedef /* implementation-defined type */ psa_pake_cipher_suite_t;
@@ -33,7 +33,7 @@ typedef uint8_t psa_pake_step_t;
 psa_status_t psa_pake_abort(psa_pake_operation_t * operation);
 psa_pake_cipher_suite_t psa_pake_cipher_suite_init(void);
 psa_algorithm_t psa_pake_cs_get_algorithm(const psa_pake_cipher_suite_t* cipher_suite);
-psa_pake_primitive_t psa_pake_cs_get_hash(const psa_pake_cipher_suite_t* cipher_suite);
+psa_algorithm_t psa_pake_cs_get_hash(const psa_pake_cipher_suite_t* cipher_suite);
 psa_pake_primitive_t psa_pake_cs_get_primitive(const psa_pake_cipher_suite_t* cipher_suite);
 void psa_pake_cs_set_algorithm(psa_pake_cipher_suite_t* cipher_suite,
                                psa_algorithm_t alg);

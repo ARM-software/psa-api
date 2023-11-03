@@ -504,7 +504,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     .. param:: const psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to query.
 
-    .. return:: psa_pake_primitive_t
+    .. return:: psa_algorithm_t
         The hash algorithm stored in the cipher suite object.
         The return value is :code:`PSA_ALG_NONE` if the PAKE is not parametrized by a hash algorithm, or if the hash algorithm is not set.
 
