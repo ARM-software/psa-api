@@ -928,6 +928,41 @@ Multi-part PAKE operations
     Refer to the documentation of individual PAKE algorithms for more information.
     See :secref:`pake-algorithms`.
 
+.. function:: psa_pake_set_context
+
+    .. summary::
+        Set the context data for a password-authenticated key exchange.
+
+    .. param:: psa_pake_operation_t *operation
+        Active PAKE operation.
+    .. param:: const uint8_t *context
+        The peer's ID to authenticate.
+    .. param:: size_t context_len
+        Size of the ``context`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active, and `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
+        *   Calling `psa_pake_set_context()` is invalid with the operation's algorithm.
+        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        ``context`` is not valid for the operation's algorithm and cipher suite.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The value of ``context`` is not supported by the implementation.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    Call this function for PAKE algorithms that accept additional context data as part of the protocol setup.
+
+    Refer to the documentation of individual PAKE algorithms for more information.
+    See :secref:`pake-algorithms`.
+
 .. function:: psa_pake_output
 
     .. summary::

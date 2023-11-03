@@ -18,6 +18,7 @@ API changes
 ~~~~~~~~~~~
 
 *   Add the `PSA_PAKE_STEP_CONFIRM` PAKE step for input and output of key confirmation values.
+*   Add `psa_pake_set_context()` to set context data for a PAKE operation.
 
 Clarifications
 ~~~~~~~~~~~~~~
