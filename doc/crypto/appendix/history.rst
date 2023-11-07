@@ -29,6 +29,8 @@ Clarifications and fixes
 *   Clarified the behavior of a key derivation operation when there is insufficient capacity for a call to `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, `psa_key_derivation_verify_bytes()`, or `psa_key_derivation_verify_key()`.
 *   Reserved the value ``0`` for most enum-like integral types.
 
+*   Changed terminology for clarification: a 'raw key agreement' algorithm is now a 'standalone key agreement', and a 'full key agreement' is a 'combined key agreement'.
+
 Other changes
 ~~~~~~~~~~~~~
 
@@ -71,7 +73,7 @@ Changes between *1.0.1* and *1.1.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
-*   Relaxation when a raw key agreement is used as a key's permitted-algorithm policy. This now also permits the key agreement to be combined with any key derivation algorithm. See `PSA_ALG_FFDH` and `PSA_ALG_ECDH`.
+*   Relaxation when a standalone key agreement is used as a key's permitted-algorithm policy. This now also permits the key agreement to be combined with any key derivation algorithm. See `PSA_ALG_FFDH` and `PSA_ALG_ECDH`.
 
 *   Provide wildcard permitted-algorithm polices for MAC and AEAD that can specify a minimum MAC or tag length. The following elements are added to the API:
 

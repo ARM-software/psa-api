@@ -9,7 +9,7 @@
 Key agreement
 =============
 
-Three functions are provided for a Diffie-Hellman-style key agreement where each party combines its own private key with the peer’s public key:
+Three functions are provided for a Diffie-Hellman-style key agreement where each party combines its own private key with the peer’s public key, to produce a shared secret value:
 
 *   A call to `psa_key_agreement()` will compute the shared secret and store the result in a new derivation key.
 
@@ -34,7 +34,7 @@ Key agreement algorithms
     .. summary::
         The finite-field Diffie-Hellman (DH) key agreement algorithm.
 
-    This algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
+    This standalone key agreement algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
     When used as a key's permitted-algorithm policy, the following uses are permitted:
 
@@ -57,7 +57,7 @@ Key agreement algorithms
     .. summary::
         The elliptic curve Diffie-Hellman (ECDH) key agreement algorithm.
 
-    This algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
+    This standalone key agreement algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
     When used as a key's permitted-algorithm policy, the following uses are permitted:
 
@@ -116,7 +116,7 @@ Key agreement algorithms
 
     .. subsection:: Compatible key types
 
-        The resulting combined key agreement algorithm is compatible with the same key types as the raw key agreement algorithm used to construct it.
+        The resulting combined key agreement algorithm is compatible with the same key types as the standalone key agreement algorithm used to construct it.
 
 
 Standalone key agreement
@@ -131,7 +131,7 @@ Standalone key agreement
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key-formats`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key_formats`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: psa_algorithm_t alg
@@ -206,12 +206,12 @@ Standalone key agreement
     A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, returned as a derivation key. This key can be input to a key derivation operation using `psa_key_derivation_input_key()`.
 
     .. warning::
-        The raw result of a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key derivation algorithm.
+        The shared secret resulting from a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
 
 .. function:: psa_raw_key_agreement
 
     .. summary::
-        Perform a key agreement and return the raw shared secret.
+        Perform a key agreement and return the shared secret.
 
     .. param:: psa_algorithm_t alg
         The key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is true.
@@ -219,17 +219,17 @@ Standalone key agreement
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key-formats`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key_formats`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: uint8_t * output
-        Buffer where the raw shared secret is to be written.
+        Buffer where the shared secret is to be written.
     .. param:: size_t output_size
         Size of the ``output`` buffer in bytes.
         This must be appropriate for the keys:
 
         *   The required output size is :code:`PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` and ``bits`` are the type and bit-size of ``private_key``.
-        *   `PSA_RAW_KEY_AGREEMENT_OUTPUT_MAX_SIZE` evaluates to the maximum output size of any supported raw key agreement algorithm.
+        *   `PSA_RAW_KEY_AGREEMENT_OUTPUT_MAX_SIZE` evaluates to the maximum output size of any supported standalone key agreement algorithm.
 
     .. param:: size_t * output_length
         On success, the number of bytes that make up the returned output.
@@ -237,7 +237,7 @@ Standalone key agreement
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
         Success.
-        The first ``(*output_length)`` bytes of ``output`` contain the raw shared secret.
+        The first ``(*output_length)`` bytes of ``output`` contain the shared secret.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``private_key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
@@ -290,7 +290,7 @@ Combining key agreement and key derivation
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key-formats`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key_formats`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
 
@@ -339,13 +339,13 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Get the raw key agreement algorithm from a full key agreement algorithm.
+        Get the standalone key agreement algorithm from a combined key agreement and key derivation algorithm.
 
     .. param:: alg
         A key agreement algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true.
 
     .. return::
-        The underlying raw key agreement algorithm if ``alg`` is a key agreement algorithm.
+        The underlying standalone key agreement algorithm if ``alg`` is a key agreement algorithm.
 
         Unspecified if ``alg`` is not a key agreement algorithm or if it is not supported by the implementation.
 
@@ -355,7 +355,7 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Get the key derivation algorithm used in a full key agreement algorithm.
+        Get the key derivation algorithm used in a combined key agreement and key derivation algorithm.
 
     .. param:: alg
         A key agreement algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true.
@@ -371,17 +371,17 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is a raw key agreement algorithm.
+        Whether the specified algorithm is a standalone key agreement algorithm.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a raw key agreement algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+        ``1`` if ``alg`` is a standalone key agreement algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    A raw key agreement algorithm is one that does not specify a key derivation function. Usually, raw key agreement algorithms are constructed directly with a ``PSA_ALG_xxx`` macro while non-raw key agreement algorithms are constructed with `PSA_ALG_KEY_AGREEMENT()`.
+    A standalone key agreement algorithm is one that does not specify a key derivation function. Usually, standalone key agreement algorithms are constructed directly with a ``PSA_ALG_xxx`` macro while combined key agreement algorithms are constructed with `PSA_ALG_KEY_AGREEMENT()`.
 
-    The raw key agreement algorithm can be extracted from a full key agreement algorithm identifier using `PSA_ALG_KEY_AGREEMENT_GET_BASE()`.
+    The standalone key agreement algorithm can be extracted from a combined key agreement algorithm identifier using `PSA_ALG_KEY_AGREEMENT_GET_BASE()`.
 
 .. macro:: PSA_ALG_IS_FFDH
     :definition: /* specification-defined value */
@@ -395,7 +395,7 @@ Support macros
     .. return::
         ``1`` if ``alg`` is a finite field Diffie-Hellman algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key agreement algorithm identifier.
 
-    This includes the raw finite field Diffie-Hellman algorithm as well as finite-field Diffie-Hellman followed by any supported key derivation algorithm.
+    This includes the standalone finite field Diffie-Hellman algorithm, as well as finite-field Diffie-Hellman combined with any supported key derivation algorithm.
 
 .. macro:: PSA_ALG_IS_ECDH
     :definition: /* specification-defined value */
@@ -409,7 +409,7 @@ Support macros
     .. return::
         ``1`` if ``alg`` is an elliptic curve Diffie-Hellman algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key agreement algorithm identifier.
 
-    This includes the raw elliptic curve Diffie-Hellman algorithm as well as elliptic curve Diffie-Hellman followed by any supporter key derivation algorithm.
+    This includes the standalone elliptic curve Diffie-Hellman algorithm, as well as elliptic curve Diffie-Hellman combined with any supported key derivation algorithm.
 
 .. macro:: PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE
     :definition: /* implementation-defined value */

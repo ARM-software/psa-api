@@ -348,14 +348,14 @@ a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to constr
 Key agreement algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A key agreement algorithm identifier can either be for the raw key agreement algorithm, or for a combined key agreement with key derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()` and the shared secret is not exposed to the client.
+A key agreement algorithm identifier can either be for the standalone key agreement algorithm, or for a combined key agreement with key derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
 
-The algorithm identifier for raw key agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
+The algorithm identifier for standalone key agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
 
 .. figure:: ../figure/encoding/ka_raw.*
     :name: fig-ka-raw-fields
 
-    Raw key agreement algorithm encoding
+    Standalone key agreement algorithm encoding
 
 The defined values for KA-TYPE are shown in :numref:`table-ka-type`.
 
@@ -369,13 +369,13 @@ The defined values for KA-TYPE are shown in :numref:`table-ka-type`.
     FFDH, ``0x01``, `PSA_ALG_FFDH`, ``0x09010000``
     ECDH, ``0x02``, `PSA_ALG_ECDH`, ``0x09020000``
 
-A combined key agreement is constructed by a bitwise OR of the raw key agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
+A combined key agreement is constructed by a bitwise OR of the standalone key agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
 
 .. figure:: ../figure/encoding/ka_combined.*
 
     Combined key agreement algorithm encoding
 
-The underlying raw key agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
+The underlying standalone key agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
 
 
 .. _key-type-encoding:
