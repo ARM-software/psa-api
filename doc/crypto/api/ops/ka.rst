@@ -131,7 +131,7 @@ Standalone key agreement
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key-formats`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: psa_algorithm_t alg
@@ -142,11 +142,11 @@ Standalone key agreement
 
         *   The key type must be one of `PSA_KEY_TYPE_DERIVE`, `PSA_KEY_TYPE_RAW_DATA`, `PSA_KEY_TYPE_HMAC`, or `PSA_KEY_TYPE_PASSWORD`.
 
-            Implementations must support the `PSA_KEY_TYPE_DERIVE` and `PSA_KEY_TYPE_RAW_DATA` key types. Support for output as `PSA_KEY_TYPE_HMAC` or `PSA_KEY_TYPE_PASSWORD` is :scterm:`implementation defined` .
+            Implementations must support the `PSA_KEY_TYPE_DERIVE` and `PSA_KEY_TYPE_RAW_DATA` key types.
 
-        *   The key size is always determined from the key agreement's shared secret. If the key size in ``attributes`` is nonzero, it must be equal to the size of the shared secret, in bits.
+        *   The key size is always determined from the key agreement's shared secret. If the key size in ``attributes`` is zero, the key is the size of the shared secret. If the key size in ``attributes`` is nonzero, it must be equal to the size of the shared secret, in bits.
 
-            The output size, in bits, of the key agreement is :code:`8 * PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` is the type of ``private_key`` and ``bits`` is the bit-size of either ``private_key`` or the ``peer_key``.
+            The output size, in bits, of the key agreement is :code:`8 * PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` and ``bits`` are the type and bit-size of ``private_key``.
 
         *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
         *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
@@ -203,7 +203,7 @@ Standalone key agreement
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, returned as a derivation key. The output of this function can be input to a key derivation operation using `psa_key_derivation_input_key()`.
+    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, returned as a derivation key. This key can be input to a key derivation operation using `psa_key_derivation_input_key()`.
 
     .. warning::
         The raw result of a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key derivation algorithm.
@@ -219,7 +219,7 @@ Standalone key agreement
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key-formats`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: uint8_t * output
@@ -228,7 +228,7 @@ Standalone key agreement
         Size of the ``output`` buffer in bytes.
         This must be appropriate for the keys:
 
-        *   The required output size is :code:`PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)` where ``type`` is the type of ``private_key`` and ``bits`` is the bit-size of either ``private_key`` or the ``peer_key``.
+        *   The required output size is :code:`PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` and ``bits`` are the type and bit-size of ``private_key``.
         *   `PSA_RAW_KEY_AGREEMENT_OUTPUT_MAX_SIZE` evaluates to the maximum output size of any supported raw key agreement algorithm.
 
     .. param:: size_t * output_length
@@ -290,7 +290,7 @@ Combining key agreement and key derivation
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key-formats`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
 
@@ -322,7 +322,7 @@ Combining key agreement and key derivation
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, which is directly input to the key derivation operation. The output of the key derivation can be extracted by reading from the resulting operation to produce keys and other cryptographic material.
+    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, which is directly input to the key derivation operation. Output from the key derivation operation can then be used as keys and other cryptographic material.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
