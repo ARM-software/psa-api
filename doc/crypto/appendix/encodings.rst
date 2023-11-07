@@ -265,16 +265,18 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     :widths: auto
 
     Key derivation algorithm, S, KDF-TYPE, Algorithm identifier, Algorithm value
-    HKDF, 0, ``0x01``, :code:`PSA_ALG_HKDF(hash_alg)`, ``0x080001hh`` :sup:`a`
-    TLS-1.2 PRF, 0, ``0x02``, :code:`PSA_ALG_TLS12_PRF(hash_alg)`, ``0x080002hh`` :sup:`a`
-    TLS-1.2 PSK-to-MasterSecret, 0, ``0x03``, :code:`PSA_ALG_TLS12_PSK_TO_MS(hash_alg)`, ``0x080003hh`` :sup:`a`
+    HKDF, 0, ``0x01``, :code:`PSA_ALG_HKDF(hash)`, ``0x080001hh`` :sup:`a`
+    TLS-1.2 PRF, 0, ``0x02``, :code:`PSA_ALG_TLS12_PRF(hash)`, ``0x080002hh`` :sup:`a`
+    TLS-1.2 PSK-to-MasterSecret, 0, ``0x03``, :code:`PSA_ALG_TLS12_PSK_TO_MS(hash)`, ``0x080003hh`` :sup:`a`
+    HKDF-Extract, 0, ``0x04``, :code:`PSA_ALG_HKDF_EXTRACT(hash)`, ``0x080004hh`` :sup:`a`
+    HKDF-Expand, 0, ``0x05``, :code:`PSA_ALG_HKDF_EXPAND(hash)`, ``0x080005hh`` :sup:`a`
     TLS 1.2 ECJPAKE-to-PMS, 0, ``0x06``, :code:`PSA_ALG_TLS12_ECJPAKE_TO_PMS`, ``0x08000609``
-    HKDF-Extract, 0, ``0x04``, :code:`PSA_ALG_HKDF_EXTRACT(hash_alg)`, ``0x080004hh`` :sup:`a`
-    HKDF-Expand, 0, ``0x05``, :code:`PSA_ALG_HKDF_EXPAND(hash_alg)`, ``0x080005hh`` :sup:`a`
-    PBKDF2-HMAC, 1, ``0x01``, :code:`PSA_ALG_PBKDF2_HMAC(hash_alg)`, ``0x088001hh`` :sup:`a`
+    SP 800-108 Counter HMAC, 0, ``0x07``, :code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash)`, ``0x080007hh`` :sup:`a`
+    SP 800-108 Counter CMAC, 0, ``0x08``, :code:`PSA_ALG_SP800_108_COUNTER_CMAC`, ``0x08000800``
+    PBKDF2-HMAC, 1, ``0x01``, :code:`PSA_ALG_PBKDF2_HMAC(hash)`, ``0x088001hh`` :sup:`a`
     PBKDF2-AES-CMAC-PRF-128, 1, ``0x02``, :code:`PSA_ALG_PBKDF2_AES_CMAC_PRF_128`, ``0x08800200``
 
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to construct the key derivation algorithm.
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
 
 .. _sign-encoding:
 

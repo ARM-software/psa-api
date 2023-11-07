@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _appendix-specdef-values:
@@ -152,6 +152,9 @@ Algorithm macros
         (PSA_ALG_IS_SIGN(alg) && \
          (alg) != PSA_ALG_ECDSA_ANY && (alg) != PSA_ALG_RSA_PKCS1V15_SIGN_RAW)
 
+    #define PSA_ALG_IS_SP800_108_COUNTER_HMAC(alg) \
+        (((alg) & ~0x000000ff) == 0x08000700)
+
     #define PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg) \
         (((alg) & 0x7f00ffff) == 0x09000000)
 
@@ -192,6 +195,9 @@ Algorithm macros
 
     #define PSA_ALG_RSA_PSS_ANY_SALT(hash_alg) \
         ((psa_algorithm_t)(0x06001300 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
+        ((psa_algorithm_t) (0x08000700 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_TLS12_PRF(hash_alg) \
         ((psa_algorithm_t) (0x08000200 | ((hash_alg) & 0x000000ff)))
