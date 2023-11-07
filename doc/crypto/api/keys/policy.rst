@@ -231,6 +231,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
 
     This flag must be present on keys used with the following APIs:
 
+    *   `psa_key_agreement()`
     *   `psa_key_derivation_key_agreement()`
     *   `psa_raw_key_agreement()`
 

@@ -348,7 +348,7 @@ a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to constr
 Key agreement algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A key agreement algorithm identifier can either be for the raw key agreement algorithm, or for a combined key agreement with key derivation algorithm. The former can only be used with `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()` and the shared secret is not exposed to the client.
+A key agreement algorithm identifier can either be for the raw key agreement algorithm, or for a combined key agreement with key derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()` and the shared secret is not exposed to the client.
 
 The algorithm identifier for raw key agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
 
