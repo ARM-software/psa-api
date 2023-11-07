@@ -169,6 +169,8 @@ Standalone key agreement
 
         *   ``private_key`` does not have the `PSA_KEY_USAGE_DERIVE` flag, or it does not permit the requested algorithm.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
+    .. retval:: PSA_ERROR_ALREADY_EXISTS
+        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -197,6 +199,7 @@ Standalone key agreement
     .. retval:: PSA_ERROR_STORAGE_FAILURE
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
@@ -237,8 +240,6 @@ Standalone key agreement
         The first ``(*output_length)`` bytes of ``output`` contain the raw shared secret.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``private_key`` is not a valid key identifier.
-    .. retval:: PSA_ERROR_ALREADY_EXISTS
-        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
         ``private_key`` does not have the `PSA_KEY_USAGE_DERIVE` flag, or it does not permit the requested algorithm.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -261,7 +262,6 @@ Standalone key agreement
     .. retval:: PSA_ERROR_STORAGE_FAILURE
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
-    .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
