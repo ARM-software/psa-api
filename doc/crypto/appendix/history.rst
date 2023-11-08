@@ -17,6 +17,8 @@ Changes between *1.1.2* and *1.2.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
+*   Added support for TLS 1.2 ECJPAKE-to-PMS key-derivation. See `PSA_ALG_TLS12_ECJPAKE_TO_PMS`.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

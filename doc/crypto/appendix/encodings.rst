@@ -268,6 +268,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     HKDF, 0, ``0x01``, :code:`PSA_ALG_HKDF(hash_alg)`, ``0x080001hh`` :sup:`a`
     TLS-1.2 PRF, 0, ``0x02``, :code:`PSA_ALG_TLS12_PRF(hash_alg)`, ``0x080002hh`` :sup:`a`
     TLS-1.2 PSK-to-MasterSecret, 0, ``0x03``, :code:`PSA_ALG_TLS12_PSK_TO_MS(hash_alg)`, ``0x080003hh`` :sup:`a`
+    TLS 1.2 ECJPAKE-to-PMS, 0, ``0x06``, :code:`PSA_ALG_TLS12_ECJPAKE_TO_PMS`, ``0x08000609``
     HKDF-Extract, 0, ``0x04``, :code:`PSA_ALG_HKDF_EXTRACT(hash_alg)`, ``0x080004hh`` :sup:`a`
     HKDF-Expand, 0, ``0x05``, :code:`PSA_ALG_HKDF_EXPAND(hash_alg)`, ``0x080005hh`` :sup:`a`
     PBKDF2-HMAC, 1, ``0x01``, :code:`PSA_ALG_PBKDF2_HMAC(hash_alg)`, ``0x088001hh`` :sup:`a`

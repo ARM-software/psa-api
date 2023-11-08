@@ -335,3 +335,9 @@
     :title: On the Security of PKCS #11
     :url: link.springer.com/chapter/10.1007/978-3-540-45238-6_32
     :publication: 2003
+
+.. reference:: TLS-ECJPAKE
+    :title: Elliptic Curve J-PAKE Cipher Suites for Transport Layer Security (TLS)
+    :author: Cragie, Hao
+    :publication: June 2016
+    :url: datatracker.ietf.org/doc/html/draft-cragie-tls-ecjpake-01

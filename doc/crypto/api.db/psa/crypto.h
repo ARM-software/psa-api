@@ -142,6 +142,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_SHA_512_256 ((psa_algorithm_t)0x0200000d)
 #define PSA_ALG_SM3 ((psa_algorithm_t)0x02000014)
 #define PSA_ALG_STREAM_CIPHER ((psa_algorithm_t)0x04800100)
+#define PSA_ALG_TLS12_ECJPAKE_TO_PMS ((psa_algorithm_t)0x08000609)
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
 #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
@@ -300,6 +301,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_SIGNATURE_MAX_SIZE /* implementation-defined value */
 #define PSA_SIGN_OUTPUT_SIZE(key_type, key_bits, alg) \
     /* implementation-defined value */
+#define PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE 32
 #define PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE /* implementation-defined value */
 psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 psa_status_t psa_aead_decrypt(psa_key_id_t key,
