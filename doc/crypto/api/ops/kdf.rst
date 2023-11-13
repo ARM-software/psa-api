@@ -685,7 +685,7 @@ Key derivation functions
 
         *   `psa_key_derivation_output_bytes()` --- if each input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
         *   `psa_key_derivation_output_key()` --- if the input for step `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` was a key with usage flag `PSA_KEY_USAGE_DERIVE`, and every other input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
-        *   `psa_key_derivation_verify_bytes()` --- if each input was either a direct input or a key with usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION`.
+        *   `psa_key_derivation_verify_bytes()` --- if each input was either a direct input, a key with usage flag `PSA_KEY_USAGE_DERIVE`, or a key with usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION`.
         *   `psa_key_derivation_verify_key()` --- under the same conditions as `psa_key_derivation_verify_bytes()`.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
@@ -712,7 +712,7 @@ Key derivation functions
         The operation's capacity was less than ``output_length`` bytes. In this case, the following occurs:
 
         *   No output is written to the output buffer.
-        *   The operation's capacity is set to zero --- subsequent calls to this function will not succeed, even with a smaller output buffer.
+        *   The operation's capacity is set to zero.
     .. retval:: PSA_ERROR_BAD_STATE
         The following conditions can result in this error:
 
@@ -726,6 +726,10 @@ Key derivation functions
     .. retval:: PSA_ERROR_DATA_INVALID
 
     This function calculates output bytes from a key derivation algorithm and returns those bytes. If the key derivation's output is viewed as a stream of bytes, this function consumes the requested number of bytes from the stream and returns them to the caller. The operation's capacity decreases by the number of bytes read.
+
+    A request to extract more data than the remaining capacity --- :code:`output_length > psa_key_derivation_get_capacity()` --- fails with :code:`PSA_ERROR_INSUFFICIENT_DATA`, and sets the remaining capacity to zero.
+
+    If the operation's capacity is zero, and ``output_length`` is zero, then it is :scterm:`implementation defined` whether this function returns :code:`PSA_SUCCESS` or :code:`PSA_ERROR_INSUFFICIENT_DATA`.
 
     If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
@@ -765,7 +769,7 @@ Key derivation functions
         There was not enough data to create the desired key. In this case, the following occurs:
 
         *   No key is generated.
-        *   The operation's capacity is set to zero --- subsequent calls to this function will not succeed, even if they require less data.
+        *   The operation's capacity is set to zero.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -802,6 +806,8 @@ Key derivation functions
 
     If the key derivation's output is viewed as a stream of bytes, this function consumes the required number of bytes from the stream. The operation's capacity decreases by the number of bytes used to derive the key.
 
+    A request that needs to extract more data than the remaining capacity fails with :code:`PSA_ERROR_INSUFFICIENT_DATA`, and sets the remaining capacity to zero.
+
     If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
     How much output is produced and consumed from the operation, and how the key is derived, depends on the key type. :numref:`std-key-derivation` describes the required key derivation procedures for standard key derivation algorithms. Implementations can use other methods for implementation-specific algorithms.
@@ -809,8 +815,6 @@ Key derivation functions
     .. rationale::
 
         Permitting implementation defined methods for algorithms not specified in the |API| permits implementations to use other appropriate procedures in cases where interoperability with other implementations is not required.
-
-    In all cases, the data that is read is discarded from the operation. The operation's capacity is decreased by the number of bytes read.
 
     .. list-table:: Standard key derivation process
         :name: std-key-derivation
@@ -928,18 +932,18 @@ Key derivation functions
     .. param:: const uint8_t *expected_output
         Buffer containing the expected derivation output.
     .. param:: size_t output_length
-        Length ot the expected output. This is also the number of bytes that will be read.
+        Length of the expected output. This is also the number of bytes that will be read.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
         Success.
         The output of the key derivation operation matches ``expected_output``.
     .. retval:: PSA_ERROR_NOT_PERMITTED
-        One of the inputs is a key whose policy does not permit `PSA_KEY_USAGE_VERIFY_DERIVATION`.
+        One of the inputs is a key whose policy permits neither `PSA_KEY_USAGE_DERIVE` nor `PSA_KEY_USAGE_VERIFY_DERIVATION`.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
         The output of the key derivation operation does not match the value in ``expected_output``.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
-        The operation's capacity was less than ``output_length`` bytes. In this case, the operation's capacity is set to zero --- subsequent calls to this function will not succeed, even with a smaller expected output length.
+        The operation's capacity was less than ``output_length`` bytes. In this case, the operation's capacity is set to zero.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -956,20 +960,27 @@ Key derivation functions
     If the key derivation's output is viewed as a stream of bytes, this function destructively reads ``output_length`` bytes from the stream before comparing them with ``expected_output``.
     The operation's capacity decreases by the number of bytes read.
 
-    This is functionally equivalent to the following code:
+    A request to extract more data than the remaining capacity --- :code:`output_length > psa_key_derivation_get_capacity()` --- fails with :code:`PSA_ERROR_INSUFFICIENT_DATA`, and sets the remaining capacity to zero.
 
-    .. code-block:: xref
+    If the operation's capacity is zero, and ``output_length`` is zero, then it is :scterm:`implementation defined` whether this function returns :code:`PSA_SUCCESS` or :code:`PSA_ERROR_INSUFFICIENT_DATA`.
 
-        uint8_t tmp[output_length];
-        psa_key_derivation_output_bytes(operation, tmp, output_length);
-        if (memcmp(expected_output, tmp, output_length) != 0)
-            return PSA_ERROR_INVALID_SIGNATURE;
-
-    However, calling `psa_key_derivation_verify_bytes()` works even if the key's policy does not permit output of the bytes.
-
-    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA` or :code:`PSA_ERROR_INVALID_SIGNATURE`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
+    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
     .. note::
+
+        A call to `psa_key_derivation_verify_bytes()` is functionally equivalent to the following code:
+
+        .. code-block:: xref
+
+            uint8_t tmp[output_length];
+            psa_key_derivation_output_bytes(operation, tmp, output_length);
+            if (memcmp(expected_output, tmp, output_length) != 0)
+                return PSA_ERROR_INVALID_SIGNATURE;
+
+        However, calling `psa_key_derivation_verify_bytes()` works even if the key's policy does not permit output of the bytes.
+
+    .. admonition:: Implementation note
+
         Implementations must make the best effort to ensure that the comparison between the actual key derivation output and the expected output is performed in constant time.
 
 .. function:: psa_key_derivation_verify_key
@@ -996,12 +1007,12 @@ Key derivation functions
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The following conditions can result in this error:
 
-        *   The key does not have the `PSA_KEY_USAGE_VERIFY_DERIVATION` flag, or it does not permit the requested algorithm.
-        *   One of the inputs is a key whose policy does not permit `PSA_KEY_USAGE_VERIFY_DERIVATION`.
+        *   The ``expected`` key does not have the `PSA_KEY_USAGE_VERIFY_DERIVATION` flag, or it does not permit the requested algorithm.
+        *   One of the inputs is a key whose policy permits neither `PSA_KEY_USAGE_DERIVE` nor `PSA_KEY_USAGE_VERIFY_DERIVATION`.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
         The output of the key derivation operation does not match the value of the ``expected`` key.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
-        The operation's capacity was less than the length of the ``expected`` key. In this case, the operation's capacity is set to zero --- subsequent calls to this function will not succeed, even with a smaller expected key length.
+        The operation's capacity was less than the length of the ``expected`` key. In this case, the operation's capacity is set to zero.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -1019,11 +1030,16 @@ Key derivation functions
     If the key derivation's output is viewed as a stream of bytes, this function destructively reads the number of bytes corresponding to the length of the ``expected`` key from the stream before comparing them with the key value.
     The operation's capacity decreases by the number of bytes read.
 
-    This is functionally equivalent to exporting the ``expected`` key and calling `psa_key_derivation_verify_bytes()` on the result, except that it works when the key cannot be exported.
+    A request that needs to extract more data than the remaining capacity fails with :code:`PSA_ERROR_INSUFFICIENT_DATA`, and sets the remaining capacity to zero.
 
-    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA` or :code:`PSA_ERROR_INVALID_SIGNATURE`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
+    If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
     .. note::
+
+        A call to `psa_key_derivation_verify_key()` is functionally equivalent to exporting the ``expected`` key and calling `psa_key_derivation_verify_bytes()` on the result, except that it works when the key cannot be exported.
+
+    .. admonition:: Implementation note
+
         Implementations must make the best effort to ensure that the comparison between the actual key derivation output and the expected output is performed in constant time.
 
 .. function:: psa_key_derivation_abort
