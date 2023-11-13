@@ -54,6 +54,8 @@ Data types
 
 Integral types are defined for specific API elements to provide clarity in the interface definition, and to improve code readability. For example, `psa_algorithm_t` and :code:`psa_status_t`.
 
+For enum-like integral types, the value `0` is usually reserved by the API to indicate an unspecified or invalid value.
+
 Structure types are declared using ``typedef`` instead of a ``struct`` tag, also to improve code readability.
 
 Fully-defined types must be declared exactly as defined in this specification. Types that are not fully defined in this specification must be defined by an implementation. See :secref:`implementation-defined-type`.

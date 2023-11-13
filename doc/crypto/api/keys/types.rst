@@ -457,7 +457,9 @@ Elliptic Curve keys
 
     The range of Elliptic curve family identifier values is divided as follows:
 
-    :code:`0x00 – 0x7f`
+    :code:`0x00`
+        Reserved. Not allocated to an ECC family.
+    :code:`0x01 – 0x7f`
         ECC family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 – 0xff`
@@ -773,7 +775,9 @@ Diffie Hellman keys
 
     The range of Diffie-Hellman group family identifier values is divided as follows:
 
-    :code:`0x00 – 0x7f`
+    :code:`0x00`
+        Reserved. Not allocated to a DH group family.
+    :code:`0x01 – 0x7f`
         DH group family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 – 0xff`

@@ -311,6 +311,10 @@ Input step types
     .. summary::
         Encoding of the step of a key derivation.
 
+    .. admonition:: Implementation note
+
+        It is recommended that the value `0` is not allocated as a valid key derivation step.
+
 .. macro:: PSA_KEY_DERIVATION_INPUT_SECRET
     :definition: /* implementation-defined value */
 
