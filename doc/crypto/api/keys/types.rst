@@ -106,6 +106,8 @@ Symmetric keys
         | `PSA_ALG_HKDF` (non-secret inputs)
         | `PSA_ALG_HKDF_EXPAND` (non-secret inputs)
         | `PSA_ALG_HKDF_EXTRACT` (non-secret inputs)
+        | `PSA_ALG_SP800_108_COUNTER_HMAC` (non-secret inputs)
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (non-secret inputs)
         | `PSA_ALG_TLS12_PRF` (non-secret inputs)
         | `PSA_ALG_TLS12_PSK_TO_MS` (non-secret inputs)
 
@@ -130,6 +132,7 @@ Symmetric keys
     .. subsection:: Compatible algorithms
 
         | `PSA_ALG_HMAC`
+        | `PSA_ALG_SP800_108_COUNTER_HMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_DERIVE
     :definition: ((psa_key_type_t)0x1200)
@@ -234,6 +237,7 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_ARIA
     :definition: ((psa_key_type_t)0x2406)
@@ -268,6 +272,7 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_DES
     :definition: ((psa_key_type_t)0x2301)
@@ -333,6 +338,7 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_SM4
     :definition: ((psa_key_type_t)0x2405)
@@ -359,6 +365,7 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_ARC4
     :definition: ((psa_key_type_t)0x2002)
