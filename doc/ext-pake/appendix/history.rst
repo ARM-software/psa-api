@@ -14,6 +14,11 @@ This section provides the detailed changes made between published version of the
 Changes between *Beta 1* and *Beta 2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+*   Moved the hash algorithm parameter to the PAKE cipher suite into the PAKE algorithm identifier, instead of a separate attribute of the cipher suite. This also makes the hash algorithm value available to the `PSA_PAKE_OUTPUT_SIZE()` and `PSA_PAKE_INPUT_SIZE()` macros.
+
 Clarifications
 ~~~~~~~~~~~~~~
 
