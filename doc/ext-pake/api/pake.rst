@@ -1075,14 +1075,6 @@ Multi-part PAKE operations
 
 .. function:: psa_pake_get_shared_key
 
-    .. todo::
-
-        Decide whether `psa_pake_get_shared_key()` can be called only once (and this terminates the operation), or if the application can sequentially extract multiple keys from the shared secret (much like can be done with a key derivation operation).
-
-        If there are no use cases for multiple key extraction, then we should keep it simple and have a successful key extraction result in terminating the operation. This is the currently described behavior.
-
-        Related: Does all of the shared secret need to be used to construct the output key?
-
     .. summary::
         Extract the shared secret from the PAKE as a key.
 
@@ -1092,11 +1084,8 @@ Multi-part PAKE operations
         The attributes for the new key.
         This function uses the attributes as follows:
 
-        *   The key type is required. It cannot be an asymmetric public key. :issue:`Should we place other restrictions - e.g. forbidding key types that consume a variable amount of input?`
-        *   The key size is always determined from the PAKE shared secret. If the key size in ``attributes`` is nonzero, it must be equal to the size of the shared secret, in bits.
-
-            The bit-size of the shared secret is :code:`PSA_PAKE_SECRET_KEY_BITS(alg, primitive, hash_alg)`, where ``alg``, ``primitive``, and ``hash_alg`` are the PAKE algorithm, primitive, and hash in the operation's cipher suite.
-
+        *   The key type is required. It must be an unstructured key type that can be constructed directly from the PAKE shared secret. For example, :code:`PSA_KEY_TYPE_DERIVE`, :code:`PSA_KEY_TYPE_HMAC`, or :code:`PSA_KEY_TYPE_AES`.
+        *   The key size in ``attributes`` must be zero. The returned key size is always determined from the PAKE shared secret.
         *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation.
 
             .. see :secref:`permitted-algorithms`.
@@ -1110,7 +1099,6 @@ Multi-part PAKE operations
         .. note::
             This is an input parameter: it is not updated with the final key attributes.
             The final attributes of the new key can be queried by calling :code:`psa_get_key_attributes()` with the key's identifier.
-
     .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key. :code:`PSA_KEY_ID_NULL` on failure.
 
@@ -1136,7 +1124,7 @@ Multi-part PAKE operations
         The following conditions can result in this error:
 
         *   The key type is not valid for a PAKE output.
-        *   The key size is nonzero, and is not the size of the shared secret.
+        *   The key size is nonzero.
         *   The key lifetime is invalid.
         *   The key identifier is not valid for the key lifetime.
         *   The key usage flags include invalid values.
@@ -1289,25 +1277,3 @@ Support macros
     This macro can be useful when transferring inputs from the peer into the PAKE operation.
 
     See also `PSA_PAKE_INPUT_SIZE()`.
-
-.. macro:: PSA_PAKE_SECRET_KEY_BITS
-    :definition: /* implementation-defined value */
-
-    .. summary::
-        The size of the secret key output from a PAKE algorithm, in bits.
-
-    .. param:: alg
-        A PAKE algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
-    .. param:: primitive
-        A primitive of type `psa_pake_primitive_t` that is compatible with algorithm ``alg``.
-    .. param:: hash_alg
-        A hash algorithm: value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(alg)` is true.
-
-    .. return::
-        The size, in bits, of the shared secret produced by the specified PAKE algorithm, primitive, and associated hash algorithm.
-        An implementation can return either ``0`` or a correct size for a PAKE algorithm, primitive, and hash algorithm that it recognizes, but does not support.
-        If the parameters are not valid, the return value is unspecified.
-
-    When extracting the shared secret using `psa_pake_get_shared_key()`, the application is not required to set the key size in the attributes.
-
-    :issue:`Do we actually need this, if the only option is to extract all of the bits into the key?`
