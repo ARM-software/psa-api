@@ -1189,10 +1189,6 @@ Multi-part PAKE operations
                 .. note::
                     Some PAKE algorithms do not include any key-confirmation steps.
 
-    This function can be called after the key exchange phase of the operation has completed.
-    It injects the shared secret output of the PAKE into the provided key derivation operation.
-    The input step :code:`PSA_KEY_DERIVATION_INPUT_SECRET` is used to input the shared key material into the key derivation operation.
-
     The exact sequence of calls to perform a password-authenticated key exchange depends on the algorithm in use.
     Refer to the documentation of individual PAKE algorithms for more information.
     See :secref:`pake-algorithms`.
