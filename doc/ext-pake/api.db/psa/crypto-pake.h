@@ -29,8 +29,6 @@ typedef uint8_t psa_pake_step_t;
 #define PSA_PAKE_ROLE_NONE ((psa_pake_role_t)0x00)
 #define PSA_PAKE_ROLE_SECOND ((psa_pake_role_t)0x02)
 #define PSA_PAKE_ROLE_SERVER ((psa_pake_role_t)0x12)
-#define PSA_PAKE_SECRET_KEY_BITS(alg, primitive, hash_alg) \
-    /* implementation-defined value */
 #define PSA_PAKE_STEP_CONFIRM ((psa_pake_step_t)0x04)
 #define PSA_PAKE_STEP_KEY_SHARE ((psa_pake_step_t)0x01)
 #define PSA_PAKE_STEP_ZK_PROOF ((psa_pake_step_t)0x03)
