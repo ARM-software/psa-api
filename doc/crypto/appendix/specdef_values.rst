@@ -127,9 +127,6 @@ Algorithm macros
     #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) \
         (((alg) & ~0x000000ff) == 0x06000600)
 
-    #define PSA_ALG_IS_RAW_KEY_AGREEMENT(alg) \
-        (((alg) & 0x7f00ffff) == 0x09000000)
-
     #define PSA_ALG_IS_RSA_OAEP(alg) \
         (((alg) & ~0x000000ff) == 0x07000300)
 
@@ -154,6 +151,9 @@ Algorithm macros
     #define PSA_ALG_IS_SIGN_MESSAGE(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
          (alg) != PSA_ALG_ECDSA_ANY && (alg) != PSA_ALG_RSA_PKCS1V15_SIGN_RAW)
+
+    #define PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg) \
+        (((alg) & 0x7f00ffff) == 0x09000000)
 
     #define PSA_ALG_IS_STREAM_CIPHER(alg) \
         (((alg) & 0x7f800000) == 0x04800000)

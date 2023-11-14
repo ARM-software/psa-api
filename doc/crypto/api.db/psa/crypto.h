@@ -96,7 +96,8 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_IS_MAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_PBKDF2_HMAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) /* specification-defined value */
-#define PSA_ALG_IS_RAW_KEY_AGREEMENT(alg) /* specification-defined value */
+#define PSA_ALG_IS_RAW_KEY_AGREEMENT(alg) \
+    PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)
 #define PSA_ALG_IS_RSA_OAEP(alg) /* specification-defined value */
 #define PSA_ALG_IS_RSA_PKCS1V15_SIGN(alg) /* specification-defined value */
 #define PSA_ALG_IS_RSA_PSS(alg) /* specification-defined value */
@@ -105,6 +106,8 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_IS_SIGN(alg) /* specification-defined value */
 #define PSA_ALG_IS_SIGN_HASH(alg) /* specification-defined value */
 #define PSA_ALG_IS_SIGN_MESSAGE(alg) /* specification-defined value */
+#define PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg) \
+    /* specification-defined value */
 #define PSA_ALG_IS_STREAM_CIPHER(alg) /* specification-defined value */
 #define PSA_ALG_IS_TLS12_PRF(alg) /* specification-defined value */
 #define PSA_ALG_IS_TLS12_PSK_TO_MS(alg) /* specification-defined value */

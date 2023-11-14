@@ -21,7 +21,7 @@ Changes to the API
 *   Changed the policy for `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()`, so that these functions are also permitted when an input key has the `PSA_KEY_USAGE_DERIVE` usage flag.
 *   Removed the special treatment of :code:`PSA_ERROR_INVALID_SIGNATURE` for key derivation operations. A verification failure in `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()` now puts the operation into an error state.
 
-*   Added `psa_key_agreement()` for standalone key agreement that outputs to a new key object.
+*   Added `psa_key_agreement()` for standalone key agreement that outputs to a new key object. Also added `PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()` as a synonym for `PSA_ALG_IS_RAW_KEY_AGREEMENT()`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~

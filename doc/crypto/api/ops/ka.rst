@@ -135,7 +135,7 @@ Standalone key agreement
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: psa_algorithm_t alg
-        The key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is true.
+        The standalone key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is true.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
         This function uses the attributes as follows:
@@ -214,7 +214,7 @@ Standalone key agreement
         Perform a key agreement and return the shared secret.
 
     .. param:: psa_algorithm_t alg
-        The key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is true.
+        The standalone key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is true.
     .. param:: psa_key_id_t private_key
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
@@ -281,7 +281,7 @@ Combining key agreement and key derivation
         Perform a key agreement and use the shared secret as input to a key derivation.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` with a key agreement and derivation algorithm ``alg``: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is false.
+        The key derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` with a combined key agreement and derivation algorithm ``alg``: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is false.
 
         The operation must be ready for an input of the type given by ``step``.
     .. param:: psa_key_derivation_step_t step
@@ -367,7 +367,7 @@ Support macros
 
     See also `PSA_ALG_KEY_AGREEMENT()` and `PSA_ALG_KEY_AGREEMENT_GET_BASE()`.
 
-.. macro:: PSA_ALG_IS_RAW_KEY_AGREEMENT
+.. macro:: PSA_ALG_IS_STANDALONE_KEY_AGREEMENT
     :definition: /* specification-defined value */
 
     .. summary::
@@ -382,6 +382,17 @@ Support macros
     A standalone key agreement algorithm is one that does not specify a key derivation function. Usually, standalone key agreement algorithms are constructed directly with a ``PSA_ALG_xxx`` macro while combined key agreement algorithms are constructed with `PSA_ALG_KEY_AGREEMENT()`.
 
     The standalone key agreement algorithm can be extracted from a combined key agreement algorithm identifier using `PSA_ALG_KEY_AGREEMENT_GET_BASE()`.
+
+.. macro:: PSA_ALG_IS_RAW_KEY_AGREEMENT
+    :definition: PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)
+
+    .. summary::
+        Whether the specified algorithm is a standalone key agreement algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    This is the original API name for `PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()`.
 
 .. macro:: PSA_ALG_IS_FFDH
     :definition: /* specification-defined value */
