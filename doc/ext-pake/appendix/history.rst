@@ -14,6 +14,11 @@ This section provides the detailed changes made between published version of the
 Changes between *Beta 1* and *Beta 2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+API changes
+~~~~~~~~~~~
+
+*   Combined :code:`psa_pake_set_password_key()` with :code:`psa_pake_setup()`. This aligns the API better with other multi-part operations, and also enables an implementation to identify the key location when setting up the operation.
+
 Clarifications
 ~~~~~~~~~~~~~~
 

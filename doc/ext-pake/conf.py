@@ -22,7 +22,7 @@ doc_info = {
     'doc_id': 'AES 0058',
 
     # The short X.Y version. MANDATORY
-    'version': '1.1',
+    'version': '1.2',
     'extension_doc': 'PAKE Extension',
 
     # Arm document quality status, marked as open issue if not provided

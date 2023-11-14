@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 typedef /* implementation-defined type */ psa_pake_cipher_suite_t;
@@ -53,8 +53,6 @@ psa_status_t psa_pake_output(psa_pake_operation_t *operation,
                              uint8_t *output,
                              size_t output_size,
                              size_t *output_length);
-psa_status_t psa_pake_set_password_key(psa_pake_operation_t *operation,
-                                       psa_key_id_t password);
 psa_status_t psa_pake_set_peer(psa_pake_operation_t *operation,
                                const uint8_t *peer_id,
                                size_t peer_id_len);
@@ -64,4 +62,5 @@ psa_status_t psa_pake_set_user(psa_pake_operation_t *operation,
                                const uint8_t *user_id,
                                size_t user_id_len);
 psa_status_t psa_pake_setup(psa_pake_operation_t *operation,
+                            psa_key_id_t password_key,
                             const psa_pake_cipher_suite_t *cipher_suite);
