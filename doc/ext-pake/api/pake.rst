@@ -119,7 +119,11 @@ PAKE algorithms
 
     J-PAKE does not assign roles to the participants, so it is not necessary to call `psa_pake_set_role()`.
 
-    J-PAKE requires both an application and a peer identity. If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
+    J-PAKE requires both an application and a peer identity.
+    If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
+
+    The shared secret that is produced by J-PAKE is not suitable for use as an encryption key.
+    It must be used as an input to a key derivation operation to produce additional cryptographic keys.
 
     The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`.
     The input and output steps must be carried out in exactly the same sequence as shown.
@@ -199,7 +203,7 @@ PAKE algorithms
             // Set r6, the ZKP proof for x4*s
             psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-    #.  To use the shared secret, extract it as a key. For example, to extract a derivation key for HKDF-SHA-256:
+    #.  To use the shared secret, extract it as a key-derivation key. For example, to extract a derivation key for HKDF-SHA-256:
 
         .. code-block:: xref
 
@@ -1084,8 +1088,14 @@ Multi-part PAKE operations
         The attributes for the new key.
         This function uses the attributes as follows:
 
-        *   The key type is required. It must be an unstructured key type that can be constructed directly from the PAKE shared secret. For example, :code:`PSA_KEY_TYPE_DERIVE`, :code:`PSA_KEY_TYPE_HMAC`, or :code:`PSA_KEY_TYPE_AES`.
-        *   The key size in ``attributes`` must be zero. The returned key size is always determined from the PAKE shared secret.
+        *   The key type is required.
+            All PAKE algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
+            PAKE algorithms that produce a pseudo-random shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
+
+            Refer to the documentation of individual PAKE algorithms for more information.
+            See :secref:`pake-algorithms`.
+        *   The key size in ``attributes`` must be zero.
+            The returned key size is always determined from the PAKE shared secret.
         *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation.
 
             .. see :secref:`permitted-algorithms`.
@@ -1123,7 +1133,7 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The key type is not valid for a PAKE output.
+        *   The key type is not valid for output from this operation's algorithm.
         *   The key size is nonzero.
         *   The key lifetime is invalid.
         *   The key identifier is not valid for the key lifetime.
@@ -1140,7 +1150,9 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_DATA_INVALID
 
     This is the final call in a PAKE operation, which retrieves the shared secret as a key.
-    This key can be used directly in cryptographic operations such as encryption, but is more typically used as an input to key derivation operations to produce additional cryptographic keys.
+    It is recommended that this key is used as an input to a key derivation operation to produce additional cryptographic keys.
+    For some PAKE algorithms, the shared secret is also suitable for use as a key in cryptographic operations such as encryption.
+    Refer to the documentation of individual PAKE algorithms for more information, see :secref:`pake-algorithms`.
 
     Depending on the key confirmation requested in the cipher suite, `psa_pake_get_shared_key()` must be called either before or after the key-confirmation output and input steps for the PAKE algorithm.
     The key confirmation affects the guarantees that can be made about the shared key:
