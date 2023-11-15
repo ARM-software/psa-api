@@ -39,6 +39,11 @@ The algorithm identifier for PAKE algorithms defined in this specification are e
 
 The defined values for PAKE-TYPE are shown in :numref:`table-pake-type`.
 
+The permitted values of HASH-TYPE depend on the specific KDF algorithm.
+
+..
+    The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the specific KDF algorithm.
+
 .. csv-table:: PAKE algorithm sub-type values
     :name: table-pake-type
     :header-rows: 1
@@ -46,7 +51,9 @@ The defined values for PAKE-TYPE are shown in :numref:`table-pake-type`.
     :widths: auto
 
     PAKE algorithm, PAKE-TYPE, Algorithm identifier, Algorithm value
-    J-PAKE, ``0x01``, `PSA_ALG_JPAKE`, ``0x0A000100``
+    J-PAKE, ``0x01``, :code:`PSA_ALG_JPAKE(hash)`, ``0x0A0001hh`` :sup:`a`
+
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
 
 Changes and additions to the Programming API
 --------------------------------------------
@@ -81,16 +88,25 @@ PAKE algorithms
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
 .. macro:: PSA_ALG_JPAKE
-    :definition: ((psa_algorithm_t)0x0a000100)
+    :definition: /* specification-defined value */
 
     .. summary::
-        The Password-authenticated key exchange by juggling (J-PAKE) algorithm.
+        Macro to build the Password-authenticated key exchange by juggling (J-PAKE) algorithm.
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+
+    .. return::
+        A J-PAKE algorithm, parameterized by a specific hash.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
 
     This is J-PAKE as defined by :RFC-title:`8236`, instantiated with the following parameters:
 
     *   The group can be either an elliptic curve or defined over a finite field.
     *   Schnorr Non-Interactive Zero-Knowledge Proof (NIZKP) as defined by :RFC-title:`8235`, using the same group as the J-PAKE algorithm.
-    *   A cryptographic hash function.
+    *   A cryptographic hash function, ``hash_alg``.
 
     J-PAKE does not confirm the shared secret key that results from the key exchange.
 
@@ -100,10 +116,9 @@ PAKE algorithms
 
         psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
 
-        psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE);
+        psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE(hash));
         psa_pake_cs_set_primitive(&cipher_suite,
                                   PSA_PAKE_PRIMITIVE(type, family, bits));
-        psa_pake_cs_set_hash(&cipher_suite, hash);
         psa_pake_cs_set_key_confirmation(&cipher_suite, PSA_PAKE_UNCONFIRMED_KEY);
 
     More information on selecting a specific Elliptic curve or Diffie-Hellman field is provided with the `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH` constants.
@@ -356,7 +371,7 @@ Most PAKE algorithms have parameters that must be specified by the application. 
 *   A cryptographic hash algorithm.
 *   Whether the application requires the shared secret before, or after, it is confirmed.
 
-The `psa_pake_cipher_suite_t` object is used to fully specify a PAKE operation, combining the PAKE algorithm, and the above parameters.
+The hash algorithm is encoded into the PAKE algorithm identifier. The `psa_pake_cipher_suite_t` object is used to fully specify a PAKE operation, combining the PAKE algorithm with all of the above parameters.
 
 A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_setup()`.
 
@@ -369,8 +384,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     This is the object that represents the cipher suite used for a PAKE algorithm. The PAKE cipher suite specifies the PAKE algorithm, and the options selected for that algorithm. The cipher suite includes the following attributes:
 
     *   The PAKE algorithm itself.
+    *   The hash algorithm, encoded within the PAKE algorithm.
     *   The PAKE primitive, which identifies the prime order group used for the key exchange operation. See :secref:`pake-primitive`.
-    *   The hash algorithm to use in the operation.
     *   Whether to confirm the shared secret.
 
     This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
@@ -508,43 +523,6 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     .. return:: void
 
     This function overwrites any primitive previously set in ``cipher_suite``.
-
-    .. admonition:: Implementation note
-
-        This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
-
-.. function:: psa_pake_cs_get_hash
-
-    .. summary::
-        Retrieve the hash algorithm from a PAKE cipher suite.
-
-    .. param:: const psa_pake_cipher_suite_t* cipher_suite
-        The cipher suite object to query.
-
-    .. return:: psa_pake_primitive_t
-        The hash algorithm stored in the cipher suite object.
-        The return value is :code:`PSA_ALG_NONE` if the PAKE is not parametrized by a hash algorithm, or if the hash algorithm is not set.
-
-    .. admonition:: Implementation note
-
-        This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
-
-.. function:: psa_pake_cs_set_hash
-
-    .. summary::
-        Declare the hash algorithm for a PAKE cipher suite.
-
-    .. param:: psa_pake_cipher_suite_t* cipher_suite
-        The cipher suite object to write to.
-    .. param:: psa_algorithm_t hash_alg
-        The hash algorithm to write: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
-        If this is :code:`PSA_ALG_NONE`, the hash algorithm in ``cipher_suite`` becomes unspecified.
-
-    .. return:: void
-
-    This function overwrites any hash algorithm previously set in ``cipher_suite``.
-
-    The documentation of individual PAKE algorithms specifies which hash algorithms are compatible, or if no hash algorithm is required.
 
     .. admonition:: Implementation note
 
@@ -815,18 +793,16 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The algorithm in ``cipher_suite`` is not a PAKE algorithm.
+        *   The algorithm in ``cipher_suite`` is not a PAKE algorithm, or encodes an invalid hash algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not compatible with the PAKE algorithm.
-        *   The hash algorithm in ``cipher_suite`` is invalid, or not compatible with the PAKE algorithm and primitive.
         *   The key confirmation value in ``cipher_suite`` is not compatible with the PAKE algorithm and primitive.
         *   The key type for ``password_key`` is not :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
         *   ``password_key`` is not compatible with ``cipher_suite``.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
-        *   The algorithm in ``cipher_suite`` is not a supported PAKE algorithm.
+        *   The algorithm in ``cipher_suite`` is not a supported PAKE algorithm, or encodes an unsupported hash algorithm..
         *   The PAKE primitive in ``cipher_suite`` is not supported or not compatible with the PAKE algorithm.
-        *   The hash algorithm in ``cipher_suite`` is not supported, or not compatible with the PAKE algorithm and primitive.
         *   The key confirmation value in ``cipher_suite`` is not supported, or not compatible, with the PAKE algorithm and primitive.
         *   The key type or key size of ``password_key`` is not supported with ``cipher suite``.
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -1217,6 +1193,18 @@ Multi-part PAKE operations
 
 Support macros
 ~~~~~~~~~~~~~~
+
+.. macro:: PSA_ALG_IS_JPAKE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a J-PAKE algorithm (:code:`PSA_ALG_JPAKE(hash_alg)`).
+
+    .. param:: alg
+        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a J-PAKE algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
 
 .. macro:: PSA_PAKE_OUTPUT_SIZE
     :definition: /* implementation-defined value */

@@ -8,8 +8,9 @@ typedef uint32_t psa_pake_primitive_t;
 typedef uint8_t psa_pake_primitive_type_t;
 typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
+#define PSA_ALG_IS_JPAKE(alg) /* specification-defined value */
 #define PSA_ALG_IS_PAKE(alg) /* specification-defined value */
-#define PSA_ALG_JPAKE ((psa_algorithm_t)0x0a000100)
+#define PSA_ALG_JPAKE(hash_alg) /* specification-defined value */
 #define PSA_PAKE_CIPHER_SUITE_INIT /* implementation-defined value */
 #define PSA_PAKE_CONFIRMED_KEY 0
 #define PSA_PAKE_INPUT_MAX_SIZE /* implementation-defined value */
@@ -35,13 +36,10 @@ typedef uint8_t psa_pake_step_t;
 psa_status_t psa_pake_abort(psa_pake_operation_t * operation);
 psa_pake_cipher_suite_t psa_pake_cipher_suite_init(void);
 psa_algorithm_t psa_pake_cs_get_algorithm(const psa_pake_cipher_suite_t* cipher_suite);
-psa_pake_primitive_t psa_pake_cs_get_hash(const psa_pake_cipher_suite_t* cipher_suite);
 uint32_t psa_pake_cs_get_key_confirmation(const psa_pake_cipher_suite_t* cipher_suite);
 psa_pake_primitive_t psa_pake_cs_get_primitive(const psa_pake_cipher_suite_t* cipher_suite);
 void psa_pake_cs_set_algorithm(psa_pake_cipher_suite_t* cipher_suite,
                                psa_algorithm_t alg);
-void psa_pake_cs_set_hash(psa_pake_cipher_suite_t* cipher_suite,
-                          psa_algorithm_t hash_alg);
 void psa_pake_cs_set_key_confirmation(psa_pake_cipher_suite_t* cipher_suite,
                                       uint32_t key_confirmation);
 void psa_pake_cs_set_primitive(psa_pake_cipher_suite_t* cipher_suite,
