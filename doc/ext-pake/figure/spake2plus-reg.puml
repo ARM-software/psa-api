@@ -1,0 +1,41 @@
+' SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+    !include atg-spec.pumh
+
+    participant "Prover  //(Client role)//" as Prover
+    participant "Verifier  //(Server role)//" as Verifier
+
+    note over Prover, Verifier: Initial information : cipher suite, //PBKDF-params//, //password//
+
+    Prover -> Prover: ""psa_key_derivation_setup(PBKDF)""\n""psa_key_derivation_input_key(password)""\n""psa_key_derivation_input_xxx()"" for //PBKDF-params//
+
+    Prover -> Prover: ""psa_key_derivation_output_key(SPAKE2P_KEY_PAIR)""
+    note left: Compute key-pair (//w0//, //w1//)
+
+    alt Independent registration
+
+        Verifier -> Verifier: ""psa_key_derivation_setup(PBKDF)""\n""psa_key_derivation_input_key(password)""\n""psa_key_derivation_input_xxx()"" for //PBKDF-params//
+
+        Verifier -> Verifier: ""psa_key_derivation_output_key(SPAKE2P_PUBLIC_KEY)""
+        note left: Compute public-key (//w0//, //L//)
+
+    else Connected registration
+
+        Prover -> Prover: ""psa_export_public_key()""
+        note left: Compute //L// and output //w0// || //L//
+
+        Prover ->> Verifier: Registration record ( //w0// || //L// )
+
+        Verifier -> Verifier: ""psa_import_key(SPAKE2P_PUBLIC_KEY)"" from //w0// || //L//
+        note left: Import public-key (//w0//, //L//)
+
+    end
+
+    note over Prover: Use key-pair for authentication flow
+    / note over Verifier: Use public-key for authentication flow
+
+
+@enduml

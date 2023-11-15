@@ -21,8 +21,23 @@ The examples here provide correct results for the valid inputs defined by each A
     #define PSA_ALG_IS_PAKE(alg) \
         (((alg) & 0x7f000000) == 0x0a000000)
 
+    #define PSA_ALG_IS_SPAKE2P(alg) \
+        (((alg) & ~0x000003ff) == 0x0a000400)
+
+    #define PSA_ALG_IS_SPAKE2P_CMAC(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000500)
+
+    #define PSA_ALG_IS_SPAKE2P_HMAC(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000400)
+
     #define PSA_ALG_JPAKE(hash_alg) \
         ((psa_algorithm_t) (0x0a000100 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_SPAKE2P_CMAC(hash_alg) \
+        ((psa_algorithm_t) (0x0a000500 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_SPAKE2P_HMAC(hash_alg) \
+        ((psa_algorithm_t) (0x0a000400 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
         ((pake_bits & 0xFFFF) != pake_bits) ? 0 :                 \

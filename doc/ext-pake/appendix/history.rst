@@ -36,6 +36,15 @@ Changes to the API
 
 *   Added asymmetric key types for SPAKE2+ registration, `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`. Documented the import/export public key format and key derivation process for these keys.
 
+*   Added SPAKE2+ algorithms, supporting both :rfc-title:`9383` and :cite-title:`MATTER`. Added the following APIs:
+
+    -   `PSA_ALG_SPAKE2P_HMAC()`
+    -   `PSA_ALG_SPAKE2P_CMAC()`
+    -   `PSA_ALG_SPAKE2P_MATTER`
+    -   `PSA_ALG_IS_SPAKE2P()`
+    -   `PSA_ALG_IS_SPAKE2P_HMAC()`
+    -   `PSA_ALG_IS_SPAKE2P_CMAC()`
+
 Clarifications
 ~~~~~~~~~~~~~~
 
