@@ -10,7 +10,13 @@ typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
 #define PSA_ALG_IS_JPAKE(alg) /* specification-defined value */
 #define PSA_ALG_IS_PAKE(alg) /* specification-defined value */
+#define PSA_ALG_IS_SPAKE2P(alg) /* specification-defined value */
+#define PSA_ALG_IS_SPAKE2P_CMAC(alg) /* specification-defined value */
+#define PSA_ALG_IS_SPAKE2P_HMAC(alg) /* specification-defined value */
 #define PSA_ALG_JPAKE(hash_alg) /* specification-defined value */
+#define PSA_ALG_SPAKE2P_CMAC(hash_alg) /* specification-defined value */
+#define PSA_ALG_SPAKE2P_HMAC(hash_alg) /* specification-defined value */
+#define PSA_ALG_SPAKE2P_MATTER ((psa_algoirithm_t)0x0A000609)
 #define PSA_KEY_TYPE_IS_SPAKE2P(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR(type) \
     /* specification-defined value */
