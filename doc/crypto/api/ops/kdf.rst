@@ -140,7 +140,7 @@ Key derivation algorithms
 
     This key derivation algorithm uses the following inputs:
 
-    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the pseudoramdom key (PRK).
+    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the pseudorandom key (PRK).
     *   `PSA_KEY_DERIVATION_INPUT_INFO` is the info string.
 
     The inputs are mandatory and must be passed in the order above. Each input may only be passed once.
@@ -313,7 +313,7 @@ Input step types
 
     .. admonition:: Implementation note
 
-        It is recommended that the value `0` is not allocated as a valid key derivation step.
+        It is recommended that the value ``0`` is not allocated as a valid key derivation step.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_SECRET
     :definition: /* implementation-defined value */
