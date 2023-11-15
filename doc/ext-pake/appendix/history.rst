@@ -31,6 +31,9 @@ Changes to the API
    -   Changed `PSA_ALG_JPAKE()`: it now requires a ``hash_alg`` parameter
    -   Added `PSA_ALG_IS_JPAKE()`
 
+*   Add the `PSA_PAKE_STEP_CONFIRM` PAKE step for input and output of key confirmation values.
+*   Add `psa_pake_set_context()` to set context data for a PAKE operation.
+
 Clarifications
 ~~~~~~~~~~~~~~
 
