@@ -34,6 +34,8 @@ Changes to the API
 *   Add the `PSA_PAKE_STEP_CONFIRM` PAKE step for input and output of key confirmation values.
 *   Add `psa_pake_set_context()` to set context data for a PAKE operation.
 
+*   Added asymmetric key types for SPAKE2+ registration, `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`. Documented the import/export public key format and key derivation process for these keys.
+
 Clarifications
 ~~~~~~~~~~~~~~
 
