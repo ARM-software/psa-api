@@ -1109,7 +1109,6 @@ Multi-part PAKE operations
         *   The key type is required.
             All PAKE algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
             PAKE algorithms that produce a pseudo-random shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
-
             Refer to the documentation of individual PAKE algorithms for more information.
             See :secref:`pake-algorithms`.
         *   The key size in ``attributes`` must be zero.
