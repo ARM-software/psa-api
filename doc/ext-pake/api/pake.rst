@@ -150,11 +150,11 @@ The SPAKE2+ protocol consists of three phases:
 2.  Authenticated key exchange
 3.  Key confirmation
 
-The registration phase can be carried out immediately prior to the other phases, or can be carried out offline, and the result of the registration phase transferred to the participants in the protocol for later online authentication.
+The registration phase can be carried out immediately before the other phases, or can be carried out offline, and the result of the registration phase transferred to the participants in the protocol for later online authentication.
 
-The |API| uses an asymmetric key-pair, and public-key, to store the output of the registration, for input to the authentication protocol. The registration is carried out using a key derivation operation, and the key exchange and confirmation is carried out using a PAKE operation. For a SPAKE2+ PAKE operation, the prover, or client, role requires a SPAKE2+ key-pair, while the verifier, or server, role can use either a SPAKE2+ key-pair or SPAKE2+ public key.
+The |API| uses an asymmetric key-pair, and a public-key, to store the output of the registration for input to the authentication protocol. The registration is carried out using a key derivation operation, and the key exchange and confirmation is carried out using a PAKE operation. For a SPAKE2+ PAKE operation, the prover, or client, role requires a SPAKE2+ key-pair, while the verifier, or server, role can use either a SPAKE2+ key-pair or SPAKE2+ public key.
 
-The SPAKE2+ algorithms are based on Elliptic curve groups, and a SPAKE2+ key is parameterized by a specific Elliptic curve. The Elliptic curve families are used to parameterize the key type, and the key size selects the specific curve. :issue:`Is this overkill? - RFC9383 only specifies cipher-suites that use the SECP R1 curves and the Edwards curves, we could have a custom set of families`
+The SPAKE2+ algorithms are based on Elliptic curve groups, and a SPAKE2+ key is parameterized by a specific Elliptic curve. The Elliptic curve families are used to parameterize the key type, and the key size selects the specific curve.
 
 .. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
     :definition: /* specification-defined value */
@@ -169,7 +169,7 @@ The SPAKE2+ algorithms are based on Elliptic curve groups, and a SPAKE2+ key is 
 
     .. subsection:: Compatible algorithms
 
-        SPAEK2+ key pairs can be used in SPAKE2+ PAKE algorithms.
+        SPAKE2+ key pairs can be used in SPAKE2+ PAKE algorithms.
 
 .. macro:: PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY
     :definition: /* specification-defined value */
@@ -184,7 +184,7 @@ The SPAKE2+ algorithms are based on Elliptic curve groups, and a SPAKE2+ key is 
 
     .. subsection:: Compatible algorithms
 
-        SPAEK2+ key pairs can be used in SPAKE2+ PAKE algorithms.
+        SPAKE2+ key pairs can be used in SPAKE2+ PAKE algorithms.
 
 .. macro:: PSA_KEY_TYPE_IS_SPAKE2P
     :definition: /* specification-defined value */
@@ -249,10 +249,8 @@ For example, after setting up the PBKDF2 operation, the following process will d
 
     .. code-block:: xref
 
-        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_????);
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
         psa_set_key_algorithm(&att, PSA_ALG_SPAKE2P);
-
-    :issue:`Do we need a new usage flag for augmented PAKEs? For example PSA_KEY_USAGE_PROVE/VERIFY. Or do we just use PSA_KEY_USAGE_DERIVE as specified by psa_pake_set_password_key()?`
 
 #.  Derive the key:
 
@@ -466,6 +464,8 @@ Many PAKE algorithms are designed to allow different cryptographic primitives to
 
 The cryptographic primitive for a PAKE operation is specified using a `psa_pake_primitive_t` value, which can be constructed using the `PSA_PAKE_PRIMITIVE()` macro, or can be provided as a numerical constant value.
 
+The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`. These can be used to set key attributes for keys used in PAKE algorithms.
+
 A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_pake_cipher_suite_t`, which fully specifies the PAKE operation to be carried out.
 
 
@@ -486,7 +486,7 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
         Implementation-defined primitive type.
         Implementations that define additional primitive types must use an encoding with bit 7 set.
 
-    For specification-defined primitive types, see the documentation of individual ``PSA_PAKE_PRIMITIVE_TYPE_XXX`` constants.
+    For specification-defined primitive types, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. macro:: PSA_PAKE_PRIMITIVE_TYPE_ECC
     :definition: ((psa_pake_primitive_type_t)0x01)
@@ -529,7 +529,7 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         Encoding of the family of the primitive associated with the PAKE.
 
-    For more information see the documentation of individual ``PSA_PAKE_PRIMITIVE_TYPE_XXX`` constants.
+    For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. typedef:: uint32_t psa_pake_primitive_t
 
@@ -553,16 +553,59 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. param:: pake_family
         The family of the primitive.
         The type and interpretation of this parameter depends on ``pake_type``.
-        For more information, consult the documentation of individual `psa_pake_primitive_type_t` constants.
+        For more information, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
     .. param:: pake_bits
         The bit-size of the primitive: a value of type ``size_t``.
-        The interpretation of this parameter depends on ``family``.
-        For more information, consult the documentation of individual `psa_pake_primitive_type_t` constants.
+        The interpretation of this parameter depends on ``pake_type`` and ``family``.
+        For more information, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
     .. return:: psa_pake_primitive_t
         The constructed primitive value.
         Return ``0`` if the requested primitive can't be encoded as `psa_pake_primitive_t`.
 
+    A PAKE primitive value is used to specify a PAKE operation, as part of a PAKE cipher suite.
+
+    The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_TYPE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the PAKE primitive type from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: psa_pake_primitive_type_t
+        The PAKE primitive type, if ``pake_primitive`` is a supported PAKE primitive. Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the family from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: psa_pake_family_t
+        The PAKE primitive family, if ``pake_primitive`` is a supported PAKE primitive. Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+    For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_BITS
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the bit-size from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: size_t
+        The PAKE primitive bit-size, if ``pake_primitive`` is a supported PAKE primitive. Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+    For more information on the bit-size values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. _pake-cipher-suite:
 

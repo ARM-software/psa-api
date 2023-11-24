@@ -29,6 +29,15 @@ The examples here provide correct results for the valid inputs defined by each A
         ((psa_pake_primitive_t) (((pake_type) << 24 |             \
                 (pake_family) << 16) | (pake_bits)))
 
+    #define PSA_PAKE_PRIMITIVE_GET_BITS(pake_primitive) \
+        ((size_t)(pake_primitive & 0xFFFF))
+
+    #define PSA_PAKE_PRIMITIVE_GET_FAMILY(pake_primitive) \
+        ((psa_pake_family_t)((pake_primitive >> 16) & 0xFF))
+
+    #define PSA_PAKE_PRIMITIVE_GET_TYPE(pake_primitive) \
+        ((psa_pake_primitive_type_t)((pake_primitive >> 24) & 0xFF))
+
     #define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) \
         ((psa_ecc_family_t) ((type) & 0x00ff))
 
