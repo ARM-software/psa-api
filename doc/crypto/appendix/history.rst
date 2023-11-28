@@ -73,7 +73,7 @@ Changes between *1.0.1* and *1.1.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
-*   Relaxation when a standalone key agreement is used as a key's permitted-algorithm policy. This now also permits the key agreement to be combined with any key derivation algorithm. See `PSA_ALG_FFDH` and `PSA_ALG_ECDH`.
+*   Relaxation when a raw key agreement is used as a key's permitted-algorithm policy. This now also permits the key agreement to be combined with any key derivation algorithm. See `PSA_ALG_FFDH` and `PSA_ALG_ECDH`.
 
 *   Provide wildcard permitted-algorithm polices for MAC and AEAD that can specify a minimum MAC or tag length. The following elements are added to the API:
 
