@@ -172,7 +172,7 @@ Key derivation algorithms
     This key derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, *K*\ :sub:`IN`.
-    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string.
+    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string. If provided, it must not contain any null bytes.
     *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the *Context*. It is optional; if omitted, the *Context* is a zero-length string.
 
     Each input can only be passed once. Inputs must be passed in the order above.
@@ -210,7 +210,7 @@ Key derivation algorithms
     This key derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, *K*\ :sub:`IN`. This must be a block-cipher key that is compatible with the CMAC algorithm. See also `PSA_ALG_CMAC`, and must be input using `psa_key_derivation_input_key()`.
-    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string.
+    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string. If provided, it must not contain any null bytes.
     *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the *Context*. It is optional; if omitted, the *Context* is a zero-length string.
 
     Each input can only be passed once. Inputs must be passed in the order above.
