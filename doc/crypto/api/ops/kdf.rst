@@ -169,13 +169,13 @@ Key derivation algorithms
 
     This is the HMAC-based, counter mode key derivation function specified by :cite-title:`SP800-108`, §4.1.
 
-    This key derivation algorithm uses the following inputs, in any order:
+    This key derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, *K*\ :sub:`IN`.
     *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string.
     *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the *Context*. It is optional; if omitted, the *Context* is a zero-length string.
 
-    Each input may only be passed once.
+    Each input can only be passed once. Inputs must be passed in the order above.
 
     This algorithm uses the output length as part of the derivation process. In the derivation this value is *L*, the required output size in bits. After setup, the initial capacity of the key derivation operation is 2\ :sup:`29` - 1 bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
 
@@ -207,13 +207,13 @@ Key derivation algorithms
 
     This is the CMAC-based, counter mode key derivation function specified by :cite-title:`SP800-108`, §4.1.
 
-    This key derivation algorithm uses the following inputs, in any order:
+    This key derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, *K*\ :sub:`IN`. This must be a block-cipher key that is compatible with the CMAC algorithm. See also `PSA_ALG_CMAC`, and must be input using `psa_key_derivation_input_key()`.
     *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string.
     *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the *Context*. It is optional; if omitted, the *Context* is a zero-length string.
 
-    Each input may only be passed once.
+    Each input can only be passed once. Inputs must be passed in the order above.
 
     This algorithm uses the output length as part of the derivation process. In the derivation this value is *L*, the required output size in bits. After setup, the initial capacity of the key derivation operation is 2\ :sup:`29` - 1 bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
 
