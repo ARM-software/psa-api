@@ -171,21 +171,23 @@ Key derivation algorithms
 
     This key derivation algorithm uses the following inputs:
 
-    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, *K*\ :sub:`IN`.
-    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string. If provided, it must not contain any null bytes.
-    *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the *Context*. It is optional; if omitted, the *Context* is a zero-length string.
+    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, :math:`K_{IN}`.
+    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the :math:`Label`. It is optional; if omitted, :math:`Label` is a zero-length string. If provided, it must not contain any null bytes.
+    *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the :math:`Context`. It is optional; if omitted, :math:`Context` is a zero-length string.
 
     Each input can only be passed once. Inputs must be passed in the order above.
 
-    This algorithm uses the output length as part of the derivation process. In the derivation this value is *L*, the required output size in bits. After setup, the initial capacity of the key derivation operation is 2\ :sup:`29` - 1 bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
+    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
 
-    When the first output is requested, the value of *L* is calculated as *L* = :code:`8 * psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
+    When the first output is requested, the value of :math:`L` is calculated as :math:`L=8*cap`, where :math:`cap` is the value of `psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
 
-    The derivation is constructed as described in :cite:`SP800-108` §4.1, with the iteration counter *i* and output length *L* encoded as big-endian, 32-bit values. The resulting output stream *K*\ :sub:`1` || *K*\ :sub:`2` || *K*\ :sub:`3` || ... is computed as:
+    The derivation is constructed as described in :cite:`SP800-108` §4.1, with the iteration counter :math:`i` and output length :math:`L` encoded as big-endian, 32-bit values. The resulting output stream :math:`K_1\ ||\ K_2\ ||\ K_3\ ||\ ...` is computed as:
 
-        *K*\ :sub:`i` = HMAC( *K*\ :sub:`IN`, [ *i* ]\ :sub:`4` || *Label* || ``0x00`` || *Context* || [ *L* ]\ :sub:`4` ), for *i* = 1, 2, 3, ...
+    .. math::
 
-    Where [ *x* ]\ :sub:`n` is the big-endian, *n*-byte encoding of the integer *x*.
+        K_i = \text{HMAC}( K_{IN}, [i]_4\ ||\ Label\ ||\ \texttt{0x00}\ ||\ Context\ ||\ [L]_4 ),\quad\text{for }i = 1, 2, 3, ...
+
+    Where :math:`[x]_n` is the big-endian, :math:`n`-byte encoding of the integer :math:`x`.
 
     .. rationale::
 
@@ -209,27 +211,30 @@ Key derivation algorithms
 
     This key derivation algorithm uses the following inputs:
 
-    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, *K*\ :sub:`IN`. This must be a block-cipher key that is compatible with the CMAC algorithm. See also `PSA_ALG_CMAC`, and must be input using `psa_key_derivation_input_key()`.
-    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the *Label*. It is optional; if omitted, the *Label* is a zero-length string. If provided, it must not contain any null bytes.
-    *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the *Context*. It is optional; if omitted, the *Context* is a zero-length string.
+    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, :math:`K_{IN}`. This must be a block-cipher key that is compatible with the CMAC algorithm, and must be input using `psa_key_derivation_input_key()`. See also `PSA_ALG_CMAC`.
+    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the :math:`Label`. It is optional; if omitted, :math:`Label` is a zero-length string. If provided, it must not contain any null bytes.
+    *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the :math:`Context`. It is optional; if omitted, :math:`Context` is a zero-length string.
 
     Each input can only be passed once. Inputs must be passed in the order above.
 
-    This algorithm uses the output length as part of the derivation process. In the derivation this value is *L*, the required output size in bits. After setup, the initial capacity of the key derivation operation is 2\ :sup:`29` - 1 bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
+    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
 
-    When the first output is requested, the value of *L* is calculated as *L* = :code:`8 * psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
+    When the first output is requested, the value of :math:`L` is calculated as :math:`L=8*cap`, where :math:`cap` is the value of `psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
 
     The derivation is constructed as described in :cite:`SP800-108` §4.1, with the following details:
 
-    *   The iteration counter *i* and output length *L* are encoded as big-endian, 32-bit values.
+    *   The iteration counter :math:`i` and output length :math:`L` are encoded as big-endian, 32-bit values.
     *   The mitigation to make the CMAC-based construction robust is implemented.
 
-    The resulting output stream *K*\ :sub:`1` || *K*\ :sub:`2` || *K*\ :sub:`3` || ... is computed as:
+    The resulting output stream :math:`K_1\ ||\ K_2\ ||\ K_3\ ||\ ...` is computed as:
 
-        | *K*\ :sub:`0` = CMAC( *K*\ :sub:`IN`, *Label* || ``0x00`` || *Context* || [ *L* ]\ :sub:`4` )
-        | *K*\ :sub:`i` = CMAC( *K*\ :sub:`IN`, [ *i* ]\ :sub:`4` || *Label* || ``0x00`` || *Context* || [ *L* ]\ :sub:`4` || *K*\ :sub:`0` ), for *i* = 1, 2, 3, ...
+    .. math::
 
-    Where [ *x* ]\ :sub:`n` is the big-endian, *n*-byte encoding of the integer *x*.
+        K_0 &= \text{CMAC}( K_{IN}, Label\ ||\ \texttt{0x00}\ ||\ Context\ ||\ [L]_4\ )
+
+        K_i &= \text{CMAC}( K_{IN}, [i]_4\ ||\ Label\ ||\ \texttt{0x00}\ ||\ Context\ ||\ [L]_4\ ||\ K_0 ),\quad\text{for }i = 1, 2, 3, ...
+
+    Where :math:`[x]_n` is the big-endian, :math:`n`-byte encoding of the integer :math:`x`.
 
     .. rationale::
 
