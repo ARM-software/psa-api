@@ -144,7 +144,7 @@ Standalone key agreement
 
             Implementations must support the `PSA_KEY_TYPE_DERIVE` and `PSA_KEY_TYPE_RAW_DATA` key types.
 
-        *   The key size is always determined from the key agreement's shared secret. If the key size in ``attributes`` is zero, the key is the size of the shared secret. If the key size in ``attributes`` is nonzero, it must be equal to the size of the shared secret, in bits.
+        *   The size of the returned key is always the bit-size of the shared secret, rounded up to a whole number of bytes. The key size in ``attributes`` can be zero; if it is nonzero, it must be equal to the output size of the key agreement, in bits.
 
             The output size, in bits, of the key agreement is :code:`8 * PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` and ``bits`` are the type and bit-size of ``private_key``.
 
