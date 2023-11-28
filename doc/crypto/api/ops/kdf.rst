@@ -167,7 +167,7 @@ Key derivation algorithms
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This is the HMAC-based, counter mode key derivation function specified by :cite-title:`SP800-108`, §4.1.
+    This is an HMAC-based, counter mode key derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
 
     This key derivation algorithm uses the following inputs:
 
@@ -189,7 +189,7 @@ Key derivation algorithms
 
     .. rationale::
 
-        SP 800-108 describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
+        :cite:`SP800-108` describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
 
         The precise definition provided here enables compatibility between different implementations of the |API|.
 
@@ -205,7 +205,7 @@ Key derivation algorithms
     .. summary::
         Macro to build a NIST SP 800-108 conformant, counter-mode KDF algorithm based on CMAC.
 
-    This is the CMAC-based, counter mode key derivation function specified by :cite-title:`SP800-108`, §4.1.
+    This is a CMAC-based, counter mode key derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
 
     This key derivation algorithm uses the following inputs:
 
@@ -233,7 +233,7 @@ Key derivation algorithms
 
     .. rationale::
 
-        SP 800-108 describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
+        :cite:`SP800-108` describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
 
         The precise definition provided here enables compatibility between different implementations of the |API|.
 
@@ -1228,14 +1228,13 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is an HMAC-based, SP 800-108 conformant, counter-mode KDF algorithm (:code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg)`).
+        Whether the specified algorithm is a key derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg)`.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is an HMAC-based, SP 800-108 conformant, counter-mode KDF algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
-
+        ``1`` if ``alg`` is a key derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC()`, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
 
 .. macro:: PSA_ALG_IS_TLS12_PRF
     :definition: /* specification-defined value */
