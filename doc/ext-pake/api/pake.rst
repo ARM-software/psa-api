@@ -435,7 +435,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
         *   -   key confirmation
             -   `PSA_PAKE_CONFIRMED_KEY` --- requesting that the secret key is confirmed before it can be returned.
 
-    The algorithm and primitive values must be set for all PAKE algorithms, the key confirmation values is only required for some PAKE algorithms.
+    Valid algorithm, primitive, and key confirmation values must be set when using a PAKE cipher suite.
 
     .. admonition:: Implementation note
 
@@ -1303,7 +1303,6 @@ Support macros
     This macro can be useful when transferring inputs from the peer into the PAKE operation.
 
     See also `PSA_PAKE_INPUT_MAX_SIZE`
-
 
 .. macro:: PSA_PAKE_INPUT_MAX_SIZE
     :definition: /* implementation-defined value */
