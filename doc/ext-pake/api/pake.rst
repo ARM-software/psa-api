@@ -106,19 +106,16 @@ Key formats
 
 A SPAKE2+ public key can be exported and imported, to enable use cases that require offline registration.
 
-The public key consists of the two values w0 and L, which result from the SPAKE2+ registration phase. w0 is a scalar in the same range as a private Elliptic curve key from the group used as the SPAKE2+ primitive group. L is a point on the curve, similar to a public key from the same group, corresponding to the w1 value in the key pair.
+The public key consists of the two values :math:`w0` and :math:`L`, which result from the SPAKE2+ registration phase. :math:`w0` is a scalar in the same range as a private Elliptic curve key from the group used as the SPAKE2+ primitive group. :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
 
-For the |API|, the default format for a SPAKE2+ public key is the concatenation of the formatted values for w0 and L, using the standard formats for Elliptic curve keys used by the |API|. For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
+For the |API|, the default format for a SPAKE2+ public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for Elliptic curve keys used by the |API|. For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
 
-*   The 32-byte formatted value of the P-256 private key w0. This is a big-endian encoding of the integer w0.
-*   The 65-byte formatted value of the P-256 public key L. This is itself a concatenation of:
+*   The 32-byte formatted value of the P-256 private key :math:`w0`. This is a big-endian encoding of the integer :math:`w0`.
+*   The 65-byte formatted value of the P-256 public key :math:`L`. This is itself a concatenation of:
 
     -   The byte ``0x04``.
-    -   The 32-byte big-endian encoding of the x-coordinate of L.
-    -   The 32-byte big-endian encoding of the y-coordinate of L.
-
-.. todo::
-    It might also be time to decide on how to style/format pseudo-mathematical content of the specification. Presently there is a arbitrary mixture of ``monospace code/LaTeX-source-style material a^b = 1, F_q`` (as typical in IETF RFCs) and *emphasized* or regular font .rst material a\ :sup:`b` = 1, *F*\ :sub:`q` (seen in NIST publications, and some IETF RFCs). But we also have the ability to use the ``:math:`` role to :math:`\text{render like LaTeX: } a^b=1, \mathbb{F}_q` (used in SECG and some NIST publications).
+    -   The 32-byte big-endian encoding of the x-coordinate of :math:`L`.
+    -   The 32-byte big-endian encoding of the y-coordinate of :math:`L`.
 
 Changes and additions to the Programming API
 --------------------------------------------
@@ -159,7 +156,7 @@ The SPAKE2+ algorithms are based on Elliptic curve groups, and a SPAKE2+ key is 
     .. param:: curve
         A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
 
-    The size of a SPAKE2+ key is the size associated with the Elliptic curve group, that is, ceil(log2(q)) for a curve over a field F\ :sub:`q`. See the documentation of each Elliptic curve family for details.
+    The size of a SPAKE2+ key is the size associated with the Elliptic curve group, that is, :math:`\lceil{log_2(q)}\rceil` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each Elliptic curve family for details.
 
     To construct a SPAKE2+ key pair, it must be output from a key derivation operation. See :secref:`spake2p-key-derivation`.
 
@@ -266,15 +263,15 @@ The key derivation process in :code:`psa_key_derivation_output_key()` follows th
 
 For the |API|:
 
-*   The derivation of SPAKE2+ keys extracts ceil(log2(p)/8) + 8 bytes from the PBKDF for each of w0s and w1s, where p is the prime factor of the order of the elliptic curve group.
-    The following sizes are used for extracting w0s and w1s, depending on the elliptic curve:
+*   The derivation of SPAKE2+ keys extracts :math:`\lceil{log_2(p)/8}\rceil+8` bytes from the PBKDF for each of :math:`w0s` and :math:`w1s`, where :math:`p` is the prime factor of the order of the elliptic curve group.
+    The following sizes are used for extracting :math:`w0s` and :math:`w1s`, depending on the elliptic curve:
 
     .. csv-table::
         :header-rows: 1
         :widths: auto
         :align: left
 
-        Elliptic curve, "Size of w0s and w1s, in bytes"
+        Elliptic curve, "Size of :math:`w0s` and :math:`w1s`, in bytes"
         P-256, 40
         P-384, 56
         P-521, 74
@@ -283,13 +280,13 @@ For the |API|:
 
     :issue:`I think these values are correct?`
 
-*   The calculation of w0, w1, and L then proceeds as described in the RFC.
+*   The calculation of :math:`w0`, :math:`w1`, and :math:`L` then proceeds as described in the RFC.
 
     .. admonition:: Implementation note
 
-        The values of w0 and w1 are required as part of the SPAKE2+ key pair.
+        The values of :math:`w0` and :math:`w1` are required as part of the SPAKE2+ key pair.
 
-        It is :scterm:`implementation defined` whether L is computed during key derivation, and stored as part of the key pair; or only computed when required from the key pair.
+        It is :scterm:`implementation defined` whether :math:`L` is computed during key derivation, and stored as part of the key pair; or only computed when required from the key pair.
 
 .. _pake-algorithms:
 
