@@ -105,8 +105,10 @@ PAKE algorithms
     This is J-PAKE as defined by :RFC-title:`8236`, instantiated with the following parameters:
 
     *   The group can be either an elliptic curve or defined over a finite field.
-    *   Schnorr NIZK proof as defined by :RFC-title:`8235`, using the same group as the J-PAKE algorithm.
+    *   Schnorr Non-Interactive Zero-Knowledge Proof (NIZKP) as defined by :RFC-title:`8235`, using the same group as the J-PAKE algorithm.
     *   A cryptographic hash function, ``hash_alg``.
+
+    J-PAKE does not confirm the shared secret key that results from the key exchange.
 
     To select these parameters and set up the cipher suite, initialize a `psa_pake_cipher_suite_t` object, and call the following functions in any order:
 
@@ -114,9 +116,10 @@ PAKE algorithms
 
         psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
 
-        psa_pake_cs_set_algorithm(cipher_suite, PSA_ALG_JPAKE(hash));
-        psa_pake_cs_set_primitive(cipher_suite,
+        psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE(hash));
+        psa_pake_cs_set_primitive(&cipher_suite,
                                   PSA_PAKE_PRIMITIVE(type, family, bits));
+        psa_pake_cs_set_key_confirmation(&cipher_suite, PSA_PAKE_UNCONFIRMED_KEY);
 
     More information on selecting a specific Elliptic curve or Diffie-Hellman field is provided with the `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH` constants.
 
@@ -131,7 +134,11 @@ PAKE algorithms
 
     J-PAKE does not assign roles to the participants, so it is not necessary to call `psa_pake_set_role()`.
 
-    J-PAKE requires both an application and a peer identity. If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
+    J-PAKE requires both an application and a peer identity.
+    If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
+
+    The shared secret that is produced by J-PAKE is not suitable for use as an encryption key.
+    It must be used as an input to a key derivation operation to produce additional cryptographic keys.
 
     The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`.
     The input and output steps must be carried out in exactly the same sequence as shown.
@@ -211,18 +218,19 @@ PAKE algorithms
             // Set r6, the ZKP proof for x4*s
             psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-    #.  To use the shared secret, set up a key derivation operation and transfer the computed value:
+    #.  To use the shared secret, extract it as a key-derivation key. For example, to extract a derivation key for HKDF-SHA-256:
 
         .. code-block:: xref
 
-            // Set up the KDF
-            psa_key_derivation_operation_t kdf = PSA_KEY_DERIVATION_OPERATION_INIT;
-            psa_key_derivation_setup(&kdf, ...);
-            psa_key_derivation_input_bytes(&kdf, PSA_KEY_DERIVATION_INPUT_CONTEXT, ...);
-            psa_key_derivation_input_bytes(&kdf, PSA_KEY_DERIVATION_INPUT_LABEL, ...);
+            // Set up the key attributes
+            psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
+            psa_key_set_type(&att, PSA_KEY_TYPE_DERIVE);
+            psa_key_set_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+            psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA256));
 
             // Get Ka=Kb=K
-            psa_pake_get_implicit_key(&jpake, &kdf)
+            psa_key_id_t shared_key;
+            psa_pake_get_shared_key(&jpake, &att, &shared_key);
 
     For more information about the format of the values which are passed for each step, see :secref:`pake-steps`.
 
@@ -357,9 +365,13 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
 PAKE cipher suites
 ~~~~~~~~~~~~~~~~~~
 
-A PAKE algorithm uses a specific cryptographic primitive for key establishment, specified using a `PAKE primitive <pake-primitive>`. PAKE algorithms also require a cryptographic hash algorithm, which is agreed between the participants.
+Most PAKE algorithms have parameters that must be specified by the application. These parameters include the following:
 
-The hash algorithm is encoded into the PAKE algorithm identifier. The `psa_pake_cipher_suite_t` object is used to fully specify a PAKE operation, combining the PAKE and hash algorithm, and the PAKE primitive.
+*   The cryptographic primitive used for key establishment, specified using a `PAKE primitive <pake-primitive>`.
+*   A cryptographic hash algorithm.
+*   Whether the application requires the shared secret before, or after, it is confirmed.
+
+The hash algorithm is encoded into the PAKE algorithm identifier. The `psa_pake_cipher_suite_t` object is used to fully specify a PAKE operation, combining the PAKE protocol with all of the above parameters.
 
 A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_setup()`.
 
@@ -374,11 +386,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     *   The PAKE algorithm itself.
     *   The hash algorithm, encoded within the PAKE algorithm.
     *   The PAKE primitive, which identifies the prime order group used for the key exchange operation. See :secref:`pake-primitive`.
-
-    .. note::
-        Implementations are recommended to define the cipher-suite object as a simple data structure, with fields corresponding to the individual cipher suite attributes. In such an implementation, each function ``psa_pake_cs_set_xxx()`` sets a field and the corresponding function ``psa_pake_cs_get_xxx()`` retrieves the value of the field.
-
-        An implementations can report attribute values that are equivalent to the original one, but have a different encoding. For example, an implementation can use a more compact representation for attributes where many bit-patterns are invalid or not supported, and store all values that it does not support as a special marker value. In such an implementation, after setting an invalid value, the corresponding get function returns an invalid value which might not be the one that was originally stored.
+    *   Whether to confirm the shared secret.
 
     This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
@@ -410,6 +418,33 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
             psa_pake_cipher_suite_t cipher_suite;
             cipher_suite = psa_pake_cipher_suite_init();
 
+    Following initialization, the cipher-suite object contains the following values:
+
+    .. list-table::
+        :header-rows: 1
+        :widths: 1 4
+        :align: left
+
+        *   -   Attribute
+            -   Value
+
+        *   -   algorithm
+            -   :code:`PSA_ALG_NONE` --- an invalid algorithm identifier.
+        *   -   primitive
+            -   ``0`` --- an invalid PAKE primitive.
+        *   -   key confirmation
+            -   `PSA_PAKE_CONFIRMED_KEY` --- requesting that the secret key is confirmed before it can be returned.
+
+    Valid algorithm, primitive, and key confirmation values must be set when using a PAKE cipher suite.
+
+    .. admonition:: Implementation note
+
+        Implementations are recommended to define the cipher-suite object as a simple data structure, with fields corresponding to the individual cipher suite attributes.
+        In such an implementation, each function ``psa_pake_cs_set_xxx()`` sets a field and the corresponding function ``psa_pake_cs_get_xxx()`` retrieves the value of the field.
+
+        An implementations can report attribute values that are equivalent to the original one, but have a different encoding.
+        For example, an implementation can use a more compact representation for attributes where many bit-patterns are invalid or not supported, and store all values that it does not support as a special marker value.
+        In such an implementation, after setting an invalid value, the corresponding get function returns an invalid value which might not be the one that was originally stored.
 
 .. macro:: PSA_PAKE_CIPHER_SUITE_INIT
     :definition: /* implementation-defined value */
@@ -491,6 +526,64 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
         This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
 
+.. macro:: PSA_PAKE_CONFIRMED_KEY
+    :definition: 0
+
+    .. summary:: A key confirmation value that indicates an confirmed key in a PAKE cipher suite.
+
+    This key confirmation value will result in the PAKE algorithm exchanging data to verify that the shared key is identical for both parties. This is the default key confirmation value in an initialized PAKE cipher suite object.
+
+    Some algorithms do not include confirmation of the shared key.
+
+.. macro:: PSA_PAKE_UNCONFIRMED_KEY
+    :definition: 1
+
+    .. summary:: A key confirmation value that indicates an unconfirmed key in a PAKE cipher suite.
+
+    This key confirmation value will result in the PAKE algorithm terminating prior to confirming that the resulting shared key is identical for both parties.
+
+    Some algorithms do not support returning an unconfirmed shared key.
+
+    .. warning::
+
+        When the shared key is not confirmed as part of the PAKE operation, the application is responsible for mitigating risks that arise from the possible mismatch in the output keys.
+
+.. function:: psa_pake_cs_get_key_confirmation
+
+    .. summary::
+        Retrieve the key confirmation from a PAKE cipher suite.
+
+    .. param:: const psa_pake_cipher_suite_t* cipher_suite
+        The cipher suite object to query.
+
+    .. return:: uint32_t
+        A key confirmation value: either `PSA_PAKE_CONFIRMED_KEY` or `PSA_PAKE_UNCONFIRMED_KEY`.
+
+    .. admonition:: Implementation note
+
+        This is a simple accessor function that is not required to validate its inputs.
+        It can be efficiently implemented as a ``static inline`` function or a function-like macro.
+
+.. function:: psa_pake_cs_set_key_confirmation
+
+    .. summary::
+        Declare the key confirmation from a PAKE cipher suite.
+
+    .. param:: psa_pake_cipher_suite_t* cipher_suite
+        The cipher suite object to write to.
+    .. param:: uint32_t key_confirmation
+        The key confirmation value to write: either `PSA_PAKE_CONFIRMED_KEY` or `PSA_PAKE_UNCONFIRMED_KEY`.
+
+    .. return:: void
+
+    This function overwrites any key confirmation previously set in ``cipher_suite``.
+
+    The documentation of individual PAKE algorithms specifies which key confirmation values are valid for the algorithm.
+
+    .. admonition:: Implementation note
+
+        This is a simple accessor function that is not required to validate its inputs.
+        It can be efficiently implemented as a ``static inline`` function or a function-like macro.
 
 .. _pake-roles:
 
@@ -709,6 +802,7 @@ Multi-part PAKE operations
 
         *   The algorithm in ``cipher_suite`` is not a PAKE algorithm, or encodes an invalid hash algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not compatible with the PAKE algorithm.
+        *   The key confirmation value in ``cipher_suite`` is not compatible with the PAKE algorithm and primitive.
         *   The key type for ``password_key`` is not :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
         *   ``password_key`` is not compatible with ``cipher_suite``.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -716,6 +810,7 @@ Multi-part PAKE operations
 
         *   The algorithm in ``cipher_suite`` is not a supported PAKE algorithm, or encodes an unsupported hash algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not supported or not compatible with the PAKE algorithm.
+        *   The key confirmation value in ``cipher_suite`` is not supported, or not compatible, with the PAKE algorithm and primitive.
         *   The key type or key size of ``password_key`` is not supported with ``cipher suite``.
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
@@ -737,14 +832,14 @@ Multi-part PAKE operations
     1.  Call :code:`psa_pake_output(operation, PSA_PAKE_STEP_KEY_SHARE, ...)` to get the key share that needs to be sent to the peer.
     #.  Call :code:`psa_pake_input(operation, PSA_PAKE_STEP_KEY_SHARE, ...)` to provide the key share that was received from the peer.
     #.  Depending on the algorithm additional calls to `psa_pake_output()` and `psa_pake_input()` might be necessary.
-    #.  Call `psa_pake_get_implicit_key()` to access the shared secret.
+    #.  Call `psa_pake_get_shared_key()` to access the shared secret.
 
     Refer to the documentation of individual PAKE algorithms for details on the required set up and operation for each algorithm, and for constraints on the format and content of valid passwords.
     See :secref:`pake-algorithms`.
 
     After a successful call to `psa_pake_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
 
-    *   A successful call to `psa_pake_get_implicit_key()`.
+    *   A successful call to `psa_pake_get_shared_key()`.
     *   A call to `psa_pake_abort()`.
 
     If `psa_pake_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
@@ -752,7 +847,7 @@ Multi-part PAKE operations
     To abandon an active operation, or reset an operation in an error state, call `psa_pake_abort()`.
 
     ..
-        See :secref:`multi-part-operations`.
+        See :secref:`multi-part-operations`. :issue:`add this when integrated to main specification`
 
 .. function:: psa_pake_set_role
 
@@ -1000,30 +1095,70 @@ Multi-part PAKE operations
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_pake_abort()`.
 
-.. function:: psa_pake_get_implicit_key
+.. function:: psa_pake_get_shared_key
 
     .. summary::
-        Pass the implicitly confirmed shared secret from a PAKE into a key derivation operation.
+        Extract the shared secret from the PAKE as a key.
 
     .. param:: psa_pake_operation_t *operation
         Active PAKE operation.
-    .. param:: psa_key_derivation_operation_t *output
-        A key derivation operation that is ready for an input step of type :code:`PSA_KEY_DERIVATION_INPUT_SECRET`.
+    .. param:: const psa_key_attributes_t * attributes
+        The attributes for the new key.
+        This function uses the attributes as follows:
+
+        *   The key type is required.
+            All PAKE algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
+            PAKE algorithms that produce a pseudo-random shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
+            Refer to the documentation of individual PAKE algorithms for more information.
+            See :secref:`pake-algorithms`.
+        *   The key size in ``attributes`` must be zero.
+            The returned key size is always determined from the PAKE shared secret.
+        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation.
+
+            .. see :secref:`permitted-algorithms`.
+
+        *   The key usage flags define what operations are permitted with the key.
+
+            .. see :secref:`key-usage-flags`.
+
+        *   The key lifetime and identifier are required for a persistent key.
+
+        .. note::
+            This is an input parameter: it is not updated with the final key attributes.
+            The final attributes of the new key can be queried by calling :code:`psa_get_key_attributes()` with the key's identifier.
+    .. param:: psa_key_id_t * key
+        On success, an identifier for the newly created key. :code:`PSA_KEY_ID_NULL` on failure.
+
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
         Success.
-        Use the ``output`` key derivation operation to continue with derivation of keys or data.
+        If the key is persistent, the key material and the key's metadata have been saved to persistent storage.
     .. retval:: PSA_ERROR_BAD_STATE
         The following conditions can result in this error:
 
-        *   The state of PAKE operation ``operation`` is not valid: it must be active, with all setup, input, and output steps complete.
-        *   The state of key derivation operation ``output`` is not valid for the :code:`PSA_KEY_DERIVATION_INPUT_SECRET` step.
+        *   The state of PAKE operation ``operation`` is not valid: it must be ready to return the shared secret.
+
+            For an unconfirmed key, this will be when the key-exchange output and input steps are complete, but prior to any key-confirmation output and input steps.
+
+            For a confirmed key, this will be when all key-exchange and key-confirmation output and input steps are complete.
         *   The library requires initializing by a call to :code:`psa_crypto_init()`.
-    .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        :code:`PSA_KEY_DERIVATION_INPUT_SECRET` is not compatible with the algorithm in the ``output`` key derivation operation.
+    .. retval:: PSA_ERROR_ALREADY_EXISTS
+        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        Input from a PAKE is not supported by the algorithm in the ``output`` key derivation operation.
+        The key attributes, as a whole, are not supported for creation from a PAKE secret, either by the implementation in general or in the specified storage location.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   The key type is not valid for output from this operation's algorithm.
+        *   The key size is nonzero.
+        *   The key lifetime is invalid.
+        *   The key identifier is not valid for the key lifetime.
+        *   The key usage flags include invalid values.
+        *   The key's permitted-usage algorithm is invalid.
+        *   The key attributes, as a whole, are invalid.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -1031,23 +1166,46 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    At this step in the PAKE operation there is a cryptographic guarantee that only an authenticated participant who used the same password is able to compute the key.
-    But there is no guarantee that the peer is the participant it claims to be, and was able to compute the same key.
+    This is the final call in a PAKE operation, which retrieves the shared secret as a key.
+    It is recommended that this key is used as an input to a key derivation operation to produce additional cryptographic keys.
+    For some PAKE algorithms, the shared secret is also suitable for use as a key in cryptographic operations such as encryption.
+    Refer to the documentation of individual PAKE algorithms for more information, see :secref:`pake-algorithms`.
 
-    In this situation, the authentication is only implicit.
-    Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be
-    For example, do not access restricted files on the peer's behalf until an explicit authentication has succeeded.
+    Depending on the key confirmation requested in the cipher suite, `psa_pake_get_shared_key()` must be called either before or after the key-confirmation output and input steps for the PAKE algorithm.
+    The key confirmation affects the guarantees that can be made about the shared key:
 
-    This function can be called after the key exchange phase of the operation has completed.
-    It injects the shared secret output of the PAKE into the provided key derivation operation.
-    The input step :code:`PSA_KEY_DERIVATION_INPUT_SECRET` is used to input the shared key material into the key derivation operation.
+    .. list-table::
+        :class: borderless
+        :widths: 1 4
+
+        *   -   **Unconfirmed key**
+            -   If the cipher suite used to set up the operation requested an unconfirmed key, the application must call `psa_pake_get_shared_key()` after the key-exchange output and input steps are completed.
+                The PAKE algorithm provides a cryptographic guarantee that only a peer who used the same password, and identity inputs, is able to compute the same key.
+                However, there is no guarantee that the peer is the participant it claims to be, and was able to compute the same key.
+
+                Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be.
+                For example, do not access restricted files on the peer's behalf until an explicit authentication has succeeded.
+
+                .. note::
+                    Some PAKE algorithms do not enable the output of the shared secret until it has been confirmed.
+
+        *   -   **Confirmed key**
+            -   If the cipher suite used to set up the operation requested a confirmed key, the application must call `psa_pake_get_shared_key()` after the key-exchange and key-confirmation output and input steps are completed.
+
+                Following key confirmation, the PAKE algorithm provides a cryptographic guarantee that the peer used the same password and identity inputs, and has computed the identical shared secret key.
+
+                Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be.
+                For example, do not access restricted files on the peer's behalf until an explicit authentication has succeeded.
+
+                .. note::
+                    Some PAKE algorithms do not include any key-confirmation steps.
 
     The exact sequence of calls to perform a password-authenticated key exchange depends on the algorithm in use.
     Refer to the documentation of individual PAKE algorithms for more information.
     See :secref:`pake-algorithms`.
 
     When this function returns successfully, ``operation`` becomes inactive.
-    If this function returns an error status, both the ``operation`` and the ``key_derivation`` operations enter an error state and must be aborted by calling `psa_pake_abort()` and :code:`psa_key_derivation_abort()` respectively.
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_pake_abort()`.
 
 .. function:: psa_pake_abort
 
@@ -1071,7 +1229,7 @@ Multi-part PAKE operations
 
     This function can be called any time after the operation object has been initialized as described in `psa_pake_operation_t`.
 
-    In particular, calling `psa_pake_abort()` after the operation has been terminated by a call to `psa_pake_abort()` or `psa_pake_get_implicit_key()` is safe and has no effect.
+    In particular, calling `psa_pake_abort()` after the operation has been terminated by a call to `psa_pake_abort()` or `psa_pake_get_shared_key()` is safe and has no effect.
 
 
 Support macros
@@ -1145,7 +1303,6 @@ Support macros
     This macro can be useful when transferring inputs from the peer into the PAKE operation.
 
     See also `PSA_PAKE_INPUT_MAX_SIZE`
-
 
 .. macro:: PSA_PAKE_INPUT_MAX_SIZE
     :definition: /* implementation-defined value */
