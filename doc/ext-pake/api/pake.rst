@@ -721,10 +721,27 @@ Many PAKE algorithms are designed to allow different cryptographic primitives to
 
 The cryptographic primitive for a PAKE operation is specified using a `psa_pake_primitive_t` value, which can be constructed using the `PSA_PAKE_PRIMITIVE()` macro, or can be provided as a numerical constant value.
 
-The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`. These can be used to set key attributes for keys used in PAKE algorithms.
-
 A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_pake_cipher_suite_t`, which fully specifies the PAKE operation to be carried out.
 
+.. typedef:: uint32_t psa_pake_primitive_t
+
+    .. summary::
+        Encoding of the primitive associated with the PAKE.
+
+    PAKE primitive values are constructed using `PSA_PAKE_PRIMITIVE()`.
+
+    :numref:`fig-pake-primitive` shows how the components of the primitive are encoded into a `psa_pake_primitive_t` value.
+
+    .. figure:: /figure/pake_primitive.*
+        :name: fig-pake-primitive
+
+        PAKE primitive encoding
+
+    The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`. These can be used to set key attributes for keys used in PAKE algorithms.
+
+    .. rationale::
+
+        An integral type is required for `psa_pake_primitive_t` to enable values of this type to be compile-time-constants. This allows them to be used in ``case`` statements, and used to calculate static buffer sizes with `PSA_PAKE_OUTPUT_SIZE()` and `PSA_PAKE_INPUT_SIZE()`.
 
 .. typedef:: uint8_t psa_pake_primitive_type_t
 
@@ -787,17 +804,6 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
         Encoding of the family of the primitive associated with the PAKE.
 
     For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
-
-.. typedef:: uint32_t psa_pake_primitive_t
-
-    .. summary::
-        Encoding of the primitive associated with the PAKE.
-
-    PAKE primitive values are constructed using `PSA_PAKE_PRIMITIVE()`.
-
-    .. rationale::
-
-        An integral type is required for `psa_pake_primitive_t` to enable values of this type to be compile-time-constants. This allows them to be used in ``case`` statements, and used to calculate static buffer sizes with `PSA_PAKE_OUTPUT_SIZE()` and `PSA_PAKE_INPUT_SIZE()`.
 
 .. macro:: PSA_PAKE_PRIMITIVE
     :definition: /* specification-defined value */
