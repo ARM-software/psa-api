@@ -21,7 +21,7 @@
     Prover -> Prover: ""psa_pake_output()"" for //shareP// = //X//
     Prover ->> Verifier: (//shareP//)
 
-    Verifier -> Verifier: ""psa_pake_setup()"" with key (//w0//, //L//)\n""psa_pake_set_role(PSA_PAKE_ROLE_SERVER)""\n""psa_pake_set_user(VerifierId)""\n""psa_pake_set_peer(ProverId)""\n""psa_pake_set_context(Context)""
+    Verifier -> Verifier: ""psa_pake_setup()"" with key (//w0//, //L//) or key (//w0//, //w1//)\n""psa_pake_set_role(PSA_PAKE_ROLE_SERVER)""\n""psa_pake_set_user(VerifierId)""\n""psa_pake_set_peer(ProverId)""\n""psa_pake_set_context(Context)""
 
     note over Verifier: Generate key share //Y//
     Verifier -> Verifier: ""psa_pake_input()"" for //shareP//
