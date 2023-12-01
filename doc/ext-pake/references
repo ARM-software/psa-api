@@ -6,11 +6,6 @@
     :doc_no: IHI 0086
     :url: arm-software.github.io/psa-api/crypto
 
-.. reference:: MBED-TLS
-    :title: Mbed TLS
-    :author: Arm Ltd
-    :url: github.com/ARMmbed/mbedtls
-
 .. reference:: MATTER
     :title: Matter Specification, Version 1.2
     :author: CSA
