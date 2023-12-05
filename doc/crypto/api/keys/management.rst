@@ -523,7 +523,7 @@ Key export
 Key formats
 -----------
 
-This section defines the format of the key data that an implementation is required to support when importing and exporting keys. Keys can be imported using `psa_import_key()`, and exported using `psa_export_key()` or `psa_export_public_key()`.
+This section defines the format of the key data that an implementation is required to support when importing and exporting keys. Keys can be imported using `psa_import_key()`, and exported using `psa_export_key()` or `psa_export_public_key()`. The public key formats are also used for the key agreement functions, see :secref:`key-agreement`.
 
 .. list-table:: Standard key formats
     :name: std-key-formats
