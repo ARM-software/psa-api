@@ -1,0 +1,29 @@
+' SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+!include atg-spec.pumh
+!include atg-dataflow.pumh
+
+skinparam RectangleborderThickness 0
+skinparam RectanglefontColor white
+skinparam DatabaseBorderColor #ArmMidGray
+skinparam InterfaceBorderColor #ArmMidGray
+
+left to right direction
+
+dfd_tb("Device ") {
+    rectangle "Application" as caller #ArmMidGray
+    interface "**Secure Storage API**" as api  #ArmGreen
+    dfd_tb($label="Platform Root of Trust") {
+      rectangle "Storage service" as service #ArmMidBlue
+      database "Storage medium" as store #ArmLightGray
+    }
+}
+
+caller -d- api
+api -d-> service : DF1
+service <-d-> store : DF2
+
+@enduml

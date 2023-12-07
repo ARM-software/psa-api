@@ -1,0 +1,35 @@
+' SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+!include atg-spec.pumh
+!include atg-dataflow.pumh
+
+skinparam RectangleborderThickness 0
+skinparam RectanglefontColor white
+skinparam DatabaseBorderColor #ArmMidGray
+skinparam InterfaceBorderColor #ArmMidGray
+
+left to right direction
+
+dfd_tb("Application boundary") {
+   rectangle "Application 1" as caller1 #ArmMidGray
+   interface "**Secure Storage API**" as api1  #ArmGreen
+}
+dfd_tb("Data protection boundary") {
+rectangle "Storage service" as service #ArmMidBlue
+database "Storage medium" as store #ArmLightGray
+}
+dfd_tb("Application boundary") {
+   interface "**Secure Storage API**" as api2  #ArmGreen
+   rectangle "Application 2" as caller2 #ArmMidGray
+}
+
+caller1 -d- api1
+api1 -d-> service
+service <--> store
+caller2 -d- api2
+api2 -d-> service
+
+@enduml
