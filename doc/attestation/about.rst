@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. Releases of this specification
@@ -52,6 +52,12 @@
     Example header file added to the appendices.
 
     Minor corrections and clarifications.
+
+.. release:: 2.0.0
+    :date: ? 2024
+    :confidentiality: Non-confidential
+
+    Updated attestation token format to the PSA attestation token.
 
 .. release-info::
     :extend:
@@ -163,16 +169,14 @@
 
 .. potential-for-change::
 
-    The contents of this specification are stable for version 1.0.
+    The contents of this specification are stable for version |docversion|.
 
-    The following may change in updates to the version 1.0 specification:
+    The following may change in updates to the version |docversion| specification:
 
-    * Small optional feature additions.
-    * Clarifications.
+    *   Small optional feature additions.
+    *   Clarifications.
 
-    Significant additions, or any changes that affect the compatibility of the
-    interfaces defined in this specification will only be included in a new major or
-    minor version of the specification.
+    Significant additions, or any changes that affect the compatibility of the interfaces defined in this specification will only be included in a new major or minor version of the specification.
 
 .. current-status::
 

@@ -58,3 +58,8 @@ Document history
         * Added CDDL definition to the appendices, which can be helpful to developers.
         * Instance ID definition for symmetric keys has been improved. The specific constructions are now recommended rather than normative.
         * Clarified the optionality of map entries in the Software Components claim. See :secref:`custom-claims`.
+
+    * - 2024-??-??
+      - *2.0 Release 0 (2.0.0)*
+
+        * Update the API to use the PSA attestation token, defined in :cite-title:`PSATOKEN`.
