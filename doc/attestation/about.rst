@@ -109,9 +109,16 @@
     :url: rfc-editor.org/info/std96
     :publication: August 2022
 
-.. reference:: RFC8610
+.. reference:: RFC2104
+    :title: HMAC: Keyed-Hashing for Message Authentication
     :author: IETF
+    :publication: February 1997
+    :url: tools.ietf.org/html/rfc2104
+
+.. reference:: RFC8610
     :title: Concise Data Definition Language (CDDL)
+    :author: IETF
+    :publication: June 2019
     :url: tools.ietf.org/html/rfc8610
 
 .. reference:: EAN-13
@@ -177,9 +184,5 @@
     *   Clarifications.
 
     Significant additions, or any changes that affect the compatibility of the interfaces defined in this specification will only be included in a new major or minor version of the specification.
-
-.. current-status::
-
-   The token format defined within this specification has been superseded by the attestation token format defined in :cite-title:`PSATOKEN`. A future update to this specification will incorporate the new token definition.
 
 .. about::

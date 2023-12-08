@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _document-history:
@@ -57,9 +57,9 @@ Document history
         * Fix CBOR type of ``arm_psa_origination`` to text string. Spec and example were in conflict, and the example was correct.
         * Added CDDL definition to the appendices, which can be helpful to developers.
         * Instance ID definition for symmetric keys has been improved. The specific constructions are now recommended rather than normative.
-        * Clarified the optionality of map entries in the Software Components claim. See :secref:`custom-claims`.
+        * Clarified the optionality of map entries in the Software Components claim.
 
     * - 2024-??-??
       - *2.0 Release 0 (2.0.0)*
 
-        * Update the API to use the PSA attestation token, defined in :cite-title:`PSATOKEN`.
+        * Update the API to use the PSA attestation token, defined in :cite-title:`PSATOKEN`. The token and report format, CDDL definition, and example token are no longer required in this specification.

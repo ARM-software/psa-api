@@ -29,6 +29,4 @@
 ..  appendix::
 
     appendix/example-header
-    appendix/example-token
-    appendix/cddl
     appendix/history
