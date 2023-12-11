@@ -106,6 +106,8 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_IS_SIGN(alg) /* specification-defined value */
 #define PSA_ALG_IS_SIGN_HASH(alg) /* specification-defined value */
 #define PSA_ALG_IS_SIGN_MESSAGE(alg) /* specification-defined value */
+#define PSA_ALG_IS_SP800_108_COUNTER_HMAC(alg) \
+    /* specification-defined value */
 #define PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg) \
     /* specification-defined value */
 #define PSA_ALG_IS_STREAM_CIPHER(alg) /* specification-defined value */
@@ -144,6 +146,9 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_SHA_512_224 ((psa_algorithm_t)0x0200000c)
 #define PSA_ALG_SHA_512_256 ((psa_algorithm_t)0x0200000d)
 #define PSA_ALG_SM3 ((psa_algorithm_t)0x02000014)
+#define PSA_ALG_SP800_108_COUNTER_CMAC ((psa_algorithm_t)0x08000800)
+#define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
+    /* specification-defined value */
 #define PSA_ALG_STREAM_CIPHER ((psa_algorithm_t)0x04800100)
 #define PSA_ALG_TLS12_ECJPAKE_TO_PMS ((psa_algorithm_t)0x08000609)
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */

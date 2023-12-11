@@ -153,6 +153,103 @@ Key derivation algorithms
         | `PSA_KEY_TYPE_DERIVE` (for the pseudorandom key)
         | `PSA_KEY_TYPE_RAW_DATA` (for the info string)
 
+.. macro:: PSA_ALG_SP800_108_COUNTER_HMAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Macro to build a NIST SP 800-108 conformant, counter-mode KDF algorithm based on HMAC.
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+
+    .. return::
+        The corresponding key derivation algorithm. For example, the counter-mode KDF using HMAC-SHA-256 is :code:`PSA_ALG_SP800_108_COUNTER_HMAC(PSA_ALG_SHA_256)`.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This is an HMAC-based, counter mode key derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
+
+    This key derivation algorithm uses the following inputs:
+
+    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, :math:`K_{IN}`.
+    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the :math:`Label`. It is optional; if omitted, :math:`Label` is a zero-length string. If provided, it must not contain any null bytes.
+    *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the :math:`Context`. It is optional; if omitted, :math:`Context` is a zero-length string.
+
+    Each input can only be passed once. Inputs must be passed in the order above.
+
+    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
+
+    When the first output is requested, the value of :math:`L` is calculated as :math:`L=8*cap`, where :math:`cap` is the value of `psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
+
+    The derivation is constructed as described in :cite:`SP800-108` §4.1, with the iteration counter :math:`i` and output length :math:`L` encoded as big-endian, 32-bit values. The resulting output stream :math:`K_1\ ||\ K_2\ ||\ K_3\ ||\ ...` is computed as:
+
+    .. math::
+
+        K_i = \text{HMAC}( K_{IN}, [i]_4\ ||\ Label\ ||\ \texttt{0x00}\ ||\ Context\ ||\ [L]_4 ),\quad\text{for }i = 1, 2, 3, ...
+
+    Where :math:`[x]_n` is the big-endian, :math:`n`-byte encoding of the integer :math:`x`.
+
+    .. rationale::
+
+        :cite:`SP800-108` describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
+
+        The precise definition provided here enables compatibility between different implementations of the |API|.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_HMAC` (for the secret key)
+        | `PSA_KEY_TYPE_DERIVE` (for the secret key)
+        | `PSA_KEY_TYPE_RAW_DATA` (for the other inputs)
+
+.. macro:: PSA_ALG_SP800_108_COUNTER_CMAC
+    :definition: ((psa_algorithm_t)0x08000800)
+
+    .. summary::
+        Macro to build a NIST SP 800-108 conformant, counter-mode KDF algorithm based on CMAC.
+
+    This is a CMAC-based, counter mode key derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
+
+    This key derivation algorithm uses the following inputs:
+
+    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, :math:`K_{IN}`. This must be a block-cipher key that is compatible with the CMAC algorithm, and must be input using `psa_key_derivation_input_key()`. See also `PSA_ALG_CMAC`.
+    *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the :math:`Label`. It is optional; if omitted, :math:`Label` is a zero-length string. If provided, it must not contain any null bytes.
+    *   `PSA_KEY_DERIVATION_INPUT_CONTEXT` is the :math:`Context`. It is optional; if omitted, :math:`Context` is a zero-length string.
+
+    Each input can only be passed once. Inputs must be passed in the order above.
+
+    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
+
+    When the first output is requested, the value of :math:`L` is calculated as :math:`L=8*cap`, where :math:`cap` is the value of `psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
+
+    The derivation is constructed as described in :cite:`SP800-108` §4.1, with the following details:
+
+    *   The iteration counter :math:`i` and output length :math:`L` are encoded as big-endian, 32-bit values.
+    *   The mitigation to make the CMAC-based construction robust is implemented.
+
+    The resulting output stream :math:`K_1\ ||\ K_2\ ||\ K_3\ ||\ ...` is computed as:
+
+    .. math::
+
+        K_0 &= \text{CMAC}( K_{IN}, Label\ ||\ \texttt{0x00}\ ||\ Context\ ||\ [L]_4\ )
+
+        K_i &= \text{CMAC}( K_{IN}, [i]_4\ ||\ Label\ ||\ \texttt{0x00}\ ||\ Context\ ||\ [L]_4\ ||\ K_0 ),\quad\text{for }i = 1, 2, 3, ...
+
+    Where :math:`[x]_n` is the big-endian, :math:`n`-byte encoding of the integer :math:`x`.
+
+    .. rationale::
+
+        :cite:`SP800-108` describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
+
+        The precise definition provided here enables compatibility between different implementations of the |API|.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_AES` (for the secret key)
+        | `PSA_KEY_TYPE_ARIA` (for the secret key)
+        | `PSA_KEY_TYPE_CAMELLIA` (for the secret key)
+        | `PSA_KEY_TYPE_SM4` (for the secret key)
+        | `PSA_KEY_TYPE_RAW_DATA` (for the other inputs)
+
 .. macro:: PSA_ALG_TLS12_PRF
     :definition: /* specification-defined value */
 
@@ -322,6 +419,8 @@ Input step types
         A high-entropy secret input for key derivation.
 
     This is typically a key of type `PSA_KEY_TYPE_DERIVE` passed to `psa_key_derivation_input_key()`, or the shared secret resulting from a key agreement obtained via `psa_key_derivation_key_agreement()`.
+
+    For some algorithms, a specific type of key is required. For example, see `PSA_ALG_SP800_108_COUNTER_CMAC`.
 
     The secret can also be a direct input passed to `psa_key_derivation_input_bytes()`. In this case, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()`.
 
@@ -544,6 +643,10 @@ Key derivation functions
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
     The capacity of a key derivation operation is the maximum number of bytes that the key derivation operation can return from this point onwards.
+
+    .. note::
+
+        For some algorithms, the capacity value can affect the output of the key derivation. For example, see `PSA_ALG_SP800_108_COUNTER_HMAC`.
 
 .. function:: psa_key_derivation_input_bytes
 
@@ -1125,6 +1228,18 @@ Support macros
 
     .. return::
         ``1`` if ``alg`` is an HKDF-Expand algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+
+.. macro:: PSA_ALG_IS_SP800_108_COUNTER_HMAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a key derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg)`.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a key derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC()`, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
 
 .. macro:: PSA_ALG_IS_TLS12_PRF
     :definition: /* specification-defined value */

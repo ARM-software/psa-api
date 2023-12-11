@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. reference:: PSA-PAKE
@@ -146,6 +146,12 @@
     :author: NIST
     :publication: November 2017
     :url: doi.org/10.6028/NIST.SP.800-67r2
+
+.. reference:: SP800-108
+    :title: NIST Special Publication 800-108r1: Recommendation for Key Derivation Using Pseudorandom Functions
+    :author: NIST
+    :publication: August 2022
+    :url: doi.org/10.6028/NIST.SP.800-108r1
 
 .. reference:: RFC1319
     :title: The MD2 Message-Digest Algorithm
