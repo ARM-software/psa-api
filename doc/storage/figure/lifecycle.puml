@@ -6,7 +6,6 @@
 !include atg-spec.pumh
 !include atg-dataflow.pumh
 
-
 skinparam rectangle {
     backgroundColor #ArmMidBlue
     borderColor darkred
@@ -14,44 +13,43 @@ skinparam rectangle {
     fontColor white
 }
 
-skinparam rectangle {
-    backgroundColor<<Operational phase>> #0091BD20
-    borderColor<<Operational phase>> #ArmMidBlue
-    borderstyle<<Operational phase>> dashed
-    borderThickness<<Operational phase>> 1
-    fontColor<<Operational phase>> black
+skinparam card {
+    backgroundColor #0091BD20
+    borderColor #ArmMidBlue
+    borderThickness 0
+    fontColor black
 }
 
 left to right direction
 
 note "SiP and OEM" as n1
-rectangle "System\nmanufacturing\nand initialization" as lc1
-n1 . lc1
-
 note "SiP and/or OEM" as n2
-rectangle "Provision of\nRoot of Trust\nsecrets" as lc2
-n2 . lc2
-
 note "[everybody]" as n3
+label " " as n4
+note "SiP, OEM,\nand Owner" as n5
 
-rectangle " " as r3 <<Operational phase>> {
-   rectangle "Boot" as lc31
-   rectangle "Secure operation" as lc32
+card "Manufacturing" as r1 {
+   rectangle "System\nmanufacturing\nand initialization" as lc1
+   rectangle "Provision of\nRoot of Trust\nsecrets" as lc2
+}
+card "Operational" as r3 {
+   rectangle "Boot" as lc3
+   rectangle "Secure operation" as lc4
+}
+card "End of life" as r5 {
+   rectangle "Return to\nManufacturer" as lc5
 }
 
-n3 -[hidden] lc31
-note "SiP, OEM,\nand Owner" as n4
-rectangle "Return to\nManufacturer" as lc4
-n4 . lc4
+lc1 --> lc2
+lc2 --> lc3
+lc3 --> lc4
+lc4 --> lc5
 
 n1 -[hidden]- n2
-lc1 --> lc2
-
 n2 -[hidden]- n3
-lc2 --> lc31
-lc31 --> lc32
-
 n3 -[hidden]- n4
-lc32 --> lc4
+n4 -[hidden]- n5
+
+lc1 -[hidden] n1
 
 @enduml

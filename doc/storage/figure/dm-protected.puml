@@ -17,13 +17,13 @@ dfd_tb("Device ") {
     rectangle "Application" as caller #ArmMidGray
     interface "**Secure Storage API**" as api  #ArmGreen
     dfd_tb($label="Platform Root of Trust") {
-      rectangle "Storage service" as service #ArmMidBlue
+      rectangle "Storage\nservice" as service #ArmMidBlue
       database "Storage medium" as store #ArmLightGray
     }
 }
 
 caller -d- api
 api -d-> service : DF1
-service <-d-> store : DF2
+service <--> store : DF2
 
 @enduml
