@@ -12,43 +12,47 @@
     note over Verifier: Registration record (//w0//, //L//) derived from password
     / note over Prover: Prover 'key pair' (//w0//, //w1//) derived from password
 
-    ...
-
     Prover -> Prover: ""psa_pake_setup()"" with key (//w0//, //w1//)\n""psa_pake_set_role(PSA_PAKE_ROLE_CLIENT)""\n""psa_pake_set_user(ProverId)""\n""psa_pake_set_peer(VerifierId)""\n""psa_pake_set_context(Context)""
 
-    note over Prover: Generate key share //X//
-
     Prover -> Prover: ""psa_pake_output()"" for //shareP// = //X//
+    note left: Generate key share //X//
     Prover ->> Verifier: (//shareP//)
 
     Verifier -> Verifier: ""psa_pake_setup()"" with key (//w0//, //L//) or key (//w0//, //w1//)\n""psa_pake_set_role(PSA_PAKE_ROLE_SERVER)""\n""psa_pake_set_user(VerifierId)""\n""psa_pake_set_peer(ProverId)""\n""psa_pake_set_context(Context)""
 
-    note over Verifier: Generate key share //Y//
     Verifier -> Verifier: ""psa_pake_input()"" for //shareP//
-    note over Verifier
-        Validate //shareP//
-        Compute //K_shared//, //confirmP'// and //confirmV//
+    note left: Validate //shareP//
+    Verifier -> Verifier: ""psa_pake_output()"" for //shareV// = //Y// and //confirmV//
+    note left
+        Generate key share //Y//
+        Compute //K_shared//,
+        //confirmP'// and //confirmV//
     end note
 
-    Verifier -> Verifier: ""psa_pake_output()"" for //shareV// = //Y// and //confirmV//
     Verifier ->> Prover: (//shareV//, //confirmV//)
 
     Prover -> Prover: ""psa_pake_input()"" for //shareV//
-
-    note over Prover
-        Validate //shareV//
-        Compute //K_shared//, //confirmP// and //confirmV'//
-    end note
+    note left: Validate //shareV//
 
     Prover -> Prover: ""psa_pake_output()"" for //confirmP//
+    note left
+        Compute //K_shared//,
+        //confirmP// and //confirmV'//
+    end note
     Prover ->> Verifier: (//confirmP//)
 
     Prover -> Prover: ""psa_pake_input()"" for //confirmV//
-    note over Prover: Verify that //confirmV'// = //confirmV//
+    note left
+        Verify that
+        //confirmV'// = //confirmV//
+    end note
     Prover -> Prover: ""psa_pake_get_shared_key()"" to extract //K_shared//
 
     Verifier -> Verifier: ""psa_pake_input()"" for //confirmP//
-    note over Verifier: Verify that //confirmP'// = //confirmP//
+    note left
+        Verify that
+        //confirmP'// = //confirmP//
+    end note
     Verifier -> Verifier: ""psa_pake_get_shared_key()"" to extract //K_shared//
 
 @enduml
