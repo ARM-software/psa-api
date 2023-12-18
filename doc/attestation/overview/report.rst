@@ -8,28 +8,32 @@ Initial Attestation report
 
 The attestation report returned by the |API| is formatted and encoded as a signed PSA Attestation Token. This is defined in :cite-title:`PSATOKEN`.
 
-The PSA Attestation Token is an incompatible evolution of the original attestation format, that was specified in version 1.0 of the |API|. :issue:`Should this provide a citation for v1.0, or a URL to the 'all-versions' page for the API here?`
+The PSA Attestation Token is an incompatible evolution of the original attestation format, that was specified in version 1.0 of the |API|.
 
-To comply with version |docversion| of the |API|, an implementation must only produce attestation reports that conform to :cite:`PSATOKEN`. :issue:`Is this repeat (of the first sentence) necessary or helpful?`
+To comply with version |docversion| of the |API|, an implementation must only produce attestation reports that conform to :cite:`PSATOKEN`.
 
-.. todo:: Determine if we need any clarification or guidance for constructing specific claims in the attestation token/report.
+:numref:`tab-psa-token-notes` provides specific recommendations for the construction of some of the token claims.
 
-   For example:
+.. list-table:: Recommended construction of the token claims
+   :name: tab-psa-token-notes
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 1 4
+   :align: left
 
-   :numref:`tab-psa-token-notes` provides specific recommendations for the construction of some of the token claims.
+   *  -  Claim
+      -  Recommended construction
 
-   .. list-table:: Recommended construction of the token claims
-      :name: tab-psa-token-notes
-      :header-rows: 1
-      :stub-columns: 1
-      :widths: 1 4
-      :align: left
+   *  -  Instance ID
+      -  The construction of the 32-byte key-hash component of this claim depends on the type of :term:`Initial Attestation Key` (IAK):
 
-      *  -  Claim
-         -  Recommended construction
+         *  When using an asymmetric key-pair for the IAK, the Instance ID is a hash of the corresponding public key --- ``InstanceID = H(IAK)``.
+         *  When using a symmetric key for the IAK, it is recommended that the Instance ID is a *double* hash of the key --- ``InstanceID = H(H(IAK))``.
 
-      *  -   Instance ID
-         -   The construction of the 32-byte key-hash component of this claim depends on the type of :term:`Initial Attestation Key` (IAK):
+         .. rationale::
+           
+            According to :rfc-title:`2104`, if a HMAC key is longer than the HMAC block size, the key will be first hashed. The hash output is used as the key in HMAC computation.
 
-               *  When using an asymmetric key-pair for the IAK, the Instance ID is a hash of the corresponding public key.
-               *  When using a symmetric key for the IAK, it is recommended that the Instance ID is a double hash of the key --- ``InstanceID = H(H(IAK))``. This eliminates risks when exposing the key to different HMAC block size. For further information, read :rfc-title:`2104`.
+            When HMAC is used to authenticate the token, and IAK is longer than the HMAC block size, then ``HMAC(IAK, token) == HMAC(H(IAK), token)``. If Instance ID is defined to be ``H(IAK)``, then an attacker can then use the Instance ID value in an attestation token to fake malicious reports by using Instance ID as the HMAC key.
+
+            Constructing Instance ID as a double hash of IAK eliminates this risk.
