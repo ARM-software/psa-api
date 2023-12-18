@@ -87,27 +87,10 @@
     :publication: December 1999
     :url: www.iso.org/standard/29237.html
 
-.. reference:: EAT
-    :title: IETF Entity Attestation Token (EAT)
-    :publication: Draft
-    :url: datatracker.ietf.org/doc/draft-ietf-rats-eat
-
 .. reference:: PSATOKEN
     :title: Arm's Platform Security Architecture (PSA) Attestation Token
     :publication: Draft
     :url: datatracker.ietf.org/doc/draft-tschofenig-rats-psa-token
-
-.. reference:: STD94
-    :author: Bormann, C. and P. Hoffman
-    :title: Concise Binary Object Representation (CBOR)
-    :url: rfc-editor.org/info/std94
-    :publication: December 2020
-
-.. reference:: STD96
-    :author: Schaad, J.
-    :title: CBOR Object Signing and Encryption (COSE): Structures and Process
-    :url: rfc-editor.org/info/std96
-    :publication: August 2022
 
 .. reference:: RFC2104
     :title: HMAC: Keyed-Hashing for Message Authentication
@@ -115,28 +98,8 @@
     :publication: February 1997
     :url: tools.ietf.org/html/rfc2104
 
-.. reference:: RFC8610
-    :title: Concise Data Definition Language (CDDL)
-    :author: IETF
-    :publication: June 2019
-    :url: tools.ietf.org/html/rfc8610
-
-.. reference:: EAN-13
-    :title: International Article Number
-    :url: www.gs1.org/standards/barcodes/ean-upc
-
 
 .. Terms used within this specification
-
-.. term:: Concise Binary Object Representation
-    :abbr: CBOR
-
-    A format for encoding binary objects in a bitstream, defined in :cite-title:`STD94`.
-
-.. term:: Entity Attestation Token
-    :abbr: EAT
-
-    A report format for attestation tokens, defined in :cite-title:`EAT`.
 
 .. term:: Initial Attestation Key
     :abbr: IAK
@@ -151,10 +114,6 @@
     :abbr: PRoT
 
     The overall trust anchor for the system. This ensures the platform is securely booted and configured, and establishes the secure environments required to protect security services. See :cite-title:`PSM`.
-
-.. term:: Immutable Platform Root of Trust
-
-    Part of the :term:`Platform Root of Trust`, which is inherently trusted. This refers to the hardware and firmware that cannot be updated on a production device. See :cite-title:`PSM`.
 
 .. scterm:: Implementation Defined
 
