@@ -116,7 +116,7 @@ Out of scope
 ^^^^^^^^^^^^
 
 PAKE protocols that do not fit into any of the above categories are not taken into consideration in the proposed API.
-Some schemes like that are:
+Such schemes include:
 
 .. list-table::
     :header-rows: 1

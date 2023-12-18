@@ -96,13 +96,14 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
 
         PAKE primitive encoding
 
-    The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`.
-    These can be used to set key attributes for keys used in PAKE algorithms.
-
     .. rationale::
 
         An integral type is required for `psa_pake_primitive_t` to enable values of this type to be compile-time-constants.
         This allows them to be used in ``case`` statements, and used to calculate static buffer sizes with `PSA_PAKE_OUTPUT_SIZE()` and `PSA_PAKE_INPUT_SIZE()`.
+
+    The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`.
+    These can be used to set key attributes for keys used in PAKE algorithms.
+    :secref:`spake2p-registration` provides an example of this usage.
 
 .. typedef:: uint8_t psa_pake_primitive_type_t
 
@@ -188,8 +189,6 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
         Return ``0`` if the requested primitive can't be encoded as `psa_pake_primitive_t`.
 
     A PAKE primitive value is used to specify a PAKE operation, as part of a PAKE cipher suite.
-
-    The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`.
 
 .. macro:: PSA_PAKE_PRIMITIVE_GET_TYPE
     :definition: /* specification-defined value */
@@ -321,7 +320,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
         Implementations are recommended to define the cipher-suite object as a simple data structure, with fields corresponding to the individual cipher suite attributes.
         In such an implementation, each function ``psa_pake_cs_set_xxx()`` sets a field and the corresponding function ``psa_pake_cs_get_xxx()`` retrieves the value of the field.
 
-        An implementations can report attribute values that are equivalent to the original one, but have a different encoding.
+        An implementation can report attribute values that are equivalent to the original one, but have a different encoding.
         For example, an implementation can use a more compact representation for attributes where many bit-patterns are invalid or not supported, and store all values that it does not support as a special marker value.
         In such an implementation, after setting an invalid value, the corresponding get function returns an invalid value which might not be the one that was originally stored.
 
@@ -478,7 +477,7 @@ Some PAKE algorithms need to know which role each participant is taking in the a
 For example:
 
 *   Augmented PAKE algorithms typically have a client and a server participant.
-*   Some symmetric PAKE algorithms need to assign an order to the participants.
+*   Some symmetric PAKE algorithms assign an order to the two participants.
 
 .. typedef:: uint8_t psa_pake_role_t
 
@@ -1075,7 +1074,7 @@ Multi-part PAKE operations
                 However, there is no guarantee that the peer is the participant it claims to be, and was able to compute the same key.
 
                 Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be.
-                For example, do not access restricted files on the peer's behalf until an explicit authentication has succeeded.
+                For example, do not access restricted resources on the peer's behalf until an explicit authentication has succeeded.
 
                 .. note::
                     Some PAKE algorithms do not enable the output of the shared secret until it has been confirmed.
@@ -1086,7 +1085,7 @@ Multi-part PAKE operations
                 Following key confirmation, the PAKE algorithm provides a cryptographic guarantee that the peer used the same password and identity inputs, and has computed the identical shared secret key.
 
                 Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be.
-                For example, do not access restricted files on the peer's behalf until an explicit authentication has succeeded.
+                For example, do not access restricted resources on the peer's behalf until an explicit authentication has succeeded.
 
                 .. note::
                     Some PAKE algorithms do not include any key-confirmation steps.
@@ -1371,7 +1370,7 @@ It must be used as an input to a key derivation operation to produce additional 
     But there is no guarantee that the peer is the participant it claims to be, or that the peer used the same password during the exchange.
 
     At this point, authentication is implicit --- material encrypted or authenticated using the computed key can only be decrypted or verified by someone with the same key.
-    The peer is not authenticated at this point, and no action should be taken by the application which assumes that the peer is authenticated, for example, by accessing restricted files.
+    The peer is not authenticated at this point, and no action should be taken by the application which assumes that the peer is authenticated, for example, by accessing restricted resources.
 
     To make the authentication explicit, there are various methods to confirm that both parties have the same key. See :RFC:`8236#5` for two examples.
 
@@ -1485,8 +1484,6 @@ The following code creates a cipher suite to select the :cite:`MATTER` variant o
                               PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC,
                                                  PSA_ECC_FAMILY_SECP_R1, 256));
 
-.. todo:: rework this section
-
 .. _spake2p-registration:
 
 SPAKE2+ registration
@@ -1529,7 +1526,7 @@ It is recommended that the Verifier stores only the public key, because disclosu
 
     Details of the computation for the key derivation values are in :RFC:`9383#3.2`.
 
-The following steps demonstrate the derivation of a SPAKE2+ key pair for use with the P-256 Elliptic curve group, using PBKDF2-HMAC-SHA256:
+The following steps demonstrate the derivation of a SPAKE2+ key pair using PBKDF2-HMAC-SHA256, for use with a SPAKE2+ cipher suite, ``cipher_suite``. See :secref:`spake2p-cipher-suites` for an example of how to construct the cipher suite object.
 
 1.  Allocate and initialize a key derivation object:
 
@@ -1553,14 +1550,17 @@ The following steps demonstrate the derivation of a SPAKE2+ key pair for use wit
 
         psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
 
-#.  Set the key type, size, and policy:
+#.  Set the key type, size, and policy from the ``cipher_suite`` object:
 
     .. code-block:: xref
 
-        psa_set_key_type(&att, PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(PSA_ECC_FAMILY_SECP_R1));
-        psa_set_key_bits(&att, 256);            // for P-256
+        const psa_pake_primitive_t primitive = psa_pake_cs_get_primitive(&cipher_suite);
+
+        psa_set_key_type(&att,
+                         PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(PSA_PAKE_PRIMITIVE_GET_FAMILY(primitive)));
+        psa_set_key_bits(&att, PSA_PAKE_PRIMITIVE_GET_BITS(primitive));
         psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
-        psa_set_key_algorithm(&att, PSA_ALG_SPAKE2P);
+        psa_set_key_algorithm(&att, psa_pake_cs_get_algorithm(&cipher_suite));
 
 #.  Derive the key:
 
