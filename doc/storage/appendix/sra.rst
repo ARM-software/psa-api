@@ -31,7 +31,7 @@ The Storage Medium refers to the physical storage location.
 Risk assessment methodology
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Our risk ratings use an approach derived from NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments [SP800-30]: for each Threat, we determine its Likelihood and the Impact.
+Our risk ratings use an approach derived from :cite-title:`SP800-30`: for each Threat, we determine its Likelihood and the Impact.
 Each is evaluated on a 5-level scale, as defined in :numref:`tab-sra-likelihood` and :numref:`tab-sra-impact`.
 
 .. list-table:: Likelihood levels

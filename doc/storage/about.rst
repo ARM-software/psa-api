@@ -63,6 +63,11 @@
     :doc_no: ARM DEN 0063
     :url: developer.arm.com/documentation/den0063
 
+.. reference:: SP800-30
+    :title: NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments
+    :author: NIST
+    :publication: September 2012
+    :url: doi.org/10.6028/NIST.SP.800-30r1
 
 .. Glossary terms used in this specification
 
