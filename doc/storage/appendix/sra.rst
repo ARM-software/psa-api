@@ -291,14 +291,13 @@ Goals
 ^^^^^
 
 :security-goal:`CONFIDENTIALITY`
-  An adversary is unable to disclose Stored Data that belongs to a different Stored Data Owner.
+  An adversary is unable to disclose Stored Data that belongs to a different Stored Data Owner.  A legitimate owner can guarantee their data has not been exposed. 
 
 :security-goal:`INTEGRITY`
-  An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner.
+  An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner, to a value that was not previously stored by the Stored Data Owner. A legitimate owner can guarantee that data returned is a value they have stored.
 
 :security-goal:`CURRENCY`
-  An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner, including replacing it with a value that was not previously stored by the Stored Data Owner.
-
+  An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner. The legitimate owner can guarantee that data returned is the most recent value that have stored.
 
 Adversarial models
 ^^^^^^^^^^^^^^^^^^
