@@ -27,10 +27,10 @@ doc_info = {
     'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 2,
+    'issue_no': 3,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
-    'release_candidate': None,
+    'release_candidate': 1,
     # Draft status - use this to indicate the document is not ready for publication
     #'draft': True,
 
@@ -43,7 +43,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '23/03/2023',
+    #'date': '23/03/2023',
 
     # psa_spec: default header file for API definitions
     # default to None, and can be set in documentation source
@@ -86,18 +86,6 @@ doc_info = {
     # Default to 'appendix'
     'page_break': 'chapter',
     }
-
-# If the draft flag is set, then include extra content and watermark
-
-if doc_info.get('draft'):
-    doc_info.pop('date', None)                      # Remove any release date - use build date
-    doc_info['include_content'] = ['rationale', 'todo', 'banner']
-    doc_info['watermark'] = "DRAFT"
-
-# If a release candidate, then include watermark
-
-if doc_info.get('release_candidate'):
-    doc_info['watermark'] = "Candidate"
 
 # absolute or relative path to the psa_spec material from this file
 # atg_sphinx_spec_dir = '../atg-sphinx-spec'

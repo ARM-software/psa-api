@@ -35,6 +35,12 @@
 
     Documentation clarifications.
 
+.. release:: 1.0.3
+    :date: ? 2024
+    :confidentiality: Non-confidential
+
+    Provide a Security Risk Assessment.
+
 .. release-info::
     :extend:
 
