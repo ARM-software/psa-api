@@ -23,7 +23,7 @@ About this assessment
 Subject and scope
 ^^^^^^^^^^^^^^^^^
 
-This SRA analyses the security of the |API| itself, and of the conceptual architectures for storage, not of any specific implementation of the API, or any specific use of the API. It does, however, divide implementations into four Deployment Models representing common implementation types, and looks at looks at the different mitigations needed in each Deployment Model.
+This SRA analyses the security of the |API| itself, and of the conceptual architectures for storage, not of any specific implementation of the API, or any specific use of the API. It does, however, divide implementations into four Deployment Models representing common implementation types, and looks at the different mitigations needed in each Deployment Model.
 
 In this SRA Storage Service means the firmware implementing the |API|. The Storage Medium refers to the physical storage location.
 
@@ -183,17 +183,16 @@ Deployment Models
 :deployment-model:`EXPOSED`
   The :term:`PRoT` partition does not have sole access to the area of non-volatile storage, thus the Storage Medium can be read or written by another partition or by other means. This means that the driver code, or the Storage Medium resides outside the :term:`PRoT` and is accessible to other partitions or by other means, as shown in  as shown in :numref:`fig-exposed`. Therefore, attackers can bypass the Storage Service.
 
+  .. figure:: /figure/dm-exposed.*
+   :name: fig-exposed
+
+   Trust boundaries in the Deployment Model `DM.EXPOSED`
+   
   The Storage Service is the arbitrator of access from different applications and manages those data accesses (write, update and deletion). Therefore, the Storage Service is responsible for the `SG.CONFIDENTIALITY`, `SG.INTEGRITY` and `SG.CURRENCY` goal with respect to preventing access by a different caller.
 
   The Storage Service cannot prevent other partitions or other means from reading or writing the storage, or accessing the link DF3. Therefore, the Storage Service is responsible for the `SG.CONFIDENTIALITY`, `SG.INTEGRITY` and `SG.CURRENCY` goals.
 
   An example of this deployment model is the use of a file system on a flash chip.
-
-
-  .. figure:: /figure/dm-exposed.*
-   :name: fig-exposed
-
-   Trust boundaries in the Deployment Model `DM.EXPOSED`
 
 
 :deployment-model:`AUTHORIZED`
@@ -210,7 +209,7 @@ Deployment Models
 
   However, the communication between the Storage Service and the Storage Medium is observable by other partitions and any other means as any data sent in plain text can be observed. Therefore, the Storage Service is responsible for  `SG.CONFIDENTIALITY`.
 
-  The Storage Service and the Storage Medium are jointly responsible for protecting the assets required to authorize commands Attacks on the Storage Service that expose these assets are in scope.
+  The Storage Service and the Storage Medium are jointly responsible for protecting the assets required to authorize commands. Attacks on the Storage Service that expose these assets are in scope.
 
   An example of this deployment model is the use of an RPMB memory block.
 
@@ -286,7 +285,7 @@ Caller Identities
   To ensure that data stored for one caller is not revealed to a different caller, each caller must have a unique identity.
 
 Implementation Secrets
-  If in order to secure the data, the storage service uses encryption keys for confidentiality and integrity, thes mut be considered assets of the Storage Service.
+  If in order to secure the data, the storage service uses encryption keys for confidentiality and integrity, these mut be considered assets of the Storage Service.
 
 Goals
 ^^^^^
@@ -295,10 +294,10 @@ Goals
   An adversary is unable to disclose Stored Data that belongs to a different Stored Data Owner.
 
 :security-goal:`INTEGRITY`
-  An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner, to a value that was not previously stored by the Stored Data Owner.
+  An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner.
 
 :security-goal:`CURRENCY`
-      An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner.
+  An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner, including replacing it with a value that was not previously stored by the Stored Data Owner.
 
 
 Adversarial models
@@ -346,7 +345,7 @@ Adversarial models are descriptions of capabilities that adversaries of systems 
 
 The adversarial models that are in scope depend on the product requirements. To ensure that the |API| can be used in a wide range of systems, this assessment considers adversarial models `AM.0`, `AM.1`, and `AM.2` to be in-scope.
 
-Code in the RoT partitions is assumed to be trustworthy - and any untrustworthy code running in that partition already has complete control of the target - therefore in `AM.1` this SRA only considers threats from malicious actors running in :term:`Non-secure Processing Environment`.
+Code in the RoT partitions is assumed to be trustworthy - and any untrustworthy code running in :term:`PRoT` partitions already has complete control of the target - therefore in `AM.1` this SRA only considers threats from malicious actors running in :term:`Non-secure Processing Environment`.
 
 .. _sra-threats:
 
@@ -419,7 +418,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       The assurance that the Storage Service can give is limited by the assurance that the implementation can give as to the identity of the caller.
 
       Where each user runs in a separate partition, the identity is provided by the partition manager.
-      Where different users run within a single partition the requirement to separate users within that partiton is devolved to the operating system or run time within that partition.
+      Where different users run within a single partition the requirement to separate users within that partition is devolved to the operating system or run time within that partition.
 
       :mitigation:`FullyQualifiedNames`
 
@@ -428,6 +427,9 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       The Storage Service must also ensure that if the file with the exact fully qualified identity does not exist, the implementation returns an error.
 
    .. security-goal:: :SG:`CONFIDENTIALITY`
+
+      :mitigation:`UseSecurePartitions` **Transfer** to the user. For all Deployment Models, to ensure that an attacker in the :term:`NSPE` cannot access the data sent by the caller to the Storage Service, or the replies the Storage Service returns to the caller, put all code that needs to use the Storage Service into one or more :term:`Secure Partition`, with one partition per service.
+
    .. adversarial-model:: `AM.1`
 
    .. unmitigated::
@@ -465,7 +467,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    .. description::
       An attacker accesses data in transit, either between the caller and the Storage Service, or between the Storage Service and the Storage Medium.
 
-      In all deployment models, by the definition of an isolated partition in the :cite-title:`PSM`, transfer within the partition, and transfers between one  :term:`Secure Partition` and another are isolated from eavesdroppers. Therefore, if the caller is in :term:`Secure Partition`, there is no possibility of an eavesdropper accessing the data. However, if data is sent or returned to a caller in the :term:`Non-secure Processing Environment` (:term:`NSPE`), although the data is securely delivered to the :term:`NSPE`, within that partition it is exposed. As previously noted the implementation **Transfers** the duty of separating users in the :term:`NSPE` to the OS.
+      In all deployment models, by the definition of an isolated partition in the :cite-title:`PSM`, transfer within the partition, and transfers between one  :term:`Secure Partition` and another are isolated from eavesdroppers. Therefore, if the caller is in a :term:`Secure Partition`, there is no possibility of an eavesdropper accessing the data. However, if data is sent or returned to a caller in the :term:`Non-secure Processing Environment` (:term:`NSPE`), although the data is securely delivered to the :term:`NSPE`, it is exposed to all users in the :term:`NSPE`. As previously noted the implementation **Transfers** the duty of separating users in the :term:`NSPE` to the OS.
 
       For deployment model `DM.PROTECTED`, the Storage Service and the Storage Medium are isolated.
 
@@ -480,7 +482,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
    .. mitigations::
       :mitigation:`Encrypt` For `DM.EXPOSED` and `DM.AUTHORIZED`, **Transfer** the risk to the implementation, the data at rest must be encrypted. The Storage Service must apply the encryption to the data before it leaves the :term:`PRoT` partition. The encryption mechanism chosen must be sufficiently robust. The key used for encryption must be sufficiently protected, that is it must only be available to the Storage Service.
 
-      :mitigation:`PRoTRootedSecureChannel` For `DM.SECURE_LINK`, **Transfer** the risk to implementation. Communication with the Storage Medium must be over a well-designed secure channel. If the Secure Channel is not rooted in the :term:`PRoT` then any adversary (`AM.1`) in the partition in which the channel terminates will be able to eavesdrop on traffic leaving the :term:`PRoT` before it is encrypted. The Secure channel must be rooted within the PRoT. However, the stored data does not need to be separately encrypted data beyond the protection provided by the Secure Channel. The private information required to establish the channel must be suitably protected by both the Storage Service and the Storage.
+      :mitigation:`PRoTRootedSecLink` For `DM.SECURE_LINK`, **Transfer** the risk to implementation. Communication with the Storage Medium must be over a well-designed secure channel. If the Secure Channel is not rooted in the :term:`PRoT` then any adversary (`AM.1`) in the partition in which the channel terminates will be able to eavesdrop on traffic leaving the :term:`PRoT` before it is encrypted. The Secure channel must be rooted within the PRoT. However, the stored data does not need to be separately encrypted data beyond the protection provided by the Secure Channel. The private information required to establish the channel must be suitably protected by both the Storage Service and the Storage.
 
       :mitigation:`UseSecurePartitions` **Transfer** to the user. For all Deployment Models, to ensure that an attacker in the :term:`NSPE` cannot access the data sent by the caller to the Storage Service, or the replies the Storage Service returns to the caller, put all code that needs to use the Storage Service into one or more :term:`Secure Partition`, with one partition per service.
 
@@ -524,7 +526,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       :likelihood: VL
 
 
-.. threat:: Man In TheMiddle
+.. threat:: Man In The Middle
    :id: MITM
 
    .. description::
@@ -534,7 +536,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
       For `DM.EXPOSED` any code running in the :term:`NSPE` has access to the Storage Medium and any driver firmware, and therefore acts as a man in th emiddle, by for example persuading the Storage Service to write to one buffer, and the Storage Medium to read from another.
 
-      For `DM.AUTHORIZED` a man-in the middle eavesdrops on data in transit.
+      For `DM.AUTHORIZED` a man in the middle eavesdrops on data in transit.
 
       For `DM.SECURE_LINK` a naive Secure Channel is vulnerable to a man in the middle attack.
 
@@ -654,7 +656,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
       In `DM.PROTECTED` no attacker should be able to access the stored data.
 
-      In `DM.EXPOSED` the SRA assumes that any attacker capable of running code in the :term:`NSPE` can modify the stored data. However, assuming it is encrypted,
+      In `DM.EXPOSED` the SRA assumes that any attacker capable of running code in the :term:`NSPE` can modify the stored data. However, assuming it is encrypted, the atacker cannot create the correct ciphertext for chosen plain text. 
 
       In `DM.AUTHORIZED`, although the attacker cannot form a valid command, the attacker can eavesdrop on a legitimate request and replay it later.
 
@@ -675,7 +677,7 @@ Because |API| can be used in a wide range of deployment models and a wide range 
       In `DM.EXPOSED` to prevent this attack, the Storage Service must keep some authentication data in a location the attacker cannot access. This location could be stored within the :term:`PRoT` Partition, that is using the `DM.PROTECTED`, or in a separate secure enclave using the deployment model `DM.AUTHORIZED` or `DM.SECURE_LINK`.
       The data could be the root of a hash tree, or it could be a counter used with a root key to generate a version specific MAC key.
 
-      In the case of a counter, some consideration should be given to the expected number of updates that will be made to the data. If the implementation only needs to offer rollback protection on firmware updates, where a low number is expected in the lifetime of the product and the counter could be stored in fuse. If the implementations needs to ensure the currency of a generic file store - that is regularly updated --- the number of updates could exhaust any practical number of fuses and would instead need a 32-bit counter.
+      In the case of a counter, some consideration should be given to the expected number of updates that will be made to the data. If the implementation only needs to offer rollback protection on firmware updates, where a low number is expected in the lifetime of the product and the counter could be stored in fuse. If the implementations needs to ensure the currency of a file store that is regularly updated --- the number of updates could exhaust any practical number of fuses and would instead need a 32-bit counter.
 
       `M.MAC`  **Transfer** the risk to the implementation. In `DM.EXPOSED`, all attackers can access the data. Provided all stored data is authenticated, using a MAC or signature, the Storage Service can verify the integrity of the data protected by it. The verification must be verified by the Storage Service within the :term:`PRoT`, otherwise the result could be spoofed.
 
@@ -942,7 +944,7 @@ Implementation-level mitigations
       -  In `DM.EXPOSED`, the Storage Service must apply an integrity check, a MAC, signature, or authenticated encryption tag, within the Storage Service before it is sent to storage. It must also verify this on every read.
       -  `T.MITM`, `T.DIRECT_WRITE`, `T.REPLACE`
 
-   *  -  `M.PRoTRootedSecureChannel`
+   *  -  `M.PRoTRootedSecLink`
       -  In `DM.SECURE_LINK`, the Storage Service must use a secure channel rooted within the isolated environment to ensure there is no opportunity for eavesdropping.
       -    `T.EAVESDROPPING`
 
@@ -1042,7 +1044,7 @@ Mitigations rquired by each Deployment Model
          `M.GlitchDetection`,
          `M.ImplicitIdentity`,
          `M.MemoryBuffer`,
-         `M.PRoTRootedSecureChannel`,
+         `M.PRoTRootedSecLink`,
          `M.ReadAfterWrite`,
          `M.ReplayProtection`,
          `M.UniqueKeys`,
@@ -1051,11 +1053,11 @@ Mitigations rquired by each Deployment Model
          `M.ValidateParameter`
 
 
-In implementation `DM.PROTECTED`, `DM.SECURE_LINK`, the stored data can be implicitly trusted, and therefore it is not required to be encrypted or authenticated. There is also no more secure location to store verification data. However, it is possible for the data to be accidentally corrupted, therefore standard engineering practice to guard against this, for example the use of error correcting codes, should be used.
+In implementation `DM.PROTECTED`, `DM.SECURE_LINK`, the stored data can be implicitly trusted, and therefore it is not required to be encrypted or authenticated. There is no more secure location to store verification data, therefore, any attacker able to access the stored data would also be able to access the key. However, it is possible for the data to be accidentally corrupted, therefore standard engineering practice to guard against this, for example the use of error correcting codes, should be used.
 
 In implementation `DM.EXPOSED`, the data can be read or modified by an attacker, therefore the Storage Service must provide confidentiality, integrity, and authenticity by cryptographic means. The keys used to do this must be stored securely. This could be a key derived from the HUK, or separately stored in fuse in a location only readable from the :term:`PRoT`.
 
-As the attacker can always read and modify the stored data, even if they cannot decrypt the data. They can attempt to subvert a change by resetting the Storage Medium to a prior state. To detect this, the Storage Service needs to have some means of authenticating that it is reading the most recent state. This implies some form of authentication data stored in a location the attacker cannot modify.
+As the attacker can always read and modify the stored data, even if they cannot decrypt the data, they can attempt to subvert a change by resetting the Storage Medium to a prior state. To detect this, the Storage Service needs to have some means of authenticating that it is reading the most recent state. This implies some form of authentication data stored in a location the attacker cannot modify.
 
 In implementation `DM.AUTHORIZED`, the data can be observed, even if it cannot be modified. Therefore, data stored does need to be encrypted for confidentiality. However, provided the authentication protocol is strong, and prevents replay, it should not be possible for an attacker to modify the stored data. As the store applies a MAC to each reply, the Storage Service does not need to apply extra integrity.
 
