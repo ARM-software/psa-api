@@ -34,6 +34,6 @@ To comply with version |docversion| of the |API|, an implementation must only pr
            
             According to :rfc-title:`2104`, if a HMAC key is longer than the HMAC block size, the key will be first hashed. The hash output is used as the key in HMAC computation.
 
-            When HMAC is used to authenticate the token, and IAK is longer than the HMAC block size, then ``HMAC(IAK, token) == HMAC(H(IAK), token)``. If Instance ID is defined to be ``H(IAK)``, then an attacker can then use the Instance ID value in an attestation token to fake malicious reports by using Instance ID as the HMAC key.
+            When HMAC is used to authenticate the token, and IAK is longer than the HMAC block size, then ``HMAC(IAK, token) == HMAC(H(IAK), token)``. If Instance ID is defined to be ``H(IAK)``, then an attacker can use the Instance ID value in an attestation token to fake malicious reports by using Instance ID as the HMAC key.
 
             Constructing Instance ID as a double hash of IAK eliminates this risk.
