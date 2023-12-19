@@ -427,8 +427,6 @@ Because |API| can be used in a wide range of deployment models and a wide range 
 
    .. security-goal:: :SG:`CONFIDENTIALITY`
 
-      :mitigation:`UseSecurePartitions` **Transfer** to the user. For all Deployment Models, to ensure that an attacker in the :term:`NSPE` cannot access the data sent by the caller to the Storage Service, or the replies the Storage Service returns to the caller, put all code that needs to use the Storage Service into one or more :term:`Secure Partition`, with one partition per service.
-
    .. adversarial-model:: `AM.1`
 
    .. unmitigated::
@@ -1061,4 +1059,3 @@ As the attacker can always read and modify the stored data, even if they cannot 
 In implementation `DM.AUTHORIZED`, the data can be observed, even if it cannot be modified. Therefore, data stored does need to be encrypted for confidentiality. However, provided the authentication protocol is strong, and prevents replay, it should not be possible for an attacker to modify the stored data. As the store applies a MAC to each reply, the Storage Service does not need to apply extra integrity.
 
 In implementation `DM.SECURE_LINK` provided the secure channel is rooted within the :term:`PRoT`, the data transferred cannot be observed, and any modification will be detected. Therefore, no further encryption is needed for confidentiality or integrity.
-
