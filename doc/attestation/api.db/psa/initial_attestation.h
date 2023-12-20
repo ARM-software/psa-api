@@ -1,7 +1,7 @@
-// SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
-#define PSA_INITIAL_ATTEST_API_VERSION_MAJOR 1
+#define PSA_INITIAL_ATTEST_API_VERSION_MAJOR 2
 #define PSA_INITIAL_ATTEST_API_VERSION_MINOR 0
 #define PSA_INITIAL_ATTEST_CHALLENGE_SIZE_32 (32u)
 #define PSA_INITIAL_ATTEST_CHALLENGE_SIZE_48 (48u)

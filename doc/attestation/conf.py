@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 # PSA Certified API document configuration
@@ -15,23 +15,23 @@ doc_info = {
     'author': 'Arm Limited',
 
     # Document copyright date, default to year of 'date'
-    'copyright_date': '2018-2020, 2022',
+    'copyright_date': '2018-2020, 2022-2023',
     'copyright': 'Arm Limited and/or its affiliates',
 
     # Arm document identifier, marked as open issue if not provided
     'doc_id': 'IHI 0085',
 
     # The short X.Y version. MANDATORY
-    'version': '1.0',
+    'version': '2.0',
     # Arm document quality status, marked as open issue if not provided
     'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 3,
+    'issue_no': 0,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     'release_candidate': None,
-    #'draft': True,
+    'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -42,7 +42,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '17/10/2022',
+    #'date': '17/10/2022',
 
     # psa_spec: default header file for API definitions
     # default to None, and can be set in documentation source
@@ -67,18 +67,6 @@ doc_info = {
     # Default to 'appendix'
     'page_break': 'chapter'
     }
-
-# If the draft flag is set, then include extra content and watermark
-
-if doc_info.get('draft'):
-    doc_info.pop('date', None)                      # Remove any release date - use build date
-    doc_info['include_content'] = ['rationale', 'todo', 'banner']
-    doc_info['watermark'] = "DRAFT"
-
-# If a release candidate, then include watermark
-
-if doc_info.get('release_candidate'):
-    doc_info['watermark'] = "Candidate"
 
 # absolute or relative path to the psa_spec material from this file
 # atg_sphinx_spec_dir = '../atg-sphinx-spec'

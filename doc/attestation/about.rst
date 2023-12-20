@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. Releases of this specification
@@ -53,6 +53,12 @@
 
     Minor corrections and clarifications.
 
+.. release:: 2.0.0
+    :date: ? 2024
+    :confidentiality: Non-confidential
+
+    Updated attestation token format to the PSA attestation token.
+
 .. release-info::
     :extend:
 
@@ -81,49 +87,19 @@
     :publication: December 1999
     :url: www.iso.org/standard/29237.html
 
-.. reference:: EAT
-    :title: IETF Entity Attestation Token (EAT)
-    :publication: Draft
-    :url: datatracker.ietf.org/doc/draft-ietf-rats-eat
-
 .. reference:: PSATOKEN
     :title: Arm's Platform Security Architecture (PSA) Attestation Token
     :publication: Draft
     :url: datatracker.ietf.org/doc/draft-tschofenig-rats-psa-token
 
-.. reference:: STD94
-    :author: Bormann, C. and P. Hoffman
-    :title: Concise Binary Object Representation (CBOR)
-    :url: rfc-editor.org/info/std94
-    :publication: December 2020
-
-.. reference:: STD96
-    :author: Schaad, J.
-    :title: CBOR Object Signing and Encryption (COSE): Structures and Process
-    :url: rfc-editor.org/info/std96
-    :publication: August 2022
-
-.. reference:: RFC8610
+.. reference:: RFC2104
+    :title: HMAC: Keyed-Hashing for Message Authentication
     :author: IETF
-    :title: Concise Data Definition Language (CDDL)
-    :url: tools.ietf.org/html/rfc8610
-
-.. reference:: EAN-13
-    :title: International Article Number
-    :url: www.gs1.org/standards/barcodes/ean-upc
+    :publication: February 1997
+    :url: tools.ietf.org/html/rfc2104
 
 
 .. Terms used within this specification
-
-.. term:: Concise Binary Object Representation
-    :abbr: CBOR
-
-    A format for encoding binary objects in a bitstream, defined in :cite-title:`STD94`.
-
-.. term:: Entity Attestation Token
-    :abbr: EAT
-
-    A report format for attestation tokens, defined in :cite-title:`EAT`.
 
 .. term:: Initial Attestation Key
     :abbr: IAK
@@ -138,10 +114,6 @@
     :abbr: PRoT
 
     The overall trust anchor for the system. This ensures the platform is securely booted and configured, and establishes the secure environments required to protect security services. See :cite-title:`PSM`.
-
-.. term:: Immutable Platform Root of Trust
-
-    Part of the :term:`Platform Root of Trust`, which is inherently trusted. This refers to the hardware and firmware that cannot be updated on a production device. See :cite-title:`PSM`.
 
 .. scterm:: Implementation Defined
 
@@ -163,19 +135,13 @@
 
 .. potential-for-change::
 
-    The contents of this specification are stable for version 1.0.
+    The contents of this specification are stable for version |docversion|.
 
-    The following may change in updates to the version 1.0 specification:
+    The following may change in updates to the version |docversion| specification:
 
-    * Small optional feature additions.
-    * Clarifications.
+    *   Small optional feature additions.
+    *   Clarifications.
 
-    Significant additions, or any changes that affect the compatibility of the
-    interfaces defined in this specification will only be included in a new major or
-    minor version of the specification.
-
-.. current-status::
-
-   The token format defined within this specification has been superseded by the attestation token format defined in :cite-title:`PSATOKEN`. A future update to this specification will incorporate the new token definition.
+    Significant additions, or any changes that affect the compatibility of the interfaces defined in this specification will only be included in a new major or minor version of the specification.
 
 .. about::
