@@ -949,13 +949,10 @@ As a result, various mitigations are optional to implement, depending on which t
       In this threat, an attacker with physical access to the device causes a power or frequency glitch to cause a write to fail.
 
       In `DM.PROTECTED`, the API does not provide a mechanism to detected this.
-      Therefore, the API **transfers** the risk to the implementation must provide alternative means to detect glitches.
-
-      In `DM.EXPOSED`, the invalid write will be detected on a future read provided the system uses `M.MAC`, which it should do due to other threats.
 
       In `DM.AUTHORIZED` and `DM.SECURE_LINK`, there is a brief time of check, time of use (TOCTOU), window, where the storage medium has verified the command but has not written the data to physical storage.
-      In this case, when a subsequent read occurs, the storage medium will apply a new tag to the reply, and the storage service will not be aware that it is returned a corrupted read.
-      This risk should be **transferred** to the storage medium which should offer glitch detection.
+      In this case, when a subsequent read occurs, the storage medium will apply a new tag to the reply, and the storage service will not be aware that it is returned a previous corrupted write .
+      
 
    .. adversarial-model:: `AM.3`
 
@@ -994,6 +991,16 @@ As a result, various mitigations are optional to implement, depending on which t
      :likelihood: VL
 
    .. mitigations::
+      `M.MAC`.
+      **Transfer** to the implementation. 
+      In `DM.PROTECTED` and `DM.EXPOSED`, if the implementation applies a MAC, a subsequent read can detect that data had not been written correctly. However, MAC's are not error correcting, therefore the implementation can only mark the data as corrupt and the data is lost. 
+      
+      In `DM.AUTHORIZED` and `DM.SECURE_LINK` if the implementation relies on the Storage Medium to provide the MAC or tag. when a subsequent read occurs, the Storage Medium will apply a new tag to whatever data it stored, and the Storage Service will not be aware that the data is corrupt. However, the risk is limited to a brief time of check, time of use (TOCTOU), window, where the Storage Medium has verified the command but has not written the data to physical storage. If the Storage Service applies a MAC before submitting the command, it can detect, but not correct, a corrupt write. 
+
+      :mitigation:`ErrorCorrectingCoding`.
+      **Transfer** to the implementation.  In all Deployment Models, if the Storage Medium uses Error Correcting Codes, it can detect and correct a certain number of incorrect bits in the data it reads back - at the expense of extra storage. If the Storage Medium does not offer ECC capability, the Storage Service could apply it and verify the coding in software, although this is generally less efficient than hardware. 
+            
+   
       `M.GlitchDetection`.
       **Transfer** to the implementation: for all deployment models, glitch detection can reduce the risk of a successful glitch.
 
@@ -1057,7 +1064,11 @@ These are also known as 'remediations'.
    *  -  `M.Encrypt`
       -  When using `DM.EXPOSED` or `DM.AUTHORIZED`, the storage service must encrypt data to be written to storage, and decrypt data read from storage, inside the isolated environment to ensure confidentiality.
       -  `T.EAVESDROPPING`, `T.MITM`, `T.DIRECT_READ`, `T.DIRECT_WRITE`
-
+      
+   *  -  `M.ErrorCorrectingCoding`
+      -  In all deployments, to deter attacks based on glitching the power or clock, the implementation can implement Error Correcting Coding on stored data. 
+      -  `T.GLITCH_WRITE`
+      
    *  -  `M.FullyQualifiedNames`
       -  In all deployments, the implementation must identify which caller each stored object belongs to and must refer to them internally by the combination of caller identity and name.
          Otherwise, it might return a stored object to the wrong caller.
@@ -1068,7 +1079,7 @@ These are also known as 'remediations'.
       -  `T.SPOOF_READ`, `T.SPOOF_WRITE`
 
    *  -  `M.GlitchDetection`
-      -  To deter attacks based on glitching the power or clock, the implementation can implement detection circuits.
+      -  In all deployments, to deter attacks based on glitching the power or clock, the implementation can implement detection circuits.
       -  `T.GLITCH_READ`, `T.GLITCH_WRITE`
 
    *  -  `M.MAC`
@@ -1138,7 +1149,8 @@ Mitigations required by each deployment model
 
 
    *  -  `DM.PROTECTED`
-      -  `M.FullyQualifiedNames`,
+      -  `M.ErrorCorrectingCoding`,
+         `M.FullyQualifiedNames`,
          `M.GlitchDetection`,
          `M.ImplicitIdentity`,
          `M.MemoryBuffer`,
@@ -1149,6 +1161,7 @@ Mitigations required by each deployment model
    *  -  `DM.EXPOSED`
       -  `M.AntiRollback`,
          `M.Encrypt`,
+         `M.ErrorCorrectingCoding`,
          `M.FullyQualifiedNames`,
          `M.GlitchDetection`,
          `M.ImplicitIdentity`,
@@ -1160,6 +1173,7 @@ Mitigations required by each deployment model
 
    *  -  `DM.AUTHORIZED`
       -  `M.AuthenticateEndpoints`,
+         `M.ErrorCorrectingCoding`,
          `M.FullyQualifiedNames`,
          `M.GlitchDetection`,
          `M.ImplicitIdentity`,
@@ -1173,6 +1187,7 @@ Mitigations required by each deployment model
 
    *  -  `DM.SECURE_LINK`
       -  `M.AuthenticateEndpoints`,
+         `M.ErrorCorrectingCoding`,
          `M.FullyQualifiedNames`,
          `M.GlitchDetection`,
          `M.ImplicitIdentity`,
