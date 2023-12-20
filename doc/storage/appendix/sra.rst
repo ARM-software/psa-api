@@ -989,8 +989,8 @@ As a result, various mitigations are optional to implement, depending on which t
       **Transfer** to the implementation. 
       In `DM.PROTECTED` and `DM.EXPOSED`, if the implementation applies a MAC, a subsequent read can detect that data had not been written correctly. However, MAC's are not error correcting, therefore the implementation can only mark the data as corrupt and the data is lost. 
       
-      In `DM.AUTHORIZED` and `DM.SECURE_LINK` if the implementation relies on the Storage Medium to provide the MAC or tag. when a subsequent read occurs, the Storage Medium will apply a new tag to whatever data it stored, and the Storage Service will not be aware that the data is corrupt. However, the risk is limited to a brief time of check, time of use (TOCTOU), window, where the Storage Medium has verified the command but has not written the data to physical storage. If the Storage Service applies a MAC before submitting the command, it can detect, but not correct, a corrupt write. 
-
+      In `DM.AUTHORIZED` and `DM.SECURE_LINK` if the implementation relies on the channel to provide the MAC or tag, there is a brief time of check, time of use (TOCTOU) window, where the storage medium has verified the command but has not written the data to physical storage. If a glitch occurs in this window, and then a subsequent read occurs, the storage medium will apply a new tag to a reply containing corrupt data, and the storage service will not be aware that that data returned has been corrupted. However, if the Storage Service applies a MAC before submitting the command, it can detect, but not correct, this corruption. 
+      
       :mitigation:`ErrorCorrectingCoding`.
       **Transfer** to the implementation.  In all Deployment Models, if the Storage Medium uses Error Correcting Codes, it can detect and correct a certain number of incorrect bits in the data it reads back - at the expense of extra storage. If the Storage Medium does not offer ECC capability, the Storage Service could apply it and verify the coding in software, although this is generally less efficient than hardware. 
             
