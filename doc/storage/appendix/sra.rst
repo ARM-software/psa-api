@@ -484,7 +484,7 @@ As a result, various mitigations are optional to implement, depending on which t
       The assurance that the storage service can give is limited by the assurance that the implementation can give as to the identity of the caller.
 
       Where each user runs in a separate partition, the identity can be provided by the partition manager.
-      Where different users run within a single partition the responsibility for separating users within that partition is **transferred** to the operating system or run time within that partition.
+      Where different users run within a single partition, **Transfer** the responsibility for separating users within that partition to the operating system or run time within that partition.
 
       :mitigation:`FullyQualifiedNames`.
       **Transfer** to the implementation: use a fully-qualified data identifier, that is a combination of an owner identity and the item UID.
@@ -947,12 +947,6 @@ As a result, various mitigations are optional to implement, depending on which t
    .. description:: An attacker with physical access might be able to disrupt the power or clock to prevent a write from being completed.
 
       In this threat, an attacker with physical access to the device causes a power or frequency glitch to cause a write to fail.
-
-      In `DM.PROTECTED`, the API does not provide a mechanism to detected this.
-
-      In `DM.AUTHORIZED` and `DM.SECURE_LINK`, there is a brief time of check, time of use (TOCTOU), window, where the storage medium has verified the command but has not written the data to physical storage.
-      In this case, when a subsequent read occurs, the storage medium will apply a new tag to the reply, and the storage service will not be aware that it is returned a previous corrupted write .
-      
 
    .. adversarial-model:: `AM.3`
 
