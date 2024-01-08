@@ -56,7 +56,7 @@ Some of the common status codes have a more precise meaning when returned by a f
       - Meaning in the |API|
 
     * - :code:`PSA_ERROR_INVALID_HANDLE`
-      - A key identifier is not valid. See also :secref:`key-ids`.
+      - A key identifier does not refer to an existing key. See also :secref:`key-ids`.
 
     * - :code:`PSA_ERROR_BAD_STATE`
       - Multi-part operations return this error when one of the functions is called out of sequence. Refer to the function descriptions for permitted sequencing of functions.

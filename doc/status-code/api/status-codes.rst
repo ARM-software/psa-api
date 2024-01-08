@@ -205,7 +205,9 @@ Error codes
 
    .. summary:: A status code that indicates that a handle parameter is not valid.
 
-   A function can return this error any time a handle parameter is invalid.
+   A function can return this error any time it expects a parameter to be a handle to an existing object, but the handle is invalid.
+
+   This status code is not intended for cases where the parameter is a value that is chosen by the caller, but the value does not satisfy a validity condition for handles of this kind. In such cases, it is recommended that a function returns `PSA_ERROR_ALREADY_EXISTS` if value is valid but already in use, and `PSA_ERROR_INVALID_ARGUMENT` or a more specific status code if the value is otherwise invalid.
 
 
 .. macro:: PSA_ERROR_BAD_STATE
