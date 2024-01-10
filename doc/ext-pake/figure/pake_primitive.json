@@ -1,0 +1,14 @@
+{
+    "reg": [
+        { "name": "PAKE-BITS", "bits": 16 },
+        { "name": "PAKE-FAMILY", "bits": 8 },
+        { "name": "PAKE_TYPE", "bits": 8 }
+    ],
+    "options": {
+        "lanes": 1,
+        "fontfamily": "lato",
+        "fontsize": 11,
+        "vspace": 52,
+        "hspace": 600
+    }
+}

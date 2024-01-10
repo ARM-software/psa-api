@@ -1,0 +1,58 @@
+' SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+    !include atg-spec.pumh
+
+    participant "Prover //(Client role)//" as Prover
+    participant "Verifier //(Server role)//" as Verifier
+
+    note over Prover, Verifier: Shared information : cipher suite, //ProverId//, //VerifierId//, and //Context//
+    note over Verifier: Registration record (//w0//, //L//) derived from password
+    / note over Prover: Prover 'key pair' (//w0//, //w1//) derived from password
+
+    Prover -> Prover: ""psa_pake_setup()"" with key (//w0//, //w1//)\n""psa_pake_set_role(PSA_PAKE_ROLE_CLIENT)""\n""psa_pake_set_user(ProverId)""\n""psa_pake_set_peer(VerifierId)""\n""psa_pake_set_context(Context)""
+
+    Prover -> Prover: ""psa_pake_output()"" for //shareP// = //X//
+    note left: Generate key share //X//
+    Prover ->> Verifier: (//shareP//)
+
+    Verifier -> Verifier: ""psa_pake_setup()"" with key (//w0//, //L//) or key (//w0//, //w1//)\n""psa_pake_set_role(PSA_PAKE_ROLE_SERVER)""\n""psa_pake_set_user(VerifierId)""\n""psa_pake_set_peer(ProverId)""\n""psa_pake_set_context(Context)""
+
+    Verifier -> Verifier: ""psa_pake_input()"" for //shareP//
+    note left: Validate //shareP//
+    Verifier -> Verifier: ""psa_pake_output()"" for //shareV// = //Y// and //confirmV//
+    note left
+        Generate key share //Y//
+        Compute //K_shared//,
+        //confirmP'// and //confirmV//
+    end note
+
+    Verifier ->> Prover: (//shareV//, //confirmV//)
+
+    Prover -> Prover: ""psa_pake_input()"" for //shareV//
+    note left: Validate //shareV//
+
+    Prover -> Prover: ""psa_pake_output()"" for //confirmP//
+    note left
+        Compute //K_shared//,
+        //confirmP// and //confirmV'//
+    end note
+    Prover ->> Verifier: (//confirmP//)
+
+    Prover -> Prover: ""psa_pake_input()"" for //confirmV//
+    note left
+        Verify that
+        //confirmV'// = //confirmV//
+    end note
+    Prover -> Prover: ""psa_pake_get_shared_key()"" to extract //K_shared//
+
+    Verifier -> Verifier: ""psa_pake_input()"" for //confirmP//
+    note left
+        Verify that
+        //confirmP'// = //confirmP//
+    end note
+    Verifier -> Verifier: ""psa_pake_get_shared_key()"" to extract //K_shared//
+
+@enduml
