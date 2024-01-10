@@ -55,6 +55,68 @@ The permitted values of HASH-TYPE depend on the specific KDF algorithm.
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
 
+Key encoding
+------------
+
+A new type of asymmetric key is added for the SPAKE2+ algorithms. The Asymmetric key sub-type values table in `[PSA-CRYPT]` Appendix B is extended with the information in :numref:`table-spake2p-keys`.
+
+.. csv-table:: New SPAKE2+ asymmetric key sub-type
+    :name: table-spake2p-keys
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Asymmetric key type, ASYM-TYPE, Details
+    SPAKE2+, 4, See :secref:`spakep2-key-encoding`
+
+.. rationale::
+
+    The ASYM-TYPE value 4 is selected as this has the same parity as the ECC sub-type, which have the value 1. The enables the same ECC-FAMILY and P values to be used when encoding a SPAKE2+ key type, as is used in the Elliptic Curve key types.
+
+.. _spakep2-key-encoding:
+
+SPAKE2+ key encoding
+~~~~~~~~~~~~~~~~~~~~
+
+The key type for SPAKE2+ keys defined in this specification are encoded as shown in :numref:`fig-spake2p-key-fields`.
+
+.. figure:: ../figure/spake2p_key.*
+    :name: fig-spake2p-key-fields
+
+    SPAKE2+ key encoding
+
+PAIR is either 0 for a public key, or 3 for a key pair.
+
+The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type`.
+
+.. csv-table:: SPAKE2+ key family values
+    :name: table-spake2p-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public key value, Key pair value
+    SECP R1, 0x09, 0, :code:`PSA_ECC_FAMILY_SECP_R1`, ``0x4412``, ``0x7412``
+    Twisted Edwards, 0x21, 0, :code:`PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4442``, ``0x7442``
+
+a.  The key type value is constructed from the Elliptic Curve family using either :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(family)` as required.
+
+Key formats
+-----------
+
+A SPAKE2+ public key can be exported and imported, to enable use cases that require offline registration.
+
+The public key consists of the two values :math:`w0` and :math:`L`, which result from the SPAKE2+ registration phase. :math:`w0` is a scalar in the same range as a private Elliptic curve key from the group used as the SPAKE2+ primitive group. :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
+
+For the |API|, the default format for a SPAKE2+ public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for Elliptic curve keys used by the |API|. For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
+
+*   The 32-byte formatted value of the P-256 private key :math:`w0`. This is a big-endian encoding of the integer :math:`w0`.
+*   The 65-byte formatted value of the P-256 public key :math:`L`. This is itself a concatenation of:
+
+    -   The byte ``0x04``.
+    -   The 32-byte big-endian encoding of the x-coordinate of :math:`L`.
+    -   The 32-byte big-endian encoding of the y-coordinate of :math:`L`.
+
 Changes and additions to the Programming API
 --------------------------------------------
 
@@ -68,6 +130,163 @@ Changes and additions to the Programming API
      * These definitions must be embedded in, or included by, psa/crypto.h
      */
 
+.. _pake-keys:
+
+SPAKE2+ keys
+~~~~~~~~~~~~
+
+The SPAKE2+ protocol consists of three phases:
+
+1.  Registration
+2.  Authenticated key exchange
+3.  Key confirmation
+
+The registration phase can be carried out immediately before the other phases, or can be carried out offline, and the result of the registration phase transferred to the participants in the protocol for later online authentication.
+
+The |API| uses an asymmetric key-pair, and a public-key, to store the output of the registration for input to the authentication protocol. The registration is carried out using a key derivation operation, and the key exchange and confirmation is carried out using a PAKE operation. For a SPAKE2+ PAKE operation, the prover, or client, role requires a SPAKE2+ key-pair, while the verifier, or server, role can use either a SPAKE2+ key-pair or SPAKE2+ public key.
+
+The SPAKE2+ algorithms are based on Elliptic curve groups, and a SPAKE2+ key is parameterized by a specific Elliptic curve. The Elliptic curve families are used to parameterize the key type, and the key size selects the specific curve.
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ key pair: both the prover and verifier key.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
+
+    The size of a SPAKE2+ key is the size associated with the Elliptic curve group, that is, :math:`\lceil{log_2(q)}\rceil` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each Elliptic curve family for details.
+
+    To construct a SPAKE2+ key pair, it must be output from a key derivation operation. See :secref:`spake2p-key-derivation`.
+
+    The corresponding public key can be exported using :code:`psa_export_public_key()`. See also `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`.
+
+
+    .. subsection:: Compatible algorithms
+
+        SPAKE2+ key pairs can be used in SPAKE2+ PAKE algorithms.
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ public key: the verifier key.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
+
+    The size of an SPAKE2+ public key is the same as the corresponding private key. See `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and the documentation of each Elliptic curve family for details.
+
+    To construct a SPAKE2+ public key, it must be imported.
+
+    .. subsection:: Compatible algorithms
+
+        SPAKE2+ public keys can be used in SPAKE2+ PAKE algorithms.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key, either a key pair or a public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key pair.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the curve family from a SPAKE2+ key type.
+
+    .. param:: type
+        A SPAKE2+ key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SPAKE2P(type)` is true.
+
+    .. return:: psa_ecc_family_t
+        The elliptic curve family id, if ``type`` is a supported SPAKE2+ key. Unspecified if ``type`` is not a supported SPAKE2+ key.
+
+.. _spake2p-key-derivation:
+
+Key derivation of SPAKE2+ keys
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A SPAKE2+ key pair can be output from a key derivation using :code:`psa_key_derivation_output_key()`. The SPAKE2+ protocol recommends that a key-stretching key-derivation function, such as PBKDF2, is used to hash the SPAKE2+ password. See RFC 9383 for details.
+
+For example, after setting up the PBKDF2 operation, the following process will derive the SPAKE2+ key pair for use with the P-256 Elliptic curve group :issue:`(This example can be combined with an illustration of the registration flow in the final specification)`:
+
+1.  Allocate and initialize a key attributes object:
+
+    .. code-block:: xref
+
+        psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
+
+#.  Set the key type and size:
+
+    .. code-block:: xref
+
+        psa_set_key_type(&att, PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(PSA_ECC_FAMILY_SECP_R1));
+        psa_set_key_bits(&att, 256);            // for P-256
+
+#.  Set the key policy:
+
+    .. code-block:: xref
+
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&att, PSA_ALG_SPAKE2P);
+
+#.  Derive the key:
+
+    .. code-block:: xref
+
+        psa_key_id_t sp2p_key;
+        psa_key_derivation_output_key(&att, &kdf_op, &sp2p_key);
+
+The key derivation process in :code:`psa_key_derivation_output_key()` follows the recommendations for the registration process in RFC 9383, and matches the specification of this process in the Matter specification.
+
+For the |API|:
+
+*   The derivation of SPAKE2+ keys extracts :math:`\lceil{log_2(p)/8}\rceil+8` bytes from the PBKDF for each of :math:`w0s` and :math:`w1s`, where :math:`p` is the prime factor of the order of the elliptic curve group.
+    The following sizes are used for extracting :math:`w0s` and :math:`w1s`, depending on the elliptic curve:
+
+    .. csv-table::
+        :header-rows: 1
+        :widths: auto
+        :align: left
+
+        Elliptic curve, "Size of :math:`w0s` and :math:`w1s`, in bytes"
+        P-256, 40
+        P-384, 56
+        P-521, 74
+        edwards25519, 40
+        edwards448, 64
+
+    :issue:`I think these values are correct?`
+
+*   The calculation of :math:`w0`, :math:`w1`, and :math:`L` then proceeds as described in the RFC.
+
+    .. admonition:: Implementation note
+
+        The values of :math:`w0` and :math:`w1` are required as part of the SPAKE2+ key pair.
+
+        It is :scterm:`implementation defined` whether :math:`L` is computed during key derivation, and stored as part of the key pair; or only computed when required from the key pair.
 
 .. _pake-algorithms:
 
@@ -262,6 +481,8 @@ Many PAKE algorithms are designed to allow different cryptographic primitives to
 
 The cryptographic primitive for a PAKE operation is specified using a `psa_pake_primitive_t` value, which can be constructed using the `PSA_PAKE_PRIMITIVE()` macro, or can be provided as a numerical constant value.
 
+The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`. These can be used to set key attributes for keys used in PAKE algorithms.
+
 A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_pake_cipher_suite_t`, which fully specifies the PAKE operation to be carried out.
 
 
@@ -282,7 +503,7 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
         Implementation-defined primitive type.
         Implementations that define additional primitive types must use an encoding with bit 7 set.
 
-    For specification-defined primitive types, see the documentation of individual ``PSA_PAKE_PRIMITIVE_TYPE_XXX`` constants.
+    For specification-defined primitive types, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. macro:: PSA_PAKE_PRIMITIVE_TYPE_ECC
     :definition: ((psa_pake_primitive_type_t)0x01)
@@ -325,7 +546,7 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         Encoding of the family of the primitive associated with the PAKE.
 
-    For more information see the documentation of individual ``PSA_PAKE_PRIMITIVE_TYPE_XXX`` constants.
+    For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. typedef:: uint32_t psa_pake_primitive_t
 
@@ -349,16 +570,59 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. param:: pake_family
         The family of the primitive.
         The type and interpretation of this parameter depends on ``pake_type``.
-        For more information, consult the documentation of individual `psa_pake_primitive_type_t` constants.
+        For more information, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
     .. param:: pake_bits
         The bit-size of the primitive: a value of type ``size_t``.
-        The interpretation of this parameter depends on ``family``.
-        For more information, consult the documentation of individual `psa_pake_primitive_type_t` constants.
+        The interpretation of this parameter depends on ``pake_type`` and ``family``.
+        For more information, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
     .. return:: psa_pake_primitive_t
         The constructed primitive value.
         Return ``0`` if the requested primitive can't be encoded as `psa_pake_primitive_t`.
 
+    A PAKE primitive value is used to specify a PAKE operation, as part of a PAKE cipher suite.
+
+    The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_TYPE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the PAKE primitive type from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: psa_pake_primitive_type_t
+        The PAKE primitive type, if ``pake_primitive`` is a supported PAKE primitive. Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the family from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: psa_pake_family_t
+        The PAKE primitive family, if ``pake_primitive`` is a supported PAKE primitive. Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+    For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_BITS
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the bit-size from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: size_t
+        The PAKE primitive bit-size, if ``pake_primitive`` is a supported PAKE primitive. Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+    For more information on the bit-size values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. _pake-cipher-suite:
 

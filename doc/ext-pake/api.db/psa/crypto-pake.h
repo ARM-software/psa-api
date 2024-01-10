@@ -11,6 +11,15 @@ typedef uint8_t psa_pake_step_t;
 #define PSA_ALG_IS_JPAKE(alg) /* specification-defined value */
 #define PSA_ALG_IS_PAKE(alg) /* specification-defined value */
 #define PSA_ALG_JPAKE(hash_alg) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SPAKE2P(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR(type) \
+    /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY(type) \
+    /* specification-defined value */
+#define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) /* specification-defined value */
+#define PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(curve) /* specification-defined value */
+#define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
+    /* specification-defined value */
 #define PSA_PAKE_CIPHER_SUITE_INIT /* implementation-defined value */
 #define PSA_PAKE_CONFIRMED_KEY 0
 #define PSA_PAKE_INPUT_MAX_SIZE /* implementation-defined value */
@@ -21,6 +30,12 @@ typedef uint8_t psa_pake_step_t;
 #define PSA_PAKE_OUTPUT_SIZE(alg, primitive, output_step) \
     /* implementation-defined value */
 #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
+    /* specification-defined value */
+#define PSA_PAKE_PRIMITIVE_GET_BITS(pake_primitive) \
+    /* specification-defined value */
+#define PSA_PAKE_PRIMITIVE_GET_FAMILY(pake_primitive) \
+    /* specification-defined value */
+#define PSA_PAKE_PRIMITIVE_GET_TYPE(pake_primitive) \
     /* specification-defined value */
 #define PSA_PAKE_PRIMITIVE_TYPE_DH ((psa_pake_primitive_type_t)0x02)
 #define PSA_PAKE_PRIMITIVE_TYPE_ECC ((psa_pake_primitive_type_t)0x01)

@@ -27,6 +27,8 @@ API changes
 *   Replaced :code:`psa_pake_get_implicit_key()` with :code:`psa_pake_get_shared_key()`. This returns a new key containing the shared secret, instead of injecting the shared secret into a key derivation operation.
 *   Added a key confirmation attribute to the PAKE cipher suite. This indicates whether the application wants to extract the shared secret before, or after, key confirmation. See :secref:`pake-cipher-suite`.
 
+*   Added asymmetric key types for SPAKE2+ registration, `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`. Documented the import/export public key format and key derivation process for these keys.
+
 Clarifications
 ~~~~~~~~~~~~~~
 
