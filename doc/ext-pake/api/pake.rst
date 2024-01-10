@@ -33,7 +33,7 @@ Common API for PAKE
 -------------------
 
 .. header:: psa/crypto-pake
-    :copyright: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
     :license: Apache-2.0
 
     /* This file contains reference definitions for implementation of the
@@ -1124,7 +1124,7 @@ Multi-part PAKE operations
 
 .. _pake-support:
 
-PAKE Support macros
+PAKE support macros
 ~~~~~~~~~~~~~~~~~~~
 
 .. macro:: PSA_PAKE_OUTPUT_SIZE
@@ -1374,7 +1374,7 @@ It must be used as an input to a key derivation operation to produce additional 
 
     To make the authentication explicit, there are various methods to confirm that both parties have the same key. See :RFC:`8236#5` for two examples.
 
-J-PAKE Algorithms
+J-PAKE algorithms
 ~~~~~~~~~~~~~~~~~
 
 .. macro:: PSA_ALG_JPAKE
