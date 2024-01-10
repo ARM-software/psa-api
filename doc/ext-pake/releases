@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. release:: Beta 0
@@ -12,3 +12,11 @@
     :confidentiality: Non-confidential
 
     Relicensed as open source under CC BY-SA 4.0.
+
+.. release:: Beta 2
+    :date: January 2024
+    :confidentiality: Non-confidential
+
+    Add support for the SPAKE2+ protocol.
+
+    Rework the API to support augmented PAKE protocols, improve ease of use and implementation.
