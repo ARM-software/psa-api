@@ -370,8 +370,9 @@ In some environments, an application can make calls to the |API| in
 separate threads. In such an environment, *concurrent calls* are two or more
 calls to the API whose execution can overlap in time.
 
-Concurrent calls are performed correctly, as if the calls were executed in
-sequence, provided that they obey the following constraints:
+The result of two or more concurrent calls must be consistent with the same set
+of calls being executed sequentially in some order, provided that they obey the
+following constraints:
 
 *   There is no overlap between an output parameter of one call and an input or
     output parameter of another call. Overlap between input parameters is
@@ -388,7 +389,18 @@ sequence, provided that they obey the following constraints:
 
 If any of these constraints are violated, the behavior is undefined.
 
-If the application modifies an input parameter while a function call is in
-progress, the behavior is undefined.
+For example, suppose two calls are executed concurrently which both attempt to
+create a new key with the same key identifier that is not already in the key
+store. Then:
+
+*   If one call returns :code:`PSA_ERROR_ALREADY_EXISTS`, then the other call
+    must succeed.
+*   If one of the calls succeeds, then the other must fail: either with
+    :code:`PSA_ERROR_ALREADY_EXISTS` or some other error status.
+*   Both calls can fail with error codes that are not
+    :code:`PSA_ERROR_ALREADY_EXISTS`.
+
+If the application concurrently modifies an input parameter while a function
+call is in progress, the behavior is undefined.
 
 Individual implementations can provide additional guarantees.
