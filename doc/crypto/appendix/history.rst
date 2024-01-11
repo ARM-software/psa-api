@@ -187,6 +187,8 @@ Clarifications and fixes
 
 *   Relax the requirement to use the defined key derivation methods in `psa_key_derivation_output_key()`: implementation-specific KDF algorithms can use implementation-defined methods to derive the key material.
 
+*   Clarify the requirements for implementations that support concurrent execution of API calls.
+
 Other changes
 ~~~~~~~~~~~~~
 
