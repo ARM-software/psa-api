@@ -391,14 +391,14 @@ calls to the API whose execution can overlap in time.
 
     If any of these constraints are violated, the behavior is undefined.
 
-    Note that this consistency requirement does not apply to errors that arise
-    from resource failures or limitations, for example, errors resulting from
+    The consistency requirement does not apply to errors that arise
+    from resource failures or limitations. For example, errors resulting from
     resource constraints can arise in concurrent execution that do not arise in
     sequential execution.
 
-    For example, suppose two calls are executed concurrently which both attempt
-    to create a new key with the same key identifier that is not already in the
-    key store. Then:
+    As an example of this rule: suppose two calls are executed concurrently
+    which both attempt to create a new key with the same key identifier that is
+    not already in the key store. Then:
 
     *   If one call returns :code:`PSA_ERROR_ALREADY_EXISTS`, then the other
         call must succeed.
