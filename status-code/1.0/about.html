@@ -4,13 +4,14 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <meta property="og:title" content="About this document" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Status code API 1.0" />
 <meta property="og:description" content="Release information: Prior to version 1.0.1, the definitions in this specification were released as part of Arm® Platform Security Architecture Firmware Framework[PSA-FFM]. The change history table..." />
 <meta name="description" content="Release information: Prior to version 1.0.1, the definitions in this specification were released as part of Arm® Platform Security Architecture Firmware Framework[PSA-FFM]. The change history table..." />
@@ -25,7 +26,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="author" title="About these documents" href="#" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -48,9 +51,9 @@
           <div class="body" role="main">
             
   <section id="about-this-document">
-<span id="id1"></span><h1>About this document<a class="headerlink" href="#about-this-document" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>About this document<a class="headerlink" href="#about-this-document" title="Permalink to this heading">¶</a></h1>
 <section id="release-information">
-<h2>Release information<a class="headerlink" href="#release-information" title="Permalink to this headline">¶</a></h2>
+<h2>Release information<a class="headerlink" href="#release-information" title="Permalink to this heading">¶</a></h2>
 <p>Prior to version 1.0.1, the definitions in this specification were released as part of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
 <p>The change history table lists the changes that have been made to this document.</p>
 <table class="colwidths-given docutils align-default" id="id4">
@@ -82,15 +85,20 @@
 <td><p>Non-confidential</p></td>
 <td><p>Fixed whitespace error in status code definitions</p></td>
 </tr>
+<tr class="row-even"><td><p>January 2024</p></td>
+<td><p>1.0.3</p></td>
+<td><p>Non-confidential</p></td>
+<td><p>Status code clarifications</p></td>
+</tr>
 </tbody>
 </table>
 <p>For a detailed list of changes, see <a class="reference internal" href="appendix/change-history.html#change-history"><span class="secref">Change history</span></a>.</p>
 </section>
 <p><span class="sectiontitle">PSA Certified Status code API</span></p>
-<p>Copyright © 2017-2022 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
+<p>Copyright © 2017-2022, 2024 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
 draft issues of this document have been released, to a limited circulation.</p>
 <section id="license">
-<span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h2>
 <div class="license docutils container">
 <p><span class="sectiontitle">Text and illustrations</span></p>
 <p>Text and illustrations in this work are licensed under Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). To view a copy of the license, visit <a class="reference external" href="https://creativecommons.org/licenses/by-sa/4.0">creativecommons.org/licenses/by-sa/4.0</a>.</p>
@@ -102,15 +110,15 @@ draft issues of this document have been released, to a limited circulation.</p>
 <li><p>Changes are made related to the defined terms, to align those defined terms with the terminology in CC BY-SA 4.0 rather than Apache 2.0 (for example, changing “Work” to “Licensed Material”).</p></li>
 <li><p>The scope of the defensive termination clause is changed from “any patent licenses granted to You” to “any licenses granted to You”. This change is intended to help maintain a healthy ecosystem by providing additional protection to the community against patent litigation claims.</p></li>
 </ol>
-<p>To view the full text of the Apache 2.0 license, visit <a class="reference external" href="https://apache.org/licenses/license-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
+<p>To view the full text of the Apache 2.0 license, visit <a class="reference external" href="https://apache.org/licenses/LICENSE-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
 <p><span class="sectiontitle">Source code</span></p>
-<p>Source code samples in this work are licensed under the Apache License, Version 2.0 (the “License”); you may not use such samples except in compliance with the License. You may obtain a copy of the License at <a class="reference external" href="https://apache.org/licenses/license-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
+<p>Source code samples in this work are licensed under the Apache License, Version 2.0 (the “License”); you may not use such samples except in compliance with the License. You may obtain a copy of the License at <a class="reference external" href="https://apache.org/licenses/LICENSE-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
 <p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</p>
 <p>See the License for the specific language governing permissions and limitations under the License.</p>
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
 <p>This document refers to the following documents.</p>
 <table class="longtable colwidths-given docutils align-default" id="id5">
 <caption><span class="caption-number">Table 2 </span><span class="caption-text">Documents referenced by this document</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
@@ -128,7 +136,7 @@ draft issues of this document have been released, to a limited circulation.</p>
 <tbody>
 <tr class="row-even"><td><p><span class="target" id="cite-psa-ffm"></span>[PSA-FFM]</p></td>
 <td><p>DEN 0063</p></td>
-<td><p><em>Arm® Platform Security Architecture Firmware Framework</em>. <a class="reference external" href="https://pages.arm.com/psa-apis.html">pages.arm.com/psa-apis.html</a></p></td>
+<td><p><em>Arm® Platform Security Architecture Firmware Framework</em>. <a class="reference external" href="https://developer.arm.com/documentation/den0063.html">developer.arm.com/documentation/den0063.html</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="target" id="cite-tf-m"></span>[TF-M]</p></td>
 <td></td>
@@ -138,7 +146,7 @@ draft issues of this document have been released, to a limited circulation.</p>
 </table>
 </section>
 <section id="terms-and-abbreviations">
-<h2>Terms and abbreviations<a class="headerlink" href="#terms-and-abbreviations" title="Permalink to this headline">¶</a></h2>
+<h2>Terms and abbreviations<a class="headerlink" href="#terms-and-abbreviations" title="Permalink to this heading">¶</a></h2>
 <p>This document uses the following terms and abbreviations.</p>
 <table class="longtable colwidths-given docutils align-default" id="id6">
 <caption><span class="caption-number">Table 3 </span><span class="caption-text">Terms and abbreviations</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
@@ -184,9 +192,9 @@ draft issues of this document have been released, to a limited circulation.</p>
 </table>
 </section>
 <section id="conventions">
-<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this heading">¶</a></h2>
 <section id="typographical-conventions">
-<h3>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this headline">¶</a></h3>
+<h3>Typographical conventions<a class="headerlink" href="#typographical-conventions" title="Permalink to this heading">¶</a></h3>
 <p>The typographical conventions are:</p>
 <dl>
 <dt><em>italic</em></dt><dd><p>Introduces special terminology, and denotes citations.</p>
@@ -211,7 +219,7 @@ in the <em>Terms and abbreviations</em>.</p>
 </dl>
 </section>
 <section id="numbers">
-<h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this headline">¶</a></h3>
+<h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this heading">¶</a></h3>
 <p>Numbers are normally written in decimal. Binary numbers are preceded by 0b, and
 hexadecimal numbers by <code class="docutils literal notranslate"><span class="pre">0x</span></code>.</p>
 <p>In both cases, the prefix and the associated value are written in a monospace
@@ -222,12 +230,12 @@ a number.</p>
 </section>
 </section>
 <section id="feedback">
-<span id="id3"></span><h2>Feedback<a class="headerlink" href="#feedback" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Feedback<a class="headerlink" href="#feedback" title="Permalink to this heading">¶</a></h2>
 <p>We welcome feedback on the PSA Certified API documentation.</p>
 <p>If you have comments on the content of this book, visit <a class="reference external" href="https://github.com/arm-software/psa-api/issues">github.com/arm-software/psa-api/issues</a> to create a new issue at the PSA Certified API GitHub project. Give:</p>
 <ul class="simple">
 <li><p>The title (Status code API).</p></li>
-<li><p>The number and issue (IHI 0097 1.0.2).</p></li>
+<li><p>The number and issue (IHI 0097 1.0.3).</p></li>
 <li><p>The location in the document to which your comments apply.</p></li>
 <li><p>A concise explanation of your comments.</p></li>
 </ul>
@@ -248,8 +256,7 @@ a number.</p>
 <h3><a href="index.html"><b>PSA Certified<br />Status code API</b></a></h3>
 IHI 0097<br/>
 Non-confidential<br/>
-Version 1.0.2
-<span style="font-weight: bold;"></span>
+Version 1.0.3
 <hr />
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">About this document</a><ul>
@@ -280,13 +287,13 @@ Version 1.0.2
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2017-2022 Arm Limited and/or its affiliates.
+      &copy; 2017-2022, 2024 Arm Limited and/or its affiliates.
       
     </div>
 
