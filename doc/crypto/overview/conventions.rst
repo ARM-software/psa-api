@@ -393,7 +393,7 @@ calls to the API whose execution can overlap in time.
 
     The consistency requirement does not apply to errors that arise
     from resource failures or limitations. For example, errors resulting from
-    resource constraints can arise in concurrent execution that do not arise in
+    resource exhaustion can arise in concurrent execution that do not arise in
     sequential execution.
 
     As an example of this rule: suppose two calls are executed concurrently
