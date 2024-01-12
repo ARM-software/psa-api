@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -26,7 +26,7 @@ Crypto API | [1.1.2][crypto-specs] | [doc/crypto/] | [headers/crypto/1.1/] | [Pr
 Secure Storage API | [1.0.2][storage-specs] | [doc/storage/] |  [headers/storage/1.0/] | [Project board][storage-dash] |
 Attestation API | [1.0.3][attestation-specs] | [doc/attestation/] |  [headers/attestation/1.0/] | [Project board][attestation-dash] |
 Firmware Update API | [1.0.0][fwu-specs] | [doc/fwu/] |  [headers/fwu/1.0/] | [Project board][fwu-dash]
-Status code API | [1.0.2][status-specs] | [doc/status-code/] |  [headers/status-code/1.0/] | [Project board][status-code-dash] |
+Status code API | [1.0.3][status-specs] | [doc/status-code/] |  [headers/status-code/1.0/] | [Project board][status-code-dash] |
 
 [crypto-specs]:         https://arm-software.github.io/psa-api/crypto/
 [storage-specs]:        https://arm-software.github.io/psa-api/storage/
@@ -134,4 +134,4 @@ Anyone may contribute to the PSA Certified API. Discussion of changes and enhanc
 
 ----
 
-*Copyright 2022-2023, Arm Limited and/or its affiliates*
+*Copyright 2022-2024 Arm Limited and/or its affiliates*
