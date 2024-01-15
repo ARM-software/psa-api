@@ -44,7 +44,7 @@ Cipher algorithms
     .. summary::
         The stream cipher mode of a stream cipher algorithm.
 
-    The underlying stream cipher is determined by the key type. The ARC4 and ChaCha20 ciphers use this algorithm identifier.
+    The underlying stream cipher is determined by the key type. The ARC4, ChaCha20, and XChaCha20 ciphers use this algorithm identifier.
 
     .. subsection:: ARC4
 
@@ -59,7 +59,7 @@ Cipher algorithms
 
         To use ChaCha20, use a key type of `PSA_KEY_TYPE_CHACHA20` and algorithm id `PSA_ALG_STREAM_CIPHER`.
 
-        Implementations must support the variant that is defined in :rfc-title:`7539#2.4`, which has a 96-bit nonce and a 32-bit counter. Implementations can optionally also support the original variant, as defined in :cite-title:`CHACHA20`, which has a 64-bit nonce and a 64-bit counter. Except where noted, the :RFC:`7539` variant must be used.
+        Implementations must support the variant that is defined in :rfc-title:`8439#2.4`, which has a 96-bit nonce and a 32-bit counter. Implementations can optionally also support the original variant, as defined in :cite-title:`CHACHA20`, which has a 64-bit nonce and a 64-bit counter. Except where noted, the :RFC:`8439` variant must be used.
 
         ChaCha20 defines a nonce and an initial counter to be provided to the encryption and decryption operations. When using a ChaCha20 key with the `PSA_ALG_STREAM_CIPHER` algorithm, these values are provided using the initialization vector (IV) functions in the following ways:
 
@@ -72,14 +72,38 @@ Cipher algorithms
         *   A call to `psa_cipher_set_iv()` on a multi-part cipher operation can support the following IV sizes:
 
             -   12 bytes: the provided IV is used as the nonce, and the counter value is set to zero.
-            -   16 bytes: the first four bytes of the IV are used as the counter value (encoded as little-endian), and the remaining 12 bytes is used as the nonce.
+            -   16 bytes: the first four bytes of the IV are used as the counter value (encoded as little-endian), and the remaining 12 bytes are used as the nonce.
             -   8 bytes: the cipher operation uses the original :cite:`CHACHA20` definition of ChaCha20: the provided IV is used as the 64-bit nonce, and the 64-bit counter value is set to zero.
             -   It is recommended that implementations do not support other sizes of IV.
+
+    .. subsection:: XChaCha20
+
+        To use XChaCha20, use a key type of `PSA_KEY_TYPE_XCHACHA20` and algorithm id `PSA_ALG_STREAM_CIPHER`.
+
+        XChaCha20 is a variation of ChaCha20 that uses a 192-bit nonce and a 64-bit counter. The larger nonce provides much lower probability of nonce misuse.
+
+        When using an XChaCha20 key with the `PSA_ALG_STREAM_CIPHER` algorithm, the nonce and an initial counter values are provided using the initialization vector (IV) functions in the following ways:
+
+        *   A call to `psa_cipher_encrypt()` will generate a random 24-byte nonce, and set the counter value to zero. The random nonce is output as a 24-byte IV value in the output.
+
+        *   A call to `psa_cipher_decrypt()` will use first 24 bytes of the input buffer as the nonce and set the counter value to zero.
+
+        *   A call to `psa_cipher_generate_iv()` on a multi-part cipher operation will generate and return a random 24-byte nonce and set the counter value to zero.
+
+        *   A call to `psa_cipher_set_iv()` on a multi-part cipher operation can support the following IV sizes:
+
+            -   24 bytes: the provided IV is used as the nonce, and the counter value is set to zero.
+            -   32 bytes: the first 8 bytes of the IV are used as the counter value (encoded as little-endian), and the remaining 24 bytes are used as the nonce.
+
+            Other sizes of IV are invalid.
+
+        XChaCha20 is defined in :cite-title:`XCHACHA`.
 
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_ARC4`
         | `PSA_KEY_TYPE_CHACHA20`
+        | `PSA_KEY_TYPE_XCHACHA20`
 
 .. macro:: PSA_ALG_CTR
     :definition: ((psa_algorithm_t)0x04c01000)

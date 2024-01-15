@@ -24,6 +24,8 @@ Changes to the API
 
 *   Added `psa_key_agreement()` for standalone key agreement that outputs to a new key object. Also added `PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()` as a synonym for `PSA_ALG_IS_RAW_KEY_AGREEMENT()`.
 
+*   Added support for the XChaCha20 cipher and XChaCha20-Poly1305 AEAD algorithms. See `PSA_KEY_TYPE_XCHACHA20` and `PSA_ALG_XCHACHA20_POLY1305`.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

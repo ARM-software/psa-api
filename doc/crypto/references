@@ -261,12 +261,6 @@
     :publication: August 2013
     :url: tools.ietf.org/html/rfc6979.html
 
-.. reference:: RFC7539
-    :title: ChaCha20 and Poly1305 for IETF Protocols
-    :author: IETF
-    :publication: May 2015
-    :url: tools.ietf.org/html/rfc7539.html
-
 .. reference:: RFC7748
     :title: Elliptic Curves for Security
     :author: IETF
@@ -296,6 +290,12 @@
     :author: IRTF
     :publication: January 2017
     :url: tools.ietf.org/html/rfc8032.html
+
+.. reference:: RFC8439
+    :title: ChaCha20 and Poly1305 for IETF Protocols
+    :author: IRTF
+    :publication: June 2018
+    :url: tools.ietf.org/html/rfc8439.html
 
 .. reference:: RIPEMD
     :title: RIPEMD-160: A Strengthened Version of RIPEMD
@@ -335,6 +335,12 @@
     :title: ChaCha, a variant of Salsa20
     :url: http://cr.yp.to/chacha/chacha-20080128.pdf
     :publication: January 2008
+
+.. reference:: XCHACHA
+    :title: XChaCha: eXtended-nonce ChaCha and AEAD_XChaCha20_Poly1305
+    :author: Arciszewski
+    :publication: January 2020
+    :url: datatracker.ietf.org/doc/html/draft-irtf-cfrg-xchacha-03
 
 .. reference:: CLULOW
     :author: Clulow, Jolyon

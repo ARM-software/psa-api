@@ -155,6 +155,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
 #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
     /* specification-defined value */
+#define PSA_ALG_XCHACHA20_POLY1305 ((psa_algorithm_t)0x05100600)
 #define PSA_ALG_XTS ((psa_algorithm_t)0x0440ff00)
 #define PSA_ASYMMETRIC_DECRYPT_OUTPUT_MAX_SIZE \
     /* implementation-defined value */
@@ -287,6 +288,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_KEY_TYPE_RSA_KEY_PAIR ((psa_key_type_t)0x7001)
 #define PSA_KEY_TYPE_RSA_PUBLIC_KEY ((psa_key_type_t)0x4001)
 #define PSA_KEY_TYPE_SM4 ((psa_key_type_t)0x2405)
+#define PSA_KEY_TYPE_XCHACHA20 ((psa_key_type_t)0x2007)
 #define PSA_KEY_USAGE_CACHE ((psa_key_usage_t)0x00000004)
 #define PSA_KEY_USAGE_COPY ((psa_key_usage_t)0x00000002)
 #define PSA_KEY_USAGE_DECRYPT ((psa_key_usage_t)0x00000200)

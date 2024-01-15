@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -400,6 +400,23 @@ Symmetric keys
 
         | `PSA_ALG_STREAM_CIPHER`
         | `PSA_ALG_CHACHA20_POLY1305`
+
+.. macro:: PSA_KEY_TYPE_XCHACHA20
+    :definition: ((psa_key_type_t)0x2007)
+
+    .. summary::
+        Key for the XChaCha20 stream cipher or the XChaCha20-Poly1305 AEAD algorithm.
+
+    The XChaCha20 key size is 256 bits (32 bytes).
+
+    *   Use algorithm `PSA_ALG_STREAM_CIPHER` to use this key with the XChaCha20 cipher for unauthenticated encryption. See `PSA_ALG_STREAM_CIPHER` for details of this algorithm.
+
+    *   Use algorithm `PSA_ALG_XCHACHA20_POLY1305` to use this key with the XChaCha20 cipher and Poly1305 authenticator for AEAD. See `PSA_ALG_XCHACHA20_POLY1305` for details of this algorithm.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_STREAM_CIPHER`
+        | `PSA_ALG_XCHACHA20_POLY1305`
 
 
 .. _asymmetric-keys:
