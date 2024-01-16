@@ -41,6 +41,12 @@
 
     Provide a Security Risk Assessment.
 
+.. release:: 1.1.0
+    :date: January 2024
+    :confidentiality: Non-confidential
+
+    Added rename and iteration
+
 .. release-info::
     :extend:
 
