@@ -72,7 +72,12 @@ AEAD algorithms
 
     .. subsection:: Usage in Zigbee
 
-        `PSA_ALG_CCM`, and its truncated variants, can be used to implement CCM* for non-zero tag lengths. CCM* is required by the :cite-title:`ZIGBEE`. For unauthenticated CCM*, the `PSA_ALG_CCM_STAR_NO_TAG` cipher algorithm can be used.
+        The CCM* algorithm is required by :cite-title:`ZIGBEE`.
+
+        *   `PSA_ALG_CCM`, and its truncated variants, can be used to implement CCM* for non-zero tag lengths.
+        *   For unauthenticated CCM*, with a zero-length tag, use the `PSA_ALG_CCM_STAR_NO_TAG` cipher algorithm.
+
+        See also :ref:`Usage in Zigbee <using-ccm-star-no-tag>` under `PSA_ALG_CCM_STAR_NO_TAG`.
 
     .. subsection:: Compatible key types
 
