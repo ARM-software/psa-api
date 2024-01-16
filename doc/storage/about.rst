@@ -36,10 +36,16 @@
     Documentation clarifications.
 
 .. release:: 1.0.3
-    :date: ? 2024
+    :date: August 2023
     :confidentiality: Non-confidential
 
-    Provide a Security Risk Assessment.
+    Added draft SRA.
+
+.. release:: 1.1.0
+    :date: January 2024
+    :confidentiality: Non-confidential
+
+    Added rename and iteration 
 
 .. release-info::
     :extend:
@@ -64,16 +70,11 @@
     :doc_no: ARM IHI 0097
     :url: arm-software.github.io/psa-api/status-code
 
-.. reference:: PSA-FFM
+.. reference:: PSA-FF-M
     :title: Arm® Platform Security Architecture Firmware Framework
     :doc_no: ARM DEN 0063
-    :url: developer.arm.com/documentation/den0063
+    :url: pages.arm.com/psa-apis
 
-.. reference:: SP800-30
-    :title: NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments
-    :author: NIST
-    :publication: September 2012
-    :url: doi.org/10.6028/NIST.SP.800-30r1
 
 .. Glossary terms used in this specification
 
