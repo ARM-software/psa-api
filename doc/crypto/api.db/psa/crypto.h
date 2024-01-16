@@ -47,7 +47,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
     /* specification-defined value */
 #define PSA_ALG_AEAD_WITH_SHORTENED_TAG(aead_alg, tag_length) \
     /* specification-defined value */
-#define PSA_ALG_AES_MMO_ZIGBEE ((psa_algorithm_t)0x02000006)
+#define PSA_ALG_AES_MMO_ZIGBEE ((psa_algorithm_t)0x02000007)
 #define PSA_ALG_ANY_HASH ((psa_algorithm_t)0x020000ff)
 #define PSA_ALG_AT_LEAST_THIS_LENGTH_MAC(mac_alg, min_mac_length) \
     /* specification-defined value */

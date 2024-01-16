@@ -74,7 +74,7 @@ Hash algorithms
     RIPEMD-160 is defined in :cite-title:`RIPEMD`, and also in :cite-title:`ISO10118`.
 
 .. macro:: PSA_ALG_AES_MMO_ZIGBEE
-    :definition: ((psa_algorithm_t)0x02000006)
+    :definition: ((psa_algorithm_t)0x02000007)
 
     .. summary::
         The *Zigbee* 1.0 hash function based on a Matyas-Meyer-Oseas (MMO) construction of AES-128.
