@@ -164,13 +164,13 @@ Cipher algorithms
 
     The maximum message length that can be encrypted is dependent on the length of the IV. See `PSA_ALG_CCM` for details of this relationship.
 
-    .. subsection:: Usage in zigbee
+    .. subsection:: Usage in Zigbee
 
-        The zigbee message encryption algorithm is based on CCM*. This is detailed in :cite-title:`ZIGBEE` §B.1.1 and §A.
+        The Zigbee message encryption algorithm is based on CCM*. This is detailed in :cite-title:`ZIGBEE` §B.1.1 and §A.
 
         *   For unauthenticated messages — when *M* = 0 --- the `PSA_ALG_CCM_STAR_NO_TAG` algorithm is used with an AES-128 key in a multi-part cipher operation. The 13-byte IV must be constructed as specified in `[ZIGBEE]`, and provided to the operation using `psa_cipher_set_iv()`.
 
-            An implementation of zigbee cannot use the single-part cipher functions, as these generate a random IV, which is not valid for the zigbee protocol.
+            An implementation of Zigbee cannot use the single-part cipher functions, as these generate a random IV, which is not valid for the Zigbee protocol.
 
         *   For authenticated messages — when *M* ∈ {4, 8, 16} --- the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` algorithm is used with an AES-128 key, where ``tag_length`` is the required value of *M*. The 13-byte nonce must be constructed as specified in `[ZIGBEE]`.
 

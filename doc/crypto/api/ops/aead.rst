@@ -70,7 +70,7 @@ AEAD algorithms
 
     The CCM block cipher mode is defined in :RFC-title:`3610`.
 
-    .. subsection:: Usage in zigbee
+    .. subsection:: Usage in Zigbee
 
         `PSA_ALG_CCM`, and its truncated variants, can be used to implement CCM* for non-zero tag lengths. CCM* is required by the :cite-title:`ZIGBEE`. For unauthenticated CCM*, the `PSA_ALG_CCM_STAR_NO_TAG` cipher algorithm can be used.
 

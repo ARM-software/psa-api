@@ -116,7 +116,7 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
     MD5, ``0x03``, `PSA_ALG_MD5`, ``0x02000003``
     RIPEMD-160, ``0x04``, `PSA_ALG_RIPEMD160`, ``0x02000004``
     SHA1, ``0x05``, `PSA_ALG_SHA_1`, ``0x02000005``
-    AES-MMO (zigbee), ``0x06``, `PSA_ALG_AES_MMO_ZIGBEE`, ``0x02000006``
+    AES-MMO (Zigbee), ``0x06``, `PSA_ALG_AES_MMO_ZIGBEE`, ``0x02000006``
     SHA-224, ``0x08``, `PSA_ALG_SHA_224`, ``0x02000008``
     SHA-256, ``0x09``, `PSA_ALG_SHA_256`, ``0x02000009``
     SHA-384, ``0x0A``, `PSA_ALG_SHA_384`, ``0x0200000A``
