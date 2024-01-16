@@ -77,9 +77,9 @@ Hash algorithms
     :definition: ((psa_algorithm_t)0x02000007)
 
     .. summary::
-        The *Zigbee* 1.0 hash function based on a Matyas-Meyer-Oseas (MMO) construction of AES-128.
+        The *Zigbee* 1.0 hash function based on a Matyas-Meyer-Oseas (MMO) construction using AES-128.
 
-    Zigbee specifies a cryptographic hash function based on the MMO hash construction using the AES-128 block cipher. This is defined in :cite-title:`ZIGBEE` §B.6.
+    This is the cryptographic hash function based on the Merkle-Damgård construction over a Matyas-Meyer-Oseas one-way compression function and the AES-128 block cipher, with the parametrization defined in :cite-title:`ZIGBEE` §B.6.
 
     This hash function can operate on input strings of up to 2\ :sup:`32` - 1 bits.
 
