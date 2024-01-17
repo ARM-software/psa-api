@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. release:: 1.0 Beta 1
@@ -54,7 +54,9 @@
     Clarifications and fixes
 
 .. release:: 1.2.0 Final
-    :date: ? 2023
+    :date: February 2024
     :confidentiality: Non-confidential
 
-    TBD
+    Better support for key agreement.
+
+    New algorithms for Zigbee, XChaCha, TLS 1.2, and key derivation.
