@@ -73,6 +73,20 @@ Hash algorithms
 
     RIPEMD-160 is defined in :cite-title:`RIPEMD`, and also in :cite-title:`ISO10118`.
 
+.. macro:: PSA_ALG_AES_MMO_ZIGBEE
+    :definition: ((psa_algorithm_t)0x02000007)
+
+    .. summary::
+        The *Zigbee* 1.0 hash function based on a Matyas-Meyer-Oseas (MMO) construction using AES-128.
+
+    This is the cryptographic hash function based on the Merkle-Damgård construction over a Matyas-Meyer-Oseas one-way compression function and the AES-128 block cipher, with the parametrization defined in :cite-title:`ZIGBEE` §B.6.
+
+    This hash function can operate on input strings of up to 2\ :sup:`32` - 1 bits.
+
+    .. note::
+
+        The Zigbee keyed hash function from `[ZIGBEE]` §B.1.4 is :code:`PSA_ALG_HMAC(PSA_ALG_AES_MMO_ZIGBEE)`.
+
 .. macro:: PSA_ALG_SHA_1
     :definition: ((psa_algorithm_t)0x02000005)
 
