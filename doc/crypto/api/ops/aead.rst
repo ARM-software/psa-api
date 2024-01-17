@@ -58,13 +58,13 @@ AEAD algorithms
 
     To use `PSA_ALG_CCM` with a multi-part AEAD operation, the application must call `psa_aead_set_lengths()` before providing the nonce, the additional data and plaintext to the operation.
 
-    CCM requires a nonce of between 7 and 13 bytes in length. The length of the nonce affects the maximum length of the plaintext than can be encrypted or decrypted. If the nonce has length *N*, then the plaintext length *pLen* is encoded in *L* = 15 - *N* octets, this requires that *pLen* < 2\ :sup:`8L`.
+    CCM requires a nonce of between 7 and 13 bytes in length. The length of the nonce affects the maximum length of the plaintext than can be encrypted or decrypted. If the nonce has length :math:`N`, then the plaintext length :math:`pLen` is encoded in :math:`L = 15 - N` octets, this requires that :math:`pLen < 2^{8L}`.
 
-    The value for *L* that is used with `PSA_ALG_CCM` depends on the function used to provide the nonce:
+    The value for :math:`L` that is used with `PSA_ALG_CCM` depends on the function used to provide the nonce:
 
-    *   A call to `psa_aead_encrypt()`, `psa_aead_decrypt()`, or `psa_aead_set_nonce()` will set *L* to 15 - ``nonce_length``. If the plaintext length cannot be encoded in *L* octets, then a :code:`PSA_ERROR_INVALID_ARGUMENT` error is returned.
+    *   A call to `psa_aead_encrypt()`, `psa_aead_decrypt()`, or `psa_aead_set_nonce()` will set :math:`L = 15 - \mathtt{nonce\_length}`. If the plaintext length cannot be encoded in :math:`L` octets, then a :code:`PSA_ERROR_INVALID_ARGUMENT` error is returned.
 
-    *   A call to `psa_aead_generate_nonce()` on a multi-part cipher operation will select *L* as the smallest integer >= 2 where *pLen* < 2\ :sup:`8L`, with *pLen* being the ``plaintext_length`` provided to `psa_aead_set_lengths()`. The call to `psa_aead_generate_nonce()` will generate and return a random nonce of length 15 - *L* bytes.
+    *   A call to `psa_aead_generate_nonce()` on a multi-part cipher operation will select the smallest integer :math:`L \geq 2`, where :math:`pLen < 2^{8L}`, with :math:`pLen` being the ``plaintext_length`` provided to `psa_aead_set_lengths()`. The call to `psa_aead_generate_nonce()` will generate and return a random nonce of length :math:`15 - L` bytes.
 
     CCM supports authentication tag sizes of 4, 6, 8, 10, 12, 14, and 16 bytes. The default tag length is 16. Shortened tag lengths can be requested using :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)`, where ``tag_length`` is a valid CCM tag length.
 

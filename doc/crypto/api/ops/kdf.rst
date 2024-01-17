@@ -333,11 +333,11 @@ Key derivation algorithms
 
     This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using the extension to the |API| defined in :cite-title:`PSA-PAKE`.
 
-    This KDF takes the shared secret *K* (an uncompressed EC point in case of EC J-PAKE) and calculates SHA256(*K.X*).
+    This KDF takes the shared secret :math:`K`` (an uncompressed EC point in case of EC J-PAKE) and calculates :math:`\text{SHA256}(K.x)`.
 
     This function takes a single input:
 
-    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the shared secret K from EC J-PAKE. For secp256r1, the input is exactly 65 bytes.
+    *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the shared secret :math:`K` from EC J-PAKE. For secp256r1, the input is exactly 65 bytes.
 
         The input can be supplied to the key derivation operation by calling :code:`psa_pake_get_implicit_key()`, part of the PAKE extension API defined in :cite:`PSA-PAKE`.
 
@@ -614,7 +614,7 @@ Key derivation functions
         *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
-    The capacity of a key derivation is the maximum number of bytes that it can return. Reading *N* bytes of output from a key derivation operation reduces its capacity by at least *N*. The capacity can be reduced by more than *N* in the following situations:
+    The capacity of a key derivation is the maximum number of bytes that it can return. Reading :math:`N` bytes of output from a key derivation operation reduces its capacity by at least :math:`N`. The capacity can be reduced by more than :math:`N` in the following situations:
 
     *   Calling `psa_key_derivation_output_key()` can reduce the capacity by more than the key size, depending on the type of key being generated. See  `psa_key_derivation_output_key()` for details of the key derivation process.
     *   When the `psa_key_derivation_operation_t` object is operating as a deterministic random bit generator (DBRG), which reduces capacity in whole blocks, even when less than a block is read.
@@ -968,7 +968,7 @@ Key derivation functions
 
                 `PSA_KEY_TYPE_PASSWORD_HASH`
 
-                For key types for which the key is an arbitrary sequence of bytes of a given size, this function is functionally equivalent to calling `psa_key_derivation_output_bytes()` and passing the resulting output to `psa_import_key()`. However, this function has a security benefit: if the implementation provides an isolation boundary then the key material is not exposed outside the isolation boundary. As a consequence, for these key types, this function always consumes exactly ``(bits/8)`` bytes from the operation.
+                For key types for which the key is an arbitrary sequence of bytes of a given size, this function is functionally equivalent to calling `psa_key_derivation_output_bytes()` and passing the resulting output to `psa_import_key()`. However, this function has a security benefit: if the implementation provides an isolation boundary then the key material is not exposed outside the isolation boundary. As a consequence, for these key types, this function always consumes exactly ``key_bits/8`` bytes from the operation.
 
         *   -   DES
             -   `PSA_KEY_TYPE_DES`, 64 bits.
@@ -999,15 +999,15 @@ Key derivation functions
 
                 :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(ecc_family)` where ``ecc_family`` designates a Weierstrass curve family.
 
-                These key types require the generation of a private key which is an integer in the range [1, *N* - 1], where *N* is the boundary of the private key domain: *N* is the prime *p* for Diffie-Hellman, or the order of the curve's base point for ECC.
+                These key types require the generation of a private key :math:`d \in [1, N - 1]`, where :math:`N` is the boundary of the private key domain: :math:`N` is the prime :math:`p` for Diffie-Hellman, or the order of the curve's base point for ECC.
 
-                Let ``m`` be the bit size of *N*, such that ``2^m`` > *N* >= ``2^(m-1)``. This function generates the private key using the following process:
+                Let :math:`m` be the bit size of :math:`N`, such that :math:`2^{m-1} \leq N < 2^m`. This function generates the private key using the following process:
 
-                1.  Draw a byte string of length ``ceiling(m/8)`` bytes.
-                #.  If ``m`` is not a multiple of ``8``, set the most significant ``(8 * ceiling(m/8) - m)`` bits of the first byte in the string to zero.
-                #.  Convert the string to integer *k* by decoding it as a big-endian byte string.
-                #.  If *k* > *N* - ``2``, discard the result and return to step 1.
-                #.  Output *k* + ``1`` as the private key.
+                1.  Draw a byte string of length :math:`\lceil{m/8}\rceil` bytes.
+                #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m`` bits of the first byte in the string to zero.
+                #.  Convert the string to integer :math:`k` by decoding it as a big-endian byte-string.
+                #.  If :math:`k > N-2`, discard the result and return to step 1.
+                #.  Output :math:`d = k + 1` as the private key.
 
                 This method allows compliance to NIST standards, specifically the methods titled *Key-Pair Generation by Testing Candidates* in the following publications:
 

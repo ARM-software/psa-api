@@ -495,7 +495,7 @@ Elliptic Curve keys
     .. summary::
         Elliptic curve key pair: both the private and public key.
 
-    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of *q* for a curve over a field *F*\ :sub:`q`. See the documentation of each Elliptic curve family for details.
+    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each Elliptic curve family for details.
 
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.

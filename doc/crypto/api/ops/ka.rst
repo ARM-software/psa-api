@@ -43,7 +43,7 @@ Key agreement algorithms
 
     When used as part of a multi-part key derivation operation, this implements a Diffie-Hellman key agreement scheme using a single Diffie-Hellman key-pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
 
-    The shared secret produced by this key agreement algorithm is ``g^{ab}`` in big-endian format. It is ``ceiling(m / 8)`` bytes long where ``m`` is the size of the prime ``p`` in bits.
+    The shared secret produced by this key agreement algorithm is :math:`g^{ab}` in big-endian format. It is :math:`\lceil{(m / 8)}\rceil` bytes long where :math:`m` is the size of the prime :math:`p` in bits.
 
     This key agreement scheme is defined by :cite-title:`SP800-56A` §5.7.1.1 under the name FFC DH.
 
@@ -66,21 +66,21 @@ Key agreement algorithms
 
     When used as part of a multi-part key derivation operation, this implements a Diffie-Hellman key agreement scheme using a single elliptic curve key-pair for each participant. This includes the *Ephemeral unified model*, the *Static unified model*, and the *One-pass Diffie-Hellman* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
 
-    The shared secret produced by key agreement is the x-coordinate of the shared secret point. It is always ``ceiling(m / 8)`` bytes long where ``m`` is the bit size associated with the curve, i.e. the bit size of the order of the curve's coordinate field. When ``m`` is not a multiple of 8, the byte containing the most significant bit of the shared secret is padded with zero bits. The byte order is either little-endian or big-endian depending on the curve type.
+    The shared secret produced by key agreement is the x-coordinate of the shared secret point. It is always :math:`\lceil{(m / 8)}\rceil` bytes long where :math:`m` is the bit size associated with the curve, i.e. the bit size of the order of the curve's coordinate field. When :math:`m` is not a multiple of 8, the byte containing the most significant bit of the shared secret is padded with zero bits. The byte order is either little-endian or big-endian depending on the curve type.
 
-    *   For Montgomery curves (curve family `PSA_ECC_FAMILY_MONTGOMERY`), the shared secret is the x-coordinate of ``Z = d_A Q_B = d_B Q_A`` in little-endian byte order.
+    *   For Montgomery curves (curve family `PSA_ECC_FAMILY_MONTGOMERY`), the shared secret is the x-coordinate of :math:`Z = d_A Q_B = d_B Q_A` in little-endian byte order.
 
-        -   For Curve25519, this is the X25519 function defined in :cite-title:`Curve25519`. The bit size ``m`` is 255.
-        -   For Curve448, this is the X448 function defined in :cite-title:`Curve448`. The bit size ``m`` is 448.
+        -   For Curve25519, this is the X25519 function defined in :cite-title:`Curve25519`. The bit size :math:`m` is 255.
+        -   For Curve448, this is the X448 function defined in :cite-title:`Curve448`. The bit size :math:`m` is 448.
 
-    *   For Weierstrass curves (curve families ``PSA_ECC_FAMILY_SECP_XX``, ``PSA_ECC_FAMILY_SECT_XX``, `PSA_ECC_FAMILY_BRAINPOOL_P_R1` and `PSA_ECC_FAMILY_FRP`) the shared secret is the x-coordinate of ``Z = h d_A Q_B = h d_B Q_A`` in big-endian byte order. This is the Elliptic Curve Cryptography Cofactor Diffie-Hellman primitive defined by :cite-title:`SEC1` §3.3.2 as, and also as ECC CDH by :cite-title:`SP800-56A` §5.7.1.2.
+    *   For Weierstrass curves (curve families ``PSA_ECC_FAMILY_SECP_XX``, ``PSA_ECC_FAMILY_SECT_XX``, `PSA_ECC_FAMILY_BRAINPOOL_P_R1` and `PSA_ECC_FAMILY_FRP`) the shared secret is the x-coordinate of :math:`Z = h d_A Q_B = h d_B Q_A` in big-endian byte order. This is the Elliptic Curve Cryptography Cofactor Diffie-Hellman primitive defined by :cite-title:`SEC1` §3.3.2 as, and also as ECC CDH by :cite-title:`SP800-56A` §5.7.1.2.
 
-        -   Over prime fields (curve families ``PSA_ECC_FAMILY_SECP_XX``, `PSA_ECC_FAMILY_BRAINPOOL_P_R1` and `PSA_ECC_FAMILY_FRP`), the bit size is ``m = ceiling(log_2(p))`` for the field ``F_p``.
-        -   Over binary fields (curve families ``PSA_ECC_FAMILY_SECT_XX``), the bit size is ``m`` for the field ``F_{2^m}``.
+        -   Over prime fields (curve families ``PSA_ECC_FAMILY_SECP_XX``, `PSA_ECC_FAMILY_BRAINPOOL_P_R1` and `PSA_ECC_FAMILY_FRP`), the bit size is :math:`m = \lceil{\log_2(p)}\rceil` for the field :math:`\mathbb{F}_p`.
+        -   Over binary fields (curve families ``PSA_ECC_FAMILY_SECT_XX``), the bit size is :math:`m` for the field :math:`\mathbb{F}_{2^m}`.
 
         .. note::
 
-            The cofactor Diffie-Hellman primitive is equivalent to the standard elliptic curve Diffie-Hellman calculation ``Z = d_A Q_B = d_B Q_A`` (`[SEC1]` §3.3.1) for curves where the cofactor ``h`` is ``1``. This is true for all curves in the ``PSA_ECC_FAMILY_SECP_XX``, `PSA_ECC_FAMILY_BRAINPOOL_P_R1`, and `PSA_ECC_FAMILY_FRP` families.
+            The cofactor Diffie-Hellman primitive is equivalent to the standard elliptic curve Diffie-Hellman calculation :math:`Z = d_A Q_B = d_B Q_A` (`[SEC1]` §3.3.1) for curves where the cofactor :math:`h` is 1. This is true for all curves in the ``PSA_ECC_FAMILY_SECP_XX``, `PSA_ECC_FAMILY_BRAINPOOL_P_R1`, and `PSA_ECC_FAMILY_FRP` families.
 
     .. subsection:: Compatible key types
 

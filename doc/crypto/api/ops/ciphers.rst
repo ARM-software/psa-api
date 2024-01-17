@@ -119,7 +119,7 @@ Cipher algorithms
 
     A counter block value must only be used once across all messages encrypted using the same key value. This is typically achieved by splitting the counter block into a nonce, which is unique among all message encrypted with the key, and a counter which is incremented for each block of a message.
 
-    For example, when using AES-CTR encryption, which uses a 16-byte block, the application can provide a 12-byte nonce when setting the IV. This leaves 4 bytes for the counter, allowing up to 2^32 blocks (64GB) of message data to be encrypted in each message.
+    For example, when using AES-CTR encryption, which uses a 16-byte block, the application can provide a 12-byte nonce when setting the IV. This leaves 4 bytes for the counter, allowing up to :math:`2^{32}` blocks (64GB) of message data to be encrypted in each message.
 
     The first counter block is constructed from the initialization vector (IV). The initial counter block is is constructed in the following ways:
 
@@ -129,7 +129,7 @@ Cipher algorithms
 
     *   A call to `psa_cipher_generate_iv()` on a multi-part cipher operation will generate and return a random counter block value.
 
-    *   A call to `psa_cipher_set_iv()` on a multi-part cipher operation requires an IV that is between ``1`` and *n* bytes in length, where *n* is the cipher block length. The counter block is initialized using the IV, and padded with zero bytes up to the block length.
+    *   A call to `psa_cipher_set_iv()` on a multi-part cipher operation requires an IV that is between ``1`` and :math:`n` bytes in length, where :math:`n` is the cipher block length. The counter block is initialized using the IV, and padded with zero bytes up to the block length.
 
     During the counter block update operation, the counter block is treated as a single big-endian encoded integer and the update operation increments this integer by ``1``.
 
@@ -170,15 +170,15 @@ Cipher algorithms
 
         The Zigbee message encryption algorithm is based on CCM*. This is detailed in :cite-title:`ZIGBEE` §B.1.1 and §A.
 
-        *   For unauthenticated messages — when *M* = 0 --- the `PSA_ALG_CCM_STAR_NO_TAG` algorithm is used with an AES-128 key in a multi-part cipher operation. The 13-byte IV must be constructed as specified in `[ZIGBEE]`, and provided to the operation using `psa_cipher_set_iv()`.
+        *   For unauthenticated messages --- when tag length :math:`M = 0` --- the `PSA_ALG_CCM_STAR_NO_TAG` algorithm is used with an AES-128 key in a multi-part cipher operation. The 13-byte IV must be constructed as specified in `[ZIGBEE]`, and provided to the operation using `psa_cipher_set_iv()`.
 
             .. note::
 
                 An implementation of Zigbee cannot use the single-part `psa_cipher_encrypt()` function, as this generates a random IV, which is not valid for the Zigbee protocol.
 
-        *   For authenticated messages — when *M* ∈ {4, 8, 16} --- the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` algorithm is used with an AES-128 key, where ``tag_length`` is the required value of *M*. The 13-byte nonce must be constructed as specified in `[ZIGBEE]`.
+        *   For authenticated messages --- when tag length :math:`M \in \{4, 8, 16\}` --- the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` algorithm is used with an AES-128 key, where ``tag_length`` is the required value of :math:`M`. The 13-byte nonce must be constructed as specified in `[ZIGBEE]`.
 
-            As the default tag length for CCM is 16, then `PSA_ALG_CCM` algorithm can be used when *M* = 16.
+            As the default tag length for CCM is 16, then `PSA_ALG_CCM` algorithm can be used when :math:`M = 16`.
 
         *   To enable a single AES-128 key to be used for both the `PSA_ALG_CCM_STAR_NO_TAG` cipher and `PSA_ALG_CCM` AEAD algorithm, the key can be defined with the wildcard `PSA_ALG_CCM_STAR_ANY_TAG` permitted algorithm.
 
@@ -206,7 +206,7 @@ Cipher algorithms
     .. note::
         The cipher block length can be determined using `PSA_BLOCK_CIPHER_BLOCK_LENGTH()`.
 
-    The CFB block cipher mode is defined in :cite-title:`SP800-38A`, using a segment size *s* equal to the block size *b*. The definition in `[SP800-38A]` is extended to allow an incomplete final block of input, in which case the algorithm discards the final bytes of the key stream when encrypting or decrypting the final partial block.
+    The CFB block cipher mode is defined in :cite-title:`SP800-38A`, using a segment size :math:`s` equal to the block size :math:`b`. The definition in `[SP800-38A]` is extended to allow an incomplete final block of input, in which case the algorithm discards the final bytes of the key stream when encrypting or decrypting the final partial block.
 
     .. subsection:: Compatible key types
 
