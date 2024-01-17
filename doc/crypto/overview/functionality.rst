@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _functionality-overview:
@@ -49,6 +49,7 @@ Keys are created using one of the *key creation functions*:
 *   `psa_import_key()`
 *   `psa_generate_key()`
 *   `psa_key_derivation_output_key()`
+*   `psa_key_agreement()`
 *   `psa_copy_key()`
 
 These output the key identifier, that is used to access the key in all other parts of the API.
