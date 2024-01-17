@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -155,7 +155,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     The following type-specific considerations apply:
 
-    *   For RSA keys (`PSA_KEY_TYPE_RSA_KEY_PAIR`), the public exponent is 65537. The modulus is a product of two probabilistic primes between 2^{n-1} and 2^n where n is the bit size specified in the attributes.
+    *   For RSA keys (`PSA_KEY_TYPE_RSA_KEY_PAIR`), the public exponent is 65537. The modulus is a product of two probabilistic primes between :math:`2^{n-1}` and :math:`2^n` where :math:`n` is the bit size specified in the attributes.
 
 .. function:: psa_copy_key
 
@@ -626,29 +626,29 @@ This section defines the format of the key data that an implementation is requir
 
             The key data is the content of the ``privateKey`` field of the ``ECPrivateKey`` format defined by :RFC-title:`5915`.
 
-            This is a ``ceiling(m/8)``-byte string in big-endian order where ``m`` is the key size in bits.
+            This is a :math:`\lceil{m/8}\rceil`-byte string in big-endian order, where :math:`m` is the key size in bits.
 
     *   -   Weierstrass Elliptic curve public key
         -   :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(ecc_family)`, where ``ecc_family`` designates a Weierstrass curve family.
 
             The key data is the uncompressed representation of an elliptic curve point as an octet string defined in :cite-title:`SEC1` §2.3.3.
-            If ``m`` is the bit size associated with the curve, i.e. the bit size of ``q`` for a curve over ``F_q``, then the representation consists of:
+            If :math:`m` is the bit size associated with the curve, i.e. the bit size of :math:`q` for a curve over :math:`\mathbb{F}_q`, then the representation of point :math:`P` consists of:
 
             *   The byte ``0x04``;
-            *   ``x_P`` as a ``ceiling(m/8)``-byte string, big-endian;
-            *   ``y_P`` as a ``ceiling(m/8)``-byte string, big-endian.
+            *   :math:`x_P` as a :math:`\lceil{m/8}\rceil`-byte string, big-endian;
+            *   :math:`y_P` as a :math:`\lceil{m/8}\rceil`-byte string, big-endian.
 
     *   -   Montgomery Elliptic curve key pair
         -   :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_MONTGOMERY)`
 
             The key data is the scalar value of the 'private key' in little-endian order as defined by :RFC-title:`7748#6`. The value must have the forced bits set to zero or one as specified by ``decodeScalar25519()`` and ``decodeScalar448()`` in :RFC:`7748#5`.
 
-            This is a ``ceiling(m/8)``-byte string where ``m`` is the key size in bits. This is 32 bytes for Curve25519, and 56 bytes for Curve448.
+            This is a :math:`\lceil{m/8}\rceil`-byte string where :math:`m` is the key size in bits. This is 32 bytes for Curve25519, and 56 bytes for Curve448.
 
     *   -   Montgomery Elliptic curve public key
         -   :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(PSA_ECC_FAMILY_MONTGOMERY)`
 
-            The key data is the scalar value of the 'public key' in little-endian order as defined by :RFC-title:`7748#6`. This is a ``ceiling(m/8)``-byte string where ``m`` is the key size in bits.
+            The key data is the scalar value of the 'public key' in little-endian order as defined by :RFC-title:`7748#6`. This is a :math:`\lceil{m/8}\rceil`-byte string where :math:`m` is the key size in bits.
 
             *   This is 32 bytes for Curve25519, computed as ``X25519(private_key, 9)``.
             *   This is 56 bytes for Curve448, computed as ``X448(private_key, 5)``.
@@ -670,9 +670,9 @@ This section defines the format of the key data that an implementation is requir
     *   -   Finite-field Diffie-Hellman key pair
         -   :code:`PSA_KEY_TYPE_DH_KEY_PAIR(dh_family)` where ``dh_family`` designates any Diffie-Hellman family.
 
-            The key data is the representation of the private key ``x`` as a big-endian byte string. The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
+            The key data is the representation of the private key :math:`x` as a big-endian byte string. The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
 
     *   -   Finite-field Diffie-Hellman public key
         -   :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(dh_family)` where ``dh_family`` designates any Diffie-Hellman family.
 
-            The key data is the representation of the public key ``y = g^x mod p`` as a big-endian byte string. The length of the byte string is the length of the base prime ``p`` in bytes.
+            The key data is the representation of the public key :math:`y = g^x\!\mod p` as a big-endian byte string. The length of the byte string is the length of the base prime :math:`p` in bytes.
