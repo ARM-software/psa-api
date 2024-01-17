@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2023 Nordic Semiconductor ASA
+ * SPDX-FileCopyrightText: Copyright (c) 2023-24 Nordic Semiconductor ASA
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,9 +12,9 @@
 #include <psa/crypto.h>
 
 #define CMAC_KEY_LENGTH  (16)
-#define OTUPUT_LENGTH    (42)
+#define OUTPUT_LENGTH    (42)
 #define AES_BLOCK_SIZE    PSA_BLOCK_CIPHER_BLOCK_LENGTH(PSA_KEY_TYPE_AES)
-#define L_LENGTH 	(sizeof(uint32_t))
+#define L_LENGTH 	(4)
 
 /* 2^29 -1 */
 #define PSA_ALG_SP800_108_COUNTER_CMAC_INIT_CAPACITY (0x1fffffff)
@@ -29,16 +29,16 @@ static uint8_t m_input_hmac_key[] = {
 
 /* Label that identifies the purpose for the derived keying material */
 static uint8_t m_label[] = {"PSA_ALG_SP800_108_COUNTER Sample"};
-/* Don't include the NULL terminator in the length */
+/* Don't include the null terminator in the length */
 const size_t label_length = sizeof(m_label) - 1;
 
 /* Context containing the information related to the derived keying material */
 static uint8_t m_context[] = {"Sample key creation via SP 800-108r1 Counter mode"};
-/* Don't include the NULL terminator in the length */
+/* Don't include the null terminator in the length */
 const size_t context_length = sizeof(m_context) - 1;
 
 /* Buffer to hold the key generated from CMAC_CTR_KDF */
-static uint8_t m_output[OTUPUT_LENGTH] = {0};
+static uint8_t m_output[OUTPUT_LENGTH] = {0};
 
 static size_t min(size_t a, size_t b){
 	return a < b ? a : b;
@@ -46,7 +46,7 @@ static size_t min(size_t a, size_t b){
 
 static void print_hex(const uint8_t *out, const size_t out_length)
 {
-	printf("----------------------------------- len: %lu -----------------------------------\n",
+	printf("------------------- len: %lu -------------------\n",
 	       out_length);
 	printf("%02x ", out[0]);
 	for (size_t i = 1; i < out_length; i++) {
@@ -55,8 +55,8 @@ static void print_hex(const uint8_t *out, const size_t out_length)
 		}
 		printf("%02x ", out[i]);
 	}
-	printf("\n------------------------------------- end "
-	       "-------------------------------------\n");
+	printf("\n--------------------- end "
+	       "---------------------\n");
 }
 
 static void print_parameters(const uint8_t *key_buffer, const size_t key_buffer_length,
@@ -339,13 +339,13 @@ int main(void)
 	/* Do a SP800-108 counter HMAC kdf with SHA256 */
 	status = sp800_108_counter_hmac_kdf(
 		PSA_ALG_SHA_256, m_input_hmac_key, sizeof(m_input_hmac_key), m_label, label_length,
-		m_context, context_length, OTUPUT_LENGTH, m_output, sizeof(m_output));
+		m_context, context_length, OUTPUT_LENGTH, m_output, sizeof(m_output));
 	if (status != PSA_SUCCESS){
 		return EXIT_FAILURE;
 	}
 
 	print_parameters(m_input_hmac_key, sizeof(m_input_hmac_key), m_label, label_length,
-				m_context, context_length, OTUPUT_LENGTH);
+				m_context, context_length, OUTPUT_LENGTH);
 	printf("HMAC derived key:\n");
 	print_hex(m_output, sizeof(m_output));
 	printf("\n\n");
@@ -353,13 +353,13 @@ int main(void)
 
 	status = sp800_108_counter_hmac_kdf(PSA_ALG_SHA_256, m_input_hmac_key,
 					    sizeof(m_input_hmac_key), m_label, label_length,
-					    m_context, 0, OTUPUT_LENGTH, m_output, sizeof(m_output));
+					    m_context, 0, OUTPUT_LENGTH, m_output, sizeof(m_output));
 	if (status != PSA_SUCCESS){
 		return EXIT_FAILURE;
 	}
 
 	print_parameters(m_input_hmac_key, sizeof(m_input_hmac_key), m_label, label_length,
-				m_context, 0, OTUPUT_LENGTH);
+				m_context, 0, OUTPUT_LENGTH);
 	printf("HMAC without context derived key:\n");
 	print_hex(m_output, sizeof(m_output));
 	printf("\n\n");
@@ -367,7 +367,7 @@ int main(void)
 
 	/* Do a SP800-108 counter CMAC kdf */
 	status = sp800_108_counter_cmac_kdf(m_input_cmac_key, sizeof(m_input_cmac_key), m_label,
-					    label_length, m_context, context_length, OTUPUT_LENGTH,
+					    label_length, m_context, context_length, OUTPUT_LENGTH,
 					    m_output, sizeof(m_output));
 
 	if (status != PSA_SUCCESS){
@@ -375,14 +375,14 @@ int main(void)
 	}
 
 	print_parameters(m_input_cmac_key, sizeof(m_input_cmac_key), m_label, label_length,
-				m_context, context_length, OTUPUT_LENGTH);
+				m_context, context_length, OUTPUT_LENGTH);
 	printf("CMAC derived key:\n");
 	print_hex(m_output, sizeof(m_output));
 	printf("\n\n");
 
 
 	status = sp800_108_counter_cmac_kdf(m_input_cmac_key, sizeof(m_input_cmac_key), m_label,
-					    label_length, m_context, 0, OTUPUT_LENGTH, m_output,
+					    label_length, m_context, 0, OUTPUT_LENGTH, m_output,
 					    sizeof(m_output));
 
 	if (status != PSA_SUCCESS){
@@ -390,7 +390,7 @@ int main(void)
 	}
 
 	print_parameters(m_input_cmac_key, sizeof(m_input_cmac_key), m_label, label_length,
-				m_context, 0, OTUPUT_LENGTH);
+				m_context, 0, OUTPUT_LENGTH);
 	printf("CMAC without context derived key:\n");
 	print_hex(m_output, sizeof(m_output));
 	printf("\n\n");
