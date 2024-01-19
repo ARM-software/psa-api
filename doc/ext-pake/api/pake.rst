@@ -691,8 +691,7 @@ Multi-part PAKE operations
         *   The algorithm in ``cipher_suite`` is not a PAKE algorithm, or encodes an invalid hash algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not compatible with the PAKE algorithm.
         *   The key confirmation value in ``cipher_suite`` is not compatible with the PAKE algorithm and primitive.
-        *   The key type for ``password_key`` is not :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        *   ``password_key`` is not compatible with ``cipher_suite``.
+        *   The key type or key size of ``password_key`` is not compatible with ``cipher_suite``.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
