@@ -1790,8 +1790,6 @@ SPAKE2+ keys
                 edwards25519, 40
                 edwards448, 64
 
-            :issue:`I think these values are correct?`
-
         *   The calculation of :math:`w0`, :math:`w1`, and :math:`L` then proceeds as described in the RFC.
 
             .. admonition:: Implementation note
