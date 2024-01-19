@@ -758,9 +758,15 @@ Multi-part PAKE operations
         *   The operation state is not valid: it must be active, and `psa_pake_set_role()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
         *   The library requires initializing by a call to :code:`psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        ``role`` is not a valid PAKE role in the operation's algorithm.
+        The following conditions can result in this error:
+
+        *   ``role`` is not a valid PAKE role in the operation's algorithm.
+        *   ``role`` is not compatible with the operation's key type.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
+        The following conditions can result in this error:
+
+        *   ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
+        *   ``role`` is not supported with the operation's key type.
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
