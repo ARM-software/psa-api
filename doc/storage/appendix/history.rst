@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _document-history:
@@ -43,6 +43,6 @@ Document history
 
         Fixed inconsistent descriptions of :code:`PSA_ERROR_STORAGE_FAILURE` errors.
 
-    * - ?
+    * - 2024-01-22
       - *1.0.3 Rel*
       - Introduced a Security Risk Assessment. See :secref:`sra`.
