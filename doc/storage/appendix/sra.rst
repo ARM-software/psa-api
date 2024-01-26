@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2023-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _sra:
@@ -23,7 +23,7 @@ Subject and scope
 ^^^^^^^^^^^^^^^^^
 
 This SRA analyses the security of the |API| itself, and of the conceptual architectures for storage, not of any specific implementation of the API, or any specific use of the API.
-It does, however, divide implementations into four deployment models representing common implementation types, and looks at the different mitigations needed in each Deployment Model.
+It does, however, divide implementations into four deployment models representing common implementation types, and looks at the different mitigations needed in each deployment model.
 
 In this SRA:
 
@@ -191,7 +191,7 @@ Deployment models
    .. figure:: /figure/dm-protected.*
       :name: fig-protected
 
-      Trust boundaries in the Deployment Model `DM.PROTECTED`
+      Trust boundaries in the deployment model `DM.PROTECTED`
 
    The storage service is the arbitrator of access from different applications and manages all data accesses (write, update and deletion).
    Therefore, the storage service is responsible for the `SG.CONFIDENTIALITY`, `SG.INTEGRITY` and `SG.CURRENCY` goals of each caller, including maintaining confidentiality between different callers.
@@ -206,7 +206,7 @@ Deployment models
    .. figure:: /figure/dm-exposed.*
       :name: fig-exposed
 
-      Trust boundaries in the Deployment Model `DM.EXPOSED`
+      Trust boundaries in the deployment model `DM.EXPOSED`
 
    The storage service is the arbitrator of access from different applications and manages accesses that write, update, and delete data.
    Therefore, the storage service is responsible for the `SG.CONFIDENTIALITY`, `SG.INTEGRITY` and `SG.CURRENCY` goal with respect to preventing access by a different caller.
@@ -224,7 +224,7 @@ Deployment models
    .. figure:: /figure/dm-authorized.*
       :name: fig-authorized
 
-      Trust boundaries in the Deployment Model `DM.AUTHORIZED`
+      Trust boundaries in the deployment model `DM.AUTHORIZED`
 
    The storage service is the arbitrator of access from different applications and manages those data accesses (write, update and deletion).
    Therefore, the storage service is responsible for the `SG.CONFIDENTIALITY` goal with respect to preventing access by a different caller.
@@ -249,7 +249,7 @@ Deployment models
    .. figure:: /figure/dm-secure-link.*
       :name: fig-external-secure
 
-      Trust boundaries in the Deployment Model `DM.SECURE_LINK`
+      Trust boundaries in the deployment model `DM.SECURE_LINK`
 
    The storage service is the arbitrator of access from different applications and manages those data accesses (write, update and deletion).
    Therefore, the storage service is responsible for the `SG.CONFIDENTIALITY` goal with respect to preventing access by a different caller.
@@ -413,7 +413,7 @@ Threats
 -------
 
 Because |API| can be used in a wide range of deployment models and a wide range of threats, not all mitigating actions apply to all deployment models.
-As a result, various mitigations are optional to implement, depending on which threats exist in a particular domain of application, and which Deployment Model is used.
+As a result, various mitigations are optional to implement, depending on which threats exist in a particular domain of application, and which deployment model is used.
 
 :numref:`tab-sra-threats` summarizes the threats.
 
@@ -560,7 +560,7 @@ As a result, various mitigations are optional to implement, depending on which t
       If the secure channel is not rooted in the :term:`PRoT` then any adversary in the partition (`AM.1`), or with access to the partition (`AM.2`), in which the channel terminates will be able to eavesdrop on traffic leaving the :term:`PRoT` before it is encrypted.
       The secure channel must be rooted within the PRoT.
       However, the stored data does not need to be separately encrypted beyond the protection provided by the secure channel.
-      The private information required to establish the channel must be suitably protected by both the storage service and the Storage.
+      The private information required to establish the channel must be suitably protected by both the storage service and the storage medium.
 
       :mitigation:`UseSecurePartitions`.
       **Transfer** to the application: for all deployment models, place callers that handle sensitive data into separate partitions.
@@ -986,15 +986,19 @@ As a result, various mitigations are optional to implement, depending on which t
 
    .. mitigations::
       `M.MAC`.
-      **Transfer** to the implementation. 
-      In `DM.PROTECTED` and `DM.EXPOSED`, if the implementation applies a MAC, a subsequent read can detect that data had not been written correctly. However, MAC's are not error correcting, therefore the implementation can only mark the data as corrupt and the data is lost. 
-      
-      In `DM.AUTHORIZED` and `DM.SECURE_LINK` if the implementation relies on the channel to provide the MAC or tag, there is a brief time of check, time of use (TOCTOU) window, where the storage medium has verified the command but has not written the data to physical storage. If a glitch occurs in this window, and then a subsequent read occurs, the storage medium will apply a new tag to a reply containing corrupt data, and the storage service will not be aware that that data returned has been corrupted. However, if the Storage Service applies a MAC before submitting the command, it can detect, but not correct, this corruption. 
-      
+      **Transfer** to the implementation:
+
+      *  For `DM.PROTECTED` and `DM.EXPOSED`, if the implementation applies a MAC, a subsequent read can detect that data had not been written correctly.
+         However, MAC's are not error correcting, therefore the implementation can only mark the data as corrupt and the data is lost.
+
+      *  For `DM.AUTHORIZED` and `DM.SECURE_LINK`, if the implementation relies on the channel to provide the MAC or tag, there is a brief time of check, time of use (TOCTOU) window, where the storage medium has verified the command but has not written the data to physical storage.
+         If a glitch occurs in this window, and then a subsequent read occurs, the storage medium will apply a new tag to a reply containing corrupt data, and the storage service will not be aware that that data returned has been corrupted.
+         However, if the storage service applies a MAC before submitting the command, it can detect, but not correct, this corruption.
+
       :mitigation:`ErrorCorrectingCoding`.
-      **Transfer** to the implementation.  In all Deployment Models, if the Storage Medium uses Error Correcting Codes, it can detect and correct a certain number of incorrect bits in the data it reads back - at the expense of extra storage. If the Storage Medium does not offer ECC capability, the Storage Service could apply it and verify the coding in software, although this is generally less efficient than hardware. 
-            
-   
+      **Transfer** to the implementation: for all deployment models, if the storage medium uses error correcting codes (ECC), it can detect and correct a certain number of incorrect bits in the data it reads back --- at the expense of extra storage.
+      If the storage medium does not offer ECC capability, the storage service could apply it and verify the coding in software, although this is generally less efficient than hardware.
+
       `M.GlitchDetection`.
       **Transfer** to the implementation: for all deployment models, glitch detection can reduce the risk of a successful glitch.
 
@@ -1058,11 +1062,11 @@ These are also known as 'remediations'.
    *  -  `M.Encrypt`
       -  When using `DM.EXPOSED` or `DM.AUTHORIZED`, the storage service must encrypt data to be written to storage, and decrypt data read from storage, inside the isolated environment to ensure confidentiality.
       -  `T.EAVESDROPPING`, `T.MITM`, `T.DIRECT_READ`, `T.DIRECT_WRITE`
-      
+
    *  -  `M.ErrorCorrectingCoding`
-      -  In all deployments, to deter attacks based on glitching the power or clock, the implementation can implement Error Correcting Coding on stored data. 
+      -  In all deployments, to deter attacks based on glitching the power or clock, the implementation can implement error correcting coding on stored data.
       -  `T.GLITCH_WRITE`
-      
+
    *  -  `M.FullyQualifiedNames`
       -  In all deployments, the implementation must identify which caller each stored object belongs to and must refer to them internally by the combination of caller identity and name.
          Otherwise, it might return a stored object to the wrong caller.
@@ -1132,7 +1136,7 @@ Mitigations required by each deployment model
 
 :numref:`tab-sra-api-mitigations` summarizes the mitigations required in each deployment model.
 
-.. list-table:: Mitigations required by each Deployment Model
+.. list-table:: Mitigations required by each deployment model
    :name: tab-sra-api-mitigations
    :widths: 1 3
    :header-rows: 1
