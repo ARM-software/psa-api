@@ -4,7 +4,7 @@ description: The Secure Storage API supports data protection services on the dev
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -26,13 +26,15 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
-1.0.2 | [HTML][1-0-html] | [&darr; PDF][1-0-2-pdf] | March 2023
+1.0.3 | [HTML][1-0-html] | [&darr; PDF][1-0-3-pdf] | January 2024
+1.0.2 | | [&darr; PDF][1-0-2-pdf] | March 2023
 1.0.1 | | [&darr; PDF][1-0-1-pdf] | October 2022
 1.0.0 | | [&darr; PDF][1-0-0-pdf] | June 2019
 
 [1-0-html]:             1.0/
+[1-0-3-pdf]:            1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.3.pdf
 [1-0-2-pdf]:            1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.2.pdf
 [1-0-1-pdf]:            1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.1.pdf
 [1-0-0-pdf]:            1.0/IHI0087-PSA_Storage_API-1.0.0.pdf
 
-*Copyright 2022-2023, Arm Limited and/or its affiliates*
+*Copyright 2022-2024, Arm Limited and/or its affiliates*

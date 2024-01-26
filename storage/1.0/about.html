@@ -97,12 +97,17 @@
 <td><p>Non-confidential</p></td>
 <td><p>Documentation clarifications.</p></td>
 </tr>
+<tr class="row-even"><td><p>January 2024</p></td>
+<td><p>1.0.3</p></td>
+<td><p>Non-confidential</p></td>
+<td><p>Provide a Security Risk Assessment.</p></td>
+</tr>
 </tbody>
 </table>
 <p>The detailed changes in each release are described in <a class="reference internal" href="appendix/history.html#document-history"><span class="secref">Document history</span></a>.</p>
 </section>
 <p><span class="sectiontitle">PSA Certified Secure Storage API</span></p>
-<p>Copyright © 2018-2019, 2022-2023 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
+<p>Copyright © 2018-2019, 2022-2024 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
 draft issues of this document have been released, to a limited circulation.</p>
 <section id="license">
 <span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h2>
@@ -117,9 +122,9 @@ draft issues of this document have been released, to a limited circulation.</p>
 <li><p>Changes are made related to the defined terms, to align those defined terms with the terminology in CC BY-SA 4.0 rather than Apache 2.0 (for example, changing “Work” to “Licensed Material”).</p></li>
 <li><p>The scope of the defensive termination clause is changed from “any patent licenses granted to You” to “any licenses granted to You”. This change is intended to help maintain a healthy ecosystem by providing additional protection to the community against patent litigation claims.</p></li>
 </ol>
-<p>To view the full text of the Apache 2.0 license, visit <a class="reference external" href="https://apache.org/licenses/license-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
+<p>To view the full text of the Apache 2.0 license, visit <a class="reference external" href="https://apache.org/licenses/LICENSE-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
 <p><span class="sectiontitle">Source code</span></p>
-<p>Source code samples in this work are licensed under the Apache License, Version 2.0 (the “License”); you may not use such samples except in compliance with the License. You may obtain a copy of the License at <a class="reference external" href="https://apache.org/licenses/license-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
+<p>Source code samples in this work are licensed under the Apache License, Version 2.0 (the “License”); you may not use such samples except in compliance with the License. You may obtain a copy of the License at <a class="reference external" href="https://apache.org/licenses/LICENSE-2.0">apache.org/licenses/LICENSE-2.0</a>.</p>
 <p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</p>
 <p>See the License for the specific language governing permissions and limitations under the License.</p>
 </div>
@@ -153,9 +158,13 @@ draft issues of this document have been released, to a limited circulation.</p>
 <td><p>ARM IHI 0097</p></td>
 <td><p><em>PSA Certified Status code API</em>. <a class="reference external" href="https://arm-software.github.io/psa-api/status-code">arm-software.github.io/psa-api/status-code</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-psa-ff-m"></span>[PSA-FF-M]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-psa-ffm"></span>[PSA-FFM]</p></td>
 <td><p>ARM DEN 0063</p></td>
-<td><p><em>Arm® Platform Security Architecture Firmware Framework</em>. <a class="reference external" href="https://pages.arm.com/psa-apis">pages.arm.com/psa-apis</a></p></td>
+<td><p><em>Arm® Platform Security Architecture Firmware Framework</em>. <a class="reference external" href="https://developer.arm.com/documentation/den0063">developer.arm.com/documentation/den0063</a></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="target" id="cite-sp800-30"></span>[SP800-30]</p></td>
+<td></td>
+<td><p>NIST, <em>NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments</em>, September 2012. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-30r1">doi.org/10.6028/NIST.SP.800-30r1</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -284,7 +293,7 @@ a number.</p>
 <p>If you have comments on the content of this book, visit <a class="reference external" href="https://github.com/arm-software/psa-api/issues">github.com/arm-software/psa-api/issues</a> to create a new issue at the PSA Certified API GitHub project. Give:</p>
 <ul class="simple">
 <li><p>The title (Secure Storage API).</p></li>
-<li><p>The number and issue (IHI 0087 1.0.2).</p></li>
+<li><p>The number and issue (IHI 0087 1.0.3).</p></li>
 <li><p>The location in the document to which your comments apply.</p></li>
 <li><p>A concise explanation of your comments.</p></li>
 </ul>
@@ -305,8 +314,7 @@ a number.</p>
 <h3><a href="index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.2
-<span style="font-weight: bold;"></span>
+Version 1.0.3
 <hr />
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">About this document</a><ul>
@@ -329,7 +337,8 @@ Version 1.0.2
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="appendix/headers.html">A. Example header files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">B. Document history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">B. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">C. Document history</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="atg_c-identifiers.html">Index of API elements</a></li>
@@ -349,7 +358,7 @@ Version 1.0.2
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2024 Arm Limited and/or its affiliates.
       
     </div>
 

@@ -13,8 +13,8 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
 <link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
-<meta property="og:description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 2,, Confidentiality:, Non-confidential,, Date of Issue:, 23/03/2023,,,, Contents Ab..." />
-<meta name="description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 2,, Confidentiality:, Non-confidential,, Date of Issue:, 23/03/2023,,,, Contents Ab..." />
+<meta property="og:description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 3,, Confidentiality:, Non-confidential,, Date of Issue:, 22/01/2024,,,, Contents Ab..." />
+<meta name="description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 3,, Confidentiality:, Non-confidential,, Date of Issue:, 22/01/2024,,,, Contents Ab..." />
 
     <title>PSA Certified Secure Storage API 1.0 &#8212; PSA Certified Secure Storage API 1.0</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -64,13 +64,13 @@
 <td><p>Final</p></td>
 </tr>
 <tr class="row-odd"><td><p>Issue Number:</p></td>
-<td><p>2</p></td>
+<td><p>3</p></td>
 </tr>
 <tr class="row-even"><td><p>Confidentiality:</p></td>
 <td><p>Non-confidential</p></td>
 </tr>
 <tr class="row-odd"><td><p>Date of Issue:</p></td>
-<td><p>23/03/2023</p></td>
+<td><p>22/01/2024</p></td>
 </tr>
 </tbody>
 </table>
@@ -162,7 +162,46 @@
 <li class="toctree-l2"><a class="reference internal" href="appendix/headers.html#psa-protected-storage-h">A.3. psa/protected_storage.h</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">B. Document history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">B. Security Risk Assessment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#about-this-assessment">B.1. About this assessment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#subject-and-scope">B.1.1. Subject and scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#risk-assessment-methodology">B.1.2. Risk assessment methodology</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#feature-definition">B.2. Feature definition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#introduction">B.2.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#lifecycle">B.2.2. Lifecycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#operation-and-trust-boundaries">B.2.3. Operation and trust boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#deployment-models">B.2.4. Deployment models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#assumptions-constraints-and-interacting-entities">B.2.5. Assumptions, constraints, and interacting entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#stakeholders-and-assets">B.2.6. Stakeholders and Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#goals">B.2.7. Goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#adversarial-models">B.2.8. Adversarial models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#threats">B.3. Threats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-interface-abuse-illegal-inputs-to-the-api">B.3.1. <span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-spoof-read-use-the-api-to-read-another-caller-s-data">B.3.2. <span class="sradef">T.SPOOF_READ</span>: Use the API to read another caller’s data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-spoof-write-use-the-api-to-modify-another-caller-s-data">B.3.3. <span class="sradef">T.SPOOF_WRITE</span>: Use the API to modify another caller’s data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-eavesdropping-eavesdropping">B.3.4. <span class="sradef">T.EAVESDROPPING</span>: Eavesdropping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-mitm-man-in-the-middle">B.3.5. <span class="sradef">T.MITM</span>: Man In The Middle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-direct-read-bypassing-the-api-to-directly-read-data">B.3.6. <span class="sradef">T.DIRECT_READ</span>: Bypassing the API to directly read data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-direct-write-bypassing-the-api-to-directly-modify-data">B.3.7. <span class="sradef">T.DIRECT_WRITE</span>: Bypassing the API to directly modify data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-replace-physical-replacement-of-the-storage-medium">B.3.8. <span class="sradef">T.REPLACE</span>: Physical replacement of the storage medium</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-glitch-read-glitching-during-a-read">B.3.9. <span class="sradef">T.GLITCH_READ</span>: Glitching during a read</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-glitch-write-glitching-during-a-write">B.3.10. <span class="sradef">T.GLITCH_WRITE</span>: Glitching during a write</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#mitigation-summary">B.4. Mitigation Summary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#architecture-level-mitigations">B.4.1. Architecture level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#implementation-level-mitigations">B.4.2. Implementation-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#user-level-mitigations">B.4.3. User-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#mitigations-required-by-each-deployment-model">B.4.4. Mitigations required by each deployment model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">C. Document history</a></li>
 </ul>
 </div>
 </section>
@@ -180,8 +219,7 @@
 <h3><a href="#"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.2
-<span style="font-weight: bold;"></span>
+Version 1.0.3
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
@@ -195,7 +233,8 @@ Version 1.0.2
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="appendix/headers.html">A. Example header files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">B. Document history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">B. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">C. Document history</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="atg_c-identifiers.html">Index of API elements</a></li>
@@ -215,7 +254,7 @@ Version 1.0.2
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2024 Arm Limited and/or its affiliates.
       
     </div>
 
