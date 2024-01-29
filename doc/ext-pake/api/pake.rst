@@ -691,8 +691,7 @@ Multi-part PAKE operations
         *   The algorithm in ``cipher_suite`` is not a PAKE algorithm, or encodes an invalid hash algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not compatible with the PAKE algorithm.
         *   The key confirmation value in ``cipher_suite`` is not compatible with the PAKE algorithm and primitive.
-        *   The key type for ``password_key`` is not :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        *   ``password_key`` is not compatible with ``cipher_suite``.
+        *   The key type or key size of ``password_key`` is not compatible with ``cipher_suite``.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
@@ -759,9 +758,15 @@ Multi-part PAKE operations
         *   The operation state is not valid: it must be active, and `psa_pake_set_role()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
         *   The library requires initializing by a call to :code:`psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        ``role`` is not a valid PAKE role in the operation's algorithm.
+        The following conditions can result in this error:
+
+        *   ``role`` is not a valid PAKE role in the operation's algorithm.
+        *   ``role`` is not compatible with the operation's key type.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
+        The following conditions can result in this error:
+
+        *   ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
+        *   ``role`` is not supported with the operation's key type.
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
@@ -1222,7 +1227,7 @@ For example, the following code creates a cipher suite to select J-PAKE using P-
 
     psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
 
-    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE(PSA_ALG_SHA256));
+    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE(PSA_ALG_SHA_256));
     psa_pake_cs_set_primitive(&cipher_suite,
                               PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC,
                                                  PSA_ECC_FAMILY_SECP_R1, 256));
@@ -1351,7 +1356,7 @@ After setup, the key exchange flow for J-PAKE is as follows:
         psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
         psa_key_set_type(&att, PSA_KEY_TYPE_DERIVE);
         psa_key_set_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
-        psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA256));
+        psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
 
         // Get Ka=Kb=K
         psa_key_id_t shared_key;
@@ -1463,7 +1468,7 @@ For example, the following code creates a cipher suite to select SPAKE2+ using e
 
     psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
 
-    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_SPAKE2P_HMAC(PSA_ALG_SHA256));
+    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_SPAKE2P_HMAC(PSA_ALG_SHA_256));
     psa_pake_cs_set_primitive(&cipher_suite,
                               PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC,
                                                  PSA_ECC_FAMILY_TWISTED_EDWARDS, 255));
@@ -1538,7 +1543,7 @@ The following steps demonstrate the derivation of a SPAKE2+ key pair using PBKDF
 
     .. code-block:: xref
 
-        psa_key_derivation_setup(&pbkdf, PSA_ALG_PBKDF2_HMAC(PSA_ALG_SHA256));
+        psa_key_derivation_setup(&pbkdf, PSA_ALG_PBKDF2_HMAC(PSA_ALG_SHA_256));
         psa_key_derivation_input_key(&pbkdf, PSA_KEY_DERIVATION_INPUT_PASSWORD, password_key);
         psa_key_derivation_input_integer(&pbkdf, PSA_KEY_DERIVATION_INPUT_COST, pbkdf2_params.cost);
         psa_key_derivation_input_bytes(&pbkdf, PSA_KEY_DERIVATION_INPUT_SALT,
@@ -1714,7 +1719,7 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
         psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
         psa_key_set_type(&att, PSA_KEY_TYPE_DERIVE);
         psa_key_set_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
-        psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA256));
+        psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
 
         // Get K_shared
         psa_key_id_t shared_key;
@@ -1784,8 +1789,6 @@ SPAKE2+ keys
                 P-521, 74
                 edwards25519, 40
                 edwards448, 64
-
-            :issue:`I think these values are correct?`
 
         *   The calculation of :math:`w0`, :math:`w1`, and :math:`L` then proceeds as described in the RFC.
 
