@@ -1757,10 +1757,10 @@ SPAKE2+ keys
     .. param:: curve
         A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
 
-    The size of a SPAKE2+ key is the size associated with the Elliptic curve group, that is, :math:`\lceil{log_2(q)}\rceil` for a curve over a field :math:`\mathbb{F}_q`.
+    The bit size of a SPAKE2+ key is the size associated with the Elliptic curve group, that is, :math:`\lceil{log_2(q)}\rceil` for a curve over a field :math:`\mathbb{F}_q`.
     See the documentation of each Elliptic curve family for details.
 
-    To construct a SPAKE2+ key pair, it must be output from a key derivation operation.
+    To construct a SPAKE2+ key pair, it must either be output from a key derivation operation, or imported.
 
     The corresponding public key can be exported using :code:`psa_export_public_key()`.
     See also `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`.
@@ -1798,6 +1798,28 @@ SPAKE2+ keys
 
                 It is :scterm:`implementation defined` whether :math:`L` is computed during key derivation, and stored as part of the key pair; or only computed when required from the key pair.
 
+    .. subsection:: Key-pair format
+
+        A SPAKE2+ key pair can be exported and imported.
+
+        .. warning::
+
+            To create a new SPAKE2+ key pair, use :code:`psa_key_derivation_output_key()` as described in :secref:`spake2p-registration`.
+            This follows the recommended process described in :rfc:`9383`.
+
+            Do not call :code:`psa_import_key()` with data extracted from a key derivation operation using :code:`psa_key_derivation_output_bytes()`. If the data is not considered invalid by :code:`psa_import_key()`, this will result in a different, insecure key pair.
+
+        The key consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase.
+        :math:`w0` and :math:`w1` are scalars in the same range as an Elliptic curve private key from the group used as the SPAKE2+ primitive group.
+
+        For the |API|, the default format for a SPAKE2+ key pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for Elliptic curve keys used by the |API|.
+        For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
+
+        *   The P-256 private key :math:`w0`.
+            This is a 32-byte big-endian encoding of the integer :math:`w0`.
+        *   The P-256 private key :math:`w1`.
+            This is a 32-byte big-endian encoding of the integer :math:`w1`.
+
     .. subsection:: Compatible algorithms
 
         | `PSA_ALG_SPAKE2P_HMAC`
@@ -1823,16 +1845,16 @@ SPAKE2+ keys
         A SPAKE2+ public key can be exported and imported, to enable use cases that require offline registration.
 
         The public key consists of the two values :math:`w0` and :math:`L`, which result from the SPAKE2+ registration phase.
-        :math:`w0` is a scalar in the same range as a private Elliptic curve key from the group used as the SPAKE2+ primitive group.
+        :math:`w0` is a scalar in the same range as a Elliptic curve private key from the group used as the SPAKE2+ primitive group.
         :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
 
         For the |API|, the default format for a SPAKE2+ public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for Elliptic curve keys used by the |API|.
         For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
 
-        *   The 32-byte formatted value of the P-256 private key :math:`w0`.
-            This is a big-endian encoding of the integer :math:`w0`.
-        *   The 65-byte formatted value of the P-256 public key :math:`L`.
-            This is itself a concatenation of:
+        *   The P-256 private key :math:`w0`.
+            This is a 32-byte big-endian encoding of the integer :math:`w0`.
+        *   The P-256 public key :math:`L`.
+            This is a 65-byte concatenation of:
 
             -   The byte ``0x04``.
             -   The 32-byte big-endian encoding of the x-coordinate of :math:`L`.
