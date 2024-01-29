@@ -1,4 +1,4 @@
-' SPDX-FileCopyrightText: Copyright 2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-FileCopyrightText: Copyright 2023-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 ' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 @startuml
@@ -22,11 +22,11 @@
 
     Verifier -> Verifier: ""psa_pake_input()"" for //shareP//
     note left: Validate //shareP//
-    Verifier -> Verifier: ""psa_pake_output()"" for //shareV// = //Y// and //confirmV//
+    Verifier -> Verifier: ""psa_pake_output()"" for //shareV// = //Y//
+    note left: Generate key share //Y//
+    Verifier -> Verifier: ""psa_pake_output()"" for //confirmV//
     note left
-        Generate key share //Y//
-        Compute //K_shared//,
-        //confirmP'// and //confirmV//
+        Compute //K_shared//, //confirmP'// and //confirmV//
     end note
 
     Verifier ->> Prover: (//shareV//, //confirmV//)
@@ -34,24 +34,20 @@
     Prover -> Prover: ""psa_pake_input()"" for //shareV//
     note left: Validate //shareV//
 
-    Prover -> Prover: ""psa_pake_output()"" for //confirmP//
-    note left
-        Compute //K_shared//,
-        //confirmP// and //confirmV'//
-    end note
-    Prover ->> Verifier: (//confirmP//)
-
     Prover -> Prover: ""psa_pake_input()"" for //confirmV//
     note left
-        Verify that
-        //confirmV'// = //confirmV//
+        Compute //K_shared//,
+            //confirmP// and //confirmV'//
+        Verify //confirmV'// = //confirmV//
     end note
+    Prover -> Prover: ""psa_pake_output()"" for //confirmP//
+    Prover ->> Verifier: (//confirmP//)
+
     Prover -> Prover: ""psa_pake_get_shared_key()"" to extract //K_shared//
 
     Verifier -> Verifier: ""psa_pake_input()"" for //confirmP//
     note left
-        Verify that
-        //confirmP'// = //confirmP//
+        Verify //confirmP'// = //confirmP//
     end note
     Verifier -> Verifier: ""psa_pake_get_shared_key()"" to extract //K_shared//
 

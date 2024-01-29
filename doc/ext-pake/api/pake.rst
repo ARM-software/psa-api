@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Password-authenticated key exchange (PAKE)
@@ -1650,7 +1650,11 @@ The following steps demonstrate the application code for both Prover and Verifie
 Key exchange
 ^^^^^^^^^^^^
 
-After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
+After setup, the key exchange and confirmation flow for SPAKE2+ is as follows.
+
+.. note::
+
+    The sequence of calls for the Prover, and the sequence for the Verifier, must be in exactly this order.
 
 **Prover**
     To get the key share to send to the Verifier, call:
@@ -1661,7 +1665,7 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
         psa_pake_output(&spake2p_p, PSA_PAKE_STEP_KEY_SHARE, ...);
 
 **Verifier**
-    To provide and validate the Prover key share, call:
+    To provide and validate the key share received from the Prover, call:
 
     .. code-block:: xref
 
@@ -1679,7 +1683,7 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
         psa_pake_output(&spake2p_v, PSA_PAKE_STEP_CONFIRM, ...);
 
 **Prover**
-    To provide and validate the Verifier key share, and confirm the Verifier key, call:
+    To provide and validate the key share and verify the confirmation value received from the Verifier, call:
 
     .. code-block:: xref
 
@@ -1693,15 +1697,15 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
 
     .. code-block:: xref
 
-        // Get confirmV
+        // Get confirmP
         psa_pake_output(&spake2p_p, PSA_PAKE_STEP_CONFIRM, ...);
 
 **Verifier**
-    To confirm the Prover key, call:
+    To verify the confirmation value received from the Prover, call:
 
     .. code-block:: xref
 
-        // Set shareP
+        // Set confirmP
         psa_pake_input(&spake2p_v, PSA_PAKE_STEP_CONFIRM, ...);
 
 **Prover**
