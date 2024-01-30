@@ -11,7 +11,7 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
-Changes between *Beta 1* and *Beta 2*
+Changes between *Beta 1* and *Final*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 API changes

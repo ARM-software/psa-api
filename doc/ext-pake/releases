@@ -13,10 +13,12 @@
 
     Relicensed as open source under CC BY-SA 4.0.
 
-.. release:: Beta 2
-    :date: January 2024
+.. release:: Final
+    :date: February 2024
     :confidentiality: Non-confidential
 
     Add support for the SPAKE2+ protocol.
 
     Rework the API to support augmented PAKE protocols, improve ease of use and implementation.
+
+    API status is now Final/Release.

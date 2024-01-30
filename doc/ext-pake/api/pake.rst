@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Password-authenticated key exchange (PAKE)
@@ -6,10 +6,7 @@ Password-authenticated key exchange (PAKE)
 
 .. note::
 
-    This is a proposed PAKE interface for :cite-title:`PSA-CRYPT`.
-    It is not part of the official |API| yet.
-
-    The content of this specification is not part of the stable |API| and may change substantially from version to version.
+    The API defined in this specification will be integrated into a future version of :cite:`PSA-CRYPT`.
 
 This chapter is divided into the following sections:
 
@@ -37,7 +34,7 @@ Common API for PAKE
     :license: Apache-2.0
 
     /* This file contains reference definitions for implementation of the
-     * PSA Certified Crypto API v1.2 PAKE Extension beta.2
+     * PSA Certified Crypto API v1.2 PAKE Extension
      *
      * These definitions must be embedded in, or included by, psa/crypto.h
      */
