@@ -339,13 +339,13 @@ Key derivation algorithms
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the shared secret :math:`K` from EC J-PAKE. For secp256r1, the input is exactly 65 bytes.
 
-        The input can be supplied to the key derivation operation by calling :code:`psa_pake_get_implicit_key()`, part of the PAKE extension API defined in :cite:`PSA-PAKE`.
+        The shared secret can be obtained by calling :code:`pake_get_shared_key()` on a PAKE operation that is performing the EC J-PAKE algorithm. These are defined in the PAKE extension API, see :cite:`PSA-PAKE`.
 
     The 32-byte output has to be read in a single call to either `psa_key_derivation_output_bytes()` or `psa_key_derivation_output_key()`. The size of the output is defined as `PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE`.
 
     .. subsection:: Compatible key types
 
-        None --- the secret input is extracted from a PAKE operation by calling :code:`psa_pake_get_implicit_key()`.
+        | `PSA_KEY_TYPE_DERIVE` --- the secret key is extracted from a PAKE operation by calling :code:`psa_pake_get_shared_key()`.
 
 .. macro:: PSA_ALG_PBKDF2_HMAC
     :definition: /* specification-defined value */
