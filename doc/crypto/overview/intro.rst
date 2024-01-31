@@ -26,7 +26,7 @@ This document includes:
 *   General considerations for implementers of this specification, and for applications that use the interface defined in this specification. See :secref:`implementation-considerations` and :secref:`usage-considerations`.
 *   A detailed definition of the API. See :secref:`library-management`, :secref:`key-management`, and :secref:`crypto-operations`.
 
-:cite-title:`PSA-PAKE` is a companion document for version |docversion| of this specification. :cite:`PSA-PAKE` defines an API for Password Authenticated Key Establishment (PAKE) algorithms. The PAKE API is now at FINAL status, and the it will be included in a future version of the |API| specification.
+:cite-title:`PSA-PAKE` is a companion document for version |docversion| of this specification. :cite:`PSA-PAKE` defines an API for Password Authenticated Key Establishment (PAKE) algorithms. The PAKE API is now at FINAL status, and will be included in a future version of the |API| specification.
 
 In future, other companion documents will define *profiles* for this specification. A profile is
 a minimum mandatory subset of the interface that a compliant implementation must
