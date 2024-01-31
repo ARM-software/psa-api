@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Password-authenticated key exchange (PAKE)
@@ -1268,8 +1268,7 @@ J-PAKE does not assign roles to the participants, so it is not necessary to call
 J-PAKE requires both an application and a peer identity.
 If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
 
-The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`.
-The input and output steps must be carried out in exactly the same sequence as shown.
+The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`. The code flow for the 'Peer' is the same as for 'User', as J-PAKE is a balanced PAKE.
 
 1.  To prepare a J-PAKE operation, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
 
@@ -1292,61 +1291,69 @@ Key exchange
 
 After setup, the key exchange flow for J-PAKE is as follows:
 
-2.  To get the first round data that needs to be sent to the peer, call:
+2.  Round one.
 
-    .. code-block:: xref
+    The application can either extract the round one output values first, and then provide the round one inputs that are received from the Peer; or provide the peer inputs first, and then extract the outputs.
 
-        // Get g1
-        psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-        // Get V1, the ZKP public key for x1
-        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-        // Get r1, the ZKP proof for x1
-        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-        // Get g2
-        psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-        // Get V2, the ZKP public key for x2
-        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-        // Get r2, the ZKP proof for x2
-        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+    *   To get the first round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
 
-#.  To provide the first round data received from the peer to the operation, call:
+        .. code-block:: xref
 
-    .. code-block:: xref
+            // Get g1
+            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Get V1, the ZKP public key for x1
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Get r1, the ZKP proof for x1
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+            // Get g2
+            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Get V2, the ZKP public key for x2
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Get r2, the ZKP proof for x2
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-        // Set g3
-        psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-        // Set V3, the ZKP public key for x3
-        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-        // Set r3, the ZKP proof for x3
-        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-        // Set g4
-        psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-        // Set V4, the ZKP public key for x4
-        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-        // Set r4, the ZKP proof for x4
-        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+    *   To provide the first round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
 
-#.  To get the second round data that needs to be sent to the peer, call:
+        .. code-block:: xref
 
-    .. code-block:: xref
+            // Set g3
+            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Set V3, the ZKP public key for x3
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Set r3, the ZKP proof for x3
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+            // Set g4
+            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Set V4, the ZKP public key for x4
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Set r4, the ZKP proof for x4
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-        // Get A
-        psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-        // Get V5, the ZKP public key for x2*s
-        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-        // Get r5, the ZKP proof for x2*s
-        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+#.  Round two.
 
-#.  To provide the second round data received from the peer to the operation call:
+    The application can either extract the round two output values first, and then provide the round two inputs that are received from the Peer; or provide the peer inputs first, and then extract the outputs.
 
-    .. code-block:: xref
+    *   To get the second round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
 
-        // Set B
-        psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-        // Set V6, the ZKP public key for x4*s
-        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-        // Set r6, the ZKP proof for x4*s
-        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+        .. code-block:: xref
+
+            // Get A
+            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Get V5, the ZKP public key for x2*s
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Get r5, the ZKP proof for x2*s
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+
+    *   To provide the second round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
+
+        .. code-block:: xref
+
+            // Set B
+            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Set V6, the ZKP public key for x4*s
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Set r6, the ZKP proof for x4*s
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
 #.  To use the shared secret, extract it as a key-derivation key. For example, to extract a derivation key for HKDF-SHA-256:
 
@@ -1655,7 +1662,11 @@ The following steps demonstrate the application code for both Prover and Verifie
 Key exchange
 ^^^^^^^^^^^^
 
-After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
+After setup, the key exchange and confirmation flow for SPAKE2+ is as follows.
+
+.. note::
+
+    The sequence of calls for the Prover, and the sequence for the Verifier, must be in exactly this order.
 
 **Prover**
     To get the key share to send to the Verifier, call:
@@ -1666,7 +1677,7 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
         psa_pake_output(&spake2p_p, PSA_PAKE_STEP_KEY_SHARE, ...);
 
 **Verifier**
-    To provide and validate the Prover key share, call:
+    To provide and validate the key share received from the Prover, call:
 
     .. code-block:: xref
 
@@ -1684,7 +1695,7 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
         psa_pake_output(&spake2p_v, PSA_PAKE_STEP_CONFIRM, ...);
 
 **Prover**
-    To provide and validate the Verifier key share, and confirm the Verifier key, call:
+    To provide and validate the key share and verify the confirmation value received from the Verifier, call:
 
     .. code-block:: xref
 
@@ -1698,15 +1709,15 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows:
 
     .. code-block:: xref
 
-        // Get confirmV
+        // Get confirmP
         psa_pake_output(&spake2p_p, PSA_PAKE_STEP_CONFIRM, ...);
 
 **Verifier**
-    To confirm the Prover key, call:
+    To verify the confirmation value received from the Prover, call:
 
     .. code-block:: xref
 
-        // Set shareP
+        // Set confirmP
         psa_pake_input(&spake2p_v, PSA_PAKE_STEP_CONFIRM, ...);
 
 **Prover**
