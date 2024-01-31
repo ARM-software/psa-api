@@ -6,12 +6,11 @@
 Algorithm and key type encoding
 ===============================
 
-These are encodings for a proposed PAKE interface for :cite-title:`PSA-CRYPT`.
-It is not part of the official |API| yet.
+These are encodings for a PAKE interface for :cite-title:`PSA-CRYPT`.
 
 .. note::
 
-    The content of this specification is not part of the stable |API| and may change substantially from version to version.
+    These encodings will be integrated into a future version of :cite:`PSA-CRYPT`.
 
 Algorithm encoding
 ------------------
