@@ -36,7 +36,7 @@
     Documentation clarifications.
 
 .. release:: 1.0.3
-    :date: August 2023
+    :date: January 2024
     :confidentiality: Non-confidential
 
     Added draft SRA.
