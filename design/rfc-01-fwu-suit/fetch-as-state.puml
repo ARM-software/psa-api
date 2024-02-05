@@ -1,0 +1,45 @@
+' SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+!include atg-spec.pumh
+
+'title SUIT update : Payload fetch as a Service state
+
+participant "Update server" as server
+participant "Update client" as client
+participant "Update service" as service
+
+autoactivate on
+activate client
+
+client -> service #ddd: ""psa_fwu_start(envelope_id)""
+note left: Transfer the SUIT envelope
+return
+client -> service #ddd: ""psa_fwu_write(envelope_id, ...)""
+return
+client -> service #ddd: ""psa_fwu_finish(envelope_id)""
+loop while need payload
+    return ""PSA_FWU_PAYLOAD_REQUIRED""
+    client -> service #ddd: ""psa_fwu_payload(envelope_id)""
+    note left: Get payload information
+    return
+    server <<- client: Fetch payload
+    client -> service #ddd: ""psa_fwu_start(payload_id)""
+    return
+autoactivate off
+    server -->> client: Download payload
+autoactivate on
+    client -> service #ddd: ""psa_fwu_write(payload_id, ...)""
+    return
+    server -->> client: Download payload
+    client -> service #ddd: ""psa_fwu_write(payload_id, ...)""
+    return
+    client -> service #ddd: ""psa_fwu_finish(payload_id)""
+end
+client <-- service: Manifest processing complete
+client -> service #ddd: ""psa_fwu_install()""
+return
+... etc ...
+@enduml
