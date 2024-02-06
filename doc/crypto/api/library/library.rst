@@ -14,7 +14,7 @@
     :include: psa/error.h
 
     /* This file is a reference template for implementation of the
-     * PSA Certified Crypto API v1.2
+     * PSA Certified Crypto API v1.3
      */
 
 
