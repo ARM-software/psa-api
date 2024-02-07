@@ -805,7 +805,55 @@ These definitions must be defined in the header file :file:`psa/protected_storag
    A caller may delete a `uid` with ``psa_ps_remove(uid)`` without invalidating the iteration context, provided the `uid` does *NOT* match the filter. However, if the `uid` matches the filter then any later call to `psa_ps_iterator_next()` fails with `PSA_ERROR_DATA_CORRUPT`.
    
    A caller may call `psa_ps_rename(uid, uid_new)` without invalidating the iteration context, provided the `uid` does *NOT* match the filter, as this is equivalent to calling `psa_ps_remove(uid)`. However, if the `uid` matches the filter then any later call to `psa_ps_iterator_next()` fails with `PSA_ERROR_DATA_CORRUPT`.
+
+   The following code snippet uses a linked list to store the matching files before iterating over that list and removing them. 
    
+   .. code-block:: c
+   
+      my_context = NULL
+      my_filter = 0x1111 0000 0000 0000
+      my_length = 0x0020
+      my_result = NULL
+      // define a linked list 
+      typedef struct node {
+          int val;
+          struct node * next;
+      } node_t;
+      // instantiate the head
+      node_t * head = NULL;
+      head = (node_t *) malloc(sizeof(node_t));
+      // and a current item
+      node_t * current = head;
+      if psa_ps_iterator_start(my_context, my_filter, my-length, my_result) == PSA_SUCCESS 
+      	{
+      	do 	
+      	   {
+      	   	current->next = (node_t *) malloc(sizeof(node_t));
+            current->next->val = my_result;
+            current->next->next = NULL;
+      	    psa_ps_iterator_next(my_context, my_result)
+      	    // we will get an does not exist error when we reach the last item, any other error is a storage fialure 
+      	    if my_reult <> PSA_ERROR_DOES_NOT_EXIST 
+      	   	  {
+      	   	  	/* deal with storage failure */
+      	   	  }
+      	   }
+        while my_result == PSA_SUCCES ;
+        }
+      else { /* error handling */}   
+      // we got here so there cannot have been an error and we have the full list. 
+      // now we can iterate over the list and delete the file and throw away the list item
+      node_t * current = head;
+      while (current != NULL) 
+         {
+         	psa_ps_remove(current-> val)
+         	head = current
+          current = current->next;
+          free(head)
+        }
+      };
+
+	   
 
 .. function:: psa_ps_iterator_next
 
@@ -824,6 +872,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
    .. retval:: PSA_SUCCESS
        The operation completed successfully.
+
    .. retval:: PSA_ERROR_DOES_NOT_EXIST
        The iterator has returned all the uids that match this iteration.
        
