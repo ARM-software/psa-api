@@ -670,3 +670,36 @@ This section defines the format of the key data that an implementation is requir
         -   :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(dh_family)` where ``dh_family`` designates any Diffie-Hellman family.
 
             The key data is the representation of the public key :math:`y = g^x\!\mod p` as a big-endian byte string. The length of the byte string is the length of the base prime :math:`p` in bytes.
+
+    *   -   SPAKE2+ key pair
+        -   :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(ecc_family)` where ``ecc_family`` designates an elliptic curve family.
+
+            The key consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
+            :math:`w0` and :math:`w1` are scalars in the same range as an elliptic curve private key from the group used as the SPAKE2+ primitive group.
+
+            For the |API|, the default format for a SPAKE2+ key pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
+            For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
+
+            *   The P-256 private key :math:`w0`.
+                This is a 32-byte big-endian encoding of the integer :math:`w0`.
+            *   The P-256 private key :math:`w1`.
+                This is a 32-byte big-endian encoding of the integer :math:`w1`.
+
+    *   -   SPAKE2+ public key
+        -   :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(ecc_family)` where ``ecc_family`` designates an elliptic curve family.
+
+            The public key consists of the two values :math:`w0` and :math:`L`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
+            :math:`w0` is a scalar in the same range as a elliptic curve private key from the group used as the SPAKE2+ primitive group.
+            :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
+
+            For the |API|, the default format for a SPAKE2+ public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for elliptic curve keys used by the |API|.
+            For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
+
+            *   The P-256 private key :math:`w0`.
+                This is a 32-byte big-endian encoding of the integer :math:`w0`.
+            *   The P-256 public key :math:`L`.
+                This is a 65-byte concatenation of:
+
+                -   The byte ``0x04``.
+                -   The 32-byte big-endian encoding of the x-coordinate of :math:`L`.
+                -   The 32-byte big-endian encoding of the y-coordinate of :math:`L`.

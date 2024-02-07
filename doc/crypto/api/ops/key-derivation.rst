@@ -331,7 +331,7 @@ Key derivation algorithms
     .. summary::
         The TLS 1.2 ECJPAKE-to-PMS key-derivation algorithm.
 
-    This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using the extension to the |API| defined in :cite-title:`PSA-PAKE`.
+    This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using a PAKE operation, see :secref:`pake`.
 
     This KDF takes the shared secret :math:`K`` (an uncompressed EC point in case of EC J-PAKE) and calculates :math:`\text{SHA256}(K.x)`.
 
@@ -339,7 +339,7 @@ Key derivation algorithms
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the shared secret :math:`K` from EC J-PAKE. For secp256r1, the input is exactly 65 bytes.
 
-        The shared secret can be obtained by calling :code:`psa_pake_get_shared_key()` on a PAKE operation that is performing the EC J-PAKE algorithm. These are defined in the PAKE extension API, see :cite:`PSA-PAKE`.
+        The shared secret can be obtained by calling :code:`psa_pake_get_shared_key()` on a PAKE operation that is performing the EC J-PAKE algorithm. See :secref:`pake`.
 
     The 32-byte output has to be read in a single call to either `psa_key_derivation_output_bytes()` or `psa_key_derivation_output_key()`. The size of the output is defined as `PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE`.
 
@@ -1021,6 +1021,29 @@ Key derivation functions
 
                 *   Curve25519 (`PSA_ECC_FAMILY_MONTGOMERY`, 255 bits): draw a 32-byte string and process it as specified in :RFC-title:`7748#5`.
                 *   Curve448 (`PSA_ECC_FAMILY_MONTGOMERY`, 448 bits): draw a 56-byte string and process it as specified in :RFC:`7748#5`.
+
+        *   -   SPAKE2+ key pairs
+            -   :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(ecc_family)` where ``ecc_family`` designates an elliptic curve family.
+
+                The SPAKE2+ key derivation process follows the recommendations for the registration process in :rfc-title:`9383`, and matches the specification of this process in :cite-title:`MATTER`.
+
+                The derivation of SPAKE2+ keys extracts :math:`\lceil{log_2(p)/8}\rceil+8` bytes from the PBKDF for each of :math:`w0s` and :math:`w1s`, where :math:`p` is the prime factor of the order of the elliptic curve group.
+                The following sizes are used for extracting :math:`w0s` and :math:`w1s`, depending on the elliptic curve:
+
+                *   P-256: 40 bytes
+                *   P-384: 56 bytes
+                *   P-521: 74 bytes
+                *   edwards25519: 40 bytes
+                *   edwards448: 64 bytes
+
+                The calculation of :math:`w0`, :math:`w1`, and :math:`L` then proceeds as described in :rfc:`9383`.
+
+                .. admonition:: Implementation note
+
+                    The values of :math:`w0` and :math:`w1` are required as part of the SPAKE2+ key pair.
+
+                    It is :scterm:`implementation defined` whether :math:`L` is computed during key derivation, and stored as part of the key pair; or only computed when required from the key pair.
+
 
         *   -   *Other key types*
             -   This includes `PSA_KEY_TYPE_RSA_KEY_PAIR`.
