@@ -40,7 +40,7 @@ Crypto API | PAKE | 1.1 Beta | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [All
 [crypto-html]:       crypto/1.1/
 [crypto-pdf]:        crypto/1.1/IHI0086-PSA_Certified_Crypto_API-1.1.2.pdf
 [storage-html]:      storage/1.0/
-[storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.2.pdf
+[storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.3.pdf
 [attestation-html]:  attestation/1.0/
 [attestation-pdf]:   attestation/1.0/IHI0085-PSA_Certified_Attestation_API-1.0.3.pdf
 [fwu-html]:          fwu/1.0/

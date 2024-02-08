@@ -96,7 +96,7 @@
 <section id="uids">
 <h2><span class="section-number">2.5. </span>UIDs<a class="headerlink" href="#uids" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">uids</span></code> in the Secure Storage API are defined as <code class="docutils literal notranslate"><span class="pre">uint64_t</span></code>. This is expected to be larger than would be used on any system. This large namespace is chosen to allow a <a class="reference internal" href="../about.html#term-root-of-trust-service"><span class="term">Root of Trust Service</span></a> to easily manage assets on behalf of other services.</p>
-<p>For example, consider a cryptography service running as a RoT Service. When a service running in a <a class="reference internal" href="../about.html#term-secure-partition"><span class="term">Secure Partition</span></a> requests key storage from the cryptography service, the cryptography service can concatenate a numerical identity of the requesting partition (for example, a <code class="docutils literal notranslate"><span class="pre">int32_t</span></code> in the <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ff-m"><span class="cite">[PSA-FF-M]</span></a></span>) with the key identifier (for example, a <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> in the <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="../about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span>) to generate the <code class="docutils literal notranslate"><span class="pre">uid</span></code> of the Internal Trusted Storage entry for the key. This allows the cryptography service to easily manage isolation between the key namespaces of its various clients.</p>
+<p>For example, consider a cryptography service running as a RoT Service. When a service running in a <a class="reference internal" href="../about.html#term-secure-partition"><span class="term">Secure Partition</span></a> requests key storage from the cryptography service, the cryptography service can concatenate a numerical identity of the requesting partition (for example, a <code class="docutils literal notranslate"><span class="pre">int32_t</span></code> in the <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>) with the key identifier (for example, a <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> in the <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="../about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span>) to generate the <code class="docutils literal notranslate"><span class="pre">uid</span></code> of the Internal Trusted Storage entry for the key. This allows the cryptography service to easily manage isolation between the key namespaces of its various clients.</p>
 <p>Requirements for <code class="docutils literal notranslate"><span class="pre">uid</span></code>:</p>
 <ul class="simple">
 <li><p>The value zero (<code class="docutils literal notranslate"><span class="pre">0</span></code>) is reserved, and will result in an error if passed to any of the Secure Storage API functions.</p></li>
@@ -179,8 +179,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.2
-<span style="font-weight: bold;"></span>
+Version 1.0.3
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -203,7 +202,8 @@ Version 1.0.2
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../appendix/headers.html">A. Example header files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">B. Document history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/sra.html">B. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">C. Document history</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
@@ -223,7 +223,7 @@ Version 1.0.2
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2024 Arm Limited and/or its affiliates.
       
     </div>
 

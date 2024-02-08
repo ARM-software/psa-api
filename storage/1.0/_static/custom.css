@@ -12,16 +12,21 @@ div.document {
 }
 
 div.bodywrapper {
-    margin: 0 0 0 180px;
+    margin: 0 0 0 240px;
 }
 
 div.body {
     background-color: unset;
+    padding: 0;
 }
 
 div.sphinxsidebar {
-    width: 180px;
+    width: 210px;
     font-size: 12.5px;
+}
+
+div.sphinxsidebarwrapper {
+    padding: 0;
 }
 
 div.footer {
@@ -98,6 +103,18 @@ pre {
     padding: 7px 10px;
     margin: 15px 0px 15px 15px;
     line-height: 1.3em;
+}
+
+sub {
+    font-size: 70%;
+    vertical-align: -10%;
+    font-weight: bold;
+}
+
+super {
+    font-size: 70%;
+    vertical-align: 25%;
+    font-weight: bold;
 }
 
 /* Default table formatting is like 'booktabs', 'standard' formatting can
@@ -214,7 +231,7 @@ figure {
 }
 
 div.figure div.legend, figcaption div.legend {
-    font-size: 80%;
+    font-size: 90%;     /* adds to the figcaption scaling */
     text-align: center;
 }
 
@@ -328,8 +345,17 @@ div.license p.sectiontitle {
     font-size: 180%;
 }
 
-.sradef, .sraref, .sralabel {
+.sralabel {
     font-weight: bold;
+}
+
+.sradef {
+    font-weight: bold;
+    font-size: 90%;
+}
+
+.sraref {
+    font-size: 90%;
 }
 
 img.titlelogo {

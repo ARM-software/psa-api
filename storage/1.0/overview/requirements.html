@@ -88,7 +88,7 @@
 <li><p>The <a class="reference internal" href="../api/api.html#c.PSA_STORAGE_FLAG_WRITE_ONCE" title="PSA_STORAGE_FLAG_WRITE_ONCE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code></a> must be enforced when the Root of Trust Lifecycle state of the device is <code class="docutils literal notranslate"><span class="pre">SECURED</span></code>  or <code class="docutils literal notranslate"><span class="pre">NON_PSA_ROT_DEBUG</span></code>. It must not be enforced when the device is in the <code class="docutils literal notranslate"><span class="pre">PSA_ROT_PROVISIONING</span></code> state.</p></li>
 <li><p>The creation of a <code class="docutils literal notranslate"><span class="pre">uid</span></code> with value <code class="docutils literal notranslate"><span class="pre">0</span></code> (zero) must be treated as an error.</p></li>
 </ol>
-<p>The lifecycle states are described in <span><em>Platform Security Model</em> <a class="reference internal" href="../about.html#cite-psm"><span class="cite">[PSM]</span></a></span> and <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ff-m"><span class="cite">[PSA-FF-M]</span></a></span>.</p>
+<p>The lifecycle states are described in <span><em>Platform Security Model</em> <a class="reference internal" href="../about.html#cite-psm"><span class="cite">[PSM]</span></a></span> and <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
 </section>
 </section>
 
@@ -105,8 +105,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
 IHI 0087<br/>
 Non-confidential<br/>
-Version 1.0.2
-<span style="font-weight: bold;"></span>
+Version 1.0.3
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -124,7 +123,8 @@ Version 1.0.2
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../appendix/headers.html">A. Example header files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">B. Document history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/sra.html">B. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">C. Document history</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
@@ -144,7 +144,7 @@ Version 1.0.2
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; 2018-2019, 2022-2023 Arm Limited and/or its affiliates.
+      &copy; 2018-2019, 2022-2024 Arm Limited and/or its affiliates.
       
     </div>
 
