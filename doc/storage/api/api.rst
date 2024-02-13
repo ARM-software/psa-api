@@ -798,13 +798,15 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
    A caller may initialize multiple iteration contexts at the same time. Each iteration shall be independent. Calling ``psa_ps_iterator_next()`` on one iterator MUST not effect any other open iteration. 
    
+   An iterator MUST return all data objects whose `uid` matches the filter that are extant when the filter was created, unless these are deleted or renamed before the iteration would return them, or the caller stops before all matching objects have been returned. 
+   
+   A caller may delete a `uid` with ``psa_ps_remove(uid)`` without invalidating the iteration context. the iterator MUST never return a `uid` that has been deleted. However, if the caller is multi-threaded it ia possible another thread may delete a `uid`. 
+   
    A caller may read the contents of any `uid` with ``psa_ps_get()`` or write with ``psa_ps_set()`` or ``psa_ps_set_extended()`` without invalidating the iteration context. 
 
-   A caller may create a `uid` with ``psa_ps_set()`` or ``psa_ps_create()`` without invalidating the iteration context, provided the `uid` does *NOT* match the filter. However, if the `uid` matches the filter then any later call to `psa_ps_iterator_next()` fails with `PSA_ERROR_DATA_CORRUPT`.
+   A caller may create a `uid` with ``psa_ps_set()`` or ``psa_ps_create()`` without invalidating the iteration context. However, the iterator is NOT guaranteed to return the new object, `uid`, the behaviour is dependent on both implementation and identity. In particular, the iterator is not expected to return `uid` if the iteration is already past the point at which it would naturally be returned. 
    
-   A caller may delete a `uid` with ``psa_ps_remove(uid)`` without invalidating the iteration context, provided the `uid` does *NOT* match the filter. However, if the `uid` matches the filter then any later call to `psa_ps_iterator_next()` fails with `PSA_ERROR_DATA_CORRUPT`.
-   
-   A caller may call `psa_ps_rename(uid, uid_new)` without invalidating the iteration context, provided the `uid` does *NOT* match the filter, as this is equivalent to calling `psa_ps_remove(uid)`. However, if the `uid` matches the filter then any later call to `psa_ps_iterator_next()` fails with `PSA_ERROR_DATA_CORRUPT`.
+   A caller may call `psa_ps_rename(uid, uid_new)` without invalidating the iteration context. The iterator must not return `uid`. The iterator is not guaranteed to return `uid_new`, the behaviour is dependent on both implementation and identity.  
 
    The following code snippet uses a linked list to store the matching files before iterating over that list and removing them. 
    
@@ -814,23 +816,11 @@ These definitions must be defined in the header file :file:`psa/protected_storag
       my_filter = 0x1111 0000 0000 0000
       my_length = 0x0020
       my_result = NULL
-      // define a linked list 
-      typedef struct node {
-          int val;
-          struct node * next;
-      } node_t;
-      // instantiate the head
-      node_t * head = NULL;
-      head = (node_t *) malloc(sizeof(node_t));
-      // and a current item
-      node_t * current = head;
       if psa_ps_iterator_start(my_context, my_filter, my-length, my_result) == PSA_SUCCESS 
       	{
       	do 	
       	   {
-      	   	current->next = (node_t *) malloc(sizeof(node_t));
-            current->next->val = my_result;
-            current->next->next = NULL;
+      	   	// do something with my_result
       	    psa_ps_iterator_next(my_context, my_result)
       	    // we will get an does not exist error when we reach the last item, any other error is a storage fialure 
       	    if my_reult <> PSA_ERROR_DOES_NOT_EXIST 
@@ -839,19 +829,8 @@ These definitions must be defined in the header file :file:`psa/protected_storag
       	   	  }
       	   }
         while my_result == PSA_SUCCES ;
-        }
-      else { /* error handling */}   
-      // we got here so there cannot have been an error and we have the full list. 
-      // now we can iterate over the list and delete the file and throw away the list item
-      node_t * current = head;
-      while (current != NULL) 
-         {
-         	psa_ps_remove(current-> val)
-         	head = current
-          current = current->next;
-          free(head)
-        }
-      };
+        };
+
 
 	   
 
