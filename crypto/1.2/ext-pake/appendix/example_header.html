@@ -1,0 +1,223 @@
+---
+---
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="1. Example header file" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
+<meta property="og:site_name" content="PSA Certified Crypto API 1.2 PAKE Extension" />
+<meta property="og:description" content="The API elements in this specification, once finalized, will be defined in psa/crypto.h. This is an example of the header file definition of the PAKE API elements. This can be used as a starting po..." />
+<meta name="description" content="The API elements in this specification, once finalized, will be defined in psa/crypto.h. This is an example of the header file definition of the PAKE API elements. This can be used as a starting po..." />
+
+    <title>1. Example header file &#8212; PSA Certified Crypto API 1.2 PAKE Extension</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Example macro implementations" href="specdef_values.html" />
+    <link rel="prev" title="3. Algorithm and key type encoding" href="../api/encodings.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="example-header-file">
+<span id="example-header"></span><h1><span class="section-number">A. </span>Example header file<a class="headerlink" href="#example-header-file" title="Permalink to this heading">¶</a></h1>
+<p>The API elements in this specification, once finalized, will be defined in <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code>.</p>
+<p>This is an example of the header file definition of the PAKE API elements. This can be used as a starting point or reference for an implementation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Not all of the API elements are fully defined. An implementation must provide the full definition.</p>
+<p>The header will not compile without these missing definitions, and might require reordering to satisfy C compilation rules.</p>
+</div>
+<section id="psa-crypto-h">
+<h2><span class="section-number">A.1. </span>psa/crypto.h<a class="headerlink" href="#psa-crypto-h" title="Permalink to this heading">¶</a></h2>
+<pre class="literal-block"><em>/* This file contains reference definitions for implementation of the
+ * PSA Certified Crypto API v1.2 PAKE Extension
+ *
+ * These definitions must be embedded in, or included by, psa/crypto.h
+ */</em>
+
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_IS_PAKE" title="PSA_ALG_IS_PAKE">PSA_ALG_IS_PAKE</a>(alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+typedef uint32_t <a class="reference internal" href="../api/pake.html#c.psa_pake_primitive_t" title="psa_pake_primitive_t">psa_pake_primitive_t</a>;
+typedef uint8_t <a class="reference internal" href="../api/pake.html#c.psa_pake_primitive_type_t" title="psa_pake_primitive_type_t">psa_pake_primitive_type_t</a>;
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_PRIMITIVE_TYPE_ECC" title="PSA_PAKE_PRIMITIVE_TYPE_ECC">PSA_PAKE_PRIMITIVE_TYPE_ECC</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_primitive_type_t" title="psa_pake_primitive_type_t">psa_pake_primitive_type_t</a>)0x01)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_PRIMITIVE_TYPE_DH" title="PSA_PAKE_PRIMITIVE_TYPE_DH">PSA_PAKE_PRIMITIVE_TYPE_DH</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_primitive_type_t" title="psa_pake_primitive_type_t">psa_pake_primitive_type_t</a>)0x02)
+typedef uint8_t <a class="reference internal" href="../api/pake.html#c.psa_pake_family_t" title="psa_pake_family_t">psa_pake_family_t</a>;
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_PRIMITIVE" title="PSA_PAKE_PRIMITIVE">PSA_PAKE_PRIMITIVE</a>(pake_type, pake_family, pake_bits) \
+    <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_PRIMITIVE_GET_TYPE" title="PSA_PAKE_PRIMITIVE_GET_TYPE">PSA_PAKE_PRIMITIVE_GET_TYPE</a>(pake_primitive) \
+    <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_PRIMITIVE_GET_FAMILY" title="PSA_PAKE_PRIMITIVE_GET_FAMILY">PSA_PAKE_PRIMITIVE_GET_FAMILY</a>(pake_primitive) \
+    <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_PRIMITIVE_GET_BITS" title="PSA_PAKE_PRIMITIVE_GET_BITS">PSA_PAKE_PRIMITIVE_GET_BITS</a>(pake_primitive) \
+    <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+typedef <em>/* implementation-defined type */</em> <a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a>;
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_CIPHER_SUITE_INIT" title="PSA_PAKE_CIPHER_SUITE_INIT">PSA_PAKE_CIPHER_SUITE_INIT</a> <em>/* implementation-defined value */</em>
+<a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a> <a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_init" title="psa_pake_cipher_suite_init">psa_pake_cipher_suite_init</a>(void);
+psa_algorithm_t <a class="reference internal" href="../api/pake.html#c.psa_pake_cs_get_algorithm" title="psa_pake_cs_get_algorithm">psa_pake_cs_get_algorithm</a>(const <a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a>* cipher_suite);
+void <a class="reference internal" href="../api/pake.html#c.psa_pake_cs_set_algorithm" title="psa_pake_cs_set_algorithm">psa_pake_cs_set_algorithm</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a>* cipher_suite,
+                               psa_algorithm_t alg);
+<a class="reference internal" href="../api/pake.html#c.psa_pake_primitive_t" title="psa_pake_primitive_t">psa_pake_primitive_t</a> <a class="reference internal" href="../api/pake.html#c.psa_pake_cs_get_primitive" title="psa_pake_cs_get_primitive">psa_pake_cs_get_primitive</a>(const <a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a>* cipher_suite);
+void <a class="reference internal" href="../api/pake.html#c.psa_pake_cs_set_primitive" title="psa_pake_cs_set_primitive">psa_pake_cs_set_primitive</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a>* cipher_suite,
+                               <a class="reference internal" href="../api/pake.html#c.psa_pake_primitive_t" title="psa_pake_primitive_t">psa_pake_primitive_t</a> primitive);
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_CONFIRMED_KEY" title="PSA_PAKE_CONFIRMED_KEY">PSA_PAKE_CONFIRMED_KEY</a> 0
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_UNCONFIRMED_KEY" title="PSA_PAKE_UNCONFIRMED_KEY">PSA_PAKE_UNCONFIRMED_KEY</a> 1
+uint32_t <a class="reference internal" href="../api/pake.html#c.psa_pake_cs_get_key_confirmation" title="psa_pake_cs_get_key_confirmation">psa_pake_cs_get_key_confirmation</a>(const <a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a>* cipher_suite);
+void <a class="reference internal" href="../api/pake.html#c.psa_pake_cs_set_key_confirmation" title="psa_pake_cs_set_key_confirmation">psa_pake_cs_set_key_confirmation</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a>* cipher_suite,
+                                      uint32_t key_confirmation);
+typedef uint8_t <a class="reference internal" href="../api/pake.html#c.psa_pake_role_t" title="psa_pake_role_t">psa_pake_role_t</a>;
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_ROLE_NONE" title="PSA_PAKE_ROLE_NONE">PSA_PAKE_ROLE_NONE</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_role_t" title="psa_pake_role_t">psa_pake_role_t</a>)0x00)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_ROLE_FIRST" title="PSA_PAKE_ROLE_FIRST">PSA_PAKE_ROLE_FIRST</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_role_t" title="psa_pake_role_t">psa_pake_role_t</a>)0x01)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_ROLE_SECOND" title="PSA_PAKE_ROLE_SECOND">PSA_PAKE_ROLE_SECOND</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_role_t" title="psa_pake_role_t">psa_pake_role_t</a>)0x02)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_ROLE_CLIENT" title="PSA_PAKE_ROLE_CLIENT">PSA_PAKE_ROLE_CLIENT</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_role_t" title="psa_pake_role_t">psa_pake_role_t</a>)0x11)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_ROLE_SERVER" title="PSA_PAKE_ROLE_SERVER">PSA_PAKE_ROLE_SERVER</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_role_t" title="psa_pake_role_t">psa_pake_role_t</a>)0x12)
+typedef uint8_t <a class="reference internal" href="../api/pake.html#c.psa_pake_step_t" title="psa_pake_step_t">psa_pake_step_t</a>;
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_STEP_KEY_SHARE" title="PSA_PAKE_STEP_KEY_SHARE">PSA_PAKE_STEP_KEY_SHARE</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_step_t" title="psa_pake_step_t">psa_pake_step_t</a>)0x01)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_STEP_ZK_PUBLIC" title="PSA_PAKE_STEP_ZK_PUBLIC">PSA_PAKE_STEP_ZK_PUBLIC</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_step_t" title="psa_pake_step_t">psa_pake_step_t</a>)0x02)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_STEP_ZK_PROOF" title="PSA_PAKE_STEP_ZK_PROOF">PSA_PAKE_STEP_ZK_PROOF</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_step_t" title="psa_pake_step_t">psa_pake_step_t</a>)0x03)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_STEP_CONFIRM" title="PSA_PAKE_STEP_CONFIRM">PSA_PAKE_STEP_CONFIRM</a> ((<a class="reference internal" href="../api/pake.html#c.psa_pake_step_t" title="psa_pake_step_t">psa_pake_step_t</a>)0x04)
+typedef <em>/* implementation-defined type */</em> <a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a>;
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_OPERATION_INIT" title="PSA_PAKE_OPERATION_INIT">PSA_PAKE_OPERATION_INIT</a> <em>/* implementation-defined value */</em>
+<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> <a class="reference internal" href="../api/pake.html#c.psa_pake_operation_init" title="psa_pake_operation_init">psa_pake_operation_init</a>(void);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_setup" title="psa_pake_setup">psa_pake_setup</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                            psa_key_id_t password_key,
+                            const <a class="reference internal" href="../api/pake.html#c.psa_pake_cipher_suite_t" title="psa_pake_cipher_suite_t">psa_pake_cipher_suite_t</a> *cipher_suite);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_set_role" title="psa_pake_set_role">psa_pake_set_role</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                               <a class="reference internal" href="../api/pake.html#c.psa_pake_role_t" title="psa_pake_role_t">psa_pake_role_t</a> role);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_set_user" title="psa_pake_set_user">psa_pake_set_user</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                               const uint8_t *user_id,
+                               size_t user_id_len);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_set_peer" title="psa_pake_set_peer">psa_pake_set_peer</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                               const uint8_t *peer_id,
+                               size_t peer_id_len);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_set_context" title="psa_pake_set_context">psa_pake_set_context</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                                  const uint8_t *context,
+                                  size_t context_len);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_output" title="psa_pake_output">psa_pake_output</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                             <a class="reference internal" href="../api/pake.html#c.psa_pake_step_t" title="psa_pake_step_t">psa_pake_step_t</a> step,
+                             uint8_t *output,
+                             size_t output_size,
+                             size_t *output_length);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_input" title="psa_pake_input">psa_pake_input</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                            <a class="reference internal" href="../api/pake.html#c.psa_pake_step_t" title="psa_pake_step_t">psa_pake_step_t</a> step,
+                            const uint8_t *input,
+                            size_t input_length);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_get_shared_key" title="psa_pake_get_shared_key">psa_pake_get_shared_key</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> *operation,
+                                     const psa_key_attributes_t * attributes,
+                                     psa_key_id_t * key);
+psa_status_t <a class="reference internal" href="../api/pake.html#c.psa_pake_abort" title="psa_pake_abort">psa_pake_abort</a>(<a class="reference internal" href="../api/pake.html#c.psa_pake_operation_t" title="psa_pake_operation_t">psa_pake_operation_t</a> * operation);
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_OUTPUT_SIZE" title="PSA_PAKE_OUTPUT_SIZE">PSA_PAKE_OUTPUT_SIZE</a>(alg, primitive, output_step) \
+    <em>/* implementation-defined value */</em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_OUTPUT_MAX_SIZE" title="PSA_PAKE_OUTPUT_MAX_SIZE">PSA_PAKE_OUTPUT_MAX_SIZE</a> <em>/* implementation-defined value */</em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_INPUT_SIZE" title="PSA_PAKE_INPUT_SIZE">PSA_PAKE_INPUT_SIZE</a>(alg, primitive, input_step) \
+    <em>/* implementation-defined value */</em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_PAKE_INPUT_MAX_SIZE" title="PSA_PAKE_INPUT_MAX_SIZE">PSA_PAKE_INPUT_MAX_SIZE</a> <em>/* implementation-defined value */</em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_JPAKE" title="PSA_ALG_JPAKE">PSA_ALG_JPAKE</a>(hash_alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_IS_JPAKE" title="PSA_ALG_IS_JPAKE">PSA_ALG_IS_JPAKE</a>(alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_KEY_TYPE_SPAKE2P_KEY_PAIR" title="PSA_KEY_TYPE_SPAKE2P_KEY_PAIR">PSA_KEY_TYPE_SPAKE2P_KEY_PAIR</a>(curve) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY" title="PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY">PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY</a>(curve) \
+    <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_KEY_TYPE_IS_SPAKE2P" title="PSA_KEY_TYPE_IS_SPAKE2P">PSA_KEY_TYPE_IS_SPAKE2P</a>(type) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR" title="PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR">PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR</a>(type) \
+    <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY" title="PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY">PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY</a>(type) \
+    <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_KEY_TYPE_SPAKE2P_GET_FAMILY" title="PSA_KEY_TYPE_SPAKE2P_GET_FAMILY">PSA_KEY_TYPE_SPAKE2P_GET_FAMILY</a>(type) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_SPAKE2P_HMAC" title="PSA_ALG_SPAKE2P_HMAC">PSA_ALG_SPAKE2P_HMAC</a>(hash_alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_SPAKE2P_CMAC" title="PSA_ALG_SPAKE2P_CMAC">PSA_ALG_SPAKE2P_CMAC</a>(hash_alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_SPAKE2P_MATTER" title="PSA_ALG_SPAKE2P_MATTER">PSA_ALG_SPAKE2P_MATTER</a> ((psa_algoirithm_t)0x0A000609)
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_IS_SPAKE2P" title="PSA_ALG_IS_SPAKE2P">PSA_ALG_IS_SPAKE2P</a>(alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_IS_SPAKE2P_HMAC" title="PSA_ALG_IS_SPAKE2P_HMAC">PSA_ALG_IS_SPAKE2P_HMAC</a>(alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+#define <a class="reference internal" href="../api/pake.html#c.PSA_ALG_IS_SPAKE2P_CMAC" title="PSA_ALG_IS_SPAKE2P_CMAC">PSA_ALG_IS_SPAKE2P_CMAC</a>(alg) <em><a class="reference internal" href="specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em>
+</pre>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+AES 0058<br/>
+Non-confidential<br/>
+Version 1.2 PAKE Extension.0
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/pake.html">2. Password-authenticated key exchange (PAKE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/encodings.html">3. Algorithm and key type encoding</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">A. Example header file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#psa-crypto-h">A.1. psa/crypto.h</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="specdef_values.html">B. Example macro implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">C. Changes to the API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2022-2024 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

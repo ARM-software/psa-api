@@ -4,7 +4,7 @@ description: The Crypto API provides symmetric and asymmetric cryptography, hash
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -26,6 +26,7 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
+1.2.0 | [HTML][1-2-html] | [&darr; PDF][1-2-0-pdf] | February 2024
 1.1.2 | [HTML][1-1-html] | [&darr; PDF][1-1-2-pdf] | March 2023
 1.1.1 | | [&darr; PDF][1-1-1-pdf] | October 2022
 1.1.0 | | [&darr; PDF][1-1-0-pdf] | February 2022
@@ -36,9 +37,12 @@ Version | | | Publication
 
 Extension | Version | | | Publication
 -|-|-|-|-:
+PAKE | 1.2 Final | [HTML][pake-rel-html] | [&darr; PDF][pake-rel-0-pdf] | February 2024
 PAKE | 1.1 Beta 1 | [HTML][pake-beta-html] | [&darr; PDF][pake-beta-1-pdf] | October 2022
 PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 
+[1-2-html]:             1.2/
+[1-2-0-pdf]:            1.2/IHI0086-PSA_Certified_Crypto_API-1.2.0.pdf
 
 [1-1-html]:             1.1/
 [1-1-2-pdf]:            1.1/IHI0086-PSA_Certified_Crypto_API-1.1.2.pdf
@@ -49,8 +53,11 @@ PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 [1-0-1-pdf]:            1.0/IHI0086-PSA_Cryptography_API-1.0.1.pdf
 [1-0-0-pdf]:            1.0/IHI0086-PSA_Cryptography_API-1.0.0.pdf
 
+[pake-rel-html]:       1.2/ext-pake/
+[pake-rel-0-pdf]:      1.2/ext-pake/AES0058-PSA_Certified_Crypto_API-1.2_PAKE_Extension.0.pdf
+
 [pake-beta-html]:       1.1/ext-pake/
 [pake-beta-1-pdf]:      1.1/ext-pake/AES0058-PSA_Certified_Crypto_API-1.1_PAKE_Extension-bet.1.pdf
 [pake-beta-0-pdf]:      1.1/ext-pake/AES0058-PSA_Cryptography_API-1.1_PAKE_Extension-bet.0.pdf
 
-*Copyright 2022-2023, Arm Limited and/or its affiliates*
+*Copyright 2022-2024, Arm Limited and/or its affiliates*
