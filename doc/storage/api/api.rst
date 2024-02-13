@@ -765,13 +765,13 @@ These definitions must be defined in the header file :file:`psa/protected_storag
        Initialises an iterator that can be used to return a list of uids in the Protected Storage .
 
    .. param::  psa_storage_iterator_t* context
-       A pointer to a context for this iterator. This is set to a new value on success and is undefined on error. The content of the iterator is implementation defined.  The pointer MUST be valid and MUST point to a block of memory of the size given by the ``PSA_STORAGE_ITERATOR_CTX__SIZE`` macro to which the caller has write access. 
+       A pointer to a context for this iterator. The pointer may be NULL. This is set to a new value on success and is undefined on error. The content of the iterator is implementation defined.    
        
    .. param:: psa_storage_uid_t filter
        A value used to filter the results included in this iteration. 
        
    .. param:: int_t filter_length
-       A length of the filter to use, this must be a value `-63 < filter_lemngth < 63`. 
+       A length of the filter to use, this must be a value `0 < filter_lemngth < 63`. 
 
    .. param:: psa_storage_uid_t *result
         A pointer to the location in which to store ``uid``. On success the contents of this location will be updated with the first matching ``uid``. On error, the contents are undefined. 
@@ -788,7 +788,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
    .. retval:: PSA_ERROR_STORAGE_FAILURE
        The operation failed because the physical storage has failed (Fatal error).
 
-   The iterator returns those values where the ``filter_length`` bits of the `uid` matches the bits in ``filter``. If the value of ``filter_length`` is positive, it matches left most bits, if it i nagative, it matches the right most bits. 
+   The iterator returns those values where the ``filter_length`` bits of the `uid` matches the left most bits in ``filter``. 
 
    The iterator will only returns those ``uid`` that were created by the caller. It MUST not return any ``uid`` created by a different user. 
 
