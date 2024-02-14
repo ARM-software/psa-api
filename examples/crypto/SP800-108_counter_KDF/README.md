@@ -7,6 +7,7 @@ NIST SP 800-108 counter-mode KDF
 ================================
 
 This example shows a reference implementation for a key based key derivation function for counter mode that conforms to the [NIST SP 800-108r1 recommendation](https://csrc.nist.gov/pubs/sp/800/108/r1/final).
+The example implementation matches the definition of the [`PSA_ALG_SP800_108_COUNTER_HMAC()`](https://arm-software.github.io/psa-api/crypto/1.2/api/ops/kdf.html#c.PSA_ALG_SP800_108_COUNTER_HMAC) and [`PSA_ALG_SP800_108_COUNTER_CMAC`](https://arm-software.github.io/psa-api/crypto/1.2/api/ops/kdf.html#c.PSA_ALG_SP800_108_COUNTER_CMAC) algorithms, from the [Crypto API 1.2](https://arm-software.github.io/psa-api/crypto/1.2/) specification.
 
 It includes a HMAC and a CMAC variant.
 The CMAC variant implements the suggested addition to prevent a key control attack that is listed in Appendix B of [SP 800-108](https://csrc.nist.gov/pubs/sp/800/108/r1/final).
