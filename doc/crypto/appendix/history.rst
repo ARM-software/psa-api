@@ -11,6 +11,15 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.2.0* and *1.2.1*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Other changes
+~~~~~~~~~~~~~
+
 Changes between *1.1.2* and *1.2.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
