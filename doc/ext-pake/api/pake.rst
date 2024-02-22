@@ -1358,9 +1358,9 @@ After setup, the key exchange flow for J-PAKE is as follows:
 
         // Set up the key attributes
         psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
-        psa_key_set_type(&att, PSA_KEY_TYPE_DERIVE);
-        psa_key_set_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
-        psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+        psa_set_key_type(&att, PSA_KEY_TYPE_DERIVE);
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
 
         // Get Ka=Kb=K
         psa_key_id_t shared_key;
@@ -1725,9 +1725,9 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows.
 
         // Set up the key attributes
         psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
-        psa_key_set_type(&att, PSA_KEY_TYPE_DERIVE);
-        psa_key_set_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
-        psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+        psa_set_key_type(&att, PSA_KEY_TYPE_DERIVE);
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
 
         // Get K_shared
         psa_key_id_t shared_key;
