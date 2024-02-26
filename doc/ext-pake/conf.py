@@ -29,12 +29,12 @@ doc_info = {
     'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 0,
+    'issue_no': 1,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     'release_candidate': 0,
     # Draft status - use this to indicate the document is not ready for publication
-    'draft': False,
+    'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -45,7 +45,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '05/02/2024',
+    #'date': '05/02/2024',
 
     # Default header file for API definitions
     # default to None, and can be set in documentation source
