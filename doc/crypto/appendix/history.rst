@@ -11,6 +11,17 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.2.0* and *1.2.1*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Fix the example implementation of `PSA_ALG_KEY_AGREEMENT_GET_BASE()` and `PSA_ALG_KEY_AGREEMENT_GET_KDF()` in :secref:`appendix-specdef-values`, to give correct results for key agreements combined with PBKDF2.
+
+Other changes
+~~~~~~~~~~~~~
+
 Changes between *1.1.2* and *1.2.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

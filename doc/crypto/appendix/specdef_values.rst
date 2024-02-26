@@ -176,10 +176,10 @@ Algorithm macros
         ((ka_alg) | (kdf_alg))
 
     #define PSA_ALG_KEY_AGREEMENT_GET_BASE(alg) \
-        ((psa_algorithm_t)((alg) & 0xffff0000))
+        ((psa_algorithm_t)((alg) & 0xff7f0000))
 
     #define PSA_ALG_KEY_AGREEMENT_GET_KDF(alg) \
-        ((psa_algorithm_t)((alg) & 0xfe00ffff))
+        ((psa_algorithm_t)((alg) & 0xfe80ffff))
 
     #define PSA_ALG_PBKDF2_HMAC(hash_alg) \
         ((psa_algorithm_t)(0x08800100 | ((hash_alg) & 0x000000ff)))
