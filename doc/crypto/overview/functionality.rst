@@ -50,6 +50,7 @@ Keys are created using one of the *key creation functions*:
 *   `psa_generate_key()`
 *   `psa_key_derivation_output_key()`
 *   `psa_key_agreement()`
+*   `psa_pake_get_shared_key()`
 *   `psa_copy_key()`
 
 These output the key identifier, that is used to access the key in all other parts of the API.
