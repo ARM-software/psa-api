@@ -5,41 +5,112 @@
 
 !include atg-spec.pumh
 
-'title SUIT update : Payload fetch as a Service state
-
 participant "Update server" as server
 participant "Update client" as client
 participant "Update service" as service
+entity "Envelope state" as envelope
+entity "Payload state" as payload
 
-autoactivate on
+autonumber
 activate client
+activate envelope #LightBlue
+rnote over envelope #LightBlue: READY
 
-client -> service #ddd: ""psa_fwu_start(envelope_id)""
-note left: Transfer the SUIT envelope
-return
+client -> service: ""psa_fwu_start(envelope_id)""
+note left: Transfer SUIT Envelope
+deactivate envelope
+activate service #ddd
+return ""PSA_SUCCESS""
+deactivate service
+activate envelope #PaleGreen
+rnote over envelope #PaleGreen: WRITING
+
 client -> service #ddd: ""psa_fwu_write(envelope_id, ...)""
-return
-client -> service #ddd: ""psa_fwu_finish(envelope_id)""
-loop while need payload
-    return ""PSA_FWU_PAYLOAD_REQUIRED""
-    client -> service #ddd: ""psa_fwu_payload(envelope_id)""
-    note left: Get payload information
-    return
-    server <<- client: Fetch payload
-    client -> service #ddd: ""psa_fwu_start(payload_id)""
-    return
-autoactivate off
+activate service #ddd
+return ""PSA_SUCCESS""
+deactivate service
+
+client -> service: ""psa_fwu_finish(envelope_id)""
+deactivate envelope
+activate service #ddd
+return ""PSA_FWU_PROCESSING_REQUIRED""
+deactivate service
+activate envelope #PaleGoldenRod
+rnote over envelope #PaleGoldenRod: PROCESSING
+
+client -> service: ""psa_fwu_process(envelope_id)""
+note left: Process SUIT manifest
+deactivate envelope
+activate service #ddd
+
+loop While additional payloads are required
+    return ""PSA_FWU_PAYLOAD_REQUIRED""\n  + payload information
+    deactivate service
+    activate envelope #LightGoldenRodYellow
+    activate payload #LightBlue
+    rnote over envelope #LightGoldenRodYellow: FETCHING *
+    / rnote over payload #LightBlue: READY
+
+    server <<- client ++ : Fetch payload
+    client -> service: ""psa_fwu_start(payload_id)""
+    note left: Transfer payload
+    deactivate payload
+    activate service #ddd
+    return ""PSA_SUCCESS""
+    deactivate service
+    activate payload #PaleGreen
+    rnote over payload #PaleGreen: WRITING
+
     server -->> client: Download payload
-autoactivate on
-    client -> service #ddd: ""psa_fwu_write(payload_id, ...)""
-    return
-    server -->> client: Download payload
-    client -> service #ddd: ""psa_fwu_write(payload_id, ...)""
-    return
-    client -> service #ddd: ""psa_fwu_finish(payload_id)""
+    client -> service: ""psa_fwu_write(payload_id, ...)""
+    activate service #ddd
+    return ""PSA_SUCCESS""
+    deactivate service
+
+    server -->> client -- : Download payload
+    client -> service: ""psa_fwu_write(payload_id, ...)""
+    activate service #ddd
+    client <-- service: ""PSA_SUCCESS""
+    deactivate service
+
+    client -> service: ""psa_fwu_finish(payload_id)""
+    deactivate payload
+    deactivate envelope
+    activate service #ddd
+    return ""PSA_SUCCESS""
+    deactivate service
+    activate envelope #PaleGoldenRod
+    activate payload #LightSalmon
+    rnote over envelope #PaleGoldenRod: PROCESSING
+    / rnote over payload #LightSalmon: CANDIDATE
+
+    client -> service: ""psa_fwu_process(envelope_id)""
+    note left: Resume SUIT processing
+    deactivate envelope
+    activate service #ddd
+
 end
-client <-- service: Manifest processing complete
+client <-- service: ""PSA_SUCCESS""
+note left: Manifest processing complete
+deactivate service
+activate envelope #LightSalmon
+rnote over envelope #LightSalmon: CANDIDATE
+
 client -> service #ddd: ""psa_fwu_install()""
-return
-... etc ...
+note left: Proceed with installation
+deactivate payload
+deactivate envelope
+activate service #ddd
+return  ""PSA_FWU_REBOOT_REQUIRED""
+deactivate service
+activate envelope #LightCoral
+activate payload #LightCoral
+rnote over envelope #LightCoral: STAGED
+/ rnote over payload #LightCoral: STAGED
+
+deactivate envelope
+deactivate payload
+
+rnote across #gray: <color:white>REBOOT
+
 @enduml
