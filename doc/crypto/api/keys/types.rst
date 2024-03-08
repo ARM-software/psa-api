@@ -111,6 +111,14 @@ Symmetric keys
         | `PSA_ALG_TLS12_PRF` (non-secret inputs)
         | `PSA_ALG_TLS12_PSK_TO_MS` (non-secret inputs)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_HMAC
     :definition: ((psa_key_type_t)0x1100)
 
@@ -141,6 +149,14 @@ Symmetric keys
         | `PSA_ALG_HMAC`
         | `PSA_ALG_SP800_108_COUNTER_HMAC` (secret input)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_DERIVE
     :definition: ((psa_key_type_t)0x1200)
 
@@ -162,6 +178,14 @@ Symmetric keys
         | `PSA_ALG_HKDF_EXTRACT` (secret input)
         | `PSA_ALG_TLS12_PRF` (secret input)
         | `PSA_ALG_TLS12_PSK_TO_MS` (secret input)
+
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
 
 .. macro:: PSA_KEY_TYPE_PASSWORD
     :definition: ((psa_key_type_t)0x1203)
@@ -185,6 +209,14 @@ Symmetric keys
         | `PSA_ALG_PBKDF2_HMAC()` (password input)
         | `PSA_ALG_PBKDF2_AES_CMAC_PRF_128` (password input)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_PASSWORD_HASH
     :definition: ((psa_key_type_t)0x1205)
 
@@ -198,6 +230,14 @@ Symmetric keys
         | `PSA_ALG_PBKDF2_HMAC()` (key output and verification)
         | `PSA_ALG_PBKDF2_AES_CMAC_PRF_128` (key output and verification)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_PEPPER
     :definition: ((psa_key_type_t)0x1206)
 
@@ -210,6 +250,14 @@ Symmetric keys
 
         | `PSA_ALG_PBKDF2_HMAC()` (salt input)
         | `PSA_ALG_PBKDF2_AES_CMAC_PRF_128` (salt input)
+
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
 
 .. macro:: PSA_KEY_TYPE_AES
     :definition: ((psa_key_type_t)0x2400)
@@ -246,6 +294,14 @@ Symmetric keys
         | `PSA_ALG_GCM`
         | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_ARIA
     :definition: ((psa_key_type_t)0x2406)
 
@@ -281,6 +337,14 @@ Symmetric keys
         | `PSA_ALG_GCM`
         | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_DES
     :definition: ((psa_key_type_t)0x2301)
 
@@ -311,6 +375,22 @@ Symmetric keys
         | `PSA_ALG_CBC_NO_PADDING`
         | `PSA_ALG_CBC_PKCS7`
         | `PSA_ALG_ECB_NO_PADDING`
+
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+        The parity bits in each 64-bit DES key element must be correct.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will construct a single 64-bit DES key using the following process:
+
+        1.  Draw an 8-byte string.
+        #.  Set/clear the parity bits in each byte.
+        #.  If the result is a forbidden weak key, discard the result and return to step 1.
+        #.  Output the string.
+
+        For 2-key 3DES and 3-key 3DES, this process is repeated to derive the 2nd and 3rd keys, as required.
 
 .. macro:: PSA_KEY_TYPE_CAMELLIA
     :definition: ((psa_key_type_t)0x2403)
@@ -347,6 +427,14 @@ Symmetric keys
         | `PSA_ALG_GCM`
         | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_SM4
     :definition: ((psa_key_type_t)0x2405)
 
@@ -374,6 +462,14 @@ Symmetric keys
         | `PSA_ALG_GCM`
         | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
+
 .. macro:: PSA_KEY_TYPE_ARC4
     :definition: ((psa_key_type_t)0x2002)
 
@@ -390,6 +486,14 @@ Symmetric keys
     .. subsection:: Compatible algorithms
 
         | `PSA_ALG_STREAM_CIPHER`
+
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
 
 .. macro:: PSA_KEY_TYPE_CHACHA20
     :definition: ((psa_key_type_t)0x2004)
@@ -408,6 +512,14 @@ Symmetric keys
         | `PSA_ALG_STREAM_CIPHER`
         | `PSA_ALG_CHACHA20_POLY1305`
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the key data.
+
 .. macro:: PSA_KEY_TYPE_XCHACHA20
     :definition: ((psa_key_type_t)0x2007)
 
@@ -425,6 +537,13 @@ Symmetric keys
         | `PSA_ALG_STREAM_CIPHER`
         | `PSA_ALG_XCHACHA20_POLY1305`
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the key data.
 
 .. _asymmetric-keys:
 
@@ -460,6 +579,34 @@ RSA keys
         | `PSA_ALG_RSA_PSS`
         | `PSA_ALG_RSA_PSS_ANY_SALT`
 
+    .. subsection:: Key format
+
+        The data format for import and export of a key-pair is the non-encrypted DER encoding of the representation defined by in :RFC-title:`8017` as ``RSAPrivateKey``, version ``0``.
+
+        .. code-block:: none
+
+            RSAPrivateKey ::= SEQUENCE {
+                version             INTEGER,  -- must be 0
+                modulus             INTEGER,  -- n
+                publicExponent      INTEGER,  -- e
+                privateExponent     INTEGER,  -- d
+                prime1              INTEGER,  -- p
+                prime2              INTEGER,  -- q
+                exponent1           INTEGER,  -- d mod (p-1)
+                exponent2           INTEGER,  -- d mod (q-1)
+                coefficient         INTEGER,  -- (inverse of q) mod p
+            }
+
+        .. note::
+
+            Although it is possible to define an RSA key pair or private key using a subset of these elements, the output from `psa_export_key()` for an RSA key pair must include all of these elements.
+
+        See `PSA_KEY_TYPE_RSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+    .. subsection:: Key derivation
+
+        The method used by `psa_key_derivation_output_key()` to derive an RSA key-pair is :term:`implementation defined`.
+
 .. macro:: PSA_KEY_TYPE_RSA_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4001)
 
@@ -477,6 +624,16 @@ RSA keys
         | `PSA_ALG_RSA_PSS` (signature verification only)
         | `PSA_ALG_RSA_PSS_ANY_SALT` (signature verification only)
 
+    .. subsection:: Key format
+
+        The data format for import and export of a public key is the DER encoding of the representation defined by :RFC-title:`3279#2.3.1` as ``RSAPublicKey``.
+
+        .. code-block:: none
+
+            RSAPublicKey ::= SEQUENCE {
+                modulus            INTEGER,    -- n
+                publicExponent     INTEGER  }  -- e
+
 .. macro:: PSA_KEY_TYPE_IS_RSA
     :definition: /* specification-defined value */
 
@@ -490,6 +647,35 @@ RSA keys
 
 Elliptic Curve keys
 -------------------
+
+Elliptic curve keys are grouped into families of related curves.
+A keys for a specific curve is specified by a combination of the elliptic curve family and the bit-size of the key.
+
+There are three categories of elliptic curve key, shown in :numref:`tab-ecc-groups`.
+The curve type affects the key format, the key derivation procedure, and the algorithms which the key can be used with.
+
+.. list-table:: Types of elliptic curve key
+    :name: tab-ecc-groups
+    :align: left
+    :widths: auto
+    :header-rows: 1
+
+    *   -   Curve type
+        -   Curve families
+
+    *   -   Weierstrass
+        -   | `PSA_ECC_FAMILY_SECP_K1`
+            | `PSA_ECC_FAMILY_SECP_R1`
+            | `PSA_ECC_FAMILY_SECP_R2`
+            | `PSA_ECC_FAMILY_SECT_K1`
+            | `PSA_ECC_FAMILY_SECT_R1`
+            | `PSA_ECC_FAMILY_SECT_R2`
+            | `PSA_ECC_FAMILY_BRAINPOOL_P_R1`
+            | `PSA_ECC_FAMILY_FRP`
+    *   -   Montgomery
+        -   | `PSA_ECC_FAMILY_MONTGOMERY`
+    *   -   Twisted Edwards
+        -   | `PSA_ECC_FAMILY_TWISTED_EDWARDS`
 
 .. typedef:: uint8_t psa_ecc_family_t
 
@@ -516,16 +702,113 @@ Elliptic Curve keys
     .. summary::
         Elliptic curve key pair: both the private and public key.
 
-    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each elliptic curve family for details.
-
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.
 
+    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`.
+    See the documentation of each elliptic curve family for details.
+
     .. subsection:: Compatible algorithms
 
-        elliptic curve key pairs can be used in Asymmetric signature and Key agreement algorithms.
+        :numref:`tab-ecc-key-pair-algorithms` shows the compatible algorithms for each type of elliptic curve key-pair.
 
-        The set of compatible algorithms depends on the elliptic curve key family. See the elliptic curve family for details.
+        .. list-table:: Compatible algorithms for elliptic curve key-pairs
+            :name: tab-ecc-key-pair-algorithms
+            :class: longtable
+            :widths: 1,4
+            :header-rows: 1
+
+            *   -   Curve type
+                -   Compatible algorithms
+            *   -   Weierstrass
+                -   Weierstrass curve key-pairs can be used in asymmetric signature and key agreement algorithms.
+
+                    | `PSA_ALG_DETERMINISTIC_ECDSA`
+                    | `PSA_ALG_ECDSA`
+                    | `PSA_ALG_ECDSA_ANY`
+                    | `PSA_ALG_ECDH`
+            *   -   Montgomery
+                -   Montgomery curve key-pairs can only be used in key agreement algorithms.
+
+                    | `PSA_ALG_ECDH`
+            *   -   Twisted Edwards
+                -   Twisted Edwards curve key-pairs can only be used in asymmetric signature algorithms.
+
+                    | `PSA_ALG_PURE_EDDSA`
+                    | `PSA_ALG_ED25519PH` (Edwards25519 only)
+                    | `PSA_ALG_ED448PH` (Edwards448 only)
+
+    .. subsection:: Key format
+
+        The data format for import and export of the key-pair depends on the type of elliptic curve.
+        :numref:`tab-ecc-key-pair-format` shows the format for each type of elliptic curve key-pair.
+
+        See `PSA_KEY_TYPE_ECC_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+        .. list-table:: Key-pair formats for elliptic curve keys
+            :name: tab-ecc-key-pair-format
+            :class: longtable
+            :widths: 1,4
+            :header-rows: 1
+
+            *   -   Curve type
+                -   Key pair format
+            *   -   Weierstrass
+                -   The key data is the content of the ``privateKey`` field of the ``ECPrivateKey`` format defined by :RFC-title:`5915`.
+
+                    This is a :math:`\lceil{m/8}\rceil`-byte string in big-endian order, where :math:`m` is the key size in bits.
+
+            *   -   Montgomery
+                -   The key data is the scalar value of the 'private key' in little-endian order as defined by :RFC-title:`7748#6`.
+                    The value must have the forced bits set to zero or one as specified by ``decodeScalar25519()`` and ``decodeScalar448()`` in :RFC:`7748#5`.
+
+                    This is a :math:`\lceil{m/8}\rceil`-byte string where :math:`m` is the key size in bits.
+                    This is 32 bytes for Curve25519, and 56 bytes for Curve448.
+
+            *   -   Twisted Edwards
+                -   The key data is the private key, as defined by :RFC-title:`8032`.
+
+                    This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.
+
+    .. subsection:: Key derivation
+
+        The key derivation method used when calling `psa_key_derivation_output_key()` depends on the type of elliptic curve.
+        :numref:`tab-ecc-key-derivation` shows the derivation method for each type of elliptic curve key.
+
+        .. list-table:: Key derivation for elliptic curve keys
+            :name: tab-ecc-key-derivation
+            :class: longtable
+            :widths: 1,4
+            :header-rows: 1
+
+            *   -   Curve type
+                -   Key derivation
+            *   -   Weierstrass
+                -   A Weierstrass elliptic curve private key is :math:`d \in [1, N - 1]`, where :math:`N` is the order of the curve's base point for ECC.
+
+                    Let :math:`m` be the bit size of :math:`N`, such that :math:`2^{m-1} \leq N < 2^m`. This function generates the private key using the following process:
+
+                    1.  Draw a byte string of length :math:`\lceil{m/8}\rceil` bytes.
+                    #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m`` bits of the first byte in the string to zero.
+                    #.  Convert the string to integer :math:`k` by decoding it as a big-endian byte-string.
+                    #.  If :math:`k > N-2`, discard the result and return to step 1.
+                    #.  Output :math:`d = k + 1` as the private key.
+
+                    This method allows compliance to NIST standards, specifically the methods titled *Key-Pair Generation by Testing Candidates* in :cite:`SP800-56A` §5.6.1.2.2 or :cite-title:`FIPS186-4` §B.4.2.
+
+            *   -   Montgomery
+                -   Draw a byte string whose length is determined by the curve, and set the mandatory bits accordingly.
+                    That is:
+
+                    *   Curve25519 (`PSA_ECC_FAMILY_MONTGOMERY`, 255 bits): draw a 32-byte string and process it as specified in :RFC-title:`7748#5`.
+                    *   Curve448 (`PSA_ECC_FAMILY_MONTGOMERY`, 448 bits): draw a 56-byte string and process it as specified in :RFC:`7748#5`.
+
+            *   -   Twisted Edwards
+                -   Draw a byte string whose length is determined by the curve, and use this as the private key.
+                    That is:
+
+                    *   Ed25519 (`PSA_ECC_FAMILY_MONTGOMERY`, 255 bits): draw a 32-byte string.
+                    *   Ed448 (`PSA_ECC_FAMILY_MONTGOMERY`, 448 bits): draw a 57-byte string.
 
 .. macro:: PSA_KEY_TYPE_ECC_PUBLIC_KEY
     :definition: /* specification-defined value */
@@ -540,9 +823,66 @@ Elliptic Curve keys
 
     .. subsection:: Compatible algorithms
 
-        Elliptic curve public keys can be used for verification in Asymmetric signature algorithms.
+        :numref:`tab-ecc-public-key-algorithms` shows the compatible algorithms for each type of elliptic curve public key.
 
-        The set of compatible algorithms depends on the elliptic curve key family. See each elliptic curve family for details.
+        .. note::
+
+            For key agreement, the public key of the peer is provided to the |API| as a buffer.
+            This avoids the need to import the public key data that is received from the peer, just to carry out the key agreement algorithm.
+
+        .. list-table:: Compatible algorithms for elliptic curve public keys
+            :name: tab-ecc-public-key-algorithms
+            :class: longtable
+            :widths: 1,4
+            :header-rows: 1
+
+            *   -   Curve type
+                -   Compatible algorithms
+            *   -   Weierstrass
+                -   Weierstrass curve public keys can be used in asymmetric signature algorithms.
+
+                    | `PSA_ALG_DETERMINISTIC_ECDSA`
+                    | `PSA_ALG_ECDSA`
+                    | `PSA_ALG_ECDSA_ANY`
+            *   -   Twisted Edwards
+                -   Twisted Edwards curve public key can only be used in asymmetric signature algorithms.
+
+                    | `PSA_ALG_PURE_EDDSA`
+                    | `PSA_ALG_ED25519PH` (Edwards25519 only)
+                    | `PSA_ALG_ED448PH` (Edwards448 only)
+
+    .. subsection:: Key format
+
+        The data format for import and export of the public key depends on the type of elliptic curve.
+        :numref:`tab-ecc-public-key-format` shows the format for each type of elliptic curve public key.
+
+        .. list-table:: Public key formats for elliptic curve keys
+            :name: tab-ecc-public-key-format
+            :class: longtable
+            :widths: 1,4
+            :header-rows: 1
+
+            *   -   Curve type
+                -   Public key format
+            *   -   Weierstrass
+                -   The key data is the uncompressed representation of an elliptic curve point as an octet string defined in :cite-title:`SEC1` §2.3.3.
+                    If :math:`m` is the bit size associated with the curve, i.e. the bit size of :math:`q` for a curve over :math:`\mathbb{F}_q`, then the representation of point :math:`P` consists of:
+
+                    *   The byte ``0x04``;
+                    *   :math:`x_P` as a :math:`\lceil{m/8}\rceil`-byte string, big-endian;
+                    *   :math:`y_P` as a :math:`\lceil{m/8}\rceil`-byte string, big-endian.
+
+            *   -   Montgomery
+                -   The key data is the scalar value of the 'public key' in little-endian order as defined by :RFC-title:`7748#6`.
+                    This is a :math:`\lceil{m/8}\rceil`-byte string where :math:`m` is the key size in bits.
+
+                    *   This is 32 bytes for Curve25519, computed as ``X25519(private_key, 9)``.
+                    *   This is 56 bytes for Curve448, computed as ``X448(private_key, 5)``.
+
+            *   -   Twisted Edwards
+                -   The key data is the public key, as defined by :RFC-title:`8032`.
+
+                    This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.
 
 .. macro:: PSA_ECC_FAMILY_SECP_K1
     :definition: ((psa_ecc_family_t) 0x17)
@@ -557,13 +897,6 @@ Elliptic Curve keys
     *   secp256k1 : ``key_bits = 256``
 
     They are defined in :cite-title:`SEC2`.
-
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
 
 .. macro:: PSA_ECC_FAMILY_SECP_R1
     :definition: ((psa_ecc_family_t) 0x12)
@@ -581,13 +914,6 @@ Elliptic Curve keys
 
     They are defined in :cite:`SEC2`.
 
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
-
 .. macro:: PSA_ECC_FAMILY_SECP_R2
     :definition: ((psa_ecc_family_t) 0x1b)
 
@@ -600,13 +926,6 @@ Elliptic Curve keys
     *   secp160r2 : ``key_bits = 160`` *(Deprecated)*
 
     It is defined in the superseded :cite-title:`SEC2v1`.
-
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
 
 .. macro:: PSA_ECC_FAMILY_SECT_K1
     :definition: ((psa_ecc_family_t) 0x27)
@@ -628,13 +947,6 @@ Elliptic Curve keys
     .. warning::
         The 163-bit curve sect163k1 is weak and deprecated and is only recommended for use in legacy applications.
 
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
-
 .. macro:: PSA_ECC_FAMILY_SECT_R1
     :definition: ((psa_ecc_family_t) 0x22)
 
@@ -654,13 +966,6 @@ Elliptic Curve keys
     .. warning::
         The 163-bit curve sect163r1 is weak and deprecated and is only recommended for use in legacy applications.
 
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
-
 .. macro:: PSA_ECC_FAMILY_SECT_R2
     :definition: ((psa_ecc_family_t) 0x2b)
 
@@ -675,13 +980,6 @@ Elliptic Curve keys
 
     .. warning::
         The 163-bit curve sect163r2 is weak and deprecated and is only recommended for use in legacy applications.
-
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
 
 .. macro:: PSA_ECC_FAMILY_BRAINPOOL_P_R1
     :definition: ((psa_ecc_family_t) 0x30)
@@ -704,13 +1002,6 @@ Elliptic Curve keys
     .. warning::
         The 160-bit curve brainpoolP160r1 is weak and deprecated and is only recommended for use in legacy applications.
 
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
-
 .. macro:: PSA_ECC_FAMILY_FRP
     :definition: ((psa_ecc_family_t) 0x33)
 
@@ -722,13 +1013,6 @@ Elliptic Curve keys
     *   FRP256v1 : ``key_bits = 256``
 
     This is defined by :cite-title:`FRP`.
-
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_DETERMINISTIC_ECDSA`
-        | `PSA_ALG_ECDSA`
-        | `PSA_ALG_ECDSA_ANY`
-        | `PSA_ALG_ECDH` (key pair only)
 
 .. macro:: PSA_ECC_FAMILY_MONTGOMERY
     :definition: ((psa_ecc_family_t) 0x41)
@@ -743,10 +1027,6 @@ Elliptic Curve keys
 
     Curve25519 is defined in :cite-title:`Curve25519`. Curve448 is defined in :cite-title:`Curve448`.
 
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_ECDH` (key pair only)
-
 .. macro:: PSA_ECC_FAMILY_TWISTED_EDWARDS
     :definition: ((psa_ecc_family_t) 0x42)
 
@@ -759,13 +1039,6 @@ Elliptic Curve keys
     *   Edwards448 : ``key_bits = 448``. This curve is birationally equivalent to Curve448.
 
     Edwards25519 is defined in :cite-title:`Ed25519`. Edwards448 is defined in :cite-title:`Curve448`.
-
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_PURE_EDDSA`
-        | `PSA_ALG_ED25519PH` (Edwards25519 only)
-        | `PSA_ALG_ED448PH` (Edwards448 only)
-
 
 .. macro:: PSA_KEY_TYPE_IS_ECC
     :definition: /* specification-defined value */
@@ -843,6 +1116,28 @@ Diffie Hellman keys
 
         | `PSA_ALG_FFDH`
 
+    .. subsection:: Key format
+
+        The data format for import and export of the key-pair is the representation of the private key :math:`x` as a big-endian byte string.
+        The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
+
+        See `PSA_KEY_TYPE_DH_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will use the following process, defined in *Key-Pair Generation by Testing Candidates* in :cite-title:`SP800-56A` §5.6.1.1.4.
+
+        A Diffie-Hellman private key is :math:`x \in [1, p - 1]`, where :math:`p` is the group's prime modulus.
+        Let :math:`m` be the bit size of :math:`p`, such that :math:`2^{m-1} \leq p < 2^m`.
+
+        This function generates the private key using the following process:
+
+        1.  Draw a byte string of length :math:`\lceil{m/8}\rceil` bytes.
+        #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m`` bits of the first byte in the string to zero.
+        #.  Convert the string to integer :math:`k` by decoding it as a big-endian byte-string.
+        #.  If :math:`k > p-2`, discard the result and return to step 1.
+        #.  Output :math:`x = k + 1` as the private key.
+
 .. macro:: PSA_KEY_TYPE_DH_PUBLIC_KEY
     :definition: /* specification-defined value */
 
@@ -854,7 +1149,12 @@ Diffie Hellman keys
 
     .. subsection:: Compatible algorithms
 
-        None. Finite-field Diffie-Hellman public keys are exported to use in a key agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key agreement algorithm as a buffer of key data.
+        None: Finite-field Diffie-Hellman public keys are exported to use in a key agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key agreement algorithm as a buffer of key data.
+
+    .. subsection:: Key format
+
+        The data format for export of the public key is the representation of the public key :math:`y = g^x\!\mod p` as a big-endian byte string.
+        The length of the byte string is the length of the base prime :math:`p` in bytes.
 
 .. macro:: PSA_DH_FAMILY_RFC7919
     :definition: ((psa_dh_family_t) 0x03)
@@ -968,6 +1268,42 @@ SPAKE2+ keys
         | `PSA_ALG_SPAKE2P_CMAC`
         | `PSA_ALG_SPAKE2P_MATTER`
 
+    .. subsection:: Key format
+
+        A SPAKE2+ key-pair consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
+        :math:`w0` and :math:`w1` are scalars in the same range as an elliptic curve private key from the group used as the SPAKE2+ primitive group.
+
+        The data format for import and export of the key-pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
+        For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
+
+        *   The P-256 private key :math:`w0`.
+            This is a 32-byte big-endian encoding of the integer :math:`w0`.
+        *   The P-256 private key :math:`w1`.
+            This is a 32-byte big-endian encoding of the integer :math:`w1`.
+
+        See `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will use the following process, which follows the recommendations for the registration process in :rfc-title:`9383`, and matches the specification of this process in :cite-title:`MATTER`.
+
+        The derivation of SPAKE2+ keys extracts :math:`\lceil{log_2(p)/8}\rceil+8` bytes from the PBKDF for each of :math:`w0s` and :math:`w1s`, where :math:`p` is the prime factor of the order of the elliptic curve group.
+        The following sizes are used for extracting :math:`w0s` and :math:`w1s`, depending on the elliptic curve:
+
+        *   P-256: 40 bytes
+        *   P-384: 56 bytes
+        *   P-521: 74 bytes
+        *   edwards25519: 40 bytes
+        *   edwards448: 64 bytes
+
+        The calculation of :math:`w0`, :math:`w1`, and :math:`L` then proceeds as described in :rfc:`9383`.
+
+        .. admonition:: Implementation note
+
+            The values of :math:`w0` and :math:`w1` are required as part of the SPAKE2+ key pair.
+
+            It is :scterm:`implementation defined` whether :math:`L` is computed during key derivation, and stored as part of the key pair; or only computed when required from the key pair.
+
 .. macro:: PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY
     :definition: /* specification-defined value */
 
@@ -987,6 +1323,24 @@ SPAKE2+ keys
         | `PSA_ALG_SPAKE2P_HMAC` (verification only)
         | `PSA_ALG_SPAKE2P_CMAC` (verification only)
         | `PSA_ALG_SPAKE2P_MATTER` (verification only)
+
+    .. subsection:: Key format
+
+        A SPAKE2+ public key consists of the two values :math:`w0` and :math:`L`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
+        :math:`w0` is a scalar in the same range as a elliptic curve private key from the group used as the SPAKE2+ primitive group.
+        :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
+
+        The data format for import and export of the public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for elliptic curve keys used by the |API|.
+        For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
+
+        *   The P-256 private key :math:`w0`.
+            This is a 32-byte big-endian encoding of the integer :math:`w0`.
+        *   The P-256 public key :math:`L`.
+            This is a 65-byte concatenation of:
+
+            -   The byte ``0x04``.
+            -   The 32-byte big-endian encoding of the x-coordinate of :math:`L`.
+            -   The 32-byte big-endian encoding of the y-coordinate of :math:`L`.
 
 .. macro:: PSA_KEY_TYPE_IS_SPAKE2P
     :definition: /* specification-defined value */

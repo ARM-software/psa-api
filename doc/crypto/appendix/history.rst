@@ -25,6 +25,7 @@ Other changes
 ~~~~~~~~~~~~~
 
 *   Integrated the PAKE Extension with the main specification for the |API|.
+*   Moved the documentation of key formats and key derivation procedures to sub-sections within each key type.
 
 Changes between *1.2.0* and *1.2.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -77,7 +78,7 @@ Clarifications and fixes
 Other changes
 ~~~~~~~~~~~~~
 
-*   Moved the documentation of supported key import/export formats to a separate section of the specification. See :secref:`key_formats`.
+*   Moved the documentation of supported key import/export formats to a separate section of the specification.
 
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

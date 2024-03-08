@@ -50,7 +50,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. param:: const uint8_t * data
         Buffer containing the key data.
         The content of this buffer is interpreted according to the type declared in ``attributes``.
-        All implementations must support at least the format described in :secref:`key_formats` for the chosen type.
+        All implementations must support at least the format described in the *Key format* section of the chosen key type.
         Implementations can support other formats, but be conservative in interpreting the key data: it is recommended that implementations reject content if it might be erroneous, for example, if it is the wrong type or is truncated.
     .. param:: size_t data_length
         Size of the ``data`` buffer in bytes.
@@ -88,7 +88,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    This function supports any output from `psa_export_key()`. Refer to :secref:`key_formats` for the format of keys.
+    This function supports any output from `psa_export_key()`. Each key type in :secref:`key-types` describes the expected format of keys.
 
     The key data determines the key size. The attributes can optionally specify a key size; in this case it must match the size determined from the key data. A key size of ``0`` in ``attributes`` indicates that the key size is solely determined by the key data.
 
@@ -366,10 +366,9 @@ Key export
 
     The output of this function can be passed to `psa_import_key()` to create an equivalent object.
 
-    If the implementation of `psa_import_key()` supports other formats beyond the format specified here, the output from `psa_export_key()` must use the representation specified in :secref:`key_formats`, not the originally imported representation.
+    If the implementation of `psa_import_key()` supports other formats beyond the format specified here, the output from `psa_export_key()` must use the representation specified in :secref:`key-types`, not the originally imported representation.
 
-    For standard key types, the output format is defined in :secref:`key_formats`.
-
+    For standard key types, the output format is defined in the relevant *Key format* section in :secref:`key-types`.
     The policy on the key must have the usage flag `PSA_KEY_USAGE_EXPORT` set.
 
 .. function:: psa_export_public_key
@@ -419,9 +418,9 @@ Key export
 
     The output of this function can be passed to `psa_import_key()` to create an object that is equivalent to the public key.
 
-    If the implementation of `psa_import_key()` supports other formats beyond the format specified here, the output from `psa_export_public_key()` must use the representation specified in :secref:`key_formats`, not the originally imported representation.
+    If the implementation of `psa_import_key()` supports other formats beyond the format specified here, the output from `psa_export_public_key()` must use the representation specified in :secref:`key-types`, not the originally imported representation.
 
-    For standard key types, the output format is defined in :secref:`key_formats`.
+    For standard key types, the output format is defined in the relevant *Key format* section in :secref:`key-types`.
 
     Exporting a public key object or the public part of a key pair is always permitted, regardless of the key's usage flags.
 
@@ -530,189 +529,3 @@ Key export
     This value must be a sufficient buffer size when calling `psa_export_key()` or `psa_export_public_key()` to export any asymmetric key pair or public key that is supported by the implementation, regardless of the exact key type and key size.
 
     See also `PSA_EXPORT_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_KEY_OUTPUT_SIZE()`.
-
-
-.. _key_formats:
-
-Key formats
------------
-
-This section defines the format of the key data that an implementation is required to support when importing and exporting keys. Keys can be imported using `psa_import_key()`, and exported using `psa_export_key()` or `psa_export_public_key()`. The public key formats are also used for the key agreement functions, see :secref:`key-agreement`.
-
-.. list-table:: Standard key formats
-    :name: std-key-formats
-    :class: longtable
-    :header-rows: 1
-    :widths: 2,5
-
-    *   -   Key type
-        -   Key type details and format
-
-    *   -   DES
-        -   `PSA_KEY_TYPE_DES`, 64 bits.
-
-            The key data consists of 8 bytes. The parity bits must be correct.
-
-    *   -   2-key 3DES
-
-            3-key 3DES
-        -   `PSA_KEY_TYPE_DES`, 128 bits.
-
-            `PSA_KEY_TYPE_DES`, 192 bits.
-
-            The key data is the concatenation of the two or three DES keys.
-
-    *   -   Other symmetric keys
-
-            *   AES
-            *   ARC4
-            *   ARIA
-            *   CAMELLIA
-            *   ChaCha20
-            *   HMAC
-            *   SM4
-            *   Secrets for derivation
-            *   Password hashes
-
-        -   `PSA_KEY_TYPE_AES`
-
-            `PSA_KEY_TYPE_ARC4`
-
-            `PSA_KEY_TYPE_ARIA`
-
-            `PSA_KEY_TYPE_CAMELLIA`
-
-            `PSA_KEY_TYPE_CHACHA20`
-
-            `PSA_KEY_TYPE_HMAC`
-
-            `PSA_KEY_TYPE_SM4`
-
-            `PSA_KEY_TYPE_DERIVE`
-
-            `PSA_KEY_TYPE_PASSWORD_HASH`
-
-            The key data is the raw bytes of the key.
-
-    *   -   RSA key pair
-        -   `PSA_KEY_TYPE_RSA_KEY_PAIR`
-
-            The key data is the non-encrypted DER encoding of the representation defined by in :RFC-title:`8017` as ``RSAPrivateKey``, version ``0``.
-
-            .. code-block:: none
-
-                RSAPrivateKey ::= SEQUENCE {
-                    version             INTEGER,  -- must be 0
-                    modulus             INTEGER,  -- n
-                    publicExponent      INTEGER,  -- e
-                    privateExponent     INTEGER,  -- d
-                    prime1              INTEGER,  -- p
-                    prime2              INTEGER,  -- q
-                    exponent1           INTEGER,  -- d mod (p-1)
-                    exponent2           INTEGER,  -- d mod (q-1)
-                    coefficient         INTEGER,  -- (inverse of q) mod p
-                }
-
-            .. note::
-
-                Although it is possible to define an RSA key pair or private key using a subset of these elements, the output from `psa_export_key()` for an RSA key pair must include all of these elements.
-
-    *   -   RSA public key
-        -   `PSA_KEY_TYPE_RSA_PUBLIC_KEY`
-
-            The key data is the DER encoding of the representation defined by :RFC-title:`3279#2.3.1` as ``RSAPublicKey``.
-
-            .. code-block:: none
-
-                RSAPublicKey ::= SEQUENCE {
-                    modulus            INTEGER,    -- n
-                    publicExponent     INTEGER  }  -- e
-
-    *   -   Weierstrass Elliptic curve key pair
-        -   :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(ecc_family)`, where ``ecc_family`` designates a Weierstrass curve family.
-
-            The key data is the content of the ``privateKey`` field of the ``ECPrivateKey`` format defined by :RFC-title:`5915`.
-
-            This is a :math:`\lceil{m/8}\rceil`-byte string in big-endian order, where :math:`m` is the key size in bits.
-
-    *   -   Weierstrass Elliptic curve public key
-        -   :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(ecc_family)`, where ``ecc_family`` designates a Weierstrass curve family.
-
-            The key data is the uncompressed representation of an elliptic curve point as an octet string defined in :cite-title:`SEC1` §2.3.3.
-            If :math:`m` is the bit size associated with the curve, i.e. the bit size of :math:`q` for a curve over :math:`\mathbb{F}_q`, then the representation of point :math:`P` consists of:
-
-            *   The byte ``0x04``;
-            *   :math:`x_P` as a :math:`\lceil{m/8}\rceil`-byte string, big-endian;
-            *   :math:`y_P` as a :math:`\lceil{m/8}\rceil`-byte string, big-endian.
-
-    *   -   Montgomery Elliptic curve key pair
-        -   :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_MONTGOMERY)`
-
-            The key data is the scalar value of the 'private key' in little-endian order as defined by :RFC-title:`7748#6`. The value must have the forced bits set to zero or one as specified by ``decodeScalar25519()`` and ``decodeScalar448()`` in :RFC:`7748#5`.
-
-            This is a :math:`\lceil{m/8}\rceil`-byte string where :math:`m` is the key size in bits. This is 32 bytes for Curve25519, and 56 bytes for Curve448.
-
-    *   -   Montgomery Elliptic curve public key
-        -   :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(PSA_ECC_FAMILY_MONTGOMERY)`
-
-            The key data is the scalar value of the 'public key' in little-endian order as defined by :RFC-title:`7748#6`. This is a :math:`\lceil{m/8}\rceil`-byte string where :math:`m` is the key size in bits.
-
-            *   This is 32 bytes for Curve25519, computed as ``X25519(private_key, 9)``.
-            *   This is 56 bytes for Curve448, computed as ``X448(private_key, 5)``.
-
-    *   -   Twisted Edwards Elliptic curve key pair
-        -   :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_TWISTED_EDWARDS)`
-
-            The key data is the private key, as defined by :RFC-title:`8032`.
-
-            This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.
-
-    *   -   Twisted Edwards Elliptic curve public key
-        -   :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(PSA_ECC_FAMILY_TWISTED_EDWARDS)`
-
-            The key data is the public key, as defined by :RFC-title:`8032`.
-
-            This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.
-
-    *   -   Finite-field Diffie-Hellman key pair
-        -   :code:`PSA_KEY_TYPE_DH_KEY_PAIR(dh_family)` where ``dh_family`` designates any Diffie-Hellman family.
-
-            The key data is the representation of the private key :math:`x` as a big-endian byte string. The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
-
-    *   -   Finite-field Diffie-Hellman public key
-        -   :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(dh_family)` where ``dh_family`` designates any Diffie-Hellman family.
-
-            The key data is the representation of the public key :math:`y = g^x\!\mod p` as a big-endian byte string. The length of the byte string is the length of the base prime :math:`p` in bytes.
-
-    *   -   SPAKE2+ key pair
-        -   :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(ecc_family)` where ``ecc_family`` designates an elliptic curve family.
-
-            The key consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
-            :math:`w0` and :math:`w1` are scalars in the same range as an elliptic curve private key from the group used as the SPAKE2+ primitive group.
-
-            For the |API|, the default format for a SPAKE2+ key pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
-            For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
-
-            *   The P-256 private key :math:`w0`.
-                This is a 32-byte big-endian encoding of the integer :math:`w0`.
-            *   The P-256 private key :math:`w1`.
-                This is a 32-byte big-endian encoding of the integer :math:`w1`.
-
-    *   -   SPAKE2+ public key
-        -   :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(ecc_family)` where ``ecc_family`` designates an elliptic curve family.
-
-            The public key consists of the two values :math:`w0` and :math:`L`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
-            :math:`w0` is a scalar in the same range as a elliptic curve private key from the group used as the SPAKE2+ primitive group.
-            :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
-
-            For the |API|, the default format for a SPAKE2+ public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for elliptic curve keys used by the |API|.
-            For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
-
-            *   The P-256 private key :math:`w0`.
-                This is a 32-byte big-endian encoding of the integer :math:`w0`.
-            *   The P-256 public key :math:`L`.
-                This is a 65-byte concatenation of:
-
-                -   The byte ``0x04``.
-                -   The 32-byte big-endian encoding of the x-coordinate of :math:`L`.
-                -   The 32-byte big-endian encoding of the y-coordinate of :math:`L`.

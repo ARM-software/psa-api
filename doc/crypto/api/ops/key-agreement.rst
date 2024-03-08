@@ -131,7 +131,7 @@ Standalone key agreement
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key_formats`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described with the public key type in :secref:`key-types`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: psa_algorithm_t alg
@@ -219,7 +219,7 @@ Standalone key agreement
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key_formats`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described with the public key type in :secref:`key-types`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: uint8_t * output
@@ -290,7 +290,7 @@ Combining key agreement and key derivation
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const uint8_t * peer_key
-        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described in :secref:`key_formats`.
+        Public key of the peer. The peer key data is parsed with the type :code:`PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type)` where ``type`` is the type of ``private_key``, and with the same bit-size as ``private_key``. The peer key must be in the format that `psa_import_key()` accepts for this public key type. These formats are described with the public key type in :secref:`key-types`.
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
 
