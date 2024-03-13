@@ -697,8 +697,7 @@ Multi-part PAKE operations
 
     To abandon an active operation, or reset an operation in an error state, call `psa_pake_abort()`.
 
-    ..
-        See :secref:`multi-part-operations`. :issue:`add this when integrated to main specification`
+    See :secref:`multi-part-operations`.
 
 .. function:: psa_pake_set_role
 
