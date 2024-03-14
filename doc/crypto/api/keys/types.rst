@@ -117,17 +117,24 @@ Symmetric keys
     .. summary::
         HMAC key.
 
-    The key policy determines which underlying hash algorithm the key can be used for.
+    HMAC keys can be used in HMAC, or HMAC-based, algorithms.
+    Although HMAC is parameterized by a specific hash algorithm, for example SHA-256, the hash algorithm is not specified in the key type.
+    The permitted-algorithm policy for the key must specify a particular hash algorithm.
 
-    The bit size of an HMAC key must be a non-zero multiple of 8. An HMAC key is typically the same size as the output of the underlying hash algorithm. An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use.
+    The bit size of an HMAC key must be a non-zero multiple of 8.
+    An HMAC key is typically the same size as the output of the underlying hash algorithm.
+    An HMAC key that is longer than the input-block size of the underlying hash algorithm will be hashed before use, see :RFC-title:`2104#2`.
 
-    When an HMAC key is created that is longer than the block size, it is :scterm:`implementation defined` whether the implementation stores the original HMAC key, or the hash of the HMAC key. If the hash of the key is stored, the key size reported by `psa_get_key_attributes()` will be the size of the hashed key.
+    It is recommended that an application does not construct HMAC keys that are longer than the input block size of the hash algorithm that will be used.
+
+    If the application does not control the length of the data used to construct the HMAC key, it is recommended that the application hashes the key data, when it exceeds the hash input-block length, before constructing the HMAC key.
+    This will reduce the size of the stored HMAC key.
 
     .. note::
 
         :code:`PSA_HASH_LENGTH(alg)` provides the output size of hash algorithm ``alg``, in bytes.
 
-        :code:`PSA_HASH_BLOCK_LENGTH(alg)` provides the block size of hash algorithm ``alg``, in bytes.
+        :code:`PSA_HASH_BLOCK_LENGTH(alg)` provides the input-block size of hash algorithm ``alg``, in bytes.
 
     .. subsection:: Compatible algorithms
 
