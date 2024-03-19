@@ -119,7 +119,8 @@ Cipher algorithms
 
     For the `PSA_ALG_CTR` algorithm, the counter block is initialized from the IV. The counter block is then treated as a single, big-endian encoded integer, and the counter block is updated by incrementing this integer by ``1``.
 
-    The appropriate way to set the IV depends on the application use case:
+    The security of CTR mode depends on using counter block values that are unique across all messages encrypted using the same key value.
+    This is achieved by using suitable initial counter block values, the appropriate way to do this depends on the application use case:
 
     *   If the application is using CTR mode to implement a protocol that specifies the construction of the IV, then the application must use a multi-part cipher operation, and call `psa_cipher_set_iv()` with the appropriate IV for encryption and decryption operations.
 
