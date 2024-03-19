@@ -123,18 +123,18 @@ Symmetric keys
 
     The bit size of an HMAC key must be a non-zero multiple of 8.
     An HMAC key is typically the same size as the output of the underlying hash algorithm.
-    An HMAC key that is longer than the input-block size of the underlying hash algorithm will be hashed before use, see :RFC-title:`2104#2`.
+    An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use, see :RFC-title:`2104#2`.
 
-    It is recommended that an application does not construct HMAC keys that are longer than the input block size of the hash algorithm that will be used.
+    It is recommended that an application does not construct HMAC keys that are longer than the block size of the hash algorithm that will be used.
+    It is :scterm:`implementation defined` whether an HMAC key that is longer than the hash block size is supported.
 
-    If the application does not control the length of the data used to construct the HMAC key, it is recommended that the application hashes the key data, when it exceeds the hash input-block length, before constructing the HMAC key.
-    This will reduce the size of the stored HMAC key.
+    If the application does not control the length of the data used to construct the HMAC key, it is recommended that the application hashes the key data, when it exceeds the hash block length, before constructing the HMAC key.
 
     .. note::
 
         :code:`PSA_HASH_LENGTH(alg)` provides the output size of hash algorithm ``alg``, in bytes.
 
-        :code:`PSA_HASH_BLOCK_LENGTH(alg)` provides the input-block size of hash algorithm ``alg``, in bytes.
+        :code:`PSA_HASH_BLOCK_LENGTH(alg)` provides the block size of hash algorithm ``alg``, in bytes.
 
     .. subsection:: Compatible algorithms
 
