@@ -236,7 +236,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     *   `psa_key_derivation_key_agreement()`
     *   `psa_raw_key_agreement()`
 
-    If this flag is present on all keys used in calls to `psa_key_derivation_input_key()` for a key derivation operation, then it permits calling `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, `psa_key_derivation_verify_bytes()`, or `psa_key_derivation_verify_key()` at the end of the operation.
+    If this flag is present on all keys used in calls to `psa_key_derivation_input_key()` for a key derivation operation, then it permits calling `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, `psa_key_derivation_output_key_ext()`, `psa_key_derivation_verify_bytes()`, or `psa_key_derivation_verify_key()` at the end of the operation.
 
 .. macro:: PSA_KEY_USAGE_VERIFY_DERIVATION
     :definition: ((psa_key_usage_t)0x00008000)
