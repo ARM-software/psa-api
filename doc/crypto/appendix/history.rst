@@ -21,11 +21,7 @@ Clarifications and fixes
 *   Remove the dependency on the underlying hash algorithm in definition of HMAC keys, and their behavior on import and export.
     Transferred the responsibility for truncating over-sized HMAC keys to the application.
     See `PSA_KEY_TYPE_HMAC`.
-
 *   Rewrite the description of `PSA_ALG_CTR`, to clarify how to use the API to set the appropriate IV for different application use cases.
-
-Other changes
-~~~~~~~~~~~~~
 
 Changes between *1.1.2* and *1.2.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

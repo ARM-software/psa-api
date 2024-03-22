@@ -60,3 +60,9 @@
     Better support for key agreement.
 
     New algorithms for Zigbee, XChaCha, TLS 1.2, and key derivation.
+
+.. release:: 1.2.1 Final
+    :date: March 2024
+    :confidentiality: Non-confidential
+
+    Clarifications and fixes
