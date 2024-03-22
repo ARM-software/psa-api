@@ -30,9 +30,9 @@ doc_info = {
     'issue_no': 1,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
-    'release_candidate': 0,
+    'release_candidate': 1,
     # Draft status - use this to indicate the document is not ready for publication
-    'draft': True,
+    'draft': False,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
