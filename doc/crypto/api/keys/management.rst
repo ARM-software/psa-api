@@ -549,16 +549,6 @@ This section defines the format of the key data that an implementation is requir
 
             The key data is the concatenation of the two or three DES keys.
 
-    *   -   HMAC
-        -   :code:`PSA_KEY_TYPE_HMAC(hash_alg)`
-
-            For HMAC keys that are shorter than, or equal in size to, the block size of ``hash_alg``, the format is the raw bytes of the key.
-
-            HMAC keys that are longer than the block size of ``hash_alg``, are permitted in a call to `psa_import_key()`. For such a key, the output of `psa_export_key()` is an :scterm:`implementation defined` choice between the following:
-
-            1.  The raw bytes of the key.
-            #.  The raw bytes of the hash of the key, using ``hash_alg``.
-
     *   -   Other symmetric keys
 
             *   AES
@@ -566,6 +556,7 @@ This section defines the format of the key data that an implementation is requir
             *   ARIA
             *   CAMELLIA
             *   ChaCha20
+            *   HMAC
             *   SM4
             *   Secrets for derivation
             *   Password hashes
@@ -579,6 +570,8 @@ This section defines the format of the key data that an implementation is requir
             `PSA_KEY_TYPE_CAMELLIA`
 
             `PSA_KEY_TYPE_CHACHA20`
+
+            `PSA_KEY_TYPE_HMAC`
 
             `PSA_KEY_TYPE_SM4`
 

@@ -18,6 +18,9 @@ Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 *   Fix the example implementation of `PSA_ALG_KEY_AGREEMENT_GET_BASE()` and `PSA_ALG_KEY_AGREEMENT_GET_KDF()` in :secref:`appendix-specdef-values`, to give correct results for key agreements combined with PBKDF2.
+*   Remove the dependency on the underlying hash algorithm in definition of HMAC keys, and their behavior on import and export.
+    Transferred the responsibility for truncating over-sized HMAC keys to the application.
+    See `PSA_KEY_TYPE_HMAC`.
 
 Other changes
 ~~~~~~~~~~~~~
