@@ -219,6 +219,7 @@ typedef uint8_t psa_pake_step_t;
 #define PSA_ECC_FAMILY_TWISTED_EDWARDS ((psa_ecc_family_t) 0x42)
 #define PSA_ERROR_INSUFFICIENT_ENTROPY ((psa_status_t)-148)
 #define PSA_ERROR_INVALID_PADDING ((psa_status_t)-150)
+#define PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE /* implementation-defined value */
 #define PSA_EXPORT_KEY_OUTPUT_SIZE(key_type, key_bits) \
     /* implementation-defined value */
 #define PSA_EXPORT_KEY_PAIR_MAX_SIZE /* implementation-defined value */
