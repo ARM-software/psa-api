@@ -48,7 +48,9 @@ Keys are created using one of the *key creation functions*:
 
 *   `psa_import_key()`
 *   `psa_generate_key()`
+*   `psa_generate_key_ext()`
 *   `psa_key_derivation_output_key()`
+*   `psa_key_derivation_output_key_ext()`
 *   `psa_key_agreement()`
 *   `psa_pake_get_shared_key()`
 *   `psa_copy_key()`

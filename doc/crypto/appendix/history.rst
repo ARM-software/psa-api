@@ -21,6 +21,9 @@ Changes to the API
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
 
+*   Add extended key generation and derivation functions, `psa_generate_key_ext()` and `psa_key_derivation_output_key_ext()`, that accept additional parameters to control the key creation process.
+*   Define a key production parameter to select a non-default exponent for RSA key generation.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
