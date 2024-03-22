@@ -16,6 +16,12 @@ Changes between *1.2.1* and *1.3.0*
 
 :issue:`TBD`
 
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+*   Add extended key generation and derivation functions, `psa_generate_key_ext()` and `psa_key_derivation_output_key_ext()`, that accept additional parameters to control the key creation process.
+*   Define a key production parameter to select a non-default exponent for RSA key generation.
+
 Other changes
 ~~~~~~~~~~~~~
 
