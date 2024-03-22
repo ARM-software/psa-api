@@ -331,6 +331,7 @@ Key export
         This must be appropriate for the key:
 
         *   The required output size is :code:`PSA_EXPORT_KEY_OUTPUT_SIZE(type, bits)` where ``type`` is the key type and ``bits`` is the key size in bits.
+        *   `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key or key pair.
         *   `PSA_EXPORT_KEY_PAIR_MAX_SIZE` evaluates to the maximum output size of any supported key pair.
         *   `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key.
         *   This API defines no maximum size for symmetric keys. Arbitrarily large data items can be stored in the key store, for example certificates that correspond to a stored private key or input material for key derivation.
@@ -353,7 +354,7 @@ Key export
         *   The implementation does not support export of keys with this key type.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
         The size of the ``data`` buffer is too small.
-        `PSA_EXPORT_KEY_OUTPUT_SIZE()` or `PSA_EXPORT_KEY_PAIR_MAX_SIZE` can be used to determine a sufficient buffer size.
+        `PSA_EXPORT_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`, or `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` can be used to determine a sufficient buffer size.
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_STORAGE_FAILURE
@@ -386,6 +387,7 @@ Key export
 
         *   The required output size is :code:`PSA_EXPORT_PUBLIC_KEY_OUTPUT_SIZE(type, bits)` where ``type`` is the key type and ``bits`` is the key size in bits.
         *   `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key or public part of a key pair.
+        *   `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key or key pair.
 
     .. param:: size_t * data_length
         On success, the number of bytes that make up the key data.
@@ -405,7 +407,7 @@ Key export
         *   The implementation does not support export of keys with this key type.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
         The size of the ``data`` buffer is too small.
-        `PSA_EXPORT_PUBLIC_KEY_OUTPUT_SIZE()` or `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE` can be used to determine a sufficient buffer size.
+        `PSA_EXPORT_PUBLIC_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`, or `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` can be used to determine a sufficient buffer size.
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_STORAGE_FAILURE
@@ -458,7 +460,7 @@ Key export
         if (status != PSA_SUCCESS)
             handle_error(...);
 
-    See also `PSA_EXPORT_KEY_PAIR_MAX_SIZE` and `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`.
+    See also `PSA_EXPORT_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE`.
 
 .. macro:: PSA_EXPORT_PUBLIC_KEY_OUTPUT_SIZE
     :definition: /* implementation-defined value */
@@ -497,7 +499,7 @@ Key export
         if (status != PSA_SUCCESS)
             handle_error(...);
 
-    See also `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`.
+    See also `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE` and `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE`.
 
 .. macro:: PSA_EXPORT_KEY_PAIR_MAX_SIZE
     :definition: /* implementation-defined value */
@@ -507,7 +509,7 @@ Key export
 
     This value must be a sufficient buffer size when calling `psa_export_key()` to export any asymmetric key pair that is supported by the implementation, regardless of the exact key type and key size.
 
-    See also `PSA_EXPORT_KEY_OUTPUT_SIZE()`.
+    See also `PSA_EXPORT_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE`.
 
 .. macro:: PSA_EXPORT_PUBLIC_KEY_MAX_SIZE
     :definition: /* implementation-defined value */
@@ -517,7 +519,17 @@ Key export
 
     This value must be a sufficient buffer size when calling `psa_export_key()` or `psa_export_public_key()` to export any asymmetric public key that is supported by the implementation, regardless of the exact key type and key size.
 
-    See also `PSA_EXPORT_PUBLIC_KEY_OUTPUT_SIZE()`.
+    See also `PSA_EXPORT_PUBLIC_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_KEY_PAIR_MAX_SIZE`, and `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE`.
+
+.. macro:: PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Sufficient buffer size for exporting any asymmetric key pair or public key.
+
+    This value must be a sufficient buffer size when calling `psa_export_key()` or `psa_export_public_key()` to export any asymmetric key pair or public key that is supported by the implementation, regardless of the exact key type and key size.
+
+    See also `PSA_EXPORT_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_KEY_OUTPUT_SIZE()`.
 
 
 .. _key_formats:
