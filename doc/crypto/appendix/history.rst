@@ -22,6 +22,8 @@ Clarifications and fixes
     Transferred the responsibility for truncating over-sized HMAC keys to the application.
     See `PSA_KEY_TYPE_HMAC`.
 
+*   Rewrite the description of `PSA_ALG_CTR`, to clarify how to use the API to set the appropriate IV for different application use cases.
+
 Other changes
 ~~~~~~~~~~~~~
 
