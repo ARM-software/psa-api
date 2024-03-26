@@ -954,6 +954,7 @@ Key derivation functions
         The key derivation operation object to read from.
     .. param:: const psa_key_production_parameters_t *params
         Customization parameters for the key derivation.
+
         When this is `PSA_KEY_PRODUCTION_PARAMETERS_INIT` with ``params_data_length == 0``,
         this function is equivalent to `psa_key_derivation_output_key()`.
     .. param:: size_t params_data_length
@@ -1010,7 +1011,10 @@ Key derivation functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
+    Use this function to provide explicit production parameters when deriving a key.
     See the description of `psa_key_derivation_output_key()` for the operation of this function with the default production parameters.
+
+    See the documentation of `psa_key_production_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the production parameters used for key derivation.
 
 .. function:: psa_key_derivation_verify_bytes
 

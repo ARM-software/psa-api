@@ -115,7 +115,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
         Future versions may add other fields in this structure.
 
-    The interpretation of this structure depends on the type of the key. :numref:`tab-production-parameters` shows the production parameters for each type of key.
+    The interpretation of this structure depends on the type of the key. :numref:`tab-production-parameters` shows the production parameters for each type of key. See the key type definitions for details of the valid parameter values.
 
     .. list-table:: Non-default production parameters
         :name: tab-production-parameters
@@ -127,26 +127,14 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
         *   -   RSA
 
-                `PSA_KEY_TYPE_RSA_KEY_PAIR`
+            -   Use the production parameters to select an exponent value that is different from the default value of ``65537``.
 
-            -   ``flags`` must be ``0``.
-
-                ``data`` is the public exponent, in little-endian byte order.
-
-                The exponent must be an odd integer and must not be ``1``.
-                Implementations must support an exponent of ``65535``, are recommended to support an exponent of ``3``, and can support other values.
-                :issue:`Why do we insist on supporting 65535? But make no mention of supporting 65537?`
-
-                If ``data`` is empty or if the custom production parameters are omitted altogether, the default exponent value ``65537`` is used.
-
-                The maxmimum supported exponent value is :scterm:`implementation defined`.
+                See `PSA_KEY_TYPE_RSA_KEY_PAIR`.
 
         *   -   Other key types
             -   Reserved for future use.
 
                 ``flags`` must be ``0``.
-
-    .. todo:: Understand why the specific values for the exponent are called out in the documentation.
 
 .. macro:: PSA_KEY_PRODUCTION_PARAMETERS_INIT
     :definition: { 0 }
@@ -215,13 +203,9 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     Implementations must reject an attempt to generate a key of size ``0``.
 
-    The following type-specific considerations apply:
+    The key type definitions in :secref:`key-types` provide specific details relating to generation of the key.
 
-    *   For RSA keys (`PSA_KEY_TYPE_RSA_KEY_PAIR`), the default public exponent is 65537. The modulus is a product of two probabilistic primes between :math:`2^{n-1}` and :math:`2^n` where :math:`n` is the bit size specified in the attributes.
-
-        To generate an RSA key with a non-default exponent, use `psa_generate_key_ext()`.
-
-     .. note::
+    .. note::
 
         This function is equivalent to calling `psa_generate_key_ext()` with the production parameters `PSA_KEY_PRODUCTION_PARAMETERS_INIT` and ``params_data_length == 0`` (``params->data`` is empty).
 
@@ -245,6 +229,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. param:: const psa_key_production_parameters_t *params
         Customization parameters for the key generation.
+
         When this is `PSA_KEY_PRODUCTION_PARAMETERS_INIT` with ``params_data_length == 0``, this function is equivalent to `psa_generate_key()`.
     .. param:: size_t params_data_length
         Length of ``params->data`` in bytes.
@@ -288,12 +273,10 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    See the description of `psa_generate_key()` for the operation of this
-    function with the default production parameters. In addition, this function
-    supports the following production customizations, described in more detail
-    in the documentation of `psa_key_production_parameters_t`:
+    Use this function to provide explicit production parameters when generating a key.
+    See the description of `psa_generate_key()` for the operation of this function with the default production parameters.
 
-    *   RSA keys --- generation with a non-default public exponent.
+    See the documentation of `psa_key_production_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the production parameters used for key generation.
 
 .. function:: psa_copy_key
 
