@@ -22,3 +22,9 @@
     Rework the API to support augmented PAKE protocols, improve ease of use and implementation.
 
     API status is now Final/Release.
+
+.. release:: Final 1
+    :date: March 2024
+    :confidentiality: Non-confidential
+
+    Clarifications and fixes
