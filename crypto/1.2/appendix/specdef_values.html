@@ -219,10 +219,10 @@
     ((ka_alg) | (kdf_alg))
 
 #define <a class="reference internal" href="../api/ops/ka.html#c.PSA_ALG_KEY_AGREEMENT_GET_BASE" title="PSA_ALG_KEY_AGREEMENT_GET_BASE">PSA_ALG_KEY_AGREEMENT_GET_BASE</a>(alg) \
-    ((<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)((alg) &amp; 0xffff0000))
+    ((<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)((alg) &amp; 0xff7f0000))
 
 #define <a class="reference internal" href="../api/ops/ka.html#c.PSA_ALG_KEY_AGREEMENT_GET_KDF" title="PSA_ALG_KEY_AGREEMENT_GET_KDF">PSA_ALG_KEY_AGREEMENT_GET_KDF</a>(alg) \
-    ((<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)((alg) &amp; 0xfe00ffff))
+    ((<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)((alg) &amp; 0xfe80ffff))
 
 #define <a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_PBKDF2_HMAC" title="PSA_ALG_PBKDF2_HMAC">PSA_ALG_PBKDF2_HMAC</a>(hash_alg) \
     ((<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)(0x08800100 | ((hash_alg) &amp; 0x000000ff)))
@@ -353,7 +353,7 @@
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.2.0
+Version 1.2.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>

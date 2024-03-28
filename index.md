@@ -38,7 +38,7 @@ Crypto API | PAKE | 1.2 Final | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [Al
 [status-code-html]:  status-code/1.0/
 [status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.3.pdf
 [crypto-html]:       crypto/1.2/
-[crypto-pdf]:        crypto/1.2/IHI0086-PSA_Certified_Crypto_API-1.2.0.pdf
+[crypto-pdf]:        crypto/1.2/IHI0086-PSA_Certified_Crypto_API-1.2.1.pdf
 [storage-html]:      storage/1.0/
 [storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.3.pdf
 [attestation-html]:  attestation/1.0/

@@ -26,7 +26,8 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
-1.2.0 | [HTML][1-2-html] | [&darr; PDF][1-2-0-pdf] | February 2024
+1.2.1 | [HTML][1-2-html] | [&darr; PDF][1-2-1-pdf] | March 2024
+1.2.0 | | [&darr; PDF][1-2-0-pdf] | February 2024
 1.1.2 | [HTML][1-1-html] | [&darr; PDF][1-1-2-pdf] | March 2023
 1.1.1 | | [&darr; PDF][1-1-1-pdf] | October 2022
 1.1.0 | | [&darr; PDF][1-1-0-pdf] | February 2022
@@ -42,6 +43,7 @@ PAKE | 1.1 Beta 1 | [HTML][pake-beta-html] | [&darr; PDF][pake-beta-1-pdf] | Oct
 PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 
 [1-2-html]:             1.2/
+[1-2-1-pdf]:            1.2/IHI0086-PSA_Certified_Crypto_API-1.2.1.pdf
 [1-2-0-pdf]:            1.2/IHI0086-PSA_Certified_Crypto_API-1.2.0.pdf
 
 [1-1-html]:             1.1/
