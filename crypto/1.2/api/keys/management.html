@@ -732,23 +732,14 @@ if (status != PSA_SUCCESS)
 <p>The key data is the concatenation of the two or three DES keys.</p>
 </td>
 </tr>
-<tr class="row-even"><td><p>HMAC</p></td>
-<td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_HMAC" title="PSA_KEY_TYPE_HMAC"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_HMAC</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p>
-<p>For HMAC keys that are shorter than, or equal in size to, the block size of <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code>, the format is the raw bytes of the key.</p>
-<p>HMAC keys that are longer than the block size of <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code>, are permitted in a call to <a class="reference internal" href="#c.psa_import_key" title="psa_import_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_import_key()</span></code></a>. For such a key, the output of <a class="reference internal" href="#c.psa_export_key" title="psa_export_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_export_key()</span></code></a> is an <a class="reference internal" href="../../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a> choice between the following:</p>
-<ol class="arabic simple">
-<li><p>The raw bytes of the key.</p></li>
-<li><p>The raw bytes of the hash of the key, using <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code>.</p></li>
-</ol>
-</td>
-</tr>
-<tr class="row-odd"><td><p>Other symmetric keys</p>
+<tr class="row-even"><td><p>Other symmetric keys</p>
 <ul class="simple">
 <li><p>AES</p></li>
 <li><p>ARC4</p></li>
 <li><p>ARIA</p></li>
 <li><p>CAMELLIA</p></li>
 <li><p>ChaCha20</p></li>
+<li><p>HMAC</p></li>
 <li><p>SM4</p></li>
 <li><p>Secrets for derivation</p></li>
 <li><p>Password hashes</p></li>
@@ -759,13 +750,14 @@ if (status != PSA_SUCCESS)
 <p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_ARIA" title="PSA_KEY_TYPE_ARIA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ARIA</span></code></a></p>
 <p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_CAMELLIA" title="PSA_KEY_TYPE_CAMELLIA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CAMELLIA</span></code></a></p>
 <p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_CHACHA20" title="PSA_KEY_TYPE_CHACHA20"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CHACHA20</span></code></a></p>
+<p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_HMAC" title="PSA_KEY_TYPE_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_HMAC</span></code></a></p>
 <p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_SM4" title="PSA_KEY_TYPE_SM4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SM4</span></code></a></p>
 <p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_DERIVE" title="PSA_KEY_TYPE_DERIVE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DERIVE</span></code></a></p>
 <p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_PASSWORD_HASH" title="PSA_KEY_TYPE_PASSWORD_HASH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD_HASH</span></code></a></p>
 <p>The key data is the raw bytes of the key.</p>
 </td>
 </tr>
-<tr class="row-even"><td><p>RSA key pair</p></td>
+<tr class="row-odd"><td><p>RSA key pair</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_RSA_KEY_PAIR" title="PSA_KEY_TYPE_RSA_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_KEY_PAIR</span></code></a></p>
 <p>The key data is the non-encrypted DER encoding of the representation defined by in <span><em>PKCS #1: RSA Cryptography Specifications Version 2.2</em> <a class="reference internal" href="../../about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a></span> as <code class="docutils literal notranslate"><span class="pre">RSAPrivateKey</span></code>, version <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>RSAPrivateKey ::= SEQUENCE {
@@ -787,7 +779,7 @@ if (status != PSA_SUCCESS)
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>RSA public key</p></td>
+<tr class="row-even"><td><p>RSA public key</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_RSA_PUBLIC_KEY" title="PSA_KEY_TYPE_RSA_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_PUBLIC_KEY</span></code></a></p>
 <p>The key data is the DER encoding of the representation defined by <span><em>Algorithms and Identifiers for the Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</em> <a class="reference internal" href="../../about.html#cite-rfc3279"><span class="cite">[RFC3279]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3279.html#section-2.3.1">§2.3.1</a> as <code class="docutils literal notranslate"><span class="pre">RSAPublicKey</span></code>.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>RSAPublicKey ::= SEQUENCE {
@@ -797,13 +789,13 @@ if (status != PSA_SUCCESS)
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>Weierstrass Elliptic curve key pair</p></td>
+<tr class="row-odd"><td><p>Weierstrass Elliptic curve key pair</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="PSA_KEY_TYPE_ECC_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">ecc_family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code>, where <code class="docutils literal notranslate"><span class="pre">ecc_family</span></code> designates a Weierstrass curve family.</p>
 <p>The key data is the content of the <code class="docutils literal notranslate"><span class="pre">privateKey</span></code> field of the <code class="docutils literal notranslate"><span class="pre">ECPrivateKey</span></code> format defined by <span><em>Elliptic Curve Private Key Structure</em> <a class="reference internal" href="../../about.html#cite-rfc5915"><span class="cite">[RFC5915]</span></a></span>.</p>
 <p>This is a <span class="math notranslate nohighlight">\(\lceil{m/8}\rceil\)</span>-byte string in big-endian order, where <span class="math notranslate nohighlight">\(m\)</span> is the key size in bits.</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Weierstrass Elliptic curve public key</p></td>
+<tr class="row-even"><td><p>Weierstrass Elliptic curve public key</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="PSA_KEY_TYPE_ECC_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">ecc_family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code>, where <code class="docutils literal notranslate"><span class="pre">ecc_family</span></code> designates a Weierstrass curve family.</p>
 <p>The key data is the uncompressed representation of an elliptic curve point as an octet string defined in <span><em>SEC 1: Elliptic Curve Cryptography</em> <a class="reference internal" href="../../about.html#cite-sec1"><span class="cite">[SEC1]</span></a></span> §2.3.3.
 If <span class="math notranslate nohighlight">\(m\)</span> is the bit size associated with the curve, i.e. the bit size of <span class="math notranslate nohighlight">\(q\)</span> for a curve over <span class="math notranslate nohighlight">\(\mathbb{F}_q\)</span>, then the representation of point <span class="math notranslate nohighlight">\(P\)</span> consists of:</p>
@@ -814,13 +806,13 @@ If <span class="math notranslate nohighlight">\(m\)</span> is the bit size assoc
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td><p>Montgomery Elliptic curve key pair</p></td>
+<tr class="row-odd"><td><p>Montgomery Elliptic curve key pair</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="PSA_KEY_TYPE_ECC_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><a class="reference internal" href="types.html#c.PSA_ECC_FAMILY_MONTGOMERY" title="PSA_ECC_FAMILY_MONTGOMERY"><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_MONTGOMERY</span></code></a><code class="docutils literal notranslate"><span class="pre">)</span></code></p>
 <p>The key data is the scalar value of the ‘private key’ in little-endian order as defined by <span><em>Elliptic Curves for Security</em> <a class="reference internal" href="../../about.html#cite-rfc7748"><span class="cite">[RFC7748]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc7748.html#section-6">§6</a>. The value must have the forced bits set to zero or one as specified by <code class="docutils literal notranslate"><span class="pre">decodeScalar25519()</span></code> and <code class="docutils literal notranslate"><span class="pre">decodeScalar448()</span></code> in <a class="reference internal" href="../../about.html#cite-rfc7748"><span class="cite">[RFC7748]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc7748.html#section-5">§5</a>.</p>
 <p>This is a <span class="math notranslate nohighlight">\(\lceil{m/8}\rceil\)</span>-byte string where <span class="math notranslate nohighlight">\(m\)</span> is the key size in bits. This is 32 bytes for Curve25519, and 56 bytes for Curve448.</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Montgomery Elliptic curve public key</p></td>
+<tr class="row-even"><td><p>Montgomery Elliptic curve public key</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="PSA_KEY_TYPE_ECC_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><a class="reference internal" href="types.html#c.PSA_ECC_FAMILY_MONTGOMERY" title="PSA_ECC_FAMILY_MONTGOMERY"><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_MONTGOMERY</span></code></a><code class="docutils literal notranslate"><span class="pre">)</span></code></p>
 <p>The key data is the scalar value of the ‘public key’ in little-endian order as defined by <span><em>Elliptic Curves for Security</em> <a class="reference internal" href="../../about.html#cite-rfc7748"><span class="cite">[RFC7748]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc7748.html#section-6">§6</a>. This is a <span class="math notranslate nohighlight">\(\lceil{m/8}\rceil\)</span>-byte string where <span class="math notranslate nohighlight">\(m\)</span> is the key size in bits.</p>
 <ul class="simple">
@@ -829,24 +821,24 @@ If <span class="math notranslate nohighlight">\(m\)</span> is the bit size assoc
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td><p>Twisted Edwards Elliptic curve key pair</p></td>
+<tr class="row-odd"><td><p>Twisted Edwards Elliptic curve key pair</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="PSA_KEY_TYPE_ECC_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><a class="reference internal" href="types.html#c.PSA_ECC_FAMILY_TWISTED_EDWARDS" title="PSA_ECC_FAMILY_TWISTED_EDWARDS"><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_TWISTED_EDWARDS</span></code></a><code class="docutils literal notranslate"><span class="pre">)</span></code></p>
 <p>The key data is the private key, as defined by <span><em>Edwards-Curve Digital Signature Algorithm (EdDSA)</em> <a class="reference internal" href="../../about.html#cite-rfc8032"><span class="cite">[RFC8032]</span></a></span>.</p>
 <p>This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Twisted Edwards Elliptic curve public key</p></td>
+<tr class="row-even"><td><p>Twisted Edwards Elliptic curve public key</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="PSA_KEY_TYPE_ECC_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><a class="reference internal" href="types.html#c.PSA_ECC_FAMILY_TWISTED_EDWARDS" title="PSA_ECC_FAMILY_TWISTED_EDWARDS"><code class="docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_TWISTED_EDWARDS</span></code></a><code class="docutils literal notranslate"><span class="pre">)</span></code></p>
 <p>The key data is the public key, as defined by <span><em>Edwards-Curve Digital Signature Algorithm (EdDSA)</em> <a class="reference internal" href="../../about.html#cite-rfc8032"><span class="cite">[RFC8032]</span></a></span>.</p>
 <p>This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.</p>
 </td>
 </tr>
-<tr class="row-even"><td><p>Finite-field Diffie-Hellman key pair</p></td>
+<tr class="row-odd"><td><p>Finite-field Diffie-Hellman key pair</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_DH_KEY_PAIR" title="PSA_KEY_TYPE_DH_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">dh_family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> where <code class="docutils literal notranslate"><span class="pre">dh_family</span></code> designates any Diffie-Hellman family.</p>
 <p>The key data is the representation of the private key <span class="math notranslate nohighlight">\(x\)</span> as a big-endian byte string. The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Finite-field Diffie-Hellman public key</p></td>
+<tr class="row-even"><td><p>Finite-field Diffie-Hellman public key</p></td>
 <td><p><a class="reference internal" href="types.html#c.PSA_KEY_TYPE_DH_PUBLIC_KEY" title="PSA_KEY_TYPE_DH_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">dh_family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> where <code class="docutils literal notranslate"><span class="pre">dh_family</span></code> designates any Diffie-Hellman family.</p>
 <p>The key data is the representation of the public key <span class="math notranslate nohighlight">\(y = g^x\!\mod p\)</span> as a big-endian byte string. The length of the byte string is the length of the base prime <span class="math notranslate nohighlight">\(p\)</span> in bytes.</p>
 </td>
@@ -869,7 +861,7 @@ If <span class="math notranslate nohighlight">\(m\)</span> is the bit size assoc
 <h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.2.0
+Version 1.2.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about.html">About this document</a></li>

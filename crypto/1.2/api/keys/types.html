@@ -64,11 +64,11 @@
 <dl class="simple">
 <dt><a class="reference internal" href="#c.PSA_KEY_TYPE_NONE" title="PSA_KEY_TYPE_NONE"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_NONE</span></code></a><code class="docutils literal notranslate"> <span class="pre">==</span> <span class="pre">0</span></code></dt><dd><p>Reserved as an invalid key type.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x0001</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x7fff</span></code></dt><dd><p>Specification-defined key types.
+<dt><code class="docutils literal notranslate"><span class="pre">0x0001</span> <span class="pre">–</span> <span class="pre">0x7fff</span></code></dt><dd><p>Specification-defined key types.
 Key types defined by this standard always have bit 15 clear.
 Unallocated key type values in this range are reserved for future use.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x8000</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">xffff</span></code></dt><dd><p>Implementation-defined key types.
+<dt><code class="docutils literal notranslate"><span class="pre">0x8000</span> <span class="pre">–</span> <span class="pre">0xffff</span></code></dt><dd><p>Implementation-defined key types.
 Implementations that define additional key types must use an encoding with bit 15 set.
 The related support macros will be easier to write if these key encodings also respect the bitwise structure used by standard encodings.</p>
 </dd>
@@ -165,9 +165,15 @@ The related support macros will be easier to write if these key encodings also r
 <h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_HMAC</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_HMAC" title="Permalink to this heading">¶</a></h3>
 <p>HMAC key.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_HMAC" title="PSA_KEY_TYPE_HMAC">PSA_KEY_TYPE_HMAC</a> ((<a class="reference internal" href="#c.psa_key_type_t" title="psa_key_type_t">psa_key_type_t</a>)0x1100)</pre>
-<p>The key policy determines which underlying hash algorithm the key can be used for.</p>
-<p>The bit size of an HMAC key must be a non-zero multiple of 8. An HMAC key is typically the same size as the output of the underlying hash algorithm. An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use.</p>
-<p>When an HMAC key is created that is longer than the block size, it is <a class="reference internal" href="../../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a> whether the implementation stores the original HMAC key, or the hash of the HMAC key. If the hash of the key is stored, the key size reported by <a class="reference internal" href="attributes.html#c.psa_get_key_attributes" title="psa_get_key_attributes"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_get_key_attributes()</span></code></a> will be the size of the hashed key.</p>
+<p>HMAC keys can be used in HMAC, or HMAC-based, algorithms.
+Although HMAC is parameterized by a specific hash algorithm, for example SHA-256, the hash algorithm is not specified in the key type.
+The permitted-algorithm policy for the key must specify a particular hash algorithm.</p>
+<p>The bit size of an HMAC key must be a non-zero multiple of 8.
+An HMAC key is typically the same size as the output of the underlying hash algorithm.
+An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use, see <span><em>HMAC: Keyed-Hashing for Message Authentication</em> <a class="reference internal" href="../../about.html#cite-rfc2104"><span class="cite">[RFC2104]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc2104.html#section-2">§2</a>.</p>
+<p>It is recommended that an application does not construct HMAC keys that are longer than the block size of the hash algorithm that will be used.
+It is <a class="reference internal" href="../../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a> whether an HMAC key that is longer than the hash block size is supported.</p>
+<p>If the application does not control the length of the data used to construct the HMAC key, it is recommended that the application hashes the key data, when it exceeds the hash block length, before constructing the HMAC key.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="../ops/hashes.html#c.PSA_HASH_LENGTH" title="PSA_HASH_LENGTH"><code class="docutils literal notranslate"><span class="pre">PSA_HASH_LENGTH</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> provides the output size of hash algorithm <code class="docutils literal notranslate"><span class="pre">alg</span></code>, in bytes.</p>
@@ -488,12 +494,12 @@ Algorithms that accept such an input were designed to accept low-entropy secret 
 <p>The specific ECC curve within a family is identified by the <code class="docutils literal notranslate"><span class="pre">key_bits</span></code> attribute of the key.</p>
 <p>The range of Elliptic curve family identifier values is divided as follows:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x00</span></code></dt><dd><p>Reserved. Not allocated to an ECC family.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">0x00</span></code></dt><dd><p>Reserved. Not allocated to an ECC family.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x01</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x7f</span></code></dt><dd><p>ECC family identifiers defined by this standard.
+<dt><code class="docutils literal notranslate"><span class="pre">0x01</span> <span class="pre">–</span> <span class="pre">0x7f</span></code></dt><dd><p>ECC family identifiers defined by this standard.
 Unallocated values in this range are reserved for future use.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x80</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">xff</span></code></dt><dd><p>Implementations that define additional families must use an encoding in this range.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">0x80</span> <span class="pre">–</span> <span class="pre">0xff</span></code></dt><dd><p>Implementations that define additional families must use an encoding in this range.</p>
 </dd>
 </dl>
 </section>
@@ -806,12 +812,12 @@ Unallocated values in this range are reserved for future use.</p>
 <p>The specific Diffie-Hellman group within a family is identified by the <code class="docutils literal notranslate"><span class="pre">key_bits</span></code> attribute of the key.</p>
 <p>The range of Diffie-Hellman group family identifier values is divided as follows:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x00</span></code></dt><dd><p>Reserved. Not allocated to a DH group family.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">0x00</span></code></dt><dd><p>Reserved. Not allocated to a DH group family.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x01</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x7f</span></code></dt><dd><p>DH group family identifiers defined by this standard.
+<dt><code class="docutils literal notranslate"><span class="pre">0x01</span> <span class="pre">–</span> <span class="pre">0x7f</span></code></dt><dd><p>DH group family identifiers defined by this standard.
 Unallocated values in this range are reserved for future use.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x80</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">xff</span></code></dt><dd><p>Implementations that define additional families must use an encoding in this range.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">0x80</span> <span class="pre">–</span> <span class="pre">0xff</span></code></dt><dd><p>Implementations that define additional families must use an encoding in this range.</p>
 </dd>
 </dl>
 </section>
@@ -1053,7 +1059,7 @@ An implementation can support all of these sizes or only a subset.</p>
 <h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.2.0
+Version 1.2.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about.html">About this document</a></li>

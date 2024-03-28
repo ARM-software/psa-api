@@ -77,13 +77,13 @@
 <pre class="literal-block">typedef uint32_t <a class="reference internal" href="#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>;</pre>
 <p>This is a structured bitfield that identifies the category and type of algorithm. The range of algorithm identifier values is divided as follows:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x00000000</span></code></dt><dd><p>Reserved as an invalid algorithm identifier.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">0x00000000</span></code></dt><dd><p>Reserved as an invalid algorithm identifier.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x00000001</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x7fffffff</span></code></dt><dd><p>Specification-defined algorithm identifiers.
+<dt><code class="docutils literal notranslate"><span class="pre">0x00000001</span> <span class="pre">–</span> <span class="pre">0x7fffffff</span></code></dt><dd><p>Specification-defined algorithm identifiers.
 Algorithm identifiers defined by this standard always have bit 31 clear.
 Unallocated algorithm identifier values in this range are reserved for future use.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x80000000</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">xffffffff</span></code></dt><dd><p>Implementation-defined algorithm identifiers.
+<dt><code class="docutils literal notranslate"><span class="pre">0x80000000</span> <span class="pre">–</span> <span class="pre">0xffffffff</span></code></dt><dd><p>Implementation-defined algorithm identifiers.
 Implementations that define additional algorithms must use an encoding with bit 31 set.
 The related support macros will be easier to write if these algorithm identifier encodings also respect the bitwise structure used by standard encodings.</p>
 </dd>
@@ -304,7 +304,7 @@ The related support macros will be easier to write if these algorithm identifier
 <h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.2.0
+Version 1.2.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about.html">About this document</a></li>
