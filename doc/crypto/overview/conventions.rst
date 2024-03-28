@@ -181,38 +181,45 @@ Parameter conventions
 Pointer conventions
 ^^^^^^^^^^^^^^^^^^^
 
-Unless explicitly stated in the documentation of a function, all pointers must
-be valid pointers to an object of the specified type.
+Unless explicitly stated in the documentation of a function, all pointers must be valid pointers to an object of the specified type.
 
-A parameter is considered a **buffer** if it points to an array of bytes. A
-buffer parameter always has the type ``uint8_t *`` or ``const uint8_t *``, and
-always has an associated parameter indicating the size of the array. Note that a
-parameter of type ``void *`` is never considered a buffer.
+A parameter is considered a **buffer** if it is a pointer to an object with an application-specified length.
+This will be one of the following types:
 
-All parameters of pointer type must be valid non-null pointers, unless the
-pointer is to a buffer of length ``0`` or the function’s documentation
-explicitly describes the behavior when the pointer is null. Passing a null
-pointer as a function parameter in other cases is expected to abort the caller
-on implementations where this is the normal behavior for a null pointer
-dereference.
+*   A pointer to an array of bytes, with type ``uint8_t *`` or ``const uint8_t *``.
+*   A pointer to a variable-sized structure type.
+    In this API, :code:`const psa_key_production_parameters_t *` is only such type.
 
-Pointers to input parameters can be in read-only memory. Output parameters must
-be in writable memory. Output parameters that are not buffers must also be
-readable, and the implementation must be able to write to a non-buffer output
-parameter and read back the same value, as explained in
-:secref:`stability-of-parameters`.
+A buffer parameter always has an associated parameter indicating the size of the array.
+Note that a parameter of type ``void *`` is never considered a buffer.
+
+All parameters of pointer type must be valid non-null pointers, unless the pointer is to a buffer of length ``0`` or the function's documentation explicitly describes the behavior when the pointer is null.
+Passing a null pointer as a function parameter in other cases is expected to abort the caller on implementations where this is the normal behavior for a null pointer dereference.
+
+Pointers to input parameters can be in read-only memory.
+Output parameters must be in writable memory.
+Output parameters that are not buffers must also be readable, and the implementation must be able to write to a non-buffer output parameter and read back the same value, as explained in :secref:`stability-of-parameters`.
 
 Input buffer sizes
 ^^^^^^^^^^^^^^^^^^
 
-For input buffers, the parameter convention is:
+For input buffers, the parameter convention for an array of bytes is:
 
-``const uint8_t *foo``
-    Pointer to the first byte of the data. The pointer
-    can be invalid if the buffer size is ``0``.
+``const uint8_t *buf``
+    Pointer to the first byte of the data.
+    The pointer can be invalid if the buffer size is ``0``.
 
-``size_t foo_length``
+``size_t buf_length``
     Size of the buffer in bytes.
+
+The parameter convention for key production parameters is:
+
+``const psa_key_production_parameters_t *params``
+    Pointer to a key production parameter object.
+
+``size_t params_data_length``
+    Size of data array, ``params->data``, in bytes.
+    This can be ``0``.
 
 The interface never uses input-output buffers.
 
@@ -223,40 +230,34 @@ Output buffer sizes
 
 For output buffers, the parameter convention is:
 
-``uint8_t *foo``
-    Pointer to the first byte of the data. The pointer can be
-    invalid if the buffer size is ``0``.
+``uint8_t *buf``
+    Pointer to the first byte of the data.
+    The pointer can be invalid if the buffer size is ``0``.
 
-``size_t foo_size``
+``size_t buf_size``
     The size of the buffer in bytes.
 
-``size_t *foo_length``
-    On successful return, contains the length of the
-    output in bytes.
+``size_t *buf_length``
+    On successful return, contains the length of the output in bytes.
 
-The content of the data buffer and of ``*foo_length`` on errors is unspecified,
-unless explicitly mentioned in the function description. They might be unmodified
-or set to a safe default. On successful completion, the content of the buffer
-between the offsets ``*foo_length`` and ``foo_size`` is also unspecified.
+The content of the data buffer and of ``*buf_length`` on errors is unspecified, unless explicitly mentioned in the function description.
+They might be unmodified or set to a safe default.
+On successful completion, the content of the buffer between the offsets ``*buf_length`` and ``buf_size`` is also unspecified.
 
-Functions return :code:`PSA_ERROR_BUFFER_TOO_SMALL` if the buffer size is
-insufficient to carry out the requested operation. The interface defines macros
-to calculate a sufficient buffer size for each operation that has an output
-buffer. These macros return compile-time constants if their arguments are
-compile-time constants, so they are suitable for static or stack allocation.
-Refer to an individual function’s documentation for the associated output size
-macro.
+Functions return :code:`PSA_ERROR_BUFFER_TOO_SMALL` if the buffer size is insufficient to carry out the requested operation.
+The interface defines macros to calculate a sufficient buffer size for each operation that has an output buffer.
+These macros return compile-time constants if their arguments are compile-time constants, so they are suitable for static or stack allocation.
+Refer to an individual function's documentation for the associated output size macro.
 
-Some functions always return exactly as much data as the size of the output
-buffer. In this case, the parameter convention changes to:
+Some functions always return exactly as much data as the size of the output buffer.
+In this case, the parameter convention changes to:
 
-``uint8_t *foo``
-    Pointer to the first byte of the output. The pointer can be
-    invalid if the buffer size is ``0``.
+``uint8_t *buf``
+    Pointer to the first byte of the output.
+    The pointer can be invalid if the buffer size is ``0``.
 
-``size_t foo_length``
-    The number of bytes to return in ``foo`` if
-    successful.
+``size_t buf_length``
+    The number of bytes to return in ``buf`` if successful.
 
 .. _buffer-overlap:
 
@@ -292,7 +293,7 @@ This section describes the assumptions that an implementation can make about
 function parameters, and the guarantees that the implementation must provide
 about how it accesses parameters.
 
-Parameters that are not buffers are assumed to be under the caller’s full
+Parameters that are not buffers are assumed to be under the caller's full
 control. In a shared memory environment, this means that the parameter must be
 in memory that is exclusively accessible by the application. In a multithreaded
 environment, this means that the parameter must not be modified during the
