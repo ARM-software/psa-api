@@ -46,7 +46,7 @@ Crypto API | PAKE | 1.2 Final | [HTML][pake-html] | [&darr; PDF][pake-pdf] | [Al
 [fwu-html]:          fwu/1.0/
 [fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.0.pdf
 [pake-html]:         crypto/1.2/ext-pake/
-[pake-pdf]:          crypto/1.2/ext-pake/AES0058-PSA_Certified_Crypto_API-1.2_PAKE_Extension.0.pdf
+[pake-pdf]:          crypto/1.2/ext-pake/AES0058-PSA_Certified_Crypto_API-1.2_PAKE_Extension.1.pdf
 
 ## Feedback
 

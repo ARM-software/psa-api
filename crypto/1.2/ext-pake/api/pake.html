@@ -135,13 +135,13 @@ These can be used to set key attributes for keys used in PAKE algorithms.
 <pre class="literal-block">typedef uint8_t <a class="reference internal" href="#c.psa_pake_primitive_type_t" title="psa_pake_primitive_type_t">psa_pake_primitive_type_t</a>;</pre>
 <p>The range of PAKE primitive type values is divided as follows:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x00</span></code></dt><dd><p>Reserved as an invalid primitive type.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">0x00</span></code></dt><dd><p>Reserved as an invalid primitive type.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x01</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x7f</span></code></dt><dd><p>Specification-defined primitive type.
+<dt><code class="docutils literal notranslate"><span class="pre">0x01</span> <span class="pre">–</span> <span class="pre">0x7f</span></code></dt><dd><p>Specification-defined primitive type.
 Primitive types defined by this standard always have bit 7 clear.
 Unallocated primitive type values in this range are reserved for future use.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">x80</span></code><code class="docutils literal notranslate"> <span class="pre">–</span> <span class="pre">0</span></code><code class="docutils literal notranslate"><span class="pre">xff</span></code></dt><dd><p>Implementation-defined primitive type.
+<dt><code class="docutils literal notranslate"><span class="pre">0x80</span> <span class="pre">–</span> <span class="pre">0xff</span></code></dt><dd><p>Implementation-defined primitive type.
 Implementations that define additional primitive types must use an encoding with bit 7 set.</p>
 </dd>
 </dl>
@@ -1507,9 +1507,9 @@ Here, <span class="math notranslate nohighlight">\(q\)</span> is the order of th
 <li><p>To use the shared secret, extract it as a key-derivation key. For example, to extract a derivation key for HKDF-SHA-256:</p>
 <pre class="literal-block"><em>// Set up the key attributes</em>
 psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
-psa_key_set_type(&amp;att, PSA_KEY_TYPE_DERIVE);
-psa_key_set_usage_flags(&amp;att, PSA_KEY_USAGE_DERIVE);
-psa_key_set_algorithm(&amp;att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+psa_set_key_type(&amp;att, PSA_KEY_TYPE_DERIVE);
+psa_set_key_usage_flags(&amp;att, PSA_KEY_USAGE_DERIVE);
+psa_set_key_algorithm(&amp;att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
 
 <em>// Get Ka=Kb=K</em>
 psa_key_id_t shared_key;
@@ -1787,9 +1787,9 @@ See <a class="reference internal" href="#spake2p-cipher-suites"><span class="sec
 For example, to extract a derivation key for HKDF-SHA-256:</p>
 <pre class="literal-block"><em>// Set up the key attributes</em>
 psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
-psa_key_set_type(&amp;att, PSA_KEY_TYPE_DERIVE);
-psa_key_set_usage_flags(&amp;att, PSA_KEY_USAGE_DERIVE);
-psa_key_set_algorithm(&amp;att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+psa_set_key_type(&amp;att, PSA_KEY_TYPE_DERIVE);
+psa_set_key_usage_flags(&amp;att, PSA_KEY_USAGE_DERIVE);
+psa_set_key_algorithm(&amp;att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
 
 <em>// Get K_shared</em>
 psa_key_id_t shared_key;
@@ -2171,7 +2171,7 @@ This macro can return either <code class="docutils literal notranslate"><span cl
 <h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
 AES 0058<br/>
 Non-confidential<br/>
-Version 1.2 PAKE Extension.0
+Version 1.2 PAKE Extension.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>

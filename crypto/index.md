@@ -38,6 +38,7 @@ Version | | | Publication
 
 Extension | Version | | | Publication
 -|-|-|-|-:
+PAKE | 1.2 Final 1 | [HTML][pake-rel-html] | [&darr; PDF][pake-rel-1-pdf] | March 2024
 PAKE | 1.2 Final | [HTML][pake-rel-html] | [&darr; PDF][pake-rel-0-pdf] | February 2024
 PAKE | 1.1 Beta 1 | [HTML][pake-beta-html] | [&darr; PDF][pake-beta-1-pdf] | October 2022
 PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
@@ -56,6 +57,7 @@ PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 [1-0-0-pdf]:            1.0/IHI0086-PSA_Cryptography_API-1.0.0.pdf
 
 [pake-rel-html]:       1.2/ext-pake/
+[pake-rel-1-pdf]:      1.2/ext-pake/AES0058-PSA_Certified_Crypto_API-1.2_PAKE_Extension.1.pdf
 [pake-rel-0-pdf]:      1.2/ext-pake/AES0058-PSA_Certified_Crypto_API-1.2_PAKE_Extension.0.pdf
 
 [pake-beta-html]:       1.1/ext-pake/
