@@ -1,8 +1,8 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
-    :seq: 29
+    :seq: 30
 
 Other cryptographic services
 ============================
