@@ -37,7 +37,7 @@ Applications use the `psa_key_derivation_operation_t` type to create key derivat
 #.  Optionally, call `psa_key_derivation_set_capacity()` to set a limit on the amount of data that can be output from the key derivation operation.
 #.  Call an output or verification function:
 
-    *   `psa_key_derivation_output_key()` to create a derived key.
+    *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()` to create a derived key.
     *   `psa_key_derivation_output_bytes()` to export the derived data.
     *   `psa_key_derivation_verify_key()` to compare a derived key with an existing key value.
     *   `psa_key_derivation_verify_bytes()` to compare derived data with a buffer.
@@ -331,7 +331,7 @@ Key derivation algorithms
     .. summary::
         The TLS 1.2 ECJPAKE-to-PMS key-derivation algorithm.
 
-    This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using the extension to the |API| defined in :cite-title:`PSA-PAKE`.
+    This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using a PAKE operation, see :secref:`pake`.
 
     This KDF takes the shared secret :math:`K`` (an uncompressed EC point in case of EC J-PAKE) and calculates :math:`\text{SHA256}(K.x)`.
 
@@ -339,9 +339,9 @@ Key derivation algorithms
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the shared secret :math:`K` from EC J-PAKE. For secp256r1, the input is exactly 65 bytes.
 
-        The shared secret can be obtained by calling :code:`psa_pake_get_shared_key()` on a PAKE operation that is performing the EC J-PAKE algorithm. These are defined in the PAKE extension API, see :cite:`PSA-PAKE`.
+        The shared secret can be obtained by calling :code:`psa_pake_get_shared_key()` on a PAKE operation that is performing the EC J-PAKE algorithm. See :secref:`pake`.
 
-    The 32-byte output has to be read in a single call to either `psa_key_derivation_output_bytes()` or `psa_key_derivation_output_key()`. The size of the output is defined as `PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE`.
+    The 32-byte output has to be read in a single call to either `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, or `psa_key_derivation_output_key_ext()`. The size of the output is defined as `PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE`.
 
     .. subsection:: Compatible key types
 
@@ -422,7 +422,7 @@ Input step types
 
     For some algorithms, a specific type of key is required. For example, see `PSA_ALG_SP800_108_COUNTER_CMAC`.
 
-    The secret can also be a direct input passed to `psa_key_derivation_input_bytes()`. In this case, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()`.
+    The secret can also be a direct input passed to `psa_key_derivation_input_bytes()`. In this case, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_OTHER_SECRET
     :definition: /* implementation-defined value */
@@ -440,7 +440,7 @@ Input step types
 
     This is usually a key of type `PSA_KEY_TYPE_PASSWORD` passed to `psa_key_derivation_input_key()` or a direct input passed to `psa_key_derivation_input_bytes()` that is a password or passphrase. It can also be high-entropy secret, for example, a key of type `PSA_KEY_TYPE_DERIVE`, or the shared secret resulting from a key agreement.
 
-    If the secret is a direct input, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()`.
+    If the secret is a direct input, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_LABEL
     :definition: /* implementation-defined value */
@@ -581,7 +581,7 @@ Key derivation functions
     #.  Call `psa_key_derivation_setup()` to specify the algorithm.
     #.  Provide the inputs for the key derivation by calling `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_key()` as appropriate. Which inputs are needed, in what order, whether keys are permitted, and what type of keys depends on the algorithm.
     #.  Optionally set the operation's maximum capacity with `psa_key_derivation_set_capacity()`. This can be done before, in the middle of, or after providing inputs. For some algorithms, this step is mandatory because the output depends on the maximum capacity.
-    #.  To derive a key, call `psa_key_derivation_output_key()`. To derive a byte string for a different purpose, call `psa_key_derivation_output_bytes()`. Successive calls to these functions use successive output bytes calculated by the key derivation algorithm.
+    #.  To derive a key, call `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`. To derive a byte string for a different purpose, call `psa_key_derivation_output_bytes()`. Successive calls to these functions use successive output bytes calculated by the key derivation algorithm.
     #.  Clean up the key derivation operation object with `psa_key_derivation_abort()`.
 
     After a successful call to `psa_key_derivation_setup()`, the operation is active, and the application must eventually terminate the operation with a call to `psa_key_derivation_abort()`.
@@ -616,7 +616,7 @@ Key derivation functions
 
     The capacity of a key derivation is the maximum number of bytes that it can return. Reading :math:`N` bytes of output from a key derivation operation reduces its capacity by at least :math:`N`. The capacity can be reduced by more than :math:`N` in the following situations:
 
-    *   Calling `psa_key_derivation_output_key()` can reduce the capacity by more than the key size, depending on the type of key being generated. See  `psa_key_derivation_output_key()` for details of the key derivation process.
+    *   Calling `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()` can reduce the capacity by more than the key size, depending on the type of key being generated. See  `psa_key_derivation_output_key()` for details of the key derivation process.
     *   When the `psa_key_derivation_operation_t` object is operating as a deterministic random bit generator (DBRG), which reduces capacity in whole blocks, even when less than a block is read.
 
 .. function:: psa_key_derivation_set_capacity
@@ -791,7 +791,7 @@ Key derivation functions
         Once all inputs steps are completed, the following operations are permitted:
 
         *   `psa_key_derivation_output_bytes()` --- if each input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
-        *   `psa_key_derivation_output_key()` --- if the input for step `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` was a key with usage flag `PSA_KEY_USAGE_DERIVE`, and every other input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
+        *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()` --- if the input for step `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` was a key with usage flag `PSA_KEY_USAGE_DERIVE`, and every other input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
         *   `psa_key_derivation_verify_bytes()` --- if each input was either a direct input, a key with usage flag `PSA_KEY_USAGE_DERIVE`, or a key with usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION`.
         *   `psa_key_derivation_verify_key()` --- under the same conditions as `psa_key_derivation_verify_bytes()`.
 
@@ -864,7 +864,9 @@ Key derivation functions
     .. param:: psa_key_derivation_operation_t * operation
         The key derivation operation object to read from.
     .. param:: psa_key_id_t * key
-        On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
+        On success, an identifier for the newly created key.
+        For persistent keys, this is the key identifier defined in ``attributes``.
+        `PSA_KEY_ID_NULL` on failure.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -917,117 +919,102 @@ Key derivation functions
 
     If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
-    How much output is produced and consumed from the operation, and how the key is derived, depends on the key type. :numref:`std-key-derivation` describes the required key derivation procedures for standard key derivation algorithms. Implementations can use other methods for implementation-specific algorithms.
+    How much output is produced and consumed from the operation, and how the key is derived, depends on the key type. The key derivation procedures for standard key derivation algorithms are described as part of each key definition. Implementations can use other methods for implementation-specific algorithms.
 
     .. rationale::
 
         Permitting implementation defined methods for algorithms not specified in the |API| permits implementations to use other appropriate procedures in cases where interoperability with other implementations is not required.
 
-    .. list-table:: Standard key derivation process
-        :name: std-key-derivation
-        :class: longtable
-        :header-rows: 1
-        :widths: 2,5
-
-        *   -   Key type
-            -   Key type details and derivation procedure
-
-        *   -   AES
-
-                ARC4
-
-                ARIA
-
-                CAMELLIA
-
-                ChaCha20
-
-                SM4
-
-                Secrets for derivation
-
-                HMAC
-
-                Password hashes
-
-            -   `PSA_KEY_TYPE_AES`
-
-                `PSA_KEY_TYPE_ARC4`
-
-                `PSA_KEY_TYPE_ARIA`
-
-                `PSA_KEY_TYPE_CAMELLIA`
-
-                `PSA_KEY_TYPE_CHACHA20`
-
-                `PSA_KEY_TYPE_SM4`
-
-                `PSA_KEY_TYPE_DERIVE`
-
-                `PSA_KEY_TYPE_HMAC`
-
-                `PSA_KEY_TYPE_PASSWORD_HASH`
-
-                For key types for which the key is an arbitrary sequence of bytes of a given size, this function is functionally equivalent to calling `psa_key_derivation_output_bytes()` and passing the resulting output to `psa_import_key()`. However, this function has a security benefit: if the implementation provides an isolation boundary then the key material is not exposed outside the isolation boundary. As a consequence, for these key types, this function always consumes exactly ``key_bits/8`` bytes from the operation.
-
-        *   -   DES
-            -   `PSA_KEY_TYPE_DES`, 64 bits.
-
-                This function generates a key using the following process:
-
-                1.  Draw an 8-byte string.
-                #.  Set/clear the parity bits in each byte.
-                #.  If the result is a forbidden weak key, discard the result and return to step 1.
-                #.  Output the string.
-
-        *   -   2-key 3DES
-
-                3-key 3DES
-            -   `PSA_KEY_TYPE_DES`, 192 bits.
-
-                `PSA_KEY_TYPE_DES`, 128 bits.
-
-                The two or three keys are generated by repeated application of the process used to generate a DES key.
-
-                For example, for 3-key 3DES, if the first 8 bytes specify a weak key and the next 8 bytes do not, discard the first 8 bytes, use the next 8 bytes as the first key, and continue reading output from the operation to derive the other two keys.
-
-        *   -   Finite-field Diffie-Hellman keys
-
-                ECC keys on a Weierstrass elliptic curve
-
-            -   :code:`PSA_KEY_TYPE_DH_KEY_PAIR(dh_family)` where ``dh_family`` designates any Diffie-Hellman family.
-
-                :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(ecc_family)` where ``ecc_family`` designates a Weierstrass curve family.
-
-                These key types require the generation of a private key :math:`d \in [1, N - 1]`, where :math:`N` is the boundary of the private key domain: :math:`N` is the prime :math:`p` for Diffie-Hellman, or the order of the curve's base point for ECC.
-
-                Let :math:`m` be the bit size of :math:`N`, such that :math:`2^{m-1} \leq N < 2^m`. This function generates the private key using the following process:
-
-                1.  Draw a byte string of length :math:`\lceil{m/8}\rceil` bytes.
-                #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m`` bits of the first byte in the string to zero.
-                #.  Convert the string to integer :math:`k` by decoding it as a big-endian byte-string.
-                #.  If :math:`k > N-2`, discard the result and return to step 1.
-                #.  Output :math:`d = k + 1` as the private key.
-
-                This method allows compliance to NIST standards, specifically the methods titled *Key-Pair Generation by Testing Candidates* in the following publications:
-
-                *   :cite-title:`SP800-56A` §5.6.1.1.4 for Diffie-Hellman keys.
-                *   :cite:`SP800-56A` §5.6.1.2.2 or :cite-title:`FIPS186-4` §B.4.2 for elliptic curve keys.
-
-        *   -   ECC keys on a Montgomery elliptic curve
-            -   :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_MONTGOMERY)`
-
-                This function always draws a byte string whose length is determined by the curve, and sets the mandatory bits accordingly. That is:
-
-                *   Curve25519 (`PSA_ECC_FAMILY_MONTGOMERY`, 255 bits): draw a 32-byte string and process it as specified in :RFC-title:`7748#5`.
-                *   Curve448 (`PSA_ECC_FAMILY_MONTGOMERY`, 448 bits): draw a 56-byte string and process it as specified in :RFC:`7748#5`.
-
-        *   -   *Other key types*
-            -   This includes `PSA_KEY_TYPE_RSA_KEY_PAIR`.
-
-                The way in which the operation output is consumed is implementation-defined.
-
     For algorithms that take an input step `PSA_KEY_DERIVATION_INPUT_SECRET`, the input to that step must be provided with `psa_key_derivation_input_key()`. Future versions of this specification might include additional restrictions on the derived key based on the attributes and strength of the secret key.
+
+     .. note::
+
+        This function is equivalent to calling `psa_key_derivation_output_key_ext()` with the production parameters `PSA_KEY_PRODUCTION_PARAMETERS_INIT` and ``params_data_length == 0`` (``params->data`` is empty).
+
+.. function:: psa_key_derivation_output_key_ext
+
+    .. summary:: Derive a key from an ongoing key derivation operation with custom production parameters.
+
+    .. param:: const psa_key_attributes_t *attributes
+        The attributes for the new key.
+        This function uses the attributes as follows:
+
+        *   The key type is required. It cannot be an asymmetric public key.
+        *   The key size is required. It must be a valid size for the key type.
+        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
+
+            If the key type to be created is `PSA_KEY_TYPE_PASSWORD_HASH`, then the permitted-algorithm policy must be the same as the current operation's algorithm.
+
+        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
+        *   The key lifetime and identifier are required for a persistent key.
+
+        .. note::
+            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+    .. param:: psa_key_derivation_operation_t *operation
+        The key derivation operation object to read from.
+    .. param:: const psa_key_production_parameters_t *params
+        Customization parameters for the key derivation.
+
+        When this is `PSA_KEY_PRODUCTION_PARAMETERS_INIT` with ``params_data_length == 0``,
+        this function is equivalent to `psa_key_derivation_output_key()`.
+    .. param:: size_t params_data_length
+        Length of ``params->data`` in bytes.
+    .. param:: mbedtls_svc_key_id_t *key
+        On success, an identifier for the newly created key.
+        For persistent keys, this is the key identifier defined in ``attributes``.
+        `PSA_KEY_ID_NULL` on failure.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        If the key is persistent, the key material and the key's metadata have been saved to persistent storage.
+    .. retval:: PSA_ERROR_ALREADY_EXISTS
+        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
+    .. retval:: PSA_ERROR_INSUFFICIENT_DATA
+        There was not enough data to create the desired key. In this case, the following occurs:
+
+        *   No key is generated.
+        *   The operation's capacity is set to zero.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The following conditions can result in this error:
+
+        *   The key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
+        *   The production parameters are not supported by the implementation.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   The key type is invalid, or is an asymmetric public key type.
+        *   The key type is `PSA_KEY_TYPE_PASSWORD_HASH`, and the permitted-algorithm policy is not the same as the current operation's algorithm.
+        *   The key size is not valid for the key type. Implementations must reject an attempt to derive a key of size ``0``.
+        *   The key lifetime is invalid.
+        *   The key identifier is not valid for the key lifetime.
+        *   The key usage flags include invalid values.
+        *   The key's permitted-usage algorithm is invalid.
+        *   The key attributes, as a whole, are invalid.
+        *   The production parameters are invalid.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The following conditions can result in this error:
+
+        *   The `PSA_KEY_DERIVATION_INPUT_SECRET` input step was neither provided through a key, nor the result of a key agreement.
+        *   One of the inputs was a key whose policy did not permit `PSA_KEY_USAGE_DERIVE`.
+        *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active, with all required input steps complete.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
+
+    Use this function to provide explicit production parameters when deriving a key.
+    See the description of `psa_key_derivation_output_key()` for the operation of this function with the default production parameters.
+
+    See the documentation of `psa_key_production_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the production parameters used for key derivation.
 
 .. function:: psa_key_derivation_verify_bytes
 
@@ -1101,7 +1088,7 @@ Key derivation functions
         A key of type `PSA_KEY_TYPE_PASSWORD_HASH` containing the expected output.
         The key must permit the usage `PSA_KEY_USAGE_VERIFY_DERIVATION`, and the permitted algorithm must match the operation's algorithm.
 
-        The value of this key is typically computed by a previous call to psa_key_derivation_output_key().
+        The value of this key is typically computed by a previous call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS

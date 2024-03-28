@@ -17,6 +17,17 @@ typedef uint8_t psa_key_persistence_t;
 typedef uint16_t psa_key_type_t;
 typedef uint32_t psa_key_usage_t;
 typedef /* implementation-defined type */ psa_mac_operation_t;
+typedef /* implementation-defined type */ psa_pake_cipher_suite_t;
+typedef uint8_t psa_pake_family_t;
+typedef /* implementation-defined type */ psa_pake_operation_t;
+typedef uint32_t psa_pake_primitive_t;
+typedef uint8_t psa_pake_primitive_type_t;
+typedef uint8_t psa_pake_role_t;
+typedef uint8_t psa_pake_step_t;
+typedef struct psa_key_production_parameters_t {
+    uint32_t flags;
+    uint8_t data[];
+} psa_key_production_parameters_t;
 #define PSA_AEAD_DECRYPT_OUTPUT_MAX_SIZE(ciphertext_length) \
     /* implementation-defined value */
 #define PSA_AEAD_DECRYPT_OUTPUT_SIZE(key_type, alg, ciphertext_length) \
@@ -92,11 +103,13 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_IS_HKDF_EXPAND(alg) /* specification-defined value */
 #define PSA_ALG_IS_HKDF_EXTRACT(alg) /* specification-defined value */
 #define PSA_ALG_IS_HMAC(alg) /* specification-defined value */
+#define PSA_ALG_IS_JPAKE(alg) /* specification-defined value */
 #define PSA_ALG_IS_KEY_AGREEMENT(alg) /* specification-defined value */
 #define PSA_ALG_IS_KEY_DERIVATION(alg) /* specification-defined value */
 #define PSA_ALG_IS_KEY_DERIVATION_STRETCHING(alg) \
     /* specification-defined value */
 #define PSA_ALG_IS_MAC(alg) /* specification-defined value */
+#define PSA_ALG_IS_PAKE(alg) /* specification-defined value */
 #define PSA_ALG_IS_PBKDF2_HMAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_RAW_KEY_AGREEMENT(alg) \
@@ -111,12 +124,16 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_IS_SIGN_MESSAGE(alg) /* specification-defined value */
 #define PSA_ALG_IS_SP800_108_COUNTER_HMAC(alg) \
     /* specification-defined value */
+#define PSA_ALG_IS_SPAKE2P(alg) /* specification-defined value */
+#define PSA_ALG_IS_SPAKE2P_CMAC(alg) /* specification-defined value */
+#define PSA_ALG_IS_SPAKE2P_HMAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg) \
     /* specification-defined value */
 #define PSA_ALG_IS_STREAM_CIPHER(alg) /* specification-defined value */
 #define PSA_ALG_IS_TLS12_PRF(alg) /* specification-defined value */
 #define PSA_ALG_IS_TLS12_PSK_TO_MS(alg) /* specification-defined value */
 #define PSA_ALG_IS_WILDCARD(alg) /* specification-defined value */
+#define PSA_ALG_JPAKE(hash_alg) /* specification-defined value */
 #define PSA_ALG_KEY_AGREEMENT(ka_alg, kdf_alg) \
     /* specification-defined value */
 #define PSA_ALG_KEY_AGREEMENT_GET_BASE(alg) /* specification-defined value */
@@ -152,6 +169,9 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_SP800_108_COUNTER_CMAC ((psa_algorithm_t)0x08000800)
 #define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
     /* specification-defined value */
+#define PSA_ALG_SPAKE2P_CMAC(hash_alg) /* specification-defined value */
+#define PSA_ALG_SPAKE2P_HMAC(hash_alg) /* specification-defined value */
+#define PSA_ALG_SPAKE2P_MATTER ((psa_algoirithm_t)0x0A000609)
 #define PSA_ALG_STREAM_CIPHER ((psa_algorithm_t)0x04800100)
 #define PSA_ALG_TLS12_ECJPAKE_TO_PMS ((psa_algorithm_t)0x08000609)
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */
@@ -189,7 +209,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_CIPHER_UPDATE_OUTPUT_SIZE(key_type, alg, input_length) \
     /* implementation-defined value */
 #define PSA_CRYPTO_API_VERSION_MAJOR 1
-#define PSA_CRYPTO_API_VERSION_MINOR 2
+#define PSA_CRYPTO_API_VERSION_MINOR 3
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
 #define PSA_ECC_FAMILY_BRAINPOOL_P_R1 ((psa_ecc_family_t) 0x30)
 #define PSA_ECC_FAMILY_FRP ((psa_ecc_family_t) 0x33)
@@ -254,6 +274,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_KEY_PERSISTENCE_DEFAULT ((psa_key_persistence_t) 0x01)
 #define PSA_KEY_PERSISTENCE_READ_ONLY ((psa_key_persistence_t) 0xff)
 #define PSA_KEY_PERSISTENCE_VOLATILE ((psa_key_persistence_t) 0x00)
+#define PSA_KEY_PRODUCTION_PARAMETERS_INIT { 0 }
 #define PSA_KEY_TYPE_AES ((psa_key_type_t)0x2400)
 #define PSA_KEY_TYPE_ARC4 ((psa_key_type_t)0x2002)
 #define PSA_KEY_TYPE_ARIA ((psa_key_type_t)0x2406)
@@ -278,6 +299,11 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_KEY_TYPE_IS_KEY_PAIR(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_PUBLIC_KEY(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_RSA(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SPAKE2P(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR(type) \
+    /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY(type) \
+    /* specification-defined value */
 #define PSA_KEY_TYPE_IS_UNSTRUCTURED(type) /* specification-defined value */
 #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
     /* specification-defined value */
@@ -291,6 +317,10 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_KEY_TYPE_RSA_KEY_PAIR ((psa_key_type_t)0x7001)
 #define PSA_KEY_TYPE_RSA_PUBLIC_KEY ((psa_key_type_t)0x4001)
 #define PSA_KEY_TYPE_SM4 ((psa_key_type_t)0x2405)
+#define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) /* specification-defined value */
+#define PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(curve) /* specification-defined value */
+#define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
+    /* specification-defined value */
 #define PSA_KEY_TYPE_XCHACHA20 ((psa_key_type_t)0x2007)
 #define PSA_KEY_USAGE_CACHE ((psa_key_usage_t)0x00000004)
 #define PSA_KEY_USAGE_COPY ((psa_key_usage_t)0x00000002)
@@ -307,6 +337,35 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
     /* implementation-defined value */
 #define PSA_MAC_MAX_SIZE /* implementation-defined value */
 #define PSA_MAC_OPERATION_INIT /* implementation-defined value */
+#define PSA_PAKE_CIPHER_SUITE_INIT /* implementation-defined value */
+#define PSA_PAKE_CONFIRMED_KEY 0
+#define PSA_PAKE_INPUT_MAX_SIZE /* implementation-defined value */
+#define PSA_PAKE_INPUT_SIZE(alg, primitive, input_step) \
+    /* implementation-defined value */
+#define PSA_PAKE_OPERATION_INIT /* implementation-defined value */
+#define PSA_PAKE_OUTPUT_MAX_SIZE /* implementation-defined value */
+#define PSA_PAKE_OUTPUT_SIZE(alg, primitive, output_step) \
+    /* implementation-defined value */
+#define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
+    /* specification-defined value */
+#define PSA_PAKE_PRIMITIVE_GET_BITS(pake_primitive) \
+    /* specification-defined value */
+#define PSA_PAKE_PRIMITIVE_GET_FAMILY(pake_primitive) \
+    /* specification-defined value */
+#define PSA_PAKE_PRIMITIVE_GET_TYPE(pake_primitive) \
+    /* specification-defined value */
+#define PSA_PAKE_PRIMITIVE_TYPE_DH ((psa_pake_primitive_type_t)0x02)
+#define PSA_PAKE_PRIMITIVE_TYPE_ECC ((psa_pake_primitive_type_t)0x01)
+#define PSA_PAKE_ROLE_CLIENT ((psa_pake_role_t)0x11)
+#define PSA_PAKE_ROLE_FIRST ((psa_pake_role_t)0x01)
+#define PSA_PAKE_ROLE_NONE ((psa_pake_role_t)0x00)
+#define PSA_PAKE_ROLE_SECOND ((psa_pake_role_t)0x02)
+#define PSA_PAKE_ROLE_SERVER ((psa_pake_role_t)0x12)
+#define PSA_PAKE_STEP_CONFIRM ((psa_pake_step_t)0x04)
+#define PSA_PAKE_STEP_KEY_SHARE ((psa_pake_step_t)0x01)
+#define PSA_PAKE_STEP_ZK_PROOF ((psa_pake_step_t)0x03)
+#define PSA_PAKE_STEP_ZK_PUBLIC ((psa_pake_step_t)0x02)
+#define PSA_PAKE_UNCONFIRMED_KEY 1
 #define PSA_RAW_KEY_AGREEMENT_OUTPUT_MAX_SIZE \
     /* implementation-defined value */
 #define PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(key_type, key_bits) \
@@ -450,6 +509,10 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
                                    size_t * data_length);
 psa_status_t psa_generate_key(const psa_key_attributes_t * attributes,
                               psa_key_id_t * key);
+psa_status_t psa_generate_key_ext(const psa_key_attributes_t *attributes,
+                                  const psa_key_production_parameters_t *params,
+                                  size_t params_data_length,
+                                  mbedtls_svc_key_id_t *key);
 psa_status_t psa_generate_random(uint8_t * output,
                                  size_t output_size);
 psa_algorithm_t psa_get_key_algorithm(const psa_key_attributes_t * attributes);
@@ -530,6 +593,11 @@ psa_status_t psa_key_derivation_output_bytes(psa_key_derivation_operation_t * op
 psa_status_t psa_key_derivation_output_key(const psa_key_attributes_t * attributes,
                                            psa_key_derivation_operation_t * operation,
                                            psa_key_id_t * key);
+psa_status_t psa_key_derivation_output_key_ext(const psa_key_attributes_t *attributes,
+                                               psa_key_derivation_operation_t *operation,
+                                               const psa_key_production_parameters_t *params,
+                                               size_t params_data_length,
+                                               mbedtls_svc_key_id_t *key);
 psa_status_t psa_key_derivation_set_capacity(psa_key_derivation_operation_t * operation,
                                              size_t capacity);
 psa_status_t psa_key_derivation_setup(psa_key_derivation_operation_t * operation,
@@ -570,6 +638,44 @@ psa_status_t psa_mac_verify_finish(psa_mac_operation_t * operation,
 psa_status_t psa_mac_verify_setup(psa_mac_operation_t * operation,
                                   psa_key_id_t key,
                                   psa_algorithm_t alg);
+psa_status_t psa_pake_abort(psa_pake_operation_t * operation);
+psa_pake_cipher_suite_t psa_pake_cipher_suite_init(void);
+psa_algorithm_t psa_pake_cs_get_algorithm(const psa_pake_cipher_suite_t* cipher_suite);
+uint32_t psa_pake_cs_get_key_confirmation(const psa_pake_cipher_suite_t* cipher_suite);
+psa_pake_primitive_t psa_pake_cs_get_primitive(const psa_pake_cipher_suite_t* cipher_suite);
+void psa_pake_cs_set_algorithm(psa_pake_cipher_suite_t* cipher_suite,
+                               psa_algorithm_t alg);
+void psa_pake_cs_set_key_confirmation(psa_pake_cipher_suite_t* cipher_suite,
+                                      uint32_t key_confirmation);
+void psa_pake_cs_set_primitive(psa_pake_cipher_suite_t* cipher_suite,
+                               psa_pake_primitive_t primitive);
+psa_status_t psa_pake_get_shared_key(psa_pake_operation_t *operation,
+                                     const psa_key_attributes_t * attributes,
+                                     psa_key_id_t * key);
+psa_status_t psa_pake_input(psa_pake_operation_t *operation,
+                            psa_pake_step_t step,
+                            const uint8_t *input,
+                            size_t input_length);
+psa_pake_operation_t psa_pake_operation_init(void);
+psa_status_t psa_pake_output(psa_pake_operation_t *operation,
+                             psa_pake_step_t step,
+                             uint8_t *output,
+                             size_t output_size,
+                             size_t *output_length);
+psa_status_t psa_pake_set_context(psa_pake_operation_t *operation,
+                                  const uint8_t *context,
+                                  size_t context_len);
+psa_status_t psa_pake_set_peer(psa_pake_operation_t *operation,
+                               const uint8_t *peer_id,
+                               size_t peer_id_len);
+psa_status_t psa_pake_set_role(psa_pake_operation_t *operation,
+                               psa_pake_role_t role);
+psa_status_t psa_pake_set_user(psa_pake_operation_t *operation,
+                               const uint8_t *user_id,
+                               size_t user_id_len);
+psa_status_t psa_pake_setup(psa_pake_operation_t *operation,
+                            psa_key_id_t password_key,
+                            const psa_pake_cipher_suite_t *cipher_suite);
 psa_status_t psa_purge_key(psa_key_id_t key);
 psa_status_t psa_raw_key_agreement(psa_algorithm_t alg,
                                    psa_key_id_t private_key,

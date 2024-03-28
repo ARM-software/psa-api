@@ -83,6 +83,7 @@ The CAT field in an algorithm identifier takes the values shown in :numref:`tabl
     Asymmetric signature, ``0x06``, See :secref:`sign-encoding`
     Asymmetric encryption, ``0x07``, See :secref:`pke-encoding`
     Key agreement, ``0x09``, See :secref:`ka-encoding`
+    PAKE, ``0x0A``, See :secref:`pake-encoding`
 
 .. rationale::
 
@@ -385,6 +386,35 @@ A combined key agreement is constructed by a bitwise OR of the standalone key ag
 
 The underlying standalone key agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
 
+.. _pake-encoding:
+
+PAKE algorithm encoding
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The algorithm identifier for PAKE algorithms defined in this specification are encoded as shown in :numref:`fig-pake-encoding`.
+
+.. figure:: /figure/encoding/pake_encoding.*
+    :name: fig-pake-encoding
+
+    PAKE algorithm encoding
+
+The defined values for PAKE-TYPE are shown in :numref:`table-pake-type`.
+
+The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the specific PAKE algorithm.
+
+.. csv-table:: PAKE algorithm sub-type values
+    :name: table-pake-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    PAKE algorithm, PAKE-TYPE, Algorithm identifier, Algorithm value
+    J-PAKE, ``0x01``, :code:`PSA_ALG_JPAKE(hash)`, ``0x0A0001hh`` :sup:`a`
+    SPAKE2+ with HMAC, ``0x04``, :code:`PSA_ALG_SPAKE2P_HMAC(hash)`, ``0x0A0004hh`` :sup:`a`
+    SPAKE2+ with CMAC, ``0x05``, :code:`PSA_ALG_SPAKE2P_CMAC(hash)`, ``0x0A0005hh`` :sup:`a`
+    SPAKE2+ for Matter, ``0x06``, :code:`PSA_ALG_SPAKE2P_MATTER`, ``0x0A000609``
+
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
 
 .. _key-type-encoding:
 
@@ -538,6 +568,7 @@ The defined values for ASYM-TYPE are shown in :numref:`table-asymmetric-type`.
     RSA, 0, See :secref:`rsa-key-encoding`
     Elliptic Curve, 1, See :secref:`ecc-key-encoding`
     Diffie-Hellman, 2, See :secref:`dh-key-encoding`
+    SPAKE2+, 4, See :secref:`spakep2-key-encoding`
 
 .. _rsa-key-encoding:
 
@@ -627,3 +658,31 @@ The defined values for DH-FAMILY and P are shown in :numref:`table-dh-type`.
     RFC7919, 0x01, 1, `PSA_DH_FAMILY_RFC7919`, ``0x4203``, ``0x7203``
 
 a.  The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
+
+.. _spakep2-key-encoding:
+
+SPAKE2+ key encoding
+~~~~~~~~~~~~~~~~~~~~
+
+The key type for SPAKE2+ keys defined in this specification are encoded as shown in :numref:`fig-spake2p-key-fields`.
+
+.. figure:: ../figure/encoding/spake2p_key.*
+    :name: fig-spake2p-key-fields
+
+    SPAKE2+ key encoding
+
+PAIR is either 0 for a public key, or 3 for a key pair.
+
+The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type`.
+
+.. csv-table:: SPAKE2+ key family values
+    :name: table-spake2p-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public key value, Key pair value
+    SECP R1, 0x09, 0, :code:`PSA_ECC_FAMILY_SECP_R1`, ``0x4412``, ``0x7412``
+    Twisted Edwards, 0x21, 0, :code:`PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4442``, ``0x7442``
+
+a.  The key type value is constructed from the Elliptic Curve family using either :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(family)` as required.

@@ -11,6 +11,23 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.2.1* and *1.3.0*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:issue:`TBD`
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+*   Add extended key generation and derivation functions, `psa_generate_key_ext()` and `psa_key_derivation_output_key_ext()`, that accept additional parameters to control the key creation process.
+*   Define a key production parameter to select a non-default exponent for RSA key generation.
+
+Other changes
+~~~~~~~~~~~~~
+
+*   Integrated the PAKE Extension with the main specification for the |API|.
+*   Moved the documentation of key formats and key derivation procedures to sub-sections within each key type.
+
 Changes between *1.2.0* and *1.2.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -62,7 +79,7 @@ Clarifications and fixes
 Other changes
 ~~~~~~~~~~~~~
 
-*   Moved the documentation of supported key import/export formats to a separate section of the specification. See :secref:`key_formats`.
+*   Moved the documentation of supported key import/export formats to a separate section of the specification.
 
 Changes between *1.1.0* and *1.1.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
