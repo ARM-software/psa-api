@@ -34,7 +34,7 @@ doc_info = {
     # default to None
     'release_candidate': 0,
     # Draft status - use this to indicate the document is not ready for publication
-    'draft': True,
+    'draft': False,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -45,7 +45,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    #'date': '05/02/2024',
+    'date': '28/03/2024',
 
     # Default header file for API definitions
     # default to None, and can be set in documentation source

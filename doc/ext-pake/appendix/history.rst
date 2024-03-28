@@ -17,6 +17,8 @@ Changes between *Final* and *Final.1*
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+*   Fixed the sample code that demonstrates extracting the shared key for J-PAKE and SPAKE2+ operations.
+
 Changes between *Beta 1* and *Final*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
