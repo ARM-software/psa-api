@@ -1,0 +1,110 @@
+' SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+!include atg-spec.pumh
+
+' Complex SUIT installation using the FWU API
+
+box Network
+participant "Update server" as server
+end box
+box Device
+participant "Payload fetcher" as fetcher
+participant "Update client" as client
+participant "Firmware Update API" as api
+participant "Installer" as installer
+end box
+entity "Envelope state" as envelope
+entity "Payload state" as payload
+
+autonumber 23
+activate client
+
+client <-- envelope : ""PSA_FWU_REBOOT_REQUIRED""
+activate envelope #LightCoral
+rnote over envelope #LightCoral: STAGED
+
+client -->>] --: Request reboot
+
+== System restarts ==
+
+installer <<--] ++ : Device boot
+
+installer -> installer: SUIT Payload Installation
+note left
+    Verify manifest
+end note
+deactivate envelope
+fetcher <<- installer ++: Start Fetcher
+activate envelope #PaleGoldenRod
+rnote over envelope #PaleGoldenRod: PROCESSING
+
+fetcher -> installer: ""psa_fwu_query(envelope_id)""
+activate installer #ddd
+note left: Query envelope status
+return ""PSA_SUCCESS""
+
+fetcher -> installer: ""psa_fwu_process(envelope_id)""
+note left
+    Process SUIT commands
+    - suit-install sequence
+end note
+'deactivate envelope
+activate installer #ddd
+
+loop While additional payloads are required
+    return ""PSA_FWU_PAYLOAD_REQUIRED""\n  + payload information
+    activate envelope #LightGoldenRodYellow
+    activate payload #LightBlue
+    rnote over envelope #LightGoldenRodYellow: FETCHING ?
+    / rnote over payload #LightBlue: READY
+
+    server <<- fetcher ++ : Fetch payload
+    fetcher -> installer: ""psa_fwu_start(payload_id)""
+    note left: Transfer payload
+    deactivate payload
+    activate installer #ddd
+    return ""PSA_SUCCESS""
+    activate payload #PaleGreen
+    rnote over payload #PaleGreen: WRITING
+
+    server -->> fetcher --: Download payload
+    fetcher -> installer: ""psa_fwu_write(payload_id, ...)""
+    activate installer #ddd
+    return ""PSA_SUCCESS""
+
+    fetcher -> installer: ""psa_fwu_finish(payload_id)""
+    deactivate payload
+    deactivate envelope
+    activate installer #ddd
+    return ""PSA_SUCCESS""
+'    activate envelope #PaleGoldenRod
+'    rnote over envelope #PaleGoldenRod: PROCESSING
+
+    fetcher -> installer: ""psa_fwu_process(envelope_id)""
+    note left: Resume SUIT processing
+    deactivate envelope
+    activate installer #ddd
+end
+
+fetcher <-- installer --: ""PSA_SUCCESS""
+note left: Payload fetching complete
+activate envelope #aad
+rnote over envelope #aad: UPDATED
+
+fetcher ->? : ""exit()""
+deactivate fetcher
+
+installer -> installer: SUIT Invocation
+deactivate installer
+note left
+    Process SUIT commands
+    - suit-validate sequence
+    - suit-load sequence
+    - suit-invoke sequence
+end note
+
+
+@enduml

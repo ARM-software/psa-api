@@ -48,20 +48,25 @@ One solution would be to process the SUIT manifest initially in the Update clien
 
 An alternative solution is to process the SUIT manifest in the Update service, and add functionality to the API that allows the Update service to request that the Update client download and transfer additional payloads.
 
-In either case, additional processing of the SUIT manifest will occur a boot time when authenticating, loading and executing the firmware.
+In either case, additional processing of the SUIT manifest will occur at boot time when authenticating, loading and executing the firmware.
 
 One of the design objectives for the Firmware Update API is to separate the concerns for the Update client and Update service:
 
 *  In the first solution, the Update client is required to know the manifest format, and be able to process it.
 *  In the second solution, the Update client is only required to know how to handle a firmware component that is a manifest, and which might request additional firmware images to be provided.
 
+There might be additional benefits to designing the API around the second approach. SUIT does not constrain the use of the payload fetch command to the command sequences used to obtain and validate an update: it is permitted for the install command sequence to also fetch additional payloads. For more complex devices, there are some use cases for this:
+
+*  If the full firmware update does not fit into available storage, prior to installation. The firmware must be transferred and written to the installation location incrementally. Note that this prevents the device being able to rollback an update - however, if the system has an installer application that can fetch such payloads, this can also act as a device recovery procedure when an update fails.
+*  If the payload contains secrets that should not be transferred or stored by untrusted application firmware.
+
 Proposal
 --------
 
-This proposal is based around the second approach in the analysis: the initial processing of the SUIT manifest is performed by the Update service, and the Update client does not require any knowledge of the encoding or format of the data that it transfers to the Update service. This approach enables the API design, and Update client implementation, to work with other SUIT-like architectures, or with alternative encodings of the SUIT manifest.
+This proposal is based around the second approach in the analysis: the initial processing of the SUIT manifest is performed by the Update service, and the Update client does not require any knowledge of the encoding or format of the data that it transfers to the Update service. This approach enables the API design, and Update client implementation, to work with other SUIT-like architectures, or with alternative encodings of the SUIT manifest. It also makes it possible to reuse the same API for interaction between a payload fetcher and a trusted installer that runs as part of a dedicated Installer application.
 
-Reuse of the v1.0 API
-~~~~~~~~~~~~~~~~~~~~~
+Alignment with the v1.0 API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Handling the SUIT envelope
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -77,7 +82,7 @@ Instead, we should choose one of the following approaches:
 
 2. As the later handling of an envelope-type component will necessarily be different from non-envelope components, we could use a new API to specify that an envelope is being transferred. For example, ``psa_fwu_start_envelope(envelope_id)`` - which would then be followed by calls to ``psa_fwu_write()`` and ``psa_fwu_finish()`` to transfer the envelope data.
 
-If a device supports only a single top-level SUIT envelope, then the identifier could just be a default value (0?). There is benefit from reusing the same API for nested manifests (see later), and so the ``envelope_id`` parameter is important in the API.
+If a device supports only a single top-level SUIT envelope, then the identifier could just be a default value (0?).
 
 The implementation will need to have some storage for the entire envelope during processing. The envelope, or a trimmed-down copy, should be persistently retained for boot processing. To support rollback of a failed installation, or resumption of an interrupted update (e.g. device restart while processing the payload fetching), the full envelope may need to be stored by the implementation in non-volatile staging memory.
 
@@ -91,16 +96,18 @@ The SUIT envelope is processed once it has been transferred in its entirety (not
 3. Determining which firmware images require update, and fetching the required payloads.
 4. Verifying the payloads that will be installed.
 
-This fits naturally as part of ``psa_fwu_finish()``, called when the envelope component has been fully transferred. Alternatively, to distinguish a call to the API that might trigger complex processing, including requests for more images, it might be beneficial to define a new API for this step.
+This could fit naturally as part of ``psa_fwu_finish()``, called when the envelope component has been fully transferred. Alternatively, to distinguish a call to the API that might trigger complex processing, including requests for more images, it might be beneficial to define a new API for this step.
 
-Later SUIT processing that occurs within an Installer or Bootloader component, would only happen following a reboot, after the Update client has called ``psa_fwu_install()``.
+Processing the suit-install command sequence would occur after the Update client has called ``psa_fwu_install()``. This might occur within an Installer or Bootloader component, following a reboot, or immediately as part of the call to ``psa_fwu_install()``.
 
 Transferring payloads
 ^^^^^^^^^^^^^^^^^^^^^
 
-The existing functions for transferring firmware images can be used for each additional payload that is requested during SUIT manifest processing.
+The API requires functions to report information to the Update client to enable a payload to be identified and obtained, and then transferred to the Update service.
 
-Some consideration is needed for allocating component identifiers for the additional payloads. As a location, or identifier, for firmware image being requested is provided by the Update service, the component identifier used for this transfer could be allocated by the Update service, without need for agreement with any external identifier.
+The existing functions for transferring firmware images can be used for each additional payload that is requested during SUIT manifest processing. Additional API is needed to return payload identification (e.g. URI), and a firmware component id to use for the transfer.
+
+Some consideration is needed for allocating component identifiers for the additional payloads. As a location, or identifier, for firmware image being requested is provided by the Update service, the component identifier used for this transfer does have to be pre-allocated by the firmware developer - as is required for current firmware components, or top-level envelope components.
 
 Initiating installation
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -109,24 +116,30 @@ The current API already requires that the Update client calls ``psa_fwu_install(
 
 This fits well with the need to complete the transfer and processing of the SUIT envelope, and transfer all requested payloads, prior to initiating their installation.
 
+Recovery after interruption
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An envelope component that has been downloaded, but which has not completed SUIT processing, should present a new status in response to a call to ``psa_fwu_query()``, that enables the Update client to detect that SUIT processing is required. This can enable an implementations to support restarting the update that was interrupted.
+
+
 State-based design
 ~~~~~~~~~~~~~~~~~~
 
-A high level flow for the overall update process is shown in `Figure 1 <fig-flow_>`_.
+A high level flow for the initial update process is shown in `Figure 1 <fig-update-flow_>`_.
 
 .. figure:: suit-update.svg
-   :name: fig-flow
+   :name: fig-update-flow
 
-   **Figure 1** *The overall flow in a SUIT update*
+   **Figure 1** *The initial flow in a SUIT update*
 
 *Note:*
-   This flow only shows a standard flow, that does not encounter an error condition, or suffer from an interrupting device restart while processing the envelope.
+   This flow only shows a standard flow that requires a reboot to complete installation, and that does not encounter an error condition, or suffer from an interrupting device restart while processing the envelope.
 
    The state model and API design must permit an implementation to recover from an interruption, without needing to discard all of the data that has already been transferred.
 
 This proposal is focussed on the changes required to the Firmware Update API - both the programming model and the C interfaces - that are required to enable this update flow. The aim is to make the API independent of the choices made in the implementation of the API, e.g. with regards to firmware storage, or subsequent SUIT processing steps.
 
-The overall process in `Figure 1 <fig-flow_>`_ will be managed as follows:
+The overall process in `Figure 1 <fig-update-flow_>`_ will be managed as follows:
 
 *  Extending the v1.0 state model within the Firmware Update API to include component states for envelope processing.
 *  Providing an interface to indicate that envelope processing is required.
@@ -142,17 +155,32 @@ The overall process in `Figure 1 <fig-flow_>`_ will be managed as follows:
 
    Therefore, a callback-based API would not be usable in many systems. In order to define a single API for this feature that can be used in all types of system execution environment, the chosen approach for fetching payloads is to use a return value from manifest processing that signals the need for the application to fetch and transfer a payload before resuming the SUIT manifest processing.
 
+Complex installation sequences
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Where a SUIT manifest includes additional payload fetching as part of the suit-install command sequence, the manifest processing and payload fetching cycle would be repeated after the installation commences. This might occur immediately if no reboot is required, or as part of a dedicated Bootloader/Installer state of the system if this requires a system restart.
+
+`Figure 2 <fig-install-flow_>`_ shows an example of the additional flow when fetching during installation after a reboot.
+
+.. figure:: suit-install.svg
+   :name: fig-install-flow
+
+   **Figure 2** *The additional flow in a complex SUIT installation*
+
+
 Draft API design
 ~~~~~~~~~~~~~~~~
 
 *Note that this is a draft proposal, and selects one from a number of similar options. This seems to be a good fit with the specific behavior of nested manifests in SUIT, but could also work with other manifest architectures. The naming of any new API identifiers is also subject to discussion and revision.*
 
-`Figure 2 <fig-fetch_>`_ shows the detailed call sequence for the Update client when processing a SUIT envelope
+`Figure 3 <fig-fetch_>`_ shows the detailed call sequence for the Update client when initially processing a SUIT envelope
 
 .. figure:: fetch-as-state.svg
    :name: fig-fetch
 
-   **Figure 2** *The normal call sequence when fetching a payload*
+   **Figure 3** *The normal call sequence for initial SUIT update*
+
+   This shows the transfer of the envelope, and the processing of the suit-payload-fetch command sequence.
 
 The detailed steps of the flow are as follows (the numbers refer to the corresponding number in Figure 2):
 
@@ -180,17 +208,24 @@ The detailed steps of the flow are as follows (the numbers refer to the correspo
 
 21. When the Update service completes the processing this phase of the SUIT manifest commands, the Envelope component is moved to the CANDIDATE state, and the last call to ``psa_fwu_process()`` returns ``PSA_SUCCESS``.
 
-22. To proceed with the installation, the Update client now calls ``psa_fwu_install()``, and the behavior follows the standard flows for the Firmware Update API.
+22. To proceed with the installation, the Update client now calls ``psa_fwu_install()``.
 
-    For a SUIT manifest, this will ultimately process the suit-install command sequences. In many systems the call to ``psa_fwu_install()`` will set the CANDIDATE components to the STAGED state, and request that the Update client restart the system to continue installation.
+23. The flow in Figure 3 shows a system which requires a reboot to continue with the installation. The suit-install SUIT command sequences will be processed after the reboot.
+
+    In systems where the installation of the envelope component is achieved without a restart, the installation command sequence will be executed as part of the call to ``psa_fwu_install()``, and complete the installation.
 
     *Todo:*
-      In systems where the installation of the envelope component is achieved without a restart, the installation command sequences would be executed as part of the call to ``psa_fwu_install()``. Those sequences can, in theory, contain requests to fetch additional payloads.
+      If this sequence contains additional payload fetch commands, then we could permit ``psa_fwu_install()`` to put the component into PROCESSING state, and require the Update client to use ``psa_fwu_process()``, and then transfer any new payloads? - an issue is that ``psa_fwu_install()`` acts on *all* candidates, but ``psa_fwu_process()`` (as currently proposed) acts on a specific envelope.
 
-      Do we need to support this in the API, by permitting ``psa_fwu_install()`` to put the component into PROCESSING state (although internally different, it is handling installation command sequences), and requiring the Update client to use ``psa_fwu_process()``, and transfer any new payloads?
+*Note:*
+   In systems where the installation occurs following reboot, or in a special execution state of the system, the implementation might choose to use the Firmware Update API between a trusted installer agent and a payload fetcher agent. Although the interfaces used for this can be implementation-defined, `Figure 4 <fig-installer_>`_ is an example of how this could be done using the Firmware Update API.
 
-    *Note:*
-      In systems where the installation occurs following reboot, or in a special execution state of the system, the implementation might choose to use the Firmware Update API between a trusted installer agent and a payload fetcher agent. Use of the API in this way is implementation defined, and not in scope of the standard API definition.
+   .. figure:: install-api-sequence.svg
+      :name: fig-installer
+
+      **Figure 4** *Example use of the Firmware Update API for a dedicated Installer state*
+
+      This shows the operation of the Installer and Payload fetcher following a reboot with a STAGED envelope.
 
 Errors
 ^^^^^^
@@ -212,14 +247,11 @@ Aborting an update
 If the Update client chooses to abandon an update, when the envelope component is in PROCESSING, FETCHING, or CANDIDATE state - it can use ``psa_fwu_cancel()``, as for the v1.0 API for components before ``psa_fwu_install()`` is called. In the case of an envelope component, this will also call any associated payloads to be discarded as well, whether the payloads are in WRITING or CANDIDATE state.
 
 *Rationale:*
-   This is because the payload components do not necessarily have a top-level component identifier that is well known to the Update client, and the client is not expected to track the payload identifiers that have been requested by the ``psa_fwu_process()`` calls.
+   This is because the payload components do not have a top-level component identifier that is well known to the Update client, and the client is not expected to track the payload identifiers that have been requested by the ``psa_fwu_process()`` calls.
 
-*Note:*
-   Should we also allow: an Update client can call ``psa_fwu_cancel()`` + ``psa_fwu_clean()`` on a payload component currently being transferred (steps 8 - 20), and restart the transfer of that component with ``psa_fwu_start()``?
+An Update client can call ``psa_fwu_cancel()`` + ``psa_fwu_clean()`` on a payload component currently being transferred (steps 8 - 20), and restart the transfer of that component with ``psa_fwu_start()``. This is not permitted on payloads which have been fully transferred.
 
-   This shouldn't be required to abort the entire update, as the Update service will have to be able to discard any associated payloads based on the root envelope identifier anyway.
-
-   Once the SUIT manifest processing continues, attempting to do this to a payload for which the transfer is finished should be an error.
+Cancelling the payload transfer isn't required to abort the entire update. The Update service will have to be able to discard any already, or partially, transferred payloads based on the envelope identifier.
 
 Restarting an update
 ^^^^^^^^^^^^^^^^^^^^
@@ -231,6 +263,24 @@ Following a restart, the Update client should query the status of the envelope c
 *Note:*
    The implementation will have to re-verify the manifest, and process the command sequences from the beginning. The service can avoid requesting payload images which where previously transferred, and match the payload digest.
 
+Component identifiers
+^^^^^^^^^^^^^^^^^^^^^
+
+Each top-level envelope must have an allocated Firmware Update API component id. This is used to query status and transfer new SUIT envelopes for update.
+
+To reuse the image transfer APIs for SUIT payloads, a payload component id is required. These component identifiers are not valid for status queries outside of the payload fetch operation. Querying them during the payload fetch might be a useful feature to retain?
+
+The allocation of the payload identifiers is implementation defined:
+
+*  They can be allocated statically by the firmware developer
+*  They can be allocated dynamically by the implementation
+*  They can be reused during the course of the SUIT processing as the API only permits a single payload to be transferred at a time
+
+*Todo*
+   It might be beneficial to define a larger integral type as the component identifier.
+
+   Would this break compatibility for the API?
+
 Detailed API definition
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -239,18 +289,28 @@ Detailed API definition
 Open Issues
 -----------
 
-*  Detailed API design, and potential optimisation of call sequences.
-*  Naming of API elements.
+*  Detailed API design.
+*  Final naming of API elements.
 *  The current ``psa_fwu_component_id_t`` is typed as a 8-bit integer. Is that sufficient for this API, or should we allocate a larger size for this type?
 *  Are there additional attributes for components that need to be included in the ``psa_fwu_component_info_t``?
-*  Do we need a separate FETCHING state for the envelope?
-*  Should we allow a client to cancel current payload transfer and restart it?
-*  Do we want to permit payload fetching as part of the call to ``psa_fwu_install()``?
+*  Do we need a separate FETCHING state for the envelope? - it clarifies the behavior of the API calls, but is never valuable as a persistent state, as it does not assist with restarting after interruption, or with aborting or cleaning up after error.
+*  If we want to permit payload fetching as part of the call to ``psa_fwu_install()``, we need to determine how to handle component ids:
+
+   1. We could expect that the client queries the status of the top-level envelopes to determine which ones need to be processed after ``psa_fwu-install()`` returns ``PSA_FWU_PROCESSING_REQUIRED``. This is the behaviour required on restart, or by a dedicated payload fetcher.
+   2. We could limit API to a single top-level envelope installation at a time, and remove the component id from ``psa_fwu_process()``.
+   3. We could introduce a separate API for SUIT processing of the install sequences, that does not use a component id; or we could have the envelope id be unused for this stage of processing. The implementation would have to work out which envelopes need processing.
+   4. We could remove component id from ``psa_fwu_process()``, and have implementation figure out which envelope needs to be processed whenever it is called.
 
 Revision history
 ----------------
 
-07/03/23
+03/04/2024
+   Second update:
+
+   * Added flows to show the use of the API for fetching during the installation sequence. The state model and API mostly works for this, but a open issue around component id usage remains.
+   * Proposed a scheme for Firmware Update API component ids.
+
+07/03/2023
    Major update following initial review:
 
    * Reworked the state model and API based on detailed understanding of the Multiple Trust Domain extension to the base SUIT specification.
@@ -258,5 +318,5 @@ Revision history
    * Aligned the document with the details of the SUIT specifications.
    * Provided more detail on how the API design supports the alternative flow scenarios.
 
-15/02/23
+15/02/2023
    Initial draft proposal.

@@ -3,11 +3,18 @@
 
 @startuml
 
+' SUIT update using the FWU API
+
 !include atg-spec.pumh
 
+box Network
 participant "Update server" as server
+end box
+box Device
 participant "Update client" as client
+participant "Firmware Update API" as api
 participant "Update service" as service
+end box
 entity "Envelope state" as envelope
 entity "Payload state" as payload
 
@@ -39,8 +46,12 @@ activate envelope #PaleGoldenRod
 rnote over envelope #PaleGoldenRod: PROCESSING
 
 client -> service: ""psa_fwu_process(envelope_id)""
-note left: Process SUIT manifest
-deactivate envelope
+note left
+    Process SUIT manifest
+    - verify manifest
+    - suit-payload-fetch sequence
+end note
+'deactivate envelope
 activate service #ddd
 
 loop While additional payloads are required
@@ -48,7 +59,7 @@ loop While additional payloads are required
     deactivate service
     activate envelope #LightGoldenRodYellow
     activate payload #LightBlue
-    rnote over envelope #LightGoldenRodYellow: FETCHING *
+    rnote over envelope #LightGoldenRodYellow: FETCHING ?
     / rnote over payload #LightBlue: READY
 
     server <<- client ++ : Fetch payload
@@ -79,10 +90,8 @@ loop While additional payloads are required
     activate service #ddd
     return ""PSA_SUCCESS""
     deactivate service
-    activate envelope #PaleGoldenRod
-    activate payload #LightSalmon
-    rnote over envelope #PaleGoldenRod: PROCESSING
-    / rnote over payload #LightSalmon: CANDIDATE
+'    activate envelope #PaleGoldenRod
+'    rnote over envelope #PaleGoldenRod: PROCESSING
 
     client -> service: ""psa_fwu_process(envelope_id)""
     note left: Resume SUIT processing
@@ -98,19 +107,16 @@ rnote over envelope #LightSalmon: CANDIDATE
 
 client -> service #ddd: ""psa_fwu_install()""
 note left: Proceed with installation
-deactivate payload
 deactivate envelope
 activate service #ddd
 return  ""PSA_FWU_REBOOT_REQUIRED""
 deactivate service
 activate envelope #LightCoral
-activate payload #LightCoral
 rnote over envelope #LightCoral: STAGED
-/ rnote over payload #LightCoral: STAGED
 
 deactivate envelope
-deactivate payload
+client -->>] --: Request reboot
 
-rnote across #gray: <color:white>REBOOT
+== System restarts ==
 
 @enduml
