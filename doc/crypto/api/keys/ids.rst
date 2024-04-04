@@ -10,9 +10,9 @@ Key identifiers are integral values that act as permanent names for persistent k
 
 :code:`PSA_KEY_ID_NULL = 0`
     Reserved as an invalid key identifier.
-:code:`PSA_KEY_ID_USER_MIN – PSA_KEY_ID_USER_MAX`
+:code:`PSA_KEY_ID_USER_MIN - PSA_KEY_ID_USER_MAX`
     Applications can freely choose persistent key identifiers in this range.
-:code:`PSA_KEY_ID_VENDOR_MIN – PSA_KEY_ID_VENDOR_MAX`
+:code:`PSA_KEY_ID_VENDOR_MIN - PSA_KEY_ID_VENDOR_MAX`
     Implementations can define additional persistent key identifiers in this range, and must allocate any volatile key identifiers from this range.
 
 Key identifiers outside these ranges are reserved for future use.

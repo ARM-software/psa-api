@@ -21,11 +21,11 @@ Key type encoding
 
     :code:`PSA_KEY_TYPE_NONE == 0`
         Reserved as an invalid key type.
-    :code:`0x0001 – 0x7fff`
+    :code:`0x0001 - 0x7fff`
         Specification-defined key types.
         Key types defined by this standard always have bit 15 clear.
         Unallocated key type values in this range are reserved for future use.
-    :code:`0x8000 – 0xffff`
+    :code:`0x8000 - 0xffff`
         Implementation-defined key types.
         Implementations that define additional key types must use an encoding with bit 15 set.
         The related support macros will be easier to write if these key encodings also respect the bitwise structure used by standard encodings.
@@ -757,10 +757,10 @@ The curve type affects the key format, the key derivation procedure, and the alg
 
     :code:`0x00`
         Reserved. Not allocated to an ECC family.
-    :code:`0x01 – 0x7f`
+    :code:`0x01 - 0x7f`
         ECC family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
-    :code:`0x80 – 0xff`
+    :code:`0x80 - 0xff`
         Implementations that define additional families must use an encoding in this range.
 
 .. macro:: PSA_KEY_TYPE_ECC_KEY_PAIR
@@ -1174,10 +1174,10 @@ Diffie Hellman keys
 
     :code:`0x00`
         Reserved. Not allocated to a DH group family.
-    :code:`0x01 – 0x7f`
+    :code:`0x01 - 0x7f`
         DH group family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
-    :code:`0x80 – 0xff`
+    :code:`0x80 - 0xff`
         Implementations that define additional families must use an encoding in this range.
 
 .. macro:: PSA_KEY_TYPE_DH_KEY_PAIR
