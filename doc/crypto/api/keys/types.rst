@@ -756,12 +756,21 @@ The curve type affects the key format, the key derivation procedure, and the alg
     The range of elliptic curve family identifier values is divided as follows:
 
     :code:`0x00`
-        Reserved. Not allocated to an ECC family.
+        Reserved.
+        Not allocated to an ECC family.
     :code:`0x01 - 0x7f`
         ECC family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 - 0xff`
-        Implementations that define additional families must use an encoding in this range.
+        Invalid.
+        Values in this range must not be used.
+
+    The least significant bit of a elliptic curve family identifier is a parity bit for the whole key type.
+    See :secref:`asymmetric-key-encoding` for details of the encoding of asymmetric key types.
+
+    .. admonition:: Implementation note
+
+        To provide other elliptic curve families, it is recommended that an implementation defines a key type with bit 15 set, which indicates an :scterm:`implementation defined` key type.
 
 .. macro:: PSA_KEY_TYPE_ECC_KEY_PAIR
     :definition: /* specification-defined value */
@@ -1173,12 +1182,21 @@ Diffie Hellman keys
     The range of Diffie-Hellman group family identifier values is divided as follows:
 
     :code:`0x00`
-        Reserved. Not allocated to a DH group family.
+        Reserved.
+        Not allocated to a DH group family.
     :code:`0x01 - 0x7f`
         DH group family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 - 0xff`
-        Implementations that define additional families must use an encoding in this range.
+        Invalid.
+        Values in this range must not be used.
+
+    The least significant bit of a Diffie-Hellman group family identifier is a parity bit for the whole key type.
+    See :secref:`asymmetric-key-encoding` for details of the encoding of asymmetric key types.
+
+    .. admonition:: Implementation note
+
+        To provide other Diffie-Hellman group families, it is recommended that an implementation defines a key type with bit 15 set, which indicates an :scterm:`implementation defined` key type.
 
 .. macro:: PSA_KEY_TYPE_DH_KEY_PAIR
     :definition: /* specification-defined value */
