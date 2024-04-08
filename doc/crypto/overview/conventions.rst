@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _library-conventions:
@@ -370,25 +370,45 @@ In some environments, an application can make calls to the |API| in
 separate threads. In such an environment, *concurrent calls* are two or more
 calls to the API whose execution can overlap in time.
 
-Concurrent calls are performed correctly, as if the calls were executed in
-sequence, provided that they obey the following constraints:
+**Sequential consistency**
+    The result of two or more concurrent calls must be consistent with the
+    same set of calls being executed sequentially in some order, provided that
+    the calls obey the following constraints:
 
-*   There is no overlap between an output parameter of one call and an input or
-    output parameter of another call. Overlap between input parameters is
-    permitted.
+    *   There is no overlap between an output parameter of one call and an
+        input or output parameter of another call. Overlap between input
+        parameters is permitted.
 
-*   A call to destroy a key must not overlap with a concurrent call to any of
-    the following functions:
+    *   A call to :code:`psa_destroy_key()` must not overlap with a concurrent
+        call to any of the following functions:
 
-    *   Any call where the same key identifier is a parameter to the call.
-    *   Any call in a multi-part operation, where the same key identifier was
-        used as a parameter to a previous step in the multi-part operation.
+        -   Any call where the same key identifier is a parameter to the call.
+        -   Any call in a multi-part operation, where the same key identifier
+            was used as a parameter to a previous step in the multi-part
+            operation.
 
-*   Concurrent calls must not use the same operation object.
+    *   Concurrent calls must not use the same operation object.
 
-If any of these constraints are violated, the behavior is undefined.
+    If any of these constraints are violated, the behavior is undefined.
 
-If the application modifies an input parameter while a function call is in
-progress, the behavior is undefined.
+    The consistency requirement does not apply to errors that arise
+    from resource failures or limitations. For example, errors resulting from
+    resource exhaustion can arise in concurrent execution that do not arise in
+    sequential execution.
+
+    As an example of this rule: suppose two calls are executed concurrently
+    which both attempt to create a new key with the same key identifier that is
+    not already in the key store. Then:
+
+    *   If one call returns :code:`PSA_ERROR_ALREADY_EXISTS`, then the other
+        call must succeed.
+    *   If one of the calls succeeds, then the other must fail: either with
+        :code:`PSA_ERROR_ALREADY_EXISTS` or some other error status.
+    *   Both calls can fail with error codes that are not
+        :code:`PSA_ERROR_ALREADY_EXISTS`.
+
+**Parameter stability**
+    If the application concurrently modifies an input parameter while a
+    function call is in progress, the behavior is undefined.
 
 Individual implementations can provide additional guarantees.

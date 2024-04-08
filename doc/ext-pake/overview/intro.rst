@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Introduction
@@ -12,19 +12,15 @@ This document is one of a set of resources provided by Arm that can help organiz
 About the |API| PAKE Extension
 ------------------------------
 
-This document introduces an extension to the :cite-title:`PSA-CRYPT` specification, to provide support for :term:`Password-authenticated key exchange` (PAKE) algorithms, and specifically for the J-PAKE algorithm.
+This document defines an extension to the :cite-title:`PSA-CRYPT` specification, to provide support for :term:`Password-authenticated key exchange` (PAKE) protocols, and specifically for the J-PAKE and SPAKE2+ protocols.
 
-When the proposed extension is sufficiently stable to be classed as Final, it will be integrated into a future version of `[PSA-CRYPT]`.
+This extension API is now classed as Final, and it will be integrated into a future version of `[PSA-CRYPT]`.
 
 This specification must be read and implemented in conjunction with `[PSA-CRYPT]`. All of the conventions, design considerations, and implementation considerations that are described in `[PSA-CRYPT]` apply to this specification.
 
-.. note::
-
-    This extension has been developed in conjunction with the :cite-title:`MBED-TLS` project, which is developing an implementation of the |API|.
-
 .. rationale:: Note
 
-    This version of the document includes *Rationale* commentary that provides background information relating to the design decisions that led to the current proposal. This enables the reader to understand the wider context and alternative approaches that have been considered.
+    This version of the document includes *Rationale* commentary that provides background information relating to the API design. This enables the reader to understand the wider context and alternative approaches that have been considered.
 
 
 Objectives for the PAKE Extension
@@ -46,7 +42,10 @@ Requests
 ^^^^^^^^
 
 Some PAKE schemes have been requested by the community and need to be supported.
-Currently, these are SPAKE2+ and J-PAKE (in particular the Elliptic Curve based variant, sometimes known as ECJPAKE)
+Currently, these are:
+
+*   SPAKE2+ --- used in :cite-title:`MATTER`
+*   J-PAKE (in particular the Elliptic Curve based variant, sometimes known as ECJPAKE) --- used in :cite-title:`THREAD`.
 
 Standardization
 ^^^^^^^^^^^^^^^
@@ -71,7 +70,7 @@ Some of these schemes are used in popular protocols. This information confirms t
     *   -   J-PAKE
         -   TLS, THREAD v1
     *   -   SPAKE2+
-        -   CHIP
+        -   MATTER
     *   -   SRP
         -   TLS
     *   -   OPAQUE
@@ -114,13 +113,13 @@ The following PAKE schemes are considered in the |API| design:
 Scope of this specification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The current API proposal provides the general interface for PAKE algorithms, and the specific interface for J-PAKE.
+The current API proposal provides the general interface for PAKE algorithms, and the specific interface for J-PAKE and SPAKE2+.
 
 Out of scope
 ^^^^^^^^^^^^
 
 PAKE protocols that do not fit into any of the above categories are not taken into consideration in the proposed API.
-Some schemes like that are:
+Such schemes include:
 
 .. list-table::
     :header-rows: 1

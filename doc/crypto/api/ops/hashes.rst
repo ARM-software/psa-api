@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -72,6 +72,20 @@ Hash algorithms
         The RIPEMD-160 message-digest algorithm.
 
     RIPEMD-160 is defined in :cite-title:`RIPEMD`, and also in :cite-title:`ISO10118`.
+
+.. macro:: PSA_ALG_AES_MMO_ZIGBEE
+    :definition: ((psa_algorithm_t)0x02000007)
+
+    .. summary::
+        The *Zigbee* 1.0 hash function based on a Matyas-Meyer-Oseas (MMO) construction using AES-128.
+
+    This is the cryptographic hash function based on the Merkle-Damgård construction over a Matyas-Meyer-Oseas one-way compression function and the AES-128 block cipher, with the parametrization defined in :cite-title:`ZIGBEE` §B.6.
+
+    This hash function can operate on input strings of up to :math:`2^{32} - 1` bits.
+
+    .. note::
+
+        The Zigbee keyed hash function from `[ZIGBEE]` §B.1.4 is :code:`PSA_ALG_HMAC(PSA_ALG_AES_MMO_ZIGBEE)`.
 
 .. macro:: PSA_ALG_SHA_1
     :definition: ((psa_algorithm_t)0x02000005)
@@ -766,35 +780,37 @@ Hash suspend state format
 
 The hash suspend state has the following format:
 
-*hash-suspend-state* = *algorithm* || *input-length* || *hash-state* || *unprocessed-input*
+.. math::
+
+    hash\_suspend\_state = algorithm\ ||\ input\_length\ ||\ hash\_state\ ||\ unprocessed\_input
 
 The fields in the hash suspend state are defined as follows:
 
-*algorithm*
+:math:`algorithm`
     A big-endian 32-bit unsigned integer.
 
     The |API| algorithm identifier value.
 
-    The byte length of the *algorithm* field can be evaluated using `PSA_HASH_SUSPEND_ALGORITHM_FIELD_LENGTH`.
+    The byte length of the :math:`algorithm` field can be evaluated using `PSA_HASH_SUSPEND_ALGORITHM_FIELD_LENGTH`.
 
-*input-length*
+:math:`input\_length`
     A big-endian unsigned integer
 
     The content of this field is algorithm-specific:
 
-    *   For MD2, this is the number of bytes in the *unprocessed-input*.
-    *   For all other hash algorithms, this is the total number of bytes of input to the hash computation. This includes the *unprocessed-input* bytes.
+    *   For MD2, this is the number of bytes in :math:`unprocessed\_input`.
+    *   For all other hash algorithms, this is the total number of bytes of input to the hash computation. This includes the :math:`unprocessed\_input` bytes.
 
     The size of this field is algorithm-specific:
 
-    *   For MD2: *input-length* is an 8-bit unsigned integer.
-    *   For MD4, MD5, RIPEMD-160, SHA-1, SHA-224, and SHA-256: *input-length* is a 64-bit unsigned integer.
-    *   For SHA-512/224, SHA-512/256, SHA-384, and SHA-512: *input-length* is a 128-bit unsigned integer.
+    *   For MD2: :math:`input\_length` is an 8-bit unsigned integer.
+    *   For MD4, MD5, RIPEMD-160, SHA-1, SHA-224, and SHA-256: :math:`input\_length` is a 64-bit unsigned integer.
+    *   For SHA-512/224, SHA-512/256, SHA-384, and SHA-512: :math:`input\_length` is a 128-bit unsigned integer.
 
-    The length, in bytes, of the *input-length* field can be calculated using :code:`PSA_HASH_SUSPEND_INPUT_LENGTH_FIELD_LENGTH(alg)` where ``alg`` is a hash algorithm.
+    The length, in bytes, of the :math:`input\_length` field can be calculated using :code:`PSA_HASH_SUSPEND_INPUT_LENGTH_FIELD_LENGTH(alg)` where ``alg`` is a hash algorithm.
     See :secref:`hash-suspend-state-constants`.
 
-*hash-state*
+:math:`hash\_state`
     An array of bytes
 
     Algorithm-specific intermediate hash state:
@@ -807,17 +823,19 @@ The fields in the hash suspend state are defined as follows:
     *   For SHA-512/224, SHA-512/256, SHA-384, and SHA-512: 8x 64-bit integers, in big-endian encoding.
 
     The length of this field is specific to the algorithm.
-    The length, in bytes, of the *hash-state* field can be calculated using :code:`PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH(alg)` where ``alg`` is a hash algorithm.
+    The length, in bytes, of the :math:`hash\_state` field can be calculated using :code:`PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH(alg)` where ``alg`` is a hash algorithm.
     See :secref:`hash-suspend-state-constants`.
 
-*unprocessed-input*
-    0 to (*hash-block-size*-1) bytes
+:math:`unprocessed\_input`
+    :math:`0\ \text{to}\ (hash\_block\_size - 1)` bytes
 
-    A partial block of unprocessed input data. This is between zero and *hash-block-size*-1 bytes of data, the length can be calculated by:
+    A partial block of unprocessed input data. This is between zero and :math:`hash\_block\_size - 1` bytes of data, the length can be calculated by:
 
-    ``length(``\ *unprocessed-input*\ ``)`` ``=`` *input-length* ``%`` *hash-block-size*.
+    .. math::
 
-    The *hash-block-size* is specific to the algorithm.
+        \text{length}(unprocessed\_input) = input\_length \mod hash\_block\_size.
+
+    The value of :math:`hash\_block\_size` is specific to the hash algorithm.
     The size of a hash block can be calculated using :code:`PSA_HASH_BLOCK_LENGTH(alg)` where ``alg`` is a hash algorithm.
     See :secref:`hash-suspend-state-constants`.
 
@@ -828,10 +846,10 @@ Hash suspend state field sizes
 
 The following table defines the algorithm-specific field lengths for the hash suspend state returned by `psa_hash_suspend()`. All of the field lengths are in bytes. To compute the field lengths for algorithm ``alg``, use the following expressions:
 
-*   :code:`PSA_HASH_SUSPEND_ALGORITHM_FIELD_LENGTH` returns the length of the *algorithm* field.
-*   :code:`PSA_HASH_SUSPEND_INPUT_LENGTH_FIELD_LENGTH(alg)` returns the length of the *input-length* field.
-*   :code:`PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH(alg)` returns the length of the *hash-state* field.
-*   :code:`PSA_HASH_BLOCK_LENGTH(alg)-1` is the maximum length of the *unprocessed-bytes* field.
+*   :code:`PSA_HASH_SUSPEND_ALGORITHM_FIELD_LENGTH` returns the length of the :math:`algorithm` field.
+*   :code:`PSA_HASH_SUSPEND_INPUT_LENGTH_FIELD_LENGTH(alg)` returns the length of the :math:`input\_length` field.
+*   :code:`PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH(alg)` returns the length of the :math:`hash\_state` field.
+*   :code:`PSA_HASH_BLOCK_LENGTH(alg) - 1` is the maximum length of the :math:`unprocessed\_bytes` field.
 *   :code:`PSA_HASH_SUSPEND_OUTPUT_SIZE(alg)` returns the maximum size of the hash suspend state.
 
 .. csv-table::
@@ -839,7 +857,7 @@ The following table defines the algorithm-specific field lengths for the hash su
     :widths: auto
     :align: left
 
-    Hash algorithm, *input-length* size (bytes), *hash-state* length (bytes), *unprocessed-bytes* length (bytes)
+    Hash algorithm, :math:`input\_length` size (bytes), :math:`hash\_state` length (bytes), :math:`unprocessed\_bytes` length (bytes)
     `PSA_ALG_MD2`, 1, 64, 0 -- 15
     `PSA_ALG_MD4`, 8, 16, 0 -- 63
     `PSA_ALG_MD5`, 8, 16, 0 -- 63

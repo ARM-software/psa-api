@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Changes to the API
@@ -11,29 +11,41 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.2.0* and *1.2.1*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Fix the example implementation of `PSA_ALG_KEY_AGREEMENT_GET_BASE()` and `PSA_ALG_KEY_AGREEMENT_GET_KDF()` in :secref:`appendix-specdef-values`, to give correct results for key agreements combined with PBKDF2.
+*   Remove the dependency on the underlying hash algorithm in definition of HMAC keys, and their behavior on import and export.
+    Transferred the responsibility for truncating over-sized HMAC keys to the application.
+    See `PSA_KEY_TYPE_HMAC`.
+*   Rewrite the description of `PSA_ALG_CTR`, to clarify how to use the API to set the appropriate IV for different application use cases.
+
 Changes between *1.1.2* and *1.2.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
+*   Added `psa_key_agreement()` for standalone key agreement that outputs to a new key object. Also added `PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()` as a synonym for `PSA_ALG_IS_RAW_KEY_AGREEMENT()`.
+
+*   Added support for the XChaCha20 cipher and XChaCha20-Poly1305 AEAD algorithms. See `PSA_KEY_TYPE_XCHACHA20` and `PSA_ALG_XCHACHA20_POLY1305`.
+*   Added support for :cite-title:`ZIGBEE` cryptographic algorithms. See `PSA_ALG_AES_MMO_ZIGBEE` and `PSA_ALG_CCM_STAR_NO_TAG`.
+*   Defined key derivation algorithms based on the Counter mode recommendations in :cite-title:`SP800-108`. See `PSA_ALG_SP800_108_COUNTER_HMAC()` and `PSA_ALG_SP800_108_COUNTER_CMAC`.
 *   Added support for TLS 1.2 ECJPAKE-to-PMS key-derivation. See `PSA_ALG_TLS12_ECJPAKE_TO_PMS`.
+
 *   Changed the policy for `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()`, so that these functions are also permitted when an input key has the `PSA_KEY_USAGE_DERIVE` usage flag.
 *   Removed the special treatment of :code:`PSA_ERROR_INVALID_SIGNATURE` for key derivation operations. A verification failure in `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()` now puts the operation into an error state.
-*   Defined key derivation algorithms based on the Counter mode recommendations in :cite-title:`SP800-108`. See `PSA_ALG_SP800_108_COUNTER_HMAC()` and `PSA_ALG_SP800_108_COUNTER_CMAC`.
-
-*   Added `psa_key_agreement()` for standalone key agreement that outputs to a new key object. Also added `PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()` as a synonym for `PSA_ALG_IS_RAW_KEY_AGREEMENT()`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 *   Clarified the behavior of a key derivation operation when there is insufficient capacity for a call to `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, `psa_key_derivation_verify_bytes()`, or `psa_key_derivation_verify_key()`.
 *   Reserved the value ``0`` for most enum-like integral types.
-
 *   Changed terminology for clarification: a 'raw key agreement' algorithm is now a 'standalone key agreement', and a 'full key agreement' is a 'combined key agreement'.
 
-Other changes
-~~~~~~~~~~~~~
 
 Changes between *1.1.1* and *1.1.2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -186,6 +198,8 @@ Clarifications and fixes
 *   Document that `psa_key_derivation_output_key()` does not return :code:`PSA_ERROR_NOT_PERMITTED` if the secret input is the result of a key agreement. This matches what was already documented for `PSA_KEY_DERIVATION_INPUT_SECRET`.
 
 *   Relax the requirement to use the defined key derivation methods in `psa_key_derivation_output_key()`: implementation-specific KDF algorithms can use implementation-defined methods to derive the key material.
+
+*   Clarify the requirements for implementations that support concurrent execution of API calls.
 
 Other changes
 ~~~~~~~~~~~~~

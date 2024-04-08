@@ -1,15 +1,13 @@
-.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 ..  title::
 
-    .. banner:: BETA RELEASE
+    .. banner:: FINAL RELEASE
 
-        This is a proposed update to the :cite-title:`PSA-CRYPT` specification.
+        This is an extension to the :cite-title:`PSA-CRYPT` specification.
 
-        This is a BETA release in order to enable wider review and feedback on the changes proposed to be included in a future version of the specification.
-
-        At this quality level, the proposed changes and interfaces are complete, and suitable for initial product development. However, the specification is still subject to change.
+        This is a FINAL release: the proposed changes and interfaces are complete and finalized, and suitable for product development.
 
     .. abstract::
 
@@ -23,6 +21,7 @@
 
     overview/intro
     api/pake
+    api/encodings
 
 .. appendix::
 

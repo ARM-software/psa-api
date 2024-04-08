@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -117,11 +117,18 @@ Symmetric keys
     .. summary::
         HMAC key.
 
-    The key policy determines which underlying hash algorithm the key can be used for.
+    HMAC keys can be used in HMAC, or HMAC-based, algorithms.
+    Although HMAC is parameterized by a specific hash algorithm, for example SHA-256, the hash algorithm is not specified in the key type.
+    The permitted-algorithm policy for the key must specify a particular hash algorithm.
 
-    The bit size of an HMAC key must be a non-zero multiple of 8. An HMAC key is typically the same size as the output of the underlying hash algorithm. An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use.
+    The bit size of an HMAC key must be a non-zero multiple of 8.
+    An HMAC key is typically the same size as the output of the underlying hash algorithm.
+    An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use, see :RFC-title:`2104#2`.
 
-    When an HMAC key is created that is longer than the block size, it is :scterm:`implementation defined` whether the implementation stores the original HMAC key, or the hash of the HMAC key. If the hash of the key is stored, the key size reported by `psa_get_key_attributes()` will be the size of the hashed key.
+    It is recommended that an application does not construct HMAC keys that are longer than the block size of the hash algorithm that will be used.
+    It is :scterm:`implementation defined` whether an HMAC key that is longer than the hash block size is supported.
+
+    If the application does not control the length of the data used to construct the HMAC key, it is recommended that the application hashes the key data, when it exceeds the hash block length, before constructing the HMAC key.
 
     .. note::
 
@@ -401,6 +408,23 @@ Symmetric keys
         | `PSA_ALG_STREAM_CIPHER`
         | `PSA_ALG_CHACHA20_POLY1305`
 
+.. macro:: PSA_KEY_TYPE_XCHACHA20
+    :definition: ((psa_key_type_t)0x2007)
+
+    .. summary::
+        Key for the XChaCha20 stream cipher or the XChaCha20-Poly1305 AEAD algorithm.
+
+    The XChaCha20 key size is 256 bits (32 bytes).
+
+    *   Use algorithm `PSA_ALG_STREAM_CIPHER` to use this key with the XChaCha20 cipher for unauthenticated encryption. See `PSA_ALG_STREAM_CIPHER` for details of this algorithm.
+
+    *   Use algorithm `PSA_ALG_XCHACHA20_POLY1305` to use this key with the XChaCha20 cipher and Poly1305 authenticator for AEAD. See `PSA_ALG_XCHACHA20_POLY1305` for details of this algorithm.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_STREAM_CIPHER`
+        | `PSA_ALG_XCHACHA20_POLY1305`
+
 
 .. _asymmetric-keys:
 
@@ -478,7 +502,7 @@ Elliptic Curve keys
     .. summary::
         Elliptic curve key pair: both the private and public key.
 
-    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of *q* for a curve over a field *F*\ :sub:`q`. See the documentation of each Elliptic curve family for details.
+    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each Elliptic curve family for details.
 
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.

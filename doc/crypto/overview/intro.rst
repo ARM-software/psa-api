@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Introduction
@@ -26,7 +26,7 @@ This document includes:
 *   General considerations for implementers of this specification, and for applications that use the interface defined in this specification. See :secref:`implementation-considerations` and :secref:`usage-considerations`.
 *   A detailed definition of the API. See :secref:`library-management`, :secref:`key-management`, and :secref:`crypto-operations`.
 
-:cite-title:`PSA-PAKE` is a companion document for version |docversion| of this specification. :cite:`PSA-PAKE` defines a new API for Password Authenticated Key Establishment (PAKE) algorithms. The PAKE API is an initial proposal at BETA status. The API defined by :cite:`PSA-PAKE` is provided in a separate specification to reflect the different status of this API, and indicate that a future version can include incompatible changes to the PAKE API. When the PAKE API is stable, it will be included in a future version of the |API| specification.
+:cite-title:`PSA-PAKE` is a companion document for version |docversion| of this specification. :cite:`PSA-PAKE` defines an API for Password Authenticated Key Establishment (PAKE) algorithms. The PAKE API is now at FINAL status, and will be included in a future version of the |API| specification.
 
 In future, other companion documents will define *profiles* for this specification. A profile is
 a minimum mandatory subset of the interface that a compliant implementation must

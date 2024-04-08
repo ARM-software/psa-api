@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 typedef /* implementation-defined type */ psa_aead_operation_t;
@@ -47,6 +47,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
     /* specification-defined value */
 #define PSA_ALG_AEAD_WITH_SHORTENED_TAG(aead_alg, tag_length) \
     /* specification-defined value */
+#define PSA_ALG_AES_MMO_ZIGBEE ((psa_algorithm_t)0x02000007)
 #define PSA_ALG_ANY_HASH ((psa_algorithm_t)0x020000ff)
 #define PSA_ALG_AT_LEAST_THIS_LENGTH_MAC(mac_alg, min_mac_length) \
     /* specification-defined value */
@@ -54,6 +55,8 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_CBC_NO_PADDING ((psa_algorithm_t)0x04404000)
 #define PSA_ALG_CBC_PKCS7 ((psa_algorithm_t)0x04404100)
 #define PSA_ALG_CCM ((psa_algorithm_t)0x05500100)
+#define PSA_ALG_CCM_STAR_ANY_TAG ((psa_algorithm_t)0x04c09300)
+#define PSA_ALG_CCM_STAR_NO_TAG ((psa_algorithm_t)0x04c01300)
 #define PSA_ALG_CFB ((psa_algorithm_t)0x04c01100)
 #define PSA_ALG_CHACHA20_POLY1305 ((psa_algorithm_t)0x05100500)
 #define PSA_ALG_CMAC ((psa_algorithm_t)0x03c00200)
@@ -155,6 +158,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
 #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
     /* specification-defined value */
+#define PSA_ALG_XCHACHA20_POLY1305 ((psa_algorithm_t)0x05100600)
 #define PSA_ALG_XTS ((psa_algorithm_t)0x0440ff00)
 #define PSA_ASYMMETRIC_DECRYPT_OUTPUT_MAX_SIZE \
     /* implementation-defined value */
@@ -287,6 +291,7 @@ typedef /* implementation-defined type */ psa_mac_operation_t;
 #define PSA_KEY_TYPE_RSA_KEY_PAIR ((psa_key_type_t)0x7001)
 #define PSA_KEY_TYPE_RSA_PUBLIC_KEY ((psa_key_type_t)0x4001)
 #define PSA_KEY_TYPE_SM4 ((psa_key_type_t)0x2405)
+#define PSA_KEY_TYPE_XCHACHA20 ((psa_key_type_t)0x2007)
 #define PSA_KEY_USAGE_CACHE ((psa_key_usage_t)0x00000004)
 #define PSA_KEY_USAGE_COPY ((psa_key_usage_t)0x00000002)
 #define PSA_KEY_USAGE_DECRYPT ((psa_key_usage_t)0x00000200)

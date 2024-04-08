@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -44,7 +44,7 @@ Cipher algorithms
     .. summary::
         The stream cipher mode of a stream cipher algorithm.
 
-    The underlying stream cipher is determined by the key type. The ARC4 and ChaCha20 ciphers use this algorithm identifier.
+    The underlying stream cipher is determined by the key type. The ARC4, ChaCha20, and XChaCha20 ciphers use this algorithm identifier.
 
     .. subsection:: ARC4
 
@@ -59,7 +59,7 @@ Cipher algorithms
 
         To use ChaCha20, use a key type of `PSA_KEY_TYPE_CHACHA20` and algorithm id `PSA_ALG_STREAM_CIPHER`.
 
-        Implementations must support the variant that is defined in :rfc-title:`7539#2.4`, which has a 96-bit nonce and a 32-bit counter. Implementations can optionally also support the original variant, as defined in :cite-title:`CHACHA20`, which has a 64-bit nonce and a 64-bit counter. Except where noted, the :RFC:`7539` variant must be used.
+        Implementations must support the variant that is defined in :rfc-title:`8439#2.4`, which has a 96-bit nonce and a 32-bit counter. Implementations can optionally also support the original variant, as defined in :cite-title:`CHACHA20`, which has a 64-bit nonce and a 64-bit counter. Except where noted, the :RFC:`8439` variant must be used.
 
         ChaCha20 defines a nonce and an initial counter to be provided to the encryption and decryption operations. When using a ChaCha20 key with the `PSA_ALG_STREAM_CIPHER` algorithm, these values are provided using the initialization vector (IV) functions in the following ways:
 
@@ -72,14 +72,38 @@ Cipher algorithms
         *   A call to `psa_cipher_set_iv()` on a multi-part cipher operation can support the following IV sizes:
 
             -   12 bytes: the provided IV is used as the nonce, and the counter value is set to zero.
-            -   16 bytes: the first four bytes of the IV are used as the counter value (encoded as little-endian), and the remaining 12 bytes is used as the nonce.
+            -   16 bytes: the first four bytes of the IV are used as the counter value (encoded as little-endian), and the remaining 12 bytes are used as the nonce.
             -   8 bytes: the cipher operation uses the original :cite:`CHACHA20` definition of ChaCha20: the provided IV is used as the 64-bit nonce, and the 64-bit counter value is set to zero.
             -   It is recommended that implementations do not support other sizes of IV.
+
+    .. subsection:: XChaCha20
+
+        To use XChaCha20, use a key type of `PSA_KEY_TYPE_XCHACHA20` and algorithm id `PSA_ALG_STREAM_CIPHER`.
+
+        XChaCha20 is a variation of ChaCha20 that uses a 192-bit nonce and a 64-bit counter. The larger nonce provides much lower probability of nonce misuse.
+
+        When using an XChaCha20 key with the `PSA_ALG_STREAM_CIPHER` algorithm, the nonce and an initial counter values are provided using the initialization vector (IV) functions in the following ways:
+
+        *   A call to `psa_cipher_encrypt()` will generate a random 24-byte nonce, and set the counter value to zero. The random nonce is output as a 24-byte IV value in the output.
+
+        *   A call to `psa_cipher_decrypt()` will use first 24 bytes of the input buffer as the nonce and set the counter value to zero.
+
+        *   A call to `psa_cipher_generate_iv()` on a multi-part cipher operation will generate and return a random 24-byte nonce and set the counter value to zero.
+
+        *   A call to `psa_cipher_set_iv()` on a multi-part cipher operation can support the following IV sizes:
+
+            -   24 bytes: the provided IV is used as the nonce, and the counter value is set to zero.
+            -   32 bytes: the first 8 bytes of the IV are used as the counter value (encoded as little-endian), and the remaining 24 bytes are used as the nonce.
+
+            Other sizes of IV are invalid.
+
+        XChaCha20 is defined in :cite-title:`XCHACHA`.
 
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_ARC4`
         | `PSA_KEY_TYPE_CHACHA20`
+        | `PSA_KEY_TYPE_XCHACHA20`
 
 .. macro:: PSA_ALG_CTR
     :definition: ((psa_algorithm_t)0x04c01000)
@@ -91,29 +115,31 @@ Cipher algorithms
 
     The CTR block cipher mode is defined in :cite-title:`SP800-38A`.
 
-    CTR mode requires a *counter block* which is the same size as the cipher block length. The counter block is updated for each block (or a partial final block) that is encrypted or decrypted.
+    CTR mode operates using a *counter block* which is the same size as the cipher block length. The counter block is updated for each block, or a partial final block, that is encrypted or decrypted.
 
-    A counter block value must only be used once across all messages encrypted using the same key value. This is typically achieved by splitting the counter block into a nonce, which is unique among all message encrypted with the key, and a counter which is incremented for each block of a message.
+    For the `PSA_ALG_CTR` algorithm, the counter block is initialized from the IV. The counter block is then treated as a single, big-endian encoded integer, and the counter block is updated by incrementing this integer by ``1``.
 
-    For example, when using AES-CTR encryption, which uses a 16-byte block, the application can provide a 12-byte nonce when setting the IV. This leaves 4 bytes for the counter, allowing up to 2^32 blocks (64GB) of message data to be encrypted in each message.
+    The security of CTR mode depends on using counter block values that are unique across all messages encrypted using the same key value.
+    This is achieved by using suitable initial counter block values, the appropriate way to do this depends on the application use case:
 
-    The first counter block is constructed from the initialization vector (IV). The initial counter block is is constructed in the following ways:
+    *   If the application is using CTR mode to implement a protocol that specifies the construction of the IV, then the application must use a multi-part cipher operation, and call `psa_cipher_set_iv()` with the appropriate IV for encryption and decryption operations.
 
-    *   A call to `psa_cipher_encrypt()` will generate a random counter block value. This is the first block of output.
+        .. note::
 
-    *   A call to `psa_cipher_decrypt()` will use first block of the input buffer as the initial counter block value.
+            The protocol must use the same counter block update strategy as the one specified here.
 
-    *   A call to `psa_cipher_generate_iv()` on a multi-part cipher operation will generate and return a random counter block value.
+    *   If the application is able to construct a unique *nonce* value for each time the same key is used to encrypt data, then it is recommended that the application uses a multi-part cipher operation, and call `psa_cipher_set_iv()` using the nonce as the IV for encryption and decryption operations.
 
-    *   A call to `psa_cipher_set_iv()` on a multi-part cipher operation requires an IV that is between ``1`` and *n* bytes in length, where *n* is the cipher block length. The counter block is initialized using the IV, and padded with zero bytes up to the block length.
+        The nonce length, :math:`n` bytes, must satisfy :math:`1\le n\le b`, where :math:`b` is the cipher block size in bytes. To avoid a counter-block collision with other nonce values, the application must ensure that at most :math:`2^{8(b-n)}` blocks of data are encrypted in any single operation.
 
-    During the counter block update operation, the counter block is treated as a single big-endian encoded integer and the update operation increments this integer by ``1``.
+        For example, when using CTR encryption with an AES key, the cipher block size is 16 bytes. The application can provide a 12-byte nonce when setting the IV. This leaves 4 bytes for the counter, allowing up to :math:`2^{32}` blocks (64GB) of message data to be encrypted in each message.
 
-    This scheme meets the recommendations in Appendix B of `[SP800-38A]`.
+    *   Otherwise, it is recommended that the application uses a random IV value when encrypting data, and transmits the IV along with the ciphertext for use when decrypting the data. This can be achieved with either the single-part cipher functions or the multi-part cipher operation:
 
-    .. rationale::
+        -    In a multi-part cipher encryption operation, call `psa_cipher_generate_iv()`, which returns the IV value. To use the same IV in a multi-part cipher decryption operation, call `psa_cipher_set_iv()`.
+        -    A call to `psa_cipher_encrypt()` will generate a random counter block value. This is the first block of output. A call to `psa_cipher_decrypt()` will use first block of the input buffer as the initial counter block value.
 
-        It also matches the use of CTR mode as used in CCM and GCM AEAD algorithms, which use the last 2 to 8 bytes of the counter block as the counter, depending on the size of the message to encrypt.
+    When using `PSA_ALG_CTR`, if the IV passed to `psa_cipher_set_iv()` is shorter than a cipher block, the initial counter block is formed by padding the end of the IV with zero bytes up to the block length.
 
     .. note::
         The cipher block length can be determined using `PSA_BLOCK_CIPHER_BLOCK_LENGTH()`.
@@ -123,6 +149,45 @@ Cipher algorithms
         | `PSA_KEY_TYPE_AES`
         | `PSA_KEY_TYPE_ARIA`
         | `PSA_KEY_TYPE_DES`
+        | `PSA_KEY_TYPE_CAMELLIA`
+        | `PSA_KEY_TYPE_SM4`
+
+.. macro:: PSA_ALG_CCM_STAR_NO_TAG
+    :definition: ((psa_algorithm_t)0x04c01300)
+
+    .. summary::
+        The CCM* cipher mode without authentication.
+
+    This is CCM* as specified in :cite-title:`IEEE-CCM` §7, with a tag length of 0. For CCM* with a nonzero tag length, use the AEAD algorithm `PSA_ALG_CCM`.
+
+    The underlying block cipher is determined by the key type.
+
+    The IV generated or set in the cipher API is used as the nonce in the CCM* operation. An implementation must support the default IV length of 13. Support for setting a shorter IV is optional.
+
+    The maximum message length that can be encrypted is dependent on the length of the IV. See `PSA_ALG_CCM` for details of this relationship.
+
+    .. _using-ccm-star-no-tag:
+
+    .. subsection:: Usage in Zigbee
+
+        The Zigbee message encryption algorithm is based on CCM*. This is detailed in :cite-title:`ZIGBEE` §B.1.1 and §A.
+
+        *   For unauthenticated messages --- when tag length :math:`M = 0` --- the `PSA_ALG_CCM_STAR_NO_TAG` algorithm is used with an AES-128 key in a multi-part cipher operation. The 13-byte IV must be constructed as specified in `[ZIGBEE]`, and provided to the operation using `psa_cipher_set_iv()`.
+
+            .. note::
+
+                An implementation of Zigbee cannot use the single-part `psa_cipher_encrypt()` function, as this generates a random IV, which is not valid for the Zigbee protocol.
+
+        *   For authenticated messages --- when tag length :math:`M \in \{4, 8, 16\}` --- the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` algorithm is used with an AES-128 key, where ``tag_length`` is the required value of :math:`M`. The 13-byte nonce must be constructed as specified in `[ZIGBEE]`.
+
+            As the default tag length for CCM is 16, then `PSA_ALG_CCM` algorithm can be used when :math:`M = 16`.
+
+        *   To enable a single AES-128 key to be used for both the `PSA_ALG_CCM_STAR_NO_TAG` cipher and `PSA_ALG_CCM` AEAD algorithm, the key can be defined with the wildcard `PSA_ALG_CCM_STAR_ANY_TAG` permitted algorithm.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_AES`
+        | `PSA_KEY_TYPE_ARIA`
         | `PSA_KEY_TYPE_CAMELLIA`
         | `PSA_KEY_TYPE_SM4`
 
@@ -143,7 +208,7 @@ Cipher algorithms
     .. note::
         The cipher block length can be determined using `PSA_BLOCK_CIPHER_BLOCK_LENGTH()`.
 
-    The CFB block cipher mode is defined in :cite-title:`SP800-38A`, using a segment size *s* equal to the block size *b*. The definition in `[SP800-38A]` is extended to allow an incomplete final block of input, in which case the algorithm discards the final bytes of the key stream when encrypting or decrypting the final partial block.
+    The CFB block cipher mode is defined in :cite-title:`SP800-38A`, using a segment size :math:`s` equal to the block size :math:`b`. The definition in `[SP800-38A]` is extended to allow an incomplete final block of input, in which case the algorithm discards the final bytes of the key stream when encrypting or decrypting the final partial block.
 
     .. subsection:: Compatible key types
 
@@ -808,6 +873,14 @@ Support macros
         ``1`` if ``alg`` is a stream cipher algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier or if it is not a symmetric cipher algorithm.
 
     A stream cipher is a symmetric cipher that encrypts or decrypts messages by applying a bitwise-xor with a stream of bytes that is generated from a key.
+
+.. macro:: PSA_ALG_CCM_STAR_ANY_TAG
+    :definition: ((psa_algorithm_t)0x04c09300)
+
+    .. summary::
+        A wildcard algorithm that permits the use of the key with CCM* as both an AEAD and an unauthenticated cipher algorithm.
+
+    If a block-cipher key specifies `PSA_ALG_CCM_STAR_ANY_TAG` as its permitted algorithm, then the key can be used with the `PSA_ALG_CCM_STAR_NO_TAG` unauthenticated cipher, the `PSA_ALG_CCM` AEAD algorithm, and truncated `PSA_ALG_CCM` AEAD algorithms.
 
 .. macro:: PSA_CIPHER_ENCRYPT_OUTPUT_SIZE
     :definition: /* implementation-defined value */

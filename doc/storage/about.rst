@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. Releases of this specification
@@ -36,7 +36,7 @@
     Documentation clarifications.
 
 .. release:: 1.0.3
-    :date: ? 2024
+    :date: January 2024
     :confidentiality: Non-confidential
 
     Provide a Security Risk Assessment.

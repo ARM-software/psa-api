@@ -1,73 +1,53 @@
-.. SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Password-authenticated key exchange (PAKE)
 ==========================================
 
-This is a proposed PAKE interface for :cite-title:`PSA-CRYPT`.
-It is not part of the official |API| yet.
-
 .. note::
 
-    The content of this specification is not part of the stable |API| and may change substantially from version to version.
+    The API defined in this specification will be integrated into a future version of :cite:`PSA-CRYPT`.
 
-Algorithm encoding
-------------------
+This chapter is divided into the following sections:
 
-A new algorithm category is added for PAKE algorithms. The algorithm category table in `[PSA-CRYPT]` Appendix B is extended with the information in :numref:`table-pake-algorithm-category`.
+*   :secref:`pake-common-api` --- the common interface elements, including the PAKE operation.
+*   :secref:`pake-jpake` --- the J-PAKE protocol, and the associated interface elements.
+*   :secref:`pake-spake2p` --- the SPAKE2+ protocols, and the associated interface elements.
 
-.. csv-table:: New algorithm identifier categories
-    :name: table-pake-algorithm-category
-    :header-rows: 1
-    :align: left
-    :widths: auto
+PAKE also introduces additional algorithm identifiers and key types to the |API|.
+See :secref:`pake-encodings` for the encoding of these values.
 
-    Algorithm category, CAT, Category details
-    PAKE, ``0x0A``, See :secref:`pake-encoding`
+.. rationale::
 
-.. _pake-encoding:
+    PAKE protocols are more complex operations, when compared with the other types of cryptographic operation in the |API|.
+    PAKE protocols can also have multiple phases, some of which are carried out prior to the PAKE operation itself, using other parts of the |API|.
 
-PAKE algorithm encoding
-~~~~~~~~~~~~~~~~~~~~~~~
+    To improve the understanding and correct use of PAKE protocols, it helps to show the protocol flow, and to demonstrate how to implement this with this API.
 
-The algorithm identifier for PAKE algorithms defined in this specification are encoded as shown in :numref:`fig-pake-encoding`.
+.. _pake-common-api:
 
-.. figure:: /figure/pake_encoding.*
-    :name: fig-pake-encoding
-
-    PAKE algorithm encoding
-
-The defined values for PAKE-TYPE are shown in :numref:`table-pake-type`.
-
-The permitted values of HASH-TYPE depend on the specific KDF algorithm.
-
-..
-    The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the specific KDF algorithm.
-
-.. csv-table:: PAKE algorithm sub-type values
-    :name: table-pake-type
-    :header-rows: 1
-    :align: left
-    :widths: auto
-
-    PAKE algorithm, PAKE-TYPE, Algorithm identifier, Algorithm value
-    J-PAKE, ``0x01``, :code:`PSA_ALG_JPAKE(hash)`, ``0x0A0001hh`` :sup:`a`
-
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
-
-Changes and additions to the Programming API
---------------------------------------------
+Common API for PAKE
+-------------------
 
 .. header:: psa/crypto-pake
-    :copyright: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
     :license: Apache-2.0
 
     /* This file contains reference definitions for implementation of the
-     * PSA Certified Crypto API v1.2 PAKE Extension beta.2
+     * PSA Certified Crypto API v1.2 PAKE Extension
      *
      * These definitions must be embedded in, or included by, psa/crypto.h
      */
 
+This section defines all of the common interfaces used to carry out a PAKE protocol:
+
+*   :secref:`pake-algorithms`
+*   :secref:`pake-primitive`
+*   :secref:`pake-cipher-suite`
+*   :secref:`pake-roles`
+*   :secref:`pake-steps`
+*   :secref:`pake-operation`
+*   :secref:`pake-support`
 
 .. _pake-algorithms:
 
@@ -87,171 +67,6 @@ PAKE algorithms
         ``1`` if ``alg`` is a password-authenticated key exchange (PAKE) algorithm, ``0`` otherwise.
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-.. macro:: PSA_ALG_JPAKE
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Macro to build the Password-authenticated key exchange by juggling (J-PAKE) algorithm.
-
-    .. param:: hash_alg
-        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
-
-    .. return::
-        A J-PAKE algorithm, parameterized by a specific hash.
-
-        Unspecified if ``hash_alg`` is not a supported hash algorithm.
-
-
-    This is J-PAKE as defined by :RFC-title:`8236`, instantiated with the following parameters:
-
-    *   The group can be either an elliptic curve or defined over a finite field.
-    *   Schnorr Non-Interactive Zero-Knowledge Proof (NIZKP) as defined by :RFC-title:`8235`, using the same group as the J-PAKE algorithm.
-    *   A cryptographic hash function, ``hash_alg``.
-
-    J-PAKE does not confirm the shared secret key that results from the key exchange.
-
-    To select these parameters and set up the cipher suite, initialize a `psa_pake_cipher_suite_t` object, and call the following functions in any order:
-
-    .. code-block:: xref
-
-        psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
-
-        psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE(hash));
-        psa_pake_cs_set_primitive(&cipher_suite,
-                                  PSA_PAKE_PRIMITIVE(type, family, bits));
-        psa_pake_cs_set_key_confirmation(&cipher_suite, PSA_PAKE_UNCONFIRMED_KEY);
-
-    More information on selecting a specific Elliptic curve or Diffie-Hellman field is provided with the `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH` constants.
-
-    The J-PAKE operation follows the protocol shown in :numref:`fig-jpake`.
-
-    .. figure:: /figure/j-pake.*
-        :name: fig-jpake
-
-        The J-PAKE protocol.
-
-        The variable names *x1*, *g1*, and so on, are taken from the finite field implementation of J-PAKE in :RFC:`8236#2`. Details of the computation for the key shares and zero-knowledge proofs are in :RFC:`8236` and :RFC:`8235`.
-
-    J-PAKE does not assign roles to the participants, so it is not necessary to call `psa_pake_set_role()`.
-
-    J-PAKE requires both an application and a peer identity.
-    If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
-
-    The shared secret that is produced by J-PAKE is not suitable for use as an encryption key.
-    It must be used as an input to a key derivation operation to produce additional cryptographic keys.
-
-    The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`.
-    The input and output steps must be carried out in exactly the same sequence as shown.
-
-    1.  To prepare a J-Pake operation, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
-
-        .. code-block:: xref
-
-            psa_pake_operation_t jpake = PSA_PAKE_OPERATION_INIT;
-
-            psa_pake_setup(&jpake, pake_key, &cipher_suite);
-            psa_pake_set_user(&jpake, ...);
-            psa_pake_set_peer(&jpake, ...);
-
-        The password is provided as key ``pake_key``, with type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        This can be the password text itself, in an agreed character encoding, or some value derived from the password as required by a higher level protocol.
-
-        The key material is used as an array of bytes, which is converted to an integer as described in :cite-title:`SEC1` §2.3.8, before reducing it modulo *q*.
-        Here, *q* is the order of the group defined by the cipher-suite primitive.
-        `psa_pake_setup()` will return an error if the result of the conversion and reduction is ``0``.
-
-    After setup, the key exchange flow for J-PAKE is as follows:
-
-    1.  To get the first round data that needs to be sent to the peer, call:
-
-        .. code-block:: xref
-
-            // Get g1
-            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Get V1, the ZKP public key for x1
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Get r1, the ZKP proof for x1
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-            // Get g2
-            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Get V2, the ZKP public key for x2
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Get r2, the ZKP proof for x2
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-
-    #.  To provide the first round data received from the peer to the operation, call:
-
-        .. code-block:: xref
-
-            // Set g3
-            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Set V3, the ZKP public key for x3
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Set r3, the ZKP proof for x3
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-            // Set g4
-            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Set V4, the ZKP public key for x4
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Set r4, the ZKP proof for x4
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-
-    #.  To get the second round data that needs to be sent to the peer, call:
-
-        .. code-block:: xref
-
-            // Get A
-            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Get V5, the ZKP public key for x2*s
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Get r5, the ZKP proof for x2*s
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-
-    #.  To provide the second round data received from the peer to the operation call:
-
-        .. code-block:: xref
-
-            // Set B
-            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Set V6, the ZKP public key for x4*s
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Set r6, the ZKP proof for x4*s
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-
-    #.  To use the shared secret, extract it as a key-derivation key. For example, to extract a derivation key for HKDF-SHA-256:
-
-        .. code-block:: xref
-
-            // Set up the key attributes
-            psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
-            psa_key_set_type(&att, PSA_KEY_TYPE_DERIVE);
-            psa_key_set_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
-            psa_key_set_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA256));
-
-            // Get Ka=Kb=K
-            psa_key_id_t shared_key;
-            psa_pake_get_shared_key(&jpake, &att, &shared_key);
-
-    For more information about the format of the values which are passed for each step, see :secref:`pake-steps`.
-
-    If the verification of a Zero-knowledge proof provided by the peer fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will return :code:`PSA_ERROR_INVALID_SIGNATURE`.
-
-    .. warning::
-
-        At the end of this sequence there is a cryptographic guarantee that only a peer that used the same password is able to compute the same key.
-        But there is no guarantee that the peer is the participant it claims to be, or that the peer used the same password during the exchange.
-
-        At this point, authentication is implicit --- material encrypted or authenticated using the computed key can only be decrypted or verified by someone with the same key.
-        The peer is not authenticated at this point, and no action should be taken by the application which assumes that the peer is authenticated, for example, by accessing restricted files.
-
-        To make the authentication explicit, there are various methods to confirm that both parties have the same key. See :RFC:`8236#5` for two examples.
-
-    .. subsection:: Compatible key types
-
-        | :code:`PSA_KEY_TYPE_PASSWORD`
-        | :code:`PSA_KEY_TYPE_PASSWORD_HASH`
-
-
 .. _pake-primitive:
 
 PAKE primitives
@@ -264,6 +79,28 @@ The cryptographic primitive for a PAKE operation is specified using a `psa_pake_
 
 A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_pake_cipher_suite_t`, which fully specifies the PAKE operation to be carried out.
 
+.. typedef:: uint32_t psa_pake_primitive_t
+
+    .. summary::
+        Encoding of the primitive associated with the PAKE.
+
+    PAKE primitive values are constructed using `PSA_PAKE_PRIMITIVE()`.
+
+    :numref:`fig-pake-primitive` shows how the components of the primitive are encoded into a `psa_pake_primitive_t` value.
+
+    .. figure:: /figure/pake_primitive.*
+        :name: fig-pake-primitive
+
+        PAKE primitive encoding
+
+    .. rationale::
+
+        An integral type is required for `psa_pake_primitive_t` to enable values of this type to be compile-time-constants.
+        This allows them to be used in ``case`` statements, and used to calculate static buffer sizes with `PSA_PAKE_OUTPUT_SIZE()` and `PSA_PAKE_INPUT_SIZE()`.
+
+    The components of a PAKE primitive value can be extracted using the `PSA_PAKE_PRIMITIVE_GET_TYPE()`, `PSA_PAKE_PRIMITIVE_GET_FAMILY()`, and `PSA_PAKE_PRIMITIVE_GET_BITS()`.
+    These can be used to set key attributes for keys used in PAKE algorithms.
+    :secref:`spake2p-registration` provides an example of this usage.
 
 .. typedef:: uint8_t psa_pake_primitive_type_t
 
@@ -282,7 +119,7 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
         Implementation-defined primitive type.
         Implementations that define additional primitive types must use an encoding with bit 7 set.
 
-    For specification-defined primitive types, see the documentation of individual ``PSA_PAKE_PRIMITIVE_TYPE_XXX`` constants.
+    For specification-defined primitive types, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. macro:: PSA_PAKE_PRIMITIVE_TYPE_ECC
     :definition: ((psa_pake_primitive_type_t)0x01)
@@ -325,18 +162,7 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         Encoding of the family of the primitive associated with the PAKE.
 
-    For more information see the documentation of individual ``PSA_PAKE_PRIMITIVE_TYPE_XXX`` constants.
-
-.. typedef:: uint32_t psa_pake_primitive_t
-
-    .. summary::
-        Encoding of the primitive associated with the PAKE.
-
-    PAKE primitive values are constructed using `PSA_PAKE_PRIMITIVE()`.
-
-    .. rationale::
-
-        An integral type is required for `psa_pake_primitive_t` to enable values of this type to be compile-time-constants. This allows them to be used in ``case`` statements, and used to calculate static buffer sizes with `PSA_PAKE_OUTPUT_SIZE()` and `PSA_PAKE_INPUT_SIZE()`.
+    For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. macro:: PSA_PAKE_PRIMITIVE
     :definition: /* specification-defined value */
@@ -349,23 +175,68 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. param:: pake_family
         The family of the primitive.
         The type and interpretation of this parameter depends on ``pake_type``.
-        For more information, consult the documentation of individual `psa_pake_primitive_type_t` constants.
+        For more information, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
     .. param:: pake_bits
         The bit-size of the primitive: a value of type ``size_t``.
-        The interpretation of this parameter depends on ``family``.
-        For more information, consult the documentation of individual `psa_pake_primitive_type_t` constants.
+        The interpretation of this parameter depends on ``pake_type`` and ``family``.
+        For more information, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
     .. return:: psa_pake_primitive_t
         The constructed primitive value.
         Return ``0`` if the requested primitive can't be encoded as `psa_pake_primitive_t`.
 
+    A PAKE primitive value is used to specify a PAKE operation, as part of a PAKE cipher suite.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_TYPE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the PAKE primitive type from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: psa_pake_primitive_type_t
+        The PAKE primitive type, if ``pake_primitive`` is a supported PAKE primitive.
+        Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the family from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: psa_pake_family_t
+        The PAKE primitive family, if ``pake_primitive`` is a supported PAKE primitive.
+        Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+    For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
+
+.. macro:: PSA_PAKE_PRIMITIVE_GET_BITS
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the bit-size from a PAKE primitive.
+
+    .. param:: pake_primitive
+        A PAKE primitive: a value of type `psa_pake_primitive_t`.
+
+    .. return:: size_t
+        The PAKE primitive bit-size, if ``pake_primitive`` is a supported PAKE primitive.
+        Unspecified if ``pake_primitive`` is not a supported PAKE primitive.
+
+    For more information on the bit-size values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. _pake-cipher-suite:
 
 PAKE cipher suites
 ~~~~~~~~~~~~~~~~~~
 
-Most PAKE algorithms have parameters that must be specified by the application. These parameters include the following:
+Most PAKE algorithms have parameters that must be specified by the application.
+These parameters include the following:
 
 *   The cryptographic primitive used for key establishment, specified using a `PAKE primitive <pake-primitive>`.
 *   A cryptographic hash algorithm.
@@ -381,14 +252,18 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     .. summary::
         The type of an object describing a PAKE cipher suite.
 
-    This is the object that represents the cipher suite used for a PAKE algorithm. The PAKE cipher suite specifies the PAKE algorithm, and the options selected for that algorithm. The cipher suite includes the following attributes:
+    This is the object that represents the cipher suite used for a PAKE algorithm.
+    The PAKE cipher suite specifies the PAKE algorithm, and the options selected for that algorithm.
+    The cipher suite includes the following attributes:
 
     *   The PAKE algorithm itself.
     *   The hash algorithm, encoded within the PAKE algorithm.
-    *   The PAKE primitive, which identifies the prime order group used for the key exchange operation. See :secref:`pake-primitive`.
+    *   The PAKE primitive, which identifies the prime order group used for the key exchange operation.
+        See :secref:`pake-primitive`.
     *   Whether to confirm the shared secret.
 
-    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
+    This is an implementation-defined type.
+    Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
     Before calling any function on a PAKE cipher suite object, the application must initialize it by any of the following means:
 
@@ -442,7 +317,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
         Implementations are recommended to define the cipher-suite object as a simple data structure, with fields corresponding to the individual cipher suite attributes.
         In such an implementation, each function ``psa_pake_cs_set_xxx()`` sets a field and the corresponding function ``psa_pake_cs_get_xxx()`` retrieves the value of the field.
 
-        An implementations can report attribute values that are equivalent to the original one, but have a different encoding.
+        An implementation can report attribute values that are equivalent to the original one, but have a different encoding.
         For example, an implementation can use a more compact representation for attributes where many bit-patterns are invalid or not supported, and store all values that it does not support as a special marker value.
         In such an implementation, after setting an invalid value, the corresponding get function returns an invalid value which might not be the one that was originally stored.
 
@@ -472,7 +347,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. admonition:: Implementation note
 
-        This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
+        This is a simple accessor function that is not required to validate its inputs.
+        It can be efficiently implemented as a ``static inline`` function or a function-like macro.
 
 .. function:: psa_pake_cs_set_algorithm
 
@@ -490,7 +366,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. admonition:: Implementation note
 
-        This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
+        This is a simple accessor function that is not required to validate its inputs.
+        It can be efficiently implemented as a ``static inline`` function or a function-like macro.
 
 .. function:: psa_pake_cs_get_primitive
 
@@ -505,7 +382,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. admonition:: Implementation note
 
-        This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
+        This is a simple accessor function that is not required to validate its inputs.
+        It can be efficiently implemented as a ``static inline`` function or a function-like macro.
 
 .. function:: psa_pake_cs_set_primitive
 
@@ -524,14 +402,16 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. admonition:: Implementation note
 
-        This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like macro.
+        This is a simple accessor function that is not required to validate its inputs.
+        It can be efficiently implemented as a ``static inline`` function or a function-like macro.
 
 .. macro:: PSA_PAKE_CONFIRMED_KEY
     :definition: 0
 
     .. summary:: A key confirmation value that indicates an confirmed key in a PAKE cipher suite.
 
-    This key confirmation value will result in the PAKE algorithm exchanging data to verify that the shared key is identical for both parties. This is the default key confirmation value in an initialized PAKE cipher suite object.
+    This key confirmation value will result in the PAKE algorithm exchanging data to verify that the shared key is identical for both parties.
+    This is the default key confirmation value in an initialized PAKE cipher suite object.
 
     Some algorithms do not include confirmation of the shared key.
 
@@ -590,10 +470,11 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 PAKE roles
 ~~~~~~~~~~
 
-Some PAKE algorithms need to know which role each participant is taking in the algorithm. For example:
+Some PAKE algorithms need to know which role each participant is taking in the algorithm.
+For example:
 
 *   Augmented PAKE algorithms typically have a client and a server participant.
-*   Some symmetric PAKE algorithms need to assign an order to the participants.
+*   Some symmetric PAKE algorithms assign an order to the two participants.
 
 .. typedef:: uint8_t psa_pake_role_t
 
@@ -751,7 +632,8 @@ Multi-part PAKE operations
             psa_pake_operation_t operation;
             operation = psa_pake_operation_init();
 
-    This is an implementation-defined type. Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
+    This is an implementation-defined type.
+    Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
 
 .. macro:: PSA_PAKE_OPERATION_INIT
     :definition: /* implementation-defined value */
@@ -777,8 +659,11 @@ Multi-part PAKE operations
     .. param:: psa_key_id_t password_key
         Identifier of the key holding the password or a value derived from the password.
         It must remain valid until the operation terminates.
-        It must be of type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        It must permit the usage :code:`PSA_KEY_USAGE_DERIVE`.
+
+        The valid key types depend on the PAKE algorithm, and participant role.
+        Refer to the documentation of individual PAKE algorithms for more information, see :secref:`pake-algorithms`.
+
+        The key must permit the usage :code:`PSA_KEY_USAGE_DERIVE`.
     .. param:: const psa_pake_cipher_suite_t *cipher_suite
         The cipher suite to use.
         A PAKE cipher suite fully characterizes a PAKE algorithm, including the PAKE algorithm.
@@ -803,8 +688,7 @@ Multi-part PAKE operations
         *   The algorithm in ``cipher_suite`` is not a PAKE algorithm, or encodes an invalid hash algorithm.
         *   The PAKE primitive in ``cipher_suite`` is not compatible with the PAKE algorithm.
         *   The key confirmation value in ``cipher_suite`` is not compatible with the PAKE algorithm and primitive.
-        *   The key type for ``password_key`` is not :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
-        *   ``password_key`` is not compatible with ``cipher_suite``.
+        *   The key type or key size of ``password_key`` is not compatible with ``cipher_suite``.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
@@ -837,12 +721,14 @@ Multi-part PAKE operations
     Refer to the documentation of individual PAKE algorithms for details on the required set up and operation for each algorithm, and for constraints on the format and content of valid passwords.
     See :secref:`pake-algorithms`.
 
-    After a successful call to `psa_pake_setup()`, the operation is active, and the application must eventually terminate the operation. The following events terminate an operation:
+    After a successful call to `psa_pake_setup()`, the operation is active, and the application must eventually terminate the operation.
+    The following events terminate an operation:
 
     *   A successful call to `psa_pake_get_shared_key()`.
     *   A call to `psa_pake_abort()`.
 
-    If `psa_pake_setup()` returns an error, the operation object is unchanged. If a subsequent function call with an active operation returns an error, the operation enters an error state.
+    If `psa_pake_setup()` returns an error, the operation object is unchanged.
+    If a subsequent function call with an active operation returns an error, the operation enters an error state.
 
     To abandon an active operation, or reset an operation in an error state, call `psa_pake_abort()`.
 
@@ -869,9 +755,15 @@ Multi-part PAKE operations
         *   The operation state is not valid: it must be active, and `psa_pake_set_role()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
         *   The library requires initializing by a call to :code:`psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        ``role`` is not a valid PAKE role in the operation's algorithm.
+        The following conditions can result in this error:
+
+        *   ``role`` is not a valid PAKE role in the operation's algorithm.
+        *   ``role`` is not compatible with the operation's key type.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
+        The following conditions can result in this error:
+
+        *   ``role`` is not a valid PAKE role, or is not supported for the operation's algorithm.
+        *   ``role`` is not supported with the operation's key type.
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
@@ -1072,7 +964,7 @@ Multi-part PAKE operations
         *   ``step`` is not compatible with the operation's algorithm.
         *   The input is not valid for the operation's algorithm, cipher suite or ``step``.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
-        The verification fails for a `PSA_PAKE_STEP_ZK_PROOF` input step.
+        The verification fails for a `PSA_PAKE_STEP_ZK_PROOF` or `PSA_PAKE_STEP_CONFIRM` input step.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
@@ -1184,7 +1076,7 @@ Multi-part PAKE operations
                 However, there is no guarantee that the peer is the participant it claims to be, and was able to compute the same key.
 
                 Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be.
-                For example, do not access restricted files on the peer's behalf until an explicit authentication has succeeded.
+                For example, do not access restricted resources on the peer's behalf until an explicit authentication has succeeded.
 
                 .. note::
                     Some PAKE algorithms do not enable the output of the shared secret until it has been confirmed.
@@ -1195,7 +1087,7 @@ Multi-part PAKE operations
                 Following key confirmation, the PAKE algorithm provides a cryptographic guarantee that the peer used the same password and identity inputs, and has computed the identical shared secret key.
 
                 Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be.
-                For example, do not access restricted files on the peer's behalf until an explicit authentication has succeeded.
+                For example, do not access restricted resources on the peer's behalf until an explicit authentication has succeeded.
 
                 .. note::
                     Some PAKE algorithms do not include any key-confirmation steps.
@@ -1232,20 +1124,10 @@ Multi-part PAKE operations
     In particular, calling `psa_pake_abort()` after the operation has been terminated by a call to `psa_pake_abort()` or `psa_pake_get_shared_key()` is safe and has no effect.
 
 
-Support macros
-~~~~~~~~~~~~~~
+.. _pake-support:
 
-.. macro:: PSA_ALG_IS_JPAKE
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is a J-PAKE algorithm (:code:`PSA_ALG_JPAKE(hash_alg)`).
-
-    .. param:: alg
-        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a J-PAKE algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+PAKE support macros
+~~~~~~~~~~~~~~~~~~~
 
 .. macro:: PSA_PAKE_OUTPUT_SIZE
     :definition: /* implementation-defined value */
@@ -1313,3 +1195,864 @@ Support macros
     This macro can be useful when transferring inputs from the peer into the PAKE operation.
 
     See also `PSA_PAKE_INPUT_SIZE()`.
+
+
+.. _pake-jpake:
+
+The J-PAKE protocol
+-------------------
+
+J-PAKE is the password-authenticated key exchange by juggling protocol, defined by :RFC-title:`8236`.
+This protocol uses the Schnorr Non-Interactive Zero-Knowledge Proof (NIZKP), as defined by :RFC-title:`8235`.
+
+J-PAKE is a balanced PAKE, without key confirmation.
+
+.. _jpake-cipher-suites:
+
+J-PAKE cipher suites
+~~~~~~~~~~~~~~~~~~~~
+
+When setting up a PAKE cipher suite to use the J-PAKE protocol:
+
+*   Use the :code:`PSA_ALG_JPAKE()` algorithm, parameterized by the required hash algorithm.
+*   Use a PAKE primitive for the required elliptic curve, or finite field group.
+*   J-PAKE does not confirm the shared secret key that results from the key exchange.
+
+For example, the following code creates a cipher suite to select J-PAKE using P-256 with the SHA-256 hash function:
+
+.. code-block:: xref
+
+    psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
+
+    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_JPAKE(PSA_ALG_SHA_256));
+    psa_pake_cs_set_primitive(&cipher_suite,
+                              PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC,
+                                                 PSA_ECC_FAMILY_SECP_R1, 256));
+    psa_pake_cs_set_key_confirmation(&cipher_suite, PSA_PAKE_UNCONFIRMED_KEY);
+
+More information on selecting a specific Elliptic curve or Diffie-Hellman field is provided with the `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH` constants.
+
+.. _jpake-passwords:
+
+J-PAKE password processing
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The PAKE operation for J-PAKE expects a key of type type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
+The same key value must be provided to the PAKE operation in both participants.
+
+The key can be the password text itself, in an agreed character encoding, or some value derived from the password, as required by a higher level protocol.
+For low-entropy passwords, it is recommended that a key-stretching derivation algorithm, such as PBKDF2, is used, and the resulting password hash is used as the key input to the PAKE operation.
+
+J-PAKE operation
+~~~~~~~~~~~~~~~~
+
+The J-PAKE operation follows the protocol shown in :numref:`fig-jpake`.
+
+.. figure:: /figure/j-pake.*
+    :name: fig-jpake
+
+    The J-PAKE protocol
+
+    The variable names :math:`x1`, :math:`g1`, and so on, are taken from the finite field implementation of J-PAKE in :RFC:`8236#2`.
+
+    Details of the computation for the key shares and zero-knowledge proofs are in :RFC:`8236` and :RFC:`8235`.
+
+Setup
+^^^^^
+
+J-PAKE does not assign roles to the participants, so it is not necessary to call `psa_pake_set_role()`.
+
+J-PAKE requires both an application and a peer identity.
+If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
+
+The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`. The code flow for the 'Peer' is the same as for 'User', as J-PAKE is a balanced PAKE.
+
+1.  To prepare a J-PAKE operation, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
+
+    .. code-block:: xref
+
+        psa_pake_operation_t jpake = PSA_PAKE_OPERATION_INIT;
+
+        psa_pake_setup(&jpake, pake_key, &cipher_suite);
+        psa_pake_set_user(&jpake, ...);
+        psa_pake_set_peer(&jpake, ...);
+
+    See :secref:`jpake-cipher-suites` and :secref:`jpake-passwords` for details on the requirements for the cipher suite and key.
+
+    The key material is used as an array of bytes, which is converted to an integer as described in :cite-title:`SEC1` §2.3.8, before reducing it modulo :math:`q`.
+    Here, :math:`q`` is the order of the group defined by the cipher-suite primitive.
+    `psa_pake_setup()` will return an error if the result of the conversion and reduction is ``0``.
+
+Key exchange
+^^^^^^^^^^^^
+
+After setup, the key exchange flow for J-PAKE is as follows:
+
+2.  Round one.
+
+    The application can either extract the round one output values first, and then provide the round one inputs that are received from the Peer; or provide the peer inputs first, and then extract the outputs.
+
+    *   To get the first round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
+
+        .. code-block:: xref
+
+            // Get g1
+            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Get V1, the ZKP public key for x1
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Get r1, the ZKP proof for x1
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+            // Get g2
+            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Get V2, the ZKP public key for x2
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Get r2, the ZKP proof for x2
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+
+    *   To provide the first round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
+
+        .. code-block:: xref
+
+            // Set g3
+            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Set V3, the ZKP public key for x3
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Set r3, the ZKP proof for x3
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+            // Set g4
+            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Set V4, the ZKP public key for x4
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Set r4, the ZKP proof for x4
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+
+#.  Round two.
+
+    The application can either extract the round two output values first, and then provide the round two inputs that are received from the Peer; or provide the peer inputs first, and then extract the outputs.
+
+    *   To get the second round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
+
+        .. code-block:: xref
+
+            // Get A
+            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Get V5, the ZKP public key for x2*s
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Get r5, the ZKP proof for x2*s
+            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+
+    *   To provide the second round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
+
+        .. code-block:: xref
+
+            // Set B
+            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+            // Set V6, the ZKP public key for x4*s
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+            // Set r6, the ZKP proof for x4*s
+            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+
+#.  To use the shared secret, extract it as a key-derivation key. For example, to extract a derivation key for HKDF-SHA-256:
+
+    .. code-block:: xref
+
+        // Set up the key attributes
+        psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
+        psa_set_key_type(&att, PSA_KEY_TYPE_DERIVE);
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+
+        // Get Ka=Kb=K
+        psa_key_id_t shared_key;
+        psa_pake_get_shared_key(&jpake, &att, &shared_key);
+
+For more information about the format of the values which are passed for each step, see :secref:`pake-steps`.
+
+If the verification of a Zero-knowledge proof provided by the peer fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will return :code:`PSA_ERROR_INVALID_SIGNATURE`.
+
+The shared secret that is produced by J-PAKE is not suitable for use as an encryption key.
+It must be used as an input to a key derivation operation to produce additional cryptographic keys.
+
+.. warning::
+
+    At the end of this sequence there is a cryptographic guarantee that only a peer that used the same password is able to compute the same key.
+    But there is no guarantee that the peer is the participant it claims to be, or that the peer used the same password during the exchange.
+
+    At this point, authentication is implicit --- material encrypted or authenticated using the computed key can only be decrypted or verified by someone with the same key.
+    The peer is not authenticated at this point, and no action should be taken by the application which assumes that the peer is authenticated, for example, by accessing restricted resources.
+
+    To make the authentication explicit, there are various methods to confirm that both parties have the same key. See :RFC:`8236#5` for two examples.
+
+J-PAKE algorithms
+~~~~~~~~~~~~~~~~~
+
+.. macro:: PSA_ALG_JPAKE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Macro to build the Password-authenticated key exchange by juggling (J-PAKE) algorithm.
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+
+    .. return::
+        A J-PAKE algorithm, parameterized by a specific hash.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This is J-PAKE as defined by :RFC:`8236`, instantiated with the following parameters:
+
+    *   The primitive group can be either an elliptic curve or defined over a finite field.
+    *   The Schnorr NIZKP, using the same group as the J-PAKE algorithm.
+    *   The cryptographic hash function, ``hash_alg``.
+
+    J-PAKE does not confirm the shared secret key that results from the key exchange.
+
+    The shared secret that is produced by J-PAKE is not suitable for use as an encryption key.
+    It must be used as an input to a key derivation operation to produce additional cryptographic keys.
+
+    See :secref:`pake-jpake` for the J-PAKE protocol flow and how to implement it with the |API|.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_PASSWORD`
+        | :code:`PSA_KEY_TYPE_PASSWORD_HASH`
+
+.. macro:: PSA_ALG_IS_JPAKE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a J-PAKE algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a J-PAKE algorithm, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+
+    J-PAKE algorithms are constructed using :code:`PSA_ALG_JPAKE(hash_alg)`.
+
+.. _pake-spake2p:
+
+The SPAKE2+ protocol
+--------------------
+
+SPAKE2+ is the augmented password-authenticated key exchange protocol, defined by :rfc-title:`9383`.
+SPAKE2+ includes confirmation of the shared secret key that results from the key exchange.
+
+SPAKE2+ is required by :cite-title:`MATTER`, as MATTER_PAKE.
+:cite:`MATTER` uses an earlier draft of the SPAKE2+ protocol, :cite-title:`SPAKE2P-2`.
+
+Although the operation of the PAKE is similar for both of these variants, they have different key schedules for the derivation of the shared secret.
+
+.. _spake2p-cipher-suites:
+
+SPAKE2+ cipher suites
+~~~~~~~~~~~~~~~~~~~~~
+
+SPAKE2+ is instantiated with the following parameters:
+
+    *   An elliptic curve group.
+    *   A cryptographic hash function.
+    *   A key derivation function.
+    *   A keyed MAC function.
+
+Valid combinations of these parameters are defined in the table of cipher suites in :rfc:`9383#4`.
+
+When setting up a PAKE cipher suite to use the SPAKE2+ protocol defined in :rfc:`9383`:
+
+*   For cipher-suites that use HMAC for key confirmation, use the :code:`PSA_ALG_SPAKE2P_HMAC()` algorithm, parameterized by the required hash algorithm.
+*   For cipher-suites that use CMAC-AES-128 for key confirmation, use the :code:`PSA_ALG_SPAKE2P_CMAC()` algorithm, parameterized by the required hash algorithm.
+*   Use a PAKE primitive for the required elliptic curve.
+
+For example, the following code creates a cipher suite to select SPAKE2+ using edwards25519 with the SHA-256 hash function:
+
+.. code-block:: xref
+
+    psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
+
+    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_SPAKE2P_HMAC(PSA_ALG_SHA_256));
+    psa_pake_cs_set_primitive(&cipher_suite,
+                              PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC,
+                                                 PSA_ECC_FAMILY_TWISTED_EDWARDS, 255));
+
+When setting up a PAKE cipher suite to use the SPAKE2+ protocol used by :cite:`MATTER`:
+
+*   Use the :code:`PSA_ALG_SPAKE2P_MATTER` algorithm.
+*   Use the :code:`PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC, PSA_ECC_FAMILY_SECP_R1, 256)` PAKE primitive.
+
+The following code creates a cipher suite to select the :cite:`MATTER` variant of SPAKE2+:
+
+.. code-block:: xref
+
+    psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
+
+    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_SPAKE2P_MATTER);
+    psa_pake_cs_set_primitive(&cipher_suite,
+                              PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC,
+                                                 PSA_ECC_FAMILY_SECP_R1, 256));
+
+.. _spake2p-registration:
+
+SPAKE2+ registration
+~~~~~~~~~~~~~~~~~~~~
+
+The SPAKE2+ protocol has distinct roles for the two participants:
+
+*   The *Prover* takes the role of client.
+    It uses the protocol to prove that it knows the secret password, and produce a shared secret.
+*   The *Verifier* takes the role of server.
+    It uses the protocol to verify the client's proof, and produce a shared secret.
+
+The registration phase of SPAKE2+ provides the initial password processing, described in :rfc:`9383#3.2`.
+The result of registration is two pairs of values --- :math:`(w0, w1)` and :math:`(w0, L)` --- that need to be provided during the authentication phase to the Prover and Verifier, respectively.
+The design of SPAKE2+ ensures that knowledge of :math:`(w0, L)` does not enable an attacker to determine the password, or to compute :math:`w1`.
+
+In the |API|, the registration output values are managed as an asymmetric key-pair:
+
+*   The Prover values, :math:`(w0, w1)`, are stored in a key of type `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()`.
+*   The Verifier values, :math:`(w0, L)`, are stored in a key of type `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`, or derived from the matching `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()`.
+
+The SPAKE2+ key types are parameterized by the same elliptic curve as the SPAKE2+ cipher suite.
+
+The key pair is derived from the initial SPAKE2+ password prior to starting the PAKE operation.
+It is recommended to use a key-stretching derivation algorithm, for example PBKDF2.
+This process can take place immediately before the PAKE operation, or derived at some earlier point and stored by the participant.
+Alternatively, the Verifier can be provisioned with the `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()` for the protocol, by the Prover, or some other agent.
+:numref:`fig-spake2p-reg` illustrates some example SPAKE2+ key derivation flows.
+
+The resulting SPAKE2+ key-pair must be protected at least as well as the password.
+The public key, exported from the key pair, does not need to be kept confidential.
+It is recommended that the Verifier stores only the public key, because disclosure of the public key does not enable an attacker to impersonate the Prover.
+
+.. figure:: /figure/spake2plus-reg.*
+    :name: fig-spake2p-reg
+
+    Examples of SPAKE2+ key derivation procedures
+
+    The variable names :math:`w0`, :math:`w1`, and :math:`L` are taken from the description of SPAKE2+ in :RFC:`9383`.
+
+    Details of the computation for the key derivation values are in :RFC:`9383#3.2`.
+
+The following steps demonstrate the derivation of a SPAKE2+ key pair using PBKDF2-HMAC-SHA256, for use with a SPAKE2+ cipher suite, ``cipher_suite``. See :secref:`spake2p-cipher-suites` for an example of how to construct the cipher suite object.
+
+1.  Allocate and initialize a key derivation object:
+
+    .. code-block:: xref
+
+        psa_key_derivation_operation_t pbkdf = PSA_KEY_DERIVATION_OPERATION_INIT;
+
+#.  Setup the key derivation from the SPAKE2+ password, ``password_key``, and parameters ``pbkdf2_params``:
+
+    .. code-block:: xref
+
+        psa_key_derivation_setup(&pbkdf, PSA_ALG_PBKDF2_HMAC(PSA_ALG_SHA_256));
+        psa_key_derivation_input_key(&pbkdf, PSA_KEY_DERIVATION_INPUT_PASSWORD, password_key);
+        psa_key_derivation_input_integer(&pbkdf, PSA_KEY_DERIVATION_INPUT_COST, pbkdf2_params.cost);
+        psa_key_derivation_input_bytes(&pbkdf, PSA_KEY_DERIVATION_INPUT_SALT,
+                                               &pbkdf2_params.salt, pbkdf2_params.salt_len);
+
+#.  Allocate and initialize a key attributes object:
+
+    .. code-block:: xref
+
+        psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
+
+#.  Set the key type, size, and policy from the ``cipher_suite`` object:
+
+    .. code-block:: xref
+
+        const psa_pake_primitive_t primitive = psa_pake_cs_get_primitive(&cipher_suite);
+
+        psa_set_key_type(&att,
+                         PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(PSA_PAKE_PRIMITIVE_GET_FAMILY(primitive)));
+        psa_set_key_bits(&att, PSA_PAKE_PRIMITIVE_GET_BITS(primitive));
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&att, psa_pake_cs_get_algorithm(&cipher_suite));
+
+#.  Derive the key:
+
+    .. code-block:: xref
+
+        psa_key_id_t spake2p_key;
+        psa_key_derivation_output_key(&att, &pbkdf, &spake2p_key);
+        psa_key_derivation_abort(&pbkdf);
+
+See :secref:`spake2p-keys` for details of the key types, key pair derivation, and public key format.
+
+.. _spake2p-operation:
+
+SPAKE2+ operation
+~~~~~~~~~~~~~~~~~
+
+The SPAKE2+ operation follows the protocol shown in :numref:`fig-spake2p`.
+
+.. figure:: /figure/spake2plus.*
+    :name: fig-spake2p
+
+    The SPAKE2+ authentication and key confirmation protocol
+
+    The variable names :math:`w0`, :math:`w1`, :math:`L`, and so on, are taken from the description of SPAKE2+ in :RFC:`9383`.
+
+    Details of the computation for the key shares is in :RFC:`9383#3.3` and confirmation values in :RFC:`9383#3.4`.
+
+Setup
+^^^^^
+
+In SPAKE2+, the Prover uses the `PSA_PAKE_ROLE_CLIENT` role, and the Verifier uses the `PSA_PAKE_ROLE_SERVER` role.
+
+The key passed to the Prover must be a SPAKE2+ key-pair, which is derived as recommended in :secref:`spake2p-registration`.
+The key passed to the Verifier can either be a SPAKE2+ key-pair, or a SPAKE2+ public key.
+A SPAKE2+ public key is imported from data that is output by calling :code:`psa_export_public_key()` on a SPAKE2+ key-pair.
+
+Both participants in SPAKE2+ have an optional identity.
+If no identity value is provided, then a zero-length string is used for that identity in the protocol.
+If the participants do not supply the same identity values to the protocol, the computed secrets will be different, and key confirmation will fail.
+
+The following steps demonstrate the application code for both Prover and Verifier in :numref:`fig-spake2p`.
+
+**Prover**
+    To prepare a SPAKE2+ operation for the Prover, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
+
+    .. code-block:: xref
+
+        psa_pake_operation_t spake2p_p = PSA_PAKE_OPERATION_INIT;
+
+        psa_pake_setup(&spake2p_p, pake_key_p, &cipher_suite);
+        psa_pake_set_role(&spake2p_p, PSA_PAKE_ROLE_CLIENT);
+
+    The key ``pake_key_p`` is a SPAKE2+ key pair, `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()`.
+    See :secref:`spake2p-cipher-suites` for details on constructing a suitable cipher suite.
+
+**Prover**
+    Provide any additional, optional, parameters:
+
+    .. code-block:: xref
+
+        psa_pake_set_user(&spake2p_p, ...);       // Prover identity
+        psa_pake_set_peer(&spake2p_p, ...);       // Verifier identity
+        psa_pake_set_context(&spake2p_p, ...);
+
+**Verifier**
+    To prepare a SPAKE2+ operation for the Verifier, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
+
+    .. code-block:: xref
+
+        psa_pake_operation_t spake2p_v = PSA_PAKE_OPERATION_INIT;
+
+        psa_pake_setup(&spake2p_v, pake_key_v, &cipher_suite);
+        psa_pake_set_role(&spake2p_v, PSA_PAKE_ROLE_SERVER);
+
+    The key ``pake_key_v`` is a SPAKE2+ key pair, `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()`, or public key, `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`.
+    See :secref:`spake2p-cipher-suites` for details on constructing a suitable cipher suite.
+
+**Verifier**
+    Provide any additional, optional, parameters:
+
+    .. code-block:: xref
+
+        psa_pake_set_user(&spake2p_v, ...);       // Verifier identity
+        psa_pake_set_peer(&spake2p_v, ...);       // Prover identity
+        psa_pake_set_context(&spake2p_v, ...);
+
+Key exchange
+^^^^^^^^^^^^
+
+After setup, the key exchange and confirmation flow for SPAKE2+ is as follows.
+
+.. note::
+
+    The sequence of calls for the Prover, and the sequence for the Verifier, must be in exactly this order.
+
+**Prover**
+    To get the key share to send to the Verifier, call:
+
+    .. code-block:: xref
+
+        // Get shareP
+        psa_pake_output(&spake2p_p, PSA_PAKE_STEP_KEY_SHARE, ...);
+
+**Verifier**
+    To provide and validate the key share received from the Prover, call:
+
+    .. code-block:: xref
+
+        // Set shareP
+        psa_pake_input(&spake2p_v, PSA_PAKE_STEP_KEY_SHARE, ...);
+
+**Verifier**
+    To get the Verifier key share and confirmation value to send to the Prover, call:
+
+    .. code-block:: xref
+
+        // Get shareV
+        psa_pake_output(&spake2p_v, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Get confirmV
+        psa_pake_output(&spake2p_v, PSA_PAKE_STEP_CONFIRM, ...);
+
+**Prover**
+    To provide and validate the key share and verify the confirmation value received from the Verifier, call:
+
+    .. code-block:: xref
+
+        // Set shareV
+        psa_pake_input(&spake2p_p, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Set confirmV
+        psa_pake_input(&spake2p_p, PSA_PAKE_STEP_KEY_CONFIRM, ...);
+
+**Prover**
+    To get the Prover key confirmation value to send to the Verifier, call:
+
+    .. code-block:: xref
+
+        // Get confirmP
+        psa_pake_output(&spake2p_p, PSA_PAKE_STEP_CONFIRM, ...);
+
+**Verifier**
+    To verify the confirmation value received from the Prover, call:
+
+    .. code-block:: xref
+
+        // Set confirmP
+        psa_pake_input(&spake2p_v, PSA_PAKE_STEP_CONFIRM, ...);
+
+**Prover**
+    To use the shared secret, extract it as a key-derivation key.
+    For example, to extract a derivation key for HKDF-SHA-256:
+
+    .. code-block:: xref
+
+        // Set up the key attributes
+        psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
+        psa_set_key_type(&att, PSA_KEY_TYPE_DERIVE);
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+
+        // Get K_shared
+        psa_key_id_t shared_key;
+        psa_pake_get_shared_key(&spake2p_p, &att, &shared_key);
+
+**Verifier**
+    To use the shared secret, extract it as a key-derivation key.
+    The same key attributes can be used as the Prover:
+
+    .. code-block:: xref
+
+        // Get K_shared
+        psa_key_id_t shared_key;
+        psa_pake_get_shared_key(&spake2p_v, &att, &shared_key);
+
+The shared secret that is produced by SPAKE2+ is pseudorandom.
+Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key derivation operation to produce additional cryptographic keys.
+
+For more information about the format of the values which are passed for each step, see :secref:`pake-steps`.
+
+If the validation of a key share fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_KEY_SHARE` step will return :code:`PSA_ERROR_INVALID_ARGUMENT`.
+If the verification of a key confirmation value fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_CONFIRM` step will return :code:`PSA_ERROR_INVALID_SIGNATURE`.
+
+.. _spake2p-keys:
+
+SPAKE2+ keys
+~~~~~~~~~~~~
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ key pair: both the prover and verifier key.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
+
+    The bit size of a SPAKE2+ key is the size associated with the Elliptic curve group, that is, :math:`\lceil{log_2(q)}\rceil` for a curve over a field :math:`\mathbb{F}_q`.
+    See the documentation of each Elliptic curve family for details.
+
+    To construct a SPAKE2+ key pair, it must either be output from a key derivation operation, or imported.
+
+    The corresponding public key can be exported using :code:`psa_export_public_key()`.
+    See also `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`.
+
+    .. subsection:: Key derivation
+
+        A SPAKE2+ key pair can be output from a key derivation using :code:`psa_key_derivation_output_key()`.
+        The SPAKE2+ protocol recommends that a key-stretching key-derivation function, such as PBKDF2, is used to hash the SPAKE2+ password.
+        See :rfc:`9383` for details.
+
+        The key derivation process in :code:`psa_key_derivation_output_key()` follows the recommendations for the registration process in :rfc:`9383`, and matches the specification of this process in :cite:`MATTER`.
+
+        For the |API|:
+
+        *   The derivation of SPAKE2+ keys extracts :math:`\lceil{log_2(p)/8}\rceil+8` bytes from the PBKDF for each of :math:`w0s` and :math:`w1s`, where :math:`p` is the prime factor of the order of the elliptic curve group.
+            The following sizes are used for extracting :math:`w0s` and :math:`w1s`, depending on the elliptic curve:
+
+            .. csv-table::
+                :header-rows: 1
+                :widths: auto
+                :align: left
+
+                Elliptic curve, "Size of :math:`w0s` and :math:`w1s`, in bytes"
+                P-256, 40
+                P-384, 56
+                P-521, 74
+                edwards25519, 40
+                edwards448, 64
+
+        *   The calculation of :math:`w0`, :math:`w1`, and :math:`L` then proceeds as described in the RFC.
+
+            .. admonition:: Implementation note
+
+                The values of :math:`w0` and :math:`w1` are required as part of the SPAKE2+ key pair.
+
+                It is :scterm:`implementation defined` whether :math:`L` is computed during key derivation, and stored as part of the key pair; or only computed when required from the key pair.
+
+    .. subsection:: Key-pair format
+
+        A SPAKE2+ key pair can be exported and imported.
+
+        .. warning::
+
+            To create a new SPAKE2+ key pair, use :code:`psa_key_derivation_output_key()` as described in :secref:`spake2p-registration`.
+            This follows the recommended process described in :rfc:`9383`.
+
+            Do not call :code:`psa_import_key()` with data extracted from a key derivation operation using :code:`psa_key_derivation_output_bytes()`. If the data is not considered invalid by :code:`psa_import_key()`, this will result in a different, insecure key pair.
+
+        The key consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase.
+        :math:`w0` and :math:`w1` are scalars in the same range as an Elliptic curve private key from the group used as the SPAKE2+ primitive group.
+
+        For the |API|, the default format for a SPAKE2+ key pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for Elliptic curve keys used by the |API|.
+        For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
+
+        *   The P-256 private key :math:`w0`.
+            This is a 32-byte big-endian encoding of the integer :math:`w0`.
+        *   The P-256 private key :math:`w1`.
+            This is a 32-byte big-endian encoding of the integer :math:`w1`.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_SPAKE2P_HMAC`
+        | `PSA_ALG_SPAKE2P_CMAC`
+        | `PSA_ALG_SPAKE2P_MATTER`
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ public key: the verifier key.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the Elliptic curve family to be used.
+
+    The size of an SPAKE2+ public key is the same as the corresponding private key.
+    See `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and the documentation of each Elliptic curve family for details.
+
+    To construct a SPAKE2+ public key, it must be imported.
+
+    .. subsection:: Public key format
+
+        A SPAKE2+ public key can be exported and imported, to enable use cases that require offline registration.
+
+        The public key consists of the two values :math:`w0` and :math:`L`, which result from the SPAKE2+ registration phase.
+        :math:`w0` is a scalar in the same range as a Elliptic curve private key from the group used as the SPAKE2+ primitive group.
+        :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
+
+        For the |API|, the default format for a SPAKE2+ public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for Elliptic curve keys used by the |API|.
+        For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
+
+        *   The P-256 private key :math:`w0`.
+            This is a 32-byte big-endian encoding of the integer :math:`w0`.
+        *   The P-256 public key :math:`L`.
+            This is a 65-byte concatenation of:
+
+            -   The byte ``0x04``.
+            -   The 32-byte big-endian encoding of the x-coordinate of :math:`L`.
+            -   The 32-byte big-endian encoding of the y-coordinate of :math:`L`.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_SPAKE2P_HMAC` (verification only)
+        | `PSA_ALG_SPAKE2P_CMAC` (verification only)
+        | `PSA_ALG_SPAKE2P_MATTER` (verification only)
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key, either a key pair or a public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key pair.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the curve family from a SPAKE2+ key type.
+
+    .. param:: type
+        A SPAKE2+ key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SPAKE2P(type)` is true.
+
+    .. return:: psa_ecc_family_t
+        The elliptic curve family id, if ``type`` is a supported SPAKE2+ key. Unspecified if ``type`` is not a supported SPAKE2+ key.
+
+.. _spake2p-algorithms:
+
+SPAKE2+ algorithms
+~~~~~~~~~~~~~~~~~~
+
+.. macro:: PSA_ALG_SPAKE2P_HMAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Macro to build the SPAKE2+ algorithm, using HMAC-based key confirmation.
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+
+    .. return::
+        A SPAKE2+ algorithm, using HMAC for key confirmation, parameterized by a specific hash.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This is SPAKE2+, as defined by :RFC-title:`9383`, for cipher suites that use HMAC for key confirmation.
+    SPAKE2+ cipher suites are specified in :rfc:`9383#4`.
+    The cipher suite's hash algorithm is used as input to `PSA_ALG_SPAKE2P_HMAC()`.
+
+    The shared secret that is produced by SPAKE2+ is pseudorandom.
+    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key derivation operation to produce additional cryptographic keys.
+
+    See :secref:`pake-spake2p` for the SPAKE2+ protocol flow and how to implement it with the |API|.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
+
+
+.. macro:: PSA_ALG_SPAKE2P_CMAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Macro to build the SPAKE2+ algorithm, using CMAC-based key confirmation.
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+
+    .. return::
+        A SPAKE2+ algorithm, using CMAC for key confirmation, parameterized by a specific hash.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+
+    This is SPAKE2+, as defined by :RFC-title:`9383`, for cipher suites that use CMAC-AES-128 for key confirmation.
+    SPAKE2+ cipher suites are specified in :rfc:`9383#4`.
+    The cipher suite's hash algorithm is used as input to `PSA_ALG_SPAKE2P_CMAC()`.
+
+    The shared secret that is produced by SPAKE2+ is pseudorandom.
+    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key derivation operation to produce additional cryptographic keys.
+
+    See :secref:`pake-spake2p` for the SPAKE2+ protocol flow and how to implement it with the |API|.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
+
+.. macro:: PSA_ALG_SPAKE2P_MATTER
+    :definition: ((psa_algoirithm_t)0x0A000609)
+
+    .. summary::
+        The SPAKE2+ algorithm, as used by the Matter v1 specification.
+
+    This is the PAKE algorithm specified as MATTER_PAKE in :cite-title:`MATTER`.
+    This is based on draft-02 of the SPAKE2+ protocol, :cite-title:`SPAKE2P-2`.
+    :cite:`MATTER` specifies a single SPAKE2+ cipher suite, P256-SHA256-HKDF-HMAC-SHA256.
+
+    The shared secret that is produced by this operation must be processed as directed by the :cite:`MATTER` specification.
+
+    This algorithm uses the same SPAKE2+ key types, key derivation, protocol flow, and the API usage described in :secref:`pake-spake2p`.
+    However, the following aspects are different:
+
+    *   The key schedule is different.
+        This affects the computation of the shared secret and key confirmation values.
+    *   The protocol inputs and outputs have been renamed between draft-02 and the final RFC, as follows:
+
+        .. csv-table::
+            :header-rows: 1
+            :widths: auto
+            :align: left
+
+            RFC 9383, Draft-02
+            shareP, pA
+            shareV, pB
+            confirmP, cA
+            confirmV, cB
+            K_shared, Ke
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
+
+.. macro:: PSA_ALG_IS_SPAKE2P
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a SPAKE2+ algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a SPAKE2+ algorithm, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+
+    SPAKE2+ algorithms are constructed using :code:`PSA_ALG_SPAKE2P_HMAC(hash_alg)`, :code:`PSA_ALG_SPAKE2P_CMAC(hash_alg)`, or :code:`PSA_ALG_SPAKE2P_MATTER`.
+
+.. macro:: PSA_ALG_IS_SPAKE2P_HMAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a SPAKE2+ algorithm that uses a HMAC-based key confirmation.
+
+    .. param:: alg
+        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a SPAKE2+ algorithm that uses a HMAC-based key confirmation, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+
+    SPAKE2+ algorithms, using HMAC-based key confirmation, are constructed using :code:`PSA_ALG_SPAKE2P_HMAC(hash_alg)`.
+
+.. macro:: PSA_ALG_IS_SPAKE2P_CMAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a SPAKE2+ algorithm that uses a CMAC-based key confirmation.
+
+    .. param:: alg
+        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a SPAKE2+ algorithm that uses a CMAC-based key confirmation, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+
+    SPAKE2+ algorithms, using CMAC-based key confirmation, are constructed using :code:`PSA_ALG_SPAKE2P_CMAC(hash_alg)`.
