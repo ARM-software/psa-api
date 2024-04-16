@@ -18,4 +18,5 @@ Cryptographic operation reference
     sign
     pke
     ka
+    encap
     rng
