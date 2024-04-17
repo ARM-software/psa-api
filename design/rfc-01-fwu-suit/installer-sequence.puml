@@ -41,25 +41,15 @@ fetcher <<- installer ++: Start Fetcher
 activate envelope #PaleGoldenRod
 rnote over envelope #PaleGoldenRod: PROCESSING
 
-fetcher -> installer: ""psa_fwu_query(envelope_id)""
-activate installer #ddd
-note left: Query envelope status
-return ""PSA_SUCCESS""
-
-fetcher -> installer: ""psa_fwu_process(envelope_id)""
-note left
-    Process SUIT commands
-    - suit-install sequence
-end note
-'deactivate envelope
+fetcher -> installer: ""psa_fwu_process()""
+note left: Process SUIT commands
+note over installer: ""suit-install ""sequence
 activate installer #ddd
 
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""\n  + payload information
-    activate envelope #LightGoldenRodYellow
     activate payload #LightBlue
-    rnote over envelope #LightGoldenRodYellow: FETCHING ?
-    / rnote over payload #LightBlue: READY
+    rnote over payload #LightBlue: READY
 
     server <<- fetcher ++ : Fetch payload
     fetcher -> installer: ""psa_fwu_start(payload_id)""
@@ -77,13 +67,10 @@ loop While additional payloads are required
 
     fetcher -> installer: ""psa_fwu_finish(payload_id)""
     deactivate payload
-    deactivate envelope
     activate installer #ddd
     return ""PSA_SUCCESS""
-'    activate envelope #PaleGoldenRod
-'    rnote over envelope #PaleGoldenRod: PROCESSING
 
-    fetcher -> installer: ""psa_fwu_process(envelope_id)""
+    fetcher -> installer: ""psa_fwu_process()""
     note left: Resume SUIT processing
     deactivate envelope
     activate installer #ddd
@@ -99,11 +86,10 @@ deactivate fetcher
 
 installer -> installer: SUIT Invocation
 deactivate installer
-note left
-    Process SUIT commands
-    - suit-validate sequence
-    - suit-load sequence
-    - suit-invoke sequence
+note over installer
+    ""suit-validate ""sequence
+    ""suit-load ""sequence
+    ""suit-invoke ""sequence
 end note
 
 

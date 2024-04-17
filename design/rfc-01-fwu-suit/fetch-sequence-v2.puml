@@ -3,7 +3,7 @@
 
 @startuml
 
-' SUIT update using the FWU API
+' SUIT update using the FWU API, reboot to install v2
 
 !include atg-spec.pumh
 
@@ -40,27 +40,30 @@ deactivate service
 client -> service: ""psa_fwu_finish(envelope_id)""
 deactivate envelope
 activate service #ddd
+return ""PSA_SUCCESS""
+deactivate service
+activate envelope #LightSalmon
+rnote over envelope #LightSalmon: CANDIDATE
+
+client -> service #ddd: ""psa_fwu_install()""
+note left: Proceed with installation
+deactivate envelope
+activate service #ddd
 return ""PSA_FWU_PROCESSING_REQUIRED""
 deactivate service
 activate envelope #PaleGoldenRod
 rnote over envelope #PaleGoldenRod: PROCESSING
 
-client -> service: ""psa_fwu_process(envelope_id)""
-note left
-    Process SUIT manifest
-    - verify manifest
-    - suit-payload-fetch sequence
-end note
-'deactivate envelope
+client -> service: ""psa_fwu_process()""
+note left: Process SUIT manifest
+note over service: ""suit-payload-fetch ""sequence
 activate service #ddd
 
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""\n  + payload information
     deactivate service
-    activate envelope #LightGoldenRodYellow
     activate payload #LightBlue
-    rnote over envelope #LightGoldenRodYellow: FETCHING ?
-    / rnote over payload #LightBlue: READY
+    rnote over payload #LightBlue: READY
 
     server <<- client ++ : Fetch payload
     client -> service: ""psa_fwu_start(payload_id)""
@@ -86,35 +89,23 @@ loop While additional payloads are required
 
     client -> service: ""psa_fwu_finish(payload_id)""
     deactivate payload
-    deactivate envelope
     activate service #ddd
     return ""PSA_SUCCESS""
     deactivate service
-'    activate envelope #PaleGoldenRod
-'    rnote over envelope #PaleGoldenRod: PROCESSING
 
-    client -> service: ""psa_fwu_process(envelope_id)""
+    client -> service: ""psa_fwu_process()""
     note left: Resume SUIT processing
     deactivate envelope
     activate service #ddd
 
 end
-client <-- service: ""PSA_SUCCESS""
-note left: Manifest processing complete
-deactivate service
-activate envelope #LightSalmon
-rnote over envelope #LightSalmon: CANDIDATE
-
-client -> service #ddd: ""psa_fwu_install()""
-note left: Proceed with installation
-deactivate envelope
-activate service #ddd
 return  ""PSA_FWU_REBOOT_REQUIRED""
+note left: Reboot to continue installation
 deactivate service
+
 activate envelope #LightCoral
 rnote over envelope #LightCoral: STAGED
 
-deactivate envelope
 client -->>] --: Request reboot
 
 == System restarts ==
