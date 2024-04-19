@@ -15,11 +15,11 @@ participant "Payload fetcher" as fetcher
 participant "Update client" as client
 participant "Firmware Update API" as api
 participant "Installer" as installer
+participant "Bootloader" as boot
 end box
 entity "Envelope state" as envelope
-entity "Payload state" as payload
 
-autonumber 23
+autonumber 23 "<b>#:"
 activate client
 
 client <-- envelope : ""PSA_FWU_REBOOT_REQUIRED""
@@ -30,35 +30,30 @@ client -->>] --: Request reboot
 
 == System restarts ==
 
-installer <<--] ++ : Device boot
+boot <<--] ++ : Device boot
 
-installer -> installer: SUIT Payload Installation
-note left
-    Verify manifest
-end note
+installer <- boot --++ : SUIT Install
 deactivate envelope
-fetcher <<- installer ++: Start Fetcher
-activate envelope #PaleGoldenRod
-rnote over envelope #PaleGoldenRod: PROCESSING
+fetcher <<- installer ++: Start payload fetcher
+activate envelope #Pink
+rnote over envelope #Pink: INSTALLING
 
 fetcher -> installer: ""psa_fwu_process()""
 note left: Process SUIT commands
-note over installer: ""suit-install ""sequence
+hnote over installer
+    ""suit-candidate-validation""
+    ""suit-install""
+end note
 activate installer #ddd
 
 loop While additional payloads are required
-    return ""PSA_FWU_PAYLOAD_REQUIRED""\n  + payload information
-    activate payload #LightBlue
-    rnote over payload #LightBlue: READY
+    return ""PSA_FWU_PAYLOAD_REQUIRED""
 
     server <<- fetcher ++ : Fetch payload
     fetcher -> installer: ""psa_fwu_start(payload_id)""
     note left: Transfer payload
-    deactivate payload
     activate installer #ddd
     return ""PSA_SUCCESS""
-    activate payload #PaleGreen
-    rnote over payload #PaleGreen: WRITING
 
     server -->> fetcher --: Download payload
     fetcher -> installer: ""psa_fwu_write(payload_id, ...)""
@@ -66,7 +61,6 @@ loop While additional payloads are required
     return ""PSA_SUCCESS""
 
     fetcher -> installer: ""psa_fwu_finish(payload_id)""
-    deactivate payload
     activate installer #ddd
     return ""PSA_SUCCESS""
 
@@ -81,16 +75,21 @@ note left: Payload fetching complete
 activate envelope #aad
 rnote over envelope #aad: UPDATED
 
-fetcher ->? : ""exit()""
+fetcher -> installer : ""exit()""
 deactivate fetcher
 
-installer -> installer: SUIT Invocation
-deactivate installer
-note over installer
-    ""suit-validate ""sequence
-    ""suit-load ""sequence
-    ""suit-invoke ""sequence
+installer -->>] --: Request reboot
+
+== System restarts ==
+
+boot <<--] ++ : Device boot
+
+hnote over boot
+    ""suit-validate""
+    ""suit-load""
+    ""suit-invoke""
 end note
 
+?<<-- boot: Run firmware
 
 @enduml

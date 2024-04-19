@@ -12,7 +12,6 @@ Support for SUIT in the Firmware Update API
 *  `Draft API design`_
 *  `Detailed API definition`_
 *  `Open Issues`_
-*  `Appendix: Alternative flow idea`_
 *  `Revision history`_
 
 Use case
@@ -187,8 +186,6 @@ Where a SUIT manifest includes additional payload fetching as part of the suit-i
 Draft API design
 ----------------
 
-*Note that this is a draft proposal, and selects one from a number of similar options. This seems to be a good fit with the specific behavior of nested manifests in SUIT, but could also work with other manifest architectures. The naming of any new API identifiers is also subject to discussion and revision.*
-
 Envelope and payload transfer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -206,22 +203,22 @@ The detailed steps of the flow are as follows (the numbers refer to the correspo
 
 *  1: The process is started by transferring the SUIT envelope as a firmware image using a component identifier allocated to the SUIT envelope component.
 
-*  6: The call to ``psa_fwu_finish()`` behaves differently when processing a SUIT envelope. On a successful transfer, the call will return a new response code, ``PSA_FWU_PROCESSING_REQUIRED``, to indicate that the component requires processing. At this point the envelope component will be in a new ``PSA_FWU_PROCESSING`` state, instead of the typical ``PSA_FWU_CANDIDATE`` state.
+*  6: The call to ``psa_fwu_finish()`` behaves differently when processing a SUIT envelope. On a successful transfer, the call will return a new response code, ``PSA_FWU_PROCESSING_REQUIRED``, to indicate that the component requires processing. At this point the envelope component will be in a new ``PSA_FWU_FETCHING`` state, instead of the typical ``PSA_FWU_CANDIDATE`` state.
 
 *  7: If processing is required, the Update client then calls ``psa_fwu_process()`` to begin manifest processing. At this point the Update service will do the following:
 
    * Verify and authenticate the manifest.
    * Process the Update command sequences: system validation, dependency resolution, payload fetch, payload verification.
 
-*  8: If a payload is required that is detached from the Envelope, the call to ``psa_fwu_process()`` returns with a new status code, ``PSA_FWU_PAYLOAD_REQUIRED``. The call to ``psa_fwu_process()`` includes an output parameter, which the service uses to provide the details of the payload to be transferred, including a component identifier (for use with ``psa_fwu_start()`` etc), and a URI for the payload.
+*  8: If a payload is required that is detached from the Envelope, the call to ``psa_fwu_process()`` returns with a new status code, ``PSA_FWU_PAYLOAD_REQUIRED``. The call to ``psa_fwu_process()`` includes an output parameter, which the service uses to provide the details of the payload to be transferred, including a component identifier for the payload (for use with ``psa_fwu_start()`` etc), and a URI for the payload.
 
-   The Update service might also have information about the size and digest of the payload to be fetched. These could be optionally be provided with the payload URI: are there benefits in using this information to eliminate or detect incorrect or malicious transfers prior to transfer to the Update service?
+   *The Update service might also have information about the size and digest of the payload to be fetched. These could be optionally be provided with the payload URI: are there benefits in using this information to eliminate or detect incorrect or malicious transfers prior to transfer to the Update service?*
 
-   If there is no payload to transfer, the sequence continues at step 21.
+   When there is no payload to transfer, the sequence continues at step 21.
 
 *  9: The Update client must now fetch the payload, using the URI to locate it, and transfer it to the Update service using the standard ``psa_fwu_start()``, ``psa_fwu_write()`` and ``psa_fwu_finish()`` calls, providing the component identifier returned in the payload information.
 
-*  19: When ``psa_fwu_finish()`` is called, the payload component enters CANDIDATE state: the normal behavior for components when ``psa_fwu_finish()`` is called.
+*  19: When ``psa_fwu_finish()`` returns successfully, the payload component status can no longer be queried by the Update client.
 
 *  20: As the Update client is in the middle of processing an envelope component, it calls ``psa_fwu_process()`` once more. The Update service resumes the SUIT manifest processing from where it halted when fetching the payload. If another payload is required, then ``PSA_FWU_PAYLOAD_REQUIRED`` is returned from the call to ``psa_fwu_process()``, and processing continues from step 8 above.
 
@@ -231,45 +228,66 @@ The detailed steps of the flow are as follows (the numbers refer to the correspo
 
 *  23: The flow in Figure 3 shows a system which requires a reboot to continue with the installation. The suit-install SUIT command sequences will be processed after the reboot.
 
-    In systems where the installation of the envelope component is achieved without a restart, the installation command sequence will be executed as part of the call to ``psa_fwu_install()``, and complete the installation. See *Fetching during install (without reboot)* below.
+    In systems where the installation of the envelope component is achieved without a restart, the installation command sequence will be executed as part of the call to ``psa_fwu_install()``, and complete the installation. See `Fetching during install (without reboot)`_ below.
 
-Fetching during install (after reboot)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In systems where the installation occurs following reboot, or in a special execution state of the system, the implementation might choose to use the Firmware Update API between a trusted installer agent and a payload fetcher agent. Although the interfaces used for this can be implementation-defined, `Figure 4 <fig-installer_>`_ is an example of how this could be done using the Firmware Update API.
-
-.. _fig-installer:
-
-.. figure:: installer-sequence.svg
-
-   **Figure 4** *Example use of the Firmware Update API for a dedicated Installer state*
-
-   This shows the operation of the Installer and Payload fetcher following a reboot with a STAGED envelope.
-
-This example would directly follow on from the sequence in `Figure 3 <fig-fetch_>`_.
+*  25: Following reboot, the bootloader determines that there is an update to install, and proceeds with the installation and invocation SUIT processes.
 
 Fetching during install (without reboot)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If no reboot is required to install an envelope, then the suit-install command sequence will be processed when ``psa_fwu_install()`` is called. This can result in further payload fetching.
 
-One possible approach is shown in `Figure 5 <fig-no-reboot_>`_.
+One possible approach is shown in `Figure 4 <fig-no-reboot_>`_.
 
 .. _fig-no-reboot:
 
 .. figure:: no-reboot-sequence.svg
 
-   **Figure 5** *Fetching payloads during suit-install without rebooting*
+   **Figure 4** *Fetching payloads during suit-install without rebooting*
 
-   The payload fetching sequences are elided to highlight the second processing phase after the call to ``psa_fwu_install()``.
+   The payload fetching sequences are elided to highlight the second SUIT processing phase after the call to ``psa_fwu_install()``.
 
-*Note*
-   See the `Open Issues`_, and `Appendix: Alternative flow idea`_, for discussion of a design that unifies these sequences.
+This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 23 onwards.
+
+*   23: If the installation requires processing of SUIT command sequences, ``psa_fwu_install()`` returns ``PSA_FWU_PROCESSING_REQUIRED``, and the envelope component will be in a new ``PSA_FWU_INSTALLING`` state.
+
+    This state is distinct from the FETCHING state used following transfer of the envelope, because the installation process can be destructive of the active firmware images, and aborting the update at this point is more complex as updated firmware will need to be reverted.
+
+*   24: As for the earlier processing phase, the Update client uses ``psa_fwu_process()`` to process of the installation commands sequences. If this sequence requests additional payloads, this results in payload fetch requests, in the same manner as in the FETCHING state, see steps 7 - 21 in `Figure 3 <fig-fetch_>`_.
+
+*   26: After the SUIT installation has completed, the system can then load and invoke the updated firmware.
+
+Fetching during install (after reboot)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In systems where the installation occurs following reboot, or in a special execution state of the system, the implementation might choose to use the Firmware Update API between a trusted installer and a payload fetcher application. Although the interfaces used for this can be implementation-defined, `Figure 5 <fig-installer_>`_ is an example of how this could be done using the Firmware Update API.
+
+.. _fig-installer:
+
+.. figure:: installer-sequence.svg
+
+   **Figure 5** *Example use of the Firmware Update API for a dedicated Installer state*
+
+   This shows the operation of the Installer and Payload fetcher following a reboot with a STAGED envelope.
+
+This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 25 onwards.
+
+*   26: the bootloader determines that there is an update to install, and runs the Installer to process the SUIT manifest.
+
+*   27: The Payload fetcher in this example is the client of the Firmware Update API.
+
+*   28: The payload fetcher requests the processing of the SUIT manifest, and handles requests to fetch additional payloads.
+
+    The flow here is the same as the payload fetching phase that can follow the call to ``psa_fwu_install()`` for components that do not require a reboot. See steps 24 - 26 in `Figure 4 <fig-no-reboot_>`_.
+
+*   40: After the installation processing completes, the Payload fetcher returns control to the Installer, which can restart the system to finally execute the updated firmware.
 
 Errors
 ~~~~~~
 
-If at any stage during SUIT processing, the Update service encounters an error, the relevant component or components will be put into the FAILED state, and the Update client will need to use ``psa_fwu_clean()`` as usual to restore the initial firmware state.
+If the Update service encounters an error during SUIT processing, the envelope component will be put into the FAILED state, and the Update client will need to use ``psa_fwu_clean()`` as usual to restore the initial firmware status.
+
+If an error occurs while transferring a payload component, that payload component will be put into a FAILED state. The Update client can remove the partial transfer using a call to ``psa_fwu_clean()`` on the payload component, and then retry the transfer, or decide to abort the entire update (see `Aborting an update`_).
 
 Dependency manifests
 ~~~~~~~~~~~~~~~~~~~~
@@ -283,21 +301,25 @@ In the proposed API, this is transparent to the Update client. When processing t
 Aborting an update
 ~~~~~~~~~~~~~~~~~~
 
-If the Update client chooses to abandon an update, when the envelope component is in PROCESSING or CANDIDATE state - it can use ``psa_fwu_cancel()``, as for the v1.0 API for components before ``psa_fwu_install()`` is called. In the case of an envelope component, this will also call any associated payloads to be discarded as well, whether the payloads are in WRITING or CANDIDATE state.
+If the Update client chooses to abandon an update, when the envelope component is in FETCHING or CANDIDATE state - it can use ``psa_fwu_cancel()``, as for the v1.0 API for components before ``psa_fwu_install()`` is called. In the case of an envelope component, this will also call any associated payloads to be discarded as well, whether the payloads are partially, or fully transferred to the Update service.
 
 *Rationale:*
    This is because the payload components do not have a top-level component identifier that is well known to the Update client, and the client is not expected to track the payload identifiers that have been requested by the ``psa_fwu_process()`` calls.
 
-An Update client can call ``psa_fwu_cancel()`` + ``psa_fwu_clean()`` on a payload component currently being transferred (steps 8 - 20), and restart the transfer of that component with ``psa_fwu_start()``. This is not permitted on payloads which have been fully transferred.
+An Update client can call ``psa_fwu_cancel()`` and ``psa_fwu_clean()`` on a payload component currently being transferred (steps 8 - 19), and restart the transfer of that component with ``psa_fwu_start()``. This is not permitted on payloads which have been fully transferred.
 
-Cancelling the payload transfer isn't required to abort the entire update. The Update service will have to be able to discard any already, or partially, transferred payloads based on the envelope identifier.
+Cancelling the payload transfer isn't required to abort the entire update.
+
+To abandon an update after a call to ``psa_fwu_install()``, for example, when the envelope component is in INSTALLING state, the entire update must be reverted by calling ``psa_fwu_reject()``.
 
 Restarting an update
 ~~~~~~~~~~~~~~~~~~~~
 
-Following an interruption to the standard process, for example, a system restart while processing a manifest, or fetching a payload, the processing of SUIT commands can be restarted. This requires that the implementation retains envelopes and payloads that have already been transferred - i.e. the staging is not volatile for components in PROCESSING or CANDIDATE state.
+Following an interruption to the standard process, for example, a system restart while processing a manifest, or fetching a payload, the processing of SUIT commands can be restarted. This requires that the implementation retains envelopes and payloads that have already been transferred - i.e. the staging is not volatile for components in FETCHING or CANDIDATE state.
 
-Following a restart, the Update client should query the status of the envelope component. If this reports a state of ``PSA_FWU_PROCESSING``, this indicates to the Update client that it should call ``psa_fwu_process()`` to restart the SUIT manifest processing (at step 7 in the standard flow above).
+Following a restart, the Update client should query the status of the envelope component. If this reports a state of ``PSA_FWU_FETCHING`` or ``PSA_FWU_INSTALLING``, this indicates to the Update client that it should call ``psa_fwu_process()`` to restart the SUIT manifest processing (at step 7 in the standard flow above).
+
+Similarly, if the implementation is using the API for a dedicated Installer application (see `Fetching during install (after reboot)`_ above), it is permitted for the implementation to support resumption of the installation process.
 
 *Note:*
    The implementation will have to re-verify the manifest, and process the command sequences from the beginning. The service can avoid requesting payload images which where previously transferred, and match the payload digest.
@@ -329,42 +351,28 @@ Detailed API definition
 
 *TBD*
 
-.. _issues:
-
 Open Issues
 -----------
 
-*  The simplification one SUIT manifest at a time opens a new question regarding the placement of the SUIT processing in the API flow. See `Appendix: Alternative flow idea`_.
 *  Detailed API design.
 *  Final naming of API elements.
 *  Are there additional attributes for components that need to be included in the ``psa_fwu_component_info_t``?
 
-.. _alt-flow:
-
-Appendix: Alternative flow idea
--------------------------------
-
-Since the restriction of the API to only support a single top-level SUIT envelope installation at a time in the v0.4 update, the return to PROCESSING state stands out in the no-reboot scenario.
-
-This suggests that an alternative design might work better - where the processing of the suit-payload-fetch command sequence is only done *after* the call to ``psa_fwu_install()``.
-
-Here are alternative versions of `Figure 3 <fig-fetch_>`_ and `Figure 5 <fig-no-reboot_>`_ that do not start the SUIT processing until ``psa_fwu_install()`` is called.
-
-.. figure:: fetch-sequence-v2.svg
-
-   **Figure 3a** *The normal call sequence for initial SUIT update (alternate)*
-
-The identification of the SUIT envelope component, and starting the processing of the manifest now happens when the client calls ``psa_fwu_install()``, instead of ``psa_fwu_finish()``.
-
-.. figure:: no-reboot-sequence-v2.svg
-
-   **Figure 5a** *Fetching payloads during suit-install without rebooting (alternate)*
-
-Now there is only a single entry to PROCESSING state - the client does not need to be aware of the exact phase of the SUIT processing.
-
 
 Revision history
 ----------------
+
+**v0.5** - 19/04/2024
+   Resolution of all substantial open issues:
+
+   * The alternative flow in v0.4 is not viable as it combines the payload phase with the install phase. This prevents the use case where the decision to apply/install the update can be separated from the delivery of the update.
+
+     The associated appendix has been removed.
+   * The two phases of payload fetching need to have distinct states for the envelope component. The first phase is non-destructive of the current firmware, so the work to abandon an update is different in these two phases.
+
+     PROCESSING state is now FETCHING and INSTALLING states.
+   * Added the suit-resolve-dependencies and suit-candidate-validation to the sequence diagrams to clarify where these SUIT command sequences fit.
+   * Added detail to the error, cancellation, and restart sections relating to the FETCHING and INSTALLING states, and the ability to cancel and restart the current payload fetch.
 
 **v0.4** - 17/04/2024
    Significant update:

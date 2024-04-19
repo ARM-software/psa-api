@@ -16,9 +16,8 @@ participant "Firmware Update API" as api
 participant "Update service" as service
 end box
 entity "Envelope state" as envelope
-entity "Payload state" as payload
 
-autonumber
+autonumber "<b>#:"
 activate client
 activate envelope #LightBlue
 rnote over envelope #LightBlue: READY
@@ -43,21 +42,27 @@ activate service #ddd
 return ""PSA_FWU_PROCESSING_REQUIRED""
 deactivate service
 activate envelope #PaleGoldenRod
-rnote over envelope #PaleGoldenRod: PROCESSING
+rnote over envelope #PaleGoldenRod: FETCHING
 
 client -> service: ""psa_fwu_process()""
 note left: Process SUIT manifest
-note over service
-    Verify manifest
-    ""suit-payload-fetch ""sequence
+hnote over service
+    ""suit-resolve-dependencies""
+    ""suit-payload-fetch""
 end note
-deactivate envelope
 activate service #ddd
 
 loop While additional payloads are required
-    note over server, service: Transfer\npayload(s)
+    return ""PSA_FWU_PAYLOAD_REQUIRED""
+    deactivate service
+
+    note over server, service: Transfer payload
+
+    autonumber 20 "<b>#:"
+    client -> service: ""psa_fwu_process()""
+    deactivate envelope
+    activate service #ddd
 end
-autonumber 21
 client <-- service: ""PSA_SUCCESS""
 note left: Manifest processing complete
 deactivate service
@@ -71,24 +76,32 @@ activate service #ddd
 
 return ""PSA_FWU_PROCESSING_REQUIRED""
 deactivate service
-activate envelope #PaleGoldenRod
-rnote over envelope #PaleGoldenRod: PROCESSING
+activate envelope #Pink
+rnote over envelope #Pink: INSTALLING
 
 client -> service: ""psa_fwu_process()""
 note left: Process SUIT commands
-note over service: ""suit-install ""sequence
-deactivate envelope
+hnote over service
+    ""suit-candidate-validation""
+    ""suit-install""
+end note
 activate service #ddd
 
 loop While additional payloads are required
-    note over server, service: Transfer\npayload(s)
+    return ""PSA_FWU_PAYLOAD_REQUIRED""
+    deactivate service
+
+    note over server, service: Transfer payload
+
+    client -> service: ""psa_fwu_process()""
+    deactivate envelope
+    activate service #ddd
 end
-note over service
-    ""suit-validate ""sequence
-    ""suit-load ""sequence
-    ""suit-invoke ""sequence
+hnote over service
+    ""suit-validate""
+    ""suit-load""
+    ""suit-invoke""
 end note
-autonumber 38
 client <-- service: ""PSA_SUCCESS""
 deactivate service
 activate envelope #aad
