@@ -70,7 +70,7 @@ These definitions must be defined in the header file :file:`psa/storage_common.h
         The structure MUST contain all all the state required by the iterator.
         That is, further state MUST NOT be retained by the implementation.
 
-        The structure is initilaised by the ``ps_iterator_start()`` function.
+        The structure is initialized by the ``ps_iterator_start()`` function.
         It is modified by the ``ps_iterator_next()`` function.
 
         the caller can discard or reuse the iterator object once it has finished using it. This can be before, or after, the iterator has reached the end of the iteration.
@@ -359,8 +359,10 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
 .. function:: psa_its_iterator_start
 
    .. summary::
-       Initialises an iterator that can be used to return a list of uids in the Internal Trusted Storage.
+       Initializes an iterator that can be used to return a list of ``uid`` values in the Internal Trusted Storage.
+       
        This function must be fully defined if `PSA_STORAGE_SUPPORT_ITERATION` is true.
+       
        If `PSA_STORAGE_SUPPORT_ITERATION` is false, then this function SHALL always return ``PSA_ERROR_NOT_SUPPORTED``
 
 
@@ -371,7 +373,7 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
        A value used to filter the results included in this iteration.
 
    .. param:: int_t filter_length
-       A length of the filter to use, this must be a value ``0 < filter_lemngth < 63``.
+       A length of the filter to use, this must be a value ``0 < filter_length < 63``.
 
    .. param:: psa_storage_uid_t *result
         A pointer to the location in which to store ``uid``. On success the contents of this location will be updated with the first matching ``uid``. On error, the contents are undefined.
@@ -400,7 +402,7 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
 
    An iterator MUST return all data objects whose ``uid`` matches the filter that are extant when the filter was created, unless these are deleted or renamed before the iteration would return them, or the caller stops before all matching objects have been returned.
 
-   A caller may delete a ``uid`` with `psa_its_remove()` without invalidating the iteration context. the iterator MUST never return a ``uid`` that has been deleted. However, if the caller is multi-threaded it ia possible another thread may delete a ``uid``.
+   A caller may delete a ``uid`` with `psa_its_remove()` without invalidating the iteration context. the iterator MUST never return a ``uid`` that has been deleted. However, if the caller is multi-threaded it is possible another thread may delete a ``uid``.
 
    A caller may read the contents of any ``uid`` with `psa_its_get()` or write with `psa_its_set` without invalidating the iteration context.
 
@@ -412,10 +414,10 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
 
    .. code-block:: c
 
-      my_context = NULL
-      my_filter = 0x1111 0000 0000 0000
-      my_length = 0x0020
-      my_result = NULL
+      my_context = NULL;
+      my_filter = 0x1111 0000 0000 0000;
+      my_length = 0x0020;
+      my_result = NULL;
       if psa_its_iterator_start(my_context, my_filter, my-length, my_result) == PSA_SUCCESS
       	{
       	do
@@ -892,7 +894,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
    The function renames ``uid`` to ``uid_new`` retaining the storage flags  that ``uid`` was created with.
 
-   If the caller specifies `PSA_STORAGE_FLAG_REPLACE` the operation atomically replaces the exisitng contents of ```uid_new`` with those of ``uid``.
+   If the caller specifies `PSA_STORAGE_FLAG_REPLACE` the operation atomically replaces the existing contents of ```uid_new`` with those of ``uid``.
 
    Except in the case of ``PSA_ERROR_STORAGE_FAILURE``, in which case no guarantees can be made, the operation shall either succeed or leave storage unchanged.
 
@@ -900,7 +902,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 .. function:: psa_ps_iterator_start
 
    .. summary::
-       Initialises an iterator that can be used to return a list of uids in the Protected Storage.
+       Initializes an iterator that can be used to return a list of uids in the Protected Storage.
        This function must be fully defined if `PSA_STORAGE_SUPPORT_ITERATION` is true.
        If `PSA_STORAGE_SUPPORT_ITERATION` is false, then this function SHALL always return ``PSA_ERROR_NOT_SUPPORTED``
 
@@ -912,7 +914,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
        A value used to filter the results included in this iteration.
 
    .. param:: int_t filter_length
-       A length of the filter to use, this must be a value ``0 < filter_lemngth < 63``.
+       A length of the filter to use, this must be a value ``0 < filter_length < 63``.
 
    .. param:: psa_storage_uid_t *result
         A pointer to the location in which to store ``uid``. On success the contents of this location will be updated with the first matching ``uid``. On error, the contents are undefined.
@@ -941,7 +943,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
    An iterator MUST return all data objects whose ``uid`` matches the filter that are extant when the filter was created, unless these are deleted or renamed before the iteration would return them, or the caller stops before all matching objects have been returned.
 
-   A caller may delete a ``uid`` with `psa_ps_remove()` without invalidating the iteration context. the iterator MUST never return a ``uid`` that has been deleted. However, if the caller is multi-threaded it ia possible another thread may delete a ``uid``.
+   A caller may delete a ``uid`` with `psa_ps_remove()` without invalidating the iteration context. the iterator MUST never return a ``uid`` that has been deleted. However, if the caller is multi-threaded it is possible another thread may delete a ``uid``.
 
    A caller may read the contents of any ``uid`` with `psa_ps_get()` or write with `psa_ps_set()` or `psa_ps_set_extended()` without invalidating the iteration context.
 
@@ -953,23 +955,23 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
    .. code-block:: c
 
-      my_context = NULL
-      my_filter = 0x1111 0000 0000 0000
-      my_length = 0x0020
-      my_result = NULL
+      my_context = NULL;
+      my_filter = 0x1111 0000 0000 0000;
+      my_length = 0x0020;
+      my_result = NULL;
       if psa_ps_iterator_start(my_context, my_filter, my-length, my_result) == PSA_SUCCESS
       	{
       	do
       	   {
       	   	// do something with my_result
       	    psa_ps_iterator_next(my_context, my_result)
-      	    // we will get an does not exist error when we reach the last item, any other error is a storage failure
+      	    // we will get an 'does not exist error' when we reach the last item, any other error is a storage failure
       	    if my_reult <> PSA_ERROR_DOES_NOT_EXIST
       	   	  {
       	   	  	/* deal with storage failure */
       	   	  }
       	   }
-        while my_result == PSA_SUCCES ;
+        while my_result == PSA_SUCCESS ;
         };
 
 
