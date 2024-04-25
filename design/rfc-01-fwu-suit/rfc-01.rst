@@ -349,18 +349,306 @@ To support potentially diverse and structured component id allocation strategies
 Detailed API definition
 -----------------------
 
-*TBD*
+This is a proposal for the Firmware Update API definition related to this design.
+
+There are two approaches to handle the return of a URI for payloads that need to be fetched:
+
+1. Include a buffer for the URI within the data structure used for other payload information (the component id to use for the transfer, the expected size of the payload in bytes). The size of this buffer is implementation-defined. The specification will place no limits on the value. The payload information includes a member that specifies the actual length of the payload URI written to the buffer.
+
+2. Provide a separate output buffer parameter for the URI in the call to ``psa_fwu_process``. This requires an input 'size' parameter to indicate the size of the buffer in the caller, and an output 'length' parameter for the implementation to report how long any written URI is. Implementations can provide a definition of the largest URI that it will return.
+
+I have provided a definition of both options (OPTION A and OPTION B below).
+
+*Todo*
+   Consider which one is the better design for the API. Useful criteria include:
+
+   * Option A is generally simpler to use for the client.
+   * If a null-terminate URI is required Option B allows the caller to make the buffer large enough to always accommodate a zero byte at the end.
+   * Option A requires more care in the implementation to ensure that no internal Update-service data is written to the caller in unused bytes of the data structure.
+   * Option A might result in large stack allocation, if the implementation-defined size of the URI buffer is not considered by the application code.
+   * Option B can result in a run-time failure if the application does not provide a large enough buffer.
+   * Option A can result in a run-time failure if the URI in the manifest exceeds the size encoded in ``PSA_FWU_PAYLOAD_URI_MAX_SIZE``.
+
+*Todo*
+   Should we specify the encoding of the URI? - or is this already a standard, or defined by SUIT (e.g. UTF-8).
+
+New component states
+~~~~~~~~~~~~~~~~~~~~
+
+``PSA_FWU_FETCHING`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The FETCHING state: a manifest component requires processing to fetch additional payload images.
+
+.. code-block:: c
+
+   #define PSA_FWU_FETCHING 8u
+
+``PSA_FWU_INSTALLING`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The INSTALLING state: a manifest component requires processing to complete the installation process.
+
+.. code-block:: c
+
+   #define PSA_FWU_INSTALLING 9u
+
+New status codes
+~~~~~~~~~~~~~~~~
+
+``PSA_FWU_PROCESSING_REQUIRED`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The action is in progress, but a manifest component requires processing to continue the operation.
+
+.. code-block:: c
+
+   #define PSA_FWU_PROCESSING_REQUIRED ((psa_status_t)+3)
+
+This status can be returned by a call to ``psa_fwu_finish()``, or ``psa_fwu_install()``.
+
+If a SUIT manifest envelope component is transferred using ``psa_fwu_start()``, ``psa_fwu_write()``, and ``psa_fwu_finished()``; or if a SUIT manifest envelope components is installed using ``psa_fwu_install()``, then the last call can return ``PSA_FWU_PROCESSING_REQUIRED`` to indicate the update contains a manifest that requires further processing.
+
+The Update client resopnds to this by calling ``psa_fwu_process()`` to process the SUIT manifest.
+
+``PSA_FWU_PAYLOAD_REQUIRED`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The manifest processing has identified an additional payload that must be transferred.
+
+.. code-block:: c
+
+   #define PSA_FWU_PAYLOAD_REQUIRED ((psa_status_t)+4)
+
+This status can be returned by a call to ``psa_fwu_process()`` if the SUIT manifest requests an additional firmware payload.
+The Update client responds to this by fetching the requested payload, transferring it to the Update service, and then proceeding to process to the manifest.
+
+Manifest processing - OPTION A
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Include an implementation-defined size of URI buffer within an implementation-defined data structure to provide the payload information to the Update client.
+
+``PSA_FWU_PAYLOAD_URI_MAX_SIZE`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The implementation-defined size of the URI buffer in the payload information structure.
+
+.. code-block:: c
+
+   #define PSA_FWU_PAYLOAD_URI_MAX_SIZE /* implementation-defined value */
+
+See ``psa_fwu_payload_t``.
+
+``psa_fwu_payload_t`` (type)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A data structure used to provide information about a payload to be fetched.
+
+.. code-block:: c
+
+   typedef struct {
+      psa_fwu_component_t id;
+      size_t size;
+      size_t uri_length;
+      uint8_t uri[PSA_FWU_PAYLOAD_URI_MAX_SIZE];
+   } psa_fwu_payload_t;
+
+**Fields**
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``id``
+      -  The identifier of the payload, to use when transferring the payload to the Update service.
+   *  -  ``size``
+      -  The size, in bytes, of the firmware payload.
+   *  -  ``uri_length``
+      -  The length, in bytes, of the payload URI that is output in ``uri``.
+   *  -  ``uri``
+      -  The URI of the payload being requested.
+
+         The URI is **not** a null-terminated string.
+         The length of the URI is provided by ``uri_length``.
+
+         ``uri`` is a buffer of implementation-defined length.
+
+See ``psa_fwu_process()``.
+
+``psa_fwu_process`` (function)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Process a manifest component that is in FETCHING or INSTALLING state.
+
+.. code-block:: c
+
+   psa_status_t psa_fwu_process(psa_fwu_payload_t *payload);
+
+**Parameters**
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``payload``
+      -  A pointer to a data structure that is populated if with information about a required payload, if this function returns with the status code ``PSA_FWU_PAYLOAD_REQUIRED``.
+
+         Unchanged, if this function returns any other status.
+
+**Returns**: ``psa_status_t``
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``PSA_SUCCESS``
+      -  Manifest processing has completed successfully.
+
+         A component that was in the FETCHING state will now be in CANDIDATE state.
+         A component that was in the INSTALLING state will now be in UPDATED state.
+   *  -  ``PSA_FWU_PAYLOAD_REQUIRED``
+      -  Manifest processing is in progress, and an additional firmware payload is required.
+
+         Details of the required payload are output in the ``payload`` parameter.
+
+         The component remains in the same state.
+         *  -  ``PSA_FWU_REBOOT_REQUIRED``
+            -  Manifest processing has completed successfully.
+         Reboot is required to complete installation of the firmware.
+
+         The component will now be in the STAGED state.
+   *  -  ``PSA_FWU_RESTART_REQUIRED``
+      -  Manifest processing has completed successfully.
+         Restart of part of the system is required to complete installation of the firmware.
+
+         The component will now be in the STAGED state.
+   *  -  ``PSA_FWU_BAD_STATE``
+      -  Either:
+
+         *  The firmware is not in a FETCHING or INSTALLING state.
+         *  A payload transfer has been started while in FETCHING or INSTALLING state, but not completed or cancelled.
+
+Manifest processing - OPTION B
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Include just the fixed-size items in a payload information data structure, and report the payload URI into an application-defined buffer.
+
+``PSA_FWU_PAYLOAD_URI_MAX_SIZE`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The maximum size of a URI returned by ``psa_fwu_process()``.
+
+.. code-block:: c
+
+   #define PSA_FWU_PAYLOAD_URI_MAX_SIZE /* implementation-defined value */
+
+This value is implementation-defined.
+
+``psa_fwu_payload_t`` (type)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A data structure used to provide information about a payload to be fetched.
+
+.. code-block:: c
+
+   typedef struct {
+      psa_fwu_component_t id;
+      size_t size;
+   } psa_fwu_payload_t;
+
+**Fields**
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``id``
+      -  The identifier of the payload, to use when transferring the payload to the Update service.
+   *  -  ``size``
+      -  The size, in bytes, of the firmware payload.
+
+See ``psa_fwu_process()``.
+
+``psa_fwu_process`` (function)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Process a manifest component that is in FETCHING or INSTALLING state.
+
+.. code-block:: c
+
+   psa_status_t psa_fwu_process(psa_fwu_payload_t *payload, uint8_t *uri, size_t uri_size, size_t *uri_length);
+
+**Parameters**
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``payload``
+      -  A pointer to a data structure that is populated if with information about a required payload, if this function returns with the status code ``PSA_FWU_PAYLOAD_REQUIRED``.
+
+         Unchanged, if this function returns any other status.
+   *  -  ``uri``
+      -  Buffer where a payload URI can be returned.
+
+         If this function returns with the status code ``PSA_FWU_PAYLOAD_REQUIRED``, the buffer will be updated with the URI of the payload.
+         Otherwise, it will be unchanged.
+
+         The output URI is **not** a null-terminated string.
+         The length of the URI is reported in ``uri_length``.
+   *  -  ``uri_size``
+      -  Size of the ``uri`` buffer, in bytes.
+         This must be large enough for the payload URI, see ``PSA_FWU_PAYLOAD_URI_MAX_SIZE``.
+   *  -  ``uri_length``
+      -  If a payload is required, this is updated with the length of the URI written to the ``uri`` buffer.
+
+**Returns**: ``psa_status_t``
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``PSA_SUCCESS``
+      -  Manifest processing has completed successfully.
+
+         A component that was in the FETCHING state will now be in CANDIDATE state.
+         A component that was in the INSTALLING state will now be in UPDATED state.
+   *  -  ``PSA_FWU_PAYLOAD_REQUIRED``
+      -  Manifest processing is in progress, and an additional firmware payload is required.
+
+         Details of the required payload are output in the ``payload`` and ``uri`` parameters.
+
+         The component remains in the same state.
+   *  -  ``PSA_FWU_REBOOT_REQUIRED``
+      -  Manifest processing has completed successfully.
+         Reboot is required to complete installation of the firmware.
+
+         The component will now be in the STAGED state.
+   *  -  ``PSA_FWU_RESTART_REQUIRED``
+      -  Manifest processing has completed successfully.
+         Restart of part of the system is required to complete installation of the firmware.
+
+         The component will now be in the STAGED state.
+   *  -  ``PSA_FWU_BAD_STATE``
+      -  Either:
+
+         *  The firmware is not in a FETCHING or INSTALLING state.
+         *  A payload transfer has been started while in FETCHING or INSTALLING state, but not completed or cancelled.
+   *  -  ``PSA_ERROR_BUFFER_TOO_SMALL``
+      -  The ``uri`` buffer is not large enough for the URI.
+         See ``PSA_FWU_PAYLOAD_URI_MAX_SIZE``.
+
+         *Todo*
+            Is there value in providing a mechanism for the caller to determine the actual size required for the URI at runtime?
 
 Open Issues
 -----------
 
-*  Detailed API design.
 *  Final naming of API elements.
 *  Are there additional attributes for components that need to be included in the ``psa_fwu_component_info_t``?
-
+*  Manifest processing API: Option A or Option B.
+*  If Option B: is a mechanism needed for the caller to determine the required URI size?
+*  Are there, or should there be, constraints on the URI encoding?
 
 Revision history
 ----------------
+
+**v0.6** - 25/04/2024
+   Added detailed API definitions, which raises some new issues.
 
 **v0.5** - 19/04/2024
    Resolution of all substantial open issues:
