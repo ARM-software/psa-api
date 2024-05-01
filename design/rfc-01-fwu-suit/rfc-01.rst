@@ -205,14 +205,15 @@ The detailed steps of the flow are as follows (the numbers refer to the correspo
 
 *  6: The call to ``psa_fwu_finish()`` behaves differently when processing a SUIT envelope. On a successful transfer, the call will return a new response code, ``PSA_FWU_PROCESSING_REQUIRED``, to indicate that the component requires processing. At this point the envelope component will be in a new ``PSA_FWU_FETCHING`` state, instead of the typical ``PSA_FWU_CANDIDATE`` state.
 
-*  7: If processing is required, the Update client then calls ``psa_fwu_process()`` to begin manifest processing. At this point the Update service will do the following:
+*  7: If processing is required, the Update client then calls ``psa_fwu_process()`` to begin manifest processing. At this point the Update service will perform the SUIT Staging Procedure:
 
-   * Verify and authenticate the manifest.
-   * Process the Update command sequences: system validation, dependency resolution, payload fetch, payload verification.
+   * Authenticate the manifest.
+   * Verify the applicability of the update.
+   * Perform the Staging Procedure by processing the suit-resolve-dependencies and suit-payload-fetch command sequences.
 
 *  8: If a payload is required that is detached from the Envelope, the call to ``psa_fwu_process()`` returns with a new status code, ``PSA_FWU_PAYLOAD_REQUIRED``. The call to ``psa_fwu_process()`` includes an output parameter, which the service uses to provide the details of the payload to be transferred, including a component identifier for the payload (for use with ``psa_fwu_start()`` etc), and a URI for the payload.
 
-   *The Update service might also have information about the size and digest of the payload to be fetched. These could be optionally be provided with the payload URI: are there benefits in using this information to eliminate or detect incorrect or malicious transfers prior to transfer to the Update service?*
+   *The manifest might also have information about the size and digest of the payload to be fetched. These could be optionally be provided with the payload URI: are there benefits in using this information to eliminate or detect incorrect or malicious transfers prior to transfer to the Update service?*
 
    When there is no payload to transfer, the sequence continues at step 21.
 
@@ -226,9 +227,9 @@ The detailed steps of the flow are as follows (the numbers refer to the correspo
 
 *  22: To proceed with the installation, the Update client now calls ``psa_fwu_install()``.
 
-*  23: The flow in Figure 3 shows a system which requires a reboot to continue with the installation. The suit-install SUIT command sequences will be processed after the reboot.
+*  23: The flow in Figure 3 shows a system which requires a reboot to continue with the installation. The SUIT Installation and Invocation Procedures will be performed after the reboot.
 
-    In systems where the installation of the envelope component is achieved without a restart, the installation command sequence will be executed as part of the call to ``psa_fwu_install()``, and complete the installation. See `Fetching during install (without reboot)`_ below.
+    In systems where the installation of the envelope component is achieved without a restart, the Installation Procedure will be performed following the call to ``psa_fwu_install()``, and complete the installation. See `Fetching during install (without reboot)`_ below.
 
 *  25: Following reboot, the bootloader determines that there is an update to install, and proceeds with the installation and invocation SUIT processes.
 
@@ -245,7 +246,7 @@ One possible approach is shown in `Figure 4 <fig-no-reboot_>`_.
 
    **Figure 4** *Fetching payloads during suit-install without rebooting*
 
-   The payload fetching sequences are elided to highlight the second SUIT processing phase after the call to ``psa_fwu_install()``.
+   The payload fetching sequences are elided to highlight the SUIT processing that follows the call to ``psa_fwu_install()``.
 
 This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 23 onwards.
 
@@ -253,14 +254,14 @@ This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 23 onwards.
 
     This state is distinct from the FETCHING state used following transfer of the envelope, because the installation process can be destructive of the active firmware images, and aborting the update at this point is more complex as updated firmware will need to be reverted.
 
-*   24: As for the earlier processing phase, the Update client uses ``psa_fwu_process()`` to process of the installation commands sequences. If this sequence requests additional payloads, this results in payload fetch requests, in the same manner as in the FETCHING state, see steps 7 - 21 in `Figure 3 <fig-fetch_>`_.
+*   24: As for the earlier processing phase, the Update client uses ``psa_fwu_process()`` to process the Installation Procedure command sequences. If this sequence requests additional payloads, this results in payload fetch requests, in the same manner as in the FETCHING state, see steps 7 - 21 in `Figure 3 <fig-fetch_>`_.
 
-*   26: After the SUIT installation has completed, the system can then load and invoke the updated firmware.
+*   26: After the SUIT installation has completed, the system can perform the SUIT Invocation Procedure for the updated firmware.
 
 Fetching during install (after reboot)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In systems where the installation occurs following reboot, or in a special execution state of the system, the implementation might choose to use the Firmware Update API between a trusted installer and a payload fetcher application. Although the interfaces used for this can be implementation-defined, `Figure 5 <fig-installer_>`_ is an example of how this could be done using the Firmware Update API.
+In systems where the installation occurs following reboot, or in a special execution state of the system, the implementation might choose to use the Firmware Update API between the trusted installer and a payload fetcher application. Although the interfaces used for this can be implementation-defined, `Figure 5 <fig-installer_>`_ is an example of how this could be done using the Firmware Update API.
 
 .. _fig-installer:
 
@@ -276,11 +277,11 @@ This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 25 onwards.
 
 *   27: The Payload fetcher in this example is the client of the Firmware Update API.
 
-*   28: The payload fetcher requests the processing of the SUIT manifest, and handles requests to fetch additional payloads.
+*   28: The payload fetcher requests the processing of the SUIT Installation Procedure command sequences, and handles requests to fetch additional payloads.
 
     The flow here is the same as the payload fetching phase that can follow the call to ``psa_fwu_install()`` for components that do not require a reboot. See steps 24 - 26 in `Figure 4 <fig-no-reboot_>`_.
 
-*   40: After the installation processing completes, the Payload fetcher returns control to the Installer, which can restart the system to finally execute the updated firmware.
+*   40: After the Installation Procedure completes, the Payload fetcher returns control to the Installer, which can restart the system to load and execute the updated firmware.
 
 Errors
 ~~~~~~
@@ -292,9 +293,9 @@ If an error occurs while transferring a payload component, that payload componen
 Dependency manifests
 ~~~~~~~~~~~~~~~~~~~~
 
-In SUIT, a dependency manifest (one nested within a dependent manifest) is not processed in an isolated manner. Instead, all dependency manifests, including those nested at deeper levels, are identified and fetched before any other payload. Then the full set of manifests is involved in each of the subsequent command processing stages of the SUIT top-level (root) manifest.
+In SUIT, a dependency manifest (one nested within a dependent manifest) is not processed in an isolated manner. Instead, all dependency manifests, including those nested at deeper levels, are identified, fetched, and optionally verified before any non-dependency payload. This ensures that the full set of manifests is available when processing subsequent command sequences.
 
-The invocation of commands sequences within dependency manifests is governed by the command sequences within the dependent manifest, rather than by an architecturally defined process within SUIT.
+The top-level manifest command sequences are processed during the applicable SUIT procedures. The execution of command sequences within dependency manifests is governed by the command sequences within the dependent manifest, rather than by an architecturally defined process within SUIT.
 
 In the proposed API, this is transparent to the Update client. When processing the root manifest, all of the detached manifest payloads will be requested from the Update client first, and the non-manifest component payloads after that. There is no difference in the Update client operation, these are just payloads being transferred to the Update service.
 
@@ -468,7 +469,7 @@ A data structure used to provide information about a payload to be fetched.
       -  The URI of the payload being requested.
 
          The URI is **not** a null-terminated string.
-         The length of the URI is provided by ``uri_length``.
+         The length of a returned URI is provided by ``uri_length``.
 
          ``uri`` is a buffer of implementation-defined length.
 
@@ -507,10 +508,11 @@ Process a manifest component that is in FETCHING or INSTALLING state.
       -  Manifest processing is in progress, and an additional firmware payload is required.
 
          Details of the required payload are output in the ``payload`` parameter.
+         The URI returned in ``payload->uri`` conforms to RFC 3986.
 
          The component remains in the same state.
-         *  -  ``PSA_FWU_REBOOT_REQUIRED``
-            -  Manifest processing has completed successfully.
+   *  -  ``PSA_FWU_REBOOT_REQUIRED``
+      -  Manifest processing has completed successfully.
          Reboot is required to complete installation of the firmware.
 
          The component will now be in the STAGED state.
@@ -524,6 +526,10 @@ Process a manifest component that is in FETCHING or INSTALLING state.
 
          *  The firmware is not in a FETCHING or INSTALLING state.
          *  A payload transfer has been started while in FETCHING or INSTALLING state, but not completed or cancelled.
+
+*Note:*
+   The ``payload`` parameter is only updated if the call returns ``PSA_FWU_PAYLOAD_REQUIRED``.
+   For any other result status, ``payload`` is not modified.
 
 Manifest processing - OPTION B
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -589,7 +595,8 @@ Process a manifest component that is in FETCHING or INSTALLING state.
          If this function returns with the status code ``PSA_FWU_PAYLOAD_REQUIRED``, the buffer will be updated with the URI of the payload.
          Otherwise, it will be unchanged.
 
-         The output URI is **not** a null-terminated string.
+         The output URI in ``uri`` is **not** a null-terminated string.
+         The URI conforms to RFC 3986.
          The length of the URI is reported in ``uri_length``.
    *  -  ``uri_size``
       -  Size of the ``uri`` buffer, in bytes.
@@ -635,6 +642,10 @@ Process a manifest component that is in FETCHING or INSTALLING state.
          *Todo*
             Is there value in providing a mechanism for the caller to determine the actual size required for the URI at runtime?
 
+*Note:*
+   The ``payload`` and ``uri`` parameters are only updated if the call returns ``PSA_FWU_PAYLOAD_REQUIRED``.
+   For any other result status, ``payload`` and ``uri`` are not modified.
+
 Open Issues
 -----------
 
@@ -642,10 +653,18 @@ Open Issues
 *  Are there additional attributes for components that need to be included in the ``psa_fwu_component_info_t``?
 *  Manifest processing API: Option A or Option B.
 *  If Option B: is a mechanism needed for the caller to determine the required URI size?
-*  Are there, or should there be, constraints on the URI encoding?
+*  Are there clear use cases where optional availability of a payload size or digest is valuable for the Update client when fetching a payload?
 
 Revision history
 ----------------
+
+**v0.7** - 01/05/2024
+   Corrections in response to feedback:
+
+   * Align the description of steps in the flow with the graphics.
+   * Use the SUIT procedure terminology consistently.
+   * Corrected the description of dependency manifest processing.
+   * Specified RFC3986 in relation to the URI encoding, aligned with SUIT.
 
 **v0.6** - 25/04/2024
    Added detailed API definitions, which raises some new issues.
