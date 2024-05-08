@@ -591,7 +591,7 @@ Multi-part PAKE operations
 
             psa_pake_operation_t operation = PSA_PAKE_OPERATION_INIT;
 
-    *   Assign the result of the function `psa_pake_cipher_suite_init()` to the object, for example:
+    *   Assign the result of the function `psa_pake_operation_init()` to the object, for example:
 
         .. code-block:: xref
 
