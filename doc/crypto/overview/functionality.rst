@@ -169,6 +169,7 @@ the use of a multi-part operation:
 *   Using a deterministic IV for unauthenticated encryption.
 *   Providing the IV separately for unauthenticated encryption or decryption.
 *   Separating the AEAD authentication tag from the cipher text.
+*   Password-authenticated key exchange (PAKE) is a multi-step process.
 
 Each multi-part operation defines a specific object type to maintain the state
 of the operation. These types are implementation-defined.
@@ -209,9 +210,9 @@ The typical sequence of actions with a multi-part operation is as follows:
     On success, a setup function will put an operation object into an *active*
     state. On failure, the operation object will remain *inactive*.
 
-#.  **Update:** Update an *active* operation object. The update function can
-    provide additional parameters, supply data for processing or generate
-    outputs.
+#.  **Update:** Update an *active* operation object. Each operation object
+    defines one or more update functions, which are used to provide additional
+    parameters, supply data for processing or generate outputs.
 
     On success, the operation object remains *active*. On failure, the
     operation object will enter an *error* state.
