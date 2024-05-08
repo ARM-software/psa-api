@@ -140,7 +140,7 @@ Cryptographic operations
 
 For each type of cryptographic operation, the API can include:
 
-*   One or more *single-part* functions, that carry out one function of that operation. For example, compute, verify, encrypt, or decrypt.
+*   One or more *single-part* functions, which perform a whole operation in a single function call. For example, compute, verify, encrypt or decrypt.
 *   A *multi-part operation* --- which is a series of functions that work with a stored operation state.
 
 Single-part Functions
