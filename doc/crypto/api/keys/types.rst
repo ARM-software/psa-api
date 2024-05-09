@@ -428,6 +428,18 @@ Symmetric keys
 
 .. _asymmetric-keys:
 
+Asymmetric keys
+---------------
+
+The |API| defines the following types of asymmetric key:
+
+* :secref:`rsa-keys`
+* :secref:`ecc-keys`
+* :secref:`dh-keys`
+* :secref:`spake2p-keys`
+
+.. _rsa-keys:
+
 RSA keys
 --------
 
@@ -474,6 +486,8 @@ RSA keys
     .. param:: type
         A key type: a value of type `psa_key_type_t`.
 
+.. _ecc-keys:
+
 Elliptic Curve keys
 -------------------
 
@@ -486,7 +500,7 @@ Elliptic Curve keys
 
     The specific ECC curve within a family is identified by the ``key_bits`` attribute of the key.
 
-    The range of Elliptic curve family identifier values is divided as follows:
+    The range of elliptic curve family identifier values is divided as follows:
 
     :code:`0x00`
         Reserved. Not allocated to an ECC family.
@@ -502,16 +516,16 @@ Elliptic Curve keys
     .. summary::
         Elliptic curve key pair: both the private and public key.
 
-    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each Elliptic curve family for details.
+    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each elliptic curve family for details.
 
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.
 
     .. subsection:: Compatible algorithms
 
-        Elliptic curve key pairs can be used in Asymmetric signature and Key agreement algorithms.
+        elliptic curve key pairs can be used in Asymmetric signature and Key agreement algorithms.
 
-        The set of compatible algorithms depends on the Elliptic curve key family. See the Elliptic curve family for details.
+        The set of compatible algorithms depends on the elliptic curve key family. See the elliptic curve family for details.
 
 .. macro:: PSA_KEY_TYPE_ECC_PUBLIC_KEY
     :definition: /* specification-defined value */
@@ -522,13 +536,13 @@ Elliptic Curve keys
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.
 
-    The size of an elliptic curve public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ECC_KEY_PAIR()` and the documentation of each Elliptic curve family for details.
+    The size of an elliptic curve public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ECC_KEY_PAIR()` and the documentation of each elliptic curve family for details.
 
     .. subsection:: Compatible algorithms
 
         Elliptic curve public keys can be used for verification in Asymmetric signature algorithms.
 
-        The set of compatible algorithms depends on the Elliptic curve key family. See each Elliptic curve family for details.
+        The set of compatible algorithms depends on the elliptic curve key family. See each elliptic curve family for details.
 
 .. macro:: PSA_ECC_FAMILY_SECP_K1
     :definition: ((psa_ecc_family_t) 0x17)
@@ -792,6 +806,8 @@ Elliptic Curve keys
     .. return:: psa_ecc_family_t
         The elliptic curve family id, if ``type`` is a supported elliptic curve key. Unspecified if ``type`` is not a supported elliptic curve key.
 
+.. _dh-keys:
+
 Diffie Hellman keys
 -------------------
 
@@ -919,6 +935,97 @@ Diffie Hellman keys
 
     .. return:: psa_dh_family_t
         The Diffie-Hellman group family id, if ``type`` is a supported Diffie-Hellman key. Unspecified if ``type`` is not a supported Diffie-Hellman key.
+
+.. _spake2p-keys:
+
+SPAKE2+ keys
+~~~~~~~~~~~~
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ key pair: both the prover and verifier key.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the elliptic curve family to be used.
+
+    The bit-size of a SPAKE2+ key is the size associated with the elliptic curve group, that is, :math:`\lceil{log_2(q)}\rceil` for a curve over a field :math:`\mathbb{F}_q`.
+    See :secref:`ecc-keys` for details of each elliptic curve family.
+
+    To create a new SPAKE2+ key pair, use :code:`psa_key_derivation_output_key()` as described in :secref:`spake2p-registration`.
+    The SPAKE2+ protocol recommends that a key-stretching key-derivation function, such as PBKDF2, is used to hash the SPAKE2+ password.
+    This follows the recommended process described in :rfc:`9383`.
+
+    A SPAKE2+ key pair can also be imported from a previously exported SPAKE2+ key pair.
+
+    The corresponding public key can be exported using :code:`psa_export_public_key()`.
+    See also `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_SPAKE2P_HMAC`
+        | `PSA_ALG_SPAKE2P_CMAC`
+        | `PSA_ALG_SPAKE2P_MATTER`
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SPAKE2+ public key: the verifier key.
+
+    .. param:: curve
+        A value of type :code:`psa_ecc_family_t` that identifies the elliptic curve family to be used.
+
+    The bit-size of an SPAKE2+ public key is the same as the corresponding private key.
+    See `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` and the documentation of each elliptic curve family for details.
+
+    To construct a SPAKE2+ public key, it must be imported.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_SPAKE2P_HMAC` (verification only)
+        | `PSA_ALG_SPAKE2P_CMAC` (verification only)
+        | `PSA_ALG_SPAKE2P_MATTER` (verification only)
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key, either a key pair or a public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ key pair.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a SPAKE2+ public key.
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_SPAKE2P_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the curve family from a SPAKE2+ key type.
+
+    .. param:: type
+        A SPAKE2+ key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SPAKE2P(type)` is true.
+
+    .. return:: psa_ecc_family_t
+        The elliptic curve family id, if ``type`` is a supported SPAKE2+ key. Unspecified if ``type`` is not a supported SPAKE2+ key.
 
 Attribute accessors
 -------------------

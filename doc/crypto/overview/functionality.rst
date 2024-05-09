@@ -4,7 +4,7 @@
 .. _functionality-overview:
 
 Functionality overview
-----------------------
+======================
 
 This section provides a high-level overview of the functionality provided by the
 interface defined in this specification. Refer to the
@@ -17,7 +17,7 @@ Due to the modularity of the interface, almost every part of the library is
 optional. The only mandatory function is `psa_crypto_init()`.
 
 Library management
-~~~~~~~~~~~~~~~~~~
+------------------
 
 Applications must call `psa_crypto_init()` to initialize the library before
 using any other function.
@@ -25,7 +25,7 @@ using any other function.
 .. _key-overview:
 
 Key management
-~~~~~~~~~~~~~~
+--------------
 
 Applications always access keys indirectly via an identifier, and can perform
 operations using a key without accessing the key material. This allows keys to
@@ -50,6 +50,7 @@ Keys are created using one of the *key creation functions*:
 *   `psa_generate_key()`
 *   `psa_key_derivation_output_key()`
 *   `psa_key_agreement()`
+*   `psa_pake_get_shared_key()`
 *   `psa_copy_key()`
 
 These output the key identifier, that is used to access the key in all other parts of the API.
@@ -67,7 +68,7 @@ application is prepared to handle a failure of the operation.
 .. _key-types-intro:
 
 Key types
-^^^^^^^^^
+~~~~~~~~~
 
 Each cryptographic algorithm requires a key that has the right form, in terms of the size of the key material and its numerical properties. The key type and key size encode that information about a key, and determine whether the key is compatible with a cryptographic algorithm.
 
@@ -78,7 +79,7 @@ See :secref:`key-types`.
 .. _key-ids:
 
 Key identifiers
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 
 Key identifiers are integral values that act as permanent names for persistent keys, or as transient references to volatile keys. Key identifiers are defined by the application for persistent keys, and by the implementation for volatile keys and for built-in keys.
 
@@ -93,7 +94,7 @@ See :secref:`key-identifiers`.
 .. _key-life:
 
 Key lifetimes
-^^^^^^^^^^^^^
+~~~~~~~~~~~~~
 
 The lifetime of a key indicates where it is stored and which application and system actions will create and destroy it.
 
@@ -108,12 +109,12 @@ See :secref:`key-lifetimes`.
 .. _key-usage-policies:
 
 Key policies
-^^^^^^^^^^^^
+~~~~~~~~~~~~
 
 All keys have an associated policy that regulates which operations are permitted on the key. Each key policy is a set of usage flags and a specific algorithm that is permitted with the key. See :secref:`key-policy`.
 
 Recommendations of minimum standards for key management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most implementations provide the following functions:
 
@@ -134,28 +135,16 @@ Most implementations provide the following functions:
     designed to work only with short-term keys, or only with long-term
     non-extractable keys, do not need to provide this function.
 
-Symmetric cryptography
-~~~~~~~~~~~~~~~~~~~~~~
+Cryptographic operations
+------------------------
 
-This specification defines interfaces for the following types of symmetric
-cryptographic operation:
+For each type of cryptographic operation, the API can include:
 
-*   Message digests, commonly known as hash functions. See :secref:`hashes`.
-*   Message authentication codes (MAC). See :secref:`macs`.
-*   Symmetric ciphers. See :secref:`ciphers`.
-*   Authenticated encryption with associated data (AEAD). See :secref:`aead`.
-*   Key derivation. See :secref:`kdf`.
-
-For each type of symmetric cryptographic operation, the API can include:
-
-*   A pair of *single-part* functions. For example, compute and verify, or
-    encrypt and decrypt.
-*   A series of functions that permit *multi-part operations*.
-
-Key derivation only provides multi-part operation, to support the flexibility required by these type of algorithms.
+*   One or more *single-part* functions, which perform a whole operation in a single function call. For example, compute, verify, encrypt or decrypt.
+*   A *multi-part operation* --- which is a series of functions that work with a stored operation state.
 
 Single-part Functions
-^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~
 
 Single-part functions are APIs that implement the cryptographic operation in a
 single function call. This is the easiest API to use when all of the inputs and
@@ -168,7 +157,7 @@ use of a `multi-part operation <multi-part-operations>`.
 .. _multi-part-operations:
 
 Multi-part operations
-^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~
 
 Multi-part operations are APIs which split a single cryptographic operation into
 a sequence of separate steps. This enables fine control over the configuration
@@ -180,6 +169,7 @@ the use of a multi-part operation:
 *   Using a deterministic IV for unauthenticated encryption.
 *   Providing the IV separately for unauthenticated encryption or decryption.
 *   Separating the AEAD authentication tag from the cipher text.
+*   Password-authenticated key exchange (PAKE) is a multi-step process.
 
 Each multi-part operation defines a specific object type to maintain the state
 of the operation. These types are implementation-defined.
@@ -220,9 +210,9 @@ The typical sequence of actions with a multi-part operation is as follows:
     On success, a setup function will put an operation object into an *active*
     state. On failure, the operation object will remain *inactive*.
 
-#.  **Update:** Update an *active* operation object. The update function can
-    provide additional parameters, supply data for processing or generate
-    outputs.
+#.  **Update:** Update an *active* operation object. Each operation object
+    defines one or more update functions, which are used to provide additional
+    parameters, supply data for processing or generate outputs.
 
     On success, the operation object remains *active*. On failure, the
     operation object will enter an *error* state.
@@ -263,7 +253,6 @@ The typical sequence of actions with a multi-part operation is as follows:
 
     For many applications, there is also (non-psa/crypto) local activity during a multipart operation that can give rise to errors that would result in the application choosing to abort the operation. Thus, requiring the application to always call ``psa_xxx_abort()`` on an error does not automatically lead to extra code in the application, and may have no effect on the application code size.
 
-
 Once an operation object is returned to the *inactive* state, it can be reused
 by calling one of the applicable setup functions again.
 
@@ -293,6 +282,20 @@ behaviors:
 Each type of multi-part operation can have multiple *active* states.
 Documentation for the specific operation describes the configuration and update
 functions, and any requirements about their usage and ordering.
+
+Symmetric cryptography
+~~~~~~~~~~~~~~~~~~~~~~
+
+This specification defines interfaces for the following types of symmetric
+cryptographic operation:
+
+*   Message digests, commonly known as hash functions. See :secref:`hashes`.
+*   Message authentication codes (MAC). See :secref:`macs`.
+*   Symmetric ciphers. See :secref:`ciphers`.
+*   Authenticated encryption with associated data (AEAD). See :secref:`aead`.
+*   Key derivation. See :secref:`kdf`.
+
+Key derivation only provides multi-part operation, to support the flexibility required by these type of algorithms.
 
 .. _symmetric-crypto-example:
 
@@ -339,12 +342,12 @@ This specification defines interfaces for the following types of asymmetric cryp
 *   Asymmetric encryption (also known as public key encryption). See :secref:`pke`.
 *   Asymmetric signature. See :secref:`sign`.
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
+*   Password-authenticated key exchange (PAKE). See :secref:`pake`.
 
-For asymmetric encryption and signature, the API provides *single-part* functions. For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
-
+For asymmetric encryption and signature, the API provides *single-part* functions. For key agreement, the API provides single-part functions and an additional input method for a key derivation operation. For PAKE, the API provides a multi-part operation.
 
 Randomness and key generation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 We strongly recommended that implementations include a random generator,
 consisting of a cryptographically secure pseudo-random generator (CSPRNG), which

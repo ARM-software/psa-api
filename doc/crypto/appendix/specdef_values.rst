@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _appendix-specdef-values:
@@ -109,6 +109,9 @@ Algorithm macros
     #define PSA_ALG_IS_HMAC(alg) \
         (((alg) & 0x7fc0ff00) == 0x03800000)
 
+    #define PSA_ALG_IS_JPAKE(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000100)
+
     #define PSA_ALG_IS_KEY_AGREEMENT(alg) \
         (((alg) & 0x7f000000) == 0x09000000)
 
@@ -120,6 +123,9 @@ Algorithm macros
 
     #define PSA_ALG_IS_MAC(alg) \
         (((alg) & 0x7f000000) == 0x03000000)
+
+    #define PSA_ALG_IS_PAKE(alg) \
+        (((alg) & 0x7f000000) == 0x0a000000)
 
     #define PSA_ALG_IS_PBKDF2_HMAC(alg) \
         (((alg) & ~0x000000ff) == 0x08800100)
@@ -155,6 +161,15 @@ Algorithm macros
     #define PSA_ALG_IS_SP800_108_COUNTER_HMAC(alg) \
         (((alg) & ~0x000000ff) == 0x08000700)
 
+    #define PSA_ALG_IS_SPAKE2P(alg) \
+        (((alg) & ~0x000003ff) == 0x0a000400)
+
+    #define PSA_ALG_IS_SPAKE2P_CMAC(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000500)
+
+    #define PSA_ALG_IS_SPAKE2P_HMAC(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000400)
+
     #define PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg) \
         (((alg) & 0x7f00ffff) == 0x09000000)
 
@@ -171,6 +186,9 @@ Algorithm macros
         ((PSA_ALG_GET_HASH(alg) == PSA_ALG_ANY_HASH) || \
          (((alg) & 0x7f008000) == 0x03008000) || \
          (((alg) & 0x7f008000) == 0x05008000))
+
+    #define PSA_ALG_JPAKE(hash_alg) \
+        ((psa_algorithm_t) (0x0a000100 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_KEY_AGREEMENT(ka_alg, kdf_alg) \
         ((ka_alg) | (kdf_alg))
@@ -199,6 +217,12 @@ Algorithm macros
     #define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
         ((psa_algorithm_t) (0x08000700 | ((hash_alg) & 0x000000ff)))
 
+    #define PSA_ALG_SPAKE2P_CMAC(hash_alg) \
+        ((psa_algorithm_t) (0x0a000500 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_SPAKE2P_HMAC(hash_alg) \
+        ((psa_algorithm_t) (0x0a000400 | ((hash_alg) & 0x000000ff)))
+
     #define PSA_ALG_TLS12_PRF(hash_alg) \
         ((psa_algorithm_t) (0x08000200 | ((hash_alg) & 0x000000ff)))
 
@@ -207,6 +231,20 @@ Algorithm macros
 
     #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
         ((psa_algorithm_t) (((mac_alg) & ~0x003f8000) | (((mac_length) & 0x3f) << 16)))
+
+    #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
+        ((pake_bits & 0xFFFF) != pake_bits) ? 0 :                 \
+        ((psa_pake_primitive_t) (((pake_type) << 24 |             \
+                (pake_family) << 16) | (pake_bits)))
+
+    #define PSA_PAKE_PRIMITIVE_GET_BITS(pake_primitive) \
+        ((size_t)(pake_primitive & 0xFFFF))
+
+    #define PSA_PAKE_PRIMITIVE_GET_FAMILY(pake_primitive) \
+        ((psa_pake_family_t)((pake_primitive >> 16) & 0xFF))
+
+    #define PSA_PAKE_PRIMITIVE_GET_TYPE(pake_primitive) \
+        ((psa_pake_primitive_type_t)((pake_primitive >> 24) & 0xFF))
 
 Key type macros
 ~~~~~~~~~~~~~~~
@@ -264,6 +302,15 @@ Key type macros
     #define PSA_KEY_TYPE_IS_RSA(type) \
         (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4001)
 
+    #define PSA_KEY_TYPE_IS_SPAKE2P(type) \
+        ((PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) & 0xff00) == 0x4400)
+
+    #define PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR(type) \
+        (((type) & 0xff00) == 0x7400)
+
+    #define PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY(type) \
+        (((type) & 0xff00) == 0x4400)
+
     #define PSA_KEY_TYPE_IS_UNSTRUCTURED(type) \
         (((type) & 0x7000) == 0x1000 || ((type) & 0x7000) == 0x2000)
 
@@ -272,6 +319,15 @@ Key type macros
 
     #define PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) \
         ((psa_key_type_t) ((type) & ~0x3000))
+
+    #define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) \
+        ((psa_ecc_family_t) ((type) & 0x00ff))
+
+    #define PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(curve) \
+        ((psa_key_type_t) (0x7400 | (curve)))
+
+    #define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
+        ((psa_key_type_t) (0x4400 | (curve)))
 
 Hash suspend state macros
 ~~~~~~~~~~~~~~~~~~~~~~~~~
