@@ -937,7 +937,7 @@ Key derivation functions
 
      .. note::
 
-        This function is equivalent to calling `psa_key_derivation_output_key_ext()` with the production parameters `PSA_KEY_PRODUCTION_PARAMETERS_INIT` and ``params_data_length == 0`` (``params->data`` is empty).
+        This function is equivalent to calling `psa_key_derivation_output_key_ext()` with the production parameters `PSA_KEY_PRODUCTION_PARAMETERS_INIT` and ``params_data_length == 0`` (``params->data`` is ignored).
 
 .. function:: psa_key_derivation_output_key_ext
 
@@ -965,8 +965,10 @@ Key derivation functions
 
         When this is `PSA_KEY_PRODUCTION_PARAMETERS_INIT` with ``params_data_length == 0``,
         this function is equivalent to `psa_key_derivation_output_key()`.
+    .. param:: const uint8_t *params_data
+        A buffer containing additional variable-sized production parameters.
     .. param:: size_t params_data_length
-        Length of ``params->data`` in bytes.
+        Length of ``params_data`` in bytes.
     .. param:: mbedtls_svc_key_id_t *key
         On success, an identifier for the newly created key.
         For persistent keys, this is the key identifier defined in ``attributes``.

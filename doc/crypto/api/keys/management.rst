@@ -123,12 +123,10 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. field:: uint32_t flags
         Flags to control the key production process.
         ``0`` for the default production parameters.
-    .. field:: uint8_t data[]
-        A flexible array of bytes.
 
     .. note::
 
-        Future versions may add other fields in this structure.
+        Future versions of the specification, and implementations, may add other fields in this structure.
 
     The interpretation of this structure depends on the type of the key. :numref:`tab-production-parameters` shows the production parameters for each type of key. See the key type definitions for details of the valid parameter values.
 
@@ -231,7 +229,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. note::
 
-        This function is equivalent to calling `psa_generate_key_ext()` with the production parameters `PSA_KEY_PRODUCTION_PARAMETERS_INIT` and ``params_data_length == 0`` (``params->data`` is empty).
+        This function is equivalent to calling `psa_generate_key_ext()` with the production parameters `PSA_KEY_PRODUCTION_PARAMETERS_INIT` and ``params_data_length == 0`` (``params_data`` is ignored).
 
 .. function:: psa_generate_key_ext
 
@@ -255,8 +253,10 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         Customization parameters for the key generation.
 
         When this is `PSA_KEY_PRODUCTION_PARAMETERS_INIT` with ``params_data_length == 0``, this function is equivalent to `psa_generate_key()`.
+    .. param:: const uint8_t *params_data
+        A buffer containing additional variable-sized production parameters.
     .. param:: size_t params_data_length
-        Length of ``params->data`` in bytes.
+        Length of ``params_data`` in bytes.
     .. param:: mbedtls_svc_key_id_t *key
         On success, an identifier for the newly created key.
         For persistent keys, this is the key identifier defined in ``attributes``.
