@@ -26,7 +26,6 @@ typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
 typedef struct psa_key_production_parameters_t {
     uint32_t flags;
-    uint8_t data[];
 } psa_key_production_parameters_t;
 #define PSA_AEAD_DECRYPT_OUTPUT_MAX_SIZE(ciphertext_length) \
     /* implementation-defined value */
@@ -512,6 +511,7 @@ psa_status_t psa_generate_key(const psa_key_attributes_t * attributes,
                               psa_key_id_t * key);
 psa_status_t psa_generate_key_ext(const psa_key_attributes_t *attributes,
                                   const psa_key_production_parameters_t *params,
+                                  const uint8_t *params_data,
                                   size_t params_data_length,
                                   mbedtls_svc_key_id_t *key);
 psa_status_t psa_generate_random(uint8_t * output,
@@ -597,6 +597,7 @@ psa_status_t psa_key_derivation_output_key(const psa_key_attributes_t * attribut
 psa_status_t psa_key_derivation_output_key_ext(const psa_key_attributes_t *attributes,
                                                psa_key_derivation_operation_t *operation,
                                                const psa_key_production_parameters_t *params,
+                                               const uint8_t *params_data,
                                                size_t params_data_length,
                                                mbedtls_svc_key_id_t *key);
 psa_status_t psa_key_derivation_set_capacity(psa_key_derivation_operation_t * operation,
