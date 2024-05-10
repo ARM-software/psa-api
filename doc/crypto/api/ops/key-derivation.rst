@@ -917,7 +917,7 @@ Key derivation functions
 
     If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
-    How much output is produced and consumed from the operation, and how the key is derived, depends on the key type. The key derivation procedures for standard key derivation algorithms are described as part of each key definition. Implementations can use other methods for implementation-specific algorithms.
+    How much output is produced and consumed from the operation, and how the key is derived, depends on the key type. The key derivation procedures for standard key derivation algorithms are described in the *Key derivation* section of each key definition in :secref:`key-types`. Implementations can use other methods for implementation-specific algorithms.
 
     .. rationale::
 
