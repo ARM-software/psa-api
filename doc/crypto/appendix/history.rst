@@ -21,6 +21,15 @@ Changes to the API
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
 
+*   Reworked the allocation of bits in the encoding of asymmetric keys, to increase the scope for additional asymmetric key types:
+
+    -   Bit 7 was previously an unused indicator for :sc:`implementation defined` family values, and is now allocated to the ASYM-TYPE.
+    -   ASYM-TYPE 0 is now a category for non-parameterized asymmetric keys, of which RSA is one specific type.
+
+    This has no effect on any currently allocated key type values, but affects the correct implementation of macros used to manipulate asymmetric key types.
+
+    See :secref:`asymmetric-key-encoding` and :secref:`appendix-specdef-key-values`.
+
 Other changes
 ~~~~~~~~~~~~~
 
