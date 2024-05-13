@@ -268,9 +268,9 @@ The typical sequence of actions with a interruptible operation is as follows:
 
 #.  **Begin-setup:** Start a new interruptible operation on an *inactive* operation object. Each operation object will define one or more setup functions to start a specific operation.
 
-    On success, an operation object enters a *starting* state. On failure, the operation object will remain *inactive*.
+    On success, an operation object enters a *setup* state. On failure, the operation object will remain *inactive*.
 
-#.  **Complete-setup:** Complete the operation setup on an interruptible operation object that is *starting*.
+#.  **Complete-setup:** Complete the operation setup on an interruptible operation object that is in *setup* state.
 
     If the setup computation is interrupted, a the operation remains in *setup* state. If setup completes successfully, the operation enters an *input* state. On failure, the operation object will enter an *error* state.
 
