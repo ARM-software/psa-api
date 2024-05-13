@@ -225,7 +225,7 @@ Each type of multi-part operation can have multiple *active* states. Documentati
 .. _interruptible-operations:
 
 Interruptible operations
-^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Interruptible operations are APIs which split a single computationally-expensive operation into a sequence of separate function calls, each of which has a bounded execution time. Interruptible operations are useful in application contexts where responsiveness is critical, and techniques such a multi-threading are not available. This is achieved by limiting the amount of computational progress that is made for each function call.
 
