@@ -120,7 +120,7 @@ The API supports cryptographic operations through two kinds of interfaces:
 
 *   A *multi-part operation* is a set of functions that work with a stored operation state. This provides more control over operation configuration, piecewise processing of large input data, or handling for multi-step processes. See :secref:`multi-part-operations`.
 
-Depending on the mechanism, one or both kind of interfaces may be provided.
+*   An *interruptible operation* is also a set of functions that work with a stored operation state. However, these operations are for computationally expensive algorithms (for example, digital signatures), and enable the application to limit the computation performed in a single function call. See :secref:`interruptible-operations`.
 
 .. _single-part-functions:
 
@@ -133,6 +133,7 @@ Single-part functions do not meet the needs of all use cases:
 
 *   Some use cases involve messages that are too large to be assembled in memory, or require non-default configuration of the algorithm. These use cases require the use of a `multi-part operation <multi-part-operations>`.
 
+*   Some use cases require that the time spent in a single function call is bounded. For some algorithms, this result can be achieved using a multi-part operation. For algorithms that involve computationally expensive steps, the use case requires the use of an `interruptible operation <interruptible-operations>`.
 
 .. _multi-part-operations:
 
@@ -221,69 +222,6 @@ It is safe to move a multi-part operation object to a different memory location,
 
 Each type of multi-part operation can have multiple *active* states. Documentation for the specific operation describes the configuration and update functions, and any requirements about their usage and ordering.
 
-Symmetric cryptography
-~~~~~~~~~~~~~~~~~~~~~~
-
-This specification defines interfaces for the following types of symmetric
-cryptographic operation:
-
-*   Message digests, commonly known as hash functions. See :secref:`hashes`.
-*   Message authentication codes (MAC). See :secref:`macs`.
-*   Symmetric ciphers. See :secref:`ciphers`.
-*   Authenticated encryption with associated data (AEAD). See :secref:`aead`.
-*   Key derivation. See :secref:`kdf`.
-
-Key derivation only provides multi-part operation, to support the flexibility required by these type of algorithms.
-
-.. _symmetric-crypto-example:
-
-Example of the symmetric cryptography API
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Here is an example of a use case where a master key is used to generate both a message encryption key and an IV for the encryption, and the derived key and IV are then used to encrypt a message.
-
-1.  Derive the message encryption material from the master key.
-
-    a.  Initialize a `psa_key_derivation_operation_t` object to zero or to `PSA_KEY_DERIVATION_OPERATION_INIT`.
-    #.  Call `psa_key_derivation_setup()` with `PSA_ALG_HKDF` as the algorithm.
-    #.  Call `psa_key_derivation_input_key()` with the step `PSA_KEY_DERIVATION_INPUT_SECRET` and the master key.
-    #.  Call `psa_key_derivation_input_bytes()` with the step `PSA_KEY_DERIVATION_INPUT_INFO` and a public value that uniquely identifies the message.
-    #.  Populate a `psa_key_attributes_t` object with the derived message encryption key’s attributes.
-    #.  Call `psa_key_derivation_output_key()` to create the derived message key.
-    #.  Call `psa_key_derivation_output_bytes()` to generate the derived IV.
-    #.  Call `psa_key_derivation_abort()` to release the key-derivation operation memory.
-
-#.  Encrypt the message with the derived material.
-
-    a.  Initialize a `psa_cipher_operation_t` object to zero or to `PSA_CIPHER_OPERATION_INIT`.
-    #.  Call `psa_cipher_encrypt_setup()` with the derived message encryption key.
-    #.  Call `psa_cipher_set_iv()` using the derived IV retrieved above.
-    #.  Call `psa_cipher_update()` one or more times to encrypt the message.
-    #.  Call `psa_cipher_finish()` at the end of the message.
-
-#.  Call `psa_destroy_key()` to clear the generated key.
-
-Asymmetric cryptography
-~~~~~~~~~~~~~~~~~~~~~~~
-
-This specification defines interfaces for the following types of asymmetric cryptographic operation:
-
-*   Asymmetric encryption (also known as public-key encryption). See :secref:`pke`.
-*   Asymmetric signature. See :secref:`sign`.
-*   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
-*   Key encapsulation. See :secref:`key-encapsulation`.
-*   Password-authenticated key exchange (PAKE). See :secref:`pake`.
-
-For asymmetric encryption, the API provides *single-part* functions.
-
-For asymmetric signature, the API provides single-part functions and *interruptible operations* (see :secref:`interruptible-operations`).
-
-For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
-
-For key encapsulation, the API provides single-part functions.
-
-For PAKE, the API provides a *multi-part* operation.
-
 .. _interruptible-operations:
 
 Interruptible operations
@@ -370,6 +308,70 @@ It is safe to move an interruptible operation object to a different memory locat
 Each type of interruptible operation can have multiple *setup*, *input*, and *completing* states. Documentation for the specific operation describes the setup, update and completion functions, and any requirements about their usage and ordering.
 
 See :secref:`interruptible_sign` for an example of using an interruptible operation.
+
+Symmetric cryptography
+~~~~~~~~~~~~~~~~~~~~~~
+
+This specification defines interfaces for the following types of symmetric
+cryptographic operation:
+
+*   Message digests, commonly known as hash functions. See :secref:`hashes`.
+*   Message authentication codes (MAC). See :secref:`macs`.
+*   Symmetric ciphers. See :secref:`ciphers`.
+*   Authenticated encryption with associated data (AEAD). See :secref:`aead`.
+*   Key derivation. See :secref:`kdf`.
+
+Key derivation only provides multi-part operation, to support the flexibility required by these type of algorithms.
+
+.. _symmetric-crypto-example:
+
+Example of the symmetric cryptography API
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is an example of a use case where a master key is used to generate both a message encryption key and an IV for the encryption, and the derived key and IV are then used to encrypt a message.
+
+1.  Derive the message encryption material from the master key.
+
+    a.  Initialize a `psa_key_derivation_operation_t` object to zero or to `PSA_KEY_DERIVATION_OPERATION_INIT`.
+    #.  Call `psa_key_derivation_setup()` with `PSA_ALG_HKDF` as the algorithm.
+    #.  Call `psa_key_derivation_input_key()` with the step `PSA_KEY_DERIVATION_INPUT_SECRET` and the master key.
+    #.  Call `psa_key_derivation_input_bytes()` with the step `PSA_KEY_DERIVATION_INPUT_INFO` and a public value that uniquely identifies the message.
+    #.  Populate a `psa_key_attributes_t` object with the derived message encryption key’s attributes.
+    #.  Call `psa_key_derivation_output_key()` to create the derived message key.
+    #.  Call `psa_key_derivation_output_bytes()` to generate the derived IV.
+    #.  Call `psa_key_derivation_abort()` to release the key derivation operation memory.
+
+#.  Encrypt the message with the derived material.
+
+    a.  Initialize a `psa_cipher_operation_t` object to zero or to `PSA_CIPHER_OPERATION_INIT`.
+    #.  Call `psa_cipher_encrypt_setup()` with the derived message encryption key.
+    #.  Call `psa_cipher_set_iv()` using the derived IV retrieved above.
+    #.  Call `psa_cipher_update()` one or more times to encrypt the message.
+    #.  Call `psa_cipher_finish()` at the end of the message.
+
+#.  Call `psa_destroy_key()` to clear the generated key.
+
+Asymmetric cryptography
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This specification defines interfaces for the following types of asymmetric cryptographic operation:
+
+*   Asymmetric encryption (also known as public-key encryption). See :secref:`pke`.
+*   Asymmetric signature. See :secref:`sign`.
+*   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
+*   Key encapsulation. See :secref:`key-encapsulation`.
+*   Password-authenticated key exchange (PAKE). See :secref:`pake`.
+
+For asymmetric encryption, the API provides *single-part* functions.
+
+For asymmetric signature, the API provides single-part functions and *interruptible operations* (see :secref:`interruptible-operations`).
+
+For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
+
+For key encapsulation, the API provides single-part functions.
+
+For PAKE, the API provides a *multi-part* operation.
+
 
 Randomness and key generation
 -----------------------------
