@@ -78,9 +78,9 @@ Library initialization
 Interruptible operation limit
 -----------------------------
 
-.. todo:: Provide simple intro to these support functions
+Using an interruptible operation, an application can perform an expensive cryptographic computation while limiting the execution time of each function call. The execution limit is controlled via the *maximum ops* value.
 
-See :secref:`interruptible-operations`
+See :secref:`interruptible-operations`.
 
 .. function:: psa_interruptible_set_max_ops
 

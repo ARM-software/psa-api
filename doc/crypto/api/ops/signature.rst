@@ -1029,7 +1029,6 @@ An interruptible asymmetric signature operation is used as follows:
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
-        :issue:`I don't think is necessary in this phase of the operation?`
 
     The application must complete the setup of the operation before calling this function.
 
@@ -1080,7 +1079,6 @@ An interruptible asymmetric signature operation is used as follows:
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
-        :issue:`I don't think is necessary in this phase of the operation?`
 
     The application must complete the setup of the operation before calling this function.
 
@@ -1286,19 +1284,8 @@ An interruptible asymmetric verification operation is used as follows:
         *   ``alg`` is not an asymmetric signature algorithm.
         *   ``key`` is not an asymmetric key pair, or asymmetric public key, that is compatible with ``alg``.
         *   ``signature`` is not a valid signature for the algorithm and key.
-
-        .. todo:: Decision required on handling invalid signatures.
-
-            If the signature is clearly invalid (for the algorithm/key combination), an implementation could:
-
-            1. report ``PSA_ERROR_INVALID_ARGUMENT`` now,
-            2. ``PSA_ERROR_INVALID_SIGNATURE`` now, or
-            3. defer ``PSA_ERROR_INVALID_SIGNATURE`` until the operation is completed.
-
-            Although (3) might appear to reduce information leakage (early return), it will still short cut all the calculations (as would happen in the single-part function).
-
-            My preference is permitting an implementation to do (1)-or-(3), but we could instead permit (2)-or-(3)
-
+    .. retval:: PSA_ERROR_INVALID_SIGNATURE
+        ``signature`` is not a valid signature for the algorithm and key.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -1334,6 +1321,8 @@ An interruptible asymmetric verification operation is used as follows:
 
         *   The operation state is not valid: the operation setup must have started, but not yet finished.
         *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_SIGNATURE
+        The signature is not a valid signature for the algorithm and key.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
