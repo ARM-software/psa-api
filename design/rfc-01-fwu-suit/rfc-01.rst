@@ -681,7 +681,7 @@ The implementation-defined size of the URI buffer in the payload information str
 See ``psa_fwu_payload_info_t``.
 
 ``psa_fwu_payload_info_t`` (type)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A data structure used to provide information about a payload to be fetched.
 
@@ -788,7 +788,7 @@ The maximum size of a URI returned by ``psa_fwu_process()``.
 This value is implementation-defined.
 
 ``psa_fwu_payload_info_t`` (type)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A data structure used to provide information about a payload to be fetched.
 
