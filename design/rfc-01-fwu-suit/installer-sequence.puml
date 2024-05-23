@@ -19,7 +19,7 @@ participant "Bootloader" as boot
 end box
 entity "Envelope state" as envelope
 
-autonumber 23 "<b>#:"
+autonumber 25 "<b>#:"
 activate client
 
 client <-- envelope : ""PSA_FWU_REBOOT_REQUIRED""
@@ -48,6 +48,11 @@ activate installer #ddd
 
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""
+
+    fetcher -> installer: ""psa_fwu_payload(payload_id)""
+    activate installer #ddd
+    return ""PSA_SUCCESS"" + payload information
+    deactivate installer
 
     server <<- fetcher ++ : Fetch payload
     fetcher -> installer: ""psa_fwu_start(payload_id)""

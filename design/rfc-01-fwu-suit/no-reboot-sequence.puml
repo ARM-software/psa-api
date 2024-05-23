@@ -58,7 +58,7 @@ loop While additional payloads are required
 
     note over server, service: Transfer payload
 
-    autonumber 20 "<b>#:"
+    autonumber 22 "<b>#:"
     client -> service: ""psa_fwu_process()""
     deactivate envelope
     activate service #ddd

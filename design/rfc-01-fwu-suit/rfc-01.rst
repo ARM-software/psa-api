@@ -201,7 +201,7 @@ Envelope and payload transfer
 
 The detailed steps of the flow are as follows (the numbers refer to the corresponding number in Figure 3):
 
-*  1: The process is started by transferring the SUIT envelope as a firmware image using a component identifier allocated to the SUIT envelope component.
+*  1-5: The process is started by transferring the SUIT envelope as a firmware image using a component identifier allocated to the SUIT envelope component.
 
 *  6: The call to ``psa_fwu_finish()`` behaves differently when processing a SUIT envelope. On a successful transfer, the call will return a new response code, ``PSA_FWU_PROCESSING_REQUIRED``, to indicate that the component requires processing. At this point the envelope component will be in a new ``PSA_FWU_FETCHING`` state, instead of the typical ``PSA_FWU_CANDIDATE`` state.
 
@@ -211,27 +211,31 @@ The detailed steps of the flow are as follows (the numbers refer to the correspo
    * Verify the applicability of the update.
    * Perform the Staging Procedure by processing the suit-resolve-dependencies and suit-payload-fetch command sequences.
 
-*  8: If a payload is required that is detached from the Envelope, the call to ``psa_fwu_process()`` returns with a new status code, ``PSA_FWU_PAYLOAD_REQUIRED``. The call to ``psa_fwu_process()`` includes an output parameter, which the service uses to provide the details of the payload to be transferred, including a component identifier for the payload (for use with ``psa_fwu_start()`` etc), and a URI for the payload.
+*  8: If a payload is required that is detached from the Envelope, the call to ``psa_fwu_process()`` returns with a new status code, ``PSA_FWU_PAYLOAD_REQUIRED``. The call to ``psa_fwu_process()`` includes two output parameters, which provides a component identifier for the payload, and the size of the payload URI.
 
-   *The manifest might also have information about the size and digest of the payload to be fetched. These could be optionally be provided with the payload URI: are there benefits in using this information to eliminate or detect incorrect or malicious transfers prior to transfer to the Update service?*
+   When there is no payload to transfer, the sequence continues at step 23.
 
-   When there is no payload to transfer, the sequence continues at step 21.
+*  9: To retrieve all of the payload parameters, the Update client calls ``psa_fwu_payload()`` for the returned payload identifier, providing a URI buffer that is large enough for the URI length returned by ``psa_fwu_process()``.
 
-*  9: The Update client must now fetch the payload, using the URI to locate it, and transfer it to the Update service using the standard ``psa_fwu_start()``, ``psa_fwu_write()`` and ``psa_fwu_finish()`` calls, providing the component identifier returned in the payload information.
+*  10: The payload URI is returned, and, optionally, the payload size and digest as well.
 
-*  19: When ``psa_fwu_finish()`` returns successfully, the payload component status can no longer be queried by the Update client.
+*  11-20: The Update client must now fetch the payload, using the URI to locate it, and transfer it to the Update service using the standard ``psa_fwu_start()``, ``psa_fwu_write()`` and ``psa_fwu_finish()`` calls, providing the component identifier returned in the payload information.
 
-*  20: As the Update client is in the middle of processing an envelope component, it calls ``psa_fwu_process()`` once more. The Update service resumes the SUIT manifest processing from where it halted when fetching the payload. If another payload is required, then ``PSA_FWU_PAYLOAD_REQUIRED`` is returned from the call to ``psa_fwu_process()``, and processing continues from step 8 above.
+    The Update client can use the optional payload size and digest parameters to ensure that the correct image is downloaded.
 
-*  21: When the Update service completes the processing this phase of the SUIT manifest commands, the Envelope component is moved to the CANDIDATE state, and the last call to ``psa_fwu_process()`` returns ``PSA_SUCCESS``.
+*  21: When ``psa_fwu_finish()`` returns successfully, the payload component status can no longer be queried by the Update client.
 
-*  22: To proceed with the installation, the Update client now calls ``psa_fwu_install()``.
+*  22: As the Update client is in the middle of processing an envelope component, it calls ``psa_fwu_process()`` once more. The Update service resumes the SUIT manifest processing from where it halted when fetching the payload. If another payload is required, then ``PSA_FWU_PAYLOAD_REQUIRED`` is returned from the call to ``psa_fwu_process()``, and processing continues from step 8 above.
 
-*  23: The flow in Figure 3 shows a system which requires a reboot to continue with the installation. The SUIT Installation and Invocation Procedures will be performed after the reboot.
+*  23: When the Update service completes the processing this phase of the SUIT manifest commands, the Envelope component is moved to the CANDIDATE state, and the last call to ``psa_fwu_process()`` returns ``PSA_SUCCESS``.
+
+*  24: To proceed with the installation, the Update client now calls ``psa_fwu_install()``.
+
+*  25: The flow in Figure 3 shows a system which requires a reboot to continue with the installation. The SUIT Installation and Invocation Procedures will be performed after the reboot.
 
     In systems where the installation of the envelope component is achieved without a restart, the Installation Procedure will be performed following the call to ``psa_fwu_install()``, and complete the installation. See `Fetching during install (without reboot)`_ below.
 
-*  25: Following reboot, the bootloader determines that there is an update to install, and proceeds with the installation and invocation SUIT processes.
+*  26-28: Following reboot, the bootloader determines that there is an update to install, and proceeds with the installation and invocation SUIT processes.
 
 Fetching during install (without reboot)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,15 +252,15 @@ One possible approach is shown in `Figure 4 <fig-no-reboot_>`_.
 
    The payload fetching sequences are elided to highlight the SUIT processing that follows the call to ``psa_fwu_install()``.
 
-This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 23 onwards.
+This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 25 onwards.
 
-*   23: If the installation requires processing of SUIT command sequences, ``psa_fwu_install()`` returns ``PSA_FWU_PROCESSING_REQUIRED``, and the envelope component will be in a new ``PSA_FWU_INSTALLING`` state.
+*   25: If the installation requires processing of SUIT command sequences, ``psa_fwu_install()`` returns ``PSA_FWU_PROCESSING_REQUIRED``, and the envelope component will be in a new ``PSA_FWU_INSTALLING`` state.
 
     This state is distinct from the FETCHING state used following transfer of the envelope, because the installation process can be destructive of the active firmware images, and aborting the update at this point is more complex as updated firmware will need to be reverted.
 
-*   24: As for the earlier processing phase, the Update client uses ``psa_fwu_process()`` to process the Installation Procedure command sequences. If this sequence requests additional payloads, this results in payload fetch requests, in the same manner as in the FETCHING state, see steps 7 - 21 in `Figure 3 <fig-fetch_>`_.
+*   26-27: As for the earlier processing phase, the Update client uses ``psa_fwu_process()`` to process the Installation Procedure command sequences. If this sequence requests additional payloads, this results in payload fetch requests, in the same manner as in the FETCHING state, see steps 7 - 23 in `Figure 3 <fig-fetch_>`_.
 
-*   26: After the SUIT installation has completed, the system can perform the SUIT Invocation Procedure for the updated firmware.
+*   28: After the SUIT installation has completed, the system can perform the SUIT Invocation Procedure for the updated firmware.
 
 Fetching during install (after reboot)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -271,17 +275,17 @@ In systems where the installation occurs following reboot, or in a special execu
 
    This shows the operation of the Installer and Payload fetcher following a reboot with a STAGED envelope.
 
-This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 25 onwards.
+This example replaces the flow in `Figure 3 <fig-fetch_>`_ from step 27 onwards.
 
-*   26: the bootloader determines that there is an update to install, and runs the Installer to process the SUIT manifest.
+*   28: the bootloader determines that there is an update to install, and runs the Installer to process the SUIT manifest.
 
-*   27: The Payload fetcher in this example is the client of the Firmware Update API.
+*   29: The Payload fetcher in this example is the client of the Firmware Update API.
 
-*   28: The payload fetcher requests the processing of the SUIT Installation Procedure command sequences, and handles requests to fetch additional payloads.
+*   30-43: The payload fetcher requests the processing of the SUIT Installation Procedure command sequences, and handles requests to fetch additional payloads.
 
-    The flow here is the same as the payload fetching phase that can follow the call to ``psa_fwu_install()`` for components that do not require a reboot. See steps 24 - 26 in `Figure 4 <fig-no-reboot_>`_.
+    The flow here is the same as the payload fetching phase that can follow the call to ``psa_fwu_install()`` for components that do not require a reboot. See steps 26 - 28 in `Figure 4 <fig-no-reboot_>`_.
 
-*   40: After the Installation Procedure completes, the Payload fetcher returns control to the Installer, which can restart the system to load and execute the updated firmware.
+*   44: After the Installation Procedure completes, the Payload fetcher returns control to the Installer, which can restart the system to load and execute the updated firmware.
 
 Errors
 ~~~~~~
@@ -307,7 +311,7 @@ If the Update client chooses to abandon an update, when the envelope component i
 *Rationale:*
    This is because the payload components do not have a top-level component identifier that is well known to the Update client, and the client is not expected to track the payload identifiers that have been requested by the ``psa_fwu_process()`` calls.
 
-An Update client can call ``psa_fwu_cancel()`` and ``psa_fwu_clean()`` on a payload component currently being transferred (steps 8 - 19), and restart the transfer of that component with ``psa_fwu_start()``. This is not permitted on payloads which have been fully transferred.
+An Update client can call ``psa_fwu_cancel()`` and ``psa_fwu_clean()`` on a payload component currently being transferred (steps 8 - 20), and restart the transfer of that component with ``psa_fwu_start()``. This is not permitted on payloads which have been fully transferred.
 
 Cancelling the payload transfer isn't required to abort the entire update.
 
@@ -352,26 +356,29 @@ Detailed API definition
 
 This is a proposal for the Firmware Update API definition related to this design.
 
-There are two approaches to handle the return of a URI for payloads that need to be fetched:
+There are three approaches to handle the return of a URI for payloads that need to be fetched. The primary issue is that the Update client does not know in advance how large the URI is.
 
-1. Include a buffer for the URI within the data structure used for other payload information (the component id to use for the transfer, the expected size of the payload in bytes). The size of this buffer is implementation-defined. The specification will place no limits on the value. The payload information includes a member that specifies the actual length of the payload URI written to the buffer.
+**Option A**
+   Include a buffer for the URI within the data structure used for other payload information (the component id to use for the transfer, the expected size of the payload in bytes). The size of this buffer is implementation-defined. The specification will place no limits on the value. The payload information includes a member that specifies the actual length of the payload URI written to the buffer.
 
-2. Provide a separate output buffer parameter for the URI in the call to ``psa_fwu_process``. This requires an input 'size' parameter to indicate the size of the buffer in the caller, and an output 'length' parameter for the implementation to report how long any written URI is. Implementations can provide a definition of the largest URI that it will return.
+   An Integrator cannot define a manifest that uses a URI which exceeds this value (the manifest cannot be processed without updating both the Update client and Update service in the system first).
 
-I have provided a definition of both options (OPTION A and OPTION B below).
+**Option B**
+   Provide a separate output buffer parameter for the URI in the call to ``psa_fwu_process``. This requires an input 'size' parameter to indicate the size of the buffer in the caller, and an output 'length' parameter for the implementation to report how long any written URI is. Implementations can provide a definition of the largest URI that it will return.
 
-*Todo*
-   Consider which one is the better design for the API. Useful criteria include:
+   An Integrator cannot define a manifest that uses a URI which exceeds the value used in the Update client code, without first updating the Update client firmware.
 
-   * Option A is generally simpler to use for the client.
-   * If a null-terminate URI is required Option B allows the caller to make the buffer large enough to always accommodate a zero byte at the end.
-   * Option A requires more care in the implementation to ensure that no internal Update-service data is written to the caller in unused bytes of the data structure.
-   * Option A might result in large stack allocation, if the implementation-defined size of the URI buffer is not considered by the application code.
-   * Option B can result in a run-time failure if the application does not provide a large enough buffer.
-   * Option A can result in a run-time failure if the URI in the manifest exceeds the size encoded in ``PSA_FWU_PAYLOAD_URI_MAX_SIZE``.
+**Option C**
+   Use a separate function to retrieve the payload URI, from the function that carries out manifest processing. This enables the URI length to be reported to the Update client, prior to the client requesting the URI content.
 
-*Todo*
-   Should we specify the encoding of the URI? - or is this already a standard, or defined by SUIT (e.g. UTF-8).
+   This permits applications with fixed URI buffers to diagnose and report problematic manifests, or to be written to dynamically adapt to arbitrary URI lengths.
+
+I have provided a definition of all three options below. (Option A and Option B have not been updated to provide the optional digest information).
+
+*Note*
+   After an initial round of consideration, Option C is the favorite.
+
+   Option C enables use cases where the Update service or the Update client do use a hard-coded limit on the URI size, but also enables use cases where the Update client is written to dynamically adapt to any URI size without a fixed size limit.
 
 New component states
 ~~~~~~~~~~~~~~~~~~~~
@@ -438,9 +445,9 @@ The implementation-defined size of the URI buffer in the payload information str
 
    #define PSA_FWU_PAYLOAD_URI_MAX_SIZE /* implementation-defined value */
 
-See ``psa_fwu_payload_t``.
+See ``psa_fwu_payload_info_t``.
 
-``psa_fwu_payload_t`` (type)
+``psa_fwu_payload_info_t`` (type)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A data structure used to provide information about a payload to be fetched.
@@ -452,7 +459,7 @@ A data structure used to provide information about a payload to be fetched.
       size_t size;
       size_t uri_length;
       uint8_t uri[PSA_FWU_PAYLOAD_URI_MAX_SIZE];
-   } psa_fwu_payload_t;
+   } psa_fwu_payload_info_t;
 
 **Fields**
 
@@ -482,7 +489,7 @@ Process a manifest component that is in FETCHING or INSTALLING state.
 
 .. code-block:: c
 
-   psa_status_t psa_fwu_process(psa_fwu_payload_t *payload);
+   psa_status_t psa_fwu_process(psa_fwu_payload_info_t *payload);
 
 **Parameters**
 
@@ -521,7 +528,7 @@ Process a manifest component that is in FETCHING or INSTALLING state.
          Restart of part of the system is required to complete installation of the firmware.
 
          The component will now be in the STAGED state.
-   *  -  ``PSA_FWU_BAD_STATE``
+   *  -  ``PSA_ERROR_BAD_STATE``
       -  Either:
 
          *  The firmware is not in a FETCHING or INSTALLING state.
@@ -547,7 +554,7 @@ The maximum size of a URI returned by ``psa_fwu_process()``.
 
 This value is implementation-defined.
 
-``psa_fwu_payload_t`` (type)
+``psa_fwu_payload_info_t`` (type)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A data structure used to provide information about a payload to be fetched.
@@ -557,7 +564,7 @@ A data structure used to provide information about a payload to be fetched.
    typedef struct {
       psa_fwu_component_t id;
       size_t size;
-   } psa_fwu_payload_t;
+   } psa_fwu_payload_info_t;
 
 **Fields**
 
@@ -578,7 +585,7 @@ Process a manifest component that is in FETCHING or INSTALLING state.
 
 .. code-block:: c
 
-   psa_status_t psa_fwu_process(psa_fwu_payload_t *payload, uint8_t *uri, size_t uri_size, size_t *uri_length);
+   psa_status_t psa_fwu_process(psa_fwu_payload_info_t *payload, uint8_t *uri, size_t uri_size, size_t *uri_length);
 
 **Parameters**
 
@@ -630,7 +637,7 @@ Process a manifest component that is in FETCHING or INSTALLING state.
          Restart of part of the system is required to complete installation of the firmware.
 
          The component will now be in the STAGED state.
-   *  -  ``PSA_FWU_BAD_STATE``
+   *  -  ``PSA_ERROR_BAD_STATE``
       -  Either:
 
          *  The firmware is not in a FETCHING or INSTALLING state.
@@ -646,17 +653,209 @@ Process a manifest component that is in FETCHING or INSTALLING state.
    The ``payload`` and ``uri`` parameters are only updated if the call returns ``PSA_FWU_PAYLOAD_REQUIRED``.
    For any other result status, ``payload`` and ``uri`` are not modified.
 
+
+Manifest processing - OPTION C
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Include just the payload component identifier and payload URI size in the response to ``psa_fwu_process()``. A call to ``psa_fwu_payload()`` retrieves the additional payload information.
+
+``psa_fwu_process`` (function)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Process a manifest component that is in FETCHING or INSTALLING state.
+
+.. code-block:: c
+
+   psa_status_t psa_fwu_process(psa_fwu_component_t *payload_id, size_t *uri_length);
+
+**Parameters**
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``payload_id``
+      -  A pointer to a component identifier that is used to return a payload identifier, if this function returns with the status code ``PSA_FWU_PAYLOAD_REQUIRED``.
+
+         Unchanged, if this function returns any other status.
+   *  -  ``uri_length``
+      -  If a payload is required, this is updated with the length of the payload URI.
+
+**Returns**: ``psa_status_t``
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``PSA_SUCCESS``
+      -  Manifest processing has completed successfully.
+
+         A component that was in the FETCHING state will now be in CANDIDATE state.
+         A component that was in the INSTALLING state will now be in UPDATED state.
+   *  -  ``PSA_FWU_PAYLOAD_REQUIRED``
+      -  Manifest processing is in progress, and an additional firmware payload is required.
+
+         Details of the required payload are output in the ``payload_id`` and ``uri_length`` parameters.
+
+         The component remains in the same state.
+   *  -  ``PSA_FWU_REBOOT_REQUIRED``
+      -  Manifest processing has completed successfully.
+         Reboot is required to complete installation of the firmware.
+
+         The component will now be in the STAGED state.
+   *  -  ``PSA_FWU_RESTART_REQUIRED``
+      -  Manifest processing has completed successfully.
+         Restart of part of the system is required to complete installation of the firmware.
+
+         The component will now be in the STAGED state.
+   *  -  ``PSA_ERROR_BAD_STATE``
+      -  Either:
+
+         *  The firmware is not in a FETCHING or INSTALLING state.
+         *  A payload transfer has been started while in FETCHING or INSTALLING state, but not completed or cancelled.
+
+When a payload is required, the application can use the returned payload identifier and URI length for a call to ``psa_fwu_payload()`` to retrieve additional payload parameters.
+The payload is transferred to the implementation using the payload identifier in calls to ``psa_fwu_start()``, ``psa_fwu_write()``, and ``psa_fwu_finish()``.
+
+*Note:*
+   The ``payload_id`` and ``uri_length`` parameters are only updated if the call returns ``PSA_FWU_PAYLOAD_REQUIRED``.
+   For any other result status, ``payload_id`` and ``uri_length`` are not modified.
+
+``PSA_FWU_PAYLOAD_DIGEST_MAX_SIZE`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The maximum size of a payload digest returned by ``psa_fwu_payload()``.
+
+.. code-block:: c
+
+   #define PSA_FWU_PAYLOAD_DIGEST_MAX_SIZE (72u)
+
+*Note:*
+   This value is large enough for any encoded SUIT-Digest object for supported hash algorithms. It could be implementation-defined?
+
+``PSA_FWU_PAYLOAD_HAS_SIZE`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A flag to indicate that the payload size is present in the payload information returned by ``psa_fwu_payload()``.
+
+.. code-block:: c
+
+   #define PSA_FWU_PAYLOAD_HAS_SIZE (1u)
+
+``PSA_FWU_PAYLOAD_HAS_DIGEST`` (macro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A flag to indicate that the payload digest is present in the payload information returned by ``psa_fwu_payload()``.
+
+.. code-block:: c
+
+   #define PSA_FWU_PAYLOAD_HAS_DIGEST (2u)
+
+``psa_fwu_payload_info_t`` (type)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A data structure used to provide information about a payload to be fetched.
+
+.. code-block:: c
+
+   typedef struct {
+      uint8_t flags;
+      uint8_t digest_len;
+      size_t size;
+      uint8_t digest[PSA_FWU_PAYLOAD_DIGEST_MAX_SIZE];
+   } psa_fwu_payload_info_t;
+
+**Fields**
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``flags``
+      -  A set of flags to indicate which information is present in the other fields.
+   *  -  ``digest_len``
+      -  The length, in bytes, of the payload digest in ``digest[]``.
+         Zero, if the flag ``PSA_FWU_PAYLOAD_HAS_DIGEST`` is not set in ``flags``.
+   *  -  ``size``
+      -  The size, in bytes, of the firmware payload.
+         Zero, if the flag ``PSA_FWU_PAYLOAD_HAS_SIZE`` is not set in ``flags``.
+   *  -  ``digest``
+      -  The first ``digest_len`` bytes form the payload digest.
+         The value of the remaining bytes are not defined.
+
+This data structure is populated by a call to ``psa_fwu_payload()``.
+
+``psa_fwu_payload`` (function)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Fetch details of a required payload during manifest processing.
+
+.. code-block:: c
+
+   psa_status_t psa_fwu_payload(psa_fwu_component_t payload_id,
+                                psa_fwu_payload_info_t *info,
+                                uint8_t *uri, size_t uri_size);
+
+**Parameters**
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``payload_id``
+      -  The component identifier of the payload, as returned by a preceding call to ``psa_fwu_process()``.
+   *  -  ``info``
+      -  A pointer to a data structure that is populated if with information about a required payload.
+   *  -  ``uri``
+      -  Buffer where a payload URI can be returned.
+
+         The output URI in ``uri`` is **not** a null-terminated string.
+         The URI conforms to RFC 3986.
+   *  -  ``uri_size``
+      -  Size of the ``uri`` buffer, in bytes.
+         The size of the buffer must not be smaller than the URI length, that was returned by the preceding call to ``psa_fwu_process()``.
+
+**Returns**: ``psa_status_t``
+
+.. list-table::
+   :widths: auto
+
+   *  -  ``PSA_SUCCESS``
+      -  Success.
+         Details of the required payload are output in the ``info`` and ``uri`` parameters.
+
+         The component remains in the same state.
+   *  -  ``PSA_ERROR_DOES_NOT_EXIST``
+      -  The ``payload_id`` does not refer to a required payload that was returned from a call to ``psa_fwu_process()``.
+   *  -  ``PSA_ERROR_BAD_STATE``
+      -  The firmware is not in a FETCHING or INSTALLING state.
+   *  -  ``PSA_ERROR_BUFFER_TOO_SMALL``
+      -  The ``uri`` buffer is not large enough for the URI.
+
+The ``info`` and ``uri`` parameters are only updated if the call is successful.
+
+The ``info->flags`` field indicates which additional information is available in the ``info`` object. See ``psa_fwu_payload_info_t`` for details.
+
+*Todo*
+   Should this function also return the actual URI length? - although this is returned by the necessary preceding call to ``psa_fwu_process()``, it is unusual in the PSA APIs to return a variable sized buffer without returning the length of the data written.
+
 Open Issues
 -----------
 
 *  Final naming of API elements.
-*  Are there additional attributes for components that need to be included in the ``psa_fwu_component_info_t``?
-*  Manifest processing API: Option A or Option B.
-*  If Option B: is a mechanism needed for the caller to determine the required URI size?
-*  Are there clear use cases where optional availability of a payload size or digest is valuable for the Update client when fetching a payload?
+
+*  I don't think there additional attributes for components that need to be included in the ``psa_fwu_component_info_t``. (We don't expect Update clients to implement a SUIT processor).
+
+*  ``psa_fwu_payload`` (in Option C) is unusual in returning a variable length buffer, without returning the actual length written to the buffer. (The length is returned by the preceding call to ``psa_fwu_process()``.)
+
+*  I have considered merging the action of the call to ``psa_fwu_start(payload_id, ...)`` which must always follow a call to ``psa_fwu_payload(payload_id, ...)``. This would reduce the functions called, and does not affect the size of the API, but would make the image transfer for payloads slightly different to that for other component images, potentially reducing the ability to share code for these activities.
+
+   For now, the API reuses the same ``psa_fwu_start()`` call for initiating payload transfer.
+
 
 Revision history
 ----------------
+**v0.8** - 23/05/2024
+   Update to the API:
+
+   * Describe a third option for the payload information discovery API, see `Manifest processing - OPTION C`_. This is also reflected in updated sequence diagrams.
+   * Permit an implementation to optionally provide additional payload size and digest information. (Only coded into Option C).
 
 **v0.7** - 01/05/2024
    Corrections in response to feedback:
