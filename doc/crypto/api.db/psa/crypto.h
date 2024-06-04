@@ -24,9 +24,9 @@ typedef uint32_t psa_pake_primitive_t;
 typedef uint8_t psa_pake_primitive_type_t;
 typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
-typedef struct psa_key_production_parameters_t {
+typedef struct psa_key_custom_production_t {
     uint32_t flags;
-} psa_key_production_parameters_t;
+} psa_key_custom_production_t;
 #define PSA_AEAD_DECRYPT_OUTPUT_MAX_SIZE(ciphertext_length) \
     /* implementation-defined value */
 #define PSA_AEAD_DECRYPT_OUTPUT_SIZE(key_type, alg, ciphertext_length) \
@@ -241,6 +241,7 @@ typedef struct psa_key_production_parameters_t {
 #define PSA_HASH_SUSPEND_OUTPUT_MAX_SIZE /* implementation-defined value */
 #define PSA_HASH_SUSPEND_OUTPUT_SIZE(alg) /* specification-defined value */
 #define PSA_KEY_ATTRIBUTES_INIT /* implementation-defined value */
+#define PSA_KEY_CUSTOM_PRODUCTION_INIT { 0 }
 #define PSA_KEY_DERIVATION_INPUT_CONTEXT /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_COST /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_INFO /* implementation-defined value */
@@ -274,7 +275,6 @@ typedef struct psa_key_production_parameters_t {
 #define PSA_KEY_PERSISTENCE_DEFAULT ((psa_key_persistence_t) 0x01)
 #define PSA_KEY_PERSISTENCE_READ_ONLY ((psa_key_persistence_t) 0xff)
 #define PSA_KEY_PERSISTENCE_VOLATILE ((psa_key_persistence_t) 0x00)
-#define PSA_KEY_PRODUCTION_PARAMETERS_INIT { 0 }
 #define PSA_KEY_TYPE_AES ((psa_key_type_t)0x2400)
 #define PSA_KEY_TYPE_ARC4 ((psa_key_type_t)0x2002)
 #define PSA_KEY_TYPE_ARIA ((psa_key_type_t)0x2406)
@@ -509,11 +509,11 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
                                    size_t * data_length);
 psa_status_t psa_generate_key(const psa_key_attributes_t * attributes,
                               psa_key_id_t * key);
-psa_status_t psa_generate_key_ext(const psa_key_attributes_t *attributes,
-                                  const psa_key_production_parameters_t *params,
-                                  const uint8_t *params_data,
-                                  size_t params_data_length,
-                                  mbedtls_svc_key_id_t *key);
+psa_status_t psa_generate_key_custom(const psa_key_attributes_t *attributes,
+                                     const psa_key_custom_production_t *custom,
+                                     const uint8_t *custom_data,
+                                     size_t custom_data_length,
+                                     mbedtls_svc_key_id_t *key);
 psa_status_t psa_generate_random(uint8_t * output,
                                  size_t output_size);
 psa_algorithm_t psa_get_key_algorithm(const psa_key_attributes_t * attributes);
@@ -594,12 +594,12 @@ psa_status_t psa_key_derivation_output_bytes(psa_key_derivation_operation_t * op
 psa_status_t psa_key_derivation_output_key(const psa_key_attributes_t * attributes,
                                            psa_key_derivation_operation_t * operation,
                                            psa_key_id_t * key);
-psa_status_t psa_key_derivation_output_key_ext(const psa_key_attributes_t *attributes,
-                                               psa_key_derivation_operation_t *operation,
-                                               const psa_key_production_parameters_t *params,
-                                               const uint8_t *params_data,
-                                               size_t params_data_length,
-                                               mbedtls_svc_key_id_t *key);
+psa_status_t psa_key_derivation_output_key_custom(const psa_key_attributes_t *attributes,
+                                                  psa_key_derivation_operation_t *operation,
+                                                  const psa_key_custom_production_t *custom,
+                                                  const uint8_t *custom_data,
+                                                  size_t custom_data_length,
+                                                  mbedtls_svc_key_id_t *key);
 psa_status_t psa_key_derivation_set_capacity(psa_key_derivation_operation_t * operation,
                                              size_t capacity);
 psa_status_t psa_key_derivation_setup(psa_key_derivation_operation_t * operation,
