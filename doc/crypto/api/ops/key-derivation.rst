@@ -37,7 +37,7 @@ Applications use the `psa_key_derivation_operation_t` type to create key derivat
 #.  Optionally, call `psa_key_derivation_set_capacity()` to set a limit on the amount of data that can be output from the key derivation operation.
 #.  Call an output or verification function:
 
-    *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()` to create a derived key.
+    *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()` to create a derived key.
     *   `psa_key_derivation_output_bytes()` to export the derived data.
     *   `psa_key_derivation_verify_key()` to compare a derived key with an existing key value.
     *   `psa_key_derivation_verify_bytes()` to compare derived data with a buffer.
@@ -341,7 +341,7 @@ Key derivation algorithms
 
         The shared secret can be obtained by calling :code:`psa_pake_get_shared_key()` on a PAKE operation that is performing the EC J-PAKE algorithm. See :secref:`pake`.
 
-    The 32-byte output has to be read in a single call to either `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, or `psa_key_derivation_output_key_ext()`. The size of the output is defined as `PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE`.
+    The 32-byte output has to be read in a single call to either `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, or `psa_key_derivation_output_key_custom()`. The size of the output is defined as `PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE`.
 
     .. subsection:: Compatible key types
 
@@ -422,7 +422,7 @@ Input step types
 
     For some algorithms, a specific type of key is required. For example, see `PSA_ALG_SP800_108_COUNTER_CMAC`.
 
-    The secret can also be a direct input passed to `psa_key_derivation_input_bytes()`. In this case, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`.
+    The secret can also be a direct input passed to `psa_key_derivation_input_bytes()`. In this case, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()`.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_OTHER_SECRET
     :definition: /* implementation-defined value */
@@ -440,7 +440,7 @@ Input step types
 
     This is usually a key of type `PSA_KEY_TYPE_PASSWORD` passed to `psa_key_derivation_input_key()` or a direct input passed to `psa_key_derivation_input_bytes()` that is a password or passphrase. It can also be high-entropy secret, for example, a key of type `PSA_KEY_TYPE_DERIVE`, or the shared secret resulting from a key agreement.
 
-    If the secret is a direct input, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`.
+    If the secret is a direct input, the derivation operation cannot be used to derive keys: the operation will not permit a call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()`.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_LABEL
     :definition: /* implementation-defined value */
@@ -581,7 +581,7 @@ Key derivation functions
     #.  Call `psa_key_derivation_setup()` to specify the algorithm.
     #.  Provide the inputs for the key derivation by calling `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_key()` as appropriate. Which inputs are needed, in what order, whether keys are permitted, and what type of keys depends on the algorithm.
     #.  Optionally set the operation's maximum capacity with `psa_key_derivation_set_capacity()`. This can be done before, in the middle of, or after providing inputs. For some algorithms, this step is mandatory because the output depends on the maximum capacity.
-    #.  To derive a key, call `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`. To derive a byte string for a different purpose, call `psa_key_derivation_output_bytes()`. Successive calls to these functions use successive output bytes calculated by the key derivation algorithm.
+    #.  To derive a key, call `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()`. To derive a byte string for a different purpose, call `psa_key_derivation_output_bytes()`. Successive calls to these functions use successive output bytes calculated by the key derivation algorithm.
     #.  Clean up the key derivation operation object with `psa_key_derivation_abort()`.
 
     After a successful call to `psa_key_derivation_setup()`, the operation is active, and the application must eventually terminate the operation with a call to `psa_key_derivation_abort()`.
@@ -616,7 +616,7 @@ Key derivation functions
 
     The capacity of a key derivation is the maximum number of bytes that it can return. Reading :math:`N` bytes of output from a key derivation operation reduces its capacity by at least :math:`N`. The capacity can be reduced by more than :math:`N` in the following situations:
 
-    *   Calling `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()` can reduce the capacity by more than the key size, depending on the type of key being generated. See  `psa_key_derivation_output_key()` for details of the key derivation process.
+    *   Calling `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()` can reduce the capacity by more than the key size, depending on the type of key being generated. See  `psa_key_derivation_output_key()` for details of the key derivation process.
     *   When the `psa_key_derivation_operation_t` object is operating as a deterministic random bit generator (DBRG), which reduces capacity in whole blocks, even when less than a block is read.
 
 .. function:: psa_key_derivation_set_capacity
@@ -791,7 +791,7 @@ Key derivation functions
         Once all inputs steps are completed, the following operations are permitted:
 
         *   `psa_key_derivation_output_bytes()` --- if each input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
-        *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()` --- if the input for step `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` was a key with usage flag `PSA_KEY_USAGE_DERIVE`, and every other input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
+        *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()` --- if the input for step `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` was a key with usage flag `PSA_KEY_USAGE_DERIVE`, and every other input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
         *   `psa_key_derivation_verify_bytes()` --- if each input was either a direct input, a key with usage flag `PSA_KEY_USAGE_DERIVE`, or a key with usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION`.
         *   `psa_key_derivation_verify_key()` --- under the same conditions as `psa_key_derivation_verify_bytes()`.
 
@@ -937,9 +937,9 @@ Key derivation functions
 
      .. note::
 
-        This function is equivalent to calling `psa_key_derivation_output_key_ext()` with the production parameters `PSA_KEY_PRODUCTION_PARAMETERS_INIT` and ``params_data_length == 0`` (``params->data`` is ignored).
+        This function is equivalent to calling `psa_key_derivation_output_key_custom()` with the production parameters `PSA_KEY_CUSTOM_PRODUCTION_INIT` and ``custom_data_length == 0`` (``custom_data`` is ignored).
 
-.. function:: psa_key_derivation_output_key_ext
+.. function:: psa_key_derivation_output_key_custom
 
     .. summary:: Derive a key from an ongoing key derivation operation with custom production parameters.
 
@@ -960,15 +960,15 @@ Key derivation functions
             This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
     .. param:: psa_key_derivation_operation_t *operation
         The key derivation operation object to read from.
-    .. param:: const psa_key_production_parameters_t *params
-        Customization parameters for the key derivation.
+    .. param:: const psa_key_custom_production_t *custom
+        Customized production parameters for the key derivation.
 
-        When this is `PSA_KEY_PRODUCTION_PARAMETERS_INIT` with ``params_data_length == 0``,
+        When this is `PSA_KEY_CUSTOM_PRODUCTION_INIT` with ``custom_data_length == 0``,
         this function is equivalent to `psa_key_derivation_output_key()`.
-    .. param:: const uint8_t *params_data
+    .. param:: const uint8_t *custom_data
         A buffer containing additional variable-sized production parameters.
-    .. param:: size_t params_data_length
-        Length of ``params_data`` in bytes.
+    .. param:: size_t custom_data_length
+        Length of ``custom_data`` in bytes.
     .. param:: mbedtls_svc_key_id_t *key
         On success, an identifier for the newly created key.
         For persistent keys, this is the key identifier defined in ``attributes``.
@@ -1024,7 +1024,7 @@ Key derivation functions
     Use this function to provide explicit production parameters when deriving a key.
     See the description of `psa_key_derivation_output_key()` for the operation of this function with the default production parameters.
 
-    See the documentation of `psa_key_production_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the production parameters used for key derivation.
+    See the documentation of `psa_key_custom_production_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key derivation.
 
 .. function:: psa_key_derivation_verify_bytes
 
@@ -1098,7 +1098,7 @@ Key derivation functions
         A key of type `PSA_KEY_TYPE_PASSWORD_HASH` containing the expected output.
         The key must permit the usage `PSA_KEY_USAGE_VERIFY_DERIVATION`, and the permitted algorithm must match the operation's algorithm.
 
-        The value of this key is typically computed by a previous call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_ext()`.
+        The value of this key is typically computed by a previous call to `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()`.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
