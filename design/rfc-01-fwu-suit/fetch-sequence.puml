@@ -28,20 +28,17 @@ note left: Transfer SUIT Envelope
 deactivate envelope
 activate service #ddd
 return ""PSA_SUCCESS""
-deactivate service
 activate envelope #PaleGreen
 rnote over envelope #PaleGreen: WRITING
 
 client -> service #ddd: ""psa_fwu_write(envelope_id, ...)""
 activate service #ddd
 return ""PSA_SUCCESS""
-deactivate service
 
 client -> service: ""psa_fwu_finish(envelope_id)""
 deactivate envelope
 activate service #ddd
 return ""PSA_FWU_PROCESSING_REQUIRED""
-deactivate service
 activate envelope #PaleGoldenRod
 rnote over envelope #PaleGoldenRod: FETCHING
 
@@ -55,25 +52,21 @@ activate service #ddd
 
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""
-    deactivate service
 
     client -> service: ""psa_fwu_payload(payload_id)""
     activate service #ddd
     return ""PSA_SUCCESS"" + payload information
-    deactivate service
 
     server <<- client ++ : Fetch payload
     client -> service: ""psa_fwu_start(payload_id)""
     note left: Transfer payload
     activate service #ddd
     return ""PSA_SUCCESS""
-    deactivate service
 
     server -->> client: Download payload
     client -> service: ""psa_fwu_write(payload_id, ...)""
     activate service #ddd
     return ""PSA_SUCCESS""
-    deactivate service
 
     server -->> client -- : Download payload
     client -> service: ""psa_fwu_write(payload_id, ...)""
@@ -84,7 +77,6 @@ loop While additional payloads are required
     client -> service: ""psa_fwu_finish(payload_id)""
     activate service #ddd
     return ""PSA_SUCCESS""
-    deactivate service
 
     client -> service: ""psa_fwu_process()""
     note left: Resume SUIT processing
@@ -92,9 +84,8 @@ loop While additional payloads are required
     activate service #ddd
 
 end
-client <-- service: ""PSA_SUCCESS""
+return ""PSA_SUCCESS""
 note left: Manifest processing complete
-deactivate service
 activate envelope #LightSalmon
 rnote over envelope #LightSalmon: CANDIDATE
 
@@ -103,7 +94,6 @@ note left: Proceed with installation
 deactivate envelope
 activate service #ddd
 return  ""PSA_FWU_REBOOT_REQUIRED""
-deactivate service
 activate envelope #LightCoral
 rnote over envelope #LightCoral: STAGED
 

@@ -52,7 +52,6 @@ loop While additional payloads are required
     fetcher -> installer: ""psa_fwu_payload(payload_id)""
     activate installer #ddd
     return ""PSA_SUCCESS"" + payload information
-    deactivate installer
 
     server <<- fetcher ++ : Fetch payload
     fetcher -> installer: ""psa_fwu_start(payload_id)""

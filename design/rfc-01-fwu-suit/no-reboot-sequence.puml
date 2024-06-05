@@ -27,20 +27,17 @@ note left: Transfer SUIT Envelope
 deactivate envelope
 activate service #ddd
 return ""PSA_SUCCESS""
-deactivate service
 activate envelope #PaleGreen
 rnote over envelope #PaleGreen: WRITING
 
 client -> service #ddd: ""psa_fwu_write(envelope_id, ...)""
 activate service #ddd
 return ""PSA_SUCCESS""
-deactivate service
 
 client -> service: ""psa_fwu_finish(envelope_id)""
 deactivate envelope
 activate service #ddd
 return ""PSA_FWU_PROCESSING_REQUIRED""
-deactivate service
 activate envelope #PaleGoldenRod
 rnote over envelope #PaleGoldenRod: FETCHING
 
@@ -54,7 +51,6 @@ activate service #ddd
 
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""
-    deactivate service
 
     note over server, service: Transfer payload
 
@@ -63,9 +59,8 @@ loop While additional payloads are required
     deactivate envelope
     activate service #ddd
 end
-client <-- service: ""PSA_SUCCESS""
+return ""PSA_SUCCESS""
 note left: Manifest processing complete
-deactivate service
 activate envelope #LightSalmon
 rnote over envelope #LightSalmon: CANDIDATE
 
@@ -75,7 +70,6 @@ deactivate envelope
 activate service #ddd
 
 return ""PSA_FWU_PROCESSING_REQUIRED""
-deactivate service
 activate envelope #Pink
 rnote over envelope #Pink: INSTALLING
 
@@ -89,7 +83,6 @@ activate service #ddd
 
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""
-    deactivate service
 
     note over server, service: Transfer payload
 
@@ -102,8 +95,7 @@ hnote over service
     ""suit-load""
     ""suit-invoke""
 end note
-client <-- service: ""PSA_SUCCESS""
-deactivate service
+return ""PSA_SUCCESS""
 activate envelope #aad
 rnote over envelope #aad: UPDATED
 
