@@ -564,14 +564,14 @@ A data structure used to provide information about a payload to be fetched.
 .. list-table::
    :widths: auto
 
+   *  -  ``payload_len``
+      -  The size, in bytes, of the firmware payload.
+         Zero, if the flag ``PSA_FWU_PAYLOAD_HAS_LENGTH`` is not set in ``flags``.
    *  -  ``flags``
       -  A set of flags to indicate which information is present in the other fields.
    *  -  ``digest_len``
       -  The length, in bytes, of the payload digest in ``digest[]``.
          Zero, if the flag ``PSA_FWU_PAYLOAD_HAS_DIGEST`` is not set in ``flags``.
-   *  -  ``payload_len``
-      -  The size, in bytes, of the firmware payload.
-         Zero, if the flag ``PSA_FWU_PAYLOAD_HAS_LENGTH`` is not set in ``flags``.
    *  -  ``digest``
       -  The encoded payload digest is stored in the first ``digest_len`` bytes of this buffer.
          The value of the remaining bytes are not defined.
