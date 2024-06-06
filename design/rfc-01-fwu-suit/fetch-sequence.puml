@@ -53,7 +53,7 @@ activate service #ddd
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""
 
-    client -> service: ""psa_fwu_payload(payload_id)""
+    client -> service: ""psa_fwu_query_payload(payload_id)""
     activate service #ddd
     return ""PSA_SUCCESS"" + payload information
 

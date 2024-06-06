@@ -49,7 +49,7 @@ activate installer #ddd
 loop While additional payloads are required
     return ""PSA_FWU_PAYLOAD_REQUIRED""
 
-    fetcher -> installer: ""psa_fwu_payload(payload_id)""
+    fetcher -> installer: ""psa_fwu_query_payload(payload_id)""
     activate installer #ddd
     return ""PSA_SUCCESS"" + payload information
 
