@@ -937,7 +937,7 @@ Key derivation functions
 
      .. note::
 
-        This function is equivalent to calling `psa_key_derivation_output_key_custom()` with the production parameters `PSA_KEY_CUSTOM_PRODUCTION_INIT` and ``custom_data_length == 0`` (``custom_data`` is ignored).
+        This function is equivalent to calling `psa_key_derivation_output_key_custom()` with the production parameters `PSA_CUSTOM_KEY_PARAMETERS_INIT` and ``custom_data_length == 0`` (``custom_data`` is ignored).
 
 .. function:: psa_key_derivation_output_key_custom
 
@@ -960,10 +960,10 @@ Key derivation functions
             This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
     .. param:: psa_key_derivation_operation_t *operation
         The key derivation operation object to read from.
-    .. param:: const psa_key_custom_production_t *custom
+    .. param:: const psa_custom_key_parameters_t *custom
         Customized production parameters for the key derivation.
 
-        When this is `PSA_KEY_CUSTOM_PRODUCTION_INIT` with ``custom_data_length == 0``,
+        When this is `PSA_CUSTOM_KEY_PARAMETERS_INIT` with ``custom_data_length == 0``,
         this function is equivalent to `psa_key_derivation_output_key()`.
     .. param:: const uint8_t *custom_data
         A buffer containing additional variable-sized production parameters.
@@ -1024,7 +1024,7 @@ Key derivation functions
     Use this function to provide explicit production parameters when deriving a key.
     See the description of `psa_key_derivation_output_key()` for the operation of this function with the default production parameters.
 
-    See the documentation of `psa_key_custom_production_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key derivation.
+    See the documentation of `psa_custom_key_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key derivation.
 
 .. function:: psa_key_derivation_verify_bytes
 

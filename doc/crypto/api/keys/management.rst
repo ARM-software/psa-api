@@ -114,7 +114,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. note::
         The |API| does not support asymmetric private key objects outside of a key pair. To import a private key, the ``attributes`` must specify the corresponding key pair type. Depending on the key type, either the import format contains the public key data or the implementation will reconstruct the public key from the private key as needed.
 
-.. struct:: psa_key_custom_production_t
+.. struct:: psa_custom_key_parameters_t
     :type:
 
     .. summary::
@@ -128,15 +128,15 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
         Future versions of the specification, and implementations, may add other fields in this structure.
 
-    The interpretation of this structure depends on the type of the key. :numref:`tab-custom-production` shows the custom production parameters for each type of key. See the key type definitions for details of the valid parameter values.
+    The interpretation of this structure depends on the type of the key. :numref:`tab-custom-key-parameters` shows the custom production parameters for each type of key. See the key type definitions for details of the valid parameter values.
 
-    .. list-table:: Custom production parameters
-        :name: tab-custom-production
+    .. list-table:: Custom key parameters
+        :name: tab-custom-key-parameters
         :widths: 1 4
         :header-rows: 1
 
         *   -   Key type
-            -   Production parameters
+            -   Custom key parameters
 
         *   -   RSA
 
@@ -149,13 +149,13 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
                 ``flags`` must be ``0``.
 
-.. macro:: PSA_KEY_CUSTOM_PRODUCTION_INIT
+.. macro:: PSA_CUSTOM_KEY_PARAMETERS_INIT
     :definition: { 0 }
 
     .. summary::
         The default production parameters for key generation or key derivation.
 
-    Calling `psa_generate_key_custom()` or `psa_key_derivation_output_key_custom()` with :code:`custom == PSA_KEY_CUSTOM_PRODUCTION_INIT` and ``custom_data_length == 0`` is equivalent to calling `psa_generate_key()` or `psa_key_derivation_output_key()`
+    Calling `psa_generate_key_custom()` or `psa_key_derivation_output_key_custom()` with :code:`custom == PSA_CUSTOM_KEY_PARAMETERS_INIT` and ``custom_data_length == 0`` is equivalent to calling `psa_generate_key()` or `psa_key_derivation_output_key()`
     respectively.
 
 .. function:: psa_generate_key
@@ -229,7 +229,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. note::
 
-        This function is equivalent to calling `psa_generate_key_custom()` with the production parameters `PSA_KEY_CUSTOM_PRODUCTION_INIT` and ``custom_data_length == 0`` (``custom_data`` is ignored).
+        This function is equivalent to calling `psa_generate_key_custom()` with the production parameters `PSA_CUSTOM_KEY_PARAMETERS_INIT` and ``custom_data_length == 0`` (``custom_data`` is ignored).
 
 .. function:: psa_generate_key_custom
 
@@ -249,10 +249,10 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         .. note::
             This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
-    .. param:: const psa_key_custom_production_t *custom
+    .. param:: const psa_custom_key_parameters_t *custom
         Customized production parameters for the key generation.
 
-        When this is `PSA_KEY_CUSTOM_PRODUCTION_INIT` with ``custom_data_length == 0``, this function is equivalent to `psa_generate_key()`.
+        When this is `PSA_CUSTOM_KEY_PARAMETERS_INIT` with ``custom_data_length == 0``, this function is equivalent to `psa_generate_key()`.
     .. param:: const uint8_t *custom_data
         A buffer containing additional variable-sized production parameters.
     .. param:: size_t custom_data_length
@@ -300,7 +300,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     Use this function to provide explicit production parameters when generating a key.
     See the description of `psa_generate_key()` for the operation of this function with the default production parameters.
 
-    See the documentation of `psa_key_custom_production_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key generation.
+    See the documentation of `psa_custom_key_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key generation.
 
 .. function:: psa_copy_key
 
