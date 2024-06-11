@@ -24,9 +24,9 @@ typedef uint32_t psa_pake_primitive_t;
 typedef uint8_t psa_pake_primitive_type_t;
 typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
-typedef struct psa_key_custom_production_t {
+typedef struct psa_custom_key_parameters_t {
     uint32_t flags;
-} psa_key_custom_production_t;
+} psa_custom_key_parameters_t;
 #define PSA_AEAD_DECRYPT_OUTPUT_MAX_SIZE(ciphertext_length) \
     /* implementation-defined value */
 #define PSA_AEAD_DECRYPT_OUTPUT_SIZE(key_type, alg, ciphertext_length) \
@@ -209,6 +209,7 @@ typedef struct psa_key_custom_production_t {
     /* implementation-defined value */
 #define PSA_CRYPTO_API_VERSION_MAJOR 1
 #define PSA_CRYPTO_API_VERSION_MINOR 3
+#define PSA_CUSTOM_KEY_PARAMETERS_INIT { 0 }
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
 #define PSA_ECC_FAMILY_BRAINPOOL_P_R1 ((psa_ecc_family_t) 0x30)
 #define PSA_ECC_FAMILY_FRP ((psa_ecc_family_t) 0x33)
@@ -241,7 +242,6 @@ typedef struct psa_key_custom_production_t {
 #define PSA_HASH_SUSPEND_OUTPUT_MAX_SIZE /* implementation-defined value */
 #define PSA_HASH_SUSPEND_OUTPUT_SIZE(alg) /* specification-defined value */
 #define PSA_KEY_ATTRIBUTES_INIT /* implementation-defined value */
-#define PSA_KEY_CUSTOM_PRODUCTION_INIT { 0 }
 #define PSA_KEY_DERIVATION_INPUT_CONTEXT /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_COST /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_INFO /* implementation-defined value */
@@ -510,7 +510,7 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
 psa_status_t psa_generate_key(const psa_key_attributes_t * attributes,
                               psa_key_id_t * key);
 psa_status_t psa_generate_key_custom(const psa_key_attributes_t *attributes,
-                                     const psa_key_custom_production_t *custom,
+                                     const psa_custom_key_parameters_t *custom,
                                      const uint8_t *custom_data,
                                      size_t custom_data_length,
                                      mbedtls_svc_key_id_t *key);
@@ -596,7 +596,7 @@ psa_status_t psa_key_derivation_output_key(const psa_key_attributes_t * attribut
                                            psa_key_id_t * key);
 psa_status_t psa_key_derivation_output_key_custom(const psa_key_attributes_t *attributes,
                                                   psa_key_derivation_operation_t *operation,
-                                                  const psa_key_custom_production_t *custom,
+                                                  const psa_custom_key_parameters_t *custom,
                                                   const uint8_t *custom_data,
                                                   size_t custom_data_length,
                                                   mbedtls_svc_key_id_t *key);
