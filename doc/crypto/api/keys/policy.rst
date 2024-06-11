@@ -192,7 +192,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     *   `psa_mac_compute()`
     *   `psa_mac_sign_setup()`
     *   `psa_sign_message()`
-    *   `psa_sign_interruptible_setup()`, when signing a message.
+    *   `psa_sign_iop_setup()`, when signing a message.
 
     For a key pair, this concerns the private key.
 
@@ -207,7 +207,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     *   `psa_mac_verify()`
     *   `psa_mac_verify_setup()`
     *   `psa_verify_message()`
-    *   `psa_verify_interruptible_setup()`, when verifying the signature of a message.
+    *   `psa_verify_iop_setup()`, when verifying the signature of a message.
 
     For a key pair, this concerns the public key.
 
@@ -220,7 +220,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     This flag is required to use the key to sign a pre-computed message hash in an asymmetric signature operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_sign_hash()`
-    *   `psa_sign_interruptible_setup()` when signing a pre-computed hash.
+    *   `psa_sign_iop_setup()` when signing a pre-computed hash.
 
     This flag automatically sets `PSA_KEY_USAGE_SIGN_MESSAGE`: if an application sets the flag `PSA_KEY_USAGE_SIGN_HASH` when creating a key, then the key always has the permissions conveyed by `PSA_KEY_USAGE_SIGN_MESSAGE`, and the flag `PSA_KEY_USAGE_SIGN_MESSAGE` will also be present when the application queries the usage flags of the key.
 
@@ -235,7 +235,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     This flag is required to use the key to verify a pre-computed message hash in an asymmetric signature verification operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_verify_hash()`
-    *   `psa_verify_interruptible_setup()`, when verifying the signature of a pre-computed hash.
+    *   `psa_verify_iop_setup()`, when verifying the signature of a pre-computed hash.
 
     This flag automatically sets `PSA_KEY_USAGE_VERIFY_MESSAGE`: if an application sets the flag `PSA_KEY_USAGE_VERIFY_HASH` when creating a key, then the key always has the permissions conveyed by `PSA_KEY_USAGE_VERIFY_MESSAGE`, and the flag `PSA_KEY_USAGE_VERIFY_MESSAGE` will also be present when the application queries the usage flags of the key.
 

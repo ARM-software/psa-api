@@ -82,23 +82,23 @@ Using an interruptible operation, an application can perform an expensive crypto
 
 See :secref:`interruptible-operations`.
 
-.. function:: psa_interruptible_set_max_ops
+.. function:: psa_iop_set_max_ops
 
     .. summary::
         Set the maximum number of *ops* allowed to be executed by an interruptible function in a single call.
 
     .. param:: uint32_t max_ops
-        The maximum number of ops to be executed in a single call, this can be a number from ``0`` to `PSA_INTERRUPTIBLE_MAX_OPS_UNLIMITED`, where ``0`` is obviously the least amount of work done per call.
+        The maximum number of ops to be executed in a single call, this can be a number from ``0`` to `PSA_IOP_MAX_OPS_UNLIMITED`, where ``0`` is obviously the least amount of work done per call.
 
     .. return:: void
 
     Interruptible functions use this value to limit the computation that is done in any single call to the function. If this limit is reached, the function will return :code:`PSA_OPERATION_INCOMPLETE`, and the caller must repeat the function call until a different status code is returned, or abort the operation.
 
-    After initialization of the implementation, the maximum *ops* defaults to `PSA_INTERRUPTIBLE_MAX_OPS_UNLIMITED`. This means that the whole operation will complete in a single call, regardless of the number of *ops* required. An application must call `psa_interruptible_set_max_ops()` to set a different limit.
+    After initialization of the implementation, the maximum *ops* defaults to `PSA_IOP_MAX_OPS_UNLIMITED`. This means that the whole operation will complete in a single call, regardless of the number of *ops* required. An application must call `psa_iop_set_max_ops()` to set a different limit.
 
     .. note::
 
-        The time taken to execute a single *op* is implementation specific and depends on software, hardware, the algorithm, key type and curve chosen. Even within a single operation, successive ops can take differing amounts of time. The only guarantee is that lower values for ``max_ops`` means functions will block for a lesser maximum amount of time and conversely larger values will mean blocking for a larger maximum amount of time. The functions `psa_sign_interruptible_get_num_ops()` and `psa_verify_interruptible_get_num_ops()` are provided to help with tuning this value.
+        The time taken to execute a single *op* is implementation specific and depends on software, hardware, the algorithm, key type and curve chosen. Even within a single operation, successive ops can take differing amounts of time. The only guarantee is that lower values for ``max_ops`` means functions will block for a lesser maximum amount of time and conversely larger values will mean blocking for a larger maximum amount of time. The functions `psa_sign_iop_get_num_ops()` and `psa_verify_iop_get_num_ops()` are provided to help with tuning this value.
 
     .. admonition:: Implementation note
 
@@ -107,7 +107,7 @@ See :secref:`interruptible-operations`.
     .. warning::
         With implementations that interpret this number as a hard limit, setting this number too small can result in an infinite loop, whereby each call results in immediate return with no computation done.
 
-.. function:: psa_interruptible_get_max_ops
+.. function:: psa_iop_get_max_ops
 
     .. summary::
        Get the maximum number of *ops* allowed to be executed by an interruptible function in a single call.
@@ -115,13 +115,13 @@ See :secref:`interruptible-operations`.
     .. return:: uint32_t
        Maximum number of *ops* allowed to be executed by an interruptible function in a single call.
 
-    This returns the value last set in a call to `psa_interruptible_set_max_ops()`.
+    This returns the value last set in a call to `psa_iop_set_max_ops()`.
 
-.. macro:: PSA_INTERRUPTIBLE_MAX_OPS_UNLIMITED
+.. macro:: PSA_IOP_MAX_OPS_UNLIMITED
     :definition: UINT32_MAX
 
     .. summary::
 
-        Maximum value for use with `psa_interruptible_set_max_ops()`.
+        Maximum value for use with `psa_iop_set_max_ops()`.
 
-    Using this value in a call to `psa_interruptible_set_max_ops()` will cause interruptible functions to complete their calculation before returning.
+    Using this value in a call to `psa_iop_set_max_ops()` will cause interruptible functions to complete their calculation before returning.

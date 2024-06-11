@@ -258,10 +258,10 @@ The typical sequence of actions with a interruptible operation is as follows:
 
 #.  **Initialize:** Initialize or assign the operation object by one of the following methods:
 
-    -   Set it to logical zero. This is automatic for static and global variables. Explicit initialization must use the associated ``PSA_xxx_INIT`` macro as the type is implementation-defined.
+    -   Set it to logical zero. This is automatic for static and global variables. Explicit initialization must use the associated ``PSA_xxx_IOP_INIT`` macro as the type is implementation-defined.
     -   Set it to all-bits zero. This is automatic if the object was allocated with ``calloc()``.
-    -   Assign the value of the associated macro ``PSA_xxx_INIT``.
-    -   Assign the result of calling the associated function ``psa_xxx_init()``.
+    -   Assign the value of the associated macro ``PSA_xxx_IOP_INIT``.
+    -   Assign the result of calling the associated function ``psa_xxx_iop_init()``.
 
     The resulting object is now *inactive*.
     It is an error to initialize an operation object that is in *active* or *error* states. This can leak memory or other resources.
@@ -286,11 +286,11 @@ The typical sequence of actions with a interruptible operation is as follows:
 
     An application needs to repeat this step until the completion function completes with success or an error status.
 
-#.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_interruptible_abort()`` function. This will release any resources associated with the operation and return the operation object to the *inactive* state.
+#.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_iop_abort()`` function. This will release any resources associated with the operation and return the operation object to the *inactive* state.
 
-    Any error that occurs to an operation while it is not in an *inactive* state will result in the operation entering an *error* state. The application must call the associated ``psa_xxx_interruptible_abort()`` function to release the operation resources and return the object to the *inactive* state.
+    Any error that occurs to an operation while it is not in an *inactive* state will result in the operation entering an *error* state. The application must call the associated ``psa_xxx_iop_abort()`` function to release the operation resources and return the object to the *inactive* state.
 
-    ``psa_xxx_interruptible_abort()`` can be called on an *inactive* operation, and this has no effect.
+    ``psa_xxx_iop_abort()`` can be called on an *inactive* operation, and this has no effect.
 
 Once an interruptible operation object is returned to the *inactive* state, it can be reused by calling one of the applicable setup functions again.
 
@@ -307,7 +307,7 @@ It is safe to move an interruptible operation object to a different memory locat
 
 Each type of interruptible operation can have multiple *setup*, *input*, and *completing* states. Documentation for the specific operation describes the setup, update and completion functions, and any requirements about their usage and ordering.
 
-See :secref:`interruptible_sign` for an example of using an interruptible operation.
+See :secref:`interruptible-sign` for an example of using an interruptible operation.
 
 Symmetric cryptography
 ~~~~~~~~~~~~~~~~~~~~~~
