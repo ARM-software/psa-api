@@ -925,6 +925,11 @@ An interruptible asymmetric signature operation is used as follows:
 
         *   ``alg`` is not an asymmetric signature algorithm.
         *   ``key`` is not an asymmetric key pair, that is compatible with ``alg``.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be inactive.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -1277,6 +1282,11 @@ An interruptible asymmetric verification operation is used as follows:
         *   ``alg`` is not an asymmetric signature algorithm.
         *   ``key`` is not an asymmetric key pair, or asymmetric public key, that is compatible with ``alg``.
         *   ``signature`` is not a valid signature for the algorithm and key.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be inactive.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
         ``signature`` is not a valid signature for the algorithm and key.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
