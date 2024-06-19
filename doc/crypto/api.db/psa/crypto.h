@@ -6,7 +6,10 @@ typedef uint32_t psa_algorithm_t;
 typedef /* implementation-defined type */ psa_cipher_operation_t;
 typedef uint8_t psa_dh_family_t;
 typedef uint8_t psa_ecc_family_t;
+typedef /* implementation-defined type */ psa_export_public_key_iop_t;
+typedef /* implementation-defined type */ psa_generate_key_iop_t;
 typedef /* implementation-defined type */ psa_hash_operation_t;
+typedef /* implementation-defined type */ psa_key_agreement_iop_t;
 typedef /* implementation-defined type */ psa_key_attributes_t;
 typedef /* implementation-defined type */ psa_key_derivation_operation_t;
 typedef uint16_t psa_key_derivation_step_t;
@@ -234,9 +237,11 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_EXPORT_KEY_OUTPUT_SIZE(key_type, key_bits) \
     /* implementation-defined value */
 #define PSA_EXPORT_KEY_PAIR_MAX_SIZE /* implementation-defined value */
+#define PSA_EXPORT_PUBLIC_KEY_IOP_INIT /* implementation-defined value */
 #define PSA_EXPORT_PUBLIC_KEY_MAX_SIZE /* implementation-defined value */
 #define PSA_EXPORT_PUBLIC_KEY_OUTPUT_SIZE(key_type, key_bits) \
     /* implementation-defined value */
+#define PSA_GENERATE_KEY_IOP_INIT /* implementation-defined value */
 #define PSA_HASH_BLOCK_LENGTH(alg) /* implementation-defined value */
 #define PSA_HASH_LENGTH(alg) /* implementation-defined value */
 #define PSA_HASH_MAX_SIZE /* implementation-defined value */
@@ -249,6 +254,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_HASH_SUSPEND_OUTPUT_MAX_SIZE /* implementation-defined value */
 #define PSA_HASH_SUSPEND_OUTPUT_SIZE(alg) /* specification-defined value */
 #define PSA_IOP_MAX_OPS_UNLIMITED UINT32_MAX
+#define PSA_KEY_AGREEMENT_IOP_INIT /* implementation-defined value */
 #define PSA_KEY_ATTRIBUTES_INIT /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_CONTEXT /* implementation-defined value */
 #define PSA_KEY_DERIVATION_INPUT_COST /* implementation-defined value */
@@ -530,6 +536,15 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
                                    uint8_t * data,
                                    size_t data_size,
                                    size_t * data_length);
+psa_status_t psa_export_public_key_iop_abort(psa_export_public_key_iop_t * operation);
+psa_status_t psa_export_public_key_iop_complete(psa_export_public_key_iop_t * operation,
+                                                uint8_t * data,
+                                                size_t data_size,
+                                                size_t * data_length);
+uint32_t psa_export_public_key_iop_get_num_ops(psa_export_public_key_iop_t * operation);
+psa_export_public_key_iop_t psa_export_public_key_iop_init(void);
+psa_status_t psa_export_public_key_iop_setup(psa_export_public_key_iop_t * operation,
+                                             psa_key_id_t key);
 psa_status_t psa_generate_key(const psa_key_attributes_t * attributes,
                               psa_key_id_t * key);
 psa_status_t psa_generate_key_custom(const psa_key_attributes_t * attributes,
@@ -537,6 +552,13 @@ psa_status_t psa_generate_key_custom(const psa_key_attributes_t * attributes,
                                      const uint8_t * custom_data,
                                      size_t custom_data_length,
                                      mbedtls_svc_key_id_t * key);
+psa_status_t psa_generate_key_iop_abort(psa_generate_key_iop_t * operation);
+psa_status_t psa_generate_key_iop_complete(psa_generate_key_iop_t * operation,
+                                           psa_key_id_t * key);
+uint32_t psa_generate_key_iop_get_num_ops(psa_generate_key_iop_t * operation);
+psa_generate_key_iop_t psa_generate_key_iop_init(void);
+psa_status_t psa_generate_key_iop_setup(psa_generate_key_iop_t * operation,
+                                        const psa_key_attributes_t * attributes);
 psa_status_t psa_generate_random(uint8_t * output,
                                  size_t output_size);
 psa_algorithm_t psa_get_key_algorithm(const psa_key_attributes_t * attributes);
@@ -593,6 +615,17 @@ psa_status_t psa_key_agreement(psa_key_id_t private_key,
                                psa_algorithm_t alg,
                                const psa_key_attributes_t * attributes,
                                psa_key_id_t * key);
+psa_status_t psa_key_agreement_iop_abort(psa_key_agreement_iop_t * operation);
+psa_status_t psa_key_agreement_iop_complete(psa_key_agreement_iop_t * operation,
+                                            psa_key_id_t * key);
+uint32_t psa_key_agreement_iop_get_num_ops(psa_key_agreement_iop_t * operation);
+psa_key_agreement_iop_t psa_key_agreement_iop_init(void);
+psa_status_t psa_key_agreement_iop_setup(psa_key_agreement_iop_t * operation,
+                                         psa_key_id_t private_key,
+                                         const uint8_t * peer_key,
+                                         size_t peer_key_length,
+                                         psa_algorithm_t alg,
+                                         const psa_key_attributes_t * attributes);
 psa_key_attributes_t psa_key_attributes_init(void);
 psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation);
 psa_status_t psa_key_derivation_get_capacity(const psa_key_derivation_operation_t * operation,
