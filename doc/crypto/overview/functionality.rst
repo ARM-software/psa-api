@@ -247,7 +247,7 @@ There are three components in an interruptible operation:
 
 All interruptible operations follow the same pattern of use, which is shown in :numref:`fig-interruptible`.
 
-.. figure::  /figure/interruptible_operation.*
+.. figure::  /figure/interruptible_operation_complex.*
     :name: fig-interruptible
 
     General state model for an interruptible operation
