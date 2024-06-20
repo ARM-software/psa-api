@@ -644,8 +644,8 @@ Single-part asymmetric signature functions
 
 .. _interruptible-sign:
 
-Interruptible asymmetric signature operations
----------------------------------------------
+Interruptible asymmetric signature
+----------------------------------
 
 The interruptible asymmetric signature operation calculates the signature of a message, or pre-computed hash, in an interruptible manner. For example, this can enable an application to remain responsive in an execution environment that does not provide multi-tasking.
 
@@ -996,8 +996,8 @@ An interruptible asymmetric signature operation is used as follows:
 
 .. _interruptible-verify:
 
-Interruptible asymmetric verification operations
-------------------------------------------------
+Interruptible asymmetric verification
+-------------------------------------
 
 The interruptible asymmetric verification operation verifies the signature of a message, or pre-computed hash, in an interruptible manner. For example, this can enable an application to remain responsive in an execution environment that does not provide multi-tasking.
 
