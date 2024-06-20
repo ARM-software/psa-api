@@ -20,7 +20,14 @@ Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
-*   Added interruptible operations for asymmetric sign and verify. See :secref:`sign` and :secref:`interruptible-operations`.
+*   Added interruptible operations for asymmetric signature and key agreement use cases.
+    See :secref:`interruptible-operations`.
+
+    -   :secref:`interruptible-sign`
+    -   :secref:`interruptible-verify`
+    -   :secref:`interruptible-generate-key`
+    -   :secref:`interruptible-export-key`
+    -   :secref:`interruptible-key-agreement`
 
 *   Add extended key-generation and key-derivation functions, `psa_generate_key_custom()` and `psa_key_derivation_output_key_custom()`, that accept additional parameters to control the key creation process.
 *   Define a key production parameter to select a non-default exponent for RSA key generation.
