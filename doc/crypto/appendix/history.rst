@@ -21,7 +21,7 @@ Changes to the API
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
 *   Added interruptible operations for asymmetric signature and key agreement use cases.
-    See :secref:`interruptible-operations`.
+    See :secref:`interruptible-operations` and :secref:`interruptible-multi-part-operations`.
 
     -   :secref:`interruptible-sign`
     -   :secref:`interruptible-verify`
