@@ -23,22 +23,22 @@ note as N1
    Operation object starts as
    uninitialised memory
 end note
-inactive --> setup: **Setup**
+inactive --> setup: **Setup**\n//success//
 setup --> setup: **Setup-complete**\n//incomplete//
-setup --> input: **Setup-complete**
-input --> input: **Update**
+setup --> input: **Setup-complete**\n//success//
+input --> input: **Update**\n//success//
 input --> completing: **Complete**\n//incomplete//
-input --> inactive: **Complete**
+input -u-> inactive: **Complete**\n//success//
 completing --> completing: **Complete**\n//incomplete//
-completing --> inactive: **Complete**
-error -[#darkred,dashed]-> inactive: <color:darkred>**Abort**
+completing -u-> inactive: **Complete**\n//success//
+error -[#darkred,dashed]r-> inactive: <color:darkred>**Abort**
 inactive -[#darkred,dashed]-> inactive: <color:darkred>**Setup**\n<color:darkred>//fails//
 setup -[#darkred,dashed]-> error: <color:darkred>**Setup-complete**\n<color:darkred>//fails//
 input -[#darkred,dashed]-> error: <color:darkred>**Update**\n<color:darkred>//fails//
 input -[#darkred,dashed]-> error: <color:darkred>**Complete**\n<color:darkred>//fails//
 completing -[#darkred,dashed]-> error: <color:darkred>**Complete**\n<color:darkred>//fails//
-setup -[#blue,dotted]-> inactive: <color:blue>**Abort**
-input -[#blue,dotted]-> inactive: <color:blue>**Abort**
-completing -[#blue,dotted]-> inactive: <color:blue>**Abort**
+setup -[#blue,dotted]u-> inactive: <color:blue>**Abort**
+input -[#blue,dotted]u-> inactive: <color:blue>**Abort**
+completing -[#blue,dotted]u-> inactive: <color:blue>**Abort**
 
 @enduml

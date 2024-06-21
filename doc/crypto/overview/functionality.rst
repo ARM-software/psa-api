@@ -222,6 +222,8 @@ It is safe to move a multi-part operation object to a different memory location,
 
 Each type of multi-part operation can have multiple *active* states. Documentation for the specific operation describes the configuration and update functions, and any requirements about their usage and ordering.
 
+See :secref:`hash-mp` for an example of a multi-part operation.
+
 .. _interruptible-operations:
 
 Interruptible operations
@@ -235,6 +237,11 @@ For some use cases, this can be achieved by controlling the amount of data proce
 
     Unlike multi-part operations, an interruptible operation does not provide additional control over the inputs to an algorithm. If an application does not need to interrupt the operation, it is recommended that the appropriate single-part function is used.
 
+Use cases for which the |API| defines interruptible operations include:
+
+*   Asymmetric signature generation and verification.
+*   Key exchange protocols, including the use of ephemeral key-pairs.
+
 There are three components in an interruptible operation:
 
 *   A specific object type to maintain the state of the operation, in a similar way to multi-part operations. These types are implementation-defined.
@@ -245,54 +252,56 @@ There are three components in an interruptible operation:
 
     Each interruptible operation also provides a function to report the cumulative number of *ops* used by the operation. This value is only reset when the operation object is set up for a new operation, which permits the value to be queried after an operation has finished.
 
-All interruptible operations follow the same pattern of use, which is shown in :numref:`fig-interruptible`.
+Interruptible operations follow a common pattern of use, which is shown in :numref:`fig-interruptible`.
 
-.. figure::  /figure/interruptible_operation_complex.*
+.. figure::  /figure/interruptible_operation.*
     :name: fig-interruptible
 
     General state model for an interruptible operation
 
 The typical sequence of actions with a interruptible operation is as follows:
 
-1.  **Allocate:** Allocate memory for an operation object of the appropriate type. The application can use any allocation strategy: stack, heap, static, etc.
+1.  **Allocate:** Allocate memory for an operation object of the appropriate type.
+    The application can use any allocation strategy: stack, heap, static, etc.
 
-#.  **Initialize:** Initialize or assign the operation object by one of the following methods:
+#.  **Initialize:** Initialize or assign the interruptible operation object by one of the following methods:
 
-    -   Set it to logical zero. This is automatic for static and global variables. Explicit initialization must use the associated ``PSA_xxx_IOP_INIT`` macro as the type is implementation-defined.
-    -   Set it to all-bits zero. This is automatic if the object was allocated with ``calloc()``.
+    -   Set it to logical zero.
+        This is automatic for static and global variables.
+        Explicit initialization must use the associated ``PSA_xxx_IOP_INIT`` macro as the type is implementation-defined.
+    -   Set it to all-bits zero.
+        This is automatic if the object was allocated with ``calloc()``.
     -   Assign the value of the associated macro ``PSA_xxx_IOP_INIT``.
     -   Assign the result of calling the associated function ``psa_xxx_iop_init()``.
 
     The resulting object is now *inactive*.
-    It is an error to initialize an operation object that is in *active* or *error* states. This can leak memory or other resources.
 
-#.  **Begin-setup:** Start a new interruptible operation on an *inactive* operation object. Each operation object will define one or more setup functions to start a specific operation.
+    It is an error to initialize an interruptible operation object that is in *active* or *error* states. This can leak memory or other resources.
 
-    On success, an operation object enters a *setup* state. On failure, the operation object will remain *inactive*.
+#.  **Setup:** Start a new interruptible operation on an *inactive* operation object.
+    Each interruptible operation object will define one or more setup functions to start a specific operation.
 
-#.  **Complete-setup:** Complete the operation setup on an interruptible operation object that is in *setup* state.
+    On success, a setup function will put an interruptible operation object into an *active* state.
+    On failure, the operation object will remain *inactive*.
 
-    If the setup computation is interrupted, a the operation remains in *setup* state. If setup completes successfully, the operation enters an *input* state. On failure, the operation object will enter an *error* state.
+#.  **Complete:** To end an interruptible operation, call the applicable completion function.
+    This will perform the final computation, produce any final outputs, and then release any resources associated with the operation.
 
-    An application needs to repeat this step until the setup completes with success or an error status.
+    If the computation cannot be completed within the *maximum ops*, the interruptible operation is left in an *active* state.
+    If the operation completes successfully, the operation enters an *inactive* state.
+    On failure, the operation object will enter an *error* state.
 
-#.  **Update:** Update an interruptible operation object in *input* state. The update function can provide additional parameters, supply data for processing or generate outputs.
+    An application needs to repeat this step until the completion function returns with a success or an error status.
 
-    On success, the operation object remains in *input* state. On failure, the operation object will enter an *error* state.
+#.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_iop_abort()`` function.
+    This will release any resources associated with the operation and return the operation object to the *inactive* state.
 
-#.  **Complete:** To end an interruptible operation, call the applicable completion function. This will perform the final computation, produce any final outputs, and then release any resources associated with the operation.
+    Any error that occurs to an operation while it is in an *active* state will result in the operation entering an *error* state.
+    The application must call the associated ``psa_xxx_iop_abort()`` function to release the operation resources and return the object to the *inactive* state.
 
-    If the finishing computation is interrupted, a the operation is left in *completing* state. If the operation completes successfully, the operation enters an *inactive* state. On failure, the operation object will enter an *error* state.
+    ``psa_xxx_iop_abort()`` can be called on an *inactive* interruptible operation, and this has no effect.
 
-    An application needs to repeat this step until the completion function completes with success or an error status.
-
-#.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_iop_abort()`` function. This will release any resources associated with the operation and return the operation object to the *inactive* state.
-
-    Any error that occurs to an operation while it is not in an *inactive* state will result in the operation entering an *error* state. The application must call the associated ``psa_xxx_iop_abort()`` function to release the operation resources and return the object to the *inactive* state.
-
-    ``psa_xxx_iop_abort()`` can be called on an *inactive* operation, and this has no effect.
-
-Once an interruptible operation object is returned to the *inactive* state, it can be reused by calling one of the applicable setup functions again.
+Once an interruptible operation object is returned to the *inactive* state, it can be reused by calling one of the setup functions again.
 
 If an interruptible operation object is not initialized before use, the behavior is undefined.
 
@@ -300,14 +309,78 @@ If an interruptible operation function determines that the operation object is n
 
 If an interruptible operation function is called with an operation object in the wrong state, the function will return :code:`PSA_ERROR_BAD_STATE` and the operation object will enter the *error* state.
 
-It is safe to move an interruptible operation object to a different memory location, for example, using a bitwise copy, and then to use the object in the new location. For example, an application can allocate an operation object on the stack and return it, or the operation object can be allocated within memory managed by a garbage collector. However, this does not permit the following behaviors:
+It is safe to move an interruptible operation object to a different memory location, for example, using a bitwise copy, and then to use the object in the new location.
+For example, an application can allocate an operation object on the stack and return it, or the operation object can be allocated within memory managed by a garbage collector.
+However, this does not permit the following behaviors:
 
 *   Moving the object while a function is being called on the object. See also :secref:`concurrency`.
 *   Working with both the original and the copied operation objects.
 
+Each type of interruptible operation can have multiple *active* states.
+Documentation for the specific operation describes the setup and completion functions, and any requirements about their usage and ordering.
+
+See :secref:`interruptible-generate-key` for an example of an interruptible operation.
+
+.. _interruptible-multi-part-operations:
+
+Interruptible multi-part operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Some operations combine the behaviors of multi-part operations and interruptible operations.
+They enable both the incremental provision of data input, and the interruption of computationally expensive function calls.
+
+In these interruptible operations, there can be more than one step at which the same function is called repeatedly until it no longer returns :code:`PSA_OPERATION_INCOMPLETE`.
+
+:numref:`fig-interruptible-mp` shows the interruptible multi-part operation flow that is used for asymmetric signature.
+
+.. figure::  /figure/interruptible_operation_complex.*
+    :name: fig-interruptible-mp
+
+    State model for an interruptible multi-part operation
+
+The sequence of actions is an integration of the multi-part and interruptible flows.
+In the following sequence, detail is only provided where actions behave differently:
+
+1.  **Allocate**
+
+#.  **Initialize**
+
+#.  **Begin-setup:** Start a new interruptible operation on an *inactive* operation object.
+    Each operation object will define one or more setup functions to start a specific operation.
+
+    On success, an operation object enters a *setup* state.
+    On failure, the operation object will remain *inactive*.
+
+#.  **Complete-setup:** Complete the operation setup on an interruptible operation object that is in *setup* state.
+
+    If the setup computation is interrupted, the operation remains in *setup* state.
+    If setup completes successfully, the operation enters an *input* state.
+    On failure, the operation object will enter an *error* state.
+
+    An application needs to repeat this step until the setup completes with success or an error status.
+
+#.  **Update:** Update an interruptible operation object in *input* state.
+    The update function can provide additional parameters, supply data for processing or generate outputs.
+
+    On success, the operation object remains in *input* state.
+    On failure, the operation object will enter an *error* state.
+
+#.  **Complete:** To end an interruptible operation, call the applicable completion function.
+    This will perform the final computation, produce any final outputs, and then release any resources associated with the operation.
+
+    If the finishing computation is interrupted, a the operation is left in *completing* state.
+    If the operation completes successfully, the operation enters an *inactive* state.
+    On failure, the operation object will enter an *error* state.
+
+    An application needs to repeat this step until the completion function completes with success or an error status.
+
+#.  **Abort**
+
+The rules for use of an interruptible operation or multi-part operation also apply to an interruptible multi-part operation. See :secref:`multi-part-operations`.
+
 Each type of interruptible operation can have multiple *setup*, *input*, and *completing* states. Documentation for the specific operation describes the setup, update and completion functions, and any requirements about their usage and ordering.
 
-See :secref:`interruptible-sign` for an example of using an interruptible operation.
+See :secref:`interruptible-sign` for an example of using an interruptible multi-part operation.
 
 Symmetric cryptography
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -364,9 +437,9 @@ This specification defines interfaces for the following types of asymmetric cryp
 
 For asymmetric encryption, the API provides *single-part* functions.
 
-For asymmetric signature, the API provides single-part functions and *interruptible operations* (see :secref:`interruptible-operations`).
+For asymmetric signature, the API provides single-part functions and *interruptible multi-part operations* (see :secref:`interruptible-multi-part-operations`).
 
-For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
+For key agreement, the API provides single-part functions, an *interruptible operation* (see :secref:`interruptible-operations`), and an additional input method for a key derivation operation.
 
 For key encapsulation, the API provides single-part functions.
 
