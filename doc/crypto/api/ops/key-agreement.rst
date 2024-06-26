@@ -564,6 +564,8 @@ An interruptible key agreement operation is used as follows:
     .. retval:: PSA_OPERATION_INCOMPLETE
         The function was interrupted after exhausting the maximum *ops*.
         The computation is incomplete, and this function must be called again with the same operation object to continue.
+    .. retval:: PSA_ERROR_ALREADY_EXISTS
+        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_BAD_STATE
         The following conditions can result in this error:
 
