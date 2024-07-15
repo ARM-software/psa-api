@@ -21,6 +21,8 @@ Changes to the API
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
 
+*   Added support for partial initialization of the implementation. See :secref:`library-init`.
+
 Other changes
 ~~~~~~~~~~~~~
 
