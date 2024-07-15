@@ -17,6 +17,7 @@ Changes between *1.4.1* and *1.5.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
+*   Added support for partial initialization of the implementation. See :secref:`library-init`.
 
 Relaxations
 ~~~~~~~~~~~
