@@ -4,7 +4,7 @@ Key Encapsulation
 Elliptic Curve Integrated Encryption Scheme
 -------------------------------------------
 
-The Elliptic Curve Integrated Encryption Scheme was fist proposed by Shoup, then imporved by Ballare and Rogaway.
+The Elliptic Curve Integrated Encryption Scheme was fist proposed by Shoup, then improved by Ballare and Rogaway.
 
 The original specification permitted a number of variants. This specification only defines the version specified in [SEC1], that is with the use of labels and with the label size defined in bytes. 
 
@@ -80,7 +80,7 @@ Encapsulation
         The key must permit the usage `PSA_KEY_USAGE_ENCAPSULATE_KEY`
 
     .. param:: psa_algorithm_t alg
-        The ful encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_ENCAPSULATION(alg)` is true and :code:`PSA_ALG_IS_RAW_ENCAPSULATION(alg)` .
+        The full encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_ENCAPSULATION(alg)` is true and :code:`PSA_ALG_IS_RAW_ENCAPSULATION(alg)` .
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
@@ -138,6 +138,83 @@ Encapsulation
 
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
+
+.. function:: psa_encapsulate_key_ephemeral
+
+    .. summary::
+        Generate a new key pair and a use that to encapsulate a new symmetric key, emitting it both as a key object and an encapsulation to send to a counter party. 
+
+
+    .. param:: const psa_key_id_t * counterparty_key
+        Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
+
+    .. param:: psa_key_id_t * key_pair
+        On success an Identifier for the new key pair, which was used to perform the encapsulation.  
+        The key will be the same key type are the counterparty key and will be given the usage `PSA_KEY_USAGE_ENCAPSULATE_KEY`
+        `PSA_KEY_ID_NULL` on failure
+
+    .. param:: psa_algorithm_t alg
+        The ful encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_ENCAPSULATION(alg)` is true and :code:`PSA_ALG_IS_RAW_ENCAPSULATION(alg)` is false .
+
+    .. param:: const psa_key_attributes_t * attributes
+        The attributes for the new symmetric key.
+        This function uses the attributes as follows:
+
+        *   The key type is required. It cannot be an asymmetric public key.
+        *   The key size is required. It must be a valid size for the key type.
+        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
+        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
+        *   The key lifetime and identifier are required for a persistent key.
+
+        .. note::
+            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+        
+
+    .. param:: psa_key_id_t * output_key
+        On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
+        
+    .. param:: uint8_t * encapsulation
+        Buffer where the encapsulated key is to be written, ready to be sent to the counterparty.
+        
+    .. param:: size_t encapsulation_size
+        Size of the ``encapsulation`` buffer in bytes.
+        This must be at least :code:`PSA_ENCAPSULATION_OUTPUT_SIZE(alg)`.
+        A buffer of at least :code:`PSA_ENCAPSULATION_MAX_OUTPUT_SIZE`. is guaranteed not to fial due to buffer size for any supported encapsulation algorithm.
+        
+    .. param:: size_t * encapsulation_length
+        On success, the number of bytes that make up the hash value. This is always :code:`PSA_ENCAPSULATION_OUTPUT_SIZE(alg)`.
+
+    .. return:: psa_status_t
+
+    .. retval:: PSA_SUCCESS
+        Success.
+        The bytes of ``encapsulation`` contain the encapsulated key and ``output_key`` contains the identifier for the key to be used to encrypt the message. 
+
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The following conditions can result in this error:
+
+        *   ``alg`` is not supported or is not an encapsulation algorithm.
+
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``alg`` is not a encapsulation algorithm.
+
+    .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
+        The size of the ``encapsulation`` buffer is too small.
+        `PSA_ENCAPSULATION_OUTPUT_SIZE()` can be used to determine a sufficient buffer size.
+        
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    .. retval:: PSA_ERROR_BAD_STATE
+        The library requires initializing by a call to `psa_crypto_init()`.
+
+
+
 
 
 .. function:: psa_decapsulate_key
