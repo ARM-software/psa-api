@@ -23,6 +23,7 @@ The specific algorithm identifiers are described alongside the cryptographic ope
 *   :secref:`sign-algorithms`
 *   :secref:`asymmetric-encryption-algorithms`
 *   :secref:`key-agreement-algorithms`
+*   :secref:`encapsulation-algorithms`
 
 
 Algorithm encoding
