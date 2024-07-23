@@ -558,6 +558,8 @@ PAIR is either 0 for a public key, or 3 for a key pair.
 
 The defined values for ASYM-TYPE are shown in :numref:`table-asymmetric-type`.
 
+The defined values for FAMILY depend on the ASYM-TYPE value. See the details for each asymmetric key sub-type.
+
 .. csv-table:: Asymmetric key sub-type values
     :name: table-asymmetric-type
     :header-rows: 1
@@ -565,48 +567,48 @@ The defined values for ASYM-TYPE are shown in :numref:`table-asymmetric-type`.
     :widths: auto
 
     Asymmetric key type, ASYM-TYPE, Details
-    RSA, 0, See :secref:`rsa-key-encoding`
-    Elliptic Curve, 1, See :secref:`ecc-key-encoding`
-    Diffie-Hellman, 2, See :secref:`dh-key-encoding`
-    SPAKE2+, 4, See :secref:`spakep2-key-encoding`
+    Non-parameterized, 0, See :secref:`simple-asymmetric-key-encoding`
+    Elliptic Curve, 2, See :secref:`ecc-key-encoding`
+    Diffie-Hellman, 4, See :secref:`dh-key-encoding`
+    SPAKE2+, 8, See :secref:`spakep2-key-encoding`
 
-.. _rsa-key-encoding:
+.. _simple-asymmetric-key-encoding:
 
-RSA key encoding
-^^^^^^^^^^^^^^^^
+Non-parameterized asymmetric key encoding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The key type for RSA keys defined in this specification are encoded as shown in :numref:`fig-rsa-key-fields`.
+The key type for non-parameterized asymmetric keys defined in this specification are encoded as shown in :numref:`fig-np-key-fields`.
 
-.. figure:: ../figure/encoding/rsa_key.*
-    :name: fig-rsa-key-fields
+.. figure:: ../figure/encoding/np_key.*
+    :name: fig-np-key-fields
 
-    RSA key encoding
+    Non-parameterized asymmetric keys encoding
 
 PAIR is either 0 for a public key, or 3 for a key pair.
 
-The defined values for RSA keys are shown in :numref:`table-rsa-type`.
+The defined values for NP-FAMILY and P are shown in :numref:`table-np-type`.
 
-.. csv-table:: RSA key values
-    :name: table-rsa-type
+.. csv-table:: Non-parameterized asymmetric key family values
+    :name: table-np-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    RSA key type, Key type, Key type value
-    Public key, `PSA_KEY_TYPE_RSA_PUBLIC_KEY`, ``0x4001``
-    Key pair, `PSA_KEY_TYPE_RSA_KEY_PAIR`, ``0x7001``
+    Key family, Public/pair, PAIR, NP-FAMILY, P, Key type, Key value
+    RSA, Public key, 0, 0, 1, `PSA_KEY_TYPE_RSA_PUBLIC_KEY`, ``0x4001``
+    , Key pair, 3, 0, 1, `PSA_KEY_TYPE_RSA_KEY_PAIR`, ``0x7001``
 
 .. _ecc-key-encoding:
 
-Elliptic Curve key encoding
+Elliptic curve key encoding
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The key type for Elliptic Curve keys defined in this specification are encoded as shown in :numref:`fig-ecc-key-fields`.
+The key type for elliptic curve keys defined in this specification are encoded as shown in :numref:`fig-ecc-key-fields`.
 
 .. figure:: ../figure/encoding/ecc_key.*
     :name: fig-ecc-key-fields
 
-    Elliptic Curve key encoding
+    Elliptic curve key encoding
 
 PAIR is either 0 for a public key, or 3 for a key pair.
 
@@ -630,7 +632,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
     Montgomery, 0x20, 1, `PSA_ECC_FAMILY_MONTGOMERY`, ``0x4141``, ``0x7141``
     Twisted Edwards, 0x21, 0, `PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4142``, ``0x7142``
 
-a.  The key type value is constructed from the Elliptic Curve family using either :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)` as required.
+a.  The elliptic curve family values defined in the API also include the parity bit. The key type value is constructed from the elliptic curve family using either :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)` as required.
 
 .. _dh-key-encoding:
 
@@ -657,12 +659,12 @@ The defined values for DH-FAMILY and P are shown in :numref:`table-dh-type`.
     DH key group, DH-FAMILY, P, DH group :sup:`a`, Public key value, Key pair value
     RFC7919, 0x01, 1, `PSA_DH_FAMILY_RFC7919`, ``0x4203``, ``0x7203``
 
-a.  The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
+a.  The Diffie Hellman family values defined in the API also include the parity bit. The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
 
 .. _spakep2-key-encoding:
 
 SPAKE2+ key encoding
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 The key type for SPAKE2+ keys defined in this specification are encoded as shown in :numref:`fig-spake2p-key-fields`.
 
@@ -685,4 +687,5 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type
     SECP R1, 0x09, 0, :code:`PSA_ECC_FAMILY_SECP_R1`, ``0x4412``, ``0x7412``
     Twisted Edwards, 0x21, 0, :code:`PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4442``, ``0x7442``
 
-a.  The key type value is constructed from the Elliptic Curve family using either :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(family)` as required.
+a.  The elliptic curve family values defined in the API also include the parity bit.
+    The key type value is constructed from the elliptic curve family using either :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(family)` as required.
