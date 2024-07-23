@@ -847,19 +847,27 @@ Key derivation functions
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
-        This function uses the attributes as follows:
 
-        *   The key type is required. It cannot be an asymmetric public key.
-        *   The key size is required. It must be a valid size for the key type.
-        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
+        The following attributes are required for all keys:
+
+        *   The key type. It must not be an asymmetric public key.
+        *   The key size. It must be a valid size for the key type.
+
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
 
             If the key type to be created is `PSA_KEY_TYPE_PASSWORD_HASH`, then the permitted-algorithm policy must be the same as the current operation's algorithm.
+        *   The key usage flags, see :secref:`key-usage-flags`.
 
-        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
-        *   The key lifetime and identifier are required for a persistent key.
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
 
         .. note::
-            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+            This is an input parameter: it is not updated with the final key attributes.
+            The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: psa_key_derivation_operation_t * operation
         The key derivation operation object to read from.
