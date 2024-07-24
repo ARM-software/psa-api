@@ -37,8 +37,9 @@ Mbed TLS is developing a hardware driver interface that complements the Crypto A
 
 - The Nordic SDK uses PSA driver API conventions.
   [github.com/nrfconnect/sdk-nrf/tree/main/samples/crypto/psa_tls](https://github.com/nrfconnect/sdk-nrf/tree/main/samples/crypto/psa_tls)
- 
- 
+
+- Oberon PSA Crypto contains software drivers (also used in the Nordic SDK) that implement the PSA driver API. See [https://www.oberon.ch/products/oberon-psa-crypto/qualities/](https://www.oberon.ch/products/oberon-psa-crypto/qualities/)
+
 ## API usage
 
 - Mbed TLS implements TLS stack for embedded usage, based on Crypto API. Mbed TLS also uses the Secure Storage API for the Crypto implementation of key storage.
