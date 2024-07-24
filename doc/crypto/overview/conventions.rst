@@ -119,7 +119,7 @@ ease of debugging or vice versa.
 In particular, in the |API|, there are many conditions where the specification permits a function to return either :code:`PSA_ERROR_INVALID_ARGUMENT` or :code:`PSA_ERROR_NOT_SUPPORTED`.
 For example, `psa_hash_compute()` is passed a hash algorithm that the implementation does not support, it is :scterm:`implementation defined` whether :code:`PSA_ERROR_INVALID_ARGUMENT` or :code:`PSA_ERROR_NOT_SUPPORTED` is returned.
 
-.. rationale::
+.. note::
 
     This flexibility supports the `scalability design goal<scalable>`.
     It permits implementations to not check whether unsupported algorithm identifier and key type values are valid or invalid.
