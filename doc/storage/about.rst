@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. Releases of this specification
@@ -39,14 +39,13 @@
     :date: January 2024
     :confidentiality: Non-confidential
 
-    Added draft SRA.
+    Provide a Security Risk Assessment.
 
 .. release:: 1.1.0
-    :date: January 2024
+    :date: July 2024
     :confidentiality: Non-confidential
 
     Added rename and iteration 
-
 .. release-info::
     :extend:
 
@@ -70,16 +69,16 @@
     :doc_no: ARM IHI 0097
     :url: arm-software.github.io/psa-api/status-code
 
-.. reference:: PSA-FF-M
+.. reference:: PSA-FFM
     :title: Arm® Platform Security Architecture Firmware Framework
     :doc_no: ARM DEN 0063
-    :url: pages.arm.com/psa-apis
+    :url: developer.arm.com/documentation/den0063
 
 .. reference:: SP800-30
     :title: NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments
     :author: NIST
     :publication: September 2012
-    :url: doi.org/10.6028/NIST.SP.800-30r1    
+    :url: doi.org/10.6028/NIST.SP.800-30r1
 
 .. Glossary terms used in this specification
 
