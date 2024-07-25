@@ -52,6 +52,7 @@ General Definitions
 These definitions must be defined in the header file :file:`psa/storage_common.h`.
 
 .. struct:: psa_storage_info_t
+    :type:
 
     .. summary::
         A container for metadata associated with a specific ``uid``.
@@ -105,10 +106,11 @@ These definitions must be defined in the header file :file:`psa/storage_common.h
 
     Flag indicating that `psa_ps_create()` and `psa_ps_set_extended()` are supported.
 
-.. macro:: PSA_STORAGE_SUPPORT_RENAME
+.. macro:: PSA_STORAGE_SUPPORT_ITERATION
     (1u << 1)
 
-    Flag indicating that `psa_ps_rename()` is supported.
+    Flag indicating that iteration is supported on the specified storage.
+    Interation may be defined on the Interal Trusted Storage, the Protected Sotage, both or neither. 
 
 .. _ITS-API:
 
@@ -148,25 +150,24 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
 
     It will be incremented in small updates that are unlikely to include breaking changes.
 
-.. macro:: PSA_ITS_SUPPORT_ITERATION
-    (1u << 2)
-
-    Flag indicating that `psa_its_iterator_start()` and  `psa_its_iterator_next()` are supported.
-
 .. struct:: psa_its_storage_iterator_t
-
+    :type:
+    
     .. summary::
         An implementation-defined opaque structure containing the context for an iterator.
-        The structure MUST contain all all the state required by the iterator.
-        That is, further state MUST NOT be retained by the implementation.
+    
+    Introduced in Version 1.1.     
+    
+    The structure MUST contain all all the state required by the iterator.
+    That is, further state MUST NOT be retained by the implementation.
 
-        The structure is initialized by the ``ps_iterator_start()`` function.
-        It is modified by the ``ps_iterator_next()`` function.
+    The structure is initialized by the ``psa_its_iterator_start()`` function.
+    It is modified by the ``psa_its_iterator_next()`` function.
 
-        the caller can discard or reuse the iterator object once it has finished using it. This can be before, or after, the iterator has reached the end of the iteration.
-
-        The header file is only required to define this structure if PSA_STORAGE_SUPPORT_ITERATION is true.
-
+    The caller can discard or reuse the iterator object once it has finished using it. This can be before, or after, the iterator has reached the end of the iteration.
+        
+    The structure must be defined, but if iteration is not supported it can be empty. 
+        
 .. function:: psa_its_set
 
     .. summary::
@@ -331,7 +332,11 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
     .. retval:: PSA_ERROR_STORAGE_FAILURE
         The operation failed because the physical storage has failed (Fatal error).
 
-    Deletes the data from internal storage.
+   Introduced in Version 1.1. 
+   
+   Code that is written to be portable, should check the version of storage using the ``PSA_ITS_VERSION_MAJOR`` and ``PSA_ITS_VERSION_MINOR`` macros to determine whether the function is defined. 
+     
+   Deletes the data from internal storage.
 
     * The ``uid`` value must not be zero.
 
@@ -339,17 +344,78 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
 
     * Even if all parameters are correct, the function can fail in the case of a storage failure.
 
+
+.. function:: psa_its_rename
+
+   .. summary::
+      Atomically renames the storage location with the specified ``uid`` to a ``uid_new``.
+
+   .. param:: psa_storage_uid_t uid
+        The current identifier for the data.
+
+   .. param:: psa_storage_uid_t uid_new
+        The new identifier for the data.
+
+   .. param:: psa_storage_rename_flags_t rename_flags
+        The flags must be either ``PSA_STORAGE_FLAG_NONE`` or ``PSA_STORAGE_FLAG_REPLACE``
+
+   .. return:: psa_status_t
+        A status indicating the success or failure of the operation.
+
+   .. retval:: PSA_SUCCESS
+        The operation completed successfully.
+
+   .. retval:: PSA_ERROR_ALREADY_EXISTS
+        Storage with the specified ``uid_new`` already exists and ``rename_flags`` is `PSA_STORAGE_FLAG_NONE`
+
+   .. retval:: PSA_ERROR_DOES_NOT_EXIST
+        Storage with the specified ``uid`` does not exist.
+
+   .. retval:: PSA_ERROR_GENERIC_ERROR
+        The operation failed because of an unspecified internal failure.
+
+   .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The operation failed because either:
+
+        * ``uid`` is ``0``.
+        * ``uid_new`` is ``0``
+        * the ``psa_storage_rename_flags_t`` has a value set other than `PSA_STORAGE_FLAG_REPLACE`
+
+   .. retval:: PSA_ERROR_NOT_PERMITTED
+        The operation failed because ``uid_new`` exists and was created with `PSA_STORAGE_FLAG_WRITE_ONCE`.
+
+   .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The implementation does not support the operation.
+
+   .. retval:: PSA_ERROR_STORAGE_FAILURE
+        The operation failed because the physical storage has failed (Fatal error).
+
+   Introduced in Version 1.1. 
+   
+   Code that is written to be portable, should check the version of storage using the ``PSA_ITS_VERSION_MAJOR`` and ``PSA_ITS_VERSION_MINOR`` macros to determine whether the function is defined. 
+
+   The function renames ``uid`` to ``uid_new`` retaining the storage flags  that ``uid`` was created with.
+
+   If the caller specifies `PSA_STORAGE_FLAG_REPLACE` the operation atomically replaces the existing contents of ```uid_new`` with those of ``uid``.
+
+   Except in the case of ``PSA_ERROR_STORAGE_FAILURE``, in which case no guarantees can be made, the operation shall either succeed or leave storage unchanged.
+
+
 .. function:: psa_its_iterator_start
 
    .. summary::
        Initializes an iterator that can be used to return a list of ``uid`` values in the Internal Trusted Storage.
        
-   This function must be fully defined if iteration is supported.
+   Introduced in Version 1.1. 
+   
+   Code that is written to be portable, should check the version of storage using the ``PSA_ITS_VERSION_MAJOR`` and ``PSA_ITS_VERSION_MINOR`` macros to determine whether the function is defined. Then use the ``psa_its_get_support`` function to determine at run time if iteration is supported.  
+   
+   It must be fully defined if iteration is supported.
        
    If iteration is not supported, then this function SHALL be defined in the header - potentially as an inline function - but SHALL return ``PSA_ERROR_NOT_SUPPORTED``
 
    .. param::  psa_its_storage_iterator_t *context
-       The location in which the function should store a pointer to the newly created context for this iterator. 
+       The location in which the function stores the iteration context.
        This is set to a new value on success and is undefined on error. 
        The content of the iterator is implementation defined.
 
@@ -371,12 +437,34 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
    .. retval:: PSA_ERROR_DOES_NOT_EXIST
        No ``uid`` matches this iteration.
 
-    .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
-        The operation failed because there was insufficient space on the storage medium to create a new context.
+   .. retval:: PSA_ERROR_INVALID_ARGUMENT
+       The operation failed because either:
+
+       * The caller cannot access the memory at ``context`` or ``result``
 
    .. retval:: PSA_ERROR_STORAGE_FAILURE
        The operation failed because the physical storage has failed (Fatal error).
 
+
+   The iterator returns those values where the ``filter_length`` bits of the ``uid`` matches the left most bits in ``filter``.
+
+   The iterator will only returns those ``uid`` that were created by the caller. It MUST not return any ``uid`` created by a different user.
+
+   An iterator is not required to return uids in any specific order, but MUST return them in a consistent order each time it is called. For example, if an implementation returns entries in numerical order, it should not arbitrarily change to returning them in creation order. However, the caller should not make assumptions as to the order in which entries are returned, except that each ``uid`` will be returned only once in each iteration.
+
+   Changes to storage by other users MUST NOT affect any open iterations.
+
+   A caller may initialize multiple iteration contexts at the same time. Each iteration shall be independent. Calling ``psa_its_iterator_next()`` on one iterator MUST not effect any other open iteration.
+
+   An iterator MUST return all data objects whose ``uid`` matches the filter that are extant when the filter was created, unless these are deleted or renamed before the iteration would return them, or the caller stops before all matching objects have been returned.
+
+   A caller may delete a ``uid`` with `psa_its_remove()` without invalidating the iteration context. the iterator MUST never return a ``uid`` that has been deleted. However, if the caller is multi-threaded it is possible another thread may delete a ``uid``.
+
+   A caller may read the contents of any ``uid`` with `psa_its_get()` or write with `psa_its_set` without invalidating the iteration context.
+
+   A caller may create a ``uid`` with `psa_its_set()` without invalidating the iteration context. However, the iterator is NOT guaranteed to return the new object, ``uid``, the behavior is dependent on both implementation and identity. In particular, the iterator is not expected to return ``uid`` if the iteration is already past the point at which it would naturally be returned.
+
+   A caller may call ``psa_its_rename(uid, uid_new)`` without invalidating the iteration context. The iterator must not return ``uid``. The iterator is not guaranteed to return ``uid_new``, the behavior is dependent on both implementation and identity.
 
 .. function:: psa_its_iterator_next
 
@@ -405,9 +493,6 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
    .. retval:: PSA_ERROR_STORAGE_FAILURE
        The operation failed because the physical storage has failed (Fatal error).
 
-   .. retval:: PSA_ERROR_DATA_CORRUPT
-       The operation failed because the contents of the iteration have changed. That is a ``uid`` matching the filter has either been created or deleted.
-
    .. retval:: PSA_ERROR_INVALID_ARGUMENT
        The operation failed because either:
 
@@ -415,49 +500,9 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
 
        * The caller cannot access the memory at ``result``
 
-   The iterator returns those values where the ``filter_length`` bits of the ``uid`` matches the left most bits in ``filter``.
-
-   The iterator will only returns those ``uid`` that were created by the caller. It MUST not return any ``uid`` created by a different user.
-
-   An iterator is not required to return uids in any specific order, but MUST return them in a consistent order each time it is called. For example, if an implementation returns entries in numerical order, it should not arbitrarily change to returning them in creation order. However, the caller should not make assumptions as to the order in which entries are returned, except that each ``uid`` will be returned only once in each iteration.
-
-   Changes to storage by other users MUST NOT affect any open iterations.
-
-   A caller may initialize multiple iteration contexts at the same time. Each iteration shall be independent. Calling ``psa_its_iterator_next()`` on one iterator MUST not effect any other open iteration.
-
-   An iterator MUST return all data objects whose ``uid`` matches the filter that are extant when the filter was created, unless these are deleted or renamed before the iteration would return them, or the caller stops before all matching objects have been returned.
-
-   A caller may delete a ``uid`` with `psa_its_remove()` without invalidating the iteration context. the iterator MUST never return a ``uid`` that has been deleted. However, if the caller is multi-threaded it is possible another thread may delete a ``uid``.
-
-   A caller may read the contents of any ``uid`` with `psa_its_get()` or write with `psa_its_set` without invalidating the iteration context.
-
-   A caller may create a ``uid`` with `psa_its_set()` without invalidating the iteration context. However, the iterator is NOT guaranteed to return the new object, ``uid``, the behavior is dependent on both implementation and identity. In particular, the iterator is not expected to return ``uid`` if the iteration is already past the point at which it would naturally be returned.
-
-   A caller may call ``psa_its_rename(uid, uid_new)`` without invalidating the iteration context. The iterator must not return ``uid``. The iterator is not guaranteed to return ``uid_new``, the behavior is dependent on both implementation and identity.
-
-   The following code snippet uses a linked list to store the matching files before iterating over that list and removing them.
-
-
-   .. code-block:: c
-
-      my_context = NULL;
-      my_filter = 0x1111 0000 0000 0000;
-      my_length = 0x0020;
-      my_result = NULL;
-      if psa_its_iterator_start(my_context*, my_filter, my-length, my_result) == PSA_SUCCESS
-      	{
-      	do
-      	   {
-      	   	// do something with my_result
-      	    psa_its_iterator_next(my_context, my_result)
-      	    // we will get an does not exist error when we reach the last item, any other error is a storage failure
-      	    if my_reult <> PSA_ERROR_DOES_NOT_EXIST
-      	   	  {
-      	   	  	/* deal with storage failure */
-      	   	  }
-      	   }
-        while my_result == PSA_SUCCESS ;
-        };
+   Introduced in Version 1.1. 
+   
+   This function takes an iterator that was returned by the `psa_its_iterator_start` function and searches the storage for the next ``uid`` that matches the filters defined in that function call. If a ``uid`` matching the filter exists, the function updates the ``result`` and ``context`` parameters and retursn PSA_SUCCESS. If not it reruns an error.        
 
 .. function:: psa_its_get_support
 
@@ -466,9 +511,13 @@ These definitions must be defined in the header file :file:`psa/internal_trusted
 
     .. return:: uint32_t 
     
-    Currently the defined flags are limited to:
+    Introduced in Version 1.1. 
+   
+   Code that is written to be portable, should check the version of storage using the ``PSA_ITS_VERSION_MAJOR`` and ``PSA_ITS_VERSION_MINOR`` macros to determine whether the function is defined.  
+   
+   Currently the defined flags are limited to:
 
-    * `PSA_ITS_SUPPORT_ITERATION`
+    * `PSA_STORAGE_SUPPORT_ITERATION`
 
 
 
@@ -509,24 +558,23 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
     It will be incremented in small updates that are unlikely to include breaking changes.
 
-.. macro:: PSA_PS_SUPPORT_ITERATION
-    (1u << 2)
-
-    Flag indicating that `psa_ps_iterator_start` and `psa_ps_iterator_next` are supported.
-
 .. struct:: psa_ps_storage_iterator_t
+    :type:
 
     .. summary::
         An implementation-defined opaque structure containing the context for an iterator.
-        The structure MUST contain all all the state required by the iterator.
-        That is, further state MUST NOT be retained by the implementation.
+        
+    Introduced in Version 1.1. 
+    
+    The structure MUST contain all all the state required by the iterator.
+    That is, further state MUST NOT be retained by the implementation.
 
-        The structure is initilaised by the ``ps_iterator_start()`` function.
-        It is modified by the ``ps_iterator_next()`` function.
+    The structure is initilaised by the ``ps_iterator_start()`` function.
+    It is modified by the ``ps_iterator_next()`` function.
 
-        the caller can discard or reuse the iterator object once it has finished using it. This can be before, or after, the iterator has reached the end of the iteration.
+    The caller can discard or reuse the iterator object once it has finished using it. This can be before, or after, the iterator has reached the end of the iteration.
 
-        The header file is only required to define this structure if PSA_STORAGE_SUPPORT_ITERATION is true.
+    The header file is required to define this structure, however is iteration is not supported it can be empty. 
 
 .. function:: psa_ps_set
 
@@ -847,13 +895,10 @@ These definitions must be defined in the header file :file:`psa/protected_storag
     * If ``data_offset + data_length < size`` then data in the range ``data_offset + data_length` to `size`` is not modified.
 
 
-
 .. function:: psa_ps_rename
 
    .. summary::
       Atomically renames the storage location with the specified ``uid`` to a ``uid_new``.
-      This function must be fully defined if `PSA_STORAGE_SUPPORT_RENAME` is true.
-      If `PSA_STORAGE_SUPPORT_RENAME` is false, then this function SHALL be defined in the header - potentially as an inline function - but SHALL return ``PSA_ERROR_NOT_SUPPORTED``.
 
    .. param:: psa_storage_uid_t uid
         The current identifier for the data.
@@ -895,13 +940,15 @@ These definitions must be defined in the header file :file:`psa/protected_storag
    .. retval:: PSA_ERROR_STORAGE_FAILURE
         The operation failed because the physical storage has failed (Fatal error).
 
+   Introduced in Version 1.1. 
+   
+   Code that is written to be portable, should check the version of storage using the ``PSA_PS_VERSION_MAJOR`` and ``PSA_PS_VERSION_MINOR`` macros to determine whether the function is defined. 
 
    The function renames ``uid`` to ``uid_new`` retaining the storage flags  that ``uid`` was created with.
 
    If the caller specifies `PSA_STORAGE_FLAG_REPLACE` the operation atomically replaces the existing contents of ```uid_new`` with those of ``uid``.
 
    Except in the case of ``PSA_ERROR_STORAGE_FAILURE``, in which case no guarantees can be made, the operation shall either succeed or leave storage unchanged.
-
 
 
 .. function:: psa_ps_iterator_start
@@ -913,7 +960,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
 
 
    .. param::  psa_ps_storage_iterator_t *context
-       The location in which the function should store a pointer to the newly created context for this iterator. 
+       The location in which the function stores the iteration context.
        This is set to a new value on success and is undefined on error. 
        The content of the iterator is implementation defined.
 
@@ -938,6 +985,10 @@ These definitions must be defined in the header file :file:`psa/protected_storag
    .. retval:: PSA_ERROR_STORAGE_FAILURE
        The operation failed because the physical storage has failed (Fatal error).
 
+   Introduced in Version 1.1. 
+   
+   Code that is written to be portable, should check the version of storage using the ``PSA_PS_VERSION_MAJOR`` and ``PSA_PS_VERSION_MINOR`` macros to determine whether the function is defined. Then use the ``psa_its_get_support`` function to determine at run time if iteration is supported.  
+   
    The iterator returns those values where the ``filter_length`` bits of the ``uid`` matches the left most bits in ``filter``.
 
    The iterator will only returns those ``uid`` that were created by the caller. It MUST not return any ``uid`` created by a different user.
@@ -957,32 +1008,6 @@ These definitions must be defined in the header file :file:`psa/protected_storag
    A caller may create a ``uid`` with `psa_ps_set()` or `psa_ps_create()` without invalidating the iteration context. However, the iterator is NOT guaranteed to return the new object, ``uid``, the behavior is dependent on both implementation and identity. In particular, the iterator is not expected to return ``uid`` if the iteration is already past the point at which it would naturally be returned.
 
    A caller may call ``psa_ps_rename(uid, uid_new)`` without invalidating the iteration context. The iterator must not return ``uid``. The iterator is not guaranteed to return ``uid_new``, the behavior is dependent on both implementation and identity.
-
-   The following code snippet uses a linked list to store the matching files before iterating over that list and removing them.
-
-   .. code-block:: c
-
-      my_context = NULL;
-      my_filter = 0x1111 0000 0000 0000;
-      my_length = 0x0020;
-      my_result = NULL;
-      if psa_ps_iterator_start(my_context, my_filter, my-length, my_result) == PSA_SUCCESS
-      	{
-      	do
-      	   {
-      	   	// do something with my_result
-      	    psa_ps_iterator_next(my_context, my_result)
-      	    // we will get an 'does not exist error' when we reach the last item, any other error is a storage failure
-      	    if my_reult <> PSA_ERROR_DOES_NOT_EXIST
-      	   	  {
-      	   	  	/* deal with storage failure */
-      	   	  }
-      	   }
-        while my_result == PSA_SUCCESS ;
-        };
-
-
-
 
 .. function:: psa_ps_iterator_next
 
@@ -1009,15 +1034,16 @@ These definitions must be defined in the header file :file:`psa/protected_storag
    .. retval:: PSA_ERROR_STORAGE_FAILURE
        The operation failed because the physical storage has failed (Fatal error).
 
-   .. retval:: PSA_ERROR_DATA_CORRUPT
-       The operation failed because the contents of the iteration have changed. That is a ``uid`` matching the filter has either been created or deleted.
-
    .. retval:: PSA_ERROR_INVALID_ARGUMENT
        The operation failed because either:
 
        * The provided context is not valid.
 
        * The caller cannot access the memory at ``result``
+
+   Introduced in Version 1.1. 
+   
+   This function takes an iterator that was returned by the `psa_ps_iterator_start` function and searches the storage for the next ``uid`` that matches the filters defined in that function call. If a ``uid`` matching the filter exists, the function updates the ``result`` and ``context`` parameters and retursn PSA_SUCCESS. If not it reruns an error. 
 
 .. function:: psa_ps_get_support
 
@@ -1027,8 +1053,7 @@ These definitions must be defined in the header file :file:`psa/protected_storag
     Currently defined flags are limited to:
 
     * `PSA_STORAGE_SUPPORT_SET_EXTENDED`
-    * `PSA_STORAGE_SUPPORT_RENAME`
-    * `PSA_PS_SUPPORT_ITERATION`
+    * `PSA_STORAGE_SUPPORT_ITERATION`
 
     .. return:: uint32_t
 
