@@ -285,3 +285,4 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. admonition:: Implementation note
 
         This is a simple accessor function that is not required to validate its inputs. It can be efficiently implemented as a ``static inline`` function or a function-like-macro.
+
