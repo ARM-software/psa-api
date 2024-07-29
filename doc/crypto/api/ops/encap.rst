@@ -11,19 +11,21 @@ The original specification permitted a number of variants. This specification on
 It is possible that some applications may need to use older versions to interoperate with legacy systems. 
 While the application can always implement this using the other algorithm functions provided, however, an implementation may choose to add these as a convenience in the implementation numbering space. 
 
-.. macro:: PSA_ALG_ECIES
+.. macro:: PSA_ALG_ECIES_SEC1
     :definition: ((psa_algorithm_t)0x09yyyxxxx)
 
     .. summary::
        The Elliptic Curve Integrated Encryption Scheme.
 
-       This algorithm can only be used when combined with a key derivation operation using `PSA_ALG_ENCAPSULATION()` in a call to `psa_encapsulate_key()`
+       This algorithm can only be used when combined with a key derivation operation using `PSA_ALG_ENCAPSULATION()` in a call to `psa_encapsulate()`
 
        When used as a key's permitted-algorithm policy, the following uses are permitted:
 
-       *   In a call to `psa_encapsulate_key()` or `psa_decapsulate_key()`, with any combined key establishment and key derivation algorithm constructed with `PSA_ALG_ECIES`.
+       *   In a call to `psa_encapsulate()` or `psa_decapsulate()`, with any combined key establishment and key derivation algorithm constructed with `PSA_ALG_ECIES`.
 
        This encapsulation scheme is defined by :cite-title:`SEC1` §5.5.1 under the name Elliptic Curve Integrated Encryption Scheme.
+       
+       This uses Cofactor ECDH. 
 
        .. subsection:: Compatible key types
 
@@ -51,9 +53,9 @@ While the application can always implement this using the other algorithm functi
     .. return::
         The corresponding encapsulation and derivation algorithm.
 
-        Unspecified if ``ka_alg`` is not a supported key establlishment algorithm or ``kdf_alg`` is not a supported key derivation algorithm.
+        Unspecified if ``ka_alg`` is not a supported key establishment algorithm or ``kdf_alg`` is not a supported key derivation algorithm.
 
-    A combined encapsulation algorithm is used in a call to `psa_encapsulate_key()`.
+    A combined encapsulation algorithm is used in a call to `psa_encapsulate()`.
 
     The component parts of a encapsulation algorithm can be extracted using `PSA_ALG_ENCAPSULATION_GET_BASE()` and `PSA_ALG_ENCAPSULATION_GET_KDF()`.
 
@@ -65,21 +67,16 @@ While the application can always implement this using the other algorithm functi
 
 Encapsulation Algorithms
 ------------------------
-.. function:: psa_encapsulate_key
+.. function:: psa_encapsulate
 
     .. summary::
         Generate a new key pair and a use that to encapsulate a new symmetric key, emitting it both as a key object and an encapsulation to send to a counter party along with the public key from the ephemeral key pair.
 
     .. param:: const psa_key_id_t * counterparty_key
-        The identifier for the public key of the peer. You must have previously imported this key using `psa_import_key()`, and specified the key attributes for the public key type corresponding to the type required for the encapsulation, and the usage usage `PSA_KEY_USAGE_ENCAPSULATE_KEY`.
-
-    .. param:: psa_key_id_t * key_pair
-        On success an identifier for the new key pair, which was used to perform the encapsulation.  
-        The key will be the key type specified in the atributes of the counterparty key. The private key will be given the usage `PSA_KEY_USAGE_ENCAPSULATE_KEY`. The public key only will be given the usage `PSA_KEY_USAGE_EXPORT`.  
-        `PSA_KEY_ID_NULL` on failure
+        The identifier for the public key of the peer. You must have previously imported this key using `psa_import_key()`, and specified the key attributes for the public key type corresponding to the type required for the encapsulation, and the usage usage `PSA_KEY_USAGE_ENCAPSULATE`.
 
     .. param:: uint8_t * ephemeral_public_key
-        Buffer where the ephemeral public key key is to be written, ready to be sent to the counterparty.
+        Buffer where the ephemeral public key key is to be written, ready to be sent to the counterparty. The content of the buffer will be in the same format as `psa_export_key()` for a key of the same type as ``counterparty_key``.
         
     .. param:: size_t ephemeral_public_key_size
         Size of the ``ephemeral_public_key`` buffer in bytes.
@@ -98,11 +95,10 @@ Encapsulation Algorithms
         *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
         *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
         *   The key lifetime and identifier are required for a persistent key.
-
+        
         .. note::
             This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
         
-
     .. param:: psa_key_id_t * output_key
         On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
         
@@ -149,25 +145,27 @@ Encapsulation Algorithms
 
 
 
-.. function:: psa_decapsulate_key
+.. function:: psa_decapsulate
 
     .. summary::
         Uses a private key to decapsulate an encapsulation received from a counter party. 
 
-    .. param:: const psa_key_id_t * counterparty_key
+    .. param:: const psa_key_id_t * peer_key
         Public key of the peer. The peer key must be in the same format that `psa_import_key()` accepts for the public key type corresponding to the type of ``private_key``. That is, this function performs the equivalent of :code:`psa_import_key(..., peer_key, peer_key_length)`, with key attributes indicating the public key type corresponding to the type of ``private_key``. For example, for ECC keys, this means that peer_key is interpreted as a point on the curve that the private key is on. The standard formats for public keys are documented in the documentation of `psa_export_public_key()`.
-
+        
+    .. param:: size_t peer_key_length
+        Size of the ``encapsulation`` buffer in bytes.
+        
     .. param:: const psa_key_id_t * private_key
-        Identifier of the key belonging to the person to whom the encapsulated message has been sent. 
+        Identifier of the key belonging to the person receiving the encapsulated message. 
         It must be an asymmetric key pair. 
-        The private half of the key pair must permit the usage `PSA_KEY_USAGE_ENCAPSULATE_KEY`
+        The private half of the key pair must permit the usage `PSA_KEY_USAGE_DECAPSULATE`
 
     .. param:: conts uint8_t * encapsulation
         Buffer containing the encapsulated key that was received from the counterparty.
         
     .. param:: size_t encapsulation_size
         Size of the ``encapsulation`` buffer in bytes.
-
 
     .. param:: psa_algorithm_t alg
         The encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_ENCAPSULATION(alg)` is true.
@@ -201,9 +199,7 @@ Encapsulation Algorithms
         The following conditions can result in this error:
 
         *   ``alg`` is not supported or is not an encapsulation algorithm.
-        *   
-
-        
+                
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -297,7 +293,7 @@ Support macros
     :definition: /* implementation-defined value */
 
     .. summary::
-        Sufficient output buffer size for `psa_encapsulate_key()`.
+        Sufficient output buffer size for `psa_encapsulate()`.
 
     .. param:: key_type
         A supported key type.
@@ -307,7 +303,7 @@ Support macros
     .. return::
         A sufficient output buffer size for the specified key type and size. An implementation can return either ``0`` or a correct size for a key type and size that it recognizes, but does not support. If the parameters are not valid, the return value is unspecified.
 
-    If the size of the output buffer is at least this large, it is guaranteed that `psa_encapsulate_key()` will not fail due to an insufficient buffer size. The actual size of the output might be smaller in any given call.
+    If the size of the output buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size. The actual size of the output might be smaller in any given call.
 
     See also `PSA_ENCAPSULATION_OUTPUT_MAX_SIZE`.
 
@@ -315,9 +311,9 @@ Support macros
     :definition: /* implementation-defined value */
 
     .. summary::
-        Sufficient output buffer size for `psa_encapsulate_key()`, for any of the supported key types and encapsulation algorithms.
+        Sufficient output buffer size for `psa_encapsulate()`, for any of the supported key types and encapsulation algorithms.
 
-    If the size of the output buffer is at least this large, it is guaranteed that `psa_encapsulate_key()` will not fail due to an insufficient buffer size.
+    If the size of the output buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size.
 
     See also `PSA_ENCAPSULATION_OUTPUT_SIZE()`.
 
