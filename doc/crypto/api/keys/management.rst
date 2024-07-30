@@ -254,7 +254,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    Copy key material from one location to another. Its location is taken from ``attributes``, its policy is determined by both ``attributes`` and the source key policy, and its type and size are taken from the source key.
+    Copy key material from one location to another. Its location is taken from ``attributes``, its policy is the intersection of the policy in ``attributes`` and the source key policy, and its type and size are taken from the source key.
 
     This function is primarily useful to copy a key from one location to another, as it populates a key using the material from another key which can have a different lifetime.
 

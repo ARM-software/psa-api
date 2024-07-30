@@ -961,8 +961,6 @@ Multi-part PAKE operations
             All PAKE algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
             PAKE algorithms that produce a pseudo-random shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
             Refer to the documentation of individual PAKE algorithms for more information.
-        *   The key size in ``attributes`` must be zero --- the default value.
-            The returned key size is always determined from the PAKE shared secret.
 
         The following attributes must be set for keys used in cryptographic operations:
 
@@ -973,6 +971,10 @@ Multi-part PAKE operations
 
         *   The key lifetime, see :secref:`key-lifetimes`.
         *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
+
+        The following attributes are optional:
+
+        *   If the key size is nonzero, it must be equal to the size of the PAKE shared secret.
 
         .. note::
             This is an input parameter: it is not updated with the final key attributes.
@@ -1019,7 +1021,8 @@ Multi-part PAKE operations
 
     The shared secret is retrieved as a key.
     Its location, policy, and type are taken from ``attributes``.
-    Its size is determined by the PAKE algorithm.
+
+    The size of the returned key is always the bit-size of the PAKE shared secret, rounded up to a whole number of bytes. The size is of the shared secret is dependent on the PAKE algorithm and cipher suite.
 
     This is the final call in a PAKE operation, which retrieves the shared secret as a key.
     It is recommended that this key is used as an input to a key derivation operation to produce additional cryptographic keys.

@@ -21,6 +21,11 @@ Changes to the API
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
 
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Clarified the documentation of key attributes in key creation functions.
+
 Other changes
 ~~~~~~~~~~~~~
 

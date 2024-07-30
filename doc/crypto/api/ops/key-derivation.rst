@@ -857,7 +857,7 @@ Key derivation functions
 
         *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
 
-            If the key type to be created is `PSA_KEY_TYPE_PASSWORD_HASH`, then the permitted-algorithm policy must be the same as the current operation's algorithm.
+            If the key type to be created is `PSA_KEY_TYPE_PASSWORD_HASH`, then the permitted-algorithm policy must be either the same as the current operation's algorithm, or `PSA_ALG_NONE`.
         *   The key usage flags, see :secref:`key-usage-flags`.
 
         The following attributes must be set for keys that do not use the default volatile lifetime:

@@ -218,6 +218,7 @@ Standalone key agreement
     The result of this function is a shared secret, returned as a derivation key.
 
     The new key's location, policy, and type are taken from ``attributes``.
+
     The size of the returned key is always the bit-size of the shared secret, rounded up to a whole number of bytes.
 
     This key can be used as input to a key derivation operation using `psa_key_derivation_input_key()`.
