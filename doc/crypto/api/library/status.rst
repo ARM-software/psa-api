@@ -45,7 +45,7 @@ These definitions must be available to an application that includes the :file:`p
 Common error codes
 ^^^^^^^^^^^^^^^^^^
 
-Some of the common status codes have a more precise meaning when returned by a function in the |API|, compared to the definitions in `[PSA-STAT]`.
+Some of the common status codes have a more precise meaning when returned by a function in the |API|, compared to the definitions in `[PSA-STAT]`. See also :secref:`error-handling`.
 
 .. list-table::
     :class: longtable
@@ -54,6 +54,16 @@ Some of the common status codes have a more precise meaning when returned by a f
 
     * - Error code
       - Meaning in the |API|
+
+    * - :code:`PSA_ERROR_NOT_SUPPORTED`
+      - `[PSA-STAT]` recommends the use of :code:`PSA_ERROR_INVALID_ARGUMENT` for invalid parameter values.
+
+        In the |API|, this is relaxed for algorithm identifier and key type parameters. It is recommended to return :code:`PSA_ERROR_INVALID_ARGUMENT` for invalid values, but :code:`PSA_ERROR_NOT_SUPPORTED` is also allowed, to permit implementations to avoid having to recognize all the cryptographic mechanisms that are defined in the PSA specification but not provided by that particular implementation.
+
+    * - :code:`PSA_ERROR_INVALID_ARGUMENT`
+      - `[PSA-STAT]` recommends the use of :code:`PSA_ERROR_NOT_SUPPORTED` for unsupported parameter values.
+
+        In the |API|, either :code:`PSA_ERROR_INVALID_ARGUMENT` or :code:`PSA_ERROR_NOT_SUPPORTED` can be returned when unsupported algorithm identifier or key type parameters are used. This allows implementations to avoid having to recognize all the cryptographic mechanisms that are defined in the PSA specification but not provided by that particular implementation.
 
     * - :code:`PSA_ERROR_INVALID_HANDLE`
       - A key identifier does not refer to an existing key. See also :secref:`key-ids`.
