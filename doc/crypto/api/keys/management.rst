@@ -36,20 +36,33 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
-        This function uses the attributes as follows:
 
-        *   The key type is required, and determines how the ``data`` buffer is interpreted.
-        *   The key size is always determined from the ``data`` buffer. If the key size in ``attributes`` is nonzero, it must be equal to the size determined from ``data``.
-        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
-        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
-        *   The key lifetime and identifier are required for a persistent key.
+        The following attributes are required for all keys:
+
+        *   The key type determines how the ``data`` buffer is interpreted.
+
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
+        *   The key usage flags, see :secref:`key-usage-flags`.
+
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
+
+        The following attributes are optional:
+
+        *   If the key size is nonzero, it must be equal to the key size determined from ``data``.
 
         .. note::
-            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+            This is an input parameter: it is not updated with the final key attributes.
+            The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: const uint8_t * data
         Buffer containing the key data.
         The content of this buffer is interpreted according to the type declared in ``attributes``.
+
         All implementations must support at least the format described in the *Key format* section of the chosen key type.
         Implementations can support other formats, but be conservative in interpreting the key data: it is recommended that implementations reject content if it might be erroneous, for example, if it is the wrong type or is truncated.
     .. param:: size_t data_length
@@ -88,11 +101,13 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    This function supports any output from `psa_export_key()`. Each key type in :secref:`key-types` describes the expected format of keys.
+    The key is extracted from the provided ``data`` buffer. Its location, policy, and type are taken from ``attributes``.
 
-    The key data determines the key size. The attributes can optionally specify a key size; in this case it must match the size determined from the key data. A key size of ``0`` in ``attributes`` indicates that the key size is solely determined by the key data.
+    The provided key data determines the key size. The attributes can optionally specify a key size; in this case it must match the size determined from the key data. A key size of ``0`` in ``attributes`` --- the default value --- indicates that the key size is solely determined by the key data.
 
     Implementations must reject an attempt to import a key of size ``0``.
+
+    This function supports any output from `psa_export_key()`. Each key type in :secref:`key-types` describes the expected format of keys.
 
     This specification defines a single format for each key type. Implementations can optionally support other formats in addition to the standard format. It is recommended that implementations that support other formats ensure that the formats are clearly unambiguous, to minimize the risk that an invalid input is accidentally interpreted according to a different format.
 
@@ -106,16 +121,25 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
-        This function uses the attributes as follows:
 
-        *   The key type is required. It cannot be an asymmetric public key.
-        *   The key size is required. It must be a valid size for the key type.
-        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
-        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
-        *   The key lifetime and identifier are required for a persistent key.
+        The following attributes are required for all keys:
+
+        *   The key type. It must not be an asymmetric public key.
+        *   The key size. It must be a valid size for the key type.
+
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
+        *   The key usage flags, see :secref:`key-usage-flags`.
+
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
 
         .. note::
-            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+            This is an input parameter: it is not updated with the final key attributes.
+            The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
@@ -169,14 +193,28 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         It must permit the usage `PSA_KEY_USAGE_COPY`.
         If a private or secret key is being copied outside of a secure element it must also permit `PSA_KEY_USAGE_EXPORT`.
     .. param:: const psa_key_attributes_t * attributes
-        The attributes for the new key. This function uses the attributes as follows:
+        The attributes for the new key.
 
-        *   The key type and size can be ``0``. If either is nonzero, it must match the corresponding attribute of the source key.
-        *   The key location (the lifetime and, for persistent keys, the key identifier) is used directly.
-        *   The key policy (usage flags and permitted algorithm) are combined from the source key and ``attributes`` so that both sets of restrictions apply, as described in the documentation of this function.
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
+        *   The key usage flags, see :secref:`key-usage-flags`.
+
+        These flags are combined with the source key policy so that both sets of restrictions apply, as described in the documentation of this function.
+
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
+
+        The following attributes are optional:
+
+        *   If the key type has a non-default value, it must be equal to the source key type.
+        *   If the key size is nonzero, it must be equal to the source key size.
 
         .. note::
-            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+            This is an input parameter: it is not updated with the final key attributes.
+            The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: psa_key_id_t * target_key
         On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
@@ -216,7 +254,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    Copy key material from one location to another.
+    Copy key material from one location to another. Its location is taken from ``attributes``, its policy is the intersection of the policy in ``attributes`` and the source key policy, and its type and size are taken from the source key.
 
     This function is primarily useful to copy a key from one location to another, as it populates a key using the material from another key which can have a different lifetime.
 
@@ -231,8 +269,9 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     *   If either of the policies permits an algorithm and the other policy permits a wildcard-based permitted algorithm that includes this algorithm, the resulting key uses this permitted algorithm.
     *   If the policies do not permit any algorithm in common, this function fails with the status :code:`PSA_ERROR_INVALID_ARGUMENT`.
 
-    The effect of this function on implementation-defined attributes is implementation-defined.
+    As a result, the new key cannot be used for operations that were not permitted on the source key.
 
+    The effect of this function on implementation-defined attributes is implementation-defined.
 
 .. _key-destruction:
 

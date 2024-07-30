@@ -954,23 +954,32 @@ Multi-part PAKE operations
         Active PAKE operation.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
-        This function uses the attributes as follows:
 
-        *   The key type is required.
+        The following attributes are required for all keys:
+
+        *   The key type.
             All PAKE algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
             PAKE algorithms that produce a pseudo-random shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
             Refer to the documentation of individual PAKE algorithms for more information.
-        *   The key size in ``attributes`` must be zero.
-            The returned key size is always determined from the PAKE shared secret.
-        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation.
-            See :secref:`permitted-algorithms`.
-        *   The key usage flags define what operations are permitted with the key.
-            See :secref:`key-usage-flags`.
-        *   The key lifetime and identifier are required for a persistent key.
+
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
+        *   The key usage flags, see :secref:`key-usage-flags`.
+
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
+
+        The following attributes are optional:
+
+        *   If the key size is nonzero, it must be equal to the size of the PAKE shared secret.
 
         .. note::
             This is an input parameter: it is not updated with the final key attributes.
-            The final attributes of the new key can be queried by calling :code:`psa_get_key_attributes()` with the key's identifier.
+            The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+
     .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key. :code:`PSA_KEY_ID_NULL` on failure.
 
@@ -1009,6 +1018,11 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_STORAGE_FAILURE
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
+
+    The shared secret is retrieved as a key.
+    Its location, policy, and type are taken from ``attributes``.
+
+    The size of the returned key is always the bit-size of the PAKE shared secret, rounded up to a whole number of bytes. The size is of the shared secret is dependent on the PAKE algorithm and cipher suite.
 
     This is the final call in a PAKE operation, which retrieves the shared secret as a key.
     It is recommended that this key is used as an input to a key derivation operation to produce additional cryptographic keys.
