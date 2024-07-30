@@ -464,24 +464,33 @@ An interruptible key agreement operation is used as follows:
     .. param:: psa_algorithm_t alg
         The standalone key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is true.
     .. param:: const psa_key_attributes_t * attributes
-        The attributes for the new key.
-        This function uses the attributes as follows:
+        The attributes for the key to be output on completion.
 
-        *   The key type must be one of `PSA_KEY_TYPE_DERIVE`, `PSA_KEY_TYPE_RAW_DATA`, `PSA_KEY_TYPE_HMAC`, or `PSA_KEY_TYPE_PASSWORD`.
+        The following attributes are required for all keys:
+
+        *   The key type, which must be one of `PSA_KEY_TYPE_DERIVE`, `PSA_KEY_TYPE_RAW_DATA`, `PSA_KEY_TYPE_HMAC`, or `PSA_KEY_TYPE_PASSWORD`.
 
             Implementations must support the `PSA_KEY_TYPE_DERIVE` and `PSA_KEY_TYPE_RAW_DATA` key types.
 
-        *   The size of the returned key is always the bit-size of the shared secret, rounded up to a whole number of bytes.
-            The key size in ``attributes`` can be zero; if it is nonzero, it must be equal to the output size of the key agreement, in bits.
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
+        *   The key usage flags, see :secref:`key-usage-flags`.
+
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
+
+        The following attributes are optional:
+
+        *   If the key size is nonzero, it must be equal to the output size of the key agreement, in bits.
 
             The output size, in bits, of the key agreement is :code:`8 * PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(type, bits)`, where ``type`` and ``bits`` are the type and bit-size of ``private_key``.
 
-        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
-        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
-        *   The key lifetime and identifier are required for a persistent key.
-
         .. note::
-            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+            This is an input parameter: it is not updated with the final key attributes.
+            The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -534,6 +543,8 @@ An interruptible key agreement operation is used as follows:
     This function sets up an interruptible operation to perform a key agreement.
     A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``.
 
+    When the interruptible operation completes, the shared secret is output in a key. The key's location, policy, and type are taken from ``attributes``. The size of the key is always the bit-size of the shared secret, rounded up to a whole number of bytes.
+
     After a successful call to `psa_key_agreement_iop_setup()`, the operation is active.
     The operation can be completed by calling `psa_key_agreement_iop_complete()` repeatedly, until it returns a status code that is not :code:`PSA_OPERATION_INCOMPLETE`.
     Once active, the application must eventually terminate the operation.
@@ -583,6 +594,7 @@ An interruptible key agreement operation is used as follows:
         This is an interruptible function, and must be called repeatedly, until it returns a status code that is not :code:`PSA_OPERATION_INCOMPLETE`.
 
     When this function returns successfully, the shared secret is returned as a derivation key in ``key``, and the operation becomes inactive.
+    The attributes of the new key are specified in the call to `psa_key_agreement_iop_setup()` used to set up this operation.
     This key can be input to a key derivation operation using `psa_key_derivation_input_key()`.
 
     .. warning::

@@ -812,15 +812,21 @@ An interruptible key generation operation is used as follows:
         It must have been initialized as per the documentation for `psa_generate_key_iop_t`, and be inactive.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
-        This function uses the attributes as follows:
 
-        *   The key type is required.
-            It cannot be an asymmetric public key.
-        *   The key size is required.
-            It must be a valid size for the key type.
-        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
-        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
-        *   The key lifetime and identifier are required for a persistent key.
+        The following attributes are required for all keys:
+
+        *   The key type. It must not be an asymmetric public key.
+        *   The key size. It must be a valid size for the key type.
+
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
+        *   The key usage flags, see :secref:`key-usage-flags`.
+
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
 
         .. note::
             This is an input parameter: it is not updated with the final key attributes.
