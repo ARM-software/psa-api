@@ -236,18 +236,27 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. summary::
         Generate a key or key pair using custom production parameters.
 
-    .. param:: const psa_key_attributes_t *attributes
+    .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
-        This function uses the attributes as follows:
 
-        *   The key type is required. It cannot be an asymmetric public key.
-        *   The key size is required. It must be a valid size for the key type.
-        *   The key permitted-algorithm policy is required for keys that will be used for a cryptographic operation, see :secref:`permitted-algorithms`.
-        *   The key usage flags define what operations are permitted with the key, see :secref:`key-usage-flags`.
-        *   The key lifetime and identifier are required for a persistent key.
+        The following attributes are required for all keys:
+
+        *   The key type. It must not be an asymmetric public key.
+        *   The key size. It must be a valid size for the key type.
+
+        The following attributes must be set for keys used in cryptographic operations:
+
+        *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
+        *   The key usage flags, see :secref:`key-usage-flags`.
+
+        The following attributes must be set for keys that do not use the default volatile lifetime:
+
+        *   The key lifetime, see :secref:`key-lifetimes`.
+        *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
 
         .. note::
-            This is an input parameter: it is not updated with the final key attributes. The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
+            This is an input parameter: it is not updated with the final key attributes.
+            The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: const psa_custom_key_parameters_t *custom
         Customized production parameters for the key generation.
@@ -299,6 +308,10 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     Use this function to provide explicit production parameters when generating a key.
     See the description of `psa_generate_key()` for the operation of this function with the default production parameters.
+
+    The key is generated randomly. Its location, policy, type and size are taken from ``attributes``.
+
+    Implementations must reject an attempt to generate a key of size ``0``.
 
     See the documentation of `psa_custom_key_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key generation.
 
