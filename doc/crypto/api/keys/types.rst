@@ -621,7 +621,7 @@ RSA keys
 
     .. subsection:: Key format
 
-        The data format for import and export of a key-pair is the non-encrypted DER encoding of the representation defined by in :RFC-title:`8017` as ``RSAPrivateKey``, version ``0``.
+        The data format for import and export of a key-pair is the non-encrypted :term:`DER` encoding of the representation defined by in :RFC-title:`8017` as ``RSAPrivateKey``, version ``0``.
 
         .. code-block:: none
 
@@ -686,7 +686,7 @@ RSA keys
 
     .. subsection:: Key format
 
-        The data format for import and export of a public key is the DER encoding of the representation defined by :RFC-title:`3279#2.3.1` as ``RSAPublicKey``.
+        The data format for import and export of a public key is the :term:`DER` encoding of the representation defined by :RFC-title:`3279#2.3.1` as ``RSAPublicKey``.
 
         .. code-block:: none
 
