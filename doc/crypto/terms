@@ -186,3 +186,13 @@
     application instances.
 
     See :secref:`isolation`.
+
+.. term:: Distinguished Encoding Rules
+    :abbr: DER
+
+    DER is a binary encoding format used for X.509 certificates and keys.
+
+.. term:: PEM
+
+    Originally "Privacy Enhanced Mail".
+    PEM is an ASCII-based encoding format used for X.509 certificates and keys.

@@ -7,6 +7,307 @@
 Key management functions
 ========================
 
+.. _key-data-formats:
+
+Key data formats
+----------------
+
+Outside of the key store, keys are exchanged using defined data formats.
+These formats are used to import and export keys, or to input public asymmetric keys to key agreement or PAKE operations.
+
+The |API| defines the default data format for each standard key types, to be used for these operations.
+These data formats are defined in the *Key format* section of each key type in :secref:`key-types`.
+
+Some application use cases require key data to be in other standard formats.
+:code:`psa_import_formatted_key()` and :code:`psa_export_formatted_key()` allow data in these formats to be used directly with the |API|.
+
+Some key data formats have options for how the key data is represented.
+For example,
+
+*   Data layouts used in X.509 certificates, such as RSAPublicKey, can be encoded using ASCII-based PEM or binary DER.
+*   Elliptic curve keys can be specified using a curve identifier and the key value, or by providing for full set of curve parameters and the key value.
+*   Elliptic curve public keys can use a compressed or uncompressed representation for the point on the curve.
+
+These options need to be specified by the application, or a default used, when formatting key data for export.
+When importing a key, the formatted data includes information that indicates the formatting options, so the options do not need to be provided by the application.
+
+The |API| defines elements for some common key data formats and format options.
+Implementations are permitted to define additional key data formats and options.
+
+.. typedef:: uint32_t psa_key_data_format_t
+
+    .. summary::
+        Encoding of a key data format.
+
+    Key data formats are specified in the |API| using values of this type.
+
+    `PSA_KEY_FORMAT_DEFAULT` (value ``0``) indicates the default data format for the key type.
+
+.. macro:: PSA_KEY_FORMAT_DEFAULT
+    :definition: ((psa_key_data_format_t) 0)
+
+    .. summary::
+        Key data format value indicating the default data format.
+
+    The default data formats are specified for each key type in the :secref:`key-types` chapter.
+
+    .. todo:: Non-default options with default key data format?
+
+        Determine if it is permitted to specify non-default options when requesting the default format.
+
+.. macro:: PSA_KEY_FORMAT_RSA_PUBLIC_KEY
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        The *RSAPublicKey* key data format for RSA public keys.
+
+    This is the default key data format for RSA public keys.
+
+    .. todo:: Provide normative reference for RSAPublicKey, in RFC 8017
+
+    .. subsection:: Compatible key types
+
+        *   `PSA_KEY_TYPE_RSA_KEY_PAIR` (public key)
+        *   `PSA_KEY_TYPE_RSA_PUBLIC_KEY`
+
+    .. subsection:: Key data format options
+
+        *   `PSA_KEY_FORMAT_OPTION_DER_ENCODING` (default)
+        *   `PSA_KEY_FORMAT_OPTION_PEM_ENCODING`
+
+.. macro:: PSA_KEY_FORMAT_EC_POINT
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        The *ECPoint* key data format for Weierstrass elliptic curve public keys.
+
+    This is the default key data format for Weierstrass elliptic curve public keys.
+
+    .. todo:: Provide normative reference for ECPoint, in SEC1
+
+    .. todo:: What about Edwards and Montgomery curves?
+
+        Do we need another format for X25519, Ed25519, X448, and Ed25519 keys? - or is 'default' format sufficient for these keys?
+
+    .. subsection:: Compatible key types
+
+        *   `PSA_KEY_TYPE_ECC_KEY_PAIR` (public key)
+        *   `PSA_KEY_TYPE_ECC_PUBLIC_KEY`
+
+    .. subsection:: Key data format options
+
+        *   `PSA_KEY_FORMAT_OPTION_EC_UNCOMPRESSED_POINT` (default)
+        *   `PSA_KEY_FORMAT_OPTION_EC_COMPRESSED_POINT`
+
+.. macro:: PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        The *SubjectPublicKeyInfo* key data format for RSA and elliptic curve public keys.
+
+    .. todo:: Provide normative reference for SubjectPublicKeyInfo, in RFC 5280
+
+    .. todo:: Options for SubjectPublicKeyInfo
+
+        *   Do we want to define an option to use the EC curve identifier, or the curve domain parameters in the SubjectPublicKey?
+
+    .. subsection:: Compatible key types
+
+        *   `PSA_KEY_TYPE_ECC_KEY_PAIR` (public key)
+        *   `PSA_KEY_TYPE_ECC_PUBLIC_KEY`
+        *   `PSA_KEY_TYPE_RSA_KEY_PAIR` (public key)
+        *   `PSA_KEY_TYPE_RSA_PUBLIC_KEY`
+
+    .. subsection:: Key data format options
+
+        *   `PSA_KEY_FORMAT_OPTION_DER_ENCODING` (default)
+        *   `PSA_KEY_FORMAT_OPTION_PEM_ENCODING`
+        *   `PSA_KEY_FORMAT_OPTION_EC_UNCOMPRESSED_POINT` (for EC keys, default)
+        *   `PSA_KEY_FORMAT_OPTION_EC_COMPRESSED_POINT` (for EC keys)
+
+.. macro:: PSA_KEY_FORMAT_RSA_PRIVATE_KEY
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        The *RSAPrivateKey* key data format for RSA key-pairs.
+
+    This is the default key data format for RSA key-pairs.
+
+    .. todo:: Provide normative reference for RSAPrivateKey, in RFC 8017
+
+    .. subsection:: Compatible key types
+
+        *   `PSA_KEY_TYPE_RSA_KEY_PAIR`
+
+    .. subsection:: Key data format options
+
+        *   `PSA_KEY_FORMAT_OPTION_DER_ENCODING` (default)
+        *   `PSA_KEY_FORMAT_OPTION_PEM_ENCODING`
+
+.. macro:: PSA_KEY_FORMAT_EC_PRIVATE_KEY
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        The *ECPrivateKey* key data format for elliptic curve key-pairs.
+
+    .. todo:: Provide normative reference for ECPrivateKey, in RFC 5915
+
+    .. todo:: Options for ECPrivateKey
+
+        *   Do we want to define an option to use the EC curve identifier, or the curve domain parameters in the ECPrivateKey?
+        *   Do we want to define an option to include the public key in the ECPrivateKey?
+
+    .. subsection:: Compatible key types
+
+        *   `PSA_KEY_TYPE_ECC_KEY_PAIR`
+
+    .. subsection:: Key data format options
+
+        *   `PSA_KEY_FORMAT_OPTION_DER_ENCODING` (default)
+        *   `PSA_KEY_FORMAT_OPTION_PEM_ENCODING`
+        *   `PSA_KEY_FORMAT_OPTION_EC_UNCOMPRESSED_POINT` (default)
+        *   `PSA_KEY_FORMAT_OPTION_EC_COMPRESSED_POINT` ()
+
+.. macro:: PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        The *OneAsymmetricKey* key data format for RSA and elliptic curve key-pairs.
+
+    .. todo:: Provide normative reference for OneAsymmetricKey (previously PrivateKeyInfo), in RFC 5958
+
+    .. todo:: Options for OneAsymmetricKey
+
+        Similar to ECPrivateKey:
+
+        *   Do we want to define an option to use the EC curve identifier, or the curve domain parameters in ECPrivateKey?
+        *   Do we want to define an option to include the public key in the OneAsymmetricKey?
+
+    .. subsection:: Compatible key types
+
+        *   `PSA_KEY_TYPE_ECC_KEY_PAIR`
+        *   `PSA_KEY_TYPE_RSA_KEY_PAIR`
+
+    .. subsection:: Key data format options
+
+        *   `PSA_KEY_FORMAT_OPTION_DER_ENCODING` (default)
+        *   `PSA_KEY_FORMAT_OPTION_PEM_ENCODING`
+        *   `PSA_KEY_FORMAT_OPTION_EC_UNCOMPRESSED_POINT` (for EC keys, default)
+        *   `PSA_KEY_FORMAT_OPTION_EC_COMPRESSED_POINT` (for EC keys)
+
+.. typedef:: uint32_t psa_key_data_format_option_t
+
+    .. summary::
+        Encoding of formatting options for a key data format.
+
+    Key data format options are specified in the |API| using values of this type.
+    When multiple format options are required, the options are combined using bitwise-OR.
+
+    `PSA_KEY_FORMAT_OPTIONS_DEFAULT` (value ``0``) indicates the default data format options for the key data format.
+
+.. macro:: PSA_KEY_FORMAT_OPTIONS_DEFAULT
+    :definition: ((psa_key_data_format_option_t) 0)
+
+    .. summary::
+        Key data format option value indicating the default options.
+
+    The default format options are specified by each key data format.
+
+.. macro:: PSA_KEY_FORMAT_OPTION_PUBLIC_KEY
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Key data format option to produce key data corresponding to the public key of a key pair.
+
+    This option is only applicable to an asymmetric key data format.
+    This option has no effect on the result when used with a public-key.
+    When used with a key-pair:
+
+    *   If this option is present, the public-key part of the key-pair is used.
+    *   If this option is not present, the private-key part of a key-pair is used.
+
+    This option is applicable to all key data formats for asymmetric key types.
+    The option can be combined using a bitwise-OR with any other key data format option applicable to asymmetric keys.
+
+    .. todo:: Decide if a separate API for exporting formatted public keys is better
+
+        This option acts differently to the other defined options:
+
+        *   It is effectively redundant if the key format is a public-key type format, and the key is a key-pair.
+            Unless we require agreement between key type and key format, in which case this option is mandatory when using a private-key with a public-key format.
+        *   It is necessarily useful if used with the default data format, as that works on whatever the key object is (key-pair or public-key).
+            Or with any other data format that can represent either a public key or a private key --- Are there any?
+
+.. macro:: PSA_KEY_FORMAT_OPTION_DER_ENCODING
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Key data format option to encode the key data using :term:`DER` encoding.
+
+    This is the default encoding option for applicable key data formats.
+
+    See also `PSA_KEY_FORMAT_OPTION_PEM_ENCODING`.
+
+    .. todo:: Add normative reference for DER either here, or in glossary.
+
+    .. subsection:: Applicable key data formats
+
+        *   `PSA_KEY_FORMAT_EC_PRIVATE_KEY`
+        *   `PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY`
+        *   `PSA_KEY_FORMAT_RSA_PRIVATE_KEY`
+        *   `PSA_KEY_FORMAT_RSA_PUBLIC_KEY`
+        *   `PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO`
+
+.. macro:: PSA_KEY_FORMAT_OPTION_PEM_ENCODING
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Key data format option to encode the key data using :term:`PEM` encoding.
+
+    See also `PSA_KEY_FORMAT_OPTION_DER_ENCODING`.
+
+    .. todo:: Add normative reference for PEM either here, or in glossary.
+
+    .. subsection:: Applicable key data formats
+
+        *   `PSA_KEY_FORMAT_EC_PRIVATE_KEY`
+        *   `PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY`
+        *   `PSA_KEY_FORMAT_RSA_PRIVATE_KEY`
+        *   `PSA_KEY_FORMAT_RSA_PUBLIC_KEY`
+        *   `PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO`
+
+.. macro:: PSA_KEY_FORMAT_OPTION_EC_UNCOMPRESSED_POINT
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Key data format option to encode elliptic curve points in uncompressed form.
+
+    This is default encoding of elliptic curve points for key data formats that include an elliptic curve public key.
+
+    See also `PSA_KEY_FORMAT_OPTION_EC_COMPRESSED_POINT`.
+
+    .. subsection:: Applicable key data formats
+
+        *   `PSA_KEY_FORMAT_EC_POINT`
+        *   `PSA_KEY_FORMAT_EC_PRIVATE_KEY`
+        *   `PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY`
+        *   `PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO`
+
+.. macro:: PSA_KEY_FORMAT_OPTION_EC_COMPRESSED_POINT
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Key data format option to encode elliptic curve points in compressed form.
+
+    See also `PSA_KEY_FORMAT_OPTION_EC_UNCOMPRESSED_POINT`.
+
+    .. subsection:: Applicable key data formats
+
+        *   `PSA_KEY_FORMAT_EC_PRIVATE_KEY`
+        *   `PSA_KEY_FORMAT_EC_POINT`
+        *   `PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY`
+        *   `PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO`
+
 .. _key-creation:
 
 Key creation
