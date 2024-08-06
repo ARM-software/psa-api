@@ -183,7 +183,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     *   For RSA keys (`PSA_KEY_TYPE_RSA_KEY_PAIR`), the public exponent is 65537. The modulus is a product of two probabilistic primes between :math:`2^{n-1}` and :math:`2^n` where :math:`n` is the bit size specified in the attributes.
 
-    If an application requires bounded execution when generating a key, it can use an interruptible key generation operation.
+    If an application requires bounded execution when generating a key, the implementation might provide support for interruptible key generation.
     See :secref:`interruptible-generate-key`.
 
 .. function:: psa_copy_key
@@ -584,7 +584,11 @@ Interruptible key generation
 Generation of some key types can be computationally expensive.
 For example, RSA keys, and elliptic curve public keys.
 
-An interruptible key generation operation can be used instead of calling `psa_generate_key()`, in applications that have bounded execution requirements for use cases that require key generation.
+For such keys, an interruptible key generation operation can be used instead of calling `psa_generate_key()`, in applications that have bounded execution requirements for use cases that require key generation.
+
+.. note::
+    An implementation of the |API| does not need to provide incremental generation for all key types supported by the implementation.
+    Use `psa_generate_key()` to create keys for types that do not need to be incrementally generated.
 
 An interruptible key generation operation is used as follows:
 
@@ -698,7 +702,10 @@ An interruptible key generation operation is used as follows:
     .. retval:: PSA_ERROR_ALREADY_EXISTS
         This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        The key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
+        The following conditions can result in this error:
+
+        *   The implementation does not support incremental generation of the requested key type.
+        *   The key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
