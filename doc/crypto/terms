@@ -187,12 +187,23 @@
 
     See :secref:`isolation`.
 
+.. term:: ASN.1
+
+    Abstract Syntax Notation One (ASN.1) is a language for defining data structures for cross-platform interchange.
+    It is used in the definition of many common key and certificate formats.
+
+    ASN.1 is defined by :cite-title:`X.680`.
+
 .. term:: Distinguished Encoding Rules
     :abbr: DER
 
-    DER is a binary encoding format used for X.509 certificates and keys.
+    A binary encoding of structures defined using :term:`ASN.1`, that is used for X.509 certificate and key interchange formats.
+
+    DER is defined by :cite-title:`X.690`.
 
 .. term:: PEM
 
     Originally "Privacy Enhanced Mail".
     PEM is an ASCII-based encoding format used for X.509 certificates and keys.
+
+    PEM is defined by :RFC-title:`7468`.
