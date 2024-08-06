@@ -34,7 +34,7 @@ Changes to the API
     See :secref:`asymmetric-key-encoding` and :secref:`appendix-specdef-key-values`.
 
 *   Added key data formats and formatting options for key export and import.
-    See :secref:`key-data-formats`.
+    See :secref:`key-formats`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
