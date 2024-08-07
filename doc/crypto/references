@@ -178,12 +178,6 @@
     :publication: March 1998
     :url: tools.ietf.org/html/rfc2315.html
 
-.. reference:: RFC3279
-    :title: Algorithms and Identifiers for the Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile
-    :author: IETF
-    :publication: April 2002
-    :url: tools.ietf.org/html/rfc3279.html
-
 .. reference:: RFC3610
     :title: Counter with CBC-MAC (CCM)
     :author: IETF
@@ -396,3 +390,51 @@
     :author: Thread Group
     :publication: July 2022
     :url: www.threadgroup.org/ThreadSpec
+
+.. reference:: RFC5208
+    :title: Public-Key Cryptography Standards (PKCS) #8: Private-Key Information Syntax Specification Version 1.2
+    :author: IETF
+    :publication: May 2008
+    :url: tools.ietf.org/html/rfc5208.html
+
+.. reference:: RFC5280
+    :title: Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile
+    :author: IETF
+    :publication: May 2008
+    :url: tools.ietf.org/html/rfc5280.html
+
+.. reference:: RFC5480
+    :title: Elliptic Curve Cryptography Subject Public Key Information
+    :author: IETF
+    :publication: March 2009
+    :url: tools.ietf.org/html/rfc5480.html
+
+.. reference:: RFC5958
+    :title: Asymmetric Key Packages
+    :author: IETF
+    :publication: August 2010
+    :url: tools.ietf.org/html/rfc5958.html
+
+.. reference:: RFC7468
+    :title: Textual Encodings of PKIX, PKCS, and CMS Structures
+    :author: IETF
+    :publication: April 2015
+    :url: tools.ietf.org/html/rfc7468.html
+
+.. reference:: RFC8410
+    :title: Algorithm Identifiers for Ed25519, Ed448, X25519, and X448 for Use in the Internet X.509 Public Key Infrastructure
+    :author: IETF
+    :publication: August 2018
+    :url: tools.ietf.org/html/rfc8410.html
+
+.. reference:: X.680
+    :title: Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation
+    :author: ITU
+    :publication: February 2021
+    :url: itu.int/itu-t/recommendations/rec.aspx?rec=x.680
+
+.. reference:: X.690
+    :title: Information Technology - ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)
+    :author: ITU
+    :publication: February 2021
+    :url: itu.int/itu-t/recommendations/rec.aspx?rec=x.690
