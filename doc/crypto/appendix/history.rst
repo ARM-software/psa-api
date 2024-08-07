@@ -21,8 +21,11 @@ Changes to the API
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
 
-*   Added key data formats and formatting options for key export and import.
-    See :secref:`key-formats`.
+*   Added support for non-default key formats:
+
+    -   Added definitions for key formats and and formatting options.
+        See :secref:`key-formats`.
+    -   Added `psa_import_formatted_key()` to import keys in other formats.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
