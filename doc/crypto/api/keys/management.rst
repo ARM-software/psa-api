@@ -180,22 +180,19 @@ Implementations are permitted to define additional key formats and options.
     .. summary::
         The *OneAsymmetricKey* key format for RSA and elliptic curve key-pairs.
 
-    .. todo:: Decide if this format should be named ``PSA_KEY_FORMAT_PKCS8`` instead.
+    .. todo:: Should this be named ``PSA_KEY_FORMAT_PKCS8`` instead?
 
-        Or if this should be a synonym?
-        Note that OneAsymmetricKey is identical to PrivateKeyInfo (PKCS#8) if version==1, but extends it when version==2.
+        Technically I think not: PKCS#8 defines both *PrivateKeyInfo* and *EncryptedPrivateKeyInfo*, OneAsymmetricKey (version 1) is synonymous with PrivateKeyInfo.
 
-    OneAsymmetricKey is defined by :RFC-title:`5958`.
+        Perhaps ``PSA_KEY_FORMAT_PRIVATE_KEY_INFO`` could be a synonym of OneAsymmetricKey?
+
+    OneAsymmetricKey is defined by :RFC-title:`5958#2`.
     OneAsymmetricKey is an update to the PKCS#8 *PrivateKeyInfo* format defined by :RFC-title:`5208`.
     Encoding of specific key types is defined in other documents:
 
     *   :RFC-title:`8017` defines the encoding of RSA keys.
     *   :RFC-title:`5915` defines the encoding of Weierstrass elliptic curve keys.
     *   :RFC-title:`8410` defines the encoding of Montgomery and Edwards elliptic curve keys.
-
-    .. todo:: OneAsymmetricKey also supports encryption and authentication of the key data.
-
-        Provide the necessary references, and link to the related key wrapping/unwrapping APIs.
 
     When exporting a key in this format:
 
@@ -220,6 +217,11 @@ Implementations are permitted to define additional key formats and options.
         *   `PSA_KEY_FORMAT_OPTION_PEM`
         *   `PSA_KEY_FORMAT_OPTION_EC_POINT_COMPRESSED` (for Weierstrass elliptic curve keys)
         *   `PSA_KEY_FORMAT_OPTION_SPECIFIED_EC_DOMAIN` (for Weierstrass elliptic curve keys)
+
+.. todo:: RFC 5958/PKCS#8 also supports encryption and authentication of the key data.
+
+    This would either be a *EncryptedPrivateKeyInfo* structure (PKCS#8) or one of the CMS content types.
+    This requires one or more additional format specifiers.
 
 .. typedef:: uint32_t psa_key_format_option_t
 
