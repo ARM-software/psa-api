@@ -51,9 +51,16 @@ Implementations are permitted to define additional key formats and options.
 
     The default formats are specified for each key type in the :secref:`key-types` chapter.
 
-    Non-default options can be specified with the default format, when appropriate for the key type.
+    Some options can be specified with the default format, when appropriate for the key type.
+    See the description of each format option for details.
 
-    .. todo:: Describe options that can be used with keys in the default format.
+    .. subsection:: Compatible key types
+
+        All key types can be used with the default format.
+
+    .. subsection:: Key format options
+
+        *   `PSA_KEY_FORMAT_OPTION_EC_POINT_COMPRESSED` (for Weierstrass elliptic curve keys)
 
 .. macro:: PSA_KEY_FORMAT_RSA_PUBLIC_KEY
     :definition: /* implementation-defined value */
@@ -246,6 +253,9 @@ Implementations are permitted to define additional key formats and options.
     .. note::
         Some key formats use PEM labels that are not described in :RFC:`7468`, but are used in other tools that produce and consume PEM-encoded data.
 
+    This option is not applicable to the default key format.
+    To export a PEM-encoded key, use the appropriate format specifier.
+
     .. subsection:: Related key formats
 
         *   `PSA_KEY_FORMAT_EC_PRIVATE_KEY`
@@ -265,6 +275,8 @@ Implementations are permitted to define additional key formats and options.
 
     The compressed and uncompressed ECPoint format is defined by :cite-title:`SEC1` §2.3.3.
 
+    This option can be used with the default key format, when exporting elliptic curve public keys.
+
     .. subsection:: Related key formats
 
         *   `PSA_KEY_FORMAT_EC_PRIVATE_KEY`
@@ -281,6 +293,8 @@ Implementations are permitted to define additional key formats and options.
     The `PSA_KEY_FORMAT_OPTION_SPECIFIED_EC_DOMAIN` option results in specifying the full domain parameters for the elliptic curve instead.
 
     The ECParameters format is defined by :RFC-title:`5480#2.1.1`.
+
+    This option is not applicable to the default key format.
 
     .. subsection:: Related key formats
 
