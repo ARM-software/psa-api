@@ -33,8 +33,11 @@ Changes to the API
 
     See :secref:`asymmetric-key-encoding` and :secref:`appendix-specdef-key-values`.
 
-*   Added key data formats and formatting options for key export and import.
-    See :secref:`key-formats`.
+*   Added support for non-default key formats:
+
+    -   Added definitions for key formats and and formatting options.
+        See :secref:`key-formats`.
+    -   Added `psa_import_formatted_key()` to import keys in other formats.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
