@@ -12,6 +12,24 @@ Key management functions
 Key formats
 -----------
 
+.. todo:: Consider Splitting this chapter up (before the final 1.3 release)
+
+    With the additions of:
+
+    *   Formatted key import/export
+    *   Interruptible public key export
+    *   Interruptible key generation
+    *   Extended key generation
+    *   Key wrapping and unwrapping (this could alternatively be put in with 'Operations')
+
+    This chapter is getting very large as a 'hold-all' for key-related functions.
+
+    Consider splitting this up:
+
+    1.  Non-default key formats, key import and export (or even separate those into formats and import/export)
+    2.  Key wrap/unwrap (and associated specialized formats and algorithms)
+    3.  General key management: [random] key generation, copying, purging, destroying
+
 Outside of the key store, keys are exchanged using defined formats.
 These formats are used to import and export keys, or to input public asymmetric keys to key agreement or PAKE operations.
 
@@ -231,9 +249,9 @@ Implementations are permitted to define additional key formats and options.
     Key format options are specified in the |API| using values of this type.
     When multiple format options are required, the options are combined using bitwise-OR.
 
-    `PSA_KEY_FORMAT_OPTIONS_DEFAULT` (value ``0``) indicates the default format options for the key format.
+    `PSA_KEY_FORMAT_OPTION_DEFAULT` (value ``0``) indicates the default format options for the key format.
 
-.. macro:: PSA_KEY_FORMAT_OPTIONS_DEFAULT
+.. macro:: PSA_KEY_FORMAT_OPTION_DEFAULT
     :definition: ((psa_key_format_option_t) 0)
 
     .. summary::
@@ -418,7 +436,6 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. summary::
         Import a key in a specified format.
-        *   The key type can be `PSA_KEY_TYPE_NONE`. If either is nonzero, it must match the corresponding attribute of the source key.
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
@@ -498,7 +515,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     The key is extracted from the provided ``data`` buffer, which is interpreted according to the specified key format. Its location is taken from ``attributes``, its type and policy are determined by the ``format``, the ``data``, and the ``attributes``.
 
-    If the format is `PSA_KEY_FORMAT_DEFAULT`, this is equivalent to call to `psa_import_key()`.
+    If the format is `PSA_KEY_FORMAT_DEFAULT`, this is equivalent to calling `psa_import_key()`.
 
     For non-default key formats, the key format either specifies the key type, or the formatted data encodes the key type.
     For example, `PSA_KEY_FORMAT_RSA_PRIVATE_KEY` is always an RSA key pair, while the `PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY` format includes a data element that specifies whether it is an RSA or elliptic curve key-pair.
@@ -963,17 +980,22 @@ Key export
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
+    Extract a key from the key store into a data buffer using the default key format.
+    If the key is not a public-key type, then the policy on the key must have the usage flag `PSA_KEY_USAGE_EXPORT` set.
+
     The output of this function can be passed to `psa_import_key()` to create an equivalent object.
 
-    If the implementation of `psa_import_key()` supports other formats beyond the format specified here, the output from `psa_export_key()` must use the representation specified in :secref:`key-types`, not the originally imported representation.
+    If the implementation supports importing non-default key formats, the output from `psa_export_key()` must use the default representation specified in :secref:`key-types`, not the originally imported representation.
 
     For standard key types, the output format is defined in the relevant *Key format* section in :secref:`key-types`.
-    The policy on the key must have the usage flag `PSA_KEY_USAGE_EXPORT` set.
+    To export a key in another format, use `psa_export_formatted_key()`.
+
+    To export the public key from a key-pair, use `psa_export_public_key()` or `psa_export_formatted_public_key()`.
 
 .. function:: psa_export_public_key
 
     .. summary::
-        Export a public key or the public part of a key pair in binary format.
+        Export a public key or the public part of a key-pair in binary format.
 
     .. param:: psa_key_id_t key
         Identifier of the key to export.
@@ -1015,13 +1037,183 @@ Key export
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
+    Extract a public key, or a public part of a key-pair, from the key store into a data buffer using the default key format.
+
     The output of this function can be passed to `psa_import_key()` to create an object that is equivalent to the public key.
 
-    If the implementation of `psa_import_key()` supports other formats beyond the format specified here, the output from `psa_export_public_key()` must use the representation specified in :secref:`key-types`, not the originally imported representation.
+    If the implementation supports importing non-default key formats, the output from `psa_export_public_key()` must use the default representation specified in :secref:`key-types`, not the originally imported representation.
 
     For standard key types, the output format is defined in the relevant *Key format* section in :secref:`key-types`.
+    To export a public key in another format, use `psa_export_formatted_public_key()`.
 
-    Exporting a public key object or the public part of a key pair is always permitted, regardless of the key's usage flags.
+    Exporting a public key object or the public part of a key-pair is always permitted, regardless of the key's usage flags.
+
+.. function:: psa_export_formatted_key
+
+    .. summary::
+        Export a key in a specified format.
+
+    .. param:: psa_key_format_t format
+        The required export format.
+        One of the ``PSA_KEY_FORMAT_XXX`` values, or an implementation-specific format.
+    .. param:: psa_key_format_option_t options
+        Formatting options to use.
+        One of the ``PSA_KEY_FORMAT_OPTION_XXX`` values, an implementation-specific option, or a bitwise-or of them.
+    .. param:: psa_key_id_t key
+        Identifier of the key to export.
+        It must permit the usage `PSA_KEY_USAGE_EXPORT`, unless it is a public key.
+    .. param:: uint8_t * data
+        Buffer where the key data is to be written.
+    .. param:: size_t data_size
+        Size of the ``data`` buffer in bytes.
+        This must be appropriate for the key:
+
+        *   The required output size is :code:`PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE(format, options, type, bits)`, where ``format`` is the key format, ``options`` is the format options, ``type`` is the key type, and ``bits`` is the key size in bits.
+        *   `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key or key pair, in any supported combination of key format and options.
+        *   `PSA_EXPORT_FORMATTED_KEY_PAIR_MAX_SIZE` evaluates to the maximum output size of any supported key pair, in any supported combination of key format and options.
+        *   `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key, in any supported combination of key format and options.
+        *   This API defines no maximum size for symmetric keys. Arbitrarily large data items can be stored in the key store, for example certificates that correspond to a stored private key or input material for key derivation.
+
+    .. param:: size_t * data_length
+        On success, the number of bytes that make up the key data.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The first ``(*data_length)`` bytes of ``data`` contain the exported key.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The key does not have the `PSA_KEY_USAGE_EXPORT` flag.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   The key format is not valid.
+        *   The key format is not applicable to the key type.
+        *   The key format option is not applicable to the key format.
+
+        .. todo::
+            Decide on appropriate behavior if the format option does not match the key type.
+            My preference is to ignore the option if the key format does not use that option when encoding the provided key type.
+
+            If the option is never applicable to the format, that should (I think) be an error.
+            However, that means that format options cannot have overlapping values, even if they never apply to the same format?
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The following conditions can result in this error:
+
+        *   The key's storage location does not support export of the key.
+        *   The implementation does not support export of keys with this key type.
+        *   The implementation does not support key export in the requested key format or format options.
+    .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
+        The size of the ``data`` buffer is too small.
+        `PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_FORMATTED_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE`, or `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE` can be used to determine a sufficient buffer size.
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_BAD_STATE
+        The library requires initializing by a call to `psa_crypto_init()`.
+
+    Extract a key from the key store into a data buffer using a specified key format.
+    The output contains the key value, and, depending on the format, some of the key attributes.
+    If the key is not a public-key type, then the policy on the key must have the usage flag `PSA_KEY_USAGE_EXPORT` set.
+
+    If :code:`format==PSA_KEY_FORMAT_DEFAULT` and :code:`options==PSA_KEY_FORMAT_OPTION_DEFAULT`, this is equivalent to calling `psa_export_key()`.
+    Some of the options can be used with the default key format for some key types, see `PSA_KEY_FORMAT_DEFAULT`.
+
+    For standard key types, the default output format is defined in the relevant *Key format* section in :secref:`key-types`.
+    Other key formats are defined in :secref:`key-formats`.
+
+    Some key formats can optionally include additional content or use different encodings.
+    These can be selected by using one or more of the ``PSA_KEY_FORMAT_OPTION_XXX`` values.
+
+    The output of this function can be passed to `psa_import_formatted_key()`, specifying the same format, to create an equivalent key object.
+
+    To export the public key from a key-pair, use `psa_export_public_key()` or `psa_export_formatted_public_key()`.
+
+.. function:: psa_export_formatted_public_key
+
+    .. summary::
+        Export a public key or the public part of a key-pair in a specified format.
+
+    .. param:: psa_key_format_t format
+        The required export format.
+        One of the ``PSA_KEY_FORMAT_XXX`` values, or an implementation-specific format.
+    .. param:: psa_key_format_option_t options
+        Formatting options to use.
+        One of the ``PSA_KEY_FORMAT_OPTION_XXX`` values, an implementation-specific option, or a bitwise-or of them.
+    .. param:: psa_key_id_t key
+        Identifier of the key to export.
+    .. param:: uint8_t * data
+        Buffer where the key data is to be written.
+    .. param:: size_t data_size
+        Size of the ``data`` buffer in bytes.
+        This must be appropriate for the key:
+
+        *   The required output size is :code:`PSA_EXPORT_FORMATTED_PUBLIC_KEY_OUTPUT_SIZE(format, options, type, bits)`, where ``format`` is the key format, ``options`` is the format options, ``type`` is the key type, and ``bits`` is the key size in bits.
+        *   `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key or public part of a key pair, in any supported combination of key format and options.
+        *   `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE` evaluates to the maximum output size of any supported public key or key pair, in any supported combination of key format and options.
+
+    .. param:: size_t * data_length
+        On success, the number of bytes that make up the key data.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The first ``(*data_length)`` bytes of ``data`` contain the exported public key.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   The key is neither a public key nor a key pair.
+        *   The key format is not valid.
+        *   The key format is not applicable to the key type.
+        *   The key format option is not applicable to the key format.
+
+        .. todo::
+            Decide on appropriate behavior if the format option does not match the key type.
+            My preference is to ignore the option if the key format does not use that option when encoding the provided key type.
+
+            If the option is never applicable to the format, that should (I think) be an error.
+            However, that means that format options cannot have overlapping values, even if they never apply to the same format?
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The following conditions can result in this error:
+
+        *   The key's storage location does not support export of the key.
+        *   The implementation does not support export of keys with this key type.
+        *   The implementation does not support public key export in the requested key format or format options.
+    .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
+        The size of the ``data`` buffer is too small.
+        `PSA_EXPORT_FORMATTED_PUBLIC_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE`, or `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE` can be used to determine a sufficient buffer size.
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_BAD_STATE
+        The library requires initializing by a call to `psa_crypto_init()`.
+
+    Extract a public key, or a public part of a key-pair, from the key store into a data buffer using a specified key format.
+    The output contains the public-key value, and, depending on the format, some of the key attributes.
+
+    If :code:`format==PSA_KEY_FORMAT_DEFAULT` and :code:`options==PSA_KEY_FORMAT_OPTION_DEFAULT`, this is equivalent to calling `psa_export_public_key()`.
+    Some of the options can be used with the default key format for some key types, see `PSA_KEY_FORMAT_DEFAULT`.
+
+    The output of this function can be passed to `psa_import_key()` to create an object that is equivalent to the public key.
+
+    For standard key types, the default output format is defined in the *Key format* section for the applicable public-key type in :secref:`key-types`.
+    Other key formats are defined in :secref:`key-formats`.
+
+    Some key formats can optionally include additional content or use different encodings.
+    These can be selected by using one or more of the ``PSA_KEY_FORMAT_OPTION_XXX`` values.
+
+    The output of this function can be passed to `psa_import_formatted_key()`, specifying the same format, to create an equivalent public-key object.
+
+    Exporting a public key object or the public part of a key-pair is always permitted, regardless of the key's usage flags.
 
 .. macro:: PSA_EXPORT_KEY_OUTPUT_SIZE
     :definition: /* implementation-defined value */
@@ -1035,7 +1227,7 @@ Key export
         The size of the key in bits.
 
     .. return::
-        If the parameters are valid and supported, return a buffer size in bytes that guarantees that `psa_export_key()` or `psa_export_public_key()` will not fail with :code:`PSA_ERROR_BUFFER_TOO_SMALL`. If the parameters are a valid combination that is not supported by the implementation, this macro must return either a sensible size or ``0``. If the parameters are not valid, the return value is unspecified.
+        If the parameters are valid and supported, return a buffer size in bytes that guarantees that `psa_export_key()` will not fail with :code:`PSA_ERROR_BUFFER_TOO_SMALL`. If the parameters are a valid combination that is not supported by the implementation, this macro must return either a sensible size or ``0``. If the parameters are not valid, the return value is unspecified.
 
     The following code illustrates how to allocate enough memory to export a key by querying the key type and size at runtime.
 
@@ -1128,3 +1320,76 @@ Key export
     This value must be a sufficient buffer size when calling `psa_export_key()` or `psa_export_public_key()` to export any asymmetric key pair or public key that is supported by the implementation, regardless of the exact key type and key size.
 
     See also `PSA_EXPORT_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_KEY_OUTPUT_SIZE()`.
+
+
+.. macro:: PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Sufficient output buffer size for `psa_export_formatted_key()`.
+
+    .. param:: format
+        A supported key format.
+    .. param:: options
+        A set of supported key format options.
+    .. param:: key_type
+        A supported key type.
+    .. param:: key_bits
+        The size of the key in bits.
+
+    .. return::
+        If the parameters are valid and supported, return a buffer size in bytes that guarantees that `psa_export_formatted_key()` will not fail with :code:`PSA_ERROR_BUFFER_TOO_SMALL`. If the parameters are a valid combination that is not supported by the implementation, this macro must return either a sensible size or ``0``. If the parameters are not valid, the return value is unspecified.
+
+    See also `PSA_EXPORT_FORMATTED_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE`.
+
+.. macro:: PSA_EXPORT_FORMATTED_PUBLIC_KEY_OUTPUT_SIZE
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Sufficient output buffer size for `psa_export_formatted_public_key()`.
+
+    .. param:: format
+        A supported public-key format.
+    .. param:: options
+        A set of supported key format options.
+    .. param:: key_type
+        A public key or key pair key type.
+    .. param:: key_bits
+        The size of the key in bits.
+
+    .. return::
+        If the parameters are valid and supported, return a buffer size in bytes that guarantees that `psa_export_formatted_public_key()` will not fail with :code:`PSA_ERROR_BUFFER_TOO_SMALL`. If the parameters are a valid combination that is not supported by the implementation, this macro must return either a sensible size or ``0``. If the parameters are not valid, the return value is unspecified.
+
+        If the parameters are valid and supported, it is recommended that this macro returns the same result as :code:`PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE(format, options, PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(key_type), key_bits)`.
+
+    See also `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE` and `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE`.
+
+.. macro:: PSA_EXPORT_FORMATTED_KEY_PAIR_MAX_SIZE
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Sufficient buffer size for exporting any formatted asymmetric key pair.
+
+    This value must be a sufficient buffer size when calling `psa_export_formatted_key()` to export any asymmetric key pair that is supported by the implementation, regardless of the exact key type, key size, key format, and format options.
+
+    See also `PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE`.
+
+.. macro:: PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Sufficient buffer size for exporting any formatted asymmetric public key.
+
+    This value must be a sufficient buffer size when calling `psa_export_formatted_key()` or `psa_export_formatted_public_key()` to export any asymmetric public key that is supported by the implementation, regardless of the exact key type, key size, key format, and format options.
+
+    See also `PSA_EXPORT_FORMATTED_PUBLIC_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE()`, `PSA_EXPORT_FORMATTED_KEY_PAIR_MAX_SIZE`, and `PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE`.
+
+.. macro:: PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        Sufficient buffer size for exporting any formatted asymmetric key pair or public key.
+
+    This value must be a sufficient buffer size when calling `psa_export_formatted_key()` or `psa_export_formatted_public_key()` to export any asymmetric key pair or public key that is supported by the implementation, regardless of the exact key type, key size, key format, and format options.
+
+    See also `PSA_EXPORT_FORMATTED_KEY_PAIR_MAX_SIZE`, `PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE`, and `PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE()`.
