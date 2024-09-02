@@ -795,7 +795,7 @@ The hash suspend state has the following format:
 
 .. math::
 
-*hash-suspend-state* = *algorithm* || *input-length* || *hash-state* || *unprocessed-input*
+hash\_suspend\_state = algorithm || input\_length || hash\_state || unprocessed\_input
 
 The fields in the hash suspend state are defined as follows:
 
@@ -811,7 +811,7 @@ The fields in the hash suspend state are defined as follows:
 
     The content of this field is algorithm-specific:
 
-    *   For MD2, this is the number of bytes in the :math:`unprocessed\_input`.
+    *   For MD2, this is the number of bytes in :math:`unprocessed\_input`.
     *   For all other hash algorithms, this is the total number of bytes of input to the hash computation. This includes the :math:`unprocessed\_input` bytes.
 
     The size of this field is algorithm-specific:
@@ -840,13 +840,13 @@ The fields in the hash suspend state are defined as follows:
     See :secref:`hash-suspend-state-constants`.
 
 :math:`unprocessed\_input`
-    0 to (*hash-block-size*-1) bytes
+    :math:`0\ \text{to}\ (hash\_block\_size - 1)` bytes
 
-    A partial block of unprocessed input data. This is between zero and *hash-block-size*-1 bytes of data, the length can be calculated by:
+    A partial block of unprocessed input data. This is between zero and :math:`hash\_block\_size`-1 bytes of data, the length can be calculated by:
 
     :math:
     
-       \\text{length}(unprocessed\_input) = input\_length \mod hash\_block\_size.
+       \text{length}(unprocessed\_input) = input\_length \mod hash\_block\_size.
 
     The value of :math:`hash\_block\_size` is specific to the hash algorithm.
     The size of a hash block can be calculated using :code:`PSA_HASH_BLOCK_LENGTH(alg)` where ``alg`` is a hash algorithm.
@@ -862,7 +862,7 @@ The following table defines the algorithm-specific field lengths for the hash su
 *   :code:`PSA_HASH_SUSPEND_ALGORITHM_FIELD_LENGTH` returns the length of the :math:`algorithm` field.
 *   :code:`PSA_HASH_SUSPEND_INPUT_LENGTH_FIELD_LENGTH(alg)` returns the length of the :math:`input\_length` field.
 *   :code:`PSA_HASH_SUSPEND_HASH_STATE_FIELD_LENGTH(alg)` returns the length of the :math:`hash\_state` field.
-*   :code:`PSA_HASH_BLOCK_LENGTH(alg)-1` is the maximum length of the :math:`unprocessed\_bytes` field.
+*   :code:`PSA_HASH_BLOCK_LENGTH(alg) - 1` is the maximum length of the :math:`unprocessed\_bytes` field.
 *   :code:`PSA_HASH_SUSPEND_OUTPUT_SIZE(alg)` returns the maximum size of the hash suspend state.
 
 .. csv-table::
