@@ -372,6 +372,7 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_ARC4
     :definition: ((psa_key_type_t)0x2002)
@@ -807,7 +808,7 @@ Diffie Hellman keys
 
     :code:`0x00`
         Reserved. Not allocated to a DH group family.
-    :code:`0x01– 0x7f`
+    :code:`0x01 – 0x7f`
         DH group family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 – 0xff`
