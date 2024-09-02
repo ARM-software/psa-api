@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -106,8 +106,6 @@ Symmetric keys
         | `PSA_ALG_HKDF` (non-secret inputs)
         | `PSA_ALG_HKDF_EXPAND` (non-secret inputs)
         | `PSA_ALG_HKDF_EXTRACT` (non-secret inputs)
-        | `PSA_ALG_SP800_108_COUNTER_HMAC` (non-secret inputs)
-        | `PSA_ALG_SP800_108_COUNTER_CMAC` (non-secret inputs)
         | `PSA_ALG_TLS12_PRF` (non-secret inputs)
         | `PSA_ALG_TLS12_PSK_TO_MS` (non-secret inputs)
 
@@ -117,18 +115,11 @@ Symmetric keys
     .. summary::
         HMAC key.
 
-    HMAC keys can be used in HMAC, or HMAC-based, algorithms.
-    Although HMAC is parameterized by a specific hash algorithm, for example SHA-256, the hash algorithm is not specified in the key type.
-    The permitted-algorithm policy for the key must specify a particular hash algorithm.
+    The key policy determines which underlying hash algorithm the key can be used for.
 
-    The bit size of an HMAC key must be a non-zero multiple of 8.
-    An HMAC key is typically the same size as the output of the underlying hash algorithm.
-    An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use, see :RFC-title:`2104#2`.
+    The bit size of an HMAC key must be a non-zero multiple of 8. An HMAC key is typically the same size as the output of the underlying hash algorithm. An HMAC key that is longer than the block size of the underlying hash algorithm will be hashed before use.
 
-    It is recommended that an application does not construct HMAC keys that are longer than the block size of the hash algorithm that will be used.
-    It is :scterm:`implementation defined` whether an HMAC key that is longer than the hash block size is supported.
-
-    If the application does not control the length of the data used to construct the HMAC key, it is recommended that the application hashes the key data, when it exceeds the hash block length, before constructing the HMAC key.
+    When an HMAC key is created that is longer than the block size, it is :scterm:`implementation defined` whether the implementation stores the original HMAC key, or the hash of the HMAC key. If the hash of the key is stored, the key size reported by `psa_get_key_attributes()` will be the size of the hashed key.
 
     .. note::
 
@@ -139,7 +130,6 @@ Symmetric keys
     .. subsection:: Compatible algorithms
 
         | `PSA_ALG_HMAC`
-        | `PSA_ALG_SP800_108_COUNTER_HMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_DERIVE
     :definition: ((psa_key_type_t)0x1200)
@@ -244,7 +234,6 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
-        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_ARIA
     :definition: ((psa_key_type_t)0x2406)
@@ -279,7 +268,6 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
-        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_DES
     :definition: ((psa_key_type_t)0x2301)
@@ -345,7 +333,6 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
-        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_SM4
     :definition: ((psa_key_type_t)0x2405)
@@ -372,7 +359,6 @@ Symmetric keys
         | `PSA_ALG_ECB_NO_PADDING`
         | `PSA_ALG_CCM`
         | `PSA_ALG_GCM`
-        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
 .. macro:: PSA_KEY_TYPE_ARC4
     :definition: ((psa_key_type_t)0x2002)
@@ -407,23 +393,6 @@ Symmetric keys
 
         | `PSA_ALG_STREAM_CIPHER`
         | `PSA_ALG_CHACHA20_POLY1305`
-
-.. macro:: PSA_KEY_TYPE_XCHACHA20
-    :definition: ((psa_key_type_t)0x2007)
-
-    .. summary::
-        Key for the XChaCha20 stream cipher or the XChaCha20-Poly1305 AEAD algorithm.
-
-    The XChaCha20 key size is 256 bits (32 bytes).
-
-    *   Use algorithm `PSA_ALG_STREAM_CIPHER` to use this key with the XChaCha20 cipher for unauthenticated encryption. See `PSA_ALG_STREAM_CIPHER` for details of this algorithm.
-
-    *   Use algorithm `PSA_ALG_XCHACHA20_POLY1305` to use this key with the XChaCha20 cipher and Poly1305 authenticator for AEAD. See `PSA_ALG_XCHACHA20_POLY1305` for details of this algorithm.
-
-    .. subsection:: Compatible algorithms
-
-        | `PSA_ALG_STREAM_CIPHER`
-        | `PSA_ALG_XCHACHA20_POLY1305`
 
 
 .. _asymmetric-keys:
@@ -488,9 +457,7 @@ Elliptic Curve keys
 
     The range of Elliptic curve family identifier values is divided as follows:
 
-    :code:`0x00`
-        Reserved. Not allocated to an ECC family.
-    :code:`0x01 – 0x7f`
+    :code:`0x00 – 0x7f`
         ECC family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 – 0xff`
@@ -502,7 +469,7 @@ Elliptic Curve keys
     .. summary::
         Elliptic curve key pair: both the private and public key.
 
-    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`. See the documentation of each Elliptic curve family for details.
+    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of *q* for a curve over a field *F*\ :sub:`q`. See the documentation of each Elliptic curve family for details.
 
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.
@@ -806,9 +773,7 @@ Diffie Hellman keys
 
     The range of Diffie-Hellman group family identifier values is divided as follows:
 
-    :code:`0x00`
-        Reserved. Not allocated to a DH group family.
-    :code:`0x01 – 0x7f`
+    :code:`0x00 – 0x7f`
         DH group family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 – 0xff`
@@ -919,6 +884,120 @@ Diffie Hellman keys
 
     .. return:: psa_dh_family_t
         The Diffie-Hellman group family id, if ``type`` is a supported Diffie-Hellman key. Unspecified if ``type`` is not a supported Diffie-Hellman key.
+
+Module Lattice keys
+-------------------
+
+PSA supports Module Lattice Cryptography as defined in :cite:`FIPS 203` and :cite:`FIPS 204`. 
+
+There are two related, but separate algorithms a key encapsulation method, ML-KEM and a signature method ML-DSA. 
+
+.. macro:: PSA_KEY_TYPE_MLKEM_KEY_PAIR
+    :definition: ((psa_key_type_t)0xy001)
+
+    .. summary::
+        MLKEM key pair: contains both the decapsulation and encapsulation keys.
+        PSA Crypto treats decapsulation keys as private keys and encapsulation keys as public keys. 
+        
+        The size of an ML-KEM key is specified by the numeric part of the parameter set identifier defined in FIPS 203.
+        
+        The parameter sets refer to the key strength, the actual size of the key
+        
+        .. table:: Sizes (in bytes) of keys and cipher texts for ML-KEM
+           :widths: auto
+           
+           =======  ===============  ===================  ===================  ============
+            Size    Parameter Set    Encapsulation key    Decapsulation key    Ciphertext
+           =======  ===============  ===================  ===================  ============
+           	512      ML-KEM-512       800                  1632                 768
+       	    768      ML-KEM-768       1184                 2400                 1088
+       	    1024     ML-KEM-1024      1568                 3168                 1568
+    
+        In all cases the shared secret produced is 32-bytes, 256-bits long.
+        The shared secret can be used directly or passed to a PRF to derive further keys. 
+
+.. macro:: PSA_KEY_TYPE_MLKEM_KEY_PAIR
+    :definition: ((psa_key_type_t)0xy001)
+
+    .. summary::
+        ML KEM key pair: contains both the decapsulation and encapsulation keys.
+        PSA Crypto treats decapsulation keys as private keys and encapsulation keys as public keys. 
+        
+        The size of an ML-KEM key is specified by the numeric part of the parameter set identifier defined in FIPS 203.
+        
+        The parameter sets refer to the key strength, the actual size of the key 
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_MLKEM`
+
+.. macro:: PSA_KEY_TYPE_ML_KEM _PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4001)
+
+    .. summary::
+        ML-KEM public key.
+
+    The size of an ML-KEM key is the numeric part of the parameter set identifier.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_MLKEM` (encapsulation only)
+        | 
+.. macro:: PSA_KEY_TYPE_IS_MLKEM
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an ML-KEM key. This includes both key pairs and public keys.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_MLDSA_KEY_PAIR
+    :definition: ((psa_key_type_t)0xy001)
+
+    .. summary::
+        An ML_DSA key pair: contains both the public and private keys.
+        
+        The size of an ML-DSA key is specified by the numeric part of the parameter set identifier defined in FIPS 203.
+        
+        The parameter sets refer to the dimensions of the matrix A, and do not directly define key size.
+        
+         .. table:: Sizes (in bytes) of keys and cipher texts for ML-DSA
+           :widths: auto
+           
+           =======  ===============  =============  ============  ===========
+            Size     Parameter Set    Private key    Public key    Signature
+           =======  ===============  =============  ============  ===========
+           	 44      ML-DSA-44        2560           1312          2420
+             65      ML-DSA-65        4032           1952          3309
+             87      ML-DSA-87        4896           2592          4627
+    
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_MLDSA_SIGN`
+
+.. macro:: PSA_KEY_TYPE_MLDSA_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0xy001)
+
+    .. summary::
+        A ML-DSA public key.
+        
+        The size of an ML-DSA key is specified by the numeric part of the parameter set identifier defined in FIPS 203.
+        
+        The parameter sets refer to the key strength, the actual size of the key 
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_MLDSA_SIGN` (verification only)
+
+.. macro:: PSA_KEY_TYPE_IS_MLDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an ML-SIG key. This includes both key pairs and public keys.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
 
 Attribute accessors
 -------------------
