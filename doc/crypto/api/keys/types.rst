@@ -903,29 +903,35 @@ There are two related, but separate algorithms a key encapsulation method, ML-KE
         
         The parameter sets refer to the key strength, the actual size of the key
         
-        .. table:: Sizes (in bytes) of keys and cipher texts for ML-KEM
-           :widths: auto
+        .. list-table:: Sizes (in bytes) of keys and cipher texts for ML-KEM
+           :header-rows: 1
+
+           * - Size
+             - Parameter Set
+             - Encapsulation key
+             - Decapsulation key 
+             - Ciphertext
+
+           * - 512
+             - ML-KEM-512
+             - 800
+             - 1632
+             - 768
            
-           =======  ===============  ===================  ===================  ============
-            Size    Parameter Set    Encapsulation key    Decapsulation key    Ciphertext
-           =======  ===============  ===================  ===================  ============
-           	512      ML-KEM-512       800                  1632                 768
-       	    768      ML-KEM-768       1184                 2400                 1088
-       	    1024     ML-KEM-1024      1568                 3168                 1568
-    
+           * - 768
+             - ML-KEM-768
+             - 1184
+             - 2400
+             - 1088
+             
+           * - 1024
+             - ML-KEM-1024
+             - 1568
+             - 3168
+             - 1568
+
         In all cases the shared secret produced is 32-bytes, 256-bits long.
         The shared secret can be used directly or passed to a PRF to derive further keys. 
-
-.. macro:: PSA_KEY_TYPE_MLKEM_KEY_PAIR
-    :definition: ((psa_key_type_t)0xy001)
-
-    .. summary::
-        ML KEM key pair: contains both the decapsulation and encapsulation keys.
-        PSA Crypto treats decapsulation keys as private keys and encapsulation keys as public keys. 
-        
-        The size of an ML-KEM key is specified by the numeric part of the parameter set identifier defined in FIPS 203.
-        
-        The parameter sets refer to the key strength, the actual size of the key 
 
     .. subsection:: Compatible algorithms
 
@@ -962,16 +968,33 @@ There are two related, but separate algorithms a key encapsulation method, ML-KE
         
         The parameter sets refer to the dimensions of the matrix A, and do not directly define key size.
         
-         .. table:: Sizes (in bytes) of keys and cipher texts for ML-DSA
-           :widths: auto
+        .. list-table:: Sizes (in bytes) of keys and cipher texts for ML-KEM
+           :header-rows: 1
+
+           * - Size
+             - Parameter Set
+             - Private key
+             - Public key 
+             - Signature
            
-           =======  ===============  =============  ============  ===========
-            Size     Parameter Set    Private key    Public key    Signature
-           =======  ===============  =============  ============  ===========
-           	 44      ML-DSA-44        2560           1312          2420
-             65      ML-DSA-65        4032           1952          3309
-             87      ML-DSA-87        4896           2592          4627
-    
+           * - 44
+             - ML-DSA-44
+             - 2560
+             - 1312
+             - 2420
+             
+           * - 65
+             - ML-DSA-65
+             - 4032
+             - 1952
+             - 3309
+             
+           * - 87
+             - ML-DSA-87
+             - 4896
+             - 2592
+             - 4627
+
     .. subsection:: Compatible algorithms
 
         | `PSA_ALG_MLDSA_SIGN`
