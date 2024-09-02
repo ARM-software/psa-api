@@ -39,6 +39,30 @@ While the application can always implement this using the other algorithm functi
            *   `PSA_ECC_FAMILY_BRAINPOOL_P_R1`
            *   `PSA_ECC_FAMILY_MONTGOMERY`
 
+Module Lattice Encapsulation
+----------------------------
+
+PSA Crypto supports Module Lattice Encapsulation as defined in :city:`FIPS 203`.
+
+.. macro:: PSA_ALG_MLKEM
+    :definition: ((psa_algorithm_t)0x09yyyxxxx)
+
+    .. summary::
+       Module Lattice Encapsulation.
+
+       ML-KEM as defined, does not permit a choice of PRF. Therefore this algorithm is a combined algotithm and can be used directly in a call to `psa_encapsulate()` There is no need to call `PSA_ALG_ENCAPSULATION` 
+
+       When used as a key's permitted-algorithm policy, the following uses are permitted:
+
+       *   In a call to `psa_encapsulate()` or `psa_decapsulate()`.
+
+       .. subsection:: Compatible key types
+
+           | :code:`PSA_KEY_TYPE_MLKEM`
+
+Supporting Macros
+-----------------
+
 .. macro:: PSA_ALG_ENCAPSULATION
     :definition: /* specification-defined value */
 
@@ -62,6 +86,8 @@ While the application can always implement this using the other algorithm functi
     .. subsection:: Compatible key types
 
         The resulting combined encapsulation algorithm is compatible with the same key types as the raw encapsulation algorithm used to construct it.
+
+
 
 .. _encapsulation-algorithms:
 

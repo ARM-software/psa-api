@@ -228,3 +228,4 @@ Algorithm categories
     *   `PSA_ALG_TLS12_PRF()`
     *   `PSA_ALG_TLS12_PSK_TO_MS()`
     *   `PSA_ALG_PBKDF2_HMAC()`
+    *   `PSA_ALG_MLDSA_SIGN`

@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -40,7 +40,7 @@ Asymmetric signature algorithms
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
-    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is used as :math:`H` from step 2 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. :math:`H` is the message digest, computed using the ``hash_alg`` hash algorithm.
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is used as *H* from step 2 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. *H* is the message digest, computed using the ``hash_alg`` hash algorithm.
 
     .. subsection:: Compatible key types
 
@@ -57,7 +57,7 @@ Asymmetric signature algorithms
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
-    The ``hash`` parameter to `psa_sign_hash()` or `psa_verify_hash()` is used as :math:`T` from step 3 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. :math:`T` is normally the DER encoding of the *DigestInfo* structure produced by step 2 in the message encoding algorithm, but it can be any byte string within the available length.
+    The ``hash`` parameter to `psa_sign_hash()` or `psa_verify_hash()` is used as *T* from step 3 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. *T* is normally the DER encoding of the *DigestInfo* structure produced by step 2 in the message encoding algorithm, but it can be any byte string within the available length.
 
     The wildcard key policy :code:`PSA_ALG_RSA_PKCS1V15_SIGN(PSA_ALG_ANY_HASH)` also permits a key to be used with the `PSA_ALG_RSA_PKCS1V15_SIGN_RAW` signature algorithm.
 
@@ -172,9 +172,9 @@ Asymmetric signature algorithms
 
         In particular, it is impossible to determine whether a signature was produced with deterministic ECDSA or with randomized ECDSA: it is only possible to verify that a signature was made with ECDSA with the private key corresponding to the public key used for the verification.
 
-    This signature scheme is defined by :cite-title:`SEC1`, and also by :cite-title:`X9-62`, with a random per-message secret number :math:`k`.
+    This signature scheme is defined by :cite-title:`SEC1`, and also by :cite-title:`X9-62`, with a random per-message secret number *k*.
 
-    The representation of the signature as a byte string consists of the concatenation of the signature values :math:`r` and :math:`s`. Each of :math:`r` and :math:`s` is encoded as an :math:`N`-octet string, where :math:`N` is the length of the base point of the curve in octets. Each value is represented in big-endian order, with the most significant octet first.
+    The representation of the signature as a byte string consists of the concatenation of the signature values *r* and *s*. Each of *r* and *s* is encoded as an *N*-octet string, where *N* is the length of the base point of the curve in octets. Each value is represented in big-endian order, with the most significant octet first.
 
     .. subsection:: Compatible key types
 
@@ -268,9 +268,9 @@ Asymmetric signature algorithms
 
     PureEdDSA requires an elliptic curve key on a twisted Edwards curve. The following curves are supported:
 
-    *   Edwards25519: the Ed25519 algorithm is computed. The output signature is a 64-byte string: the concatenation of :math:`R` and :math:`S` as defined by :RFC:`8032#5.1.6`.
+    *   Edwards25519: the Ed25519 algorithm is computed. The output signature is a 64-byte string: the concatenation of *R* and *S* as defined by :RFC:`8032#5.1.6`.
 
-    *   Edwards448: the Ed448 algorithm is computed with an empty string as the context. The output signature is a 114-byte string: the concatenation of :math:`R` and :math:`S` as defined by :RFC:`8032#5.2.6`.
+    *   Edwards448: the Ed448 algorithm is computed with an empty string as the context. The output signature is a 114-byte string: the concatenation of *R* and *S* as defined by :RFC:`8032#5.2.6`.
 
     .. note::
         Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter. A future version of this specification may add suitable functions and extend this algorithm to support contexts.
@@ -314,7 +314,7 @@ Asymmetric signature algorithms
 
     .. admonition:: Implementation note
 
-        When used with `psa_sign_hash()` or `psa_verify_hash()`, the ``hash`` parameter to the call should be used as :math:`\text{PH}(M)` in the algorithms defined in :RFC:`8032#5.1`.
+        When used with `psa_sign_hash()` or `psa_verify_hash()`, the ``hash`` parameter to the call should be used as ``PH(M)`` in the algorithms defined in :RFC:`8032#5.1`.
 
 .. macro:: PSA_ALG_ED448PH
     :definition: ((psa_algorithm_t) 0x06000915)
@@ -345,9 +345,42 @@ Asymmetric signature algorithms
 
     .. admonition:: Implementation note
 
-        When used with `psa_sign_hash()` or `psa_verify_hash()`, the ``hash`` parameter to the call should be used as :math:`\text{PH}(M)` in the algorithms defined in :RFC:`8032#5.2`.
+        When used with `psa_sign_hash()` or `psa_verify_hash()`, the ``hash`` parameter to the call should be used as ``PH(M)`` in the algorithms defined in :RFC:`8032#5.2`.
 
+.. macro:: PSA_ALG_MLDSA_SIGN
+    :definition: ((psa_algorithm_t) 0x06000916)
 
+.. summary::
+        The Module Lattice Signature scheme, with hashing.
+
+.. param:: hash_alg
+        A hash algorithm: A value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true. This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
+
+    This algorithm can be used with both the message and hash signature functions.
+
+    This signature scheme is defined by :cite:`FIPS204` as ML-DSA or HashML-DSA.
+
+    When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is used to select the OID and length  prepended to the hash. 
+    
+    .. subsection:: Usage
+
+        This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:
+
+        *   Call `psa_sign_message()` with the message.
+
+        *   Calculate the hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the specified hash algorithm. Then sign the calculated hash with `psa_sign_hash()` When using the `psa_sign_hash()` function the caller should provide the raw hash, the function prepends the OID and length based on the ``hash`` parameter.
+
+        Verifying a signature is similar, using `psa_verify_message()` or `psa_verify_hash()` instead of the signature function.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_MLDSA_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_MLDSA_PUBLIC_KEY` (signature verification only)
+
+    .. admonition:: Implementation note
+
+        The :cite:`FIPS204` standard specifies OIDs for SHA256, SHA512 and SHA128, but permits use of other hashes, provided they offer at least the same security strength as the signature function and have an agreed OID. 
+        
 Asymmetric signature functions
 ------------------------------
 
