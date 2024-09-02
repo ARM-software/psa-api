@@ -845,8 +845,8 @@ The fields in the hash suspend state are defined as follows:
     A partial block of unprocessed input data. This is between zero and :math:`hash\_block\_size - 1` bytes of data, the length can be calculated by:
 
     .. math::
-    
-       \text{length}(unprocessed\_input) = input\_length \mod hash\_block\_size.
+
+        \text{length}(unprocessed\_input) = input\_length \mod hash\_block\_size.
 
     The value of :math:`hash\_block\_size` is specific to the hash algorithm.
     The size of a hash block can be calculated using :code:`PSA_HASH_BLOCK_LENGTH(alg)` where ``alg`` is a hash algorithm.
