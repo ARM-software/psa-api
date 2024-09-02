@@ -795,7 +795,7 @@ The hash suspend state has the following format:
 
 .. math::
 
-   hash\_suspend\_state = algorithm\ ||\ input\_length\ ||\ hash\_state\ ||\ unprocessed\_input
+    hash\_suspend\_state = algorithm\ ||\ input\_length\ ||\ hash\_state\ ||\ unprocessed\_input
 
 The fields in the hash suspend state are defined as follows:
 
