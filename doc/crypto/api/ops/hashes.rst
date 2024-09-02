@@ -795,7 +795,7 @@ The hash suspend state has the following format:
 
 .. math::
 
-hash\_suspend\_state = algorithm || input\_length || hash\_state || unprocessed\_input
+   hash\_suspend\_state = algorithm || input\_length || hash\_state || unprocessed\_input
 
 The fields in the hash suspend state are defined as follows:
 
@@ -842,9 +842,9 @@ The fields in the hash suspend state are defined as follows:
 :math:`unprocessed\_input`
     :math:`0\ \text{to}\ (hash\_block\_size - 1)` bytes
 
-    A partial block of unprocessed input data. This is between zero and :math:`hash\_block\_size`-1 bytes of data, the length can be calculated by:
+    A partial block of unprocessed input data. This is between zero and :math:`hash\_block\_size - 1` bytes of data, the length can be calculated by:
 
-    :math:
+    .. math::
     
        \text{length}(unprocessed\_input) = input\_length \mod hash\_block\_size.
 
