@@ -350,10 +350,10 @@ Asymmetric signature algorithms
 .. macro:: PSA_ALG_MLDSA_SIGN
     :definition: ((psa_algorithm_t) 0x06000916)
 
-.. summary::
+   .. summary::
         The Module Lattice Signature scheme, with hashing.
 
-.. param:: hash_alg
+   .. param:: hash_alg
         A hash algorithm: A value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true. This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
 
     This algorithm can be used with both the message and hash signature functions.
