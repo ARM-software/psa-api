@@ -1,8 +1,8 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. reference:: PSA-PAKE
-    :title: PSA Certified Crypto API 1.1 PAKE Extension
+    :title: PSA Certified Crypto API 1.2 PAKE Extension
     :doc_no: ARM AES 0058
     :url: arm-software.github.io/psa-api/crypto
 
@@ -14,7 +14,7 @@
 .. reference:: PSA-FFM
     :title: Arm® Platform Security Architecture Firmware Framework
     :doc_no: ARM DEN 0063
-    :url: pages.arm.com/psa-apis
+    :url: developer.arm.com/documentation/den0063
 
 .. reference:: PSA-STAT
     :title: PSA Certified Status code API
@@ -158,6 +158,12 @@
     :author: NIST
     :publication: November 2017
     :url: doi.org/10.6028/NIST.SP.800-67r2
+
+.. reference:: SP800-108
+    :title: NIST Special Publication 800-108r1: Recommendation for Key Derivation Using Pseudorandom Functions
+    :author: NIST
+    :publication: August 2022
+    :url: doi.org/10.6028/NIST.SP.800-108r1
 
 .. reference:: RFC1319
     :title: The MD2 Message-Digest Algorithm
@@ -303,6 +309,12 @@
     :publication: January 2017
     :url: tools.ietf.org/html/rfc8032.html
 
+.. reference:: RFC8439
+    :title: ChaCha20 and Poly1305 for IETF Protocols
+    :author: IRTF
+    :publication: June 2018
+    :url: tools.ietf.org/html/rfc8439.html
+    
 .. reference:: RIPEMD
     :title: RIPEMD-160: A Strengthened Version of RIPEMD
     :author: Dobbertin, Bosselaers and Preneel
@@ -342,8 +354,32 @@
     :url: http://cr.yp.to/chacha/chacha-20080128.pdf
     :publication: January 2008
 
+.. reference:: XCHACHA
+    :title: XChaCha: eXtended-nonce ChaCha and AEAD_XChaCha20_Poly1305
+    :author: Arciszewski
+    :publication: January 2020
+    :url: datatracker.ietf.org/doc/html/draft-irtf-cfrg-xchacha-03
+
 .. reference:: CLULOW
     :author: Clulow, Jolyon
     :title: On the Security of PKCS #11
     :url: link.springer.com/chapter/10.1007/978-3-540-45238-6_32
     :publication: 2003
+
+.. reference:: TLS-ECJPAKE
+    :title: Elliptic Curve J-PAKE Cipher Suites for Transport Layer Security (TLS)
+    :author: Cragie, Hao
+    :publication: June 2016
+    :url: datatracker.ietf.org/doc/html/draft-cragie-tls-ecjpake-01
+
+.. reference:: ZIGBEE
+    :author: zigbee alliance
+    :title: zigbee Specification
+    :url: csa-iot.org/wp-content/uploads/2022/01/docs-05-3474-22-0csg-zigbee-specification-1.pdf
+    :publication: April 2017
+
+.. reference:: IEEE-CCM
+    :author: IEEE
+    :title: IEEE Standard for Low-Rate Wireless Networks
+    :url: standards.ieee.org/ieee/802.15.4/7029/
+    :publication: 2020
