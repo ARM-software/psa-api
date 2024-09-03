@@ -121,12 +121,12 @@ Lifetime encodings
 
                 Implementations should support this value if they support persistent keys at all. Applications should use this value if they have no specific needs that are only met by implementation-specific features.
 
-        *   -   ``2 – 127``
+        *   -   ``2 - 127``
             -   Persistent key with a PSA Certified API-specified lifetime.
 
                 The |API| does not define the meaning of these values, but another PSA Certified API may do so.
 
-        *   -   ``128 – 254``
+        *   -   ``128 - 254``
             -   Persistent key with a vendor-specified lifetime.
 
                 No PSA Certified API will define the meaning of these values, so implementations may choose the meaning freely. As a guideline, higher persistence levels should cause a key to survive more management events than lower levels.
@@ -171,12 +171,12 @@ Lifetime encodings
 
                 Implementations should support this value if there is a secure element attached to the operating environment. As a guideline, secure elements may provide higher resistance against side channel and physical attacks than the primary local storage, but may have restrictions on supported key types, sizes, policies and operations and may have different performance characteristics.
 
-        *   -   ``2 – 0x7fffff``
+        *   -   ``2 - 0x7fffff``
             -   Other locations defined by a PSA specification.
 
                 The |API| does not currently assign any meaning to these locations, but future versions of this specification or other PSA Certified APIs may do so.
 
-        *   -   ``0x800000 – 0xffffff``
+        *   -   ``0x800000 - 0xffffff``
             -   Vendor-defined locations.
 
                 No PSA Certified API will assign a meaning to locations in this range.

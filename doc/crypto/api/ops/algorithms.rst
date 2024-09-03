@@ -41,11 +41,11 @@ Algorithm encoding
 
     :code:`0x00000000`
         Reserved as an invalid algorithm identifier.
-    :code:`0x00000001 – 0x7fffffff`
+    :code:`0x00000001 - 0x7fffffff`
         Specification-defined algorithm identifiers.
         Algorithm identifiers defined by this standard always have bit 31 clear.
         Unallocated algorithm identifier values in this range are reserved for future use.
-    :code:`0x80000000 – 0xffffffff`
+    :code:`0x80000000 - 0xffffffff`
         Implementation-defined algorithm identifiers.
         Implementations that define additional algorithms must use an encoding with bit 31 set.
         The related support macros will be easier to write if these algorithm identifier encodings also respect the bitwise structure used by standard encodings.
