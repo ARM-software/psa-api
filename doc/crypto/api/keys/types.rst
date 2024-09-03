@@ -643,6 +643,23 @@ RSA keys
 
         See `PSA_KEY_TYPE_RSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
 
+    .. subsection:: Key generation
+
+        A call to `psa_generate_key()` will generate an RSA key-pair with the default public exponent of ``65537``. The modulus :math:`n=pq` is a product of two probabilistic primes :math:`p\ \text{and}\ q`, where :math:`2^{r-1} \le n < 2^r` and :math:`r` is the bit size specified in the attributes.
+
+        The exponent can be explicitly specified in non-default production parameters in a call to `psa_generate_key_custom()`. Use the following custom production parameters:
+
+        *   The production parameters structure, ``custom``, must have ``flags`` set to zero.
+
+        *   If ``custom_data_length == 0``, the default exponent value ``65537`` is used.
+
+        *   The additional production parameter buffer ``custom_data`` is the public exponent, in little-endian byte order.
+
+            The exponent must be an odd integer greater than ``1``.
+            An implementation must support an exponent of ``65537``, and is recommended to support an exponent of ``3``, and can support other values.
+
+            The maximum supported exponent value is :scterm:`implementation defined`.
+
     .. subsection:: Key derivation
 
         The method used by `psa_key_derivation_output_key()` to derive an RSA key-pair is :term:`implementation defined`.
