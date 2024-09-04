@@ -38,6 +38,8 @@ Clarifications and fixes
 
 *   Clarified the documentation of key attributes in key creation functions.
 
+*   Clarified the constraint on `psa_key_derivation_output_key()` for algorithms that have a `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step.
+
 Other changes
 ~~~~~~~~~~~~~
 

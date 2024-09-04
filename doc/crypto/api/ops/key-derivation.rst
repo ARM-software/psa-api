@@ -903,7 +903,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The following conditions can result in this error:
 
-        *   The `PSA_KEY_DERIVATION_INPUT_SECRET` input step was neither provided through a key, nor the result of a key agreement.
+        *   A `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step was neither provided through a key, nor the result of a key agreement.
         *   One of the inputs was a key whose policy did not permit `PSA_KEY_USAGE_DERIVE`.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_BAD_STATE
@@ -933,7 +933,7 @@ Key derivation functions
 
         Permitting implementation defined methods for algorithms not specified in the |API| permits implementations to use other appropriate procedures in cases where interoperability with other implementations is not required.
 
-    For algorithms that take an input step `PSA_KEY_DERIVATION_INPUT_SECRET`, the input to that step must be provided with `psa_key_derivation_input_key()`. Future versions of this specification might include additional restrictions on the derived key based on the attributes and strength of the secret key.
+    For algorithms that take a `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step, the input to that step must be provided with `psa_key_derivation_input_key()`. Future versions of this specification might include additional restrictions on the derived key based on the attributes and strength of the secret key.
 
      .. note::
 
@@ -1014,7 +1014,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The following conditions can result in this error:
 
-        *   The `PSA_KEY_DERIVATION_INPUT_SECRET` input step was neither provided through a key, nor the result of a key agreement.
+        *   A `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step was neither provided through a key, nor the result of a key agreement.
         *   One of the inputs was a key whose policy did not permit `PSA_KEY_USAGE_DERIVE`.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_BAD_STATE
@@ -1030,10 +1030,13 @@ Key derivation functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    Use this function to provide explicit production parameters when deriving a key.
-    See the description of `psa_key_derivation_output_key()` for the operation of this function with the default production parameters.
+    This function calculates output bytes from a key derivation algorithm and uses those bytes to generate a key deterministically. The key's location, policy, type and size are taken from ``attributes``.
 
-    See the documentation of `psa_custom_key_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key derivation.
+    This function operates in a similar way to `psa_key_derivation_output_key()`, but enables explicit production parameters to be provided when deriving a key.
+    For example, the production parameters can be used to select an alternative key derivation process, or configure additional key parameters.
+    See `psa_key_derivation_output_key()` for the operation of this function with the default production parameters.
+
+    See `psa_custom_key_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key derivation.
 
 .. function:: psa_key_derivation_verify_bytes
 
