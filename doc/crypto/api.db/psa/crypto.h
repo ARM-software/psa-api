@@ -509,11 +509,11 @@ psa_status_t psa_export_public_key(psa_key_id_t key,
                                    size_t * data_length);
 psa_status_t psa_generate_key(const psa_key_attributes_t * attributes,
                               psa_key_id_t * key);
-psa_status_t psa_generate_key_custom(const psa_key_attributes_t *attributes,
-                                     const psa_custom_key_parameters_t *custom,
-                                     const uint8_t *custom_data,
+psa_status_t psa_generate_key_custom(const psa_key_attributes_t * attributes,
+                                     const psa_custom_key_parameters_t * custom,
+                                     const uint8_t * custom_data,
                                      size_t custom_data_length,
-                                     mbedtls_svc_key_id_t *key);
+                                     mbedtls_svc_key_id_t * key);
 psa_status_t psa_generate_random(uint8_t * output,
                                  size_t output_size);
 psa_algorithm_t psa_get_key_algorithm(const psa_key_attributes_t * attributes);
@@ -594,18 +594,18 @@ psa_status_t psa_key_derivation_output_bytes(psa_key_derivation_operation_t * op
 psa_status_t psa_key_derivation_output_key(const psa_key_attributes_t * attributes,
                                            psa_key_derivation_operation_t * operation,
                                            psa_key_id_t * key);
-psa_status_t psa_key_derivation_output_key_custom(const psa_key_attributes_t *attributes,
-                                                  psa_key_derivation_operation_t *operation,
-                                                  const psa_custom_key_parameters_t *custom,
-                                                  const uint8_t *custom_data,
+psa_status_t psa_key_derivation_output_key_custom(const psa_key_attributes_t * attributes,
+                                                  psa_key_derivation_operation_t * operation,
+                                                  const psa_custom_key_parameters_t * custom,
+                                                  const uint8_t * custom_data,
                                                   size_t custom_data_length,
-                                                  mbedtls_svc_key_id_t *key);
+                                                  mbedtls_svc_key_id_t * key);
 psa_status_t psa_key_derivation_set_capacity(psa_key_derivation_operation_t * operation,
                                              size_t capacity);
 psa_status_t psa_key_derivation_setup(psa_key_derivation_operation_t * operation,
                                       psa_algorithm_t alg);
 psa_status_t psa_key_derivation_verify_bytes(psa_key_derivation_operation_t * operation,
-                                             const uint8_t *expected_output,
+                                             const uint8_t * expected_output,
                                              size_t output_length);
 psa_status_t psa_key_derivation_verify_key(psa_key_derivation_operation_t * operation,
                                            psa_key_id_t expected);
@@ -651,33 +651,33 @@ void psa_pake_cs_set_key_confirmation(psa_pake_cipher_suite_t* cipher_suite,
                                       uint32_t key_confirmation);
 void psa_pake_cs_set_primitive(psa_pake_cipher_suite_t* cipher_suite,
                                psa_pake_primitive_t primitive);
-psa_status_t psa_pake_get_shared_key(psa_pake_operation_t *operation,
+psa_status_t psa_pake_get_shared_key(psa_pake_operation_t * operation,
                                      const psa_key_attributes_t * attributes,
                                      psa_key_id_t * key);
-psa_status_t psa_pake_input(psa_pake_operation_t *operation,
+psa_status_t psa_pake_input(psa_pake_operation_t * operation,
                             psa_pake_step_t step,
-                            const uint8_t *input,
+                            const uint8_t * input,
                             size_t input_length);
 psa_pake_operation_t psa_pake_operation_init(void);
-psa_status_t psa_pake_output(psa_pake_operation_t *operation,
+psa_status_t psa_pake_output(psa_pake_operation_t * operation,
                              psa_pake_step_t step,
-                             uint8_t *output,
+                             uint8_t * output,
                              size_t output_size,
-                             size_t *output_length);
-psa_status_t psa_pake_set_context(psa_pake_operation_t *operation,
-                                  const uint8_t *context,
+                             size_t * output_length);
+psa_status_t psa_pake_set_context(psa_pake_operation_t * operation,
+                                  const uint8_t * context,
                                   size_t context_len);
-psa_status_t psa_pake_set_peer(psa_pake_operation_t *operation,
-                               const uint8_t *peer_id,
+psa_status_t psa_pake_set_peer(psa_pake_operation_t * operation,
+                               const uint8_t * peer_id,
                                size_t peer_id_len);
-psa_status_t psa_pake_set_role(psa_pake_operation_t *operation,
+psa_status_t psa_pake_set_role(psa_pake_operation_t * operation,
                                psa_pake_role_t role);
-psa_status_t psa_pake_set_user(psa_pake_operation_t *operation,
-                               const uint8_t *user_id,
+psa_status_t psa_pake_set_user(psa_pake_operation_t * operation,
+                               const uint8_t * user_id,
                                size_t user_id_len);
-psa_status_t psa_pake_setup(psa_pake_operation_t *operation,
+psa_status_t psa_pake_setup(psa_pake_operation_t * operation,
                             psa_key_id_t password_key,
-                            const psa_pake_cipher_suite_t *cipher_suite);
+                            const psa_pake_cipher_suite_t * cipher_suite);
 psa_status_t psa_purge_key(psa_key_id_t key);
 psa_status_t psa_raw_key_agreement(psa_algorithm_t alg,
                                    psa_key_id_t private_key,

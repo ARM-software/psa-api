@@ -258,15 +258,15 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
             This is an input parameter: it is not updated with the final key attributes.
             The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
-    .. param:: const psa_custom_key_parameters_t *custom
+    .. param:: const psa_custom_key_parameters_t * custom
         Customized production parameters for the key generation.
 
         When this is `PSA_CUSTOM_KEY_PARAMETERS_INIT` with ``custom_data_length == 0``, this function is equivalent to `psa_generate_key()`.
-    .. param:: const uint8_t *custom_data
+    .. param:: const uint8_t * custom_data
         A buffer containing additional variable-sized production parameters.
     .. param:: size_t custom_data_length
         Length of ``custom_data`` in bytes.
-    .. param:: mbedtls_svc_key_id_t *key
+    .. param:: mbedtls_svc_key_id_t * key
         On success, an identifier for the newly created key.
         For persistent keys, this is the key identifier defined in ``attributes``.
         `PSA_KEY_ID_NULL` on failure.

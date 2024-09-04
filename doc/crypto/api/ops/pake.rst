@@ -619,7 +619,7 @@ Multi-part PAKE operations
     .. summary::
         Setup a password-authenticated key exchange.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         The operation object to set up.
         It must have been initialized as per the documentation for `psa_pake_operation_t` and not yet in use.
     .. param:: psa_key_id_t password_key
@@ -630,7 +630,7 @@ Multi-part PAKE operations
         Refer to the documentation of individual PAKE algorithms for more information.
 
         The key must permit the usage :code:`PSA_KEY_USAGE_DERIVE`.
-    .. param:: const psa_pake_cipher_suite_t *cipher_suite
+    .. param:: const psa_pake_cipher_suite_t * cipher_suite
         The cipher suite to use.
         A PAKE cipher suite fully characterizes a PAKE algorithm, including the PAKE algorithm.
 
@@ -704,7 +704,7 @@ Multi-part PAKE operations
     .. summary::
         Set the application role for a password-authenticated key exchange.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
     .. param:: psa_pake_role_t role
         A value of type `psa_pake_role_t` indicating the application role in the PAKE algorithm.
@@ -744,9 +744,9 @@ Multi-part PAKE operations
     .. summary::
         Set the user ID for a password-authenticated key exchange.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
-    .. param:: const uint8_t *user_id
+    .. param:: const uint8_t * user_id
         The user ID to authenticate with.
     .. param:: size_t user_id_len
         Size of the ``user_id`` buffer in bytes.
@@ -778,9 +778,9 @@ Multi-part PAKE operations
     .. summary::
         Set the peer ID for a password-authenticated key exchange.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
-    .. param:: const uint8_t *peer_id
+    .. param:: const uint8_t * peer_id
         The peer's ID to authenticate.
     .. param:: size_t peer_id_len
         Size of the ``peer_id`` buffer in bytes.
@@ -813,9 +813,9 @@ Multi-part PAKE operations
     .. summary::
         Set the context data for a password-authenticated key exchange.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
-    .. param:: const uint8_t *context
+    .. param:: const uint8_t * context
         The peer's ID to authenticate.
     .. param:: size_t context_len
         Size of the ``context`` buffer in bytes.
@@ -847,11 +847,11 @@ Multi-part PAKE operations
     .. summary::
         Get output for a step of a password-authenticated key exchange.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
     .. param:: psa_pake_step_t step
         The step of the algorithm for which the output is requested.
-    .. param:: uint8_t *output
+    .. param:: uint8_t * output
         Buffer where the output is to be written.
         The format of the output depends on the ``step``, see :secref:`pake-steps`.
     .. param:: size_t output_size
@@ -860,7 +860,7 @@ Multi-part PAKE operations
 
         *   A sufficient output size is :code:`PSA_PAKE_OUTPUT_SIZE(alg, primitive, step)` where ``alg`` and ``primitive`` are the PAKE algorithm and primitive in the operation's cipher suite, and ``step`` is the output step.
         *   `PSA_PAKE_OUTPUT_MAX_SIZE` evaluates to the maximum output size of any supported PAKE algorithm, primitive and step.
-    .. param:: size_t *output_length
+    .. param:: size_t * output_length
         On success, the number of bytes of the returned output.
 
     .. return:: psa_status_t
@@ -899,11 +899,11 @@ Multi-part PAKE operations
     .. summary::
         Provide input for a step of a password-authenticated key exchange.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
     .. param:: psa_pake_step_t step
         The step for which the input is provided.
-    .. param:: const uint8_t *input
+    .. param:: const uint8_t * input
         Buffer containing the input.
         The format of the input depends on the ``step``, see :secref:`pake-steps`.
     .. param:: size_t input_length
@@ -950,7 +950,7 @@ Multi-part PAKE operations
     .. summary::
         Extract the shared secret from the PAKE as a key.
 
-    .. param:: psa_pake_operation_t *operation
+    .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
