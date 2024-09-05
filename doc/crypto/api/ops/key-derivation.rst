@@ -758,7 +758,10 @@ Key derivation functions
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
-        The key has neither the `PSA_KEY_USAGE_DERIVE` nor the `PSA_KEY_USAGE_VERIFY_DERIVATION` usage flag, or it does not permit the operation's algorithm.
+        The following conditions can result in this error:
+
+        *   The key has neither the `PSA_KEY_USAGE_DERIVE` nor the `PSA_KEY_USAGE_VERIFY_DERIVATION` usage flag.
+        *   The key does not permit the operation's algorithm.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -790,10 +793,10 @@ Key derivation functions
     .. note::
         Once all inputs steps are completed, the following operations are permitted:
 
-        *   `psa_key_derivation_output_bytes()` --- if each input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
+        *   `psa_key_derivation_output_bytes()` --- if each input was either a direct input, or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
         *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()` --- if the input for step `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` was a key with usage flag `PSA_KEY_USAGE_DERIVE`, and every other input was either a direct input or a key with usage flag `PSA_KEY_USAGE_DERIVE`.
-        *   `psa_key_derivation_verify_bytes()` --- if each input was either a direct input, a key with usage flag `PSA_KEY_USAGE_DERIVE`, or a key with usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION`.
-        *   `psa_key_derivation_verify_key()` --- under the same conditions as `psa_key_derivation_verify_bytes()`.
+        *   `psa_key_derivation_verify_bytes()`
+        *   `psa_key_derivation_verify_key()`
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
@@ -1054,8 +1057,6 @@ Key derivation functions
     .. retval:: PSA_SUCCESS
         Success.
         The output of the key derivation operation matches ``expected_output``.
-    .. retval:: PSA_ERROR_NOT_PERMITTED
-        One of the inputs is a key whose policy permits neither `PSA_KEY_USAGE_DERIVE` nor `PSA_KEY_USAGE_VERIFY_DERIVATION`.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
         The output of the key derivation operation does not match the value in ``expected_output``.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
@@ -1093,7 +1094,7 @@ Key derivation functions
             if (memcmp(expected_output, tmp, output_length) != 0)
                 return PSA_ERROR_INVALID_SIGNATURE;
 
-        However, calling `psa_key_derivation_verify_bytes()` works even if the key's policy does not permit output of the bytes.
+        However, calling `psa_key_derivation_verify_bytes()` works even if an input key's policy does not include `PSA_KEY_USAGE_DERIVE`.
 
     .. admonition:: Implementation note
 
@@ -1121,10 +1122,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The key type is not `PSA_KEY_TYPE_PASSWORD_HASH`.
     .. retval:: PSA_ERROR_NOT_PERMITTED
-        The following conditions can result in this error:
-
-        *   The ``expected`` key does not have the `PSA_KEY_USAGE_VERIFY_DERIVATION` flag, or it does not permit the requested algorithm.
-        *   One of the inputs is a key whose policy permits neither `PSA_KEY_USAGE_DERIVE` nor `PSA_KEY_USAGE_VERIFY_DERIVATION`.
+        The ``expected`` key does not have the `PSA_KEY_USAGE_VERIFY_DERIVATION` flag, or it does not permit the requested algorithm.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
         The output of the key derivation operation does not match the value of the ``expected`` key.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
@@ -1140,7 +1138,6 @@ Key derivation functions
 
         *   The operation state is not valid: it must be active, with all required input steps complete.
         *   The library requires initializing by a call to `psa_crypto_init()`.
-
 
     This function calculates output bytes from a key derivation algorithm and compares those bytes to an expected value, provided as key of type `PSA_KEY_TYPE_PASSWORD_HASH`.
     If the key derivation's output is viewed as a stream of bytes, this function destructively reads the number of bytes corresponding to the length of the ``expected`` key from the stream before comparing them with the key value.
