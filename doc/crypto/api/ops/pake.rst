@@ -1233,7 +1233,7 @@ J-PAKE requires both an application and a peer identity.
 If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
 
 J-PAKE does not use a context.
-A call to `psa_pake_set_context()` for a J-PAKE operation will fail with :code:`PSA_ERROR_INVALID_ARGUMENT`.
+A call to `psa_pake_set_context()` for a J-PAKE operation will fail with :code:`PSA_ERROR_BAD_STATE`.
 
 The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`. The code flow for the 'Peer' is the same as for 'User', as J-PAKE is a balanced PAKE.
 
