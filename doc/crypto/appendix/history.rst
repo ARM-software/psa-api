@@ -41,6 +41,8 @@ Changes to the API
     -   Added `psa_export_formatted_key()` and `psa_export_formatted_public_key()` to export keys in other formats.
     -   Added ``PSA_EXPORT_FORMATTED_XXX`` support macros to evaluate buffer sizes for the formatted export functions.
 
+*   Added support for key wrapping using key-wrapping algorithms and wrapped-key data formats. See :secref:`key-wrap`.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
