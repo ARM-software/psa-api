@@ -117,7 +117,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -157,7 +157,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -225,7 +225,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -250,7 +250,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -275,7 +275,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -320,7 +320,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -365,7 +365,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -406,7 +406,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
         The parity bits in each 64-bit DES key element must be correct.
 
     .. subsection:: Key derivation
@@ -459,7 +459,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -496,7 +496,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -523,7 +523,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -550,7 +550,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -577,7 +577,7 @@ Symmetric keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key is the raw bytes of the key.
+        The default data format for import and export of the key is the raw bytes of the key.
 
     .. subsection:: Key derivation
 
@@ -621,7 +621,7 @@ RSA keys
 
     .. subsection:: Key format
 
-        The data format for import and export of a key-pair is the non-encrypted DER encoding of the representation defined by in :RFC-title:`8017` as ``RSAPrivateKey``, version ``0``.
+        The default data format for import and export of a key-pair is the non-encrypted :term:`DER` encoding of the representation defined by in :RFC-title:`8017#A.1.2` as ``RSAPrivateKey``, version ``0``.
 
         .. code-block:: none
 
@@ -642,6 +642,9 @@ RSA keys
             Although it is possible to define an RSA key pair or private key using a subset of these elements, the output from `psa_export_key()` for an RSA key pair must include all of these elements.
 
         See `PSA_KEY_TYPE_RSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+        RSA key-pairs can also be imported from and exported using the `PSA_KEY_FORMAT_RSA_PRIVATE_KEY` and `PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY` key formats.
+        See :secref:`key-formats`.
 
     .. subsection:: Key generation
 
@@ -686,13 +689,16 @@ RSA keys
 
     .. subsection:: Key format
 
-        The data format for import and export of a public key is the DER encoding of the representation defined by :RFC-title:`3279#2.3.1` as ``RSAPublicKey``.
+        The default data format for import and export of a public key is the :term:`DER` encoding of the representation defined by :RFC-title:`8017#A.1.1` as ``RSAPublicKey``.
 
         .. code-block:: none
 
             RSAPublicKey ::= SEQUENCE {
                 modulus            INTEGER,    -- n
                 publicExponent     INTEGER  }  -- e
+
+        RSA public keys can also be imported from and exported using the `PSA_KEY_FORMAT_RSA_PUBLIC_KEY` and `PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO` key formats.
+        See :secref:`key-formats`.
 
 .. macro:: PSA_KEY_TYPE_IS_RSA
     :definition: /* specification-defined value */
@@ -821,7 +827,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
 
     .. subsection:: Key format
 
-        The data format for import and export of the key-pair depends on the type of elliptic curve.
+        The default data format for import and export of the key-pair depends on the type of elliptic curve.
         :numref:`tab-ecc-key-pair-format` shows the format for each type of elliptic curve key-pair.
 
         See `PSA_KEY_TYPE_ECC_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
@@ -850,6 +856,9 @@ The curve type affects the key format, the key derivation procedure, and the alg
                 -   The key data is the private key, as defined by :RFC-title:`8032`.
 
                     This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.
+
+        Elliptic curve key-pairs can also be imported from and exported using the `PSA_KEY_FORMAT_EC_PRIVATE_KEY` and `PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY` key formats.
+        See :secref:`key-formats`.
 
     .. subsection:: Key derivation
 
@@ -939,7 +948,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
 
     .. subsection:: Key format
 
-        The data format for import and export of the public key depends on the type of elliptic curve.
+        The default data format for import and export of the public key depends on the type of elliptic curve.
         :numref:`tab-ecc-public-key-format` shows the format for each type of elliptic curve public key.
 
         .. list-table:: Public key formats for elliptic curve keys
@@ -969,6 +978,9 @@ The curve type affects the key format, the key derivation procedure, and the alg
                 -   The key data is the public key, as defined by :RFC-title:`8032`.
 
                     This is a 32-byte string for Edwards25519, and a 57-byte string for Edwards448.
+
+        Elliptic curve public keys can also be imported from and exported using the `PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO` key format.
+        See :secref:`key-formats`.
 
 .. macro:: PSA_ECC_FAMILY_SECP_K1
     :definition: ((psa_ecc_family_t) 0x17)
@@ -1215,7 +1227,7 @@ Diffie Hellman keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key-pair is the representation of the private key :math:`x` as a big-endian byte string.
+        The default data format for import and export of the key-pair is the representation of the private key :math:`x` as a big-endian byte string.
         The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
 
         See `PSA_KEY_TYPE_DH_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
@@ -1250,7 +1262,7 @@ Diffie Hellman keys
 
     .. subsection:: Key format
 
-        The data format for export of the public key is the representation of the public key :math:`y = g^x\!\mod p` as a big-endian byte string.
+        The default data format for export of the public key is the representation of the public key :math:`y = g^x\!\mod p` as a big-endian byte string.
         The length of the byte string is the length of the base prime :math:`p` in bytes.
 
 .. macro:: PSA_DH_FAMILY_RFC7919
@@ -1372,7 +1384,7 @@ SPAKE2+ keys
         A SPAKE2+ key-pair consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
         :math:`w0` and :math:`w1` are scalars in the same range as an elliptic curve private key from the group used as the SPAKE2+ primitive group.
 
-        The data format for import and export of the key-pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
+        The default data format for import and export of the key-pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the default formats for elliptic curve keys used by the |API|.
         For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
 
         *   The P-256 private key :math:`w0`.
@@ -1431,7 +1443,7 @@ SPAKE2+ keys
         :math:`w0` is a scalar in the same range as a elliptic curve private key from the group used as the SPAKE2+ primitive group.
         :math:`L` is a point on the curve, similar to a public key from the same group, corresponding to the :math:`w1` value in the key pair.
 
-        The data format for import and export of the public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the standard formats for elliptic curve keys used by the |API|.
+        The default data format for import and export of the public key is the concatenation of the formatted values for :math:`w0` and :math:`L`, using the default formats for elliptic curve keys used by the |API|.
         For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_public_key()` would be the concatenation of:
 
         *   The P-256 private key :math:`w0`.
