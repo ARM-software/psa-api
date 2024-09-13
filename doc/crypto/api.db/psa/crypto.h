@@ -10,6 +10,8 @@ typedef /* implementation-defined type */ psa_hash_operation_t;
 typedef /* implementation-defined type */ psa_key_attributes_t;
 typedef /* implementation-defined type */ psa_key_derivation_operation_t;
 typedef uint16_t psa_key_derivation_step_t;
+typedef uint32_t psa_key_format_option_t;
+typedef uint32_t psa_key_format_t;
 typedef uint32_t psa_key_id_t;
 typedef uint32_t psa_key_lifetime_t;
 typedef uint32_t psa_key_location_t;
@@ -224,6 +226,16 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ERROR_INSUFFICIENT_ENTROPY ((psa_status_t)-148)
 #define PSA_ERROR_INVALID_PADDING ((psa_status_t)-150)
 #define PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE /* implementation-defined value */
+#define PSA_EXPORT_FORMATTED_ASYMMETRIC_KEY_MAX_SIZE \
+    /* implementation-defined value */
+#define PSA_EXPORT_FORMATTED_KEY_OUTPUT_SIZE(format, options, key_type, key_bits) \
+    /* implementation-defined value */
+#define PSA_EXPORT_FORMATTED_KEY_PAIR_MAX_SIZE \
+    /* implementation-defined value */
+#define PSA_EXPORT_FORMATTED_PUBLIC_KEY_MAX_SIZE \
+    /* implementation-defined value */
+#define PSA_EXPORT_FORMATTED_PUBLIC_KEY_OUTPUT_SIZE(format, options, key_type, key_bits) \
+    /* implementation-defined value */
 #define PSA_EXPORT_KEY_OUTPUT_SIZE(key_type, key_bits) \
     /* implementation-defined value */
 #define PSA_EXPORT_KEY_PAIR_MAX_SIZE /* implementation-defined value */
@@ -254,6 +266,19 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_DERIVATION_INPUT_SEED /* implementation-defined value */
 #define PSA_KEY_DERIVATION_OPERATION_INIT /* implementation-defined value */
 #define PSA_KEY_DERIVATION_UNLIMITED_CAPACITY \
+    /* implementation-defined value */
+#define PSA_KEY_FORMAT_DEFAULT ((psa_key_format_t) 0)
+#define PSA_KEY_FORMAT_EC_PRIVATE_KEY /* implementation-defined value */
+#define PSA_KEY_FORMAT_ONE_ASYMMETRIC_KEY /* implementation-defined value */
+#define PSA_KEY_FORMAT_OPTION_DEFAULT ((psa_key_format_option_t) 0)
+#define PSA_KEY_FORMAT_OPTION_EC_POINT_COMPRESSED \
+    /* implementation-defined value */
+#define PSA_KEY_FORMAT_OPTION_PEM /* implementation-defined value */
+#define PSA_KEY_FORMAT_OPTION_SPECIFIED_EC_DOMAIN \
+    /* implementation-defined value */
+#define PSA_KEY_FORMAT_RSA_PRIVATE_KEY /* implementation-defined value */
+#define PSA_KEY_FORMAT_RSA_PUBLIC_KEY /* implementation-defined value */
+#define PSA_KEY_FORMAT_SUBJECT_PUBLIC_KEY_INFO \
     /* implementation-defined value */
 #define PSA_KEY_ID_NULL ((psa_key_id_t)0)
 #define PSA_KEY_ID_USER_MAX ((psa_key_id_t)0x3fffffff)
@@ -499,6 +524,18 @@ psa_status_t psa_copy_key(psa_key_id_t source_key,
                           psa_key_id_t * target_key);
 psa_status_t psa_crypto_init(void);
 psa_status_t psa_destroy_key(psa_key_id_t key);
+psa_status_t psa_export_formatted_key(psa_key_format_t format,
+                                      psa_key_format_option_t options,
+                                      psa_key_id_t key,
+                                      uint8_t * data,
+                                      size_t data_size,
+                                      size_t * data_length);
+psa_status_t psa_export_formatted_public_key(psa_key_format_t format,
+                                             psa_key_format_option_t options,
+                                             psa_key_id_t key,
+                                             uint8_t * data,
+                                             size_t data_size,
+                                             size_t * data_length);
 psa_status_t psa_export_key(psa_key_id_t key,
                             uint8_t * data,
                             size_t data_size,
@@ -558,6 +595,11 @@ psa_status_t psa_hash_update(psa_hash_operation_t * operation,
 psa_status_t psa_hash_verify(psa_hash_operation_t * operation,
                              const uint8_t * hash,
                              size_t hash_length);
+psa_status_t psa_import_formatted_key(const psa_key_attributes_t * attributes,
+                                      psa_key_format_t format,
+                                      const uint8_t * data,
+                                      size_t data_length,
+                                      psa_key_id_t * key);
 psa_status_t psa_import_key(const psa_key_attributes_t * attributes,
                             const uint8_t * data,
                             size_t data_length,
