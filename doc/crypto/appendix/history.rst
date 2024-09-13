@@ -41,6 +41,9 @@ Clarifications and fixes
 *   Clarified the constraint on `psa_key_derivation_output_key()` for algorithms that have a `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step.
 *   Removed the redundant key input constraints on `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()`. These match the policy already checked in `psa_key_derivation_input_key()`.
 
+*   Documented the use of context parameters in J-PAKE and SPAKE2+ PAKE operations.
+    See :secref:`jpake-operation` and :secref:`spake2p-operation`.
+
 Other changes
 ~~~~~~~~~~~~~
 

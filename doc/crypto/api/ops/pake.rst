@@ -1208,6 +1208,8 @@ The same key value must be provided to the PAKE operation in both participants.
 The key can be the password text itself, in an agreed character encoding, or some value derived from the password, as required by a higher level protocol.
 For low-entropy passwords, it is recommended that a key-stretching derivation algorithm, such as PBKDF2, is used, and the resulting password hash is used as the key input to the PAKE operation.
 
+.. _jpake-operation:
+
 J-PAKE operation
 ~~~~~~~~~~~~~~~~
 
@@ -1229,6 +1231,9 @@ J-PAKE does not assign roles to the participants, so it is not necessary to call
 
 J-PAKE requires both an application and a peer identity.
 If the peer identity provided to `psa_pake_set_peer()` does not match the data received from the peer, then the call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will fail with :code:`PSA_ERROR_INVALID_SIGNATURE`.
+
+J-PAKE does not use a context.
+A call to `psa_pake_set_context()` for a J-PAKE operation will fail with :code:`PSA_ERROR_BAD_STATE`.
 
 The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`. The code flow for the 'Peer' is the same as for 'User', as J-PAKE is a balanced PAKE.
 
@@ -1575,6 +1580,15 @@ Both participants in SPAKE2+ have an optional identity.
 If no identity value is provided, then a zero-length string is used for that identity in the protocol.
 If the participants do not supply the same identity values to the protocol, the computed secrets will be different, and key confirmation will fail.
 
+Participants in SPAKE2+ can optionally provide a context:
+
+*   If `psa_pake_set_context()` is called, then the context and its encoded length are included in the SPAKE2+ transcript computation.
+    This includes the case of a zero-length context.
+*   If `psa_pake_set_context()` is not called, then the context and its encoded length are omitted entirely from the SPAKE2+ transcript computation.
+    See :RFC:`9383#3.3`.
+
+If the participants do not supply the same context value to the protocol, the computed secrets will be different, and key confirmation will fail.
+
 The following steps demonstrate the application code for both Prover and Verifier in :numref:`fig-spake2p`.
 
 **Prover**
@@ -1597,7 +1611,7 @@ The following steps demonstrate the application code for both Prover and Verifie
 
         psa_pake_set_user(&spake2p_p, ...);       // Prover identity
         psa_pake_set_peer(&spake2p_p, ...);       // Verifier identity
-        psa_pake_set_context(&spake2p_p, ...);
+        psa_pake_set_context(&spake2p_p, ...);    // Optional context
 
 **Verifier**
     To prepare a SPAKE2+ operation for the Verifier, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
@@ -1619,7 +1633,7 @@ The following steps demonstrate the application code for both Prover and Verifie
 
         psa_pake_set_user(&spake2p_v, ...);       // Verifier identity
         psa_pake_set_peer(&spake2p_v, ...);       // Prover identity
-        psa_pake_set_context(&spake2p_v, ...);
+        psa_pake_set_context(&spake2p_v, ...);    // Optional context
 
 Key exchange
 ^^^^^^^^^^^^
