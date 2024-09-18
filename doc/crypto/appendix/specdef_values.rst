@@ -152,7 +152,8 @@ Algorithm macros
         (((alg) & 0x7f000000) == 0x06000000)
 
     #define PSA_ALG_IS_SIGN_HASH(alg) \
-        PSA_ALG_IS_SIGN(alg)
+        (PSA_ALG_IS_SIGN(alg) && \
+         (alg) != PSA_ALG_PURE_EDDSA)
 
     #define PSA_ALG_IS_SIGN_MESSAGE(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
