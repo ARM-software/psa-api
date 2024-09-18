@@ -396,3 +396,9 @@
     :author: Thread Group
     :publication: July 2022
     :url: www.threadgroup.org/ThreadSpec
+
+.. reference:: FIPS205
+    :title: FIPS Publication 205: Stateless Hash-Based Digital Signature Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.205

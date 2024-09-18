@@ -33,6 +33,9 @@ Changes to the API
 
     See :secref:`asymmetric-key-encoding` and :secref:`appendix-specdef-key-values`.
 
+*   Added support for FIPS 205 SLH-DSA signature algorithm and keys.
+    See :secref:`slh-keys` and :secref:`slh-dsa-algorithms`.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -592,8 +592,37 @@ The |API| defines the following types of asymmetric key:
 
 * :secref:`rsa-keys`
 * :secref:`ecc-keys`
+* :secref:`slh-keys`
 * :secref:`dh-keys`
 * :secref:`spake2p-keys`
+
+.. macro:: PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        The key pair type corresponding to a public key type.
+
+    .. param:: type
+        A public key type or key pair type.
+
+    .. return::
+        The corresponding key pair type. If ``type`` is not a public key or a key pair, the return value is undefined.
+
+    If ``type`` is a key pair type, it will be left unchanged.
+
+.. macro:: PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        The public key type corresponding to a key pair type.
+
+    .. param:: type
+        A public key type or key pair type.
+
+    .. return::
+        The corresponding public key type. If ``type`` is not a public key or a key pair, the return value is undefined.
+
+    If ``type`` is a public key type, it will be left unchanged.
 
 .. _rsa-keys:
 
@@ -781,7 +810,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.
 
-    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`.
+    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q` for a curve over a field :math:`\mathbb{F}_q`.
     See the documentation of each elliptic curve family for details.
 
     .. subsection:: Compatible algorithms
@@ -1165,6 +1194,210 @@ The curve type affects the key format, the key derivation procedure, and the alg
     .. return:: psa_ecc_family_t
         The elliptic curve family id, if ``type`` is a supported elliptic curve key. Unspecified if ``type`` is not a supported elliptic curve key.
 
+.. _slh-keys:
+
+Stateless Hash keys
+-------------------
+
+.. typedef:: uint8_t psa_slh_family_t
+
+    .. summary::
+        The type of identifiers of a Stateless hash-based DSA parameter set.
+
+    The parameter-set identifier is required to create an SLH key using the `PSA_KEY_TYPE_SLH_KEY_PAIR()` or `PSA_KEY_TYPE_SLH_PUBLIC_KEY()` macros.
+
+    The specific SLH-DSA parameter set within a family is identified by the ``key_bits`` attribute of the key.
+
+    The range of SLH family identifier values is divided as follows:
+
+    :code:`0x00`
+        Reserved.
+        Not allocated to an SLH parameter-set family.
+    :code:`0x01 - 0x7f`
+        SLH parameter-set family identifiers defined by this standard.
+        Unallocated values in this range are reserved for future use.
+    :code:`0x80 - 0xff`
+        Invalid.
+        Values in this range must not be used.
+
+    The least significant bit of an SLH family identifier is a parity bit for the whole key type.
+    See :secref:`asymmetric-key-encoding` for details of the encoding of asymmetric key types.
+
+    .. admonition:: Implementation note
+
+        To provide other SLH parameter sets, it is recommended that an implementation defines a key type with bit 15 set, which indicates an :scterm:`implementation defined` key type.
+
+.. macro:: PSA_KEY_TYPE_SLH_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SLH key pair: both the private key and public key.
+
+    .. param:: set
+        A value of type `psa_slh_family_t` that identifies the SLH parameter-set family to be used.
+
+    The size of of an SLH key pair is the bit-size of each element in the SLH-DSA keys defined in :cite-title:`FIPS205`.
+    That is, for a parameter set with security parameter :math:`n`, the bit-size in the key attributes is :math:`8n`.
+    Also see the documentation of each SLH parameter-set family for details.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_SLH_DSA`
+            *   `PSA_ALG_HASH_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
+
+    .. subsection:: Key format
+
+        A SLH-DSA key-pair is defined in :cite:`FIPS205` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
+
+        The data format for import and export of the key-pair is the concatenation of the four octet strings:
+
+        .. math::
+
+            SK\text{.seed}\ ||\ SK\text{.prf}\ ||\ PK\text{.seed}\ ||\ PK\text{.root}
+
+        See `PSA_KEY_TYPE_SLH_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+    .. subsection:: Key derivation
+
+        :issue:`TBD`
+
+        .. todo::
+
+            SLH-DSA key generation requires three :math:`n`\ -byte random values --- so these *could* be extracted from a suitable KDF in sequence or via separate derivation using different labels.
+
+            However, there does not seem to be any defined standard approach.
+
+            We could define this as permitted, but with imp-def semantics, enabling key-pair generation from a device secret, for example.
+
+.. macro:: PSA_KEY_TYPE_SLH_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SLH public key.
+
+    .. param:: set
+        A value of type `psa_slh_family_t` that identifies the SLH parameter-set family to be used.
+
+    The size of an SLH public key is the same as the corresponding private key. See `PSA_KEY_TYPE_SLH_KEY_PAIR()` and the documentation of each SLH parameter-set family for details.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_SLH_DSA`
+            *   `PSA_ALG_HASH_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
+
+    .. subsection:: Key format
+
+        A SLH-DSA public key is defined in :cite:`FIPS205` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
+
+        The data format for export of the public key is the concatenation of the two octet strings:
+
+        .. math::
+
+            PK\text{.seed}\ ||\ PK\text{.root}
+
+.. macro:: PSA_SLH_FAMILY_SHA2_S
+    :definition: ((psa_slh_family_t) 0x02)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHA2-\ *NNN*\ s parameter sets.
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHA2-128s : ``key_bits = 128``
+    *   SLH-DSA-SHA2-192s : ``key_bits = 192``
+    *   SLH-DSA-SHA2-256s : ``key_bits = 256``
+
+    They are defined in :cite-title:`FIPS205`.
+
+.. macro:: PSA_SLH_FAMILY_SHA2_F
+    :definition: ((psa_slh_family_t) 0x04)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHA2-\ *NNN*\ f parameter sets.
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHA2-128f : ``key_bits = 128``
+    *   SLH-DSA-SHA2-192f : ``key_bits = 192``
+    *   SLH-DSA-SHA2-256f : ``key_bits = 256``
+
+    They are defined in :cite:`FIPS205`.
+
+.. macro:: PSA_SLH_FAMILY_SHAKE_S
+    :definition: ((psa_slh_family_t) 0x0b)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHAKE-\ *NNN*\ s parameter sets.
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHAKE-128s : ``key_bits = 128``
+    *   SLH-DSA-SHAKE-192s : ``key_bits = 192``
+    *   SLH-DSA-SHAKE-256s : ``key_bits = 256``
+
+    They are defined in :cite:`FIPS205`.
+
+.. macro:: PSA_SLH_FAMILY_SHAKE_F
+    :definition: ((psa_slh_family_t) 0x0d)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHAKE-\ *NNN*\ f parameter sets.
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHAKE-128f : ``key_bits = 128``
+    *   SLH-DSA-SHAKE-192f : ``key_bits = 192``
+    *   SLH-DSA-SHAKE-256f : ``key_bits = 256``
+
+    They are defined in :cite:`FIPS205`.
+
+.. macro:: PSA_KEY_TYPE_IS_SLH
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an SLH key, either a key pair or a public key.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SLH_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an SLH key pair.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SLH_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an SLH public key.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_SLH_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the parameter-set family from an SLH key type.
+
+    .. param:: type
+        An SLH key type: a value of type `psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SLH(type)` is true.
+
+    .. return:: psa_dh_family_t
+        The SLH parameter-set family id, if ``type`` is a supported SLH key. Unspecified if ``type`` is not a supported SLH key.
+
 .. _dh-keys:
 
 Diffie Hellman keys
@@ -1265,34 +1498,6 @@ Diffie Hellman keys
     Keys is this group can only be used with the `PSA_ALG_FFDH` key agreement algorithm.
 
     These groups are defined by :rfc-title:`7919#A`.
-
-.. macro:: PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY
-    :definition: /* specification-defined value */
-
-    .. summary::
-        The key pair type corresponding to a public key type.
-
-    .. param:: type
-        A public key type or key pair type.
-
-    .. return::
-        The corresponding key pair type. If ``type`` is not a public key or a key pair, the return value is undefined.
-
-    If ``type`` is a key pair type, it will be left unchanged.
-
-.. macro:: PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR
-    :definition: /* specification-defined value */
-
-    .. summary::
-        The public key type corresponding to a key pair type.
-
-    .. param:: type
-        A public key type or key pair type.
-
-    .. return::
-        The corresponding public key type. If ``type`` is not a public key or a key pair, the return value is undefined.
-
-    If ``type`` is a public key type, it will be left unchanged.
 
 .. macro:: PSA_KEY_TYPE_IS_DH
     :definition: /* specification-defined value */

@@ -130,6 +130,7 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
     SHA3-512, ``0x13``, `PSA_ALG_SHA3_512`, ``0x02000013``
     SM3, ``0x14``, `PSA_ALG_SM3`, ``0x02000014``
     SHAKE256-512, ``0x15``, `PSA_ALG_SHAKE256_512`, ``0x02000015``
+    SHAKE128-256, ``0x16``, `PSA_ALG_SHAKE128_256`, ``0x02000016``
     *wildcard* :sup:`a`, ``0xFF``, `PSA_ALG_ANY_HASH`, ``0x020000FF``
 
 a.  The wildcard hash `PSA_ALG_ANY_HASH` can be used to parameterize a signature algorithm which defines a key usage policy, permitting any hash algorithm to be specified in a signature operation using the key.
@@ -308,17 +309,21 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for message signature algorithms t
     :widths: auto
 
     Signature algorithm, SIGN-TYPE, Algorithm identifier, Algorithm value
-    RSA PKCS#1 v1.5, ``0x02``, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(hash_alg)`, ``0x060002hh`` :sup:`a`
+    RSA PKCS#1 v1.5, ``0x02``, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(hash)`, ``0x060002hh`` :sup:`a`
     RSA PKCS#1 v1.5 no hash :sup:`b`, ``0x02``, `PSA_ALG_RSA_PKCS1V15_SIGN_RAW`, ``0x06000200``
-    RSA PSS, ``0x03``, :code:`PSA_ALG_RSA_PSS(hash_alg)`, ``0x060003hh`` :sup:`a`
-    RSA PSS any salt length, ``0x13``, :code:`PSA_ALG_RSA_PSS_ANY_SALT(hash_alg)`, ``0x060013hh`` :sup:`a`
-    Randomized ECDSA, ``0x06``, :code:`PSA_ALG_ECDSA(hash_alg)`, ``0x060006hh`` :sup:`a`
+    RSA PSS, ``0x03``, :code:`PSA_ALG_RSA_PSS(hash)`, ``0x060003hh`` :sup:`a`
+    RSA PSS any salt length, ``0x13``, :code:`PSA_ALG_RSA_PSS_ANY_SALT(hash)`, ``0x060013hh`` :sup:`a`
+    Randomized ECDSA, ``0x06``, :code:`PSA_ALG_ECDSA(hash)`, ``0x060006hh`` :sup:`a`
     Randomized ECDSA no hash :sup:`b`, ``0x06``, `PSA_ALG_ECDSA_ANY`, ``0x06000600``
-    Deterministic ECDSA, ``0x07``, :code:`PSA_ALG_DETERMINISTIC_ECDSA(hash_alg)`, ``0x060007hh`` :sup:`a`
+    Deterministic ECDSA, ``0x07``, :code:`PSA_ALG_DETERMINISTIC_ECDSA(hash)`, ``0x060007hh`` :sup:`a`
     PureEdDSA, ``0x08``, `PSA_ALG_PURE_EDDSA`, ``0x06000800``
     HashEdDSA, ``0x09``, `PSA_ALG_ED25519PH` and `PSA_ALG_ED448PH`, ``0x060009hh`` :sup:`c`
+    Hedged SLH-DSA, ``0x40``, `PSA_ALG_SLH_DSA`, ``0x06004000``
+    Deterministic SLH-DSA, ``0x41``, `PSA_ALG_DETERMINISTIC_SLH_DSA`, ``0x06004100``
+    Hedged HashSLH-DSA, ``0x42``, :code:`PSA_ALG_HASH_SLH_DSA(hash)`, ``0x060042hh`` :sup:`a`
+    Deterministic HashSLH-DSA, ``0x43``, :code:`PSA_ALG_DETERMINISTIC_HASH_SLH_DSA(hash)`, ``0x060043hh`` :sup:`a`
 
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to construct the signature algorithm.
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the signature algorithm.
 
 b.  Asymmetric signature algorithms without hashing can only be used with `psa_sign_hash()` and `psa_verify_hash()`.
 
@@ -569,6 +574,7 @@ The defined values for FAMILY depend on the ASYM-TYPE value. See the details for
     Asymmetric key type, ASYM-TYPE, Details
     Non-parameterized, 0, See :secref:`simple-asymmetric-key-encoding`
     Elliptic Curve, 2, See :secref:`ecc-key-encoding`
+    SLH-DSA, 3, See :secref:`slh-key-encoding`
     Diffie-Hellman, 4, See :secref:`dh-key-encoding`
     SPAKE2+, 8, See :secref:`spakep2-key-encoding`
 
@@ -633,6 +639,36 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
     Twisted Edwards, 0x21, 0, `PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4142``, ``0x7142``
 
 a.  The elliptic curve family values defined in the API also include the parity bit. The key type value is constructed from the elliptic curve family using either :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)` as required.
+
+.. _slh-key-encoding:
+
+SLH key encoding
+^^^^^^^^^^^^^^^^
+
+The key type for SLH-DSA keys defined in this specification are encoded as shown in :numref:`fig-slh-key-fields`.
+
+.. figure:: ../figure/encoding/slh_key.*
+    :name: fig-slh-key-fields
+
+    SLH-DSA key encoding
+
+PAIR is either 0 for a public key, or 3 for a key pair.
+
+The defined values for SLH-FAMILY and P are shown in :numref:`table-slh-type`.
+
+.. csv-table:: SLH-DSA key family values
+    :name: table-slh-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    SLH key family, SLH-FAMILY, P, SLH family :sup:`a`, Public key value, Key pair value
+    SLH-DSA-SHA2-\ *NNN*\ s, 0x01, 0, `PSA_SLH_FAMILY_SHA2_S`, ``0x4182``, ``0x7182``
+    SLH-DSA-SHA2-\ *NNN*\ f, 0x02, 0, `PSA_SLH_FAMILY_SHA2_F`, ``0x4184``, ``0x7184``
+    SLH-DSA-SHAKE-\ *NNN*\ s, 0x05, 1, `PSA_SLH_FAMILY_SHAKE_S`, ``0x418b``, ``0x718b``
+    SLH-DSA-SHAKE-\ *NNN*\ f, 0x06, 1, `PSA_SLH_FAMILY_SHAKE_F`, ``0x418d``, ``0x718d``
+
+a.  The SLH family values defined in the API also include the parity bit. The key type value is constructed from the SLH family using either :code:`PSA_KEY_TYPE_SLH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SLH_KEY_PAIR(family)` as required.
 
 .. _dh-key-encoding:
 
