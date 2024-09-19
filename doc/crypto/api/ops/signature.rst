@@ -407,7 +407,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     ..  note::
         To perform a multi-part hash-and-sign signature algorithm, first use a :ref:`multi-part hash operation <hash-mp>` and then pass the resulting hash to `psa_sign_hash()`. :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
@@ -459,7 +459,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     ..  note::
         To perform a multi-part hash-and-sign signature verification algorithm, first use a :ref:`multi-part hash operation <hash-mp>` to hash the message and then pass the resulting hash to `psa_verify_hash()`. :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
@@ -522,7 +522,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     With most signature algorithms that follow the hash-and-sign paradigm, the ``hash`` input to this function is the hash of the message to sign. The algorithm used to compute this hash is encoded in the signature algorithm. For such algorithms, ``hash_length`` must equal the length of the hash output, and the following condition is true:
 
@@ -588,7 +588,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     With most signature algorithms that follow the hash-and-sign paradigm, the ``hash`` input to this function is the hash of the message to verify. The algorithm used to compute this hash is encoded in the signature algorithm. For such algorithms, ``hash_length`` must equal the length of the hash output, and the following condition is true:
 
