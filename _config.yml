@@ -1,12 +1,23 @@
-# SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-FileCopyrightText: Copyright 2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: CC-BY-SA-4.0
 
 title: PSA Certified APIs
 description: The official place for the latest published documents of the PSA Certified APIs
 logo: assets/img/Arm_logo_blue_RGB.svg
 
-remote_theme: pages-themes/minimal@v0.2.0
-plugins:
-- jekyll-remote-theme # add this line to the plugins list if you already have one
+domain: arm-software.github.io
+url: "https://arm-software.github.io"
+baseurl: /psa-api/
 
-include: _static, _images
+theme: jekyll-theme-minimal
+
+include: [_static, _images]
+
+source: site-src
+destination: docs
+
+github:
+  repository_url: "https://github.com/ARM-software/psa-api"
+  repository_nwo: "ARM-software/psa-api"
+  owner_url: "https://github.com/ARM-software"
+  owner_name: "ARM-software"

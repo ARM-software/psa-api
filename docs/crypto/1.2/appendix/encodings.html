@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="2. Algorithm and key type encoding" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/crypto/1.2/appendix/encodings.html" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/crypto/1.2/appendix/encodings.html" />
+<meta property="og:site_name" content="PSA Certified Crypto API 1.2" />
+<meta property="og:description" content="Algorithm identifiers ( psa_algorithm_t) and key types ( psa_key_type_t) in the Crypto API are structured integer values. Algorithm identifier encoding describes the encoding scheme for algorithm i..." />
+<meta name="description" content="Algorithm identifiers ( psa_algorithm_t) and key types ( psa_key_type_t) in the Crypto API are structured integer values. Algorithm identifier encoding describes the encoding scheme for algorithm i..." />
+
+    <title>2. Algorithm and key type encoding &#8212; PSA Certified Crypto API 1.2</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Example macro implementations" href="specdef_values.html" />
+    <link rel="prev" title="1. Example header file" href="example_header.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="algorithm-and-key-type-encoding">
+<span id="appendix-encodings"></span><h1><span class="section-number">B. </span>Algorithm and key type encoding<a class="headerlink" href="#algorithm-and-key-type-encoding" title="Permalink to this heading">¶</a></h1>
+<p>Algorithm identifiers (<a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>) and key types (<a class="reference internal" href="../api/keys/types.html#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>) in the Crypto API are structured integer values.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#algorithm-encoding"><span class="secref">Algorithm identifier encoding</span></a> describes the encoding scheme for algorithm identifiers</p></li>
+<li><p><a class="reference internal" href="#key-type-encoding"><span class="secref">Key type encoding</span></a> describes the encoding scheme for key types</p></li>
+</ul>
+<section id="algorithm-identifier-encoding">
+<span id="algorithm-encoding"></span><h2><span class="section-number">B.1. </span>Algorithm identifier encoding<a class="headerlink" href="#algorithm-identifier-encoding" title="Permalink to this heading">¶</a></h2>
+<p>Algorithm identifiers are 32-bit integer values of the type <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a>. Algorithm identifier values have the structure shown in <span><a class="reference internal" href="#fig-algorithm-fields"><span class="numref">Figure 2</span></a></span>.</p>
+<figure class="align-default" id="fig-algorithm-fields">
+<img alt="../_images/algorithm.svg" src="../_images/algorithm.svg" /><figcaption>
+<p><span class="caption-number">Figure 2 </span><span class="caption-text">Encoding of <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a></span><a class="headerlink" href="#fig-algorithm-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><span><a class="reference internal" href="#table-algorithm-fields"><span class="numref">Table 9</span></a></span> describes the meaning of the bit-fields — some of the bit-fields are used in different ways by different algorithm categories.</p>
+<table class="colwidths-given docutils align-default" id="table-algorithm-fields">
+<caption><span class="caption-number">Table 9 </span><span class="caption-text">Bit fields in an algorithm identifier</span><a class="headerlink" href="#table-algorithm-fields" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>V</p></td>
+<td><p>[31]</p></td>
+<td><p>Flag to indicate an implementation-defined algorithm identifier, when V=1.</p>
+<p>Algorithm identifiers defined by this specification always have V=0.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CAT</p></td>
+<td><p>[30:24]</p></td>
+<td><p>Algorithm category. See <a class="reference internal" href="#algorithm-category"><span class="secref">Algorithm categories</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>S</p></td>
+<td><p>[23]</p></td>
+<td><p>For a cipher algorithm, this flag indicates a stream cipher when S=1.</p>
+<p>For a key derivation algorithm, this flag indicates a key-stretching or password-hashing algorithm when S=1.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>[22]</p></td>
+<td><p>Flag to indicate an algorithm built on a block cipher, when B=1.</p></td>
+</tr>
+<tr class="row-even"><td><p>LEN/T2</p></td>
+<td><p>[21:16]</p></td>
+<td><p>LEN is the length of a MAC or AEAD tag, T2 is a key agreement algorithm sub-type.</p></td>
+</tr>
+<tr class="row-odd"><td><p>T1</p></td>
+<td><p>[15:8]</p></td>
+<td><p>Algorithm sub-type for most algorithm categories.</p></td>
+</tr>
+<tr class="row-even"><td><p>H</p></td>
+<td><p>[7:0]</p></td>
+<td><p>Hash algorithm sub-type, also used in any algorithm that is parameterized by a hash.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="algorithm-categories">
+<span id="algorithm-category"></span><h3><span class="section-number">B.1.1. </span>Algorithm categories<a class="headerlink" href="#algorithm-categories" title="Permalink to this heading">¶</a></h3>
+<p>The CAT field in an algorithm identifier takes the values shown in <span><a class="reference internal" href="#table-algorithm-category"><span class="numref">Table 10</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-algorithm-category">
+<caption><span class="caption-number">Table 10 </span><span class="caption-text">Algorithm identifier categories</span><a class="headerlink" href="#table-algorithm-category" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Algorithm category</p></th>
+<th class="head"><p>CAT</p></th>
+<th class="head"><p>Category details</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>None</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00</span></code></p></td>
+<td><p>See <a class="reference internal" href="../api/ops/algorithms.html#c.PSA_ALG_NONE" title="PSA_ALG_NONE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_NONE</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Hash</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p>See <a class="reference internal" href="#hash-encoding"><span class="secref">Hash algorithm encoding</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>MAC</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x03</span></code></p></td>
+<td><p>See <a class="reference internal" href="#mac-encoding"><span class="secref">MAC algorithm encoding</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cipher</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04</span></code></p></td>
+<td><p>See <a class="reference internal" href="#cipher-encoding"><span class="secref">Cipher algorithm encoding</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>AEAD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05</span></code></p></td>
+<td><p>See <a class="reference internal" href="#aead-encoding"><span class="secref">AEAD algorithm encoding</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Key derivation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x08</span></code></p></td>
+<td><p>See <a class="reference internal" href="#kdf-encoding"><span class="secref">Key derivation algorithm encoding</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Asymmetric signature</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06</span></code></p></td>
+<td><p>See <a class="reference internal" href="#sign-encoding"><span class="secref">Asymmetric signature algorithm encoding</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Asymmetric encryption</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x07</span></code></p></td>
+<td><p>See <a class="reference internal" href="#pke-encoding"><span class="secref">Asymmetric encryption algorithm encoding</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Key agreement</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x09</span></code></p></td>
+<td><p>See <a class="reference internal" href="#ka-encoding"><span class="secref">Key agreement algorithm encoding</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hash-algorithm-encoding">
+<span id="hash-encoding"></span><h3><span class="section-number">B.1.2. </span>Hash algorithm encoding<a class="headerlink" href="#hash-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The algorithm identifier for hash algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-hash-fields"><span class="numref">Figure 3</span></a></span>.</p>
+<figure class="align-default" id="fig-hash-fields">
+<img alt="../_images/hash.svg" src="../_images/hash.svg" /><figcaption>
+<p><span class="caption-number">Figure 3 </span><span class="caption-text">Hash algorithm encoding</span><a class="headerlink" href="#fig-hash-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for HASH-TYPE are shown in <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 11</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-hash-type">
+<caption><span class="caption-number">Table 11 </span><span class="caption-text">Hash algorithm sub-type values</span><a class="headerlink" href="#table-hash-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Hash algorithm</p></th>
+<th class="head"><p>HASH-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>MD2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x01</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_MD2" title="PSA_ALG_MD2"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD2</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000001</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>MD4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_MD4" title="PSA_ALG_MD4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD4</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000002</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>MD5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x03</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_MD5" title="PSA_ALG_MD5"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD5</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000003</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>RIPEMD-160</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_RIPEMD160" title="PSA_ALG_RIPEMD160"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RIPEMD160</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000004</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SHA1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA_1" title="PSA_ALG_SHA_1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_1</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000005</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>AES-MMO (Zigbee)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x07</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_AES_MMO_ZIGBEE" title="PSA_ALG_AES_MMO_ZIGBEE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_AES_MMO_ZIGBEE</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000007</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SHA-224</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x08</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA_224" title="PSA_ALG_SHA_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_224</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000008</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SHA-256</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x09</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA_256" title="PSA_ALG_SHA_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_256</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000009</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SHA-384</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0A</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA_384" title="PSA_ALG_SHA_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_384</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0200000A</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SHA-512</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0B</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA_512" title="PSA_ALG_SHA_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0200000B</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SHA-512/224</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0C</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA_512_224" title="PSA_ALG_SHA_512_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_224</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0200000C</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SHA-512/256</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0D</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA_512_256" title="PSA_ALG_SHA_512_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_256</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0200000D</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SHA3-224</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x10</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA3_224" title="PSA_ALG_SHA3_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_224</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000010</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SHA3-256</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x11</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA3_256" title="PSA_ALG_SHA3_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_256</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000011</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SHA3-384</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x12</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA3_384" title="PSA_ALG_SHA3_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_384</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000012</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SHA3-512</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x13</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHA3_512" title="PSA_ALG_SHA3_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_512</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000013</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SM3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x14</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SM3" title="PSA_ALG_SM3"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SM3</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000014</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SHAKE256-512</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x15</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/hashes.html#c.PSA_ALG_SHAKE256_512" title="PSA_ALG_SHAKE256_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHAKE256_512</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02000015</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><em>wildcard</em> <sup>a</sup></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xFF</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_ANY_HASH" title="PSA_ALG_ANY_HASH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ANY_HASH</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x020000FF</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>The wildcard hash <a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_ANY_HASH" title="PSA_ALG_ANY_HASH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ANY_HASH</span></code></a> can be used to parameterize a signature algorithm which defines a key usage policy, permitting any hash algorithm to be specified in a signature operation using the key.</p></li>
+</ol>
+</section>
+<section id="mac-algorithm-encoding">
+<span id="mac-encoding"></span><h3><span class="section-number">B.1.3. </span>MAC algorithm encoding<a class="headerlink" href="#mac-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The algorithm identifier for MAC algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-mac-fields"><span class="numref">Figure 4</span></a></span>.</p>
+<figure class="align-default" id="fig-mac-fields">
+<img alt="../_images/mac.svg" src="../_images/mac.svg" /><figcaption>
+<p><span class="caption-number">Figure 4 </span><span class="caption-text">MAC algorithm encoding</span><a class="headerlink" href="#fig-mac-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for B and MAC-TYPE are shown in <span><a class="reference internal" href="#table-mac-type"><span class="numref">Table 12</span></a></span>.</p>
+<p>LEN = 0 specifies a default length output MAC, other values for LEN specify a truncated MAC.</p>
+<p>W is a flag to indicate a wildcard permitted-algorithm policy:</p>
+<ul class="simple">
+<li><p>W = 0 indicates a specific MAC algorithm and MAC length.</p></li>
+<li><p>W = 1 indicates a wildcard key usage policy, which permits the MAC algorithm with a MAC length of at least LEN to be specified in a MAC operation using the key. LEN must not be zero.</p></li>
+</ul>
+<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 11</span></a></span>) for hash-based MAC algorithms, otherwise H = 0.</p>
+<table class="colwidths-auto docutils align-left" id="table-mac-type">
+<caption><span class="caption-number">Table 12 </span><span class="caption-text">MAC algorithm sub-type values</span><a class="headerlink" href="#table-mac-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>MAC algorithm</p></th>
+<th class="head"><p>B</p></th>
+<th class="head"><p>MAC-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HMAC</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x00</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/macs.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x038000hh</span></code> <sup>a b</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>CBC-MAC <sup>c</sup></p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x01</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/macs.html#c.PSA_ALG_CBC_MAC" title="PSA_ALG_CBC_MAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CBC_MAC</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x03c00100</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>CMAC <sup>c</sup></p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/macs.html#c.PSA_ALG_CMAC" title="PSA_ALG_CMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CMAC</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x03c00200</span></code> <sup>a</sup></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>This is the default algorithm identifier, specifying a standard length tag. <a class="reference internal" href="../api/ops/macs.html#c.PSA_ALG_TRUNCATED_MAC" title="PSA_ALG_TRUNCATED_MAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_TRUNCATED_MAC()</span></code></a> generates identifiers with non-default LEN values. <a class="reference internal" href="../api/ops/macs.html#c.PSA_ALG_AT_LEAST_THIS_LENGTH_MAC" title="PSA_ALG_AT_LEAST_THIS_LENGTH_MAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_AT_LEAST_THIS_LENGTH_MAC()</span></code></a> generates permitted-algorithm policies with W = 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hh</span></code> is the HASH-TYPE for the hash algorithm, <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code>, used to construct the MAC algorithm.</p></li>
+<li><p>This is a MAC constructed using an underlying block cipher. The block cipher is determined by the key type that is provided to the MAC operation.</p></li>
+</ol>
+</section>
+<section id="cipher-algorithm-encoding">
+<span id="cipher-encoding"></span><h3><span class="section-number">B.1.4. </span>Cipher algorithm encoding<a class="headerlink" href="#cipher-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The algorithm identifier for CIPHER algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-cipher-fields"><span class="numref">Figure 5</span></a></span>.</p>
+<figure class="align-default" id="fig-cipher-fields">
+<img alt="../_images/cipher.svg" src="../_images/cipher.svg" /><figcaption>
+<p><span class="caption-number">Figure 5 </span><span class="caption-text">CIPHER algorithm encoding</span><a class="headerlink" href="#fig-cipher-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for S, B, and CIPHER-TYPE are shown in <span><a class="reference internal" href="#table-cipher-type"><span class="numref">Table 13</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-cipher-type">
+<caption><span class="caption-number">Table 13 </span><span class="caption-text">Cipher algorithm sub-type values</span><a class="headerlink" href="#table-cipher-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Cipher algorithm</p></th>
+<th class="head"><p>S</p></th>
+<th class="head"><p>B</p></th>
+<th class="head"><p>CIPHER-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>Stream cipher</em> <sup>a</sup></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x01</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_STREAM_CIPHER" title="PSA_ALG_STREAM_CIPHER"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_STREAM_CIPHER</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04800100</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>CTR mode <sup>b</sup></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x10</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CTR" title="PSA_ALG_CTR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CTR</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04C01000</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>CFB mode <sup>b</sup></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x11</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CFB" title="PSA_ALG_CFB"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CFB</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04C01100</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>OFB mode <sup>b</sup></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x12</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_OFB" title="PSA_ALG_OFB"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_OFB</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04C01200</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>CCM* with zero-length tag <sup>b</sup></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x13</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CCM_STAR_NO_TAG" title="PSA_ALG_CCM_STAR_NO_TAG"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CCM_STAR_NO_TAG</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04C01300</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><em>CCM* wildcard</em> <sup>c</sup></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x93</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CCM_STAR_ANY_TAG" title="PSA_ALG_CCM_STAR_ANY_TAG"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CCM_STAR_ANY_TAG</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04c09300</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>XTS mode <sup>b</sup></p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xFF</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_XTS" title="PSA_ALG_XTS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_XTS</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x0440FF00</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>CBC mode without padding <sup>b</sup></p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x40</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CBC_NO_PADDING" title="PSA_ALG_CBC_NO_PADDING"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CBC_NO_PADDING</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04404000</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>CBC mode with PKCS#7 padding <sup>b</sup></p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x41</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CBC_PKCS7" title="PSA_ALG_CBC_PKCS7"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CBC_PKCS7</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04404100</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>ECB mode without padding <sup>b</sup></p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x44</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_ECB_NO_PADDING" title="PSA_ALG_ECB_NO_PADDING"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECB_NO_PADDING</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04404400</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>The stream cipher algorithm identifier <a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_STREAM_CIPHER" title="PSA_ALG_STREAM_CIPHER"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_STREAM_CIPHER</span></code></a> is used with specific stream cipher key types, such as <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_CHACHA20" title="PSA_KEY_TYPE_CHACHA20"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CHACHA20</span></code></a>.</p></li>
+<li><p>This is a cipher mode of an underlying block cipher. The block cipher is determined by the key type that is provided to the cipher operation.</p></li>
+<li><p>The wildcard algorithm <a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CCM_STAR_ANY_TAG" title="PSA_ALG_CCM_STAR_ANY_TAG"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CCM_STAR_ANY_TAG</span></code></a> permits a key to be used with any CCM* algorithm: unauthenticated cipher <a class="reference internal" href="../api/ops/ciphers.html#c.PSA_ALG_CCM_STAR_NO_TAG" title="PSA_ALG_CCM_STAR_NO_TAG"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CCM_STAR_NO_TAG</span></code></a>, and AEAD algorithm <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_CCM" title="PSA_ALG_CCM"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CCM</span></code></a>.</p></li>
+</ol>
+</section>
+<section id="aead-algorithm-encoding">
+<span id="aead-encoding"></span><h3><span class="section-number">B.1.5. </span>AEAD algorithm encoding<a class="headerlink" href="#aead-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The algorithm identifier for AEAD algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-aead-fields"><span class="numref">Figure 6</span></a></span>.</p>
+<figure class="align-default" id="fig-aead-fields">
+<img alt="../_images/aead.svg" src="../_images/aead.svg" /><figcaption>
+<p><span class="caption-number">Figure 6 </span><span class="caption-text">AEAD algorithm encoding</span><a class="headerlink" href="#fig-aead-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for B and AEAD-TYPE are shown in <span><a class="reference internal" href="#table-aead-type"><span class="numref">Table 14</span></a></span>.</p>
+<p>LEN = 1..31 specifies the output tag length.</p>
+<p>W is a flag to indicate a wildcard permitted-algorithm policy:</p>
+<ul class="simple">
+<li><p>W = 0 indicates a specific AEAD algorithm and tag length.</p></li>
+<li><p>W = 1 indicates a wildcard key usage policy, which permits the AEAD algorithm with a tag length of at least LEN to be specified in an AEAD operation using the key.</p></li>
+</ul>
+<table class="colwidths-auto docutils align-left" id="table-aead-type">
+<caption><span class="caption-number">Table 14 </span><span class="caption-text">AEAD algorithm sub-type values</span><a class="headerlink" href="#table-aead-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>AEAD algorithm</p></th>
+<th class="head"><p>B</p></th>
+<th class="head"><p>AEAD-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CCM <sup>a</sup></p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x01</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_CCM" title="PSA_ALG_CCM"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CCM</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05500100</span></code> <sup>b</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>GCM <sup>a</sup></p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_GCM" title="PSA_ALG_GCM"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_GCM</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05500200</span></code> <sup>b</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>ChaCha20-Poly1305</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_CHACHA20_POLY1305" title="PSA_ALG_CHACHA20_POLY1305"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CHACHA20_POLY1305</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05100500</span></code> <sup>b</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>XChaCha20-Poly1305</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_XCHACHA20_POLY1305" title="PSA_ALG_XCHACHA20_POLY1305"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_XCHACHA20_POLY1305</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05100600</span></code> <sup>b</sup></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>This is an AEAD mode of an underlying block cipher. The block cipher is determined by the key type that is provided to the AEAD operation.</p></li>
+<li><p>This is the default algorithm identifier, specifying the default tag length for the algorithm. <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_AEAD_WITH_SHORTENED_TAG" title="PSA_ALG_AEAD_WITH_SHORTENED_TAG"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_AEAD_WITH_SHORTENED_TAG()</span></code></a> generates identifiers with alternative LEN values. <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG" title="PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG()</span></code></a> generates wildcard permitted-algorithm policies with W = 1.</p></li>
+</ol>
+</section>
+<section id="key-derivation-algorithm-encoding">
+<span id="kdf-encoding"></span><h3><span class="section-number">B.1.6. </span>Key derivation algorithm encoding<a class="headerlink" href="#key-derivation-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The algorithm identifier for key derivation algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-kdf-fields"><span class="numref">Figure 7</span></a></span>.</p>
+<figure class="align-default" id="fig-kdf-fields">
+<img alt="../_images/kdf.svg" src="../_images/kdf.svg" /><figcaption>
+<p><span class="caption-number">Figure 7 </span><span class="caption-text">Key derivation algorithm encoding</span><a class="headerlink" href="#fig-kdf-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for S and KDF-TYPE are shown in <span><a class="reference internal" href="#table-kdf-type"><span class="numref">Table 15</span></a></span>.</p>
+<p>The permitted values of HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 11</span></a></span>) depend on the specific KDF algorithm.</p>
+<table class="colwidths-auto docutils align-left" id="table-kdf-type">
+<caption><span class="caption-number">Table 15 </span><span class="caption-text">Key derivation algorithm sub-type values</span><a class="headerlink" href="#table-kdf-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key derivation algorithm</p></th>
+<th class="head"><p>S</p></th>
+<th class="head"><p>KDF-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HKDF</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x01</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_HKDF" title="PSA_ALG_HKDF"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_HKDF</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x080001hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>TLS-1.2 PRF</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_TLS12_PRF" title="PSA_ALG_TLS12_PRF"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_TLS12_PRF</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x080002hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>TLS-1.2 PSK-to-MasterSecret</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x03</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_TLS12_PSK_TO_MS" title="PSA_ALG_TLS12_PSK_TO_MS"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_TLS12_PSK_TO_MS</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x080003hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>HKDF-Extract</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x04</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_HKDF_EXTRACT" title="PSA_ALG_HKDF_EXTRACT"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXTRACT</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x080004hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>HKDF-Expand</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x05</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_HKDF_EXPAND" title="PSA_ALG_HKDF_EXPAND"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXPAND</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x080005hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>TLS 1.2 ECJPAKE-to-PMS</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_TLS12_ECJPAKE_TO_PMS" title="PSA_ALG_TLS12_ECJPAKE_TO_PMS"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_TLS12_ECJPAKE_TO_PMS</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x08000609</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SP 800-108 Counter HMAC</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x07</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_SP800_108_COUNTER_HMAC" title="PSA_ALG_SP800_108_COUNTER_HMAC"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SP800_108_COUNTER_HMAC</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x080007hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>SP 800-108 Counter CMAC</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x08</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_SP800_108_COUNTER_CMAC" title="PSA_ALG_SP800_108_COUNTER_CMAC"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SP800_108_COUNTER_CMAC</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x08000800</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>PBKDF2-HMAC</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x01</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_PBKDF2_HMAC" title="PSA_ALG_PBKDF2_HMAC"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_PBKDF2_HMAC</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x088001hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>PBKDF2-AES-CMAC-PRF-128</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/kdf.html#c.PSA_ALG_PBKDF2_AES_CMAC_PRF_128" title="PSA_ALG_PBKDF2_AES_CMAC_PRF_128"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_PBKDF2_AES_CMAC_PRF_128</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x08800200</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hh</span></code> is the HASH-TYPE for the hash algorithm, <code class="docutils literal notranslate"><span class="pre">hash</span></code>, used to construct the key derivation algorithm.</p></li>
+</ol>
+</section>
+<section id="asymmetric-signature-algorithm-encoding">
+<span id="sign-encoding"></span><h3><span class="section-number">B.1.7. </span>Asymmetric signature algorithm encoding<a class="headerlink" href="#asymmetric-signature-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The algorithm identifier for asymmetric signature algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-sign-fields"><span class="numref">Figure 8</span></a></span>.</p>
+<figure class="align-default" id="fig-sign-fields">
+<img alt="../_images/sign.svg" src="../_images/sign.svg" /><figcaption>
+<p><span class="caption-number">Figure 8 </span><span class="caption-text">Asymmetric signature algorithm encoding</span><a class="headerlink" href="#fig-sign-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for SIGN-TYPE are shown in <span><a class="reference internal" href="#table-sign-type"><span class="numref">Table 16</span></a></span>.</p>
+<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 11</span></a></span>) for message signature algorithms that are parameterized by a hash algorithm, otherwise H = 0.</p>
+<table class="colwidths-auto docutils align-left" id="table-sign-type">
+<caption><span class="caption-number">Table 16 </span><span class="caption-text">Asymmetric signature algorithm sub-type values</span><a class="headerlink" href="#table-sign-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Signature algorithm</p></th>
+<th class="head"><p>SIGN-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RSA PKCS#1 v1.5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_RSA_PKCS1V15_SIGN" title="PSA_ALG_RSA_PKCS1V15_SIGN"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_SIGN</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x060002hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>RSA PKCS#1 v1.5 no hash <sup>b</sup></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_RSA_PKCS1V15_SIGN_RAW" title="PSA_ALG_RSA_PKCS1V15_SIGN_RAW"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_SIGN_RAW</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06000200</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>RSA PSS</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x03</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_RSA_PSS" title="PSA_ALG_RSA_PSS"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PSS</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x060003hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>RSA PSS any salt length</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x13</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_RSA_PSS_ANY_SALT" title="PSA_ALG_RSA_PSS_ANY_SALT"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PSS_ANY_SALT</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x060013hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>Randomized ECDSA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_ECDSA" title="PSA_ALG_ECDSA"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_ECDSA</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x060006hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>Randomized ECDSA no hash <sup>b</sup></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_ECDSA_ANY" title="PSA_ALG_ECDSA_ANY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDSA_ANY</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06000600</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Deterministic ECDSA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x07</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x060007hh</span></code> <sup>a</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>PureEdDSA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x08</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_PURE_EDDSA" title="PSA_ALG_PURE_EDDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_PURE_EDDSA</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x06000800</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>HashEdDSA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x09</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_ED25519PH" title="PSA_ALG_ED25519PH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ED25519PH</span></code></a> and <a class="reference internal" href="../api/ops/sign.html#c.PSA_ALG_ED448PH" title="PSA_ALG_ED448PH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ED448PH</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x060009hh</span></code> <sup>c</sup></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hh</span></code> is the HASH-TYPE for the hash algorithm, <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code>, used to construct the signature algorithm.</p></li>
+<li><p>Asymmetric signature algorithms without hashing can only be used with <a class="reference internal" href="../api/ops/sign.html#c.psa_sign_hash" title="psa_sign_hash"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_sign_hash()</span></code></a> and <a class="reference internal" href="../api/ops/sign.html#c.psa_verify_hash" title="psa_verify_hash"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_verify_hash()</span></code></a>.</p></li>
+<li><p>The HASH-TYPE for HashEdDSA is determined by the curve. SHA-512 is used for Ed25519ph, and the first 64 bytes of output from SHAKE256 is used for Ed448ph.</p></li>
+</ol>
+</section>
+<section id="asymmetric-encryption-algorithm-encoding">
+<span id="pke-encoding"></span><h3><span class="section-number">B.1.8. </span>Asymmetric encryption algorithm encoding<a class="headerlink" href="#asymmetric-encryption-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The algorithm identifier for asymmetric encryption algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-pke-fields"><span class="numref">Figure 9</span></a></span>.</p>
+<figure class="align-default" id="fig-pke-fields">
+<img alt="../_images/pke.svg" src="../_images/pke.svg" /><figcaption>
+<p><span class="caption-number">Figure 9 </span><span class="caption-text">Asymmetric encryption algorithm encoding</span><a class="headerlink" href="#fig-pke-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for ENCRYPT-TYPE are shown in <span><a class="reference internal" href="#table-pke-type"><span class="numref">Table 17</span></a></span>.</p>
+<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 11</span></a></span>) for asymmetric encryption algorithms that are parameterized by a hash algorithm, otherwise H = 0.</p>
+<table class="colwidths-auto docutils align-left" id="table-pke-type">
+<caption><span class="caption-number">Table 17 </span><span class="caption-text">Asymmetric encryption algorithm sub-type values</span><a class="headerlink" href="#table-pke-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Asymmetric encryption algorithm</p></th>
+<th class="head"><p>ENCRYPT-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RSA PKCS#1 v1.5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/pke.html#c.PSA_ALG_RSA_PKCS1V15_CRYPT" title="PSA_ALG_RSA_PKCS1V15_CRYPT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_CRYPT</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x07000200</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>RSA OAEP</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x03</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/pke.html#c.PSA_ALG_RSA_OAEP" title="PSA_ALG_RSA_OAEP"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_RSA_OAEP</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x070003hh</span></code> <sup>a</sup></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hh</span></code> is the HASH-TYPE for the hash algorithm, <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code>, used to construct the encryption algorithm.</p></li>
+</ol>
+</section>
+<section id="key-agreement-algorithm-encoding">
+<span id="ka-encoding"></span><h3><span class="section-number">B.1.9. </span>Key agreement algorithm encoding<a class="headerlink" href="#key-agreement-algorithm-encoding" title="Permalink to this heading">¶</a></h3>
+<p>A key agreement algorithm identifier can either be for the standalone key agreement algorithm, or for a combined key agreement with key derivation algorithm. The former can only be used with <a class="reference internal" href="../api/ops/ka.html#c.psa_key_agreement" title="psa_key_agreement"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_agreement()</span></code></a> and <a class="reference internal" href="../api/ops/ka.html#c.psa_raw_key_agreement" title="psa_raw_key_agreement"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_raw_key_agreement()</span></code></a>, while the latter are used with <a class="reference internal" href="../api/ops/ka.html#c.psa_key_derivation_key_agreement" title="psa_key_derivation_key_agreement"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_key_agreement()</span></code></a>.</p>
+<p>The algorithm identifier for standalone key agreement algorithms defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-ka-raw-fields"><span class="numref">Figure 10</span></a></span>.</p>
+<figure class="align-default" id="fig-ka-raw-fields">
+<img alt="../_images/ka_raw.svg" src="../_images/ka_raw.svg" /><figcaption>
+<p><span class="caption-number">Figure 10 </span><span class="caption-text">Standalone key agreement algorithm encoding</span><a class="headerlink" href="#fig-ka-raw-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for KA-TYPE are shown in <span><a class="reference internal" href="#table-ka-type"><span class="numref">Table 18</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-ka-type">
+<caption><span class="caption-number">Table 18 </span><span class="caption-text">Key agreement algorithm sub-type values</span><a class="headerlink" href="#table-ka-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key agreement algorithm</p></th>
+<th class="head"><p>KA-TYPE</p></th>
+<th class="head"><p>Algorithm identifier</p></th>
+<th class="head"><p>Algorithm value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>FFDH</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x01</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ka.html#c.PSA_ALG_FFDH" title="PSA_ALG_FFDH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_FFDH</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x09010000</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>ECDH</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x02</span></code></p></td>
+<td><p><a class="reference internal" href="../api/ops/ka.html#c.PSA_ALG_ECDH" title="PSA_ALG_ECDH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDH</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x09020000</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>A combined key agreement is constructed by a bitwise OR of the standalone key agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the <a class="reference internal" href="../api/ops/ka.html#c.PSA_ALG_KEY_AGREEMENT" title="PSA_ALG_KEY_AGREEMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_KEY_AGREEMENT()</span></code></a> macro.</p>
+<figure class="align-default" id="id7">
+<img alt="../_images/ka_combined.svg" src="../_images/ka_combined.svg" /><figcaption>
+<p><span class="caption-number">Figure 11 </span><span class="caption-text">Combined key agreement algorithm encoding</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The underlying standalone key agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.</p>
+</section>
+</section>
+<section id="key-type-encoding">
+<span id="id1"></span><h2><span class="section-number">B.2. </span>Key type encoding<a class="headerlink" href="#key-type-encoding" title="Permalink to this heading">¶</a></h2>
+<p>Key types are 16-bit integer values of the type <a class="reference internal" href="../api/keys/types.html#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a>. Key type values have the structure shown in <span><a class="reference internal" href="#fig-key-type-fields"><span class="numref">Figure 12</span></a></span>.</p>
+<figure class="align-default" id="fig-key-type-fields">
+<img alt="../_images/key_type.svg" src="../_images/key_type.svg" /><figcaption>
+<p><span class="caption-number">Figure 12 </span><span class="caption-text">Encoding of <a class="reference internal" href="../api/keys/types.html#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a></span><a class="headerlink" href="#fig-key-type-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><span><a class="reference internal" href="#table-key-type-fields"><span class="numref">Table 19</span></a></span> describes the meaning of the bit-fields — some of bit-fields are used in different ways by different key type categories.</p>
+<table class="colwidths-given docutils align-default" id="table-key-type-fields">
+<caption><span class="caption-number">Table 19 </span><span class="caption-text">Bit fields in a key type</span><a class="headerlink" href="#table-key-type-fields" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 10%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>V</p></td>
+<td><p>[15]</p></td>
+<td><p>Flag to indicate an implementation-defined key type, when V=1.</p>
+<p>Key types defined by this specification always have V=0.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>A</p></td>
+<td><p>[14]</p></td>
+<td><p>Flag to indicate an asymmetric key type, when A=1.</p></td>
+</tr>
+<tr class="row-even"><td><p>CAT</p></td>
+<td><p>[13:12]</p></td>
+<td><p>Key type category. See <a class="reference internal" href="#key-type-categories"><span class="secref">Key type categories</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>category-specific type</em></p></td>
+<td><p>[11:1]</p></td>
+<td><p>The meaning of this field is specific to each key category.</p></td>
+</tr>
+<tr class="row-even"><td><p>P</p></td>
+<td><p>[0]</p></td>
+<td><p>Parity bit. Valid key type values have even parity.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="key-type-categories">
+<span id="id2"></span><h3><span class="section-number">B.2.1. </span>Key type categories<a class="headerlink" href="#key-type-categories" title="Permalink to this heading">¶</a></h3>
+<p>The A and CAT fields in a key type take the values shown in <span><a class="reference internal" href="#table-key-type-category"><span class="numref">Table 20</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-key-type-category">
+<caption><span class="caption-number">Table 20 </span><span class="caption-text">Key type categories</span><a class="headerlink" href="#table-key-type-category" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key type category</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>CAT</p></th>
+<th class="head"><p>Category details</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>None</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_NONE" title="PSA_KEY_TYPE_NONE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_NONE</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Raw data</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>See <a class="reference internal" href="#raw-key-encoding"><span class="secref">Raw key encoding</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Symmetric key</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+<td><p>See <a class="reference internal" href="#symmetric-key-encoding"><span class="secref">Symmetric key encoding</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Asymmetric public key</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>See <a class="reference internal" href="#asymmetric-key-encoding"><span class="secref">Asymmetric key encoding</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Asymmetric key pair</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>See <a class="reference internal" href="#asymmetric-key-encoding"><span class="secref">Asymmetric key encoding</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="raw-key-encoding">
+<span id="id3"></span><h3><span class="section-number">B.2.2. </span>Raw key encoding<a class="headerlink" href="#raw-key-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The key type for raw keys defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-raw-key-fields"><span class="numref">Figure 13</span></a></span>.</p>
+<figure class="align-default" id="fig-raw-key-fields">
+<img alt="../_images/raw_key.svg" src="../_images/raw_key.svg" /><figcaption>
+<p><span class="caption-number">Figure 13 </span><span class="caption-text">Raw key encoding</span><a class="headerlink" href="#fig-raw-key-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The defined values for RAW-TYPE, SUB-TYPE, and P are shown in <span><a class="reference internal" href="#table-raw-type"><span class="numref">Table 21</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-raw-type">
+<caption><span class="caption-number">Table 21 </span><span class="caption-text">Raw key sub-type values</span><a class="headerlink" href="#table-raw-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Raw key type</p></th>
+<th class="head"><p>RAW-TYPE</p></th>
+<th class="head"><p>SUB-TYPE</p></th>
+<th class="head"><p>P</p></th>
+<th class="head"><p>Key type</p></th>
+<th class="head"><p>Key type value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Raw data</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_RAW_DATA" title="PSA_KEY_TYPE_RAW_DATA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RAW_DATA</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x1001</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>HMAC</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HMAC" title="PSA_KEY_TYPE_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_HMAC</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x1100</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Derivation secret</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_DERIVE" title="PSA_KEY_TYPE_DERIVE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DERIVE</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x1200</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Password</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_PASSWORD" title="PSA_KEY_TYPE_PASSWORD"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x1203</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Password hash</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_PASSWORD_HASH" title="PSA_KEY_TYPE_PASSWORD_HASH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PASSWORD_HASH</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x1205</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Derivation pepper</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_PEPPER" title="PSA_KEY_TYPE_PEPPER"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_PEPPER</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x1206</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="symmetric-key-encoding">
+<span id="id4"></span><h3><span class="section-number">B.2.3. </span>Symmetric key encoding<a class="headerlink" href="#symmetric-key-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The key type for symmetric keys defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-symmetric-key-fields"><span class="numref">Figure 14</span></a></span>.</p>
+<figure class="align-default" id="fig-symmetric-key-fields">
+<img alt="../_images/symmetric_key.svg" src="../_images/symmetric_key.svg" /><figcaption>
+<p><span class="caption-number">Figure 14 </span><span class="caption-text">Symmetric key encoding</span><a class="headerlink" href="#fig-symmetric-key-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>For block-based cipher keys, the block size for the cipher algorithm is 2<sup>BLK</sup>.</p>
+<p>The defined values for BLK, SYM-TYPE and P are shown in <span><a class="reference internal" href="#table-symmetric-type"><span class="numref">Table 22</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-symmetric-type">
+<caption><span class="caption-number">Table 22 </span><span class="caption-text">Symmetric key sub-type values</span><a class="headerlink" href="#table-symmetric-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symmetric key type</p></th>
+<th class="head"><p>BLK</p></th>
+<th class="head"><p>SYM-TYPE</p></th>
+<th class="head"><p>P</p></th>
+<th class="head"><p>Key type</p></th>
+<th class="head"><p>Key type value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ARC4</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_ARC4" title="PSA_KEY_TYPE_ARC4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ARC4</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2002</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>ChaCha20</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_CHACHA20" title="PSA_KEY_TYPE_CHACHA20"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CHACHA20</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2004</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>XChaCha20</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_XCHACHA20" title="PSA_KEY_TYPE_XCHACHA20"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_XCHACHA20</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2007</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>DES</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_DES" title="PSA_KEY_TYPE_DES"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DES</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2301</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>AES</p></td>
+<td><p>4</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_AES" title="PSA_KEY_TYPE_AES"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_AES</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2400</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>CAMELLIA</p></td>
+<td><p>4</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_CAMELLIA" title="PSA_KEY_TYPE_CAMELLIA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_CAMELLIA</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2403</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SM4</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_SM4" title="PSA_KEY_TYPE_SM4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SM4</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2405</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>ARIA</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_ARIA" title="PSA_KEY_TYPE_ARIA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ARIA</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x2406</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asymmetric-key-encoding">
+<span id="id5"></span><h3><span class="section-number">B.2.4. </span>Asymmetric key encoding<a class="headerlink" href="#asymmetric-key-encoding" title="Permalink to this heading">¶</a></h3>
+<p>The key type for asymmetric keys defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-asymmetric-key-fields"><span class="numref">Figure 15</span></a></span>.</p>
+<figure class="align-default" id="fig-asymmetric-key-fields">
+<img alt="../_images/asymmetric_key.svg" src="../_images/asymmetric_key.svg" /><figcaption>
+<p><span class="caption-number">Figure 15 </span><span class="caption-text">Asymmetric key encoding</span><a class="headerlink" href="#fig-asymmetric-key-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
+<p>The defined values for ASYM-TYPE are shown in <span><a class="reference internal" href="#table-asymmetric-type"><span class="numref">Table 23</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-asymmetric-type">
+<caption><span class="caption-number">Table 23 </span><span class="caption-text">Asymmetric key sub-type values</span><a class="headerlink" href="#table-asymmetric-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Asymmetric key type</p></th>
+<th class="head"><p>ASYM-TYPE</p></th>
+<th class="head"><p>Details</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RSA</p></td>
+<td><p>0</p></td>
+<td><p>See <a class="reference internal" href="#rsa-key-encoding"><span class="secref">RSA key encoding</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Elliptic Curve</p></td>
+<td><p>1</p></td>
+<td><p>See <a class="reference internal" href="#ecc-key-encoding"><span class="secref">Elliptic Curve key encoding</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Diffie-Hellman</p></td>
+<td><p>2</p></td>
+<td><p>See <a class="reference internal" href="#dh-key-encoding"><span class="secref">Diffie Hellman key encoding</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<section id="rsa-key-encoding">
+<span id="id6"></span><h4>RSA key encoding<a class="headerlink" href="#rsa-key-encoding" title="Permalink to this heading">¶</a></h4>
+<p>The key type for RSA keys defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-rsa-key-fields"><span class="numref">Figure 16</span></a></span>.</p>
+<figure class="align-default" id="fig-rsa-key-fields">
+<img alt="../_images/rsa_key.svg" src="../_images/rsa_key.svg" /><figcaption>
+<p><span class="caption-number">Figure 16 </span><span class="caption-text">RSA key encoding</span><a class="headerlink" href="#fig-rsa-key-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
+<p>The defined values for RSA keys are shown in <span><a class="reference internal" href="#table-rsa-type"><span class="numref">Table 24</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-rsa-type">
+<caption><span class="caption-number">Table 24 </span><span class="caption-text">RSA key values</span><a class="headerlink" href="#table-rsa-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>RSA key type</p></th>
+<th class="head"><p>Key type</p></th>
+<th class="head"><p>Key type value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Public key</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_RSA_PUBLIC_KEY" title="PSA_KEY_TYPE_RSA_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_PUBLIC_KEY</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4001</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Key pair</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_RSA_KEY_PAIR" title="PSA_KEY_TYPE_RSA_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_KEY_PAIR</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7001</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="elliptic-curve-key-encoding">
+<span id="ecc-key-encoding"></span><h4>Elliptic Curve key encoding<a class="headerlink" href="#elliptic-curve-key-encoding" title="Permalink to this heading">¶</a></h4>
+<p>The key type for Elliptic Curve keys defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-ecc-key-fields"><span class="numref">Figure 17</span></a></span>.</p>
+<figure class="align-default" id="fig-ecc-key-fields">
+<img alt="../_images/ecc_key.svg" src="../_images/ecc_key.svg" /><figcaption>
+<p><span class="caption-number">Figure 17 </span><span class="caption-text">Elliptic Curve key encoding</span><a class="headerlink" href="#fig-ecc-key-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
+<p>The defined values for ECC-FAMILY and P are shown in <span><a class="reference internal" href="#table-ecc-type"><span class="numref">Table 25</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-ecc-type">
+<caption><span class="caption-number">Table 25 </span><span class="caption-text">ECC key family values</span><a class="headerlink" href="#table-ecc-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>ECC key family</p></th>
+<th class="head"><p>ECC-FAMILY</p></th>
+<th class="head"><p>P</p></th>
+<th class="head"><p>ECC family <sup>a</sup></p></th>
+<th class="head"><p>Public key value</p></th>
+<th class="head"><p>Key pair value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SECP K1</p></td>
+<td><p>0x0B</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_SECP_K1" title="PSA_ECC_FAMILY_SECP_K1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_K1</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4117</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7117</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SECP R1</p></td>
+<td><p>0x09</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_SECP_R1" title="PSA_ECC_FAMILY_SECP_R1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_R1</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4112</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7112</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SECP R2</p></td>
+<td><p>0x0D</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_SECP_R2" title="PSA_ECC_FAMILY_SECP_R2"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECP_R2</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x411B</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x711B</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SECT K1</p></td>
+<td><p>0x13</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_SECT_K1" title="PSA_ECC_FAMILY_SECT_K1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_K1</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4127</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7127</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SECT R1</p></td>
+<td><p>0x11</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_SECT_R1" title="PSA_ECC_FAMILY_SECT_R1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_R1</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4122</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7122</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>SECT R2</p></td>
+<td><p>0x15</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_SECT_R2" title="PSA_ECC_FAMILY_SECT_R2"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_SECT_R2</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x412B</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x712B</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Brainpool-P R1</p></td>
+<td><p>0x18</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_BRAINPOOL_P_R1" title="PSA_ECC_FAMILY_BRAINPOOL_P_R1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_BRAINPOOL_P_R1</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4130</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7130</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>FRP</p></td>
+<td><p>0x19</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_FRP" title="PSA_ECC_FAMILY_FRP"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_FRP</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4133</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7133</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Montgomery</p></td>
+<td><p>0x20</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_MONTGOMERY" title="PSA_ECC_FAMILY_MONTGOMERY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_MONTGOMERY</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4141</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7141</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Twisted Edwards</p></td>
+<td><p>0x21</p></td>
+<td><p>0</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_ECC_FAMILY_TWISTED_EDWARDS" title="PSA_ECC_FAMILY_TWISTED_EDWARDS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ECC_FAMILY_TWISTED_EDWARDS</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4142</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7142</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>The key type value is constructed from the Elliptic Curve family using either <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_ECC_PUBLIC_KEY" title="PSA_KEY_TYPE_ECC_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> or <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_ECC_KEY_PAIR" title="PSA_KEY_TYPE_ECC_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ECC_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> as required.</p></li>
+</ol>
+</section>
+<section id="diffie-hellman-key-encoding">
+<span id="dh-key-encoding"></span><h4>Diffie Hellman key encoding<a class="headerlink" href="#diffie-hellman-key-encoding" title="Permalink to this heading">¶</a></h4>
+<p>The key type for Diffie Hellman keys defined in this specification are encoded as shown in <span><a class="reference internal" href="#fig-dh-key-fields"><span class="numref">Figure 18</span></a></span>.</p>
+<figure class="align-default" id="fig-dh-key-fields">
+<img alt="../_images/dh_key.svg" src="../_images/dh_key.svg" /><figcaption>
+<p><span class="caption-number">Figure 18 </span><span class="caption-text">Diffie Hellman key encoding</span><a class="headerlink" href="#fig-dh-key-fields" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
+<p>The defined values for DH-FAMILY and P are shown in <span><a class="reference internal" href="#table-dh-type"><span class="numref">Table 26</span></a></span>.</p>
+<table class="colwidths-auto docutils align-left" id="table-dh-type">
+<caption><span class="caption-number">Table 26 </span><span class="caption-text">Diffie Hellman key group values</span><a class="headerlink" href="#table-dh-type" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>DH key group</p></th>
+<th class="head"><p>DH-FAMILY</p></th>
+<th class="head"><p>P</p></th>
+<th class="head"><p>DH group <sup>a</sup></p></th>
+<th class="head"><p>Public key value</p></th>
+<th class="head"><p>Key pair value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RFC7919</p></td>
+<td><p>0x01</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../api/keys/types.html#c.PSA_DH_FAMILY_RFC7919" title="PSA_DH_FAMILY_RFC7919"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_DH_FAMILY_RFC7919</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x4203</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0x7203</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<ol class="loweralpha simple">
+<li><p>The key type value is constructed from the Diffie Hellman family using either <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_DH_PUBLIC_KEY" title="PSA_KEY_TYPE_DH_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> or <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_DH_KEY_PAIR" title="PSA_KEY_TYPE_DH_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DH_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">family</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> as required.</p></li>
+</ol>
+</section>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+IHI 0086<br/>
+Non-confidential<br/>
+Version 1.2.1
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/goals.html">2. Design goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/functionality.html">3. Functionality overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/sample-arch.html">4. Sample architectures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/conventions.html">5. Library conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/implementation.html">6. Implementation considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/usage.html">7. Usage considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/library/index.html">8. Library management reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/keys/index.html">9. Key management reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/ops/index.html">10. Cryptographic operation reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example_header.html">A. Example header file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">B. Algorithm and key type encoding</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#algorithm-identifier-encoding">B.1. Algorithm identifier encoding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#algorithm-categories">B.1.1. Algorithm categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hash-algorithm-encoding">B.1.2. Hash algorithm encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mac-algorithm-encoding">B.1.3. MAC algorithm encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cipher-algorithm-encoding">B.1.4. Cipher algorithm encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aead-algorithm-encoding">B.1.5. AEAD algorithm encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-derivation-algorithm-encoding">B.1.6. Key derivation algorithm encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#asymmetric-signature-algorithm-encoding">B.1.7. Asymmetric signature algorithm encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#asymmetric-encryption-algorithm-encoding">B.1.8. Asymmetric encryption algorithm encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-agreement-algorithm-encoding">B.1.9. Key agreement algorithm encoding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#key-type-encoding">B.2. Key type encoding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-type-categories">B.2.1. Key type categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raw-key-encoding">B.2.2. Raw key encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#symmetric-key-encoding">B.2.3. Symmetric key encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#asymmetric-key-encoding">B.2.4. Asymmetric key encoding</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="specdef_values.html">C. Example macro implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sra.html">D. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">E. Changes to the API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2018-2024 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

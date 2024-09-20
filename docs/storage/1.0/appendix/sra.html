@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="2. Security Risk Assessment" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/storage/1.0/appendix/sra.html" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/storage/1.0/appendix/sra.html" />
+<meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
+<meta property="og:description" content="This appendix provides a Security Risk Assessment (SRA) of the Secure Storage API and of a generic implementation of storage. It describes the threats presented by various types of adversaries agai..." />
+<meta name="description" content="This appendix provides a Security Risk Assessment (SRA) of the Secure Storage API and of a generic implementation of storage. It describes the threats presented by various types of adversaries agai..." />
+
+    <title>2. Security Risk Assessment &#8212; PSA Certified Secure Storage API 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Document history" href="history.html" />
+    <link rel="prev" title="1. Example header files" href="headers.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="security-risk-assessment">
+<span id="sra"></span><h1><span class="section-number">B. </span>Security Risk Assessment<a class="headerlink" href="#security-risk-assessment" title="Permalink to this heading">¶</a></h1>
+<p>This appendix provides a Security Risk Assessment (SRA) of the Secure Storage API and of a generic implementation of storage.
+It describes the threats presented by various types of adversaries against the security goals for an implementation of a secure storage service, and mitigating actions for those threats.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#sra-about"><span class="secref">About this assessment</span></a> describes the assessment methodology.</p></li>
+<li><p><a class="reference internal" href="#sra-definition"><span class="secref">Feature definition</span></a> defines the security problem.</p></li>
+<li><p><a class="reference internal" href="#sra-threats"><span class="secref">Threats</span></a> describes the threats and the recommended mitigating actions.</p></li>
+<li><p><a class="reference internal" href="#sra-mitigations"><span class="secref">Mitigation Summary</span></a> summarizes the mitigations, and where these are implemented.</p></li>
+</ul>
+<section id="about-this-assessment">
+<span id="sra-about"></span><h2><span class="section-number">B.1. </span>About this assessment<a class="headerlink" href="#about-this-assessment" title="Permalink to this heading">¶</a></h2>
+<section id="subject-and-scope">
+<h3><span class="section-number">B.1.1. </span>Subject and scope<a class="headerlink" href="#subject-and-scope" title="Permalink to this heading">¶</a></h3>
+<p>This SRA analyses the security of the Secure Storage API itself, and of the conceptual architectures for storage, not of any specific implementation of the API, or any specific use of the API.
+It does, however, divide implementations into four deployment models representing common implementation types, and looks at the different mitigations needed in each deployment model.</p>
+<p>In this SRA:</p>
+<ul class="simple">
+<li><p><em>Storage service</em> means the firmware implementing the Secure Storage API.</p></li>
+<li><p><em>Storage medium</em> refers to the physical storage location.</p></li>
+</ul>
+</section>
+<section id="risk-assessment-methodology">
+<h3><span class="section-number">B.1.2. </span>Risk assessment methodology<a class="headerlink" href="#risk-assessment-methodology" title="Permalink to this heading">¶</a></h3>
+<p>Our risk ratings use an approach derived from <span><em>NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments</em> <a class="reference internal" href="../about.html#cite-sp800-30"><span class="cite">[SP800-30]</span></a></span>: for each Threat, we determine its Likelihood and the Impact.
+Each is evaluated on a 5-level scale, as defined in <span><a class="reference internal" href="#tab-sra-likelihood"><span class="numref">Table 6</span></a></span> and <span><a class="reference internal" href="#tab-sra-impact"><span class="numref">Table 7</span></a></span>.</p>
+<table class="colwidths-given docutils align-default" id="tab-sra-likelihood">
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Likelihood levels</span><a class="headerlink" href="#tab-sra-likelihood" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"><p>Level</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><th class="stub"><p>Very Low</p></th>
+<td><p>Unlikely to ever occur in practice, or <em>mathematically near impossible</em></p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Low</p></th>
+<td><p>The event could occur, but only if the attacker employs <em>significant</em> resources; or it is <em>mathematically unlikely</em></p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Medium</p></th>
+<td><p>A motivated, and well-equipped adversary can make it happen within the lifetime of a product based on the feature (resp. of the feature itself)</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>High</p></th>
+<td><p>Likely to happen within the lifetime of the product or feature</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Very High</p></th>
+<td><p>Will happen, and soon (for instance a zero-day)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-given docutils align-default" id="tab-sra-impact">
+<caption><span class="caption-number">Table 7 </span><span class="caption-text">Impact levels</span><a class="headerlink" href="#tab-sra-impact" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 43%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"><p>Level</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example Effects</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><th class="stub"><p>Very Low</p></th>
+<td><p>Causes virtually no damage.</p></td>
+<td><p>Probably none.</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Low</p></th>
+<td><p>The damage can easily be tolerated or absorbed.</p></td>
+<td><p>There would be a CVE at most.</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Medium</p></th>
+<td><p>The damage will have a <em>noticeable</em> effect, such as <em>degrading</em> some functionality, but won’t degrade completely the use of the considered functionality.</p></td>
+<td><p>There would be a CVE at most.</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>High</p></th>
+<td><p>The damage will have a <em>strong</em> effect, such as causing a significant reduction in its functionality or in its security guarantees.</p></td>
+<td><p>Security Analysts would discuss this at length, there would be papers, blog entries.
+Partners would complain.</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Very High</p></th>
+<td><p>The damage will have <em>critical</em> consequences — it could kill the feature, by affecting several of its security guarantees.</p></td>
+<td><p>It would be quite an event.</p>
+<p>Partners would complain strongly, and delay or cancel deployment of the feature.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>For both Likelihood and Impact, when in doubt always choose the higher value.
+These two values are combined using <span><a class="reference internal" href="#tab-sra-overall-risk"><span class="numref">Table 8</span></a></span> to determine the Overall Risk of a Threat.</p>
+<table class="docutils align-right" id="tab-sra-overall-risk">
+<caption><span class="caption-number">Table 8 </span><span class="caption-text">Overall risk calculation</span><a class="headerlink" href="#tab-sra-overall-risk" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"></th>
+<th class="head"><p>Impact</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+<tr class="row-even"><th class="head stub"><p>Likelihood</p></th>
+<th class="head"><p>Very Low</p></th>
+<th class="head"><p>Low</p></th>
+<th class="head"><p>Medium</p></th>
+<th class="head"><p>High</p></th>
+<th class="head"><p>Very High</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><th class="stub"><p>Very Low</p></th>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Low</p></th>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Medium</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Medium</p></th>
+<td><p>Very Low</p></td>
+<td><p>Low</p></td>
+<td><p>Medium</p></td>
+<td><p>Medium</p></td>
+<td><p>High</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>High</p></th>
+<td><p>(Very) Low</p></td>
+<td><p>Low</p></td>
+<td><p>Medium</p></td>
+<td><p>High</p></td>
+<td><p>Very High</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Very High</p></th>
+<td><p>(Very) Low</p></td>
+<td><p>Medium</p></td>
+<td><p>High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+<p>Threats are handled starting from the most severe ones.
+Mitigations will be devised for these Threats one by one (note that a Mitigation may mitigate more Threats, and one Threat may require the deployment of more than one Mitigation to be addressed).
+Likelihood and Impact will be reassessed assuming that the Mitigations are in place, resulting in a Mitigated Likelihood (this is the value that usually decreases), a Mitigated Impact (it is less common that this value will decrease), and finally a Mitigated Risk.
+The Analysis is completed when all the Mitigated Risks are at the chosen residual level or lower, which usually is Low or Very Low.</p>
+<p>The Mitigating actions that can be taken are defined in the acronym <strong>CAST</strong>:</p>
+<ul class="simple">
+<li><p><strong>Control</strong>: Put in place steps to reduce the Likelihood and/or Impact of a Threat, thereby reducing the risk to an acceptable level.</p></li>
+<li><p><strong>Accept</strong>: The threat is considered to be of acceptable risk such that a mitigation is not necessary or must be accepted because of other constraint or market needs.</p></li>
+<li><p><strong>Suppress</strong>: Remove the feature or process that gives rise to the threat.</p></li>
+<li><p><strong>Transfer</strong>: Identify a more capable or suitable party to address the risk and transfer the responsibility of providing a mitigation for the threat to them.</p></li>
+</ul>
+</section>
+</section>
+<section id="feature-definition">
+<span id="sra-definition"></span><h2><span class="section-number">B.2. </span>Feature definition<a class="headerlink" href="#feature-definition" title="Permalink to this heading">¶</a></h2>
+<section id="introduction">
+<h3><span class="section-number">B.2.1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h3>
+<section id="background">
+<h4>Background<a class="headerlink" href="#background" title="Permalink to this heading">¶</a></h4>
+<p><a class="reference internal" href="../overview/intro.html#intro"><span class="secref">Introduction</span></a> provides the context in which the Secure Storage API is designed.</p>
+</section>
+<section id="purpose">
+<h4>Purpose<a class="headerlink" href="#purpose" title="Permalink to this heading">¶</a></h4>
+<p>The Secure Storage API separates the software responsible for providing the security of the data from the caller.
+The storage service calls on firmware that provides low level reads and writes of non-volatile storage medium and the access to any required bus.
+The Secure Storage API is to provide a consistent interface, so that applications do not need to account for the different low-level implementations.</p>
+<p>This analysis does not address the engineering requirements to create a reliable storage medium from the underlying physical storage.
+It is assumed that the implementation will use the standard techniques, error correcting codes, wear levelling and so on, to ensure the storage is reliable.</p>
+</section>
+</section>
+<section id="lifecycle">
+<h3><span class="section-number">B.2.2. </span>Lifecycle<a class="headerlink" href="#lifecycle" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#fig-lifecycle"><span class="numref">Figure 2</span></a></span> shows the typical lifecycle of a device.</p>
+<figure class="align-default" id="fig-lifecycle">
+<img alt="../_images/lifecycle.svg" src="../_images/lifecycle.svg" /><figcaption>
+<p><span class="caption-number">Figure 2 </span><span class="caption-text">Device lifecycle of a system providing storage</span><a class="headerlink" href="#fig-lifecycle" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The storage service, and the Secure Storage API are active during the operational phase, implemented within the boot-time and run-time software.</p>
+<p>Within a boot session, it is the responsibility of the secure boot firmware to:</p>
+<ul class="simple">
+<li><p>Set up the isolation barriers between partitions.</p></li>
+<li><p>Provision the firmware implementing the storage service.</p></li>
+<li><p>Provision the credentials for authorizing the storage of data.</p></li>
+<li><p>Enable or disable debug facilities.</p></li>
+</ul>
+<p>This SRA only considers threats to the storage service in its operational phase.
+The security of the boot process and of any data provisioning service are not considered in this SRA.</p>
+</section>
+<section id="operation-and-trust-boundaries">
+<h3><span class="section-number">B.2.3. </span>Operation and trust boundaries<a class="headerlink" href="#operation-and-trust-boundaries" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#fig-boundaries"><span class="numref">Figure 3</span></a></span> shows all of the main components in the storage service.
+Presenting the context in which the Secure Storage API operates aids understanding of the threats and security mitigations and provides justification for some of the aspects of the API design.</p>
+<figure class="align-default" id="fig-boundaries">
+<img alt="../_images/callers.svg" src="../_images/callers.svg" /><figcaption>
+<p><span class="caption-number">Figure 3 </span><span class="caption-text">Trust boundaries of a system providing storage</span><a class="headerlink" href="#fig-boundaries" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Secure Storage API is a C language API.
+Therefore, any implementation of the API must execute, at least partially, within the context of the caller.
+When an implementation includes a trust boundary, the mechanism and protocol for communication across the boundary is not defined by this specification.</p>
+<p>The operational dataflow diagram is reproduced for each of the deployment models.
+Although the dataflow itself is common to the models, the placement of trust boundaries is different.</p>
+<p>It is helpful to visualize the effect of these differences on the threats against the dataflows.</p>
+</section>
+<section id="deployment-models">
+<h3><span class="section-number">B.2.4. </span>Deployment models<a class="headerlink" href="#deployment-models" title="Permalink to this heading">¶</a></h3>
+<dl>
+<dt><span class="target" id="sra-dm-protected"></span><span class="sradef">DM.PROTECTED</span></dt><dd><p>The storage service and all physical storage is within the <a class="reference internal" href="../about.html#term-platform-root-of-trust"><span class="term">Platform Root of Trust</span></a> (<a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a>) partition.
+The <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> partition has sole access to an area of non-volatile storage, thus that storage cannot be accessed by any other partition or any other means.
+This means that the storage service, any driver code, the storage service and storage medium all reside with the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> and are protected by the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a>’s isolation mechanisms as shown in <span><a class="reference internal" href="#fig-protected"><span class="numref">Figure 4</span></a></span>.</p>
+<figure class="align-default" id="fig-protected">
+<img alt="../_images/dm-protected.svg" src="../_images/dm-protected.svg" /><figcaption>
+<p><span class="caption-number">Figure 4 </span><span class="caption-text">Trust boundaries in the deployment model <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a></span><a class="headerlink" href="#fig-protected" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The storage service is the arbitrator of access from different applications and manages all data accesses (write, update and deletion).
+Therefore, the storage service is responsible for the <a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIALITY</span></a>, <a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a> and <a class="reference internal" href="#sra-sg-currency"><span class="sraref atg_c atg_c-sg">SG.CURRENCY</span></a> goals of each caller, including maintaining confidentiality between different callers.</p>
+<p>An example of this deployment model is the use of on-chip flash or OTP with an access control mechanism such as a Memory Protection Unit.</p>
+</dd>
+<dt><span class="target" id="sra-dm-exposed"></span><span class="sradef">DM.EXPOSED</span></dt><dd><p>The <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> partition does not have sole access to the area of non-volatile storage, thus the storage medium can be read or written by another partition or by other means.
+This means that the driver code, or the storage medium resides outside the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> and is accessible to other partitions or by other means, as shown in  as shown in <span><a class="reference internal" href="#fig-exposed"><span class="numref">Figure 5</span></a></span>.
+Therefore, attackers can bypass the storage service.</p>
+<figure class="align-default" id="fig-exposed">
+<img alt="../_images/dm-exposed.svg" src="../_images/dm-exposed.svg" /><figcaption>
+<p><span class="caption-number">Figure 5 </span><span class="caption-text">Trust boundaries in the deployment model <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a></span><a class="headerlink" href="#fig-exposed" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The storage service is the arbitrator of access from different applications and manages accesses that write, update, and delete data.
+Therefore, the storage service is responsible for the <a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIALITY</span></a>, <a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a> and <a class="reference internal" href="#sra-sg-currency"><span class="sraref atg_c atg_c-sg">SG.CURRENCY</span></a> goal with respect to preventing access by a different caller.</p>
+<p>The storage service cannot prevent other partitions or other means from reading or writing the storage, or accessing the link DF3.
+Therefore, the storage service is responsible for the <a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIALITY</span></a>, <a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a> and <a class="reference internal" href="#sra-sg-currency"><span class="sraref atg_c atg_c-sg">SG.CURRENCY</span></a> goals.</p>
+<p>An example of this deployment model is the use of a file system on a flash chip.</p>
+</dd>
+<dt><span class="target" id="sra-dm-authorized"></span><span class="sradef">DM.AUTHORIZED</span></dt><dd><p>There is a separate isolated storage medium that can only be accessed in response to an authenticated command and from which all replies include a means for verification of the response, as shown in <span><a class="reference internal" href="#fig-authorized"><span class="numref">Figure 6</span></a></span>.
+The isolation guarantees that there is no access to the storage medium other than by using the authentication mechanism.</p>
+<figure class="align-default" id="fig-authorized">
+<img alt="../_images/dm-authorized.svg" src="../_images/dm-authorized.svg" /><figcaption>
+<p><span class="caption-number">Figure 6 </span><span class="caption-text">Trust boundaries in the deployment model <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a></span><a class="headerlink" href="#fig-authorized" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The storage service is the arbitrator of access from different applications and manages those data accesses (write, update and deletion).
+Therefore, the storage service is responsible for the <a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIALITY</span></a> goal with respect to preventing access by a different caller.</p>
+<p>The authorization and verification mechanism provided by the storage medium controls access to data (reads, writes and modification).
+Therefore, the storage medium is responsible for the <a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a> and <a class="reference internal" href="#sra-sg-currency"><span class="sraref atg_c atg_c-sg">SG.CURRENCY</span></a> goals.
+Attacks on these mechanisms are out of scope.</p>
+<p>However, the communication between the storage service and the storage medium is observable by other partitions and any other means as any data sent in plain text can be observed.
+Therefore, the storage service is responsible for  <a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIALITY</span></a>.</p>
+<p>The storage service and the storage medium are jointly responsible for protecting the assets required to authorize commands.
+Attacks on the storage service that expose these assets are in scope.</p>
+<p>An example of this deployment model is the use of an RPMB memory block.</p>
+</dd>
+<dt><span class="target" id="sra-dm-secure-link"></span><span class="sradef">DM.SECURE_LINK</span></dt><dd><p>There is a separate isolated storage medium that can only be accessed across a cryptographically protected secure channel as shown in <span><a class="reference internal" href="#fig-external-secure"><span class="numref">Figure 7</span></a></span>.
+The secure channel protocol provides authentication, confidentiality and integrity of data in transit.
+The isolation guarantees that there is no access to the storage medium other than by using this channel.</p>
+<figure class="align-default" id="fig-external-secure">
+<img alt="../_images/dm-secure-link.svg" src="../_images/dm-secure-link.svg" /><figcaption>
+<p><span class="caption-number">Figure 7 </span><span class="caption-text">Trust boundaries in the deployment model <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a></span><a class="headerlink" href="#fig-external-secure" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The storage service is the arbitrator of access from different applications and manages those data accesses (write, update and deletion).
+Therefore, the storage service is responsible for the <a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIALITY</span></a> goal with respect to preventing access by a different caller.</p>
+<p>The authorization and verification mechanism provided by the secure channel protocol controls access to data (reads, writes and modification).
+Therefore, the storage medium is responsible for the <a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a> and <a class="reference internal" href="#sra-sg-currency"><span class="sraref atg_c atg_c-sg">SG.CURRENCY</span></a> goals.
+Attacks on the storage medium are out of scope.</p>
+<p>The communication between the storage service and the storage medium is protected from observation by other partitions and other means as the data is sent in encrypted form over the secure channel.
+Attacks on the  secure channel protocol are out of scope.</p>
+<p>The storage service uses the secure channel protocol, the storage service and the storage medium are jointly responsible for protecting the assets required to set up the channel.
+Attacks on the storage service that expose these assets are in scope.</p>
+<p>An example of this deployment model is the use of a Secure Element, or a secure flash device.</p>
+</dd>
+</dl>
+<section id="optional-isolation">
+<span id="isolation"></span><h4>Optional isolation<a class="headerlink" href="#optional-isolation" title="Permalink to this heading">¶</a></h4>
+<p>Implementations can isolate the storage service from the caller and can further isolate multiple calling applications.
+Various technologies can provide protection, for example:</p>
+<ul class="simple">
+<li><p>Process isolation in an operating system.</p></li>
+<li><p>Partition isolation, either with a virtual machine or a partition manager.</p></li>
+<li><p>Physical separation between execution environments.</p></li>
+</ul>
+<p>The mechanism for identifying callers is beyond the scope of this specification.
+An implementation that provides caller isolation must document the identification mechanism.
+An implementation that provides caller isolation must document any implementation-specific extension of the API that enables callers to share data in any form.</p>
+<p>In summary, there are three types of implementation:</p>
+<ul class="simple">
+<li><p>No isolation: there is no security boundary between the caller and the storage service.
+For example, a statically or dynamically linked library is an implementation with no isolation.
+As the caller is in the same security domain as the storage, the API cannot prevent access to the storage medium that does not go through the API.</p></li>
+<li><p>Simple Isolation: A single security boundary separates the storage service from the callers, but there is no isolation between callers.
+The only access to stored data is via the storage service, but the storage service cannot partition data between different callers.</p></li>
+<li><p>Caller isolation: there are multiple caller instances, with a security boundary between the caller instances among themselves, as well as between the storage service and the caller instances.
+For example, a storage service in a multiprocessor environment is an implementation with caller isolation.
+The only access to the stored data is via the storage service and the storage service can partition stored data between the different callers.</p></li>
+</ul>
+</section>
+</section>
+<section id="assumptions-constraints-and-interacting-entities">
+<h3><span class="section-number">B.2.5. </span>Assumptions, constraints, and interacting entities<a class="headerlink" href="#assumptions-constraints-and-interacting-entities" title="Permalink to this heading">¶</a></h3>
+<p>This SRA makes the following assumptions about the Secure Storage API design:</p>
+<ul class="simple">
+<li><p>The API does not provide arguments that identify the caller, because they can be spoofed easily, and cannot be relied upon.
+It is assumed that the implementation of the API can determine the caller identity, where this is required.
+See <a class="reference internal" href="#isolation"><span class="secref">Optional isolation</span></a>.</p></li>
+<li><p>The API does not prevent the use of mitigations that are required by an implementation of the API.
+See <a class="reference internal" href="#tab-sra-remediations"><span class="secref">Mitigations that are transferred to the implementation</span></a>.</p></li>
+<li><p>The <span><em>Platform Security Model</em> <a class="reference internal" href="../about.html#cite-psm"><span class="cite">[PSM]</span></a></span> assumes that at least the code in the <a class="reference internal" href="../about.html#term-root-of-trust"><span class="term">Root of Trust</span></a> partitions (<a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> and <a class="reference internal" href="../about.html#term-arot"><span class="term">ARoT</span></a>) are verified at boot, and on any update.
+Therefore, it is assumed that this code is trustworthy.
+If any malicious code can run in the RoT partitions, it has achieved full control.</p></li>
+<li><p>For the purposes of this analysis, it is assumed that in deployment models <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, there is no way to access the stored data without going through the authenticated channel.
+That is, an attack that would expose the physical storage medium is beyond the resources of the attacker.</p></li>
+<li><p>The analysis ignores attacks that only result in a denial of service.
+There are many ways an attacker can deny service to the complete system, with or without involving the storage service.</p></li>
+<li><p>The analysis only looks at an active attack.
+However, data is also subject to accidental modification, for example from cosmic radiation causing a bit flip.
+Therefore, standard engineering practice — such as use of error correcting codes — should be taken to protect data.</p></li>
+</ul>
+</section>
+<section id="stakeholders-and-assets">
+<h3><span class="section-number">B.2.6. </span>Stakeholders and Assets<a class="headerlink" href="#stakeholders-and-assets" title="Permalink to this heading">¶</a></h3>
+<p>This analysis looks at the security from the point of view of the applications that call on the service to store data, and on the overall system.</p>
+<p>The following assets are considered in this assessment:</p>
+<dl class="simple">
+<dt>Data to be stored</dt><dd><p>The purpose of a storage service is to securely store data for its callers.</p>
+</dd>
+<dt>Caller Identities</dt><dd><p>To ensure that data stored for one caller is not revealed to a different caller, each caller must have a unique identity.</p>
+</dd>
+<dt>Implementation Secrets</dt><dd><p>If in order to secure the data, the storage service uses encryption keys for confidentiality and integrity, these mut be considered assets of the storage service.</p>
+</dd>
+</dl>
+</section>
+<section id="goals">
+<h3><span class="section-number">B.2.7. </span>Goals<a class="headerlink" href="#goals" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt><span class="target" id="sra-sg-confidentiality"></span><span class="sradef">SG.CONFIDENTIALITY</span></dt><dd><p>An adversary is unable to disclose Stored Data that belongs to a different Stored Data Owner.
+A legitimate owner can guarantee their data has not been exposed.</p>
+</dd>
+<dt><span class="target" id="sra-sg-integrity"></span><span class="sradef">SG.INTEGRITY</span></dt><dd><p>An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner, to a value that was not previously stored by the Stored Data Owner.
+A legitimate owner can guarantee that data returned is a value they have stored.</p>
+</dd>
+<dt><span class="target" id="sra-sg-currency"></span><span class="sradef">SG.CURRENCY</span></dt><dd><p>An adversary is unable to modify Stored Data that belongs to a different Stored Data Owner.
+The legitimate owner can guarantee that data returned is the most recent value that have stored.</p>
+</dd>
+</dl>
+</section>
+<section id="adversarial-models">
+<h3><span class="section-number">B.2.8. </span>Adversarial models<a class="headerlink" href="#adversarial-models" title="Permalink to this heading">¶</a></h3>
+<p>Adversarial models are descriptions of capabilities that adversaries of systems implementing the Secure Storage API can have, grouped into classes.
+The adversaries are defined in this way to assist with threat modelling an abstract API, which can have different implementations, in systems with a wide range of security sensitivity.</p>
+<dl>
+<dt><span class="target" id="sra-am-0"></span><span class="sradef">AM.0</span></dt><dd><p>The Adversary is only capable of accessing data that requires neither physical access to a system containing an implementation of the feature nor the ability to run software on it.
+This Adversary is intercepting or providing data or requests to the target system via a network or other remote connection.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Read any input and output to the target through external apparatus.</p></li>
+<li><p>Provide, forge, replay or modify such inputs and outputs.</p></li>
+<li><p>Perform timings on the observable operations being done by the target, either in normal operation or as a response to crafted inputs.
+For example, timing attacks on web servers.</p></li>
+</ul>
+</dd>
+<dt><span class="target" id="sra-am-1"></span><span class="sradef">AM.1</span></dt><dd><p>The Adversary can additionally mount attacks from software running on a target processor implementing the feature.
+This type of Adversary can run software on the target.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Attempt software exploitation by running software on the target.</p></li>
+<li><p>Exploit access to any memory mapped configuration, monitoring, debug register.</p></li>
+<li><p>Mount any side channel analysis that relying on software-exposed built-in hardware features to perform physical unit and time measurements.</p></li>
+<li><p>Perform software-induced glitching of resources such as Rowhammer, RASpberry or crashing the CPU by running intensive tasks.</p></li>
+</ul>
+</dd>
+<dt><span class="target" id="sra-am-2"></span><span class="sradef">AM.2</span></dt><dd><p>In addition to the above, the Adversary is capable of mounting hardware attacks and fault injection that does not require breaching the physical envelope of the chips.
+This type of Adversary has access to a system containing an implementation of the target feature.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Conduct side-channel analysis that requires measurement equipment.
+For example, this can utilize leakage sources such as EM emissions, power consumption, photonics emission, or acoustic channels.</p></li>
+<li><p>Plug malicious hardware into an unmodified system.</p></li>
+<li><p>Gain access to the internals of the target system and interpose the SoC or memory for the purposes of reading, blocking, replaying, and injecting transactions.</p></li>
+<li><p>Replace or add chips on the motherboard.</p></li>
+<li><p>Make simple, reversible modifications, to perform glitching.</p></li>
+</ul>
+</dd>
+<dt><span class="target" id="sra-am-3"></span><span class="sradef">AM.3</span></dt><dd><p>In addition to all the above, the Adversary can perform invasive SoC attacks.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Decapsulate a chip, via laser or chemical etching, followed by microphotography to reverse engineer the chip.</p></li>
+<li><p>Use a focused ion beam microscope to perform gate level modification.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The adversarial models that are in scope depend on the product requirements.
+To ensure that the Secure Storage API can be used in a wide range of systems, this assessment considers adversarial models <a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, and <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a> to be in-scope.</p>
+<p>Code in the RoT partitions is assumed to be trustworthy — and any untrustworthy code running in <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> partitions already has complete control of the target — therefore, in <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a> this SRA only considers threats from malicious actors running in <a class="reference internal" href="../about.html#term-non-secure-processing-environment"><span class="term">Non-secure Processing Environment</span></a>.</p>
+</section>
+</section>
+<section id="threats">
+<span id="sra-threats"></span><h2><span class="section-number">B.3. </span>Threats<a class="headerlink" href="#threats" title="Permalink to this heading">¶</a></h2>
+<p>Because Secure Storage API can be used in a wide range of deployment models and a wide range of threats, not all mitigating actions apply to all deployment models.
+As a result, various mitigations are optional to implement, depending on which threats exist in a particular domain of application, and which deployment model is used.</p>
+<p><span><a class="reference internal" href="#tab-sra-threats"><span class="numref">Table 9</span></a></span> summarizes the threats.</p>
+<table class="colwidths-given longtable docutils align-left" id="tab-sra-threats">
+<caption><span class="caption-number">Table 9 </span><span class="caption-text">Summary of threats</span><a class="headerlink" href="#tab-sra-threats" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Threat</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+<td><p>Call the API with illegal inputs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-spoof-read"><span class="sraref atg_c atg_c-t">T.SPOOF_READ</span></a></p></td>
+<td><p>Reading data for a different caller using the API</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-spoof-write"><span class="sraref atg_c atg_c-t">T.SPOOF_WRITE</span></a></p></td>
+<td><p>Writing data for a different caller using the API</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-eavesdropping"><span class="sraref atg_c atg_c-t">T.EAVESDROPPING</span></a></p></td>
+<td><p>Accessing data in transit</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-mitm"><span class="sraref atg_c atg_c-t">T.MITM</span></a></p></td>
+<td><p>A Man in the Middle can actively interfere with communication</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-direct-read"><span class="sraref atg_c atg_c-t">T.DIRECT_READ</span></a></p></td>
+<td><p>Directly reading stored data, bypassing the API</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-direct-write"><span class="sraref atg_c atg_c-t">T.DIRECT_WRITE</span></a></p></td>
+<td><p>Directly modifying data, bypassing the API</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-replace"><span class="sraref atg_c atg_c-t">T.REPLACE</span></a></p></td>
+<td><p>Physical replacement of the storage medium</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-glitch-read"><span class="sraref atg_c atg_c-t">T.GLITCH_READ</span></a></p></td>
+<td><p>Glitching during a read</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-glitch-write"><span class="sraref atg_c atg_c-t">T.GLITCH_WRITE</span></a></p></td>
+<td><p>Glitching during a write</p></td>
+</tr>
+</tbody>
+</table>
+<section id="t-interface-abuse-illegal-inputs-to-the-api">
+<h3><span class="section-number">B.3.1. </span><span class="target" id="sra-t-interface-abuse"></span><span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API<a class="headerlink" href="#t-interface-abuse-illegal-inputs-to-the-api" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker can abuse the Secure Storage API.
+For example:</p>
+<ul class="simple">
+<li><p>Passing out of range values to the interface to provoke unexpected behavior of the implementation.</p></li>
+<li><p>Passing invalid input or output buffers to the interface, that would cause the implementation to access non-existent memory, or memory that is inaccessible to the caller — including accessing assets of the storage service.</p></li>
+</ul>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIALITY</span></a>, <a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-validateparameter"></span><span class="sradef">M.ValidateParameter</span>.
+<strong>Transfer</strong> to the implementation: check all API parameters to lie within valid ranges, including memory access permissions.</p>
+<p><span class="target" id="sra-m-memorybuffer"></span><span class="sradef">M.MemoryBuffer</span>.
+<strong>Control</strong> by API design: input buffers are fully consumed by the implementation before returning from a function.
+An implementation must not access the caller’s memory after a function has returned.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-spoof-read-use-the-api-to-read-another-caller-s-data">
+<h3><span class="section-number">B.3.2. </span><span class="target" id="sra-t-spoof-read"></span><span class="sradef">T.SPOOF_READ</span>: Use the API to read another caller’s data<a class="headerlink" href="#t-spoof-read-use-the-api-to-read-another-caller-s-data" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>In all deployment models, an attacker attempts to read data stored for another caller using the Secure Storage API.</p>
+<p>The API does not require that the names used by caller for stored data are globally unique, only unique within that caller’s namespace.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref">SG.CONFIDENTIALITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-implicitidentity"></span><span class="sradef">M.ImplicitIdentity</span>.
+<strong>Control</strong> by API design: caller identity is not provided by the caller to the API.
+If caller identity is supplied by the caller in the API, the identity can be spoofed by another caller.
+Using authentication credentials only moves the problem of storing secrets, but does not solve it.</p>
+<p><strong>Transfer</strong> to the implementation: provide caller identities, to isolate data that belongs to different callers.
+The assurance that the storage service can give is limited by the assurance that the implementation can give as to the identity of the caller.</p>
+<p>Where each user runs in a separate partition, the identity can be provided by the partition manager.
+Where different users run within a single partition, <strong>Transfer</strong> the responsibility for separating users within that partition to the operating system or run time within that partition.</p>
+<p><span class="target" id="sra-m-fullyqualifiednames"></span><span class="sradef">M.FullyQualifiedNames</span>.
+<strong>Transfer</strong> to the implementation: use a fully-qualified data identifier, that is a combination of an owner identity and the item UID.
+The implementation must used the owner identity to ensure that a data request to the storage service does not return data of the same UID, that was stored by a different caller.</p>
+<p>The storage service must also ensure that if a data item with the fully-qualified identifier does not exist, the implementation returns the correct error.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-spoof-write-use-the-api-to-modify-another-caller-s-data">
+<h3><span class="section-number">B.3.3. </span><span class="target" id="sra-t-spoof-write"></span><span class="sradef">T.SPOOF_WRITE</span>: Use the API to modify another caller’s data<a class="headerlink" href="#t-spoof-write-use-the-api-to-modify-another-caller-s-data" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>In all deployment models, an attacker attempts to write data to a file belonging to another caller using the Secure Storage API or create a new file in a different caller’s namespace.</p>
+<p>This threat is the counterpart to <a class="reference internal" href="#sra-t-spoof-read"><span class="sraref atg_c atg_c-t">T.SPOOF_READ</span></a> except that the attacker tries to write data rather than read.
+It is therefore subject to the same analysis.</p>
+<div class="threat docutils container">
+<dl class="simple">
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref">SG.CONFIDENTIALITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-m-fullyqualifiednames"><span class="sraref atg_c atg_c-m">M.FullyQualifiedNames</span></a>, <a class="reference internal" href="#sra-m-implicitidentity"><span class="sraref atg_c atg_c-m">M.ImplicitIdentity</span></a>.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-eavesdropping-eavesdropping">
+<h3><span class="section-number">B.3.4. </span><span class="target" id="sra-t-eavesdropping"></span><span class="sradef">T.EAVESDROPPING</span>: Eavesdropping<a class="headerlink" href="#t-eavesdropping-eavesdropping" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker accesses data in transit, either between the caller and the storage service, or between the storage service and the storage medium.</p>
+<p>In all deployment models, by the definition of an isolated partition in the <span><em>Platform Security Model</em> <a class="reference internal" href="../about.html#cite-psm"><span class="cite">[PSM]</span></a></span>, transfer within the partition, and transfers between one  <a class="reference internal" href="../about.html#term-secure-partition"><span class="term">Secure Partition</span></a> and another are isolated from eavesdroppers.
+Therefore, if the caller is in a <a class="reference internal" href="../about.html#term-secure-partition"><span class="term">Secure Partition</span></a>, there is no possibility of an eavesdropper accessing the data.
+However, if data is sent or returned to a caller in the <a class="reference internal" href="../about.html#term-non-secure-processing-environment"><span class="term">Non-secure Processing Environment</span></a> (NSPE), although the data is securely delivered to the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a>, it is exposed to all users in the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a>.
+As previously noted, the implementation <strong>transfers</strong> the duty of separating users in the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a> to the OS.</p>
+<p>For deployment model <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a>, the storage service and the storage medium are isolated.</p>
+<p>In <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, any adversary that can obtain operating system privileges in the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a> will have access to all the memory and will therefore be able to eavesdrop on all data in transit.</p>
+<p>An attacker that is external to the processor, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a>, will be able to exploit an eavesdropping attack if the bus to which the memory is attached is accessible via external pins.
+Otherwise, the attack is limited to internal attackers <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>.</p>
+<p>In <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, an attacker with access to the bus, or to intermediate data buffers, can eavesdrop and obtain the messages.</p>
+<p>In <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, an attacker can only eavesdrop on any data transfer not protected by the secure channel.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref">SG.CONFIDENTIALITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref">DM.SECURE_LINK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a — except for transfer of data to clients in the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a></p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-encrypt"></span><span class="sradef">M.Encrypt</span>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a> and <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, the data at rest must be encrypted.
+The storage service must apply the encryption to the data before it leaves the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> partition.
+The encryption mechanism chosen must be sufficiently robust.
+The key used for encryption must be sufficiently protected, that is, it must only be available to the storage service.</p>
+<p><span class="target" id="sra-m-protrootedseclink"></span><span class="sradef">M.PRoTRootedSecLink</span>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, communication with the storage medium must be over a well-designed secure channel.
+If the secure channel is not rooted in the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> then any adversary in the partition (<a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>), or with access to the partition (<a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a>), in which the channel terminates will be able to eavesdrop on traffic leaving the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> before it is encrypted.
+The secure channel must be rooted within the PRoT.
+However, the stored data does not need to be separately encrypted beyond the protection provided by the secure channel.
+The private information required to establish the channel must be suitably protected by both the storage service and the storage medium.</p>
+<p><span class="target" id="sra-m-usesecurepartitions"></span><span class="sradef">M.UseSecurePartitions</span>.
+<strong>Transfer</strong> to the application: for all deployment models, place callers that handle sensitive data into separate partitions.
+To ensure that an attacker in the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a> cannot access the data sent by the caller to the storage service, or the replies the storage service returns to the caller, place all code that needs to use the storage service into one or more <a class="reference internal" href="../about.html#term-secure-partition"><span class="term">Secure Partition</span></a>, with one partition per service.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-mitm-man-in-the-middle">
+<h3><span class="section-number">B.3.5. </span><span class="target" id="sra-t-mitm"></span><span class="sradef">T.MITM</span>: Man In The Middle<a class="headerlink" href="#t-mitm-man-in-the-middle" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker can actively interfere with communication and replace the transmitted data.
+In this threat the SRA only considers attackers between the storage service and the storage medium.
+An attacker interposing between the Caller and the storage service is considered under <a class="reference internal" href="#sra-t-spoof-read"><span class="sraref atg_c atg_c-t">T.SPOOF_READ</span></a> or <a class="reference internal" href="#sra-t-spoof-write"><span class="sraref atg_c atg_c-t">T.SPOOF_WRITE</span></a>.</p>
+<p>For <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a>, the storage service and the storage medium are isolated.</p>
+<p>For <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, any code running in the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a> has access to the storage medium and any driver firmware, and therefore can act as a man in the middle, by for example persuading the storage service to write to one buffer, and the storage medium to read from another.</p>
+<p>For <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, a man in the middle eavesdrops on data in transit.</p>
+<p>For <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, a naive secure channel is vulnerable to a man in the middle attack.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-integrity"><span class="sraref">SG.INTEGRITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref">DM.SECURE_LINK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-m-encrypt"><span class="sraref atg_c atg_c-m">M.Encrypt</span></a>.
+<strong>Transfer</strong> to the implementation: if data is encrypted, a man in the middle cannot know what data is being transferred.
+It also means they cannot force a specific value to be stored.</p>
+<p><span class="target" id="sra-m-mac"></span><span class="sradef">M.MAC</span>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, apply a Message Authentication Code or a signature to the stored data, or use an authenticated encryption scheme. If the storage service checks the MAC or tag when data is read back from the storage medium to detect unauthorized modification.</p>
+<p><span class="target" id="sra-m-uniquekeys"></span><span class="sradef">M.UniqueKeys</span>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, use unique keys for securing the authenticated or secure channel.
+If the keys used by the storage medium are unique to each instance, as an attacker can only learn the key used on this specific instance.
+They cannot construct a class break by discovering the key for every instance.</p>
+<p><span class="target" id="sra-m-verifyreplies"></span><span class="sradef">M.VerifyReplies</span>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, commands and replies are authenticated by the storage medium.
+Therefore, the man in the middle cannot forge a valid reply which indicates that the data has been stored when it has not.
+If the storage service validates replies from the storage medium, it can verify that the data it sent was correctly stored, and the data retrieved is the value previously stored.</p>
+<p><span class="target" id="sra-m-authenticateendpoints"></span><span class="sradef">M.AuthenticateEndpoints</span>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, use mutual authentication of the storage service and storage medium when setting up the secure channel.
+For example, this can be achieved by using a single key, known only to both parties.</p>
+<p><span class="target" id="sra-m-replayprotection"></span><span class="sradef">M.ReplayProtection</span>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, use replay protection in the communication protocol.
+This can be achieved by including a nonce in the construction of protocol messages.
+This enables the storage medium to detect attempts to replay previous commands and reject them.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-direct-read-bypassing-the-api-to-directly-read-data">
+<h3><span class="section-number">B.3.6. </span><span class="target" id="sra-t-direct-read"></span><span class="sradef">T.DIRECT_READ</span>: Bypassing the API to directly read data<a class="headerlink" href="#t-direct-read-bypassing-the-api-to-directly-read-data" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker might be able to read stored data through a mechanism other than the API.</p>
+<p>In <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a>, no attacker should be able to access the stored data.</p>
+<p>In <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, all attackers can access the data.</p>
+<p>In <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, the attacker cannot form valid requests to access data.
+It can, however, eavesdrop on a legitimate request and replay it later.</p>
+<p>In <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, the attacker cannot form valid requests to access data.
+It can, however, eavesdrop on a legitimate request and even if it cannot understand it, it could replay it later.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-confidentiality"><span class="sraref">SG.CONFIDENTIALITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref">DM.SECURE_LINK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-m-replayprotection"><span class="sraref atg_c atg_c-m">M.ReplayProtection</span></a>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, use replay protection in the communication protocol.</p>
+<p><a class="reference internal" href="#sra-m-encrypt"><span class="sraref atg_c atg_c-m">M.Encrypt</span></a>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a> and <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, encrypting the data prevents disclosure.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-direct-write-bypassing-the-api-to-directly-modify-data">
+<h3><span class="section-number">B.3.7. </span><span class="target" id="sra-t-direct-write"></span><span class="sradef">T.DIRECT_WRITE</span>: Bypassing the API to directly modify data<a class="headerlink" href="#t-direct-write-bypassing-the-api-to-directly-modify-data" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker might be able to modify data stored for another caller.</p>
+<p>In <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a>, no attacker should be able to access the stored data.</p>
+<p>In <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, the SRA assumes that any attacker capable of running code in the <a class="reference internal" href="../about.html#term-nspe"><span class="term">NSPE</span></a> can modify the stored data.
+However, assuming it is encrypted, the attacker cannot create the correct ciphertext for chosen plain text.</p>
+<p>In <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, although the attacker cannot form a valid command, the attacker can eavesdrop on a legitimate request and replay it later.</p>
+<p>In <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, although the attacker cannot form a valid command, the attacker can eavesdrop on a legitimate request and replay it later.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a> <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a>, <a class="reference internal" href="#sra-sg-currency"><span class="sraref atg_c atg_c-sg">SG.CURRENCY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref">DM.SECURE_LINK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-m-encrypt"><span class="sraref atg_c atg_c-m">M.Encrypt</span></a>.
+<strong>Transfer</strong> to the implementation: encrypted data cannot be modified to an attacker-chosen plaintext value.
+However, an attacker can still corrupt the stored data.</p>
+<p><a class="reference internal" href="#sra-m-mac"><span class="sraref atg_c atg_c-m">M.MAC</span></a>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, integrity-protect the stored data using a MAC, signature, or AEAD scheme.
+The verification of data integrity must be implemented within the storage service in the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a>, otherwise the result could be spoofed.</p>
+<p><a class="reference internal" href="#sra-m-replayprotection"><span class="sraref atg_c atg_c-m">M.ReplayProtection</span></a>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, if the channel protocol includes replay protection, the storage medium will check the nonce for freshness, and prevent replay of old messages.</p>
+<p><span class="target" id="sra-m-antirollback"></span><span class="sradef">M.AntiRollback</span>.
+<strong>Transfer</strong> to the implementation: in <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, <a class="reference internal" href="#sra-m-mac"><span class="sraref atg_c atg_c-m">M.MAC</span></a> is insufficient to prevent an attacker from replacing one version of stored data — or the entire contents of the storage medium — with a previously stored version.
+The previously stored data would pass the integrity checks.</p>
+<p>To prevent this attack, the storage service must keep some authentication data in a location the attacker cannot access.
+This location could be stored within the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a> partition, that is using the <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a>, or in a separate secure enclave using the deployment model <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> or <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>.
+The data could be the root of a hash tree, or it could be a counter used with a root key to generate a version-specific MAC key.</p>
+<p>In the case of a counter, some consideration should be given to the expected number of updates that will be made to the data.
+If the implementation only needs to offer rollback protection on firmware updates, where a low number is expected in the lifetime of the product and the counter could be stored in fuse.
+If the implementations needs to ensure the currency of a file store that is regularly updated — the number of updates could exhaust any practical number of fuses and would instead need a 32-bit counter.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-replace-physical-replacement-of-the-storage-medium">
+<h3><span class="section-number">B.3.8. </span><span class="target" id="sra-t-replace"></span><span class="sradef">T.REPLACE</span>: Physical replacement of the storage medium<a class="headerlink" href="#t-replace-physical-replacement-of-the-storage-medium" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker might physically replace the storage medium.</p>
+<p>For <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a>, it is not possible to replace the storage.</p>
+<p>For <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, if the storage medium is integrated with the chip, it is not possible to replace the storage.
+But in many systems, the storage medium will be on a separate device.</p>
+<p>For <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, it is possible to replace the storage medium.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-3"><span class="sraref atg_c atg_c-am">AM.3</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref">DM.SECURE_LINK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><blockquote>
+<div><p><a class="reference internal" href="#sra-m-uniquekeys"><span class="sraref atg_c atg_c-m">M.UniqueKeys</span></a> and <a class="reference internal" href="#sra-m-mac"><span class="sraref atg_c atg_c-m">M.MAC</span></a>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, use device-specific secret keys to authenticate the stored data.
+With unique authentication keys, data stored on one device cannot be verified on another device.</p>
+</div></blockquote>
+<p><a class="reference internal" href="#sra-m-uniquekeys"><span class="sraref atg_c atg_c-m">M.UniqueKeys</span></a> and <a class="reference internal" href="#sra-m-verifyreplies"><span class="sraref atg_c atg_c-m">M.VerifyReplies</span></a>.
+<strong>Transfer</strong> to the implementation: for <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, use device-specific secret keys to authenticate the communication between the storage service and storage medium.</p>
+<p>In <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, the attacker will not be able to find a new instance of the storage medium that can form the correct responses to commands.</p>
+<p>In <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, the attacker will not be able to find a new instance of the storage medium that can complete the handshake to set up the secure channel.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>n/a</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-glitch-read-glitching-during-a-read">
+<h3><span class="section-number">B.3.9. </span><span class="target" id="sra-t-glitch-read"></span><span class="sradef">T.GLITCH_READ</span>: Glitching during a read<a class="headerlink" href="#t-glitch-read-glitching-during-a-read" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker with physical access might be able to disrupt the power or clock to cause a misread.</p>
+<p>In this threat, an attacker with physical access to the device causes a power or frequency glitch to cause a misread.
+In particular, it might prevent the storage service from performing the verification of replies or causing it to ignore the result of any check.
+Thus, causing the storage service to return an incorrect value to the caller.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-3"><span class="sraref atg_c atg_c-am">AM.3</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref">DM.SECURE_LINK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Medium</p></td>
+<td><p>Medium</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-glitchdetection"></span><span class="sradef">M.GlitchDetection</span>.
+<strong>Transfer</strong> to the implementation: for all deployment models, active glitch detection circuits can raise an exception if a glitch is detected, permitting the computing circuitry to take corrective action.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Medium</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-glitch-write-glitching-during-a-write">
+<h3><span class="section-number">B.3.10. </span><span class="target" id="sra-t-glitch-write"></span><span class="sradef">T.GLITCH_WRITE</span>: Glitching during a write<a class="headerlink" href="#t-glitch-write-glitching-during-a-write" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker with physical access might be able to disrupt the power or clock to prevent a write from being completed.</p>
+<p>In this threat, an attacker with physical access to the device causes a power or frequency glitch to cause a write to fail.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-3"><span class="sraref atg_c atg_c-am">AM.3</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-integrity"><span class="sraref atg_c atg_c-sg">SG.INTEGRITY</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref">DM.SECURE_LINK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-m-mac"><span class="sraref atg_c atg_c-m">M.MAC</span></a>.
+<strong>Transfer</strong> to the implementation:</p>
+<ul class="simple">
+<li><p>For <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a> and <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, if the implementation applies a MAC, a subsequent read can detect that data had not been written correctly.
+However, MAC’s are not error correcting, therefore the implementation can only mark the data as corrupt and the data is lost.</p></li>
+<li><p>For <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, if the implementation relies on the channel to provide the MAC or tag, there is a brief time of check, time of use (TOCTOU) window, where the storage medium has verified the command but has not written the data to physical storage.
+If a glitch occurs in this window, and then a subsequent read occurs, the storage medium will apply a new tag to a reply containing corrupt data, and the storage service will not be aware that that data returned has been corrupted.
+However, if the storage service applies a MAC before submitting the command, it can detect, but not correct, this corruption.</p></li>
+</ul>
+<p><span class="target" id="sra-m-errorcorrectingcoding"></span><span class="sradef">M.ErrorCorrectingCoding</span>.
+<strong>Transfer</strong> to the implementation: for all deployment models, if the storage medium uses error correcting codes (ECC), it can detect and correct a certain number of incorrect bits in the data it reads back — at the expense of extra storage.
+If the storage medium does not offer ECC capability, the storage service could apply it and verify the coding in software, although this is generally less efficient than hardware.</p>
+<p><a class="reference internal" href="#sra-m-glitchdetection"><span class="sraref atg_c atg_c-m">M.GlitchDetection</span></a>.
+<strong>Transfer</strong> to the implementation: for all deployment models, glitch detection can reduce the risk of a successful glitch.</p>
+<p><span class="target" id="sra-m-readafterwrite"></span><span class="sradef">M.ReadAfterWrite</span>.
+<strong>Transfer</strong> to the implementation: for all deployment models, perform a checked-read after a write in the storage service.
+The storage service can perform a read operation immediately after a write, while it still retains the original value in memory, and compare the two before reporting a successful write.
+However, this has performance challenges: therefore, the implementation can decide to do this on a sampling basis.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very High</p></td>
+<td><p>Very High</p></td>
+<td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Medium</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+<section id="mitigation-summary">
+<span id="sra-mitigations"></span><h2><span class="section-number">B.4. </span>Mitigation Summary<a class="headerlink" href="#mitigation-summary" title="Permalink to this heading">¶</a></h2>
+<p>This section provides a summary of the mitigations described in the threat analysis, organized by the entity responsible for providing the mitigation.</p>
+<section id="architecture-level-mitigations">
+<h3><span class="section-number">B.4.1. </span>Architecture level mitigations<a class="headerlink" href="#architecture-level-mitigations" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-sra-architecture"><span class="numref">Table 10</span></a></span> lists the mitigations that are controlled by the architecture.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-architecture">
+<caption><span class="caption-number">Table 10 </span><span class="caption-text">Mitigations that are <strong>controlled</strong> by the Architecture</span><a class="headerlink" href="#tab-sra-architecture" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mitigations</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Threats</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-memorybuffer"><span class="sraref atg_c atg_c-m">M.MemoryBuffer</span></a></p></td>
+<td><p>In all deployment models, input buffers are fully consumed by the implementation before returning from a function.</p></td>
+<td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="implementation-level-mitigations">
+<h3><span class="section-number">B.4.2. </span>Implementation-level mitigations<a class="headerlink" href="#implementation-level-mitigations" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-sra-remediations"><span class="numref">Table 11</span></a></span> lists the mitigations that are transferred to the implementation.
+These are also known as ‘remediations’.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-remediations">
+<caption><span class="caption-number">Table 11 </span><span class="caption-text">Mitigations that are <strong>transferred</strong> to the implementation</span><a class="headerlink" href="#tab-sra-remediations" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mitigations</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Threats</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-antirollback"><span class="sraref atg_c atg_c-m">M.AntiRollback</span></a></p></td>
+<td><p>When using <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, the implementation must provide a mechanism to prevent an attacker from replacing the stored data with a version that was valid at a previous date.
+An attacker can use this attack to reinstate flawed firmware, or to return to a version with a broken credential.</p></td>
+<td><p><a class="reference internal" href="#sra-t-direct-write"><span class="sraref atg_c atg_c-t">T.DIRECT_WRITE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-authenticateendpoints"><span class="sraref atg_c atg_c-m">M.AuthenticateEndpoints</span></a></p></td>
+<td><p>When using <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> or <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, the storage service must authenticate the storage medium before reading from it or writing to it.</p></td>
+<td><p><a class="reference internal" href="#sra-t-mitm"><span class="sraref atg_c atg_c-t">T.MITM</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-encrypt"><span class="sraref atg_c atg_c-m">M.Encrypt</span></a></p></td>
+<td><p>When using <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a> or <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, the storage service must encrypt data to be written to storage, and decrypt data read from storage, inside the isolated environment to ensure confidentiality.</p></td>
+<td><p><a class="reference internal" href="#sra-t-eavesdropping"><span class="sraref atg_c atg_c-t">T.EAVESDROPPING</span></a>, <a class="reference internal" href="#sra-t-mitm"><span class="sraref atg_c atg_c-t">T.MITM</span></a>, <a class="reference internal" href="#sra-t-direct-read"><span class="sraref atg_c atg_c-t">T.DIRECT_READ</span></a>, <a class="reference internal" href="#sra-t-direct-write"><span class="sraref atg_c atg_c-t">T.DIRECT_WRITE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-errorcorrectingcoding"><span class="sraref atg_c atg_c-m">M.ErrorCorrectingCoding</span></a></p></td>
+<td><p>In all deployments, to deter attacks based on glitching the power or clock, the implementation can implement error correcting coding on stored data.</p></td>
+<td><p><a class="reference internal" href="#sra-t-glitch-write"><span class="sraref atg_c atg_c-t">T.GLITCH_WRITE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-fullyqualifiednames"><span class="sraref atg_c atg_c-m">M.FullyQualifiedNames</span></a></p></td>
+<td><p>In all deployments, the implementation must identify which caller each stored object belongs to and must refer to them internally by the combination of caller identity and name.
+Otherwise, it might return a stored object to the wrong caller.</p></td>
+<td><p><a class="reference internal" href="#sra-t-spoof-read"><span class="sraref atg_c atg_c-t">T.SPOOF_READ</span></a>, <a class="reference internal" href="#sra-t-spoof-write"><span class="sraref atg_c atg_c-t">T.SPOOF_WRITE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-implicitidentity"><span class="sraref atg_c atg_c-m">M.ImplicitIdentity</span></a></p></td>
+<td><p>In all deployments, the implementation must identify the caller.</p></td>
+<td><p><a class="reference internal" href="#sra-t-spoof-read"><span class="sraref atg_c atg_c-t">T.SPOOF_READ</span></a>, <a class="reference internal" href="#sra-t-spoof-write"><span class="sraref atg_c atg_c-t">T.SPOOF_WRITE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-glitchdetection"><span class="sraref atg_c atg_c-m">M.GlitchDetection</span></a></p></td>
+<td><p>In all deployments, to deter attacks based on glitching the power or clock, the implementation can implement detection circuits.</p></td>
+<td><p><a class="reference internal" href="#sra-t-glitch-read"><span class="sraref atg_c atg_c-t">T.GLITCH_READ</span></a>, <a class="reference internal" href="#sra-t-glitch-write"><span class="sraref atg_c atg_c-t">T.GLITCH_WRITE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-mac"><span class="sraref atg_c atg_c-m">M.MAC</span></a></p></td>
+<td><p>In <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, the storage service must apply an integrity check, a MAC, signature, or authenticated encryption tag, within the storage service before it is sent to storage.
+It must also verify this on every read.</p></td>
+<td><p><a class="reference internal" href="#sra-t-mitm"><span class="sraref atg_c atg_c-t">T.MITM</span></a>, <a class="reference internal" href="#sra-t-direct-write"><span class="sraref atg_c atg_c-t">T.DIRECT_WRITE</span></a>, <a class="reference internal" href="#sra-t-replace"><span class="sraref atg_c atg_c-t">T.REPLACE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-protrootedseclink"><span class="sraref atg_c atg_c-m">M.PRoTRootedSecLink</span></a></p></td>
+<td><p>In <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, the storage service must use a secure channel rooted within the isolated environment to ensure there is no opportunity for eavesdropping.</p></td>
+<td><p><a class="reference internal" href="#sra-t-eavesdropping"><span class="sraref atg_c atg_c-t">T.EAVESDROPPING</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-readafterwrite"><span class="sraref atg_c atg_c-m">M.ReadAfterWrite</span></a></p></td>
+<td><p>To deter glitch attacks on writing data, the implementation can read the data it has just written to verify it.</p></td>
+<td><p><a class="reference internal" href="#sra-t-glitch-write"><span class="sraref atg_c atg_c-t">T.GLITCH_WRITE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-replayprotection"><span class="sraref atg_c atg_c-m">M.ReplayProtection</span></a></p></td>
+<td><p>In <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a> there must be protection against an attacker replaying previous messages.</p></td>
+<td><p><a class="reference internal" href="#sra-t-direct-read"><span class="sraref atg_c atg_c-t">T.DIRECT_READ</span></a>,  <a class="reference internal" href="#sra-t-direct-write"><span class="sraref atg_c atg_c-t">T.DIRECT_WRITE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-uniquekeys"><span class="sraref atg_c atg_c-m">M.UniqueKeys</span></a></p></td>
+<td><p>In <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a> the keys used by the storage service and storage medium must be unique, otherwise there is no mechanism for detecting that the storage medium has been replaced.</p></td>
+<td><p><a class="reference internal" href="#sra-t-mitm"><span class="sraref atg_c atg_c-t">T.MITM</span></a>, <a class="reference internal" href="#sra-t-replace"><span class="sraref atg_c atg_c-t">T.REPLACE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-validateparameter"><span class="sraref atg_c atg_c-m">M.ValidateParameter</span></a></p></td>
+<td><p>In all deployment models, check all API parameters to lie within valid ranges, including memory access permissions.</p></td>
+<td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-verifyreplies"><span class="sraref atg_c atg_c-m">M.VerifyReplies</span></a></p></td>
+<td><p>In <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a> the storage service must verify all replies from the partition that implements storage, to ensure that they do indeed come from the expected partition and no errors are reported.</p></td>
+<td><p><a class="reference internal" href="#sra-t-mitm"><span class="sraref atg_c atg_c-t">T.MITM</span></a>, <a class="reference internal" href="#sra-t-replace"><span class="sraref atg_c atg_c-t">T.REPLACE</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="user-level-mitigations">
+<h3><span class="section-number">B.4.3. </span>User-level mitigations<a class="headerlink" href="#user-level-mitigations" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-sra-residual-risk"><span class="numref">Table 12</span></a></span> lists mitigations that are transferred to the application or other external components.
+These are also known as ‘residual risks’.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-residual-risk">
+<caption><span class="caption-number">Table 12 </span><span class="caption-text">Mitigations that are <strong>transferred</strong> to the application</span><a class="headerlink" href="#tab-sra-residual-risk" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mitigations</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Threats</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-usesecurepartitions"><span class="sraref atg_c atg_c-m">M.UseSecurePartitions</span></a></p></td>
+<td><p>In all deployments, if the caller wants to be certain that there is no chance of eavesdropping, they should make use of caller isolation, with each caller in its own isolated partition.</p></td>
+<td><p><a class="reference internal" href="#sra-t-eavesdropping"><span class="sraref atg_c atg_c-t">T.EAVESDROPPING</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mitigations-required-by-each-deployment-model">
+<h3><span class="section-number">B.4.4. </span>Mitigations required by each deployment model<a class="headerlink" href="#mitigations-required-by-each-deployment-model" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-sra-api-mitigations"><span class="numref">Table 13</span></a></span> summarizes the mitigations required in each deployment model.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-api-mitigations">
+<caption><span class="caption-number">Table 13 </span><span class="caption-text">Mitigations required by each deployment model</span><a class="headerlink" href="#tab-sra-api-mitigations" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Implementation</p></th>
+<th class="head"><p>Mitigations</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-m-errorcorrectingcoding"><span class="sraref atg_c atg_c-m">M.ErrorCorrectingCoding</span></a>,
+<a class="reference internal" href="#sra-m-fullyqualifiednames"><span class="sraref atg_c atg_c-m">M.FullyQualifiedNames</span></a>,
+<a class="reference internal" href="#sra-m-glitchdetection"><span class="sraref atg_c atg_c-m">M.GlitchDetection</span></a>,
+<a class="reference internal" href="#sra-m-implicitidentity"><span class="sraref atg_c atg_c-m">M.ImplicitIdentity</span></a>,
+<a class="reference internal" href="#sra-m-memorybuffer"><span class="sraref atg_c atg_c-m">M.MemoryBuffer</span></a>,
+<a class="reference internal" href="#sra-m-readafterwrite"><span class="sraref atg_c atg_c-m">M.ReadAfterWrite</span></a>,
+<a class="reference internal" href="#sra-m-usesecurepartitions"><span class="sraref atg_c atg_c-m">M.UseSecurePartitions</span></a>,
+<a class="reference internal" href="#sra-m-validateparameter"><span class="sraref atg_c atg_c-m">M.ValidateParameter</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-m-antirollback"><span class="sraref atg_c atg_c-m">M.AntiRollback</span></a>,
+<a class="reference internal" href="#sra-m-encrypt"><span class="sraref atg_c atg_c-m">M.Encrypt</span></a>,
+<a class="reference internal" href="#sra-m-errorcorrectingcoding"><span class="sraref atg_c atg_c-m">M.ErrorCorrectingCoding</span></a>,
+<a class="reference internal" href="#sra-m-fullyqualifiednames"><span class="sraref atg_c atg_c-m">M.FullyQualifiedNames</span></a>,
+<a class="reference internal" href="#sra-m-glitchdetection"><span class="sraref atg_c atg_c-m">M.GlitchDetection</span></a>,
+<a class="reference internal" href="#sra-m-implicitidentity"><span class="sraref atg_c atg_c-m">M.ImplicitIdentity</span></a>,
+<a class="reference internal" href="#sra-m-mac"><span class="sraref atg_c atg_c-m">M.MAC</span></a>,
+<a class="reference internal" href="#sra-m-memorybuffer"><span class="sraref atg_c atg_c-m">M.MemoryBuffer</span></a>,
+<a class="reference internal" href="#sra-m-readafterwrite"><span class="sraref atg_c atg_c-m">M.ReadAfterWrite</span></a>,
+<a class="reference internal" href="#sra-m-usesecurepartitions"><span class="sraref atg_c atg_c-m">M.UseSecurePartitions</span></a>,
+<a class="reference internal" href="#sra-m-validateparameter"><span class="sraref atg_c atg_c-m">M.ValidateParameter</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-m-authenticateendpoints"><span class="sraref atg_c atg_c-m">M.AuthenticateEndpoints</span></a>,
+<a class="reference internal" href="#sra-m-errorcorrectingcoding"><span class="sraref atg_c atg_c-m">M.ErrorCorrectingCoding</span></a>,
+<a class="reference internal" href="#sra-m-fullyqualifiednames"><span class="sraref atg_c atg_c-m">M.FullyQualifiedNames</span></a>,
+<a class="reference internal" href="#sra-m-glitchdetection"><span class="sraref atg_c atg_c-m">M.GlitchDetection</span></a>,
+<a class="reference internal" href="#sra-m-implicitidentity"><span class="sraref atg_c atg_c-m">M.ImplicitIdentity</span></a>,
+<a class="reference internal" href="#sra-m-memorybuffer"><span class="sraref atg_c atg_c-m">M.MemoryBuffer</span></a>,
+<a class="reference internal" href="#sra-m-readafterwrite"><span class="sraref atg_c atg_c-m">M.ReadAfterWrite</span></a>,
+<a class="reference internal" href="#sra-m-replayprotection"><span class="sraref atg_c atg_c-m">M.ReplayProtection</span></a>,
+<a class="reference internal" href="#sra-m-uniquekeys"><span class="sraref atg_c atg_c-m">M.UniqueKeys</span></a>,
+<a class="reference internal" href="#sra-m-usesecurepartitions"><span class="sraref atg_c atg_c-m">M.UseSecurePartitions</span></a>,
+<a class="reference internal" href="#sra-m-verifyreplies"><span class="sraref atg_c atg_c-m">M.VerifyReplies</span></a>,
+<a class="reference internal" href="#sra-m-validateparameter"><span class="sraref atg_c atg_c-m">M.ValidateParameter</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-m-authenticateendpoints"><span class="sraref atg_c atg_c-m">M.AuthenticateEndpoints</span></a>,
+<a class="reference internal" href="#sra-m-errorcorrectingcoding"><span class="sraref atg_c atg_c-m">M.ErrorCorrectingCoding</span></a>,
+<a class="reference internal" href="#sra-m-fullyqualifiednames"><span class="sraref atg_c atg_c-m">M.FullyQualifiedNames</span></a>,
+<a class="reference internal" href="#sra-m-glitchdetection"><span class="sraref atg_c atg_c-m">M.GlitchDetection</span></a>,
+<a class="reference internal" href="#sra-m-implicitidentity"><span class="sraref atg_c atg_c-m">M.ImplicitIdentity</span></a>,
+<a class="reference internal" href="#sra-m-memorybuffer"><span class="sraref atg_c atg_c-m">M.MemoryBuffer</span></a>,
+<a class="reference internal" href="#sra-m-protrootedseclink"><span class="sraref atg_c atg_c-m">M.PRoTRootedSecLink</span></a>,
+<a class="reference internal" href="#sra-m-readafterwrite"><span class="sraref atg_c atg_c-m">M.ReadAfterWrite</span></a>,
+<a class="reference internal" href="#sra-m-replayprotection"><span class="sraref atg_c atg_c-m">M.ReplayProtection</span></a>,
+<a class="reference internal" href="#sra-m-uniquekeys"><span class="sraref atg_c atg_c-m">M.UniqueKeys</span></a>,
+<a class="reference internal" href="#sra-m-usesecurepartitions"><span class="sraref atg_c atg_c-m">M.UseSecurePartitions</span></a>,
+<a class="reference internal" href="#sra-m-verifyreplies"><span class="sraref atg_c atg_c-m">M.VerifyReplies</span></a>,
+<a class="reference internal" href="#sra-m-validateparameter"><span class="sraref atg_c atg_c-m">M.ValidateParameter</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>In implementations <a class="reference internal" href="#sra-dm-protected"><span class="sraref atg_c atg_c-dm">DM.PROTECTED</span></a> and <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a>, the stored data can be implicitly trusted, and therefore it is not required to be encrypted or authenticated.
+There is no more secure location to store verification data, therefore, any attacker able to access the stored data would also be able to access the key.
+However, it is possible for the data to be accidentally corrupted, therefore standard engineering practice to guard against this, for example the use of error correcting codes, should be used.</p>
+<p>In implementation <a class="reference internal" href="#sra-dm-exposed"><span class="sraref atg_c atg_c-dm">DM.EXPOSED</span></a>, the data can be read or modified by an attacker, therefore the storage service must provide confidentiality, integrity, and authenticity by cryptographic means.
+The keys used to do this must be stored securely.
+This could be a key derived from the HUK, or separately stored in fuse in a location only readable from the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a>.</p>
+<p>As the attacker can always read and modify the stored data, even if they cannot decrypt the data, they can attempt to subvert a change by resetting the storage medium to a prior state.
+To detect this, the storage service needs to have some means of authenticating that it is reading the most recent state.
+This implies some form of authentication data stored in a location the attacker cannot modify.</p>
+<p>In implementation <a class="reference internal" href="#sra-dm-authorized"><span class="sraref atg_c atg_c-dm">DM.AUTHORIZED</span></a>, the data can be observed, even if it cannot be modified.
+Therefore, data stored does need to be encrypted for confidentiality.
+However, provided the authentication protocol is strong, and prevents replay, it should not be possible for an attacker to modify the stored data.
+As the store applies a MAC to each reply, the storage service does not need to apply extra integrity.</p>
+<p>In implementation <a class="reference internal" href="#sra-dm-secure-link"><span class="sraref atg_c atg_c-dm">DM.SECURE_LINK</span></a> provided the secure channel is rooted within the <a class="reference internal" href="../about.html#term-prot"><span class="term">PRoT</span></a>, the data transferred cannot be observed, and any modification will be detected.
+Therefore, no further encryption is needed for confidentiality or integrity.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
+IHI 0087<br/>
+Non-confidential<br/>
+Version 1.0.3
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/architecture.html">2. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/requirements.html">3. Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/operation.html">4. Theory of Operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">5. API Reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="headers.html">A. Example header files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">B. Security Risk Assessment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#about-this-assessment">B.1. About this assessment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subject-and-scope">B.1.1. Subject and scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#risk-assessment-methodology">B.1.2. Risk assessment methodology</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#feature-definition">B.2. Feature definition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">B.2.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lifecycle">B.2.2. Lifecycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operation-and-trust-boundaries">B.2.3. Operation and trust boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deployment-models">B.2.4. Deployment models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#assumptions-constraints-and-interacting-entities">B.2.5. Assumptions, constraints, and interacting entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stakeholders-and-assets">B.2.6. Stakeholders and Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goals">B.2.7. Goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adversarial-models">B.2.8. Adversarial models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#threats">B.3. Threats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#t-interface-abuse-illegal-inputs-to-the-api">B.3.1. <span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-spoof-read-use-the-api-to-read-another-caller-s-data">B.3.2. <span class="sradef">T.SPOOF_READ</span>: Use the API to read another caller’s data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-spoof-write-use-the-api-to-modify-another-caller-s-data">B.3.3. <span class="sradef">T.SPOOF_WRITE</span>: Use the API to modify another caller’s data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-eavesdropping-eavesdropping">B.3.4. <span class="sradef">T.EAVESDROPPING</span>: Eavesdropping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-mitm-man-in-the-middle">B.3.5. <span class="sradef">T.MITM</span>: Man In The Middle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-direct-read-bypassing-the-api-to-directly-read-data">B.3.6. <span class="sradef">T.DIRECT_READ</span>: Bypassing the API to directly read data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-direct-write-bypassing-the-api-to-directly-modify-data">B.3.7. <span class="sradef">T.DIRECT_WRITE</span>: Bypassing the API to directly modify data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-replace-physical-replacement-of-the-storage-medium">B.3.8. <span class="sradef">T.REPLACE</span>: Physical replacement of the storage medium</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-glitch-read-glitching-during-a-read">B.3.9. <span class="sradef">T.GLITCH_READ</span>: Glitching during a read</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-glitch-write-glitching-during-a-write">B.3.10. <span class="sradef">T.GLITCH_WRITE</span>: Glitching during a write</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mitigation-summary">B.4. Mitigation Summary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#architecture-level-mitigations">B.4.1. Architecture level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implementation-level-mitigations">B.4.2. Implementation-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-level-mitigations">B.4.3. User-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mitigations-required-by-each-deployment-model">B.4.4. Mitigations required by each deployment model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">C. Document history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2018-2019, 2022-2024 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="5. Document change history" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/fwu/1.0/appendix/change-history.html" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/fwu/1.0/appendix/change-history.html" />
+<meta property="og:site_name" content="PSA Certified Firmware Update API 1.0" />
+<meta property="og:description" content="Changes between version 1.0 Beta and 1.0.0: General changes Clarified the definition of volatile staging and relaxed the requirements for non-volatile staging.- Defined the effects of the PSA_FWU_F..." />
+<meta name="description" content="Changes between version 1.0 Beta and 1.0.0: General changes Clarified the definition of volatile staging and relaxed the requirements for non-volatile staging.- Defined the effects of the PSA_FWU_F..." />
+
+    <title>5. Document change history &#8212; PSA Certified Firmware Update API 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="4. Security Risk Assessment" href="sra.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="document-change-history">
+<span id="change-history"></span><h1><span class="section-number">E. </span>Document change history<a class="headerlink" href="#document-change-history" title="Permalink to this heading">¶</a></h1>
+<section id="changes-between-version-1-0-beta-and-1-0-0">
+<h2><span class="section-number">E.1. </span>Changes between version <em>1.0 Beta</em> and <em>1.0.0</em><a class="headerlink" href="#changes-between-version-1-0-beta-and-1-0-0" title="Permalink to this heading">¶</a></h2>
+<p class="rubric">General changes</p>
+<ul class="simple">
+<li><p>Clarified the definition of <a class="reference internal" href="../about.html#term-volatile-staging"><span class="term">volatile staging</span></a> and relaxed the requirements for non-volatile staging.</p>
+<ul>
+<li><p>Defined the effects of the <a class="reference internal" href="../api/api.html#c.PSA_FWU_FLAG_VOLATILE_STAGING" title="PSA_FWU_FLAG_VOLATILE_STAGING"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_FLAG_VOLATILE_STAGING</span></code></a> flag.</p></li>
+<li><p>Permitted the volatility of the WRITING, FAILED, and UPDATED states to be <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a> when the CANDIDATE state is not volatile.</p></li>
+<li><p>Defined the impact on the state transitions when these states are volatile.</p></li>
+<li><p>Added additional example state model diagrams for components with volatile staging.</p></li>
+<li><p>See <a class="reference internal" href="../overview/programming-model.html#state-model"><span class="secref">State model</span></a>, <a class="reference internal" href="../overview/programming-model.html#volatile-states"><span class="secref">Volatile states</span></a>, and <a class="reference internal" href="variations.html#variations"><span class="secref">Variation in system design parameters</span></a>.</p></li>
+</ul>
+</li>
+<li><p>Added a Security Risk Assessment appendix for the Firmware Update API. See <a class="reference internal" href="sra.html#sra"><span class="secref">Security Risk Assessment</span></a>.</p></li>
+</ul>
+<p class="rubric">API changes</p>
+<ul class="simple">
+<li><p>Added <a class="reference internal" href="../api/api.html#c.PSA_FWU_LOG2_WRITE_ALIGN" title="PSA_FWU_LOG2_WRITE_ALIGN"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_LOG2_WRITE_ALIGN</span></code></a>, which the implementation uses to specify the required alignment of the data blocks written using <a class="reference internal" href="../api/api.html#c.psa_fwu_write" title="psa_fwu_write"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_write()</span></code></a>.</p></li>
+</ul>
+</section>
+<section id="changes-between-version-0-7-and-1-0-beta">
+<h2><span class="section-number">E.2. </span>Changes between version <em>0.7</em> and <em>1.0 Beta</em><a class="headerlink" href="#changes-between-version-0-7-and-1-0-beta" title="Permalink to this heading">¶</a></h2>
+<p class="rubric">General changes</p>
+<ul class="simple">
+<li><p>Relicensed the document under Attribution-ShareAlike 4.0 International with a patent license derived from Apache License 2.0. See <a class="reference internal" href="../about.html#license"><span class="secref">License</span></a>.</p></li>
+<li><p>Removed Profile IDs, and discussion of SUIT and manifest formats</p></li>
+<li><p>Revised and extended all of the early chapters covering the goals, architecture and design of the API.</p></li>
+<li><p>Updated code examples to match the v1.0 API. See <a class="reference internal" href="examples.html#examples"><span class="secref">Example usage</span></a>.</p></li>
+</ul>
+<p class="rubric">API changes</p>
+<ul class="simple">
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">psa_image_id_t</span></code> to <a class="reference internal" href="../api/api.html#c.psa_fwu_component_t" title="psa_fwu_component_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_t</span></code></a>, and changed the type to <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code>.</p></li>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">psa_image_info_t</span></code> to <a class="reference internal" href="../api/api.html#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code></a>.</p>
+<ul>
+<li><p>Removed Image ID, Vendor ID and Class ID from <a class="reference internal" href="../api/api.html#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code></a> structure.</p></li>
+<li><p>Removed <code class="docutils literal notranslate"><span class="pre">psa_fwu_staging_info_t</span></code>, adding any important members directly to <a class="reference internal" href="../api/api.html#c.psa_fwu_component_info_t" title="psa_fwu_component_info_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_component_info_t</span></code></a>.</p></li>
+</ul>
+</li>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">psa_image_version_t</span></code> to <a class="reference internal" href="../api/api.html#c.psa_fwu_image_version_t" title="psa_fwu_image_version_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_image_version_t</span></code></a>.</p>
+<ul>
+<li><p>Resized the fields in <a class="reference internal" href="../api/api.html#c.psa_fwu_image_version_t" title="psa_fwu_image_version_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_image_version_t</span></code></a> to align with other project structures.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">build</span></code> field to <a class="reference internal" href="../api/api.html#c.psa_fwu_image_version_t" title="psa_fwu_image_version_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_fwu_image_version_t</span></code></a>.</p></li>
+</ul>
+</li>
+<li><p>Reworked the state model to reflect the overall state of a firmware component, not a specific image.</p>
+<ul>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">PSA_FWU_UNDEFINED</span></code> to <a class="reference internal" href="../api/api.html#c.PSA_FWU_READY" title="PSA_FWU_READY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_READY</span></code></a> - the default starting state for the state model.</p></li>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">CANDIDATE</span></code> state to <code class="docutils literal notranslate"><span class="pre">WRITING</span></code> state. The new definition is <a class="reference internal" href="../api/api.html#c.PSA_FWU_WRITING" title="PSA_FWU_WRITING"><code class="docutils literal notranslate"><span class="pre">PSA_FWU_WRITING</span></code></a>.</p></li>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">REBOOT_NEEDED</span></code> state to <code class="docutils literal notranslate"><span class="pre">STAGED</span></code> state. The new definition is <a class="reference internal" href="../api/api.html#c.PSA_FWU_STAGED" title="PSA_FWU_STAGED"><code class="docutils literal notranslate"><span class="pre">PSA_FWU_STAGED</span></code></a>.</p></li>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">PENDING_INSTALL</span></code> state to <code class="docutils literal notranslate"><span class="pre">TRIAL</span></code> state. The new definition is <a class="reference internal" href="../api/api.html#c.PSA_FWU_TRIAL" title="PSA_FWU_TRIAL"><code class="docutils literal notranslate"><span class="pre">PSA_FWU_TRIAL</span></code></a>.</p></li>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">INSTALLED</span></code> state to <code class="docutils literal notranslate"><span class="pre">UPDATED</span></code> state. The new definition is <a class="reference internal" href="../api/api.html#c.PSA_FWU_UPDATED" title="PSA_FWU_UPDATED"><code class="docutils literal notranslate"><span class="pre">PSA_FWU_UPDATED</span></code></a>.</p></li>
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">REJECTED</span></code> state to <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state. The new definition is <a class="reference internal" href="../api/api.html#c.PSA_FWU_FAILED" title="PSA_FWU_FAILED"><code class="docutils literal notranslate"><span class="pre">PSA_FWU_FAILED</span></code></a>.</p></li>
+<li><p>Reintroduced <code class="docutils literal notranslate"><span class="pre">REJECTED</span></code> as a volatile state when rollback has been requested, but reboot has not yet occurred.</p></li>
+</ul>
+</li>
+<li><p>Renamed some of the installation functions:</p>
+<ul>
+<li><p>Rename <code class="docutils literal notranslate"><span class="pre">psa_fwu_set_manifest</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> to <a class="reference internal" href="../api/api.html#c.psa_fwu_start" title="psa_fwu_start"><code class="docutils literal notranslate"><span class="pre">psa_fwu_start</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code>. This call is now mandatory, but the manifest data is optional.</p></li>
+<li><p>Rename <code class="docutils literal notranslate"><span class="pre">psa_fwu_request_rollback</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> to <a class="reference internal" href="../api/api.html#c.psa_fwu_reject" title="psa_fwu_reject"><code class="docutils literal notranslate"><span class="pre">psa_fwu_reject</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code>, to mirror <a class="reference internal" href="../api/api.html#c.psa_fwu_accept" title="psa_fwu_accept"><code class="docutils literal notranslate"><span class="pre">psa_fwu_accept</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p>Rename <code class="docutils literal notranslate"><span class="pre">psa_fwu_abort</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> to <a class="reference internal" href="../api/api.html#c.psa_fwu_clean" title="psa_fwu_clean"><code class="docutils literal notranslate"><span class="pre">psa_fwu_clean</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+</ul>
+</li>
+<li><p>Explicit support for concurrent installation of multiple components:</p>
+<ul>
+<li><p>Reintroduced <code class="docutils literal notranslate"><span class="pre">CANDIDATE</span></code> state for an image that has been prepared for installation, but not installed.</p></li>
+<li><p>Add <a class="reference internal" href="../api/api.html#c.psa_fwu_finish" title="psa_fwu_finish"><code class="docutils literal notranslate"><span class="pre">psa_fwu_finish</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code> to mark a new firmware image as ready for installation.</p></li>
+<li><p>Add <a class="reference internal" href="../api/api.html#c.psa_fwu_cancel" title="psa_fwu_cancel"><code class="docutils literal notranslate"><span class="pre">psa_fwu_cancel</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code> to abandon an update that is being prepared.</p></li>
+<li><p>Removed the <code class="docutils literal notranslate"><span class="pre">component_id</span></code> parameter from <a class="reference internal" href="../api/api.html#c.psa_fwu_install" title="psa_fwu_install"><code class="docutils literal notranslate"><span class="pre">psa_fwu_install</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code>, <a class="reference internal" href="../api/api.html#c.psa_fwu_accept" title="psa_fwu_accept"><code class="docutils literal notranslate"><span class="pre">psa_fwu_accept</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code>, and <a class="reference internal" href="../api/api.html#c.psa_fwu_reject" title="psa_fwu_reject"><code class="docutils literal notranslate"><span class="pre">psa_fwu_reject</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code>: these now act atomically on all components in the initial state for the operation.</p></li>
+</ul>
+</li>
+<li><p>Reference the standard definition of the status codes, and remove them from this specification. See <a class="reference internal" href="../api/api.html#status-codes"><span class="secref">Status codes</span></a>.</p>
+<ul>
+<li><p>Rationalize the API-specific error codes. This removes the following error codes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_WRONG_DEVICE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CURRENTLY_INSTALLING</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_ALREADY_INSTALLED</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INSTALL_INTERRUPTED</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DECRYPTION_FAILURE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_MISSING_MANIFEST</span></code></p></li>
+</ul>
+</li>
+<li><p>Standardize the use of error codes, aligning with other PSA Certified APIs:</p>
+<ul>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BAD_STATE</span></code> when operations are called in the wrong sequence.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code> when operations are called with an unknown component Id.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code> when firmware images do not comply with update policy.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Removed the discovery API functions and types</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">psa_fwu_get_image_id_iterator</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">psa_fwu_get_image_id_next</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">psa_fwu_get_image_id_valid</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">psa_fwu_get_image_id</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">psa_fwu_iterator_t</span></code></p></li>
+</ul>
+</li>
+<li><p>Removed Profile IDs, and discussion of SUIT and metadata formats</p></li>
+</ul>
+</section>
+<section id="changes-between-version-0-6-and-0-7">
+<h2><span class="section-number">E.3. </span>Changes between version <em>0.6</em> and <em>0.7</em><a class="headerlink" href="#changes-between-version-0-6-and-0-7" title="Permalink to this heading">¶</a></h2>
+<p>This section describes detailed changes between past versions.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../api/api.html#c.PSA_FWU_API_VERSION_MINOR" title="PSA_FWU_API_VERSION_MINOR"><code class="docutils literal notranslate"><span class="pre">PSA_FWU_API_VERSION_MINOR</span></code></a> has increased from 6 to 7</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">psa_image_id_t</span></code> is now defined as a 32-bit integer. Functions no longer have a pointer type for this parameter.</p></li>
+<li><p>UUID concept dropped from function names and parameters.</p></li>
+<li><p>Added Vendor ID and Class ID to <code class="docutils literal notranslate"><span class="pre">psa_image_info_t</span></code> structure.</p></li>
+<li><p>Added Future changes section</p></li>
+<li><p>Added error code and success code definitions</p></li>
+<li><p>Fixed mistake: <code class="docutils literal notranslate"><span class="pre">psa_fwu_abort</span></code> return type changed from void to <code class="docutils literal notranslate"><span class="pre">psa_status_t</span></code></p></li>
+<li><p>Clarifications to the text</p></li>
+<li><p>Replaced <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_ROLLBACK_DETECTED</span></code> with <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_PERMITTED</span></code></p></li>
+<li><p>Remove standardized image IDs until we get more feedback</p></li>
+<li><p>Improvements to the Design Overview text</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Firmware Update API</b></a></h3>
+IHI 0093<br/>
+Non-confidential<br/>
+Version 1.0.0
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/goals.html">2. Design goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/programming-model.html">4. Programming model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">5. API reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example-header.html">A. Example header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">B. Example usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variations.html">C. Variation in system design parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sra.html">D. Security Risk Assessment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">E. Document change history</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-version-1-0-beta-and-1-0-0">E.1. Changes between version <em>1.0 Beta</em> and <em>1.0.0</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-version-0-7-and-1-0-beta">E.2. Changes between version <em>0.7</em> and <em>1.0 Beta</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-version-0-6-and-0-7">E.3. Changes between version <em>0.6</em> and <em>0.7</em></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2020-2023 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
