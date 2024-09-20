@@ -11,7 +11,7 @@ baseurl: /psa-api/
 
 theme: jekyll-theme-minimal
 
-include: [_static, _images]
+include: ["_static", "_images", ".nojekyll"]
 
 source: site-src
 destination: docs
