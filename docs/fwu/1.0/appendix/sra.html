@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="4. Security Risk Assessment" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/fwu/1.0/appendix/sra.html" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/fwu/1.0/appendix/sra.html" />
+<meta property="og:site_name" content="PSA Certified Firmware Update API 1.0" />
+<meta property="og:description" content="This appendix provides a Security Risk Assessment (SRA) of the Firmware Update API. It describes the threats presented by various types of adversary against the security goals for an implementation..." />
+<meta name="description" content="This appendix provides a Security Risk Assessment (SRA) of the Firmware Update API. It describes the threats presented by various types of adversary against the security goals for an implementation..." />
+
+    <title>4. Security Risk Assessment &#8212; PSA Certified Firmware Update API 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Document change history" href="change-history.html" />
+    <link rel="prev" title="3. Variation in system design parameters" href="variations.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="security-risk-assessment">
+<span id="sra"></span><h1><span class="section-number">D. </span>Security Risk Assessment<a class="headerlink" href="#security-risk-assessment" title="Permalink to this heading">¶</a></h1>
+<p>This appendix provides a Security Risk Assessment (SRA) of the Firmware Update API. It describes the threats presented by various types of adversary against the security goals for an implementation of the firmware update process, and mitigating actions for those threats.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#sra-about"><span class="secref">About this assessment</span></a> describes the assessment methodology.</p></li>
+<li><p><a class="reference internal" href="#sra-definition"><span class="secref">Feature definition</span></a> defines the security problem.</p></li>
+<li><p><a class="reference internal" href="#sra-characterization"><span class="secref">Feature characterization</span></a> provides additional security design details.</p></li>
+<li><p><a class="reference internal" href="#sra-threats"><span class="secref">Threats</span></a> describes the threats and the recommended mitigating actions.</p></li>
+<li><p><a class="reference internal" href="#sra-mitigations"><span class="secref">Mitigation summary</span></a> summarizes the mitigations, and where these are implemented.</p></li>
+</ul>
+<section id="about-this-assessment">
+<span id="sra-about"></span><h2><span class="section-number">D.1. </span>About this assessment<a class="headerlink" href="#about-this-assessment" title="Permalink to this heading">¶</a></h2>
+<section id="subject-and-scope">
+<h3><span class="section-number">D.1.1. </span>Subject and scope<a class="headerlink" href="#subject-and-scope" title="Permalink to this heading">¶</a></h3>
+<p>This SRA analyses the security of the Firmware Update API itself, not of any specific implementation of the API, or any specific application of the API.</p>
+<p>The purpose of the SRA is to identify requirements on the design of the Firmware Update API. Those requirements can arise from threats that directly affect the caller and implementation of the API, but also from threats against the whole firmware update process. As a result, the assessment considers a broad set of threats to the entire firmware update process.</p>
+<p>Secure firmware update has been the subject of a number of recent studies and working groups. These examine the challenges faced when implementing over-the-air updates to secure devices at scale, or present architectures for addressing those challenges. For example, see <span><em>Report from the Internet of Things Software Update (IoTSU) Workshop 2016</em> <a class="reference internal" href="../about.html#cite-rfc8240"><span class="cite">[RFC8240]</span></a></span>, <span><em>A Firmware Update Architecture for Internet of Things</em> <a class="reference internal" href="../about.html#cite-rfc9019"><span class="cite">[RFC9019]</span></a></span>, and <span><em>A Manifest Information Model for Firmware Updates in Internet of Things (IoT) Devices</em> <a class="reference internal" href="../about.html#cite-rfc9124"><span class="cite">[RFC9124]</span></a></span>.</p>
+<p>This SRA does not cover the <a class="reference internal" href="../overview/architecture.html#trusted-client"><span class="secref">Trusted client</span></a> deployment architecture. <a class="reference internal" href="#sra-operation"><span class="secref">Operation and trust boundaries</span></a> describes the effects of the deployment model on the security analysis.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This document is not a substitute for performing a security risk assessment of the overall firmware update process for a system that incorporates the Firmware Update API. However, this SRA can be used as a foundation for such an implementation-specific assessment.</p>
+</div>
+</section>
+<section id="risk-assessment-methodology">
+<h3><span class="section-number">D.1.2. </span>Risk assessment methodology<a class="headerlink" href="#risk-assessment-methodology" title="Permalink to this heading">¶</a></h3>
+<p>Our risk ratings use an approach derived from <span><em>NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments</em> <a class="reference internal" href="../about.html#cite-sp800-30"><span class="cite">[SP800-30]</span></a></span>: for each Threat, we determine its Likelihood and the Impact. Each is evaluated on a 5-level scale, as defined in <span><a class="reference internal" href="#tab-sra-likelihood"><span class="numref">Table 8</span></a></span> and <span><a class="reference internal" href="#tab-sra-impact"><span class="numref">Table 9</span></a></span>.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-likelihood">
+<caption><span class="caption-number">Table 8 </span><span class="caption-text">Likelihood levels</span><a class="headerlink" href="#tab-sra-likelihood" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"><p>Level</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><th class="stub"><p>Very Low</p></th>
+<td><p>Unlikely to ever occur in practice, or <em>mathematically near impossible</em></p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Low</p></th>
+<td><p>The event could occur, but only if the attacker employs <em>significant</em> resources; or it is <em>mathematically unlikely</em></p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Medium</p></th>
+<td><p>A motivated, and well-equipped adversary can make it happen within the lifetime of a product based on the feature (resp. of the feature itself)</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>High</p></th>
+<td><p>Likely to happen within the lifetime of the product or feature</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Very High</p></th>
+<td><p>Will happen, and soon (for instance a zero-day)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-impact">
+<caption><span class="caption-number">Table 9 </span><span class="caption-text">Impact levels</span><a class="headerlink" href="#tab-sra-impact" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 43%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"><p>Level</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example Effects</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><th class="stub"><p>Very Low</p></th>
+<td><p>Causes virtually no damage</p></td>
+<td><p>Probably none</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Low</p></th>
+<td><p>The damage can easily be tolerated or absorbed</p></td>
+<td><p>There would be a CVE at most</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Medium</p></th>
+<td><p>The damage will have a <em>noticeable</em> effect, such as <em>degrading</em> some functionality, but won’t degrade completely the use of the considered functionality</p></td>
+<td><p>There would be a CVE at most</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>High</p></th>
+<td><p>The damage will have a <em>strong</em> effect, such as causing a significant reduction in its functionality or in its security guarantees</p></td>
+<td><p>Security Analysts would discuss this at length, there would be papers, blog entries. Partners would complain</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Very High</p></th>
+<td><p>The damage will have <em>critical</em> consequences — it could kill the feature, by affecting several of its security guarantees</p></td>
+<td><p>It would be quite an event.</p>
+<p>Partners would complain strongly, and delay or cancel deployment of the feature</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>For both Likelihood and Impact, when in doubt always choose the higher value. These two values are combined using <span><a class="reference internal" href="#tab-sra-overall-risk"><span class="numref">Table 10</span></a></span> to determine the Overall Risk of a Threat.</p>
+<table class="colwidths-given longtable docutils align-left" id="tab-sra-overall-risk">
+<caption><span class="caption-number">Table 10 </span><span class="caption-text">Overall risk calculation</span><a class="headerlink" href="#tab-sra-overall-risk" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"></th>
+<th class="head"><p>Impact</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+<tr class="row-even"><th class="head stub"><p>Likelihood</p></th>
+<th class="head"><p>Very Low</p></th>
+<th class="head"><p>Low</p></th>
+<th class="head"><p>Medium</p></th>
+<th class="head"><p>High</p></th>
+<th class="head"><p>Very High</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><th class="stub"><p>Very Low</p></th>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>Low</p></th>
+<td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+<td><p>Low</p></td>
+<td><p>Low</p></td>
+<td><p>Medium</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Medium</p></th>
+<td><p>Very Low</p></td>
+<td><p>Low</p></td>
+<td><p>Medium</p></td>
+<td><p>Medium</p></td>
+<td><p>High</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>High</p></th>
+<td><p>(Very) Low</p></td>
+<td><p>Low</p></td>
+<td><p>Medium</p></td>
+<td><p>High</p></td>
+<td><p>Very High</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>Very High</p></th>
+<td><p>(Very) Low</p></td>
+<td><p>Medium</p></td>
+<td><p>High</p></td>
+<td><p>Very High</p></td>
+<td><p>Very High</p></td>
+</tr>
+</tbody>
+</table>
+<p>Threats are handled starting from the most severe ones. Mitigations will be devised for these Threats one by one (note that a Mitigation may mitigate more Threats, and one Threat may require the deployment of more than one Mitigation in order to be addressed). Likelihood and Impact will be reassessed assuming that the Mitigations are in place, resulting in a Mitigated Likelihood (this is
+the value that usually decreases), a Mitigated Impact (it is less common that this value will decrease), and finally a Mitigated Risk. The Analysis is completed when all the Mitigated Risks are at the chosen residual level or lower, which usually is Low or Very Low.</p>
+<p>The Mitigating actions that can be taken are defined in the acronym <strong>CAST</strong>:</p>
+<ul class="simple">
+<li><p><strong>Control</strong>: Put in place steps to reduce the Likelihood and/or Impact of a Threat, thereby reducing the risk to an acceptable level.</p></li>
+<li><p><strong>Accept</strong>: The threat is considered to be of acceptable risk such that a mitigation is not necessary, or must be accepted because of other constraint or market needs.</p></li>
+<li><p><strong>Suppress</strong>: Remove the feature or process that gives rise to the threat.</p></li>
+<li><p><strong>Transfer</strong>: Identify a more capable or suitable party to address the risk and transfer the responsibility of providing a mitigation for the threat to them.</p></li>
+</ul>
+</section>
+</section>
+<section id="feature-definition">
+<span id="sra-definition"></span><h2><span class="section-number">D.2. </span>Feature definition<a class="headerlink" href="#feature-definition" title="Permalink to this heading">¶</a></h2>
+<section id="introduction">
+<h3><span class="section-number">D.2.1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h3>
+<section id="background">
+<h4>Background<a class="headerlink" href="#background" title="Permalink to this heading">¶</a></h4>
+<p>Using firmware updates to fix vulnerabilities in devices is important, but securing this update mechanism is equally important since security problems are exacerbated by the update mechanism. An update is essentially authorized remote code execution, so any security problems in the update process expose that remote code execution system. Failure to secure the firmware update process will help attackers take control of devices.</p>
+<p><a class="reference internal" href="../overview/intro.html#intro"><span class="secref">Firmware update</span></a> provides the context in which the Firmware Update API is designed. <span><a class="reference internal" href="#fig-background"><span class="numref">Figure 16</span></a></span> is a reproduction of <span><a class="reference internal" href="../overview/intro.html#fig-api"><span class="numref">Figure 2</span></a></span> that illustrates where the Firmware Update API fits in the overall firmware update process.</p>
+<figure class="align-default" id="fig-background">
+<img alt="../_images/fwu-api.svg" src="../_images/fwu-api.svg" /><figcaption>
+<p><span class="caption-number">Figure 16 </span><span class="caption-text">A firmware update process</span><a class="headerlink" href="#fig-background" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="purpose">
+<h4>Purpose<a class="headerlink" href="#purpose" title="Permalink to this heading">¶</a></h4>
+<p>The Firmware Update API separates the software responsible for delivering the new firmware in the device, from the software that is responsible for storing and installing it in the device memory. <span><a class="reference internal" href="#fig-background"><span class="numref">Figure 16</span></a></span> shows how the Firmware Update API separates an update client, which obtains the new firmware from the update server, from an update service, which stores the firmware in the device memory.</p>
+<p>The API enables an update client to be written independently of the firmware storage design, and the update service to be written independently of the delivery mechanism.</p>
+</section>
+<section id="function">
+<h4>Function<a class="headerlink" href="#function" title="Permalink to this heading">¶</a></h4>
+<p>The Firmware Update API provides an interface by which an update client can query the state of firmware components that are managed by the service, prepare firmware updates for those components, and initiate the installation of the updates.</p>
+</section>
+</section>
+<section id="lifecycle">
+<h3><span class="section-number">D.2.2. </span>Lifecycle<a class="headerlink" href="#lifecycle" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#fig-lifecycle"><span class="numref">Figure 17</span></a></span> shows the typical lifecycle of a device that provide firmware updates.</p>
+<figure class="align-default" id="fig-lifecycle">
+<img alt="../_images/lifecycle.svg" src="../_images/lifecycle.svg" /><figcaption>
+<p><span class="caption-number">Figure 17 </span><span class="caption-text">Device lifecycle of a system providing firmware updates</span><a class="headerlink" href="#fig-lifecycle" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The software implementing the on-device firmware update functionality, and the credentials for authorizing the update process, are installed or provisioned to device prior to its operational phase.</p>
+<p>The overall firmware update process is active during the operational phase. The Firmware Update API is used within the run-time software to prepare an update. The implementation of the API prepares the update at run-time, and installs the update at boot-time.</p>
+</section>
+<section id="operation-and-trust-boundaries">
+<span id="sra-operation"></span><h3><span class="section-number">D.2.3. </span>Operation and trust boundaries<a class="headerlink" href="#operation-and-trust-boundaries" title="Permalink to this heading">¶</a></h3>
+<p>The following operational dataflow diagrams include all of the main components in a firmware update process. Presenting the context in which the Firmware Update API operates aids understanding of the threats and security mitigations, and provides the rationale for some elements of the API design.</p>
+<p>The firmware creator and update server components are representative: in a real implementation of the process these roles may be distributed amongst multiple systems and stakeholders.</p>
+<p>The Firmware Update API is a C language API. Therefore, any implementation of the API must execute, at least partially, within the context of the calling application. When an implementation includes a trust boundary, the mechanism and protocol for communication across the boundary is <a class="reference internal" href="../about.html#term-implementation-defined"><span class="scterm">implementation defined</span></a>.</p>
+<p>The Firmware Update API supports implementation in various deployment architectures, described in <a class="reference internal" href="../overview/architecture.html#deployment"><span class="secref">Deployment scenarios</span></a>. The operation and dataflow of the firmware update process is similar across these deployments. However, the trust boundaries within the device are different.</p>
+<p><span><a class="reference internal" href="#fig-dm-trusted-client"><span class="numref">Figure 18</span></a></span> shows the simplest deployment — <em>trusted client</em> — which has no trust boundaries within the device. The individual dataflows are described in <span><a class="reference internal" href="#tab-dm-dataflow"><span class="numref">Table 11</span></a></span>. This deployment is described in <a class="reference internal" href="../overview/architecture.html#trusted-client"><span class="secref">Trusted client</span></a>.</p>
+<p>In the <em>trusted client</em> deployment, the attack surface lies outside of the Firmware Update API and its implementation, and mitigations for relevant threats to this deployment do not result in additional security requirements for the API. However, the threat model for the other deployments are very different, because they have a security boundary inside the implementation that protects the device’s <a class="reference internal" href="../about.html#term-root-of-trust"><span class="term">Root of Trust</span></a>. <a class="reference internal" href="#sra-deployments"><span class="secref">Deployment models</span></a> describes the dataflows for the other deployment models.</p>
+<p>As a consequence, this SRA <strong>does not</strong> provide an assessment of the mitigations required for the <em>trusted client</em> deployment architecture. See also <a class="reference internal" href="#sra-assumptions"><span class="secref">Assumptions and constraints</span></a>.</p>
+<figure class="align-default" id="fig-dm-trusted-client">
+<img alt="../_images/dm-trusted-client.svg" src="../_images/dm-trusted-client.svg" /><figcaption>
+<p><span class="caption-number">Figure 18 </span><span class="caption-text">Operational dataflow diagram for firmware update in a <em>trusted client</em> deployment</span><a class="headerlink" href="#fig-dm-trusted-client" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<table class="colwidths-given longtable docutils align-default" id="tab-dm-dataflow">
+<caption><span class="caption-number">Table 11 </span><span class="caption-text">Dataflow descriptions for the firmware update process</span><a class="headerlink" href="#tab-dm-dataflow" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Dataflow</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DF.A</p></td>
+<td><p>The firmware creator uploads a firmware update to the update server.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.B</p></td>
+<td><p>Communication between the update server and a managed device that supports firmware update, to track firmware status and deliver updates.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.C</p></td>
+<td><p>The Firmware Update API, used by the update client to query component state and prepare firmware updates for installation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.D</p></td>
+<td><p><em>Active</em> firmware image state read by the update service.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.E</p></td>
+<td><p>Update service i/o to the <em>second</em> image, to read the component state and prepare candidate images for update.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.F</p></td>
+<td><p>Bootloader i/o to the <em>active</em> image, to install a firmware image, or to authenticate it.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.G</p></td>
+<td><p>Bootloader i/o to the <em>second</em> image, to verify an update and install it.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="deployment-models">
+<span id="sra-deployments"></span><h3><span class="section-number">D.2.4. </span>Deployment models<a class="headerlink" href="#deployment-models" title="Permalink to this heading">¶</a></h3>
+<p>This SRA is relevant for the deployment architectures — described in <a class="reference internal" href="../overview/architecture.html#deployment"><span class="secref">Deployment scenarios</span></a> — that include a Root of Trust within the device.</p>
+<section id="dm-untrusted-client-deployment-model">
+<h4><span class="target" id="sra-dm-untrusted-client"></span><span class="sradef">DM.UNTRUSTED_CLIENT</span> deployment model<a class="headerlink" href="#dm-untrusted-client-deployment-model" title="Permalink to this heading">¶</a></h4>
+<p>This deployment model corresponds to the deployment architecture shown in <a class="reference internal" href="../overview/architecture.html#untrusted-client"><span class="secref">Untrusted client</span></a>. <span><a class="reference internal" href="#fig-dm-untrusted-client"><span class="numref">Figure 19</span></a></span> shows the dataflow diagram for this deployment, and <span><a class="reference internal" href="#tab-dm-dataflow"><span class="numref">Table 11</span></a></span> describes the dataflows.</p>
+<p>A detailed dataflow is provided in <a class="reference internal" href="#sra-characterization"><span class="secref">Feature characterization</span></a>.</p>
+<figure class="align-default" id="fig-dm-untrusted-client">
+<img alt="../_images/dm-untrusted-client.svg" src="../_images/dm-untrusted-client.svg" /><figcaption>
+<p><span class="caption-number">Figure 19 </span><span class="caption-text">Operational dataflow diagram for firmware update in an <em>untrusted client</em> deployment</span><a class="headerlink" href="#fig-dm-untrusted-client" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="dm-untrusted-staging-deployment-model">
+<h4><span class="target" id="sra-dm-untrusted-staging"></span><span class="sradef">DM.UNTRUSTED_STAGING</span> deployment model<a class="headerlink" href="#dm-untrusted-staging-deployment-model" title="Permalink to this heading">¶</a></h4>
+<p>This deployment model corresponds to the deployment architecture shown in <a class="reference internal" href="../overview/architecture.html#untrusted-staging"><span class="secref">Untrusted staging</span></a>. <span><a class="reference internal" href="#fig-dm-untrusted-staging"><span class="numref">Figure 20</span></a></span> shows the dataflow diagram for this deployment. The dataflow is described by <span><a class="reference internal" href="#tab-dm-dataflow"><span class="numref">Table 11</span></a></span>, the same as for <a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_CLIENT</span></a>.</p>
+<p>A detailed dataflow is provided in <a class="reference internal" href="#sra-characterization"><span class="secref">Feature characterization</span></a>.</p>
+<figure class="align-default" id="fig-dm-untrusted-staging">
+<img alt="../_images/dm-untrusted-staging.svg" src="../_images/dm-untrusted-staging.svg" /><figcaption>
+<p><span class="caption-number">Figure 20 </span><span class="caption-text">Operational dataflow diagram for firmware update in an <em>untrusted staging</em> deployment</span><a class="headerlink" href="#fig-dm-untrusted-staging" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The <em>second</em> image in the firmware store is accessible to untrusted software. The Root of Trust protects the <em>active</em> image from modification by untrusted software. In this deployment model, there is no benefit from implementing the update service within the Root of Trust:</p>
+<ul class="simple">
+<li><p>The update service only communicates with the bootloader via the data in the firmware store.</p></li>
+<li><p>As the <em>second</em> image can be modified by untrusted components, the content and state of the <em>second</em> image is not trusted until the bootloader has verified the update.</p></li>
+</ul>
+<p>In this deployment model, the update service can be implemented entirely as software library that runs within the update client execution context.</p>
+</section>
+</section>
+<section id="assumptions-and-constraints">
+<span id="sra-assumptions"></span><h3><span class="section-number">D.2.5. </span>Assumptions and constraints<a class="headerlink" href="#assumptions-and-constraints" title="Permalink to this heading">¶</a></h3>
+<ul>
+<li><p>This SRA assumes that the system implements a <a class="reference internal" href="../about.html#term-root-of-trust"><span class="term">Root of Trust</span></a>, with, at least, the following capabilities:</p>
+<ul class="simple">
+<li><p>The Root of Trust implements a <a class="reference internal" href="../about.html#term-secure-boot"><span class="term">Secure boot</span></a> process that ensures that all firmware is authorized prior to execution when the device boots.</p></li>
+<li><p>The <em>active</em> firmware image cannot be modified by the system after the bootloader has authenticated the firmware.</p></li>
+</ul>
+<p>Although the Firmware Update API can be used to provide a firmware update service in a system that does not have a Root of Trust, or implement Secure boot, such a system is not considered within this SRA.</p>
+</li>
+<li><p>Attacks against the firmware supply chain are not considered as part of this assessment. It is assumed that firmware creators and the off-device update infrastructure are designed to protect the credentials and processes that are involved in signing firmware images and updates.</p></li>
+<li><p>Within the scope of <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, the adversary is assumed to have the ability to execute software within the context of the caller of the Firmware Update API, or other untrusted components. The adversary is assumed to not have software execution capability within the Root of Trust.</p>
+<p>For example, this might be achieved by an adversary that initially has remote access to the device (<a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>), who then exploits a vulnerability in the firmware to achieved local code execution (<a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>).</p>
+</li>
+<li><p>Reliable update is a design goal for the Firmware Update API. That is, the firmware update process is robust against failures that would result in an inoperable device. However, the API cannot prevent a denial of service of the overall firmware update process, and this is not in scope for this SRA.</p></li>
+<li><p>This API is designed for implementation in small microprocessor systems, which generally use SRAM or PSRAM memory, rather than the DDR memories that are typical in larger systems. Attacks against DDR memory, such as Rowhammer, are out of scope for this assessment.</p></li>
+</ul>
+<p>As a result of these assumptions:</p>
+<ul class="simple">
+<li><p>Threats to the interfaces outside the device (DF.A and DF.B in <span><a class="reference internal" href="#tab-dm-dataflow"><span class="numref">Table 11</span></a></span>) are equivalent in effect to threats against the interface between the update client and update service (DF.C). This security analysis focuses on the latter dataflows.</p></li>
+<li><p>Threats to the interfaces within the Root of Trust are assumed to be mitigated by the Root of Trust implementation.</p></li>
+</ul>
+</section>
+<section id="stakeholders-and-assets">
+<h3><span class="section-number">D.2.6. </span>Stakeholders and assets<a class="headerlink" href="#stakeholders-and-assets" title="Permalink to this heading">¶</a></h3>
+<p>The following assets are considered in this assessment:</p>
+<dl>
+<dt>Device firmware</dt><dd><p>The device manufacturers (SiP, OEM), and device operator are interested in the integrity and authenticity of the device software.</p>
+<p>The firmware developers (SiP, OEM, ISV) might also be concerned about the confidentiality of the firmware. Disclosure of the firmware can reveal confidential IP, or reduce the cost of finding and exploiting a vulnerability in the device.</p>
+</dd>
+<dt>Device firmware manifest</dt><dd><p>The device manufacturers (SiP, OEM), and device operator are interested in the integrity and authenticity of the firmware metadata within the firmware manifest.</p>
+</dd>
+<dt>Reliability of device operation</dt><dd><p>The device operator is concerned about the availability of the device to execute the application firmware.</p>
+</dd>
+</dl>
+<p>All stakeholders are concerned about the integrity of their reputation with regards to device security, and liability for security failures. A scalable security flaw related to firmware update, or an inability to use firmware update to address a security issue, can have a significant impact on the stakeholders.</p>
+</section>
+<section id="security-goals">
+<h3><span class="section-number">D.2.7. </span>Security goals<a class="headerlink" href="#security-goals" title="Permalink to this heading">¶</a></h3>
+<p>The following security goals are applicable for all systems which implement the Firmware Update API:</p>
+<dl class="simple">
+<dt><span class="target" id="sra-sg-authentic"></span><span class="sradef">SG.AUTHENTIC</span></dt><dd><p>An adversary is unable to install, or cause to be installed, a firmware image that is not valid and authorized for the device.</p>
+</dd>
+<dt><span class="target" id="sra-sg-reliable"></span><span class="sradef">SG.RELIABLE</span></dt><dd><p>An adversary is unable to use the firmware update process to render the device inoperable.</p>
+</dd>
+</dl>
+<p>The following security goal is applicable for some systems which implement the API:</p>
+<dl class="simple">
+<dt><span class="target" id="sra-sg-confidential"></span><span class="sradef">SG.CONFIDENTIAL</span></dt><dd><p>An adversary is unable to disclose the content of a firmware image.</p>
+</dd>
+</dl>
+</section>
+<section id="adversarial-model">
+<h3><span class="section-number">D.2.8. </span>Adversarial model<a class="headerlink" href="#adversarial-model" title="Permalink to this heading">¶</a></h3>
+<p>Adversarial models are descriptions of capabilities that adversaries of systems implementing the Firmware Update API can have, grouped into classes. The adversaries are defined in this way to assist with threat modelling an abstract API, which can have different implementations, in systems with a wide range of security sensitivity.</p>
+<dl>
+<dt><span class="target" id="sra-am-0"></span><span class="sradef">AM.0</span></dt><dd><p>The Adversary is only capable of accessing data that requires neither physical access to a system containing an implementation of the feature nor the ability to run software on it. This Adversary is intercepting or providing data or requests to the target system via a network or other remote connection.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Read any input and output to the target through external devices.</p></li>
+<li><p>Provide, forge, replay or modify such inputs and outputs.</p></li>
+<li><p>Perform timings on the observable operations being done by the target machine, either in normal operation or as a response to crafted inputs. For example, timing attacks on web servers.</p></li>
+</ul>
+</dd>
+<dt><span class="target" id="sra-am-1"></span><span class="sradef">AM.1</span></dt><dd><p>The Adversary can additionally mount attacks from software running on a target device implementing the feature. This type of Adversary can run software on the target.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Attempt software exploitation by running software on the target.</p></li>
+<li><p>Exploit access to any memory mapped configuration, monitoring, debug register.</p></li>
+<li><p>Mount any side channel analysis that relying on software-exposed built-in hardware features to perform physical unit and time measurements.</p></li>
+<li><p>Perform software-induced glitching of resources such as Rowhammer, RASpberry or crashing the CPU by running intensive tasks.</p></li>
+</ul>
+</dd>
+<dt><span class="target" id="sra-am-2"></span><span class="sradef">AM.2</span></dt><dd><p>In addition to the above, the Adversary is capable of mounting hardware attacks and fault injection that does not require breaching the physical envelope of the chips. This type of Adversary has access to a system containing an implementation of the target feature.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Conduct side-channel analysis that requires measurement devices. For example, this can utilize leakage sources such as EM emissions, power consumption, photonics emission, or acoustic channels.</p></li>
+<li><p>Plug malicious hardware into an unmodified system.</p></li>
+<li><p>Gain access to the internals of the target system and interpose the SoC or memory for the purposes of reading, blocking, replaying, and injecting transactions.</p></li>
+<li><p>Replace or add chips on the motherboard.</p></li>
+<li><p>Make simple, reversible modifications, to perform glitching.</p></li>
+</ul>
+</dd>
+<dt><span class="target" id="sra-am-3"></span><span class="sradef">AM.3</span></dt><dd><p>In addition to all the above, the Adversary is capable of performing invasive SoC attacks.</p>
+<p>For instance, the Adversary can:</p>
+<ul class="simple">
+<li><p>Decapsulate a chip, via laser or chemical etching, followed by microphotography to reverse engineer the chip.</p></li>
+<li><p>Use a focussed ion beam microscope to perform gate level modification.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The adversarial models that are in scope for a firmware update process depend on the product requirements. To ensure that the Firmware Update API can be used in a wide range of systems, this assessment considers adversarial models <a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, and <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a> to be in-scope.</p>
+</section>
+</section>
+<section id="feature-characterization">
+<span id="sra-characterization"></span><h2><span class="section-number">D.3. </span>Feature characterization<a class="headerlink" href="#feature-characterization" title="Permalink to this heading">¶</a></h2>
+<section id="detailed-deployment-dataflow">
+<h3><span class="section-number">D.3.1. </span>Detailed deployment dataflow<a class="headerlink" href="#detailed-deployment-dataflow" title="Permalink to this heading">¶</a></h3>
+<p>The following diagrams expand on the diagrams in <a class="reference internal" href="#sra-operation"><span class="secref">Operation and trust boundaries</span></a> to show the detailed operational dataflow during the firmware update process.</p>
+<p><span><a class="reference internal" href="#fig-dm-untrusted-client-detail"><span class="numref">Figure 21</span></a></span> shows the detailed dataflow diagram for the <a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_CLIENT</span></a> deployment, and <span><a class="reference internal" href="#tab-dm-dataflow-detail"><span class="numref">Table 12</span></a></span> describes each dataflow.</p>
+<figure class="align-default" id="fig-dm-untrusted-client-detail">
+<img alt="../_images/dm-untrusted-client-detail.svg" src="../_images/dm-untrusted-client-detail.svg" /><figcaption>
+<p><span class="caption-number">Figure 21 </span><span class="caption-text">Detailed dataflow diagram for <a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_CLIENT</span></a></span><a class="headerlink" href="#fig-dm-untrusted-client-detail" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>The individual dataflows are described in <span><a class="reference internal" href="#tab-dm-dataflow-detail"><span class="numref">Table 12</span></a></span>.</p>
+</div>
+</figcaption>
+</figure>
+<table class="colwidths-given longtable docutils align-default" id="tab-dm-dataflow-detail">
+<caption><span class="caption-number">Table 12 </span><span class="caption-text">Detailed dataflow descriptions for the firmware update process</span><a class="headerlink" href="#tab-dm-dataflow-detail" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Dataflow</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DF.1</p></td>
+<td><p>The update service reads status information for the protected, <em>active</em> image, and the unprotected <em>second</em> image.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.2</p></td>
+<td><p>Firmware information in response to Firmware Update API query.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.3</p></td>
+<td><p>[Optional] Client reports device firmware status to online Status Tracker.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.4</p></td>
+<td><p>Firmware creator loads a firmware update containing new firmware images to the update server. Images are signed by firmware creator to authenticate their origin. See <a class="reference internal" href="#sra-assumptions"><span class="secref">Assumptions and constraints</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.5</p></td>
+<td><p>[Optional] Update server issues notification to device about the firmware update.</p>
+<p>Alternatively, device periodically polls server to discover update.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>DF.6, DF.7</p></td>
+<td><p>Device requests and downloads firmware update images from the update server.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.8</p></td>
+<td><p>Update client uses Firmware Update API to prepare the candidate firmware images for update.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.9</p></td>
+<td><p>Update service writes new firmware images into the firmware store’s staging area.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.10</p></td>
+<td><p>[Optional] Device reports to the update server that the update is ready.</p>
+<p>Alternatively, the device immediately installs the prepared update.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>DF.11</p></td>
+<td><p>[Optional] Update server issues command to device to apply the update.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.12</p></td>
+<td><p>Update client uses Firmware Update API to request installation of the update.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.13</p></td>
+<td><p>Update service marks the candidate firmware images as ready for installation.</p></td>
+</tr>
+<tr class="row-even"><td><p>DF.14</p></td>
+<td><p>Bootloader inspects the <em>second</em> image, to determine if an update is ready for installation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DF.15, DF.16</p></td>
+<td><p>Bootloader verifies the update, and installs it as the <em>active</em> image.</p>
+<p>[Optional] Bootloader retains the previous firmware image for rollback.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>DF.17</p></td>
+<td><p>Bootloader authenticates the firmware image, and then executes it.</p></td>
+</tr>
+</tbody>
+</table>
+<p><span><a class="reference internal" href="#fig-dm-untrusted-staging-detail"><span class="numref">Figure 22</span></a></span> shows the detailed dataflow diagram for the <a class="reference internal" href="#sra-dm-untrusted-staging"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_STAGING</span></a> deployment. The dataflows are described by <span><a class="reference internal" href="#tab-dm-dataflow-detail"><span class="numref">Table 12</span></a></span>, the same as for <a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_CLIENT</span></a>.</p>
+<figure class="align-default" id="fig-dm-untrusted-staging-detail">
+<img alt="../_images/dm-untrusted-staging-detail.svg" src="../_images/dm-untrusted-staging-detail.svg" /><figcaption>
+<p><span class="caption-number">Figure 22 </span><span class="caption-text">Detailed dataflow diagram for <a class="reference internal" href="#sra-dm-untrusted-staging"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_STAGING</span></a></span><a class="headerlink" href="#fig-dm-untrusted-staging-detail" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>The individual dataflows are described in <span><a class="reference internal" href="#tab-dm-dataflow-detail"><span class="numref">Table 12</span></a></span>.</p>
+</div>
+</figcaption>
+</figure>
+</section>
+<section id="security-features-of-the-api">
+<span id="sra-api-features"></span><h3><span class="section-number">D.3.2. </span>Security features of the API<a class="headerlink" href="#security-features-of-the-api" title="Permalink to this heading">¶</a></h3>
+<p>The following aspects of the Firmware Update API result from the mitigations identified by this assessment:</p>
+<ul class="simple">
+<li><p>The behavior of memory buffer parameters is fully specified. See also <a class="reference internal" href="../api/api.html#pointer-conventions"><span class="secref">Pointer conventions</span></a>.</p></li>
+<li><p>The API provides a full state model for the firmware update process. See <a class="reference internal" href="../overview/programming-model.html#state-model"><span class="secref">State model</span></a>. Common variations are also defined in <a class="reference internal" href="variations.html#variations"><span class="secref">Variation in system design parameters</span></a>.</p></li>
+<li><p>Firmware images are not automatically staged for installation after being written to the firmware store, to support atomic update of multiple images. See also <a class="reference internal" href="../overview/programming-model.html#state-rationale"><span class="secref">Rationale</span></a>.</p></li>
+<li><p>A TRIAL state is provided to permit a new firmware image to be tested, and then reverted to the previous image in case of a fault. See also <a class="reference internal" href="../overview/programming-model.html#state-rationale"><span class="secref">Rationale</span></a>.</p></li>
+</ul>
+<p>The different deployment models, and variability in the adversarial model in scope for a particular product, requires that the Firmware Update API provides the following features:</p>
+<ul class="simple">
+<li><p>Flexibility in when a firmware update is verified: verification errors can be reported from multiple functions. See also <a class="reference internal" href="../overview/programming-model.html#verifying-an-update"><span class="secref">Verifying an update</span></a>.</p></li>
+</ul>
+<p>Some mitigations are required in the format of the firmware image or the firmware manifest. The Firmware Update API does not specify a firmware update format — see <a class="reference internal" href="../overview/architecture.html#formats"><span class="secref">Firmware image format</span></a> — and enables the following aspects to be included in the firmware image or manifest, as required for the implementation:</p>
+<ul class="simple">
+<li><p>Compatibility information that identifies the system and component the firmware image is intended for.</p></li>
+<li><p>Description and verification of dependencies between firmware images.</p></li>
+<li><p>Authentication of the firmware image and manifest.</p></li>
+<li><p>Encryption of the firmware image and manifest.</p></li>
+</ul>
+</section>
+</section>
+<section id="threats">
+<span id="sra-threats"></span><h2><span class="section-number">D.4. </span>Threats<a class="headerlink" href="#threats" title="Permalink to this heading">¶</a></h2>
+<p>Because Firmware Update API can be used in a wide range of deployment models and a wide range of threats, not all mitigating actions apply to all scenarios. As a result, various mitigations are optional to implement, depending on which threats exist in a particular domain of application, and which firmware update use cases are important for deployments.</p>
+<p><span><a class="reference internal" href="#tab-sra-threats"><span class="numref">Table 13</span></a></span> summarizes the threats.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-threats">
+<caption><span class="caption-number">Table 13 </span><span class="caption-text">Summary of threats</span><a class="headerlink" href="#tab-sra-threats" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Threat</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a></p></td>
+<td><p>Tampering with the firmware image or manifest</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-non-functional"><span class="sraref atg_c atg_c-t">T.NON_FUNCTIONAL</span></a></p></td>
+<td><p>Install defective firmware</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-rollback"><span class="sraref atg_c atg_c-t">T.ROLLBACK</span></a></p></td>
+<td><p>Install old firmware</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-skip-intermediate"><span class="sraref atg_c atg_c-t">T.SKIP_INTERMEDIATE</span></a></p></td>
+<td><p>Skip intermediate update</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-degrade-device"><span class="sraref atg_c atg_c-t">T.DEGRADE_DEVICE</span></a></p></td>
+<td><p>Repeatedly install invalid firmware</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+<td><p>Call the API with illegal inputs</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-toctou"><span class="sraref atg_c atg_c-t">T.TOCTOU</span></a></p></td>
+<td><p>Modify asset between authentication and use</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-partial-update"><span class="sraref atg_c atg_c-t">T.PARTIAL_UPDATE</span></a></p></td>
+<td><p>Trigger installation of incomplete update</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-incompatible"><span class="sraref atg_c atg_c-t">T.INCOMPATIBLE</span></a></p></td>
+<td><p>Install firmware for a different device</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-disclosure"><span class="sraref atg_c atg_c-t">T.DISCLOSURE</span></a></p></td>
+<td><p>Unauthorized disclosure of a firmware image or manifest</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-disrupt-install"><span class="sraref atg_c atg_c-t">T.DISRUPT_INSTALL</span></a></p></td>
+<td><p>Corrupt image by disrupting installer</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-disrupt-download"><span class="sraref atg_c atg_c-t">T.DISRUPT_DOWNLOAD</span></a></p></td>
+<td><p>Corrupt image by disrupting writes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-fault-injection"><span class="sraref atg_c atg_c-t">T.FAULT_INJECTION</span></a></p></td>
+<td><p>Verification bypass via glitching</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-server"><span class="sraref atg_c atg_c-t">T.SERVER</span></a></p></td>
+<td><p>Exploiting or spoofing the update server</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-t-creator"><span class="sraref atg_c atg_c-t">T.CREATOR</span></a></p></td>
+<td><p>Spoofing the firmware creator</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-t-network"><span class="sraref atg_c atg_c-t">T.NETWORK</span></a></p></td>
+<td><p>Manipulation of network traffic outside the device</p></td>
+</tr>
+</tbody>
+</table>
+<section id="t-tamper-tampering-with-the-firmware-image-or-manifest">
+<h3><span class="section-number">D.4.1. </span><span class="target" id="sra-t-tamper"></span><span class="sradef">T.TAMPER</span>: Tampering with the firmware image or manifest<a class="headerlink" href="#t-tamper-tampering-with-the-firmware-image-or-manifest" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker modifies the firmware image or firmware manifest to cause a malfunction in the installer.</p>
+<p>For example:</p>
+<ul class="simple">
+<li><p>If a device misinterprets the format of the firmware image, it may cause a device to install a firmware image incorrectly. An incorrectly installed firmware image would likely cause the device to stop functioning.</p></li>
+<li><p>If a device installs a firmware image to the wrong location on the device, then it is likely to break.</p></li>
+</ul>
+<p>This can cause device malfunction, or enable elevation of privilege.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-authentic"><span class="sraref atg_c atg_c-sg">SG.AUTHENTIC</span></a>, <a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p>Secure boot (see <a class="reference internal" href="#sra-assumptions"><span class="secref">Assumptions and constraints</span></a>) will prevent tampered firmware images from executing, but installation of such images can leave the device inoperable.</p>
+<p><span class="target" id="sra-m-authenticate"></span><span class="sradef">M.AUTHENTICATE</span>. <strong>Transfer</strong> to firmware creator and implementation: authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. Authentication must occur within a trusted component. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key. The Firmware Update API design must enable authentication of firmware images and manifests.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-non-functional-install-defective-firmware">
+<h3><span class="section-number">D.4.2. </span><span class="target" id="sra-t-non-functional"></span><span class="sradef">T.NON_FUNCTIONAL</span>: Install defective firmware<a class="headerlink" href="#t-non-functional-install-defective-firmware" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker sends a firmware update to a device that is known to not function correctly. If the firmware update function is non-operational following this update, the device also cannot be recovered without a physical repair.</p>
+<div class="threat docutils container">
+<dl class="simple">
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-trial"></span><span class="sradef">M.TRIAL</span>. <strong>Control</strong> by API design: provide a firmware image state where a failure to run a new firmware image will cause a roll back to the previously installed firmware, instead of making the device inoperable, without bypassing <a class="reference internal" href="#sra-m-sequence"><span class="sraref atg_c atg_c-m">M.SEQUENCE</span></a>. <strong>Transfer</strong> to implementation and update client: use the provided TRIAL state in the firmware update process.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-rollback-install-old-firmware">
+<h3><span class="section-number">D.4.3. </span><span class="target" id="sra-t-rollback"></span><span class="sradef">T.ROLLBACK</span>: Install old firmware<a class="headerlink" href="#t-rollback-install-old-firmware" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker sends an old, but otherwise valid, firmware update to a device. If there is a known vulnerability in the provided firmware image, this may allow an attacker to exploit the vulnerability and gain control of the device.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-authentic"><span class="sraref atg_c atg_c-sg">SG.AUTHENTIC</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-sequence"></span><span class="sradef">M.SEQUENCE</span>. <strong>Transfer</strong> to the firmware creator and implementation. Firmware images, or their manifests, must be monotonically sequenced for the device, or for each component within a device. The implementation will deny an attempt to install an update with a sequence number that is lower than the currently installed firmware. Verification of sequence numbers must occur within a trusted component.</p>
+<p>This mitigation creates a fragility when an update is non-functional, and requires the implementation of <a class="reference internal" href="#sra-m-trial"><span class="sraref atg_c atg_c-m">M.TRIAL</span></a> to maintain availability in case of a non-functional update. See also <a class="reference internal" href="#sra-t-non-functional"><span class="sraref atg_c atg_c-t">T.NON_FUNCTIONAL</span></a>.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-skip-intermediate-skip-intermediate-update">
+<h3><span class="section-number">D.4.4. </span><span class="target" id="sra-t-skip-intermediate"></span><span class="sradef">T.SKIP_INTERMEDIATE</span>: Skip intermediate update<a class="headerlink" href="#t-skip-intermediate-skip-intermediate-update" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker sends a valid firmware update to the device, that requires an intermediate update to be installed first.</p>
+<p>Following update the device might operate incorrectly, or can be left completely inoperable.</p>
+<div class="threat docutils container">
+<dl class="simple">
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-check-dependency"></span><span class="sradef">M.CHECK_DEPENDENCY</span>. <strong>Transfer</strong> to the implementation: dependencies between firmware images are declared in the authenticated firmware image or manifest, and verified by the implementation. Dependency verification must occur within a trusted component. The Firmware Update API design must enable verification of firmware images.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-degrade-device-repeatedly-install-invalid-firmware">
+<h3><span class="section-number">D.4.5. </span><span class="target" id="sra-t-degrade-device"></span><span class="sradef">T.DEGRADE_DEVICE</span>: Repeatedly install invalid firmware<a class="headerlink" href="#t-degrade-device-repeatedly-install-invalid-firmware" title="Permalink to this heading">¶</a></h3>
+<p>An attacker repeatedly causes an attempted installation of invalid firmware, to make the installation process disrupt the application availability, exhaust the device power supply, or excessively degrade the firmware store non-volatile memory.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref">DM.UNTRUSTED_CLIENT</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-untrusted-staging"><span class="sraref">DM.UNTRUSTED_STAGING</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Medium</p></td>
+<td><p>Medium</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Medium</p></td>
+<td><p>Medium</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-verify-early"></span><span class="sradef">M.VERIFY_EARLY</span>. <strong>Transfer</strong> to the update client and the implementation: verify firmware images as early as possible in the update process, to detect and reject an invalid update. This can reduce the storage of invalid image data in the firmware store, prevent unnecessary device reboots, and eliminate installation of firmware that will be rejected by a Secure boot process. The Firmware Update API design must permit verification to occur at all appropriate firmware update operations.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Although verification outside of the Root of Trust can reduce the likelihood of this threat, it is insufficient to mitigate attackers that can bypass such a check. See also <a class="reference internal" href="#sra-t-toctou"><span class="sraref atg_c atg_c-t">T.TOCTOU</span></a>.</p>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-interface-abuse-illegal-inputs-to-the-api">
+<h3><span class="section-number">D.4.6. </span><span class="target" id="sra-t-interface-abuse"></span><span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API<a class="headerlink" href="#t-interface-abuse-illegal-inputs-to-the-api" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker can abuse the Firmware Update API. For example:</p>
+<ul class="simple">
+<li><p>Passing out of range values to the interface to provoke unexpected behavior of the implementation.</p></li>
+<li><p>Passing invalid input or output buffers to the interface, that would cause the implementation to access non-existent memory, or memory that is inaccessible to the caller.</p></li>
+<li><p>Invoking the interface functions out of sequence to cause a malfunction of the implementation.</p></li>
+</ul>
+<p>Using the interface to install attacker-defined firmware images and manifests is covered by <a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a>, <a class="reference internal" href="#sra-t-non-functional"><span class="sraref atg_c atg_c-t">T.NON_FUNCTIONAL</span></a>, and <a class="reference internal" href="#sra-t-incompatible"><span class="sraref atg_c atg_c-t">T.INCOMPATIBLE</span></a>.</p>
+<p>Note that for <a class="reference internal" href="#sra-dm-untrusted-staging"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_STAGING</span></a>, the attacker can bypass the API entirely as there is no security boundary between the update service and the update client.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-authentic"><span class="sraref atg_c atg_c-sg">SG.AUTHENTIC</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref">DM.UNTRUSTED_CLIENT</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-untrusted-staging"><span class="sraref">DM.UNTRUSTED_STAGING</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Medium</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Medium</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-state-model"></span><span class="sradef">M.STATE_MODEL</span>. <strong>Control</strong> by API design: the valid operation sequence for the API is fully specified by the API, to prevent unexpected firmware update states. Responsibility for enforcing the state model is <strong>transferred</strong> to the implementation.</p>
+<p><span class="target" id="sra-m-memory-buffer"></span><span class="sradef">M.MEMORY_BUFFER</span>. <strong>Control</strong> by API design: input buffers are fully consumed by the implementation before returning from a function. An implementation must not access the caller’s memory after a function has returned.</p>
+<p><span class="target" id="sra-m-validate-parameter"></span><span class="sradef">M.VALIDATE_PARAMETER</span>. <strong>Transfer</strong> to the implementation: check all API parameters to lie within valid ranges, including memory access permissions.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-toctou-modify-asset-between-authentication-and-use">
+<h3><span class="section-number">D.4.7. </span><span class="target" id="sra-t-toctou"></span><span class="sradef">T.TOCTOU</span>: Modify asset between authentication and use<a class="headerlink" href="#t-toctou-modify-asset-between-authentication-and-use" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker modifies a manifest, or a firmware image, after it is authenticated (time of check) but before it is used (time of use). The attacker can place any content whatsoever in the affected asset.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-authentic"><span class="sraref atg_c atg_c-sg">SG.AUTHENTIC</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Deployment Model</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref">DM.UNTRUSTED_CLIENT</span></a></p></td>
+<td><p><a class="reference internal" href="#sra-dm-untrusted-staging"><span class="sraref">DM.UNTRUSTED_STAGING</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>Medium</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>Medium</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-protect-then-verify"></span><span class="sradef">M.PROTECT_THEN_VERIFY</span>. <strong>Transfer</strong> to the implementation: verification of firmware images and manifests must be done on a copy of the asset that is protected from tampering by untrusted components.</p>
+<ul class="simple">
+<li><p>For a <a class="reference internal" href="#sra-dm-untrusted-staging"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_STAGING</span></a> deployment, this requires that everything must be verified by the bootloader.</p></li>
+<li><p>For a <a class="reference internal" href="#sra-dm-untrusted-client"><span class="sraref atg_c atg_c-dm">DM.UNTRUSTED_CLIENT</span></a> deployment, the verification can be implemented within the update service, or the bootloader.</p></li>
+</ul>
+<p>This SRA assumes that Secure boot is implemented, which is the final mitigation to detect unauthorized modification of firmware. See <a class="reference internal" href="#sra-assumptions"><span class="secref">Assumptions and constraints</span></a>.</p>
+<p>See also <a class="reference internal" href="#sra-t-degrade-device"><span class="sraref atg_c atg_c-t">T.DEGRADE_DEVICE</span></a>.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>High</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Very Low</p></td>
+<td><p>Very Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><div class="riskrow docutils container">
+<table class="borderless colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>Low</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-partial-update-trigger-installation-of-incomplete-update">
+<h3><span class="section-number">D.4.8. </span><span class="target" id="sra-t-partial-update"></span><span class="sradef">T.PARTIAL_UPDATE</span>: Trigger installation of incomplete update<a class="headerlink" href="#t-partial-update-trigger-installation-of-incomplete-update" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker triggers the installation of an update before all of the candidate firmware images have been prepared.</p>
+<p>For example, where an update requires multiple images to be installed concurrently, the attacker might attempt to trigger the installation by forcing the device to restart. A partial installation might render the device inoperable.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-explicit-staging"></span><span class="sradef">M.EXPLICIT_STAGING</span>. <strong>Control</strong> by Firmware Update API design: candidate firmware images that have been prepared are not automatically staged for installation. An explicit API call is used to stage all candidate images.</p>
+<p><a class="reference internal" href="#sra-m-check-dependency"><span class="sraref atg_c atg_c-m">M.CHECK_DEPENDENCY</span></a>. Verify that all dependencies are satisfied before installation.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-incompatible-mismatched-firmware">
+<h3><span class="section-number">D.4.9. </span><span class="target" id="sra-t-incompatible"></span><span class="sradef">T.INCOMPATIBLE</span>: Mismatched firmware<a class="headerlink" href="#t-incompatible-mismatched-firmware" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker sends a valid firmware image, for the wrong type of device, signed by a key with firmware installation permission on both device types. This could have wide-ranging consequences. This could cause minor breakage, expose security vulnerabilities, or render devices inoperable.</p>
+<div class="threat docutils container">
+<dl class="simple">
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-authentic"><span class="sraref atg_c atg_c-sg">SG.AUTHENTIC</span></a>, <a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-compatibility"></span><span class="sradef">M.COMPATIBILITY</span>. <strong>Transfer</strong> to the firmware creator and implementation: include authenticated device type information in the manifest, and verify it prior to installation. Verification must occur within a trusted component. The Firmware Update API design must enable authentication of firmware manifests, and validation of device type.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-disclosure-disclosure-of-protected-firmware">
+<h3><span class="section-number">D.4.10. </span><span class="target" id="sra-t-disclosure"></span><span class="sradef">T.DISCLOSURE</span>: Disclosure of protected firmware<a class="headerlink" href="#t-disclosure-disclosure-of-protected-firmware" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker wants to mount an attack on the device. To prepare the attack, the provided firmware image is reverse engineered and analyzed for vulnerabilities.</p>
+<p>The firmware image might be obtained while in transit from the firmware creator to the device, or while stored in the update server, or on the device prior to installation.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-confidential"><span class="sraref atg_c atg_c-sg">SG.CONFIDENTIAL</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-encrypt"></span><span class="sradef">M.ENCRYPT</span>. <strong>Transfer</strong> to the firmware creator and implementation: use encryption to protect the firmware image. The Firmware Update API design must enable the use of encrypted firmware images.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are challenges when implementing encryption of firmware in a manner that is secure <em>at scale</em>. For example, the problems and some solutions are described in <span><em>Encrypted Payloads in SUIT Manifests</em> <a class="reference internal" href="../about.html#cite-suit-enc"><span class="cite">[SUIT-ENC]</span></a></span>.</p>
+</div>
+<p>Protection of installed firmware images is outside the scope of the firmware update process.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-disrupt-install-corrupt-image-by-disrupting-installer">
+<h3><span class="section-number">D.4.11. </span><span class="target" id="sra-t-disrupt-install"></span><span class="sradef">T.DISRUPT_INSTALL</span>: Corrupt image by disrupting installer<a class="headerlink" href="#t-disrupt-install-corrupt-image-by-disrupting-installer" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker attempts to corrupt the firmware store by causing a device restart while an installation operation is in process. For example, causing a device restart while the bootloader is copying or swapping images, or cleaning the firmware store. After restart the corrupted firmware store can result in an inoperable device.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For implementations where the bootloader does the installation, this threat only relevant for an attacker with physical access (<a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a>).</p>
+</div>
+<div class="threat docutils container">
+<dl class="simple">
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-robust-install"></span><span class="sradef">M.ROBUST_INSTALL</span>. <strong>Transfer</strong> to the implementation: updates to the firmware store must be resilient to a power failure or reset interrupting the installation process. This requires that the installer can detect when an update process has been interrupted in this way, and then either recover and resume the installation, or revert to the previous firmware image.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-disrupt-download-corrupt-image-by-disrupting-writes">
+<h3><span class="section-number">D.4.12. </span><span class="target" id="sra-t-disrupt-download"></span><span class="sradef">T.DISRUPT_DOWNLOAD</span>: Corrupt image by disrupting writes<a class="headerlink" href="#t-disrupt-download-corrupt-image-by-disrupting-writes" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>In a component with a non-volatile WRITING state, an attacker attempts to corrupt the firmware image being staged by causing a device restart while firmware image data is being written. When the update process resumes following restart, an incomplete write might not be detected, or corrected.</p>
+<div class="threat docutils container">
+<dl>
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-0"><span class="sraref atg_c atg_c-am">AM.0</span></a>, <a class="reference internal" href="#sra-am-1"><span class="sraref atg_c atg_c-am">AM.1</span></a>, <a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-robust-download"></span><span class="sradef">M.ROBUST_DOWNLOAD</span>. <strong>Transfer</strong> to the update client and the implementation: implement a protocol for reliably synchronizing the partially written image status between the update client and implementation when the device restarts. This should include detecting situations that cannot be resumed due to incompletely written or corrupted data, and require the update to restart from the beginning.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This threat is related to <a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a>. Authentication of the complete image via <a class="reference internal" href="#sra-m-authenticate"><span class="sraref atg_c atg_c-m">M.AUTHENTICATE</span></a> will detect the corruption. However, a device will implement a non-volatile WRITING state when the transfer and storage of firmware update images is relatively expensive. For example, in systems with very low bandwidth, or small energy budgets.</p>
+</div>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-fault-injection-verification-bypass-via-glitching">
+<h3><span class="section-number">D.4.13. </span><span class="target" id="sra-t-fault-injection"></span><span class="sradef">T.FAULT_INJECTION</span>: Verification bypass via glitching<a class="headerlink" href="#t-fault-injection-verification-bypass-via-glitching" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker attempts to bypass verification of a firmware update by injecting faults, enabling the installation of non-authentic, non-functional, incompatible, or known to be vulnerable firmware images.</p>
+<div class="threat docutils container">
+<dl class="simple">
+<dt><p><span class="sralabel">Adversarial Model</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-am-2"><span class="sraref atg_c atg_c-am">AM.2</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Security Goal</span></p>
+</dt><dd><p><a class="reference internal" href="#sra-sg-authentic"><span class="sraref atg_c atg_c-sg">SG.AUTHENTIC</span></a>, <a class="reference internal" href="#sra-sg-reliable"><span class="sraref atg_c atg_c-sg">SG.RELIABLE</span></a></p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Likelihood</span></p>
+</dt><dd><p>Low</p>
+</dd>
+<dt><p><span class="sralabel">Unmitigated Risk</span></p>
+</dt><dd><p>Medium</p>
+</dd>
+<dt><p><span class="sralabel">Mitigating Actions</span></p>
+</dt><dd><p><span class="target" id="sra-m-fault-hardening"></span><span class="sradef">M.FAULT_HARDENING</span>. <strong>Transfer</strong> to the implementation: use fault-injection-hardening techniques in the design and implementation of the update service and bootloader.</p>
+</dd>
+<dt><p><span class="sralabel">Residual Impact</span></p>
+</dt><dd><p>Very High</p>
+</dd>
+<dt><p><span class="sralabel">Residual Likelihood</span></p>
+</dt><dd><p>Very Low</p>
+</dd>
+<dt><p><span class="sralabel">Residual Risk</span></p>
+</dt><dd><p>Low</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="t-server-attack-from-exploited-update-server">
+<h3><span class="section-number">D.4.14. </span><span class="target" id="sra-t-server"></span><span class="sradef">T.SERVER</span>: Attack from exploited update server<a class="headerlink" href="#t-server-attack-from-exploited-update-server" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker can impersonate, or exploit the update server to provide attacker-controlled commands and data to the update client.</p>
+<p>For the deployment models that are in scope for this SRA, this threat is indistinguishable from <a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a>.</p>
+</section>
+<section id="t-creator-attack-from-spoof-firmware-creator">
+<h3><span class="section-number">D.4.15. </span><span class="target" id="sra-t-creator"></span><span class="sradef">T.CREATOR</span>: Attack from spoof firmware creator<a class="headerlink" href="#t-creator-attack-from-spoof-firmware-creator" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker can impersonate the firmware creator to upload attacker-controlled firmware images.</p>
+<p>For the deployment models that are in scope for this SRA, this threat is indistinguishable from <a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a>.</p>
+</section>
+<section id="t-network-manipulate-network-traffic">
+<h3><span class="section-number">D.4.16. </span><span class="target" id="sra-t-network"></span><span class="sradef">T.NETWORK</span>: Manipulate network traffic<a class="headerlink" href="#t-network-manipulate-network-traffic" title="Permalink to this heading">¶</a></h3>
+<p><span class="sralabel">Description: </span>An attacker intercepts all traffic to and from a device. The attacker can monitor or modify any data sent to or received from the device.</p>
+<p>For the deployment models that are in scope for this SRA, this threat is indistinguishable from <a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a>.</p>
+</section>
+</section>
+<section id="mitigation-summary">
+<span id="sra-mitigations"></span><h2><span class="section-number">D.5. </span>Mitigation summary<a class="headerlink" href="#mitigation-summary" title="Permalink to this heading">¶</a></h2>
+<p>This section provides a summary of the mitigations described in the threat analysis, organized by the entity responsible for providing the mitigation. <a class="reference internal" href="#sra-api-features"><span class="secref">Security features of the API</span></a> lists the API impacts that result from the security assessment.</p>
+<section id="architectural-mitigations">
+<h3><span class="section-number">D.5.1. </span>Architectural mitigations<a class="headerlink" href="#architectural-mitigations" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-sra-api-mitigations"><span class="numref">Table 14</span></a></span> lists mitigations that must be included in the design of the Firmware Update API.</p>
+<p><span><a class="reference internal" href="#tab-sra-format-mitigations"><span class="numref">Table 15</span></a></span> lists mitigations that need to be included in the design of the firmware image and firmware manifest formats used by the selected firmware update process. An example of a firmware manifest format that provides these features is described in <a class="reference internal" href="../about.html#cite-rfc9124"><span class="cite">[RFC9124]</span></a>.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-api-mitigations">
+<caption><span class="caption-number">Table 14 </span><span class="caption-text">Mitigations <strong>controlled</strong> by the Firmware Update API</span><a class="headerlink" href="#tab-sra-api-mitigations" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mitigation</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Mitigated threats</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-explicit-staging"><span class="sraref atg_c atg_c-m">M.EXPLICIT_STAGING</span></a></p></td>
+<td><p>Candidate firmware images that have been prepared require an explicit API call to stage for installation.</p></td>
+<td><p><a class="reference internal" href="#sra-t-partial-update"><span class="sraref atg_c atg_c-t">T.PARTIAL_UPDATE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-memory-buffer"><span class="sraref atg_c atg_c-m">M.MEMORY_BUFFER</span></a></p></td>
+<td><p>The implementation use of memory buffers in the API is fully specified.</p></td>
+<td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-state-model"><span class="sraref atg_c atg_c-m">M.STATE_MODEL</span></a></p></td>
+<td><p>The valid operation sequence for the API is fully specified by the API.</p></td>
+<td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-trial"><span class="sraref atg_c atg_c-m">M.TRIAL</span></a></p></td>
+<td><p>Provide a firmware image state where a failure to run a new firmware image will cause a roll back to the previously installed firmware.</p></td>
+<td><p><a class="reference internal" href="#sra-t-non-functional"><span class="sraref atg_c atg_c-t">T.NON_FUNCTIONAL</span></a>, <a class="reference internal" href="#sra-t-rollback"><span class="sraref atg_c atg_c-t">T.ROLLBACK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-format-mitigations">
+<caption><span class="caption-number">Table 15 </span><span class="caption-text">Mitigations <strong>transferred</strong> to the firmware image and manifest formats</span><a class="headerlink" href="#tab-sra-format-mitigations" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mitigation</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Mitigated threats</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-authenticate"><span class="sraref atg_c atg_c-m">M.AUTHENTICATE</span></a></p></td>
+<td><p>Authenticate the content of the firmware image manifest and firmware images to prevent unauthorized modification. For detached manifests this can be achieved by including a cryptographic hash of the firmware image in the manifest, and then signing the manifest with an authorized key.</p></td>
+<td><p><a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-check-dependency"><span class="sraref atg_c atg_c-m">M.CHECK_DEPENDENCY</span></a></p></td>
+<td><p>Dependencies between firmware images are declared in the firmware image or manifest.</p></td>
+<td><p><a class="reference internal" href="#sra-t-skip-intermediate"><span class="sraref atg_c atg_c-t">T.SKIP_INTERMEDIATE</span></a>, <a class="reference internal" href="#sra-t-partial-update"><span class="sraref atg_c atg_c-t">T.PARTIAL_UPDATE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-compatibility"><span class="sraref atg_c atg_c-m">M.COMPATIBILITY</span></a></p></td>
+<td><p>Include authenticated device type information in the manifest.</p></td>
+<td><p><a class="reference internal" href="#sra-t-incompatible"><span class="sraref atg_c atg_c-t">T.INCOMPATIBLE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-encrypt"><span class="sraref atg_c atg_c-m">M.ENCRYPT</span></a></p></td>
+<td><p>Use encryption to protect the firmware image.</p></td>
+<td><p><a class="reference internal" href="#sra-t-disclosure"><span class="sraref atg_c atg_c-t">T.DISCLOSURE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-sequence"><span class="sraref atg_c atg_c-m">M.SEQUENCE</span></a></p></td>
+<td><p>Firmware images, or their manifests, must be monotonically sequenced for the device, or for each component within a device.</p></td>
+<td><p><a class="reference internal" href="#sra-t-rollback"><span class="sraref atg_c atg_c-t">T.ROLLBACK</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="implementation-level-mitigations">
+<h3><span class="section-number">D.5.2. </span>Implementation-level mitigations<a class="headerlink" href="#implementation-level-mitigations" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-sra-remediations"><span class="numref">Table 16</span></a></span> lists the mitigations that are transferred to the implementation. These are also known as ‘remediations’.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-remediations">
+<caption><span class="caption-number">Table 16 </span><span class="caption-text">Mitigations that are <strong>transferred</strong> to the implementation</span><a class="headerlink" href="#tab-sra-remediations" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mitigation</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Mitigated threats</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-authenticate"><span class="sraref atg_c atg_c-m">M.AUTHENTICATE</span></a></p></td>
+<td><p>Verify the authenticity of the firmware image manifest and firmware images against a trust anchor within the implementation, prior to installation.</p></td>
+<td><p><a class="reference internal" href="#sra-t-tamper"><span class="sraref atg_c atg_c-t">T.TAMPER</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-check-dependency"><span class="sraref atg_c atg_c-m">M.CHECK_DEPENDENCY</span></a></p></td>
+<td><p>Dependencies between firmware images are verified by the implementation prior to installation.</p></td>
+<td><p><a class="reference internal" href="#sra-t-skip-intermediate"><span class="sraref atg_c atg_c-t">T.SKIP_INTERMEDIATE</span></a>, <a class="reference internal" href="#sra-t-partial-update"><span class="sraref atg_c atg_c-t">T.PARTIAL_UPDATE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-compatibility"><span class="sraref atg_c atg_c-m">M.COMPATIBILITY</span></a></p></td>
+<td><p>Verify firmware image compatibility prior to installation.</p></td>
+<td><p><a class="reference internal" href="#sra-t-incompatible"><span class="sraref atg_c atg_c-t">T.INCOMPATIBLE</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-encrypt"><span class="sraref atg_c atg_c-m">M.ENCRYPT</span></a></p></td>
+<td><p>Use cryptographic encryption to protect the firmware image.</p></td>
+<td><p><a class="reference internal" href="#sra-t-disclosure"><span class="sraref atg_c atg_c-t">T.DISCLOSURE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-fault-hardening"><span class="sraref atg_c atg_c-m">M.FAULT_HARDENING</span></a></p></td>
+<td><p>Use fault-injection-hardening techniques.</p></td>
+<td><p><a class="reference internal" href="#sra-t-fault-injection"><span class="sraref atg_c atg_c-t">T.FAULT_INJECTION</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-protect-then-verify"><span class="sraref atg_c atg_c-m">M.PROTECT_THEN_VERIFY</span></a></p></td>
+<td><p>Verification of firmware images and manifests must be done on a copy of the asset that is protected from tampering by untrusted components.</p></td>
+<td><p><a class="reference internal" href="#sra-t-toctou"><span class="sraref atg_c atg_c-t">T.TOCTOU</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-robust-download"><span class="sraref atg_c atg_c-m">M.ROBUST_DOWNLOAD</span></a></p></td>
+<td><p>Synchronize a partially written image status between the update client and implementation when the device restarts.</p></td>
+<td><p><a class="reference internal" href="#sra-t-disrupt-download"><span class="sraref atg_c atg_c-t">T.DISRUPT_DOWNLOAD</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-robust-install"><span class="sraref atg_c atg_c-m">M.ROBUST_INSTALL</span></a></p></td>
+<td><p>Updates to the firmware store must be resilient to a power failure or reset interrupting the installation process.</p></td>
+<td><p><a class="reference internal" href="#sra-t-disrupt-install"><span class="sraref atg_c atg_c-t">T.DISRUPT_INSTALL</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-sequence"><span class="sraref atg_c atg_c-m">M.SEQUENCE</span></a></p></td>
+<td><p>Deny an attempt to install an update with a sequence number that is lower than the currently installed firmware.</p></td>
+<td><p><a class="reference internal" href="#sra-t-rollback"><span class="sraref atg_c atg_c-t">T.ROLLBACK</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-state-model"><span class="sraref atg_c atg_c-m">M.STATE_MODEL</span></a></p></td>
+<td><p>Enforce the state model defined by the API.</p></td>
+<td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-trial"><span class="sraref atg_c atg_c-m">M.TRIAL</span></a></p></td>
+<td><p>Use the provided TRIAL state in the firmware update process, to enable recovery of a failed update</p></td>
+<td><p><a class="reference internal" href="#sra-t-non-functional"><span class="sraref atg_c atg_c-t">T.NON_FUNCTIONAL</span></a>, <a class="reference internal" href="#sra-t-rollback"><span class="sraref atg_c atg_c-t">T.ROLLBACK</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-validate-parameter"><span class="sraref atg_c atg_c-m">M.VALIDATE_PARAMETER</span></a></p></td>
+<td><p>Check all API parameters to lie within valid ranges, including memory access permissions.</p></td>
+<td><p><a class="reference internal" href="#sra-t-interface-abuse"><span class="sraref atg_c atg_c-t">T.INTERFACE_ABUSE</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-verify-early"><span class="sraref atg_c atg_c-m">M.VERIFY_EARLY</span></a></p></td>
+<td><p>Verify firmware images as early as possible in the update process, to detect and reject an invalid update.</p></td>
+<td><p><a class="reference internal" href="#sra-t-degrade-device"><span class="sraref atg_c atg_c-t">T.DEGRADE_DEVICE</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="user-level-mitigations">
+<h3><span class="section-number">D.5.3. </span>User-level mitigations<a class="headerlink" href="#user-level-mitigations" title="Permalink to this heading">¶</a></h3>
+<p><span><a class="reference internal" href="#tab-sra-residual-risk"><span class="numref">Table 17</span></a></span> lists mitigations that are transferred to the application or other external components. These are also known as ‘residual risks’.</p>
+<table class="colwidths-given longtable docutils align-default" id="tab-sra-residual-risk">
+<caption><span class="caption-number">Table 17 </span><span class="caption-text">Mitigations that are <strong>transferred</strong> to the application</span><a class="headerlink" href="#tab-sra-residual-risk" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mitigation</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Mitigated threats</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#sra-m-robust-download"><span class="sraref atg_c atg_c-m">M.ROBUST_DOWNLOAD</span></a></p></td>
+<td><p>Synchronize a partially written image status between the update client and implementation when the device restarts.</p></td>
+<td><p><a class="reference internal" href="#sra-t-disrupt-download"><span class="sraref atg_c atg_c-t">T.DISRUPT_DOWNLOAD</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sra-m-verify-early"><span class="sraref atg_c atg_c-m">M.VERIFY_EARLY</span></a></p></td>
+<td><p>Verify firmware images as early as possible in the update process, to detect and reject an invalid update.</p></td>
+<td><p><a class="reference internal" href="#sra-t-degrade-device"><span class="sraref atg_c atg_c-t">T.DEGRADE_DEVICE</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="../index.html"><b>PSA Certified<br />Firmware Update API</b></a></h3>
+IHI 0093<br/>
+Non-confidential<br/>
+Version 1.0.0
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/goals.html">2. Design goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/programming-model.html">4. Programming model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">5. API reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example-header.html">A. Example header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">B. Example usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variations.html">C. Variation in system design parameters</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">D. Security Risk Assessment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#about-this-assessment">D.1. About this assessment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subject-and-scope">D.1.1. Subject and scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#risk-assessment-methodology">D.1.2. Risk assessment methodology</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#feature-definition">D.2. Feature definition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">D.2.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lifecycle">D.2.2. Lifecycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operation-and-trust-boundaries">D.2.3. Operation and trust boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deployment-models">D.2.4. Deployment models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#assumptions-and-constraints">D.2.5. Assumptions and constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stakeholders-and-assets">D.2.6. Stakeholders and assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#security-goals">D.2.7. Security goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adversarial-model">D.2.8. Adversarial model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#feature-characterization">D.3. Feature characterization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#detailed-deployment-dataflow">D.3.1. Detailed deployment dataflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#security-features-of-the-api">D.3.2. Security features of the API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#threats">D.4. Threats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#t-tamper-tampering-with-the-firmware-image-or-manifest">D.4.1. <span class="sradef">T.TAMPER</span>: Tampering with the firmware image or manifest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-non-functional-install-defective-firmware">D.4.2. <span class="sradef">T.NON_FUNCTIONAL</span>: Install defective firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-rollback-install-old-firmware">D.4.3. <span class="sradef">T.ROLLBACK</span>: Install old firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-skip-intermediate-skip-intermediate-update">D.4.4. <span class="sradef">T.SKIP_INTERMEDIATE</span>: Skip intermediate update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-degrade-device-repeatedly-install-invalid-firmware">D.4.5. <span class="sradef">T.DEGRADE_DEVICE</span>: Repeatedly install invalid firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-interface-abuse-illegal-inputs-to-the-api">D.4.6. <span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-toctou-modify-asset-between-authentication-and-use">D.4.7. <span class="sradef">T.TOCTOU</span>: Modify asset between authentication and use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-partial-update-trigger-installation-of-incomplete-update">D.4.8. <span class="sradef">T.PARTIAL_UPDATE</span>: Trigger installation of incomplete update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-incompatible-mismatched-firmware">D.4.9. <span class="sradef">T.INCOMPATIBLE</span>: Mismatched firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-disclosure-disclosure-of-protected-firmware">D.4.10. <span class="sradef">T.DISCLOSURE</span>: Disclosure of protected firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-disrupt-install-corrupt-image-by-disrupting-installer">D.4.11. <span class="sradef">T.DISRUPT_INSTALL</span>: Corrupt image by disrupting installer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-disrupt-download-corrupt-image-by-disrupting-writes">D.4.12. <span class="sradef">T.DISRUPT_DOWNLOAD</span>: Corrupt image by disrupting writes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-fault-injection-verification-bypass-via-glitching">D.4.13. <span class="sradef">T.FAULT_INJECTION</span>: Verification bypass via glitching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-server-attack-from-exploited-update-server">D.4.14. <span class="sradef">T.SERVER</span>: Attack from exploited update server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-creator-attack-from-spoof-firmware-creator">D.4.15. <span class="sradef">T.CREATOR</span>: Attack from spoof firmware creator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#t-network-manipulate-network-traffic">D.4.16. <span class="sradef">T.NETWORK</span>: Manipulate network traffic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mitigation-summary">D.5. Mitigation summary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#architectural-mitigations">D.5.1. Architectural mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implementation-level-mitigations">D.5.2. Implementation-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-level-mitigations">D.5.3. User-level mitigations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="change-history.html">E. Document change history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2020-2023 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="PSA Certified  Firmware Update API 1.0" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/fwu/1.0/" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/fwu/1.0/" />
+<meta property="og:site_name" content="PSA Certified Firmware Update API 1.0" />
+<meta property="og:description" content="Arm PSA Certified Firmware Update API 1.0:,, Document number:, IHI 0093,, Release Quality:, Final,, Issue Number:, 0,, Confidentiality:, Non-confidential,, Date of Issue:, 1/8/2023,,,, Abstract Thi..." />
+<meta name="description" content="Arm PSA Certified Firmware Update API 1.0:,, Document number:, IHI 0093,, Release Quality:, Final,, Issue Number:, 0,, Confidentiality:, Non-confidential,, Date of Issue:, 1/8/2023,,,, Abstract Thi..." />
+
+    <title>PSA Certified Firmware Update API 1.0 &#8212; PSA Certified Firmware Update API 1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="About this document" href="about.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <img alt="Arm" class="titlelogo" src="_images/Arm_logo_blue_RGB.svg" /><section id="docrsttitle-docversion">
+<h1>PSA Certified <br /> Firmware Update API 1.0<a class="headerlink" href="#docrsttitle-docversion" title="Permalink to this heading">¶</a></h1>
+<table class="titletable borderless docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Document number:</p></td>
+<td><p>IHI 0093</p></td>
+</tr>
+<tr class="row-even"><td><p>Release Quality:</p></td>
+<td><p>Final</p></td>
+</tr>
+<tr class="row-odd"><td><p>Issue Number:</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Confidentiality:</p></td>
+<td><p>Non-confidential</p></td>
+</tr>
+<tr class="row-odd"><td><p>Date of Issue:</p></td>
+<td><p>1/8/2023</p></td>
+</tr>
+</tbody>
+</table>
+<p><span class="sectiontitle">Abstract</span></p>
+<p>This document defines a standard firmware interface for installing firmware updates.</p>
+<p><span class="sectiontitle">Contents</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#release-information">Release information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#terms-and-abbreviations">Terms and abbreviations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#potential-for-change">Potential for change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#conventions">Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#feedback">Feedback</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview/intro.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/intro.html#about-platform-security-architecture">1.1. About Platform Security Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/intro.html#about-the-api">1.2. About the Firmware Update API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/intro.html#firmware-update">1.3. Firmware update</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="overview/goals.html">2. Design goals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#suitable-for-constrained-devices">2.1. Suitable for constrained devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#updating-the-platform-root-of-trust">2.2. Updating the Platform Root of Trust</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#updating-the-application-root-of-trust">2.3. Updating the Application Root of Trust</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#flexibility-for-different-trust-models">2.4. Flexibility for different trust models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#protocol-independence">2.5. Protocol independence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#transport-independence">2.6. Transport independence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#firmware-format-independence">2.7. Firmware format independence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#flexibility-for-different-hardware-designs">2.8. Flexibility for different hardware designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#suitable-for-composite-devices">2.9. Suitable for composite devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#robust-and-reliable-update">2.10. Robust and reliable update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/goals.html#flexibility-in-implementation-design">2.11. Flexibility in implementation design</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="overview/architecture.html">3. Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#concepts-and-terminology">3.1. Concepts and terminology</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#firmware-image">3.1.1. Firmware image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#manifest">3.1.2. Manifest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#component">3.1.3. Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#component-identifier">3.1.4. Component identifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#firmware-creator">3.1.5. Firmware creator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#update-server">3.1.6. Update server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#update-client">3.1.7. Update client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#update-service">3.1.8. Update service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#firmware-store">3.1.9. Firmware store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#bootloader">3.1.10. Bootloader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#trust-anchor">3.1.11. Trust anchor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#firmware-image-format">3.2. Firmware image format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#deployment-scenarios">3.3. Deployment scenarios</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#untrusted-client">3.3.1. Untrusted client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#untrusted-staging">3.3.2. Untrusted staging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/architecture.html#trusted-client">3.3.3. Trusted client</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="overview/programming-model.html">4. Programming model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/programming-model.html#the-firmware-store">4.1. The firmware store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/programming-model.html#state-model">4.2. State model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#component-state">4.2.1. Component state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#volatile-states">4.2.2. Volatile states</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#state-transitions">4.2.3. State transitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#behavior-on-error">4.2.4. Behavior on error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#rationale">4.2.5. Rationale</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview/programming-model.html#verifying-an-update">4.3. Verifying an update</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#manifest-verification">4.3.1. Manifest verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#firmware-image-verification">4.3.2. Firmware image verification</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview/programming-model.html#dependencies">4.4. Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/programming-model.html#update-client-operation">4.5. Update client operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#querying-installed-firmware">4.5.1. Querying installed firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#preparing-a-new-firmware-image">4.5.2. Preparing a new firmware image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#installing-the-candidate-firmware-image">4.5.3. Installing the candidate firmware image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#testing-the-new-firmware-image">4.5.4. Testing the new firmware image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#cleaning-up-the-firmware-store">4.5.5. Cleaning up the firmware store</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview/programming-model.html#bootloader-operation">4.6. Bootloader operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#determine-firmware-state">4.6.1. Determine firmware state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#install-components">4.6.2. Install components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#rollback-trial-components">4.6.3. Rollback trial components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview/programming-model.html#authenticate-and-execute-active-firmware">4.6.4. Authenticate and execute <em>active</em> firmware</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview/programming-model.html#sample-sequence-during-firmware-update">4.7. Sample sequence during firmware update</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/api.html">5. API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#api-conventions">5.1. API conventions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#identifier-names">5.1.1. Identifier names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#basic-types">5.1.2. Basic types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#data-types">5.1.3. Data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#constants">5.1.4. Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#functions">5.1.5. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#return-status">5.1.6. Return status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#pointer-conventions">5.1.7. Pointer conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#implementation-specific-types">5.1.8. Implementation-specific types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#header-file">5.2. Header file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#required-functions">5.2.1. Required functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#library-management">5.3. Library management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#library-version">5.3.1. Library version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#status-codes">5.4. Status codes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#common-status-codes">5.4.1. Common status codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#error-codes-specific-to-the-api">5.4.2. Error codes specific to the Firmware Update API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#success-status-codes-specific-to-the-api">5.4.3. Success status codes specific to the Firmware Update API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#firmware-components">5.5. Firmware components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#component-identifier">5.5.1. Component identifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#component-version">5.5.2. Component version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#component-states">5.5.3. Component states</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#component-flags">5.5.4. Component flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#component-information">5.5.5. Component information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#firmware-installation">5.6. Firmware installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#candidate-image-preparation">5.6.1. Candidate image preparation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#image-installation">5.6.2. Image installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#image-trial">5.6.3. Image trial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix/example-header.html">A. Example header file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/example-header.html#psa-update-h">A.1. psa/update.h</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/examples.html">B. Example usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/examples.html#retrieve-versions-of-installed-images">B.1. Retrieve versions of installed images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/examples.html#individual-component-update-single-part-operation">B.2. Individual component update (single part operation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/examples.html#individual-component-update-multi-part-operation">B.3. Individual component update (multi part operation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/examples.html#multiple-components-with-dependent-images">B.4. Multiple components with dependent images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/examples.html#clean-up-all-component-updates">B.5. Clean up all component updates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/variations.html">C. Variation in system design parameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/variations.html#component-with-non-volatile-staging">C.1. Component with non-volatile staging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/variations.html#component-that-requires-a-reboot-but-no-trial">C.1.1. Component that requires a reboot, but no trial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/variations.html#component-that-requires-a-trial-but-no-reboot">C.1.2. Component that requires a trial, but no reboot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/variations.html#component-that-requires-neither-a-reboot-nor-a-trial">C.1.3. Component that requires neither a reboot, nor a trial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/variations.html#component-with-volatile-staging">C.2. Component with volatile staging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">D. Security Risk Assessment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#about-this-assessment">D.1. About this assessment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#subject-and-scope">D.1.1. Subject and scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#risk-assessment-methodology">D.1.2. Risk assessment methodology</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#feature-definition">D.2. Feature definition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#introduction">D.2.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#lifecycle">D.2.2. Lifecycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#operation-and-trust-boundaries">D.2.3. Operation and trust boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#deployment-models">D.2.4. Deployment models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#assumptions-and-constraints">D.2.5. Assumptions and constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#stakeholders-and-assets">D.2.6. Stakeholders and assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#security-goals">D.2.7. Security goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#adversarial-model">D.2.8. Adversarial model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#feature-characterization">D.3. Feature characterization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#detailed-deployment-dataflow">D.3.1. Detailed deployment dataflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#security-features-of-the-api">D.3.2. Security features of the API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#threats">D.4. Threats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-tamper-tampering-with-the-firmware-image-or-manifest">D.4.1. <span class="sradef">T.TAMPER</span>: Tampering with the firmware image or manifest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-non-functional-install-defective-firmware">D.4.2. <span class="sradef">T.NON_FUNCTIONAL</span>: Install defective firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-rollback-install-old-firmware">D.4.3. <span class="sradef">T.ROLLBACK</span>: Install old firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-skip-intermediate-skip-intermediate-update">D.4.4. <span class="sradef">T.SKIP_INTERMEDIATE</span>: Skip intermediate update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-degrade-device-repeatedly-install-invalid-firmware">D.4.5. <span class="sradef">T.DEGRADE_DEVICE</span>: Repeatedly install invalid firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-interface-abuse-illegal-inputs-to-the-api">D.4.6. <span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-toctou-modify-asset-between-authentication-and-use">D.4.7. <span class="sradef">T.TOCTOU</span>: Modify asset between authentication and use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-partial-update-trigger-installation-of-incomplete-update">D.4.8. <span class="sradef">T.PARTIAL_UPDATE</span>: Trigger installation of incomplete update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-incompatible-mismatched-firmware">D.4.9. <span class="sradef">T.INCOMPATIBLE</span>: Mismatched firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-disclosure-disclosure-of-protected-firmware">D.4.10. <span class="sradef">T.DISCLOSURE</span>: Disclosure of protected firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-disrupt-install-corrupt-image-by-disrupting-installer">D.4.11. <span class="sradef">T.DISRUPT_INSTALL</span>: Corrupt image by disrupting installer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-disrupt-download-corrupt-image-by-disrupting-writes">D.4.12. <span class="sradef">T.DISRUPT_DOWNLOAD</span>: Corrupt image by disrupting writes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-fault-injection-verification-bypass-via-glitching">D.4.13. <span class="sradef">T.FAULT_INJECTION</span>: Verification bypass via glitching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-server-attack-from-exploited-update-server">D.4.14. <span class="sradef">T.SERVER</span>: Attack from exploited update server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-creator-attack-from-spoof-firmware-creator">D.4.15. <span class="sradef">T.CREATOR</span>: Attack from spoof firmware creator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-network-manipulate-network-traffic">D.4.16. <span class="sradef">T.NETWORK</span>: Manipulate network traffic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#mitigation-summary">D.5. Mitigation summary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#architectural-mitigations">D.5.1. Architectural mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#implementation-level-mitigations">D.5.2. Implementation-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#user-level-mitigations">D.5.3. User-level mitigations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/change-history.html">E. Document change history</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/change-history.html#changes-between-version-1-0-beta-and-1-0-0">E.1. Changes between version <em>1.0 Beta</em> and <em>1.0.0</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/change-history.html#changes-between-version-0-7-and-1-0-beta">E.2. Changes between version <em>0.7</em> and <em>1.0 Beta</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/change-history.html#changes-between-version-0-6-and-0-7">E.3. Changes between version <em>0.6</em> and <em>0.7</em></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
+            </a></p><hr />
+<h3><a href="#"><b>PSA Certified<br />Firmware Update API</b></a></h3>
+IHI 0093<br/>
+Non-confidential<br/>
+Version 1.0.0
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview/intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/goals.html">2. Design goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/programming-model.html">4. Programming model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/api.html">5. API reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix/example-header.html">A. Example header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/examples.html">B. Example usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/variations.html">C. Variation in system design parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">D. Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/change-history.html">E. Document change history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; 2020-2023 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,3 +1,8 @@
+---
+title: PSA Certified APIs
+description: The official place for the latest published documents of the PSA Certified APIs
+---
+
 <!--
 SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
