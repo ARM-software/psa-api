@@ -1165,6 +1165,123 @@ The curve type affects the key format, the key derivation procedure, and the alg
     .. return:: psa_ecc_family_t
         The elliptic curve family id, if ``type`` is a supported elliptic curve key. Unspecified if ``type`` is not a supported elliptic curve key.
 
+.. _ml-keys:
+
+Module Lattice keys
+-------------------
+
+The |API| supports Module Lattice cryptography as defined in :cite-title:`FIPS203` and :cite-title:`FIPS204`.
+
+There are two related, but separate, algorithms:
+
+*   A key encapsulation method, ML-KEM.
+*   A signature method, ML-DSA.
+
+These algorithms have distinct asymmetric key types.
+
+.. macro:: PSA_KEY_TYPE_ML_DSA_KEY_PAIR
+    :definition: ((psa_key_type_t)0x7002)
+
+    .. summary::
+        ML-DSA key pair: both the private and public key.
+
+    The key attribute size of an ML-DSA key is the numeric ML-DSA parameter-set identifier defined in `[FIPS204]`.
+    The values are based on the dimensions of the matrix :math:`A`, and do not directly define the key size in bytes:
+
+    *   ML-DSA-44 : ``key_bits = 44``
+    *   ML-DSA-65 : ``key_bits = 65``
+    *   ML-DSA-87 : ``key_bits = 87``
+
+    See also §4 in `[FIPS204]`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_DSA`
+            *   `PSA_ALG_HASH_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+
+    .. subsection:: Key format
+
+        .. todo::
+            Decide if the default ML-DSA key-pair format is the 32-byte seed :math:`\xi`, or the :math:`(pk,sk)` tuple (which is 3.8kB - 7.4kB in size).
+
+            The seed cannot be recomputed from the (pk, sk) pair.
+            If the seed is the default format, then importing a (pk, sk) pair results in a key that cannot be exported in the default format.
+
+            I suspect this means that the default export format should be the (pk, sk) pair.
+            The API permits implementation storage as a seed (for internally generated keys), and the API could provide an alternative format or format option to export/import the seed instead of the (pk, sk) pair (for an implementation and key-pair that still retain the generating seed).
+
+        An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key.
+
+        The data format for import and export of the key-pair is the concatenation of the public key and secret keys, :math:`pk\ ||\ sk`, where :math:`pk` and :math:`sk` are the octet strings returned by the ``ML-DSA.KeyGen()`` operation defined in `[FIPS204]` §5.1.
+
+        The size of the key pair depends on the ML-DSA parameter set as follows:
+
+        .. csv-table::
+            :align: left
+            :header-rows: 1
+
+            Parameter set, Key-pair size in bytes
+            ML-DSA-44, 3872
+            ML-DSA-65, 5984
+            ML-DSA-87, 7488
+
+        See `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+    .. subsection:: Key derivation
+
+        :issue:`TBD`
+
+        .. todo::
+
+            As ML-DSA keys are generated from a 32-byte seed, it would be very straight-forward to enable key-derivation of an ML-DSA key pair as part of a KDF.
+
+            However, this is not described anywhere as an expected use case with ML-DSA.
+
+.. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4002)
+
+    .. summary::
+        ML-DSA public key.
+
+    The key attribute size of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_DSA`
+            *   `PSA_ALG_HASH_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+
+    .. subsection:: Key format
+
+        An ML-DSA public key is the :math:`pk` output of the ``ML-DSA.KeyGen()`` operation defined in `[FIPS204]` §5.1.
+
+        The size of the public key depends on the ML-DSA parameter set as follows:
+
+        .. csv-table::
+            :align: left
+            :header-rows: 1
+
+            Parameter set, Public-key size in bytes
+            ML-DSA-44, 1312
+            ML-DSA-65, 1952
+            ML-DSA-87, 2592
+
+.. macro:: PSA_KEY_TYPE_IS_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an ML-DSA key, either a key pair or a public key.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
 .. _dh-keys:
 
 Diffie Hellman keys

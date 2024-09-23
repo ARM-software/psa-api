@@ -39,6 +39,9 @@ Algorithm macros
     #define PSA_ALG_DETERMINISTIC_ECDSA(hash_alg) \
         ((psa_algorithm_t) (0x06000700 | ((hash_alg) & 0x000000ff)))
 
+    #define PSA_ALG_DETERMINISTIC_HASH_ML_DSA(hash_alg) \
+        ((psa_algorithm_t) (0x06004700 | ((hash_alg) & 0x000000ff)))
+
     #define PSA_ALG_ECDSA(hash_alg) \
         ((psa_algorithm_t) (0x06000600 | ((hash_alg) & 0x000000ff)))
 
@@ -47,6 +50,9 @@ Algorithm macros
 
     #define PSA_ALG_GET_HASH(alg) \
         (((alg) & 0x000000ff) == 0 ? PSA_ALG_NONE : 0x02000000 | ((alg) & 0x000000ff))
+
+    #define PSA_ALG_HASH_ML_DSA(hash_alg) \
+        ((psa_algorithm_t) (0x06004600 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_HKDF(hash_alg) \
         ((psa_algorithm_t) (0x08000100 | ((hash_alg) & 0x000000ff)))
@@ -78,6 +84,9 @@ Algorithm macros
     #define PSA_ALG_IS_DETERMINISTIC_ECDSA(alg) \
         (((alg) & ~0x000000ff) == 0x06000700)
 
+    #define PSA_ALG_IS_DETERMINISTIC_ML_DSA(alg) \
+        (((alg) & ~0x000002ff) == 0x06004500)
+
     #define PSA_ALG_IS_ECDH(alg) \
         (((alg) & 0x7fff0000) == 0x09020000)
 
@@ -92,10 +101,14 @@ Algorithm macros
 
     #define PSA_ALG_IS_HASH_AND_SIGN(alg) \
         (PSA_ALG_IS_RSA_PSS(alg) || PSA_ALG_IS_RSA_PKCS1V15_SIGN(alg) || \
-         PSA_ALG_IS_ECDSA(alg) || PSA_ALG_IS_HASH_EDDSA(alg))
+         PSA_ALG_IS_ECDSA(alg) || PSA_ALG_IS_HASH_EDDSA(alg) || \
+         PSA_ALG_IS_HASH_ML_DSA(alg))
 
     #define PSA_ALG_IS_HASH_EDDSA(alg) \
         (((alg) & ~0x000000ff) == 0x06000900)
+
+    #define PSA_ALG_IS_HASH_ML_DSA(alg) \
+        (((alg) & ~0x000001ff) == 0x06004600)
 
     #define PSA_ALG_IS_HKDF(alg) \
         (((alg) & ~0x000000ff) == 0x08000100)
@@ -124,14 +137,23 @@ Algorithm macros
     #define PSA_ALG_IS_MAC(alg) \
         (((alg) & 0x7f000000) == 0x03000000)
 
+    #define PSA_ALG_IS_ML_DSA(alg) \
+        (((alg) & ~0x000003ff) == 0x06004400)
+
     #define PSA_ALG_IS_PAKE(alg) \
         (((alg) & 0x7f000000) == 0x0a000000)
 
     #define PSA_ALG_IS_PBKDF2_HMAC(alg) \
         (((alg) & ~0x000000ff) == 0x08800100)
 
+    #define PSA_ALG_IS_PURE_ML_DSA(alg) \
+        (((alg) & ~0x000001ff) == 0x06004400)
+
     #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) \
         (((alg) & ~0x000000ff) == 0x06000600)
+
+    #define PSA_ALG_IS_RANDOMIZED_ML_DSA(alg) \
+        (((alg) & ~0x000002ff) == 0x06004400)
 
     #define PSA_ALG_IS_RSA_OAEP(alg) \
         (((alg) & ~0x000000ff) == 0x07000300)
@@ -152,7 +174,8 @@ Algorithm macros
         (((alg) & 0x7f000000) == 0x06000000)
 
     #define PSA_ALG_IS_SIGN_HASH(alg) \
-        PSA_ALG_IS_SIGN(alg)
+        (PSA_ALG_IS_SIGN(alg) && \
+         (alg) != PSA_ALG_PURE_EDDSA && !PSA_ALG_IS_PURE_ML_DSA(alg))
 
     #define PSA_ALG_IS_SIGN_MESSAGE(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
@@ -297,6 +320,9 @@ Key type macros
 
     #define PSA_KEY_TYPE_IS_KEY_PAIR(type) \
         (((type) & 0x7000) == 0x7000)
+
+    #define PSA_KEY_TYPE_IS_ML_DSA(type) \
+        (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4002)
 
     #define PSA_KEY_TYPE_IS_PUBLIC_KEY(type) \
         (((type) & 0x7000) == 0x4000)

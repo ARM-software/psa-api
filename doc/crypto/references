@@ -396,3 +396,15 @@
     :author: Thread Group
     :publication: July 2022
     :url: www.threadgroup.org/ThreadSpec
+
+.. reference:: FIPS203
+    :title: FIPS Publication 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.203
+
+.. reference:: FIPS204
+    :title: FIPS Publication 204: Module-Lattice-Based Digital Signature Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.204

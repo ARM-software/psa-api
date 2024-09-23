@@ -33,6 +33,9 @@ Changes to the API
 
     See :secref:`asymmetric-key-encoding` and :secref:`appendix-specdef-key-values`.
 
+*   Added support for FIPS 204 ML-DSA signature algorithm and keys.
+    See :secref:`ml-keys` and :secref:`ml-dsa-algorithms`.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

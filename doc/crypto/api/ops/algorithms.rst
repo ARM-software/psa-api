@@ -233,7 +233,9 @@ Support macros
     The following composite algorithms require a hash algorithm:
 
     *   `PSA_ALG_DETERMINISTIC_ECDSA()`
+    *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`
     *   `PSA_ALG_ECDSA()`
+    *   `PSA_ALG_HASH_ML_DSA()`
     *   `PSA_ALG_HKDF()`
     *   `PSA_ALG_HKDF_EXPAND()`
     *   `PSA_ALG_HKDF_EXTRACT()`

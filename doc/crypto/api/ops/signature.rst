@@ -347,6 +347,248 @@ Asymmetric signature algorithms
 
         When used with `psa_sign_hash()` or `psa_verify_hash()`, the ``hash`` parameter to the call should be used as :math:`\text{PH}(M)` in the algorithms defined in :RFC:`8032#5.2`.
 
+.. _ml-dsa-algorithms:
+
+Module Lattice signature algorithms
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ML-DSA signature and verification scheme is defined in :cite-title:`FIPS204`.
+`[FIPS204]` defines three parameter sets which provide differing security strengths.
+
+ML-DSA keys are large: 1.2kB - 2.5kB for the public key, and triple that for the key pair.
+ML-DSA signatures are much larger than those for RSA and Elliptic curve schemes, between 2.4kB and 4.6kB, depending on the selected parameter set.
+
+See `[FIPS204]` §4 for details on the parameter sets, and the key and generated signature sizes.
+
+The generation of an ML-DSA key depends on the full parameter specification.
+The encoding of each parameter set into the key attributes is described in :secref:`ml-keys`.
+
+`[FIPS204]` defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
+Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_ALG_DETERMINISTIC_ML_DSA`, `PSA_ALG_HASH_ML_DSA()`, and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`.
+
+*   The pre-hashed signature computation generates distinct signatures to a pure signature, even with the same key and message hashing algorithm.
+
+    When verifying a signature it is necessary to know which algorithm was used to generate it.
+
+*   Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every signing operation when given identical inputs.
+    Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.
+
+    Signature verification does not distinguish between a hedged and a deterministic signature.
+    Either form of algorithm can be used when verifying a signature.
+
+.. note::
+    Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter.
+    A empty context string is used when computing or verifying ML-DSA signatures.
+
+    A future version of this specification may add suitable functions and extend this algorithm to support contexts.
+
+.. macro:: PSA_ALG_ML_DSA
+    :definition: ((psa_algorithm_t) 0x06004400)
+
+    .. summary::
+        Stateless hash-based digital signature algorithm without pre-hashing (ML-DSA), using hedging.
+
+    This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
+
+    This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
+    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+
+    This algorithm is randomized: each invocation returns a different, equally valid signature.
+
+    .. note::
+        See the general comments in :secref:`ml-dsa-algorithms`.
+
+    .. note::
+        To sign or verify the pre-computed hash of a message using ML-DSA, the HashML-DSA algorithms (`PSA_ALG_HASH_ML_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
+
+        The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
+
+.. macro:: PSA_ALG_DETERMINISTIC_ML_DSA
+    :definition: ((psa_algorithm_t) 0x06004500)
+
+    .. summary::
+        Deterministic stateless hash-based digital signature algorithm without pre-hashing (ML-DSA).
+
+    This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
+
+    This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
+    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+
+    This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
+
+    .. note::
+        See the general comments in :secref:`ml-dsa-algorithms`.
+
+    .. note::
+        To sign or verify the pre-computed hash of a message using ML-DSA, the HashML-DSA algorithms (`PSA_ALG_HASH_ML_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
+
+        The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
+
+.. macro:: PSA_ALG_HASH_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Stateless hash-based digital signature algorithm with pre-hashing (HashML-DSA), using hedging.
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
+
+    .. return::
+        The corresponding HashML-DSA signature algorithm, using ``hash_alg`` to pre-hash the message.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This algorithm can be used with both the message and hash signature functions.
+
+    This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
+    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+
+    This algorithm is randomized: each invocation returns a different, equally valid signature.
+
+    .. note::
+        See the general comments in :secref:`ml-dsa-algorithms`.
+
+    .. note::
+        The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
+
+    .. subsection:: Usage
+
+        This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:
+
+        *   Call `psa_sign_message()` with the message.
+
+        *   Calculate the hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the ``hash_alg`` hash algorithm.
+            Note that ``hash_alg`` can be extracted from the signature algorithm using :code:`PSA_ALG_GET_HASH(sig_alg)`.
+            Then sign the calculated hash with `psa_sign_hash()`.
+
+        Verifying a signature is similar, using `psa_verify_message()` or `psa_verify_hash()` instead of the signature function.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
+
+.. macro:: PSA_ALG_DETERMINISTIC_HASH_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Deterministic stateless hash-based digital signature algorithm with pre-hashing (HashML-DSA).
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
+
+    .. return::
+        The corresponding deterministic HashML-DSA signature algorithm, using ``hash_alg`` to pre-hash the message.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This algorithm can be used with both the message and hash signature functions.
+
+    This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
+    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+
+    This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
+
+    .. note::
+        See the general comments in :secref:`ml-dsa-algorithms`.
+
+    .. note::
+        The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
+
+    .. subsection:: Usage
+
+        See `PSA_ALG_HASH_ML_DSA()` for example usage.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
+        | :code:`PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
+
+.. macro:: PSA_ALG_IS_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is ML-DSA or HashML-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an ML-DSA or HashML-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_DETERMINISTIC_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is deterministic ML-DSA or HashML-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a deterministic ML-DSA or HashML-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_ML_DSA()` and `PSA_ALG_IS_RANDOMIZED_ML_DSA()`.
+
+.. macro:: PSA_ALG_IS_RANDOMIZED_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is randomized ML-DSA or HashML-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a randomized ML-DSA or HashML-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_ML_DSA()` and `PSA_ALG_IS_DETERMINISTIC_ML_DSA()`.
+
+.. macro:: PSA_ALG_IS_PURE_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is pure ML-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a pure ML-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_HASH_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is HashML-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a HashML-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
 Asymmetric signature functions
 ------------------------------
