@@ -349,8 +349,8 @@ Asymmetric signature algorithms
 
 .. _ml-dsa-algorithms:
 
-Module Lattice signature algorithms
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Module Lattice-based signature algorithms
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The ML-DSA signature and verification scheme is defined in :cite-title:`FIPS204`.
 `[FIPS204]` defines three parameter sets which provide differing security strengths.
@@ -361,7 +361,7 @@ ML-DSA signatures are much larger than those for RSA and Elliptic curve schemes,
 See `[FIPS204]` §4 for details on the parameter sets, and the key and generated signature sizes.
 
 The generation of an ML-DSA key depends on the full parameter specification.
-The encoding of each parameter set into the key attributes is described in :secref:`ml-keys`.
+The encoding of each parameter set into the key attributes is described in :secref:`ml-dsa-keys`.
 
 `[FIPS204]` defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
 Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_ALG_DETERMINISTIC_ML_DSA`, `PSA_ALG_HASH_ML_DSA()`, and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`.
@@ -391,7 +391,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
-    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+    ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -417,7 +417,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
-    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+    ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
 
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
 
@@ -452,7 +452,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     This algorithm can be used with both the message and hash signature functions.
 
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
-    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+    ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -497,7 +497,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     This algorithm can be used with both the message and hash signature functions.
 
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
-    ML-DSA requires an ML key, which determines the ML-DSA parameter set for the operation.
+    ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
 
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
 

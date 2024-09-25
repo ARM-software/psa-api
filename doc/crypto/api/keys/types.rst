@@ -1165,19 +1165,12 @@ The curve type affects the key format, the key derivation procedure, and the alg
     .. return:: psa_ecc_family_t
         The elliptic curve family id, if ``type`` is a supported elliptic curve key. Unspecified if ``type`` is not a supported elliptic curve key.
 
-.. _ml-keys:
+.. _ml-dsa-keys:
 
-Module Lattice keys
--------------------
+Module Lattice-based Signature keys
+-----------------------------------
 
-The |API| supports Module Lattice cryptography as defined in :cite-title:`FIPS203` and :cite-title:`FIPS204`.
-
-There are two related, but separate, algorithms:
-
-*   A key encapsulation method, ML-KEM.
-*   A signature method, ML-DSA.
-
-These algorithms have distinct asymmetric key types.
+The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined in :cite-title:`FIPS204`.
 
 .. macro:: PSA_KEY_TYPE_ML_DSA_KEY_PAIR
     :definition: ((psa_key_type_t)0x7002)
