@@ -1015,7 +1015,7 @@ Support macros
     .. return::
         ``1`` if ``alg`` is a hash-and-sign algorithm that signs exactly the hash value, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-        A wildcard signature algorithm policy, using `PSA_ALG_ANY_HASH`, returns the same value as the signature algorithm parameterised with a valid hash algorithm.
+        A wildcard signature algorithm policy, using `PSA_ALG_ANY_HASH`, returns the same value as the signature algorithm parameterized with a valid hash algorithm.
 
     This macro identifies algorithms that can be used with `psa_sign_hash()` that use the exact message hash value as an input the signature operation. For example, if :code:`PSA_ALG_IS_HASH_AND_SIGN(alg)` is true, the following call sequence is equivalent to :code:`psa_sign_message(key, alg, msg, msg_len, ...)`:
 
