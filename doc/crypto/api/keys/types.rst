@@ -1205,41 +1205,47 @@ These algorithms have distinct asymmetric key types.
 
     .. subsection:: Key format
 
-        .. todo::
-            Decide if the default ML-DSA key-pair format is the 32-byte seed :math:`\xi`, or the :math:`(pk,sk)` tuple (which is 3.8kB - 7.4kB in size).
+        An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See [FIPS204]` §5.1.
 
-            The seed cannot be recomputed from the (pk, sk) pair.
-            If the seed is the default format, then importing a (pk, sk) pair results in a key that cannot be exported in the default format.
+        The data format for import and export of the key pair is the 32-byte seed :math:`\xi`.
 
-            I suspect this means that the default export format should be the (pk, sk) pair.
-            The API permits implementation storage as a seed (for internally generated keys), and the API could provide an alternative format or format option to export/import the seed instead of the (pk, sk) pair (for an implementation and key-pair that still retain the generating seed).
+        .. rationale::
 
-        An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key.
+            The IETF working group responsible for defining the format of the ML-DSA keys in *SubjectPublicKeyInfo* and *OneAsymmetricKey* structures is discussing the formats at present (September 2024), with the current consensus to using just the seed value as the private key, for the following reasons:
 
-        The data format for import and export of the key-pair is the concatenation of the public key and secret keys, :math:`pk\ ||\ sk`, where :math:`pk` and :math:`sk` are the octet strings returned by the ``ML-DSA.KeyGen()`` operation defined in `[FIPS204]` §5.1.
+            *   ML-DSA key-pairs are several kB in size, but can be recomputed efficiently from the initial 32-byte seed.
+            *   There is no need to validate an imported ML-DSA private key --- every 32-byte seed values is valid.
+            *   The public key cannot be derived from the secret key, so a key pair must store both the secret key and the public key.
+                The size of the key pair depends on the ML-DSA parameter set as follows:
 
-        The size of the key pair depends on the ML-DSA parameter set as follows:
+                .. csv-table::
+                    :align: left
+                    :header-rows: 1
 
-        .. csv-table::
-            :align: left
-            :header-rows: 1
+                    Parameter set, Key-pair size in bytes
+                    ML-DSA-44, 3872
+                    ML-DSA-65, 5984
+                    ML-DSA-87, 7488
 
-            Parameter set, Key-pair size in bytes
-            ML-DSA-44, 3872
-            ML-DSA-65, 5984
-            ML-DSA-87, 7488
+            *   It is better for the standard to choose a single format to improve interoperability.
+
+            One consequence is that to enable future export of the private key (for example, a wrapped copy in a CMS or *EncryptedPrivateKeyInfo* structure), the implementation MUST store the seed :math:`\xi`, even if it also computes and stores the :math:`(pk,sk)` pair.
 
         See `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
 
+        .. admonition:: Implementation note
+
+            An implementation can optionally compute and store the :math:`(pk,sk)` values, to accelerate operations that use the key.
+            It is recommended that an implementation retains the seed :math:`\xi` with the key pair, in order to export the key, or copy the key to a different location.
+
     .. subsection:: Key derivation
 
-        :issue:`TBD`
+        A call to `psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the 32-byte ML-DSA key-pair seed, :math:`xi`.
+        The key-pair :math:`(pk, sk)` is generated from the seed as defined by ``ML-DSA.KeyGen_internal()`` in `[FIPS204]` §6.1.
 
-        .. todo::
+        .. admonition:: Implementation note
 
-            As ML-DSA keys are generated from a 32-byte seed, it would be very straight-forward to enable key-derivation of an ML-DSA key pair as part of a KDF.
-
-            However, this is not described anywhere as an expected use case with ML-DSA.
+            It is :scterm:`implementation defined` whether the seed :math:`xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
 
 .. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4002)
@@ -1260,7 +1266,7 @@ These algorithms have distinct asymmetric key types.
 
     .. subsection:: Key format
 
-        An ML-DSA public key is the :math:`pk` output of the ``ML-DSA.KeyGen()`` operation defined in `[FIPS204]` §5.1.
+        An ML-DSA public key is the :math:`pk` output of ``ML-DSA.KeyGen()``, defined in `[FIPS204]` §5.1.
 
         The size of the public key depends on the ML-DSA parameter set as follows:
 
