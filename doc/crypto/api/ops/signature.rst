@@ -366,9 +366,9 @@ The encoding of each parameter set into the key attributes is described in :secr
 `[FIPS204]` defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
 Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_ALG_DETERMINISTIC_ML_DSA`, `PSA_ALG_HASH_ML_DSA()`, and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`.
 
-*   The pre-hashed signature computation generates distinct signatures to a pure signature, even with the same key and message hashing algorithm.
+*   The pre-hashed signature computation --- *HashML-DSA* --- generates distinct signatures to a pure signature --- *ML-DSA* ---, with the same key and message hashing algorithm.
 
-    When verifying a signature it is necessary to know which algorithm was used to generate it.
+    An ML-DSA signature can only be verified with an ML-DSA algorithm. A HashML-DSA signature can only be verified with a HashML-DSA algorithm.
 
 *   Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every signing operation when given identical inputs.
     Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.
@@ -384,6 +384,19 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     A empty context string is used when computing or verifying ML-DSA signatures.
 
     A future version of this specification may add suitable functions and extend this algorithm to support contexts.
+
+.. todo::
+    Decide if these general comments are better kept in a common place (here), or if they should be repeated with as appropriate in each of the four algorithm definitions?
+
+.. rationale::
+
+    The use of fresh randomness, or not, when computing a signature looks primarily like an implementation decision based on the capability of the system, and its vulnerability to specific threats, following the recommendations in `[FIPS204]`.
+
+    However, the |API| gives distinct algorithm identifiers for the hedged and deterministic variants of both ML-DSA and HashML-DSA, for the following reasons:
+
+    *   `[FIPS204]` recommends that ML-DSA signing keys are only used to compute either deterministic, or hedged, signatures, but not both.
+        Supporting this requires separate algorithm identifiers, and requiring an exact policy match for signature computation.
+    *   Some application use cases might specifically require deterministic signatures, or might require the use of hedging to mitigate possible message confidentiality threats.
 
 .. macro:: PSA_ALG_ML_DSA
     :definition: ((psa_algorithm_t) 0x06004400)
