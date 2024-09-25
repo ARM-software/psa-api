@@ -402,7 +402,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     :definition: ((psa_algorithm_t) 0x06004400)
 
     .. summary::
-        Stateless hash-based digital signature algorithm without pre-hashing (ML-DSA), using hedging.
+        Module lattice-based digital signature algorithm without pre-hashing (ML-DSA).
 
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
@@ -433,7 +433,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     :definition: ((psa_algorithm_t) 0x06004500)
 
     .. summary::
-        Deterministic stateless hash-based digital signature algorithm without pre-hashing (ML-DSA).
+        Deterministic module lattice-based digital signature algorithm without pre-hashing (ML-DSA).
 
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
@@ -464,7 +464,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     :definition: /* specification-defined value */
 
     .. summary::
-        Stateless hash-based digital signature algorithm with pre-hashing (HashML-DSA), using hedging.
+        Module lattice-based digital signature algorithm with pre-hashing (HashML-DSA).
 
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -514,7 +514,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     :definition: /* specification-defined value */
 
     .. summary::
-        Deterministic stateless hash-based digital signature algorithm with pre-hashing (HashML-DSA).
+        Deterministic module lattice-based digital signature algorithm with pre-hashing (HashML-DSA).
 
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
