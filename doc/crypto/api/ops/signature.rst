@@ -556,53 +556,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is ML-DSA or HashML-DSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an ML-DSA or HashML-DSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-.. macro:: PSA_ALG_IS_DETERMINISTIC_ML_DSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is deterministic ML-DSA or HashML-DSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a deterministic ML-DSA or HashML-DSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_ML_DSA()` and `PSA_ALG_IS_RANDOMIZED_ML_DSA()`.
-
-.. macro:: PSA_ALG_IS_RANDOMIZED_ML_DSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is randomized ML-DSA or HashML-DSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a randomized ML-DSA or HashML-DSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_ML_DSA()` and `PSA_ALG_IS_DETERMINISTIC_ML_DSA()`.
-
-.. macro:: PSA_ALG_IS_PURE_ML_DSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is pure ML-DSA.
+        Whether the specified algorithm is ML-DSA, without pre-hashing.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
@@ -611,6 +565,9 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
         ``1`` if ``alg`` is a pure ML-DSA algorithm, ``0`` otherwise.
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    .. note::
+        Use `PSA_ALG_IS_HASH_ML_DSA()` to determine if an algorithm identifier is a HashML-DSA algorithm.
 
 .. macro:: PSA_ALG_IS_HASH_ML_DSA
     :definition: /* specification-defined value */
@@ -625,6 +582,41 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
         ``1`` if ``alg`` is a HashML-DSA algorithm, ``0`` otherwise.
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    .. note::
+        Use `PSA_ALG_IS_ML_DSA()` to determine if an algorithm identifier is a pre-hashed ML-DSA algorithm.
+
+.. macro:: PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is deterministic HashML-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a deterministic HashML-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_HASH_ML_DSA()` and `PSA_ALG_IS_HEDGED_HASH_ML_DSA()`.
+
+.. macro:: PSA_ALG_IS_HEDGED_HASH_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is hedged HashML-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a hedged HashML-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_HASH_ML_DSA()` and `PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA()`.
 
 Asymmetric signature functions
 ------------------------------
