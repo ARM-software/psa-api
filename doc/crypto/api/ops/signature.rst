@@ -374,7 +374,10 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.
 
     Signature verification does not distinguish between a hedged and a deterministic signature.
-    Either form of algorithm can be used when verifying a signature.
+    Either hedged or deterministic algorithms can be used when verifying a signature.
+
+    When computing a signature, the key's permitted-algorithm policy must match the requested algorithm, treating hedged and deterministic versions as distinct.
+    When verifying a signature, the hedged and deterministic versions of each algorithm are considered equivalent when checking the key's permitted-algorithm policy.
 
 .. note::
     Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter.
@@ -397,6 +400,11 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
 
     .. note::
         See the general comments in :secref:`ml-dsa-algorithms`.
+
+    When `PSA_ALG_ML_DSA` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_ML_DSA` as the algorithm in a call to `psa_sign_message()`.
+    *   `PSA_ALG_ML_DSA` or `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to `psa_verify_message()`.
 
     .. note::
         To sign or verify the pre-computed hash of a message using ML-DSA, the HashML-DSA algorithms (`PSA_ALG_HASH_ML_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
@@ -423,6 +431,11 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
 
     .. note::
         See the general comments in :secref:`ml-dsa-algorithms`.
+
+    When `PSA_ALG_DETERMINISTIC_ML_DSA` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to `psa_sign_message()`.
+    *   `PSA_ALG_ML_DSA` or `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to `psa_verify_message()`.
 
     .. note::
         To sign or verify the pre-computed hash of a message using ML-DSA, the HashML-DSA algorithms (`PSA_ALG_HASH_ML_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
@@ -458,6 +471,11 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
 
     .. note::
         See the general comments in :secref:`ml-dsa-algorithms`.
+
+    When `PSA_ALG_HASH_ML_DSA()` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_HASH_ML_DSA()` as the algorithm in a call to `psa_sign_message()` and `psa_sign_hash()`.
+    *   `PSA_ALG_HASH_ML_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to `psa_verify_message()` and `psa_verify_hash()`.
 
     .. note::
         The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
@@ -503,6 +521,11 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
 
     .. note::
         See the general comments in :secref:`ml-dsa-algorithms`.
+
+    When `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to `psa_sign_message()` and `psa_sign_hash()`.
+    *   `PSA_ALG_HASH_ML_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to `psa_verify_message()` and `psa_verify_hash()`.
 
     .. note::
         The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
