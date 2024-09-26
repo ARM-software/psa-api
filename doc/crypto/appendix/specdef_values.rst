@@ -172,7 +172,7 @@ Algorithm macros
 
     #define PSA_ALG_IS_SIGN_HASH(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
-         (alg) != PSA_ALG_PURE_EDDSA && !PSA_ALG_IS_PURE_ML_DSA(alg))
+         (alg) != PSA_ALG_PURE_EDDSA && !PSA_ALG_IS_ML_DSA(alg))
 
     #define PSA_ALG_IS_SIGN_MESSAGE(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
