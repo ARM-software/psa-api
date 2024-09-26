@@ -1234,9 +1234,9 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
 
-    The size of of an SLH-DSA key pair is the bit-size of each element in the SLH-DSA keys defined in :cite-title:`FIPS205`.
+    The key attribute size of of an SLH-DSA key pair is the bit-size of each component in the SLH-DSA keys defined in `[FIPS205]`.
     That is, for a parameter set with security parameter :math:`n`, the bit-size in the key attributes is :math:`8n`.
-    Also see the documentation of each SLH-DSA parameter-set family for details.
+    See the documentation of each SLH-DSA parameter-set family for details.
 
     .. subsection:: Compatible algorithms
 
@@ -1249,7 +1249,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Key format
 
-        A SLH-DSA key-pair is defined in :cite:`FIPS205` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
+        A SLH-DSA key-pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
         The data format for import and export of the key-pair is the concatenation of the four octet strings:
 
@@ -1261,15 +1261,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Key derivation
 
-        :issue:`TBD`
+        A call to `psa_key_derivation_output_key()` will draw output bytes as follows:
 
-        .. todo::
+        *   32 bytes are drawn as :math:`SK\text{.seed}`.
+        *   32 bytes are drawn as :math:`SK\text{.prf}`.
+        *   32 bytes are drawn as :math:`PK\text{.seed}`.
 
-            SLH-DSA key generation requires three :math:`n`\ -byte random values --- so these *could* be extracted from a suitable KDF in sequence or via separate derivation using different labels.
-
-            However, there does not seem to be any defined standard approach.
-
-            We could define this as permitted, but with imp-def semantics, enabling key-pair generation from a device secret, for example.
+        The private key :math:`(SK\text{.seed},SK\text{.prf},PK\text{.seed},PK\text{.root})` is generated from these values as defined by ``slh_keygen_internal()`` in `[FIPS205]` §9.1.
 
 .. macro:: PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY
     :definition: /* specification-defined value */
@@ -1280,7 +1278,8 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
 
-    The size of an SLH-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()` and the documentation of each SLH-DSA parameter-set family for details.
+    The key attribute size of an SLH-DSA public key is the same as the corresponding private key.
+    See `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()` and the documentation of each SLH-DSA parameter-set family for details.
 
     .. subsection:: Compatible algorithms
 
@@ -1293,7 +1292,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Key format
 
-        A SLH-DSA public key is defined in :cite:`FIPS205` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
+        A SLH-DSA public key is defined in `[FIPS205]` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
         The data format for export of the public key is the concatenation of the two octet strings:
 
@@ -1313,7 +1312,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     *   SLH-DSA-SHA2-192s : ``key_bits = 192``
     *   SLH-DSA-SHA2-256s : ``key_bits = 256``
 
-    They are defined in :cite-title:`FIPS205`.
+    They are defined in `[FIPS205]`.
 
 .. macro:: PSA_SLH_DSA_FAMILY_SHA2_F
     :definition: ((psa_slh_dsa_family_t) 0x04)
@@ -1327,7 +1326,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     *   SLH-DSA-SHA2-192f : ``key_bits = 192``
     *   SLH-DSA-SHA2-256f : ``key_bits = 256``
 
-    They are defined in :cite:`FIPS205`.
+    They are defined in `[FIPS205]`.
 
 .. macro:: PSA_SLH_DSA_FAMILY_SHAKE_S
     :definition: ((psa_slh_dsa_family_t) 0x0b)
@@ -1341,7 +1340,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     *   SLH-DSA-SHAKE-192s : ``key_bits = 192``
     *   SLH-DSA-SHAKE-256s : ``key_bits = 256``
 
-    They are defined in :cite:`FIPS205`.
+    They are defined in `[FIPS205]`.
 
 .. macro:: PSA_SLH_DSA_FAMILY_SHAKE_F
     :definition: ((psa_slh_dsa_family_t) 0x0d)
@@ -1355,7 +1354,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     *   SLH-DSA-SHAKE-192f : ``key_bits = 192``
     *   SLH-DSA-SHAKE-256f : ``key_bits = 256``
 
-    They are defined in :cite:`FIPS205`.
+    They are defined in `[FIPS205]`.
 
 .. macro:: PSA_KEY_TYPE_IS_SLH_DSA
     :definition: /* specification-defined value */
