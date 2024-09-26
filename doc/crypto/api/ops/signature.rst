@@ -503,15 +503,18 @@ The encoding of each parameter set into the key attributes is described in :secr
 `[FIPS205]` defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
 Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_ALG_DETERMINISTIC_SLH_DSA`, `PSA_ALG_HASH_SLH_DSA()`, and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`.
 
-*   The pre-hashed signature computation generates distinct signatures to a pure signature, even with the same key and message hashing algorithm.
+*   The pre-hashed signature computation --- *HashSLH-DSA* --- generates distinct signatures to a pure signature --- *SLH-DSA* ---, with the same key and message hashing algorithm.
 
-    When verifying a signature it is necessary to know which algorithm was used to generate it.
+    An SLH-DSA signature can only be verified with an SLH-DSA algorithm. A HashSLH-DSA signature can only be verified with a HashSLH-DSA algorithm.
 
-*   Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every siging operation when given identical inputs.
+*   Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every signing operation when given identical inputs.
     Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.
 
     Signature verification does not distinguish between a hedged and a deterministic signature.
-    Either form of algorithm can be used when verifying a signature.
+    Either hedged or deterministic algorithms can be used when verifying a signature.
+
+    When computing a signature, the key's permitted-algorithm policy must match the requested algorithm, treating hedged and deterministic versions as distinct.
+    When verifying a signature, the hedged and deterministic versions of each algorithm are considered equivalent when checking the key's permitted-algorithm policy.
 
 .. note::
     Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter.
@@ -519,11 +522,24 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     A future version of this specification may add suitable functions and extend this algorithm to support contexts.
 
+.. todo::
+    Decide if these general comments are better kept in a common place (here), or if they should be repeated with as appropriate in each of the four algorithm definitions?
+
+.. rationale::
+
+    The use of fresh randomness, or not, when computing a signature looks primarily like an implementation decision based on the capability of the system, and its vulnerability to specific threats, following the recommendations in `[FIPS205]`.
+
+    However, the |API| gives distinct algorithm identifiers for the hedged and deterministic variants of both SLH-DSA and HashSLH-DSA, for the following reasons:
+
+    *   `[FIPS205]` §9.1 recommends that SLH-DSA signing keys are only used to compute either deterministic, or hedged, signatures, but not both.
+        Supporting this recommendation requires separate algorithm identifiers, and requiring an exact policy match for signature computation.
+    *   Some application use cases might specifically require deterministic signatures, or might require the use of hedging to mitigate possible message confidentiality threats.
+
 .. macro:: PSA_ALG_SLH_DSA
     :definition: ((psa_algorithm_t) 0x06004000)
 
     .. summary::
-        Stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA), using hedging.
+        Stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA).
 
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
@@ -534,6 +550,11 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     .. note::
         See the general comments in :secref:`slh-dsa-algorithms`.
+
+    When `PSA_ALG_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_SLH_DSA` as the algorithm in a call to `psa_sign_message()`.
+    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to `psa_verify_message()`.
 
     .. note::
         To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (`PSA_ALG_HASH_SLH_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
@@ -558,8 +579,17 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
 
+    .. warning::
+        It is recommended to use the hedged `PSA_ALG_SLH_DSA` algorithm instead, when supported by the implementation.
+        See `[FIPS205]` §9.2.
+
     .. note::
         See the general comments in :secref:`slh-dsa-algorithms`.
+
+    When `PSA_ALG_DETERMINISTIC_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to `psa_sign_message()`.
+    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to `psa_verify_message()`.
 
     .. note::
         To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (`PSA_ALG_HASH_SLH_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
@@ -575,7 +605,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     :definition: /* specification-defined value */
 
     .. summary::
-        Stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA), using hedging.
+        Stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA).
 
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -591,10 +621,18 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, using hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
 
+    .. note::
+        For the pre-hashing, `[FIPS205]` §10.2 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen SLH-DSA parameter set.
+
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
     .. note::
         See the general comments in :secref:`slh-dsa-algorithms`.
+
+    When `PSA_ALG_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_HASH_SLH_DSA()` as the algorithm in a call to `psa_sign_message()` and `psa_sign_hash()`.
+    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to `psa_verify_message()` and `psa_verify_hash()`.
 
     .. note::
         The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
@@ -636,10 +674,22 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
 
+    .. note::
+        For the pre-hashing, `[FIPS205]` §10.2 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen SLH-DSA parameter set.
+
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
+
+    .. warning::
+        It is recommended to use the hedged `PSA_ALG_HASH_SLH_DSA()` algorithm instead, when supported by the implementation.
+        See `[FIPS205]` §9.2.
 
     .. note::
         See the general comments in :secref:`slh-dsa-algorithms`.
+
+    When `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to `psa_sign_message()` and `psa_sign_hash()`.
+    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to `psa_verify_message()` and `psa_verify_hash()`.
 
     .. note::
         The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
