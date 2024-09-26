@@ -1,7 +1,7 @@
 {
     "reg": [
         { "name": "P", "bits": 1 },
-        { "name": "SLH-FAMILY", "bits": 6 },
+        { "name": "FAMILY", "bits": 6 },
         { "name": "3", "bits": 5 },
         { "name": "PAIR", "bits": 2 },
         { "name": "1", "bits": 1 },

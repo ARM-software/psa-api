@@ -327,13 +327,13 @@ Key type macros
     #define PSA_KEY_TYPE_IS_RSA(type) \
         (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4001)
 
-    #define PSA_KEY_TYPE_IS_SLH(type) \
+    #define PSA_KEY_TYPE_IS_SLH_DSA(type) \
         ((PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) & 0xff80) == 0x4180)
 
-    #define PSA_KEY_TYPE_IS_SLH_KEY_PAIR(type) \
+    #define PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR(type) \
         (((type) & 0xff80) == 0x7180)
 
-    #define PSA_KEY_TYPE_IS_SLH_PUBLIC_KEY(type) \
+    #define PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY(type) \
         (((type) & 0xff80) == 0x4180)
 
     #define PSA_KEY_TYPE_IS_SPAKE2P(type) \
@@ -354,13 +354,13 @@ Key type macros
     #define PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) \
         ((psa_key_type_t) ((type) & ~0x3000))
 
-    #define PSA_KEY_TYPE_SLH_GET_FAMILY(type) \
-        ((psa_ecc_family_t) ((type) & 0x007f))
+    #define PSA_KEY_TYPE_SLH_DSA_GET_FAMILY(type) \
+        ((psa_slh_dsa_family_t) ((type) & 0x007f))
 
-    #define PSA_KEY_TYPE_SLH_KEY_PAIR(set) \
+    #define PSA_KEY_TYPE_SLH_DSA_KEY_PAIR(set) \
         ((psa_key_type_t) (0x7180 | ((set) & 0x007f)))
 
-    #define PSA_KEY_TYPE_SLH_PUBLIC_KEY(set) \
+    #define PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY(set) \
         ((psa_key_type_t) (0x4180 | ((set) & 0x007f)))
 
     #define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) \

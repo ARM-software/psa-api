@@ -574,7 +574,7 @@ The defined values for FAMILY depend on the ASYM-TYPE value. See the details for
     Asymmetric key type, ASYM-TYPE, Details
     Non-parameterized, 0, See :secref:`simple-asymmetric-key-encoding`
     Elliptic Curve, 2, See :secref:`ecc-key-encoding`
-    SLH-DSA, 3, See :secref:`slh-key-encoding`
+    SLH-DSA, 3, See :secref:`slh-dsa-key-encoding`
     Diffie-Hellman, 4, See :secref:`dh-key-encoding`
     SPAKE2+, 8, See :secref:`spakep2-key-encoding`
 
@@ -640,35 +640,35 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
 
 a.  The elliptic curve family values defined in the API also include the parity bit. The key type value is constructed from the elliptic curve family using either :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)` as required.
 
-.. _slh-key-encoding:
+.. _slh-dsa-key-encoding:
 
-SLH key encoding
-^^^^^^^^^^^^^^^^
+SLH-DSA key encoding
+^^^^^^^^^^^^^^^^^^^^
 
-The key type for SLH-DSA keys defined in this specification are encoded as shown in :numref:`fig-slh-key-fields`.
+The key type for SLH-DSA keys defined in this specification are encoded as shown in :numref:`fig-slh-dsa-key-fields`.
 
-.. figure:: ../figure/encoding/slh_key.*
-    :name: fig-slh-key-fields
+.. figure:: ../figure/encoding/slh_dsa_key.*
+    :name: fig-slh-dsa-key-fields
 
     SLH-DSA key encoding
 
 PAIR is either 0 for a public key, or 3 for a key pair.
 
-The defined values for SLH-FAMILY and P are shown in :numref:`table-slh-type`.
+The defined values for FAMILY and P are shown in :numref:`table-slh-dsa-type`.
 
 .. csv-table:: SLH-DSA key family values
-    :name: table-slh-type
+    :name: table-slh-dsa-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    SLH key family, SLH-FAMILY, P, SLH family :sup:`a`, Public key value, Key pair value
-    SLH-DSA-SHA2-\ *NNN*\ s, 0x01, 0, `PSA_SLH_FAMILY_SHA2_S`, ``0x4182``, ``0x7182``
-    SLH-DSA-SHA2-\ *NNN*\ f, 0x02, 0, `PSA_SLH_FAMILY_SHA2_F`, ``0x4184``, ``0x7184``
-    SLH-DSA-SHAKE-\ *NNN*\ s, 0x05, 1, `PSA_SLH_FAMILY_SHAKE_S`, ``0x418b``, ``0x718b``
-    SLH-DSA-SHAKE-\ *NNN*\ f, 0x06, 1, `PSA_SLH_FAMILY_SHAKE_F`, ``0x418d``, ``0x718d``
+    SLH-DSA key family, FAMILY, P, SLH-DSA family :sup:`a`, Public key value, Key pair value
+    SLH-DSA-SHA2-\ *N*\ s, 0x01, 0, `PSA_SLH_DSA_FAMILY_SHA2_S`, ``0x4182``, ``0x7182``
+    SLH-DSA-SHA2-\ *N*\ f, 0x02, 0, `PSA_SLH_DSA_FAMILY_SHA2_F`, ``0x4184``, ``0x7184``
+    SLH-DSA-SHAKE-\ *N*\ s, 0x05, 1, `PSA_SLH_DSA_FAMILY_SHAKE_S`, ``0x418b``, ``0x718b``
+    SLH-DSA-SHAKE-\ *N*\ f, 0x06, 1, `PSA_SLH_DSA_FAMILY_SHAKE_F`, ``0x418d``, ``0x718d``
 
-a.  The SLH family values defined in the API also include the parity bit. The key type value is constructed from the SLH family using either :code:`PSA_KEY_TYPE_SLH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SLH_KEY_PAIR(family)` as required.
+a.  The SLH-DSA family values defined in the API also include the parity bit. The key type value is constructed from the SLH-DSA family using either :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR(family)` as required.
 
 .. _dh-key-encoding:
 

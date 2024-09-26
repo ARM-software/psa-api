@@ -492,13 +492,13 @@ The SLH-DSA signature and verification scheme is defined in :cite-title:`FIPS205
 :cite:`FIPS205` defines twelve parameter sets which provide differing security strengths, trade-off between signature size and computation cost, and selection between SHA2 and SHAKE-based hashing.
 
 SLH-DSA keys are fairly compact, 32, 48, or 64 bytes for the public key, and double that for the key pair.
-SLH signatures are much larger than those for RSA and Elliptic curve schemes, between 7.8kB and 49kB depending on the selected parameter set.
+SLH-DSA signatures are much larger than those for RSA and Elliptic curve schemes, between 7.8kB and 49kB depending on the selected parameter set.
 An SLH-DSA signature has the structure described in :cite:`FIPS205` §9.2, Figure 17.
 
 See :cite:`FIPS205` §11 for details on the parameter sets, and the public key and generated signature sizes.
 
 The generation of an SLH-DSA key depends on the full parameter specification.
-The encoding of each parameter set into the key attributes is described in :secref:`slh-keys`.
+The encoding of each parameter set into the key attributes is described in :secref:`slh-dsa-keys`.
 
 :cite:`FIPS205` defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
 Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_ALG_DETERMINISTIC_SLH_DSA`, `PSA_ALG_HASH_SLH_DSA()`, and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`.
@@ -528,7 +528,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
     This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
-    SLH-DSA requires an SLH key, which determines the SLH-DSA parameter set for the operation.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -542,8 +542,8 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_SLH_KEY_PAIR()`
-        | :code:`PSA_KEY_TYPE_SLH_PUBLIC_KEY()` (signature verification only)
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
 .. macro:: PSA_ALG_DETERMINISTIC_SLH_DSA
     :definition: ((psa_algorithm_t) 0x06004100)
@@ -554,7 +554,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
     This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, without hedging.
-    SLH-DSA requires an SLH key, which determines the SLH-DSA parameter set for the operation.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
 
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
 
@@ -568,8 +568,8 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_SLH_KEY_PAIR()`
-        | :code:`PSA_KEY_TYPE_SLH_PUBLIC_KEY()` (signature verification only)
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
 .. macro:: PSA_ALG_HASH_SLH_DSA
     :definition: /* specification-defined value */
@@ -589,7 +589,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     This algorithm can be used with both the message and hash signature functions.
 
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
-    SLH-DSA requires an SLH key, which determines the SLH-DSA parameter set for the operation.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -613,8 +613,8 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_SLH_KEY_PAIR()`
-        | :code:`PSA_KEY_TYPE_SLH_PUBLIC_KEY()` (signature verification only)
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
 .. macro:: PSA_ALG_DETERMINISTIC_HASH_SLH_DSA
     :definition: /* specification-defined value */
@@ -634,7 +634,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     This algorithm can be used with both the message and hash signature functions.
 
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, without hedging.
-    SLH-DSA requires an SLH key, which determines the SLH-DSA parameter set for the operation.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
 
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
 
@@ -650,8 +650,8 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_SLH_KEY_PAIR()`
-        | :code:`PSA_KEY_TYPE_SLH_PUBLIC_KEY()` (signature verification only)
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
 .. macro:: PSA_ALG_IS_SLH_DSA
     :definition: /* specification-defined value */
