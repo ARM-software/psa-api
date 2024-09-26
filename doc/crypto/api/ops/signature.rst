@@ -707,59 +707,13 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is SLH-DSA or HashSLH-DSA.
+        Whether the specified algorithm is SLH-DSA.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is an SLH-DSA or HashSLH-DSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-.. macro:: PSA_ALG_IS_DETERMINISTIC_SLH_DSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is deterministic SLH-DSA or HashSLH-DSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a deterministic SLH-DSA or HashSLH-DSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_SLH_DSA()` and `PSA_ALG_IS_RANDOMIZED_SLH_DSA()`.
-
-.. macro:: PSA_ALG_IS_RANDOMIZED_SLH_DSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is randomized SLH-DSA or HashSLH-DSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a randomized SLH-DSA or HashSLH-DSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_SLH_DSA()` and `PSA_ALG_IS_DETERMINISTIC_SLH_DSA()`.
-
-.. macro:: PSA_ALG_IS_PURE_SLH_DSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is pure SLH-DSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a pure SLH-DSA algorithm, ``0`` otherwise.
+        ``1`` if ``alg`` is an SLH-DSA algorithm, ``0`` otherwise.
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
@@ -776,6 +730,39 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
         ``1`` if ``alg`` is a HashSLH-DSA algorithm, ``0`` otherwise.
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is deterministic HashSLH-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a deterministic HashSLH-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_HASH_SLH_DSA()` and `PSA_ALG_IS_HEDGED_HASH_SLH_DSA()`.
+
+.. macro:: PSA_ALG_IS_HEDGED_HASH_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is hedged HashSLH-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a hedged HashSLH-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_HASH_SLH_DSA()` and `PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA()`.
+
 
 Asymmetric signature functions
 ------------------------------

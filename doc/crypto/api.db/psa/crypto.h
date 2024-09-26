@@ -97,7 +97,8 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_IS_BLOCK_CIPHER_MAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_CIPHER(alg) /* specification-defined value */
 #define PSA_ALG_IS_DETERMINISTIC_ECDSA(alg) /* specification-defined value */
-#define PSA_ALG_IS_DETERMINISTIC_SLH_DSA(alg) /* specification-defined value */
+#define PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA(alg) \
+    /* specification-defined value */
 #define PSA_ALG_IS_ECDH(alg) /* specification-defined value */
 #define PSA_ALG_IS_ECDSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_FFDH(alg) /* specification-defined value */
@@ -105,6 +106,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_IS_HASH_AND_SIGN(alg) /* specification-defined value */
 #define PSA_ALG_IS_HASH_EDDSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_HASH_SLH_DSA(alg) /* specification-defined value */
+#define PSA_ALG_IS_HEDGED_HASH_SLH_DSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_HKDF(alg) /* specification-defined value */
 #define PSA_ALG_IS_HKDF_EXPAND(alg) /* specification-defined value */
 #define PSA_ALG_IS_HKDF_EXTRACT(alg) /* specification-defined value */
@@ -117,9 +119,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_IS_MAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_PAKE(alg) /* specification-defined value */
 #define PSA_ALG_IS_PBKDF2_HMAC(alg) /* specification-defined value */
-#define PSA_ALG_IS_PURE_SLH_DSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) /* specification-defined value */
-#define PSA_ALG_IS_RANDOMIZED_SLH_DSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_RAW_KEY_AGREEMENT(alg) \
     PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)
 #define PSA_ALG_IS_RSA_OAEP(alg) /* specification-defined value */

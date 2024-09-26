@@ -84,8 +84,8 @@ Algorithm macros
     #define PSA_ALG_IS_DETERMINISTIC_ECDSA(alg) \
         (((alg) & ~0x000000ff) == 0x06000700)
 
-    #define PSA_ALG_IS_DETERMINISTIC_SLH_DSA(alg) \
-        (((alg) & ~0x000002ff) == 0x06004100)
+    #define PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA(alg) \
+        (((alg) & ~0x000000ff) == 0x06004300)
 
     #define PSA_ALG_IS_ECDH(alg) \
         (((alg) & 0x7fff0000) == 0x09020000)
@@ -109,6 +109,9 @@ Algorithm macros
 
     #define PSA_ALG_IS_HASH_SLH_DSA(alg) \
         (((alg) & ~0x000001ff) == 0x06004200)
+
+    #define PSA_ALG_IS_HEDGED_HASH_SLH_DSA(alg) \
+        (((alg) & ~0x000000ff) == 0x06004200)
 
     #define PSA_ALG_IS_HKDF(alg) \
         (((alg) & ~0x000000ff) == 0x08000100)
@@ -143,14 +146,8 @@ Algorithm macros
     #define PSA_ALG_IS_PBKDF2_HMAC(alg) \
         (((alg) & ~0x000000ff) == 0x08800100)
 
-    #define PSA_ALG_IS_PURE_SLH_DSA(alg) \
-        (((alg) & ~0x000001ff) == 0x06004000)
-
     #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) \
         (((alg) & ~0x000000ff) == 0x06000600)
-
-    #define PSA_ALG_IS_RANDOMIZED_SLH_DSA(alg) \
-        (((alg) & ~0x000002ff) == 0x06004000)
 
     #define PSA_ALG_IS_RSA_OAEP(alg) \
         (((alg) & ~0x000000ff) == 0x07000300)
@@ -172,14 +169,14 @@ Algorithm macros
 
     #define PSA_ALG_IS_SIGN_HASH(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
-         (alg) != PSA_ALG_PURE_EDDSA && !PSA_ALG_IS_PURE_SLH_DSA(alg))
+         (alg) != PSA_ALG_PURE_EDDSA && !PSA_ALG_IS_SLH_DSA(alg))
 
     #define PSA_ALG_IS_SIGN_MESSAGE(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
          (alg) != PSA_ALG_ECDSA_ANY && (alg) != PSA_ALG_RSA_PKCS1V15_SIGN_RAW)
 
     #define PSA_ALG_IS_SLH_DSA(alg) \
-        (((alg) & ~0x000003ff) == 0x06004000)
+        (((alg) & ~0x00000100) == 0x06004000)
 
     #define PSA_ALG_IS_SP800_108_COUNTER_HMAC(alg) \
         (((alg) & ~0x000000ff) == 0x08000700)
