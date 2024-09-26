@@ -394,8 +394,6 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
 
     However, the |API| gives distinct algorithm identifiers for the hedged and deterministic variants of both ML-DSA and HashML-DSA, for the following reasons:
 
-    *   `[FIPS204]` recommends that ML-DSA signing keys are only used to compute either deterministic, or hedged, signatures, but not both.
-        Supporting this requires separate algorithm identifiers, and requiring an exact policy match for signature computation.
     *   Some application use cases might specifically require deterministic signatures, or might require the use of hedging to mitigate possible message confidentiality threats.
 
 .. macro:: PSA_ALG_ML_DSA
@@ -442,6 +440,10 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
 
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
 
+    .. warning::
+        It is recommended to use the hedged `PSA_ALG_ML_DSA` algorithm instead, when supported by the implementation.
+        See `[FIPS204]` §3.4.
+
     .. note::
         See the general comments in :secref:`ml-dsa-algorithms`.
 
@@ -479,6 +481,9 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
 
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
+
+    .. note::
+        For the pre-hashing, `[FIPS204]` §5.4 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen ML-DSA parameter set.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -530,7 +535,14 @@ Four algorithms are defined to support these variants: `PSA_ALG_ML_DSA`, `PSA_AL
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
 
+    .. note::
+        For the pre-hashing, `[FIPS204]` §5.4 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen ML-DSA parameter set.
+
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
+
+    .. warning::
+        It is recommended to use the hedged `PSA_ALG_HASH_ML_DSA()` algorithm instead, when supported by the implementation.
+        See `[FIPS204]` §3.4.
 
     .. note::
         See the general comments in :secref:`ml-dsa-algorithms`.
