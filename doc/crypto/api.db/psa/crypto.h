@@ -24,7 +24,7 @@ typedef uint32_t psa_pake_primitive_t;
 typedef uint8_t psa_pake_primitive_type_t;
 typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
-typedef uint8_t psa_slh_family_t;
+typedef uint8_t psa_slh_dsa_family_t;
 typedef struct psa_custom_key_parameters_t {
     uint32_t flags;
 } psa_custom_key_parameters_t;
@@ -311,9 +311,11 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_IS_KEY_PAIR(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_PUBLIC_KEY(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_RSA(type) /* specification-defined value */
-#define PSA_KEY_TYPE_IS_SLH(type) /* specification-defined value */
-#define PSA_KEY_TYPE_IS_SLH_KEY_PAIR(type) /* specification-defined value */
-#define PSA_KEY_TYPE_IS_SLH_PUBLIC_KEY(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SLH_DSA(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR(type) \
+    /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY(type) \
+    /* specification-defined value */
 #define PSA_KEY_TYPE_IS_SPAKE2P(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR(type) \
     /* specification-defined value */
@@ -331,9 +333,9 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_RAW_DATA ((psa_key_type_t)0x1001)
 #define PSA_KEY_TYPE_RSA_KEY_PAIR ((psa_key_type_t)0x7001)
 #define PSA_KEY_TYPE_RSA_PUBLIC_KEY ((psa_key_type_t)0x4001)
-#define PSA_KEY_TYPE_SLH_GET_FAMILY(type) /* specification-defined value */
-#define PSA_KEY_TYPE_SLH_KEY_PAIR(set) /* specification-defined value */
-#define PSA_KEY_TYPE_SLH_PUBLIC_KEY(set) /* specification-defined value */
+#define PSA_KEY_TYPE_SLH_DSA_GET_FAMILY(type) /* specification-defined value */
+#define PSA_KEY_TYPE_SLH_DSA_KEY_PAIR(set) /* specification-defined value */
+#define PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY(set) /* specification-defined value */
 #define PSA_KEY_TYPE_SM4 ((psa_key_type_t)0x2405)
 #define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) /* specification-defined value */
 #define PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(curve) /* specification-defined value */
@@ -391,10 +393,10 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_SIGNATURE_MAX_SIZE /* implementation-defined value */
 #define PSA_SIGN_OUTPUT_SIZE(key_type, key_bits, alg) \
     /* implementation-defined value */
-#define PSA_SLH_FAMILY_SHA2_F ((psa_slh_family_t) 0x04)
-#define PSA_SLH_FAMILY_SHA2_S ((psa_slh_family_t) 0x02)
-#define PSA_SLH_FAMILY_SHAKE_F ((psa_slh_family_t) 0x0d)
-#define PSA_SLH_FAMILY_SHAKE_S ((psa_slh_family_t) 0x0b)
+#define PSA_SLH_DSA_FAMILY_SHA2_F ((psa_slh_dsa_family_t) 0x04)
+#define PSA_SLH_DSA_FAMILY_SHA2_S ((psa_slh_dsa_family_t) 0x02)
+#define PSA_SLH_DSA_FAMILY_SHAKE_F ((psa_slh_dsa_family_t) 0x0d)
+#define PSA_SLH_DSA_FAMILY_SHAKE_S ((psa_slh_dsa_family_t) 0x0b)
 #define PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE 32
 #define PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE /* implementation-defined value */
 psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
