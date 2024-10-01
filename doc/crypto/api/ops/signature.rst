@@ -410,9 +410,6 @@ A empty context string is used when computing or verifying ML-DSA signatures.
 
 A future version of this specification may add suitable functions and extend this algorithm to support contexts.
 
-.. todo::
-    Decide if these general comments are better kept in a common place (here), or if they should be repeated with as appropriate in each of the four algorithm definitions?
-
 .. macro:: PSA_ALG_ML_DSA
     :definition: ((psa_algorithm_t) 0x06004400)
 
@@ -425,9 +422,7 @@ A future version of this specification may add suitable functions and extend thi
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
-
-    .. note::
-        See the general comments in :secref:`ml-dsa-algorithms`.
+    See the `notes on hedged signatures <ml-dsa-deterministic-signatures_>`_.
 
     When `PSA_ALG_ML_DSA` is used as a permitted algorithm in a key policy, this permits:
 
@@ -460,9 +455,6 @@ A future version of this specification may add suitable functions and extend thi
     .. warning::
         It is recommended to use the hedged `PSA_ALG_ML_DSA` algorithm instead, when supported by the implementation.
         See the `notes on deterministic signatures <ml-dsa-deterministic-signatures_>`_.
-
-    .. note::
-        See the general comments in :secref:`ml-dsa-algorithms`.
 
     When `PSA_ALG_DETERMINISTIC_ML_DSA` is used as a permitted algorithm in a key policy, this permits:
 
@@ -503,9 +495,7 @@ A future version of this specification may add suitable functions and extend thi
         For the pre-hashing, `[FIPS204]` §5.4 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen ML-DSA parameter set.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
-
-    .. note::
-        See the general comments in :secref:`ml-dsa-algorithms`.
+    See the `notes on hedged signatures <ml-dsa-deterministic-signatures_>`_.
 
     When `PSA_ALG_HASH_ML_DSA()` is used as a permitted algorithm in a key policy, this permits:
 
@@ -560,10 +550,6 @@ A future version of this specification may add suitable functions and extend thi
     .. warning::
         It is recommended to use the hedged `PSA_ALG_HASH_ML_DSA()` algorithm instead, when supported by the implementation.
         See the `notes on deterministic signatures <ml-dsa-deterministic-signatures_>`_.
-
-
-    .. note::
-        See the general comments in :secref:`ml-dsa-algorithms`.
 
     When `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` is used as a permitted algorithm in a key policy, this permits:
 

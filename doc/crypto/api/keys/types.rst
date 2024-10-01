@@ -1198,7 +1198,14 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
     .. subsection:: Key format
 
-        An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See [FIPS204]` §5.1.
+        .. warning::
+
+            The key format may change in a final version of this API.
+            The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
+
+            The current proposed format is based on the current expected outcome of that process.
+
+        An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See `[FIPS204]` §5.1.
 
         The data format for import and export of the key pair is the 32-byte seed :math:`\xi`.
 
@@ -1221,8 +1228,6 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
                     ML-DSA-87, 7488
 
             *   It is better for the standard to choose a single format to improve interoperability.
-
-            One consequence is that to enable future export of the private key (for example, a wrapped copy in a CMS or *EncryptedPrivateKeyInfo* structure), the implementation MUST store the seed :math:`\xi`, even if it also computes and stores the :math:`(pk,sk)` pair.
 
         See `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
 
@@ -1258,6 +1263,13 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
             *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
 
     .. subsection:: Key format
+
+        .. warning::
+
+            The key format may change in a final version of this API.
+            The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
+
+            The current proposed format is based on the current expected outcome of that process.
 
         An ML-DSA public key is the :math:`pk` output of ``ML-DSA.KeyGen()``, defined in `[FIPS204]` §5.1.
 
