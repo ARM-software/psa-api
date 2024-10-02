@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -249,6 +249,31 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     This flag must be present on keys used with `psa_key_derivation_verify_key()`.
 
     If this flag is present on all keys used in calls to `psa_key_derivation_input_key()` for a key derivation operation, then it permits calling `psa_key_derivation_verify_bytes()` or `psa_key_derivation_verify_key()` at the end of the operation.
+
+.. macro:: PSA_KEY_USAGE_ENCAPSULATE
+    :definition: ((psa_key_usage_t)0x00010000)
+
+    .. summary::
+        Permission to encapsulate new keys.
+
+    This flag is required to encapsulate new keys to send to a counter party.
+
+    This flag must be present on public keys used with the following APIs:
+
+    *   `psa_encapsulate()`
+
+.. macro:: PSA_KEY_USAGE_DECAPSULATE
+    :definition: ((psa_key_usage_t)0x00020000)
+
+    .. summary::
+        Permission to decapsulate an encapsulated key.
+
+    This flag is required to decapsulate a key buffer obtained from a counter party.
+
+    This flag must be present on private keys used with the following APIs:
+
+    *   `psa_decapsulate()`
+
 
 .. function:: psa_set_key_usage_flags
 
