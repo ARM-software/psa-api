@@ -23,6 +23,7 @@ The specific algorithm identifiers are described alongside the cryptographic ope
 *   :secref:`sign-algorithms`
 *   :secref:`asymmetric-encryption-algorithms`
 *   :secref:`key-agreement-algorithms`
+*   :secref:`pake`
 *   :secref:`encapsulation-algorithms`
 
 
@@ -41,11 +42,11 @@ Algorithm encoding
 
     :code:`0x00000000`
         Reserved as an invalid algorithm identifier.
-    :code:`0x00000001 – 0x7fffffff`
+    :code:`0x00000001 - 0x7fffffff`
         Specification-defined algorithm identifiers.
         Algorithm identifiers defined by this standard always have bit 31 clear.
         Unallocated algorithm identifier values in this range are reserved for future use.
-    :code:`0x80000000 – 0xffffffff`
+    :code:`0x80000000 - 0xffffffff`
         Implementation-defined algorithm identifiers.
         Implementations that define additional algorithms must use an encoding with bit 31 set.
         The related support macros will be easier to write if these algorithm identifier encodings also respect the bitwise structure used by standard encodings.
@@ -124,6 +125,20 @@ Algorithm categories
 
     See :secref:`aead-algorithms` for a list of defined AEAD algorithms.
 
+.. macro:: PSA_ALG_IS_KEY_DERIVATION
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a key derivation algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a key derivation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`key-derivation-algorithms` for a list of defined key derivation algorithms.
+
 .. macro:: PSA_ALG_IS_SIGN
     :definition: /* specification-defined value */
 
@@ -165,6 +180,19 @@ Algorithm categories
         ``1`` if ``alg`` is a key agreement algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     See :secref:`key-agreement-algorithms` for a list of defined key agreement algorithms.
+
+.. macro:: PSA_ALG_IS_PAKE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a password-authenticated key exchange.
+
+    .. param:: alg
+        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a password-authenticated key exchange (PAKE) algorithm, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
 .. macro:: PSA_ALG_IS_KEY_DERIVATION
     :definition: /* specification-defined value */
@@ -230,16 +258,20 @@ Algorithm categories
 
     The following composite algorithms require a hash algorithm:
 
+    *   `PSA_ALG_DETERMINISTIC_ECDSA()`
     *   `PSA_ALG_ECDSA()`
     *   `PSA_ALG_HKDF()`
     *   `PSA_ALG_HKDF_EXPAND()`
     *   `PSA_ALG_HKDF_EXTRACT()`
     *   `PSA_ALG_HMAC()`
+    *   `PSA_ALG_JPAKE()`
+    *   `PSA_ALG_PBKDF2_HMAC()`
     *   `PSA_ALG_RSA_OAEP()`
     *   `PSA_ALG_RSA_PKCS1V15_SIGN()`
     *   `PSA_ALG_RSA_PSS()`
     *   `PSA_ALG_RSA_PSS_ANY_SALT()`
+    *   `PSA_ALG_SP800_108_COUNTER_HMAC()`
+    *   `PSA_ALG_SPAKE2P_CMAC()`
+    *   `PSA_ALG_SPAKE2P_HMAC()`
     *   `PSA_ALG_TLS12_PRF()`
     *   `PSA_ALG_TLS12_PSK_TO_MS()`
-    *   `PSA_ALG_PBKDF2_HMAC()`
-
