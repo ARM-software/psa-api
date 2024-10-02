@@ -24,6 +24,7 @@ The specific algorithm identifiers are described alongside the cryptographic ope
 *   :secref:`asymmetric-encryption-algorithms`
 *   :secref:`key-agreement-algorithms`
 *   :secref:`pake`
+*   :secref:`encapsulation-algorithms`
 
 
 Algorithm encoding
@@ -193,8 +194,33 @@ Algorithm categories
         ``1`` if ``alg`` is a password-authenticated key exchange (PAKE) algorithm, ``0`` otherwise.
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-Support macros
---------------
+.. macro:: PSA_ALG_IS_KEY_DERIVATION
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a key derivation algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a key derivation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`key-derivation-algorithms` for a list of defined key derivation algorithms.
+
+.. macro:: PSA_ALG_IS_ENCAPSULATION
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an encapsulation algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an encapsuulation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`encapsulation-algorithms` for a list of defined key derivation algorithms.
 
 .. macro:: PSA_ALG_IS_WILDCARD
     :definition: /* specification-defined value */
