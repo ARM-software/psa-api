@@ -10,13 +10,14 @@ Cryptographic operation reference
 .. toctree::
 
     algorithms
-    hashes
-    macs
-    ciphers
+    hash
+    mac
+    cipher
     aead
-    kdf
-    sign
-    pke
-    ka
+    key-derivation
+    signature
+    pk-encryption
+    key-agreement
+    pake
     encap
     rng
