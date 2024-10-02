@@ -19,4 +19,5 @@ Cryptographic operation reference
     pk-encryption
     key-agreement
     pake
+    encap
     rng
