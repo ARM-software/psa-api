@@ -222,6 +222,9 @@ Algorithm categories
 
     See :secref:`encapsulation-algorithms` for a list of defined key derivation algorithms.
 
+Support macros
+--------------
+
 .. macro:: PSA_ALG_IS_WILDCARD
     :definition: /* specification-defined value */
 
