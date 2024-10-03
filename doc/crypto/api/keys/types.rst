@@ -1483,12 +1483,11 @@ SPAKE2+ keys
         The elliptic curve family id, if ``type`` is a supported SPAKE2+ key. Unspecified if ``type`` is not a supported SPAKE2+ key.
 
 
-Module Lattice keys
--------------------
+Module Lattice-based Key Encapsulation keys
+-------------------------------------------
 
 
-The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined in :cite-title:`FIPS204`.
-and Module Lattice-based Key Encapsulation as defined in :cite:`FIPS204`. 
+The |API| supports Module Lattice-based Key Encapsulation as defined in :cite:`FIPS203`. 
 
 .. macro:: PSA_KEY_TYPE_MLKEM_KEY_PAIR
     :definition: ((psa_key_type_t)0xy001)
