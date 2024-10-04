@@ -1202,6 +1202,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
             The key format may change in a final version of this API.
             The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
+            See :cite-title:`LAMPS-MLDSA`.
 
             The current proposed format is based on the current expected outcome of that process.
 
@@ -1268,6 +1269,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
             The key format may change in a final version of this API.
             The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
+            See :cite-title:`LAMPS-MLDSA`.
 
             The current proposed format is based on the current expected outcome of that process.
 
