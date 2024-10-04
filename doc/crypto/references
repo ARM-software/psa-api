@@ -402,3 +402,9 @@
     :author: NIST
     :publication: August 2024
     :url: doi.org/10.6028/NIST.FIPS.205
+
+.. reference:: LAMPS-SLHDSA
+    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA (Draft 01)
+    :author: IETF
+    :publication: July 2024 (DRAFT)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa-01

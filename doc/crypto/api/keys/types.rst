@@ -1249,6 +1249,14 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Key format
 
+        .. warning::
+
+            The key format may change in a final version of this API.
+            The standardization of exchange formats for SHL-DSA public and private keys is in progress, but final documents have not been published.
+            See :cite-title:`LAMPS-SLHDSA`.
+
+            The current proposed format is based on the current expected outcome of that process.
+
         A SLH-DSA key-pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
         The data format for import and export of the key-pair is the concatenation of the four octet strings:
@@ -1291,6 +1299,14 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
             *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
 
     .. subsection:: Key format
+
+        .. warning::
+
+            The key format may change in a final version of this API.
+            The standardization of exchange formats for SHL-DSA public and private keys is in progress, but final documents have not been published.
+            See :cite-title:`LAMPS-SLHDSA`.
+
+            The current proposed format is based on the current expected outcome of that process.
 
         A SLH-DSA public key is defined in `[FIPS205]` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 

@@ -485,11 +485,11 @@ Elliptic curve signature algorithms
 
 .. _slh-dsa-algorithms:
 
-Stateless hash-based signature algorithms
+Stateless Hash-based signature algorithms
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The SLH-DSA signature and verification scheme is defined in :cite-title:`FIPS205`.
-`[FIPS205]` defines twelve parameter sets which provide differing security strengths, trade-off between signature size and computation cost, and selection between SHA2 and SHAKE-based hashing.
+SLH-DSA has twelve parameter sets which provide differing security strengths, trade-off between signature size and computation cost, and selection between SHA2 and SHAKE-based hashing.
 
 SLH-DSA keys are fairly compact, 32, 48, or 64 bytes for the public key, and double that for the key pair.
 SLH-DSA signatures are much larger than those for RSA and Elliptic curve schemes, between 7.8kB and 49kB depending on the selected parameter set.
@@ -503,37 +503,52 @@ The encoding of each parameter set into the key attributes is described in :secr
 `[FIPS205]` defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
 Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_ALG_DETERMINISTIC_SLH_DSA`, `PSA_ALG_HASH_SLH_DSA()`, and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`.
 
-*   The pre-hashed signature computation --- *HashSLH-DSA* --- generates distinct signatures to a pure signature --- *SLH-DSA* ---, with the same key and message hashing algorithm.
+.. _slh-dsa-deterministic-signatures:
 
-    An SLH-DSA signature can only be verified with an SLH-DSA algorithm. A HashSLH-DSA signature can only be verified with a HashSLH-DSA algorithm.
+.. rubric:: Hedged and deterministic signatures
 
-*   Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every signing operation when given identical inputs.
-    Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.
+Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every signing operation when given identical inputs.
+Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.
 
-    Signature verification does not distinguish between a hedged and a deterministic signature.
-    Either hedged or deterministic algorithms can be used when verifying a signature.
+Signature verification does not distinguish between a hedged and a deterministic signature.
+Either hedged or deterministic algorithms can be used when verifying a signature.
 
-    When computing a signature, the key's permitted-algorithm policy must match the requested algorithm, treating hedged and deterministic versions as distinct.
-    When verifying a signature, the hedged and deterministic versions of each algorithm are considered equivalent when checking the key's permitted-algorithm policy.
+When computing a signature, the key's permitted-algorithm policy must match the requested algorithm, treating hedged and deterministic versions as distinct.
+When verifying a signature, the hedged and deterministic versions of each algorithm are considered equivalent when checking the key's permitted-algorithm policy.
 
 .. note::
-    Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter.
-    A empty context string is used when computing or verifying SLH-DSA signatures.
 
-    A future version of this specification may add suitable functions and extend this algorithm to support contexts.
+    The hedged version provides message secrecy and some protection against side-channels.
+    `[FIPS205]` recommends that users should use the hedged version if either of these issues are a concern.
+    The deterministic variant should only be used if the implementation does not include any source of randomness.
 
-.. todo::
-    Decide if these general comments are better kept in a common place (here), or if they should be repeated with as appropriate in each of the four algorithm definitions?
+.. admonition:: Implementation note
+
+    `[FIPS205]` recommends that implementations use an approved random number generator to provide the random value in the hedged version.
+    However, it notes that use of the hedged variant with a weak RNG is generally preferable to the deterministic variant.
 
 .. rationale::
 
-    The use of fresh randomness, or not, when computing a signature looks primarily like an implementation decision based on the capability of the system, and its vulnerability to specific threats, following the recommendations in `[FIPS205]`.
+    The use of fresh randomness, or not, when computing a signature seems like an implementation decision based on the capability of the system, and its vulnerability to specific threats, following the recommendations in `[FIPS205]`.
 
-    However, the |API| gives distinct algorithm identifiers for the hedged and deterministic variants of both SLH-DSA and HashSLH-DSA, for the following reasons:
+    However, the |API| gives distinct algorithm identifiers for the hedged and deterministic variants for the following reasons:
 
     *   `[FIPS205]` §9.1 recommends that SLH-DSA signing keys are only used to compute either deterministic, or hedged, signatures, but not both.
         Supporting this recommendation requires separate algorithm identifiers, and requiring an exact policy match for signature computation.
-    *   Some application use cases might specifically require deterministic signatures, or might require the use of hedging to mitigate possible message confidentiality threats.
+    *   Enable an application use case to require a specific variant.
+
+.. rubric:: Pure and pre-hashed algorithms
+
+The pre-hashed signature computation *HashSLH-DSA* generates distinct signatures to a pure signature *SLH-DSA*, with the same key and message hashing algorithm.
+
+An SLH-DSA signature can only be verified with an SLH-DSA algorithm. A HashSLH-DSA signature can only be verified with a HashSLH-DSA algorithm.
+
+.. rubric:: Contexts
+
+Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter.
+A empty context string is used when computing or verifying SLH-DSA signatures.
+
+A future version of this specification may add suitable functions and extend this algorithm to support contexts.
 
 .. macro:: PSA_ALG_SLH_DSA
     :definition: ((psa_algorithm_t) 0x06004000)
@@ -543,13 +558,11 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
-    This is the pure SLH-DSA digital signature algorithm, defined by `[FIPS205]`, using hedging.
+    This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
-
-    .. note::
-        See the general comments in :secref:`slh-dsa-algorithms`.
+    See the `notes on hedged signatures <slh-dsa-deterministic-signatures_>`_.
 
     When `PSA_ALG_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
 
@@ -581,10 +594,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     .. warning::
         It is recommended to use the hedged `PSA_ALG_SLH_DSA` algorithm instead, when supported by the implementation.
-        See `[FIPS205]` §9.2.
-
-    .. note::
-        See the general comments in :secref:`slh-dsa-algorithms`.
+        See the `notes on deterministic signatures <slh-dsa-deterministic-signatures_>`_.
 
     When `PSA_ALG_DETERMINISTIC_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
 
@@ -625,9 +635,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
         For the pre-hashing, `[FIPS205]` §10.2 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen SLH-DSA parameter set.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
-
-    .. note::
-        See the general comments in :secref:`slh-dsa-algorithms`.
+    See the `notes on hedged signatures <slh-dsa-deterministic-signatures_>`_.
 
     When `PSA_ALG_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
 
@@ -681,10 +689,7 @@ Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_A
 
     .. warning::
         It is recommended to use the hedged `PSA_ALG_HASH_SLH_DSA()` algorithm instead, when supported by the implementation.
-        See `[FIPS205]` §9.2.
-
-    .. note::
-        See the general comments in :secref:`slh-dsa-algorithms`.
+        See the `notes on deterministic signatures <slh-dsa-deterministic-signatures_>`_.
 
     When `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
 
