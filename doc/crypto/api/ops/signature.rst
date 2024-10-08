@@ -22,6 +22,11 @@ There are two pairs of single-part functions for asymmetric signature:
 Asymmetric signature algorithms
 -------------------------------
 
+.. _rsa-sign-algorithms:
+
+RSA signature algorithms
+^^^^^^^^^^^^^^^^^^^^^^^^
+
 .. macro:: PSA_ALG_RSA_PKCS1V15_SIGN
     :definition: /* specification-defined value */
 
@@ -145,6 +150,77 @@ Asymmetric signature algorithms
 
         | `PSA_KEY_TYPE_RSA_KEY_PAIR`
         | `PSA_KEY_TYPE_RSA_PUBLIC_KEY` (signature verification only)
+
+.. macro:: PSA_ALG_IS_RSA_PKCS1V15_SIGN
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PKCS#1 v1.5 signature algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PKCS#1 v1.5 signature algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_RSA_PSS
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PSS signature algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PSS signature algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    This macro returns ``1`` for algorithms constructed using either `PSA_ALG_RSA_PSS()` or `PSA_ALG_RSA_PSS_ANY_SALT()`.
+
+.. macro:: PSA_ALG_IS_RSA_PSS_ANY_SALT
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PSS signature algorithm that permits any salt length.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PSS signature algorithm that permits any salt length, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    An RSA PSS signature algorithm that permits any salt length is constructed using `PSA_ALG_RSA_PSS_ANY_SALT()`.
+
+    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_STANDARD_SALT()`.
+
+.. macro:: PSA_ALG_IS_RSA_PSS_STANDARD_SALT
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PSS signature algorithm that requires the standard salt length.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PSS signature algorithm that requires the standard salt length, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    An RSA PSS signature algorithm that requires the standard salt length is constructed using `PSA_ALG_RSA_PSS()`.
+
+    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_ANY_SALT()`.
+
+.. _ecc-sign-algorithms:
+
+Elliptic curve signature algorithms
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. macro:: PSA_ALG_ECDSA
     :definition: /* specification-defined value */
@@ -346,6 +422,351 @@ Asymmetric signature algorithms
     .. admonition:: Implementation note
 
         When used with `psa_sign_hash()` or `psa_verify_hash()`, the ``hash`` parameter to the call should be used as :math:`\text{PH}(M)` in the algorithms defined in :RFC:`8032#5.2`.
+
+.. macro:: PSA_ALG_IS_ECDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is ECDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an ECDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_DETERMINISTIC_ECDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is deterministic ECDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a deterministic ECDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_RANDOMIZED_ECDSA()`.
+
+.. macro:: PSA_ALG_IS_RANDOMIZED_ECDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is randomized ECDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a randomized ECDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_DETERMINISTIC_ECDSA()`.
+
+.. macro:: PSA_ALG_IS_HASH_EDDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is HashEdDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a HashEdDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. _slh-dsa-algorithms:
+
+Stateless Hash-based signature algorithms
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The SLH-DSA signature and verification scheme is defined in :cite-title:`FIPS205`.
+SLH-DSA has twelve parameter sets which provide differing security strengths, trade-off between signature size and computation cost, and selection between SHA2 and SHAKE-based hashing.
+
+SLH-DSA keys are fairly compact, 32, 48, or 64 bytes for the public key, and double that for the key pair.
+SLH-DSA signatures are much larger than those for RSA and Elliptic curve schemes, between 7.8kB and 49kB depending on the selected parameter set.
+An SLH-DSA signature has the structure described in `[FIPS205]` §9.2, Figure 17.
+
+See `[FIPS205]` §11 for details on the parameter sets, and the public key and generated signature sizes.
+
+The generation of an SLH-DSA key depends on the full parameter specification.
+The encoding of each parameter set into the key attributes is described in :secref:`slh-dsa-keys`.
+
+`[FIPS205]` defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
+Four algorithms are defined to support these variants: `PSA_ALG_SLH_DSA`, `PSA_ALG_DETERMINISTIC_SLH_DSA`, `PSA_ALG_HASH_SLH_DSA()`, and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`.
+
+.. _slh-dsa-deterministic-signatures:
+
+.. rubric:: Hedged and deterministic signatures
+
+Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every signing operation when given identical inputs.
+Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.
+
+Signature verification does not distinguish between a hedged and a deterministic signature.
+Either hedged or deterministic algorithms can be used when verifying a signature.
+
+When computing a signature, the key's permitted-algorithm policy must match the requested algorithm, treating hedged and deterministic versions as distinct.
+When verifying a signature, the hedged and deterministic versions of each algorithm are considered equivalent when checking the key's permitted-algorithm policy.
+
+.. note::
+
+    The hedged version provides message secrecy and some protection against side-channels.
+    `[FIPS205]` recommends that users should use the hedged version if either of these issues are a concern.
+    The deterministic variant should only be used if the implementation does not include any source of randomness.
+
+.. admonition:: Implementation note
+
+    `[FIPS205]` recommends that implementations use an approved random number generator to provide the random value in the hedged version.
+    However, it notes that use of the hedged variant with a weak RNG is generally preferable to the deterministic variant.
+
+.. rationale::
+
+    The use of fresh randomness, or not, when computing a signature seems like an implementation decision based on the capability of the system, and its vulnerability to specific threats, following the recommendations in `[FIPS205]`.
+
+    However, the |API| gives distinct algorithm identifiers for the hedged and deterministic variants for the following reasons:
+
+    *   `[FIPS205]` §9.1 recommends that SLH-DSA signing keys are only used to compute either deterministic, or hedged, signatures, but not both.
+        Supporting this recommendation requires separate algorithm identifiers, and requiring an exact policy match for signature computation.
+    *   Enable an application use case to require a specific variant.
+
+.. rubric:: Pure and pre-hashed algorithms
+
+The pre-hashed signature computation *HashSLH-DSA* generates distinct signatures to a pure signature *SLH-DSA*, with the same key and message hashing algorithm.
+
+An SLH-DSA signature can only be verified with an SLH-DSA algorithm. A HashSLH-DSA signature can only be verified with a HashSLH-DSA algorithm.
+
+.. rubric:: Contexts
+
+Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter.
+A empty context string is used when computing or verifying SLH-DSA signatures.
+
+A future version of this specification may add suitable functions and extend this algorithm to support contexts.
+
+.. macro:: PSA_ALG_SLH_DSA
+    :definition: ((psa_algorithm_t) 0x06004000)
+
+    .. summary::
+        Stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA).
+
+    This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
+
+    This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
+
+    This algorithm is randomized: each invocation returns a different, equally valid signature.
+    See the `notes on hedged signatures <slh-dsa-deterministic-signatures_>`_.
+
+    When `PSA_ALG_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_SLH_DSA` as the algorithm in a call to `psa_sign_message()`.
+    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to `psa_verify_message()`.
+
+    .. note::
+        To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (`PSA_ALG_HASH_SLH_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
+
+        The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
+
+.. macro:: PSA_ALG_DETERMINISTIC_SLH_DSA
+    :definition: ((psa_algorithm_t) 0x06004100)
+
+    .. summary::
+        Deterministic stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA).
+
+    This algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
+
+    This is the pure SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
+
+    This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
+
+    .. warning::
+        It is recommended to use the hedged `PSA_ALG_SLH_DSA` algorithm instead, when supported by the implementation.
+        See the `notes on deterministic signatures <slh-dsa-deterministic-signatures_>`_.
+
+    When `PSA_ALG_DETERMINISTIC_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to `psa_sign_message()`.
+    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to `psa_verify_message()`.
+
+    .. note::
+        To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (`PSA_ALG_HASH_SLH_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`) can also be used with `psa_sign_hash()` and `psa_verify_hash()`.
+
+        The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
+
+.. macro:: PSA_ALG_HASH_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA).
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
+
+    .. return::
+        The corresponding HashSLH-DSA signature algorithm, using ``hash_alg`` to pre-hash the message.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This algorithm can be used with both the message and hash signature functions.
+
+    This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, using hedging.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
+
+    .. note::
+        For the pre-hashing, `[FIPS205]` §10.2 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen SLH-DSA parameter set.
+
+    This algorithm is randomized: each invocation returns a different, equally valid signature.
+    See the `notes on hedged signatures <slh-dsa-deterministic-signatures_>`_.
+
+    When `PSA_ALG_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_HASH_SLH_DSA()` as the algorithm in a call to `psa_sign_message()` and `psa_sign_hash()`.
+    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to `psa_verify_message()` and `psa_verify_hash()`.
+
+    .. note::
+        The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
+
+    .. subsection:: Usage
+
+        This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:
+
+        *   Call `psa_sign_message()` with the message.
+
+        *   Calculate the hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the ``hash_alg`` hash algorithm.
+            Note that ``hash_alg`` can be extracted from the signature algorithm using :code:`PSA_ALG_GET_HASH(sig_alg)`.
+            Then sign the calculated hash with `psa_sign_hash()`.
+
+        Verifying a signature is similar, using `psa_verify_message()` or `psa_verify_hash()` instead of the signature function.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
+
+.. macro:: PSA_ALG_DETERMINISTIC_HASH_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Deterministic stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA).
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
+
+    .. return::
+        The corresponding deterministic HashSLH-DSA signature algorithm, using ``hash_alg`` to pre-hash the message.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This algorithm can be used with both the message and hash signature functions.
+
+    This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
+    SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
+
+    .. note::
+        For the pre-hashing, `[FIPS205]` §10.2 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen SLH-DSA parameter set.
+
+    This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
+
+    .. warning::
+        It is recommended to use the hedged `PSA_ALG_HASH_SLH_DSA()` algorithm instead, when supported by the implementation.
+        See the `notes on deterministic signatures <slh-dsa-deterministic-signatures_>`_.
+
+    When `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
+
+    *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to `psa_sign_message()` and `psa_sign_hash()`.
+    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to `psa_verify_message()` and `psa_verify_hash()`.
+
+    .. note::
+        The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
+
+    .. subsection:: Usage
+
+        See `PSA_ALG_HASH_SLH_DSA()` for example usage.
+
+    .. subsection:: Compatible key types
+
+        | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
+        | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
+
+.. macro:: PSA_ALG_IS_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is SLH-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an SLH-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_HASH_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is HashSLH-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a HashSLH-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is deterministic HashSLH-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a deterministic HashSLH-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_HASH_SLH_DSA()` and `PSA_ALG_IS_HEDGED_HASH_SLH_DSA()`.
+
+.. macro:: PSA_ALG_IS_HEDGED_HASH_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is hedged HashSLH-DSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a hedged HashSLH-DSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_HASH_SLH_DSA()` and `PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA()`.
 
 
 Asymmetric signature functions
@@ -634,132 +1055,6 @@ Support macros
 
 
     This includes all algorithms such that `PSA_ALG_IS_HASH_AND_SIGN()` is true, as well as signature algorithms for which the input to `psa_sign_hash()` or `psa_verify_hash()` is not directly a hash, such as `PSA_ALG_IS_RSA_PKCS1V15_SIGN`.
-
-.. macro:: PSA_ALG_IS_RSA_PKCS1V15_SIGN
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PKCS#1 v1.5 signature algorithm.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PKCS#1 v1.5 signature algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-.. macro:: PSA_ALG_IS_RSA_PSS
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PSS signature algorithm.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PSS signature algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    This macro returns ``1`` for algorithms constructed using either `PSA_ALG_RSA_PSS()` or `PSA_ALG_RSA_PSS_ANY_SALT()`.
-
-.. macro:: PSA_ALG_IS_RSA_PSS_ANY_SALT
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PSS signature algorithm that permits any salt length.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PSS signature algorithm that permits any salt length, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    An RSA PSS signature algorithm that permits any salt length is constructed using `PSA_ALG_RSA_PSS_ANY_SALT()`.
-
-    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_STANDARD_SALT()`.
-
-.. macro:: PSA_ALG_IS_RSA_PSS_STANDARD_SALT
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PSS signature algorithm that requires the standard salt length.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PSS signature algorithm that requires the standard salt length, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    An RSA PSS signature algorithm that requires the standard salt length is constructed using `PSA_ALG_RSA_PSS()`.
-
-    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_ANY_SALT()`.
-
-.. macro:: PSA_ALG_IS_ECDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is ECDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an ECDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-.. macro:: PSA_ALG_IS_DETERMINISTIC_ECDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is deterministic ECDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a deterministic ECDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_RANDOMIZED_ECDSA()`.
-
-.. macro:: PSA_ALG_IS_RANDOMIZED_ECDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is randomized ECDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a randomized ECDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_DETERMINISTIC_ECDSA()`.
-
-.. macro:: PSA_ALG_IS_HASH_EDDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is HashEdDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a HashEdDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
 .. macro:: PSA_ALG_IS_HASH_AND_SIGN
     :definition: /* specification-defined value */
