@@ -1165,6 +1165,136 @@ The curve type affects the key format, the key derivation procedure, and the alg
     .. return:: psa_ecc_family_t
         The elliptic curve family id, if ``type`` is a supported elliptic curve key. Unspecified if ``type`` is not a supported elliptic curve key.
 
+.. _ml-dsa-keys:
+
+Module Lattice-based Signature keys
+-----------------------------------
+
+The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined in :cite-title:`FIPS204`.
+
+.. macro:: PSA_KEY_TYPE_ML_DSA_KEY_PAIR
+    :definition: ((psa_key_type_t)0x7002)
+
+    .. summary::
+        ML-DSA key pair: both the private and public key.
+
+    The key attribute size of an ML-DSA key is the numeric ML-DSA parameter-set identifier defined in `[FIPS204]`.
+    The values are based on the dimensions of the matrix :math:`A`, and do not directly define the key size in bytes:
+
+    *   ML-DSA-44 : ``key_bits = 44``
+    *   ML-DSA-65 : ``key_bits = 65``
+    *   ML-DSA-87 : ``key_bits = 87``
+
+    See also §4 in `[FIPS204]`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_DSA`
+            *   `PSA_ALG_HASH_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+
+    .. subsection:: Key format
+
+        .. warning::
+
+            The key format may change in a final version of this API.
+            The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
+            See :cite-title:`LAMPS-MLDSA`.
+
+            The current proposed format is based on the current expected outcome of that process.
+
+        An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See `[FIPS204]` §5.1.
+
+        The data format for import and export of the key pair is the 32-byte seed :math:`\xi`.
+
+        .. rationale::
+
+            The IETF working group responsible for defining the format of the ML-DSA keys in *SubjectPublicKeyInfo* and *OneAsymmetricKey* structures is discussing the formats at present (September 2024), with the current consensus to using just the seed value as the private key, for the following reasons:
+
+            *   ML-DSA key-pairs are several kB in size, but can be recomputed efficiently from the initial 32-byte seed.
+            *   There is no need to validate an imported ML-DSA private key --- every 32-byte seed values is valid.
+            *   The public key cannot be derived from the secret key, so a key pair must store both the secret key and the public key.
+                The size of the key pair depends on the ML-DSA parameter set as follows:
+
+                .. csv-table::
+                    :align: left
+                    :header-rows: 1
+
+                    Parameter set, Key-pair size in bytes
+                    ML-DSA-44, 3872
+                    ML-DSA-65, 5984
+                    ML-DSA-87, 7488
+
+            *   It is better for the standard to choose a single format to improve interoperability.
+
+        See `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
+
+        .. admonition:: Implementation note
+
+            An implementation can optionally compute and store the :math:`(pk,sk)` values, to accelerate operations that use the key.
+            It is recommended that an implementation retains the seed :math:`\xi` with the key pair, in order to export the key, or copy the key to a different location.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the 32-byte ML-DSA key-pair seed, :math:`xi`.
+        The key-pair :math:`(pk, sk)` is generated from the seed as defined by ``ML-DSA.KeyGen_internal()`` in `[FIPS204]` §6.1.
+
+        .. admonition:: Implementation note
+
+            It is :scterm:`implementation defined` whether the seed :math:`xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
+
+.. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4002)
+
+    .. summary::
+        ML-DSA public key.
+
+    The key attribute size of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_DSA`
+            *   `PSA_ALG_HASH_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+
+    .. subsection:: Key format
+
+        .. warning::
+
+            The key format may change in a final version of this API.
+            The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
+            See :cite-title:`LAMPS-MLDSA`.
+
+            The current proposed format is based on the current expected outcome of that process.
+
+        An ML-DSA public key is the :math:`pk` output of ``ML-DSA.KeyGen()``, defined in `[FIPS204]` §5.1.
+
+        The size of the public key depends on the ML-DSA parameter set as follows:
+
+        .. csv-table::
+            :align: left
+            :header-rows: 1
+
+            Parameter set, Public-key size in bytes
+            ML-DSA-44, 1312
+            ML-DSA-65, 1952
+            ML-DSA-87, 2592
+
+.. macro:: PSA_KEY_TYPE_IS_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an ML-DSA key, either a key pair or a public key.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
 .. _dh-keys:
 
 Diffie Hellman keys

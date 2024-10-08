@@ -308,17 +308,21 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for message signature algorithms t
     :widths: auto
 
     Signature algorithm, SIGN-TYPE, Algorithm identifier, Algorithm value
-    RSA PKCS#1 v1.5, ``0x02``, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(hash_alg)`, ``0x060002hh`` :sup:`a`
+    RSA PKCS#1 v1.5, ``0x02``, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(hash)`, ``0x060002hh`` :sup:`a`
     RSA PKCS#1 v1.5 no hash :sup:`b`, ``0x02``, `PSA_ALG_RSA_PKCS1V15_SIGN_RAW`, ``0x06000200``
-    RSA PSS, ``0x03``, :code:`PSA_ALG_RSA_PSS(hash_alg)`, ``0x060003hh`` :sup:`a`
-    RSA PSS any salt length, ``0x13``, :code:`PSA_ALG_RSA_PSS_ANY_SALT(hash_alg)`, ``0x060013hh`` :sup:`a`
-    Randomized ECDSA, ``0x06``, :code:`PSA_ALG_ECDSA(hash_alg)`, ``0x060006hh`` :sup:`a`
+    RSA PSS, ``0x03``, :code:`PSA_ALG_RSA_PSS(hash)`, ``0x060003hh`` :sup:`a`
+    RSA PSS any salt length, ``0x13``, :code:`PSA_ALG_RSA_PSS_ANY_SALT(hash)`, ``0x060013hh`` :sup:`a`
+    Randomized ECDSA, ``0x06``, :code:`PSA_ALG_ECDSA(hash)`, ``0x060006hh`` :sup:`a`
     Randomized ECDSA no hash :sup:`b`, ``0x06``, `PSA_ALG_ECDSA_ANY`, ``0x06000600``
-    Deterministic ECDSA, ``0x07``, :code:`PSA_ALG_DETERMINISTIC_ECDSA(hash_alg)`, ``0x060007hh`` :sup:`a`
+    Deterministic ECDSA, ``0x07``, :code:`PSA_ALG_DETERMINISTIC_ECDSA(hash)`, ``0x060007hh`` :sup:`a`
     PureEdDSA, ``0x08``, `PSA_ALG_PURE_EDDSA`, ``0x06000800``
     HashEdDSA, ``0x09``, `PSA_ALG_ED25519PH` and `PSA_ALG_ED448PH`, ``0x060009hh`` :sup:`c`
+    Hedged ML-DSA, ``0x44``, `PSA_ALG_ML_DSA`, ``0x06004400``
+    Deterministic ML-DSA, ``0x45``, `PSA_ALG_DETERMINISTIC_ML_DSA`, ``0x06004500``
+    Hedged HashML-DSA, ``0x46``, :code:`PSA_ALG_HASH_ML_DSA(hash)`, ``0x060046hh`` :sup:`a`
+    Deterministic HashML-DSA, ``0x47``, :code:`PSA_ALG_DETERMINISTIC_HASH_ML_DSA(hash)`, ``0x060047hh`` :sup:`a`
 
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to construct the signature algorithm.
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the signature algorithm.
 
 b.  Asymmetric signature algorithms without hashing can only be used with `psa_sign_hash()` and `psa_verify_hash()`.
 
@@ -597,6 +601,8 @@ The defined values for NP-FAMILY and P are shown in :numref:`table-np-type`.
     Key family, Public/pair, PAIR, NP-FAMILY, P, Key type, Key value
     RSA, Public key, 0, 0, 1, `PSA_KEY_TYPE_RSA_PUBLIC_KEY`, ``0x4001``
     , Key pair, 3, 0, 1, `PSA_KEY_TYPE_RSA_KEY_PAIR`, ``0x7001``
+    ML-DSA, Public key, 0, 1, 0, `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY`, ``0x4002``
+    , Key pair, 3, 1, 0, `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`, ``0x7002``
 
 .. _ecc-key-encoding:
 
