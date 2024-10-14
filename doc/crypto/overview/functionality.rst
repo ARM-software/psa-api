@@ -114,15 +114,21 @@ Cryptographic operations
 
 For each type of cryptographic operation, the API can include:
 
-*   One or more *single-part* functions, which perform a whole operation in a single function call. For example, compute, verify, encrypt or decrypt.
-*   A *multi-part operation* --- which is a series of functions that work with a stored operation state.
+*   One or more *single-part* functions, which perform a whole operation in a single function call. For example, compute, verify, encrypt or decrypt. See :secref:`single-part-functions`.
+
+*   A *multi-part operation* --- which is a set of functions that work with a stored operation state. This provides more control over operation configuration, piecewise processing of large input data, or handling for multi-step processes. See :secref:`multi-part-operations`.
+
+.. _single-part-functions:
 
 Single-part Functions
 ~~~~~~~~~~~~~~~~~~~~~
 
 Single-part functions are APIs that implement the cryptographic operation in a single function call. This is the easiest API to use when all of the inputs and outputs fit into the application memory.
 
-Some use cases involve messages that are too large to be assembled in memory, or require non-default configuration of the algorithm. These use cases require the use of a `multi-part operation <multi-part-operations>`.
+Single-part functions do not meet the needs of all use cases:
+
+*   Some use cases involve messages that are too large to be assembled in memory, or require non-default configuration of the algorithm. These use cases require the use of a `multi-part operation <multi-part-operations>`.
+
 
 .. _multi-part-operations:
 
@@ -152,10 +158,10 @@ The typical sequence of actions with a multi-part operation is as follows:
 
 #.  **Initialize:** Initialize or assign the operation object by one of the following methods:
 
-    -   Set it to logical zero. This is automatic for static and global variables. Explicit initialization must use the associated ``PSA_xxx_INIT`` macro as the type is implementation-defined.
+    -   Set it to logical zero. This is automatic for static and global variables. Explicit initialization must use the associated ``PSA_xxx_OPERATION_INIT`` macro as the type is implementation-defined.
     -   Set it to all-bits zero. This is automatic if the object was allocated with ``calloc()``.
-    -   Assign the value of the associated macro ``PSA_xxx_INIT``.
-    -   Assign the result of calling the associated function ``psa_xxx_init()``.
+    -   Assign the value of the associated macro ``PSA_xxx_OPERATION_INIT``.
+    -   Assign the result of calling the associated function ``psa_xxx_operation_init()``.
 
     The resulting object is now *inactive*.
 
@@ -263,7 +269,14 @@ This specification defines interfaces for the following types of asymmetric cryp
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
 *   Password-authenticated key exchange (PAKE). See :secref:`pake`.
 
-For asymmetric encryption and signature, the API provides *single-part* functions. For key agreement, the API provides single-part functions and an additional input method for a key derivation operation. For PAKE, the API provides a multi-part operation.
+For asymmetric encryption, the API provides *single-part* functions.
+
+For asymmetric signature, the API provides single-part functions.
+
+For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
+
+For PAKE, the API provides a *multi-part* operation.
+
 
 Randomness and key generation
 -----------------------------
