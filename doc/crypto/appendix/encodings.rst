@@ -84,6 +84,7 @@ The CAT field in an algorithm identifier takes the values shown in :numref:`tabl
     Asymmetric encryption, ``0x07``, See :secref:`pke-encoding`
     Key agreement, ``0x09``, See :secref:`ka-encoding`
     PAKE, ``0x0A``, See :secref:`pake-encoding`
+    Encapsulation, ``0x0B``, See :secref:`encapsulation-encoding`
 
 .. rationale::
 
@@ -415,6 +416,30 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     SPAKE2+ for Matter, ``0x06``, :code:`PSA_ALG_SPAKE2P_MATTER`, ``0x0A000609``
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
+
+.. _encapsulation-encoding:
+
+Encapsulation algorithm encoding
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The algorithm identifier for encapsulation algorithms defined in this specification are encoded as shown in :numref:`fig-encapsulation-encoding`.
+
+.. figure:: /figure/encoding/encapsulation_encoding.*
+    :name: fig-encapsulation-encoding
+
+    Encapsulation algorithm encoding
+
+The defined values for ENCAPSULATION-TYPE are shown in :numref:`table-encapsulation-type`.
+
+.. csv-table:: Encapsulation algorithm sub-type values
+    :name: table-encapsulation-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    encapsulation algorithm, Algorithm identifier, Algorithm value
+    ECIES, ``0x01``, ``0x0b000100``
+    ML-KEM, ``0x02``, ``0x0b000200``
 
 .. _key-type-encoding:
 
