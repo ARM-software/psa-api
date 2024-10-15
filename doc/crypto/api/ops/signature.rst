@@ -209,6 +209,72 @@ RSA signature algorithms
         | `PSA_KEY_TYPE_RSA_KEY_PAIR`
         | `PSA_KEY_TYPE_RSA_PUBLIC_KEY` (signature verification only)
 
+.. macro:: PSA_ALG_IS_RSA_PKCS1V15_SIGN
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PKCS#1 v1.5 signature algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PKCS#1 v1.5 signature algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_RSA_PSS
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PSS signature algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PSS signature algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    This macro returns ``1`` for algorithms constructed using either `PSA_ALG_RSA_PSS()` or `PSA_ALG_RSA_PSS_ANY_SALT()`.
+
+.. macro:: PSA_ALG_IS_RSA_PSS_ANY_SALT
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PSS signature algorithm that permits any salt length.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PSS signature algorithm that permits any salt length, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    An RSA PSS signature algorithm that permits any salt length is constructed using `PSA_ALG_RSA_PSS_ANY_SALT()`.
+
+    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_STANDARD_SALT()`.
+
+.. macro:: PSA_ALG_IS_RSA_PSS_STANDARD_SALT
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an RSA PSS signature algorithm that requires the standard salt length.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an RSA PSS signature algorithm that requires the standard salt length, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    An RSA PSS signature algorithm that requires the standard salt length is constructed using `PSA_ALG_RSA_PSS()`.
+
+    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_ANY_SALT()`.
+
 .. _ecdsa-sign-algorithms:
 
 ECDSA signature algorithms
@@ -326,6 +392,52 @@ ECDSA signature algorithms
         *   `PSA_ECC_FAMILY_FRP`
         *   `PSA_ECC_FAMILY_BRAINPOOL_P_R1`
 
+.. macro:: PSA_ALG_IS_ECDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is ECDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an ECDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_DETERMINISTIC_ECDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is deterministic ECDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a deterministic ECDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_RANDOMIZED_ECDSA()`.
+
+.. macro:: PSA_ALG_IS_RANDOMIZED_ECDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is randomized ECDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a randomized ECDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_DETERMINISTIC_ECDSA()`.
+
 .. _eddsa-sign-algorithms:
 
 EdDSA signature algorithms
@@ -421,6 +533,20 @@ EdDSA signature algorithms
     .. admonition:: Implementation note
 
         When used with `psa_sign_hash()` or `psa_verify_hash()`, the ``hash`` parameter to the call should be used as :math:`\text{PH}(M)` in the algorithms defined in :RFC:`8032#5.2`.
+
+.. macro:: PSA_ALG_IS_HASH_EDDSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is HashEdDSA.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a HashEdDSA algorithm, ``0`` otherwise.
+
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
 
 .. _single-part-signature:
@@ -691,132 +817,6 @@ Support macros
         ``1`` if ``alg`` is a signature algorithm that can be used to sign a hash. ``0`` if ``alg`` is a signature algorithm that can only be used to sign a message. ``0`` if ``alg`` is not a signature algorithm. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     This macro evaluates to ``1`` for hash-and-sign and specialized signature algorithms.
-
-.. macro:: PSA_ALG_IS_RSA_PKCS1V15_SIGN
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PKCS#1 v1.5 signature algorithm.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PKCS#1 v1.5 signature algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-.. macro:: PSA_ALG_IS_RSA_PSS
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PSS signature algorithm.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PSS signature algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    This macro returns ``1`` for algorithms constructed using either `PSA_ALG_RSA_PSS()` or `PSA_ALG_RSA_PSS_ANY_SALT()`.
-
-.. macro:: PSA_ALG_IS_RSA_PSS_ANY_SALT
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PSS signature algorithm that permits any salt length.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PSS signature algorithm that permits any salt length, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    An RSA PSS signature algorithm that permits any salt length is constructed using `PSA_ALG_RSA_PSS_ANY_SALT()`.
-
-    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_STANDARD_SALT()`.
-
-.. macro:: PSA_ALG_IS_RSA_PSS_STANDARD_SALT
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is an RSA PSS signature algorithm that requires the standard salt length.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an RSA PSS signature algorithm that requires the standard salt length, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    An RSA PSS signature algorithm that requires the standard salt length is constructed using `PSA_ALG_RSA_PSS()`.
-
-    See also `PSA_ALG_IS_RSA_PSS()` and `PSA_ALG_IS_RSA_PSS_ANY_SALT()`.
-
-.. macro:: PSA_ALG_IS_ECDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is ECDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is an ECDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-.. macro:: PSA_ALG_IS_DETERMINISTIC_ECDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is deterministic ECDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a deterministic ECDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_RANDOMIZED_ECDSA()`.
-
-.. macro:: PSA_ALG_IS_RANDOMIZED_ECDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is randomized ECDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a randomized ECDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
-
-    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_DETERMINISTIC_ECDSA()`.
-
-.. macro:: PSA_ALG_IS_HASH_EDDSA
-    :definition: /* specification-defined value */
-
-    .. summary::
-        Whether the specified algorithm is HashEdDSA.
-
-    .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    .. return::
-        ``1`` if ``alg`` is a HashEdDSA algorithm, ``0`` otherwise.
-
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
 .. macro:: PSA_ALG_IS_HASH_AND_SIGN
     :definition: /* specification-defined value */
