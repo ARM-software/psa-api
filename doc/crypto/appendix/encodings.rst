@@ -420,7 +420,7 @@ a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct 
 .. _encapsulation-encoding:
 
 Encapsulation algorithm encoding
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The algorithm identifier for encapsulation algorithms defined in this specification are encoded as shown in :numref:`fig-encapsulation-encoding`.
 
@@ -429,7 +429,7 @@ The algorithm identifier for encapsulation algorithms defined in this specificat
 
     Encapsulation algorithm encoding
 
-The defined values for ENCAPSULATION-TYPE are shown in :numref:`table-encapsulation-type`.
+The defined values for ENCAPS-TYPE are shown in :numref:`table-encapsulation-type`.
 
 .. csv-table:: Encapsulation algorithm sub-type values
     :name: table-encapsulation-type
@@ -437,9 +437,9 @@ The defined values for ENCAPSULATION-TYPE are shown in :numref:`table-encapsulat
     :align: left
     :widths: auto
 
-    encapsulation algorithm, Algorithm identifier, Algorithm value
-    ECIES, ``0x01``, ``0x0b000100``
-    ML-KEM, ``0x02``, ``0x0b000200``
+    Encapsulation algorithm, ENCAPS-TYPE, Algorithm identifier, Algorithm value
+    ECIES, ``0x01``, `PSA_ALG_ECIES_SEC1`, ``0x0b000100``
+    ML-KEM, ``0x02``, `PSA_ALG_ML_KEM`, ``0x0b000200``
 
 .. _key-type-encoding:
 
@@ -622,7 +622,9 @@ The defined values for NP-FAMILY and P are shown in :numref:`table-np-type`.
     Key family, Public/pair, PAIR, NP-FAMILY, P, Key type, Key value
     RSA, Public key, 0, 0, 1, `PSA_KEY_TYPE_RSA_PUBLIC_KEY`, ``0x4001``
     , Key pair, 3, 0, 1, `PSA_KEY_TYPE_RSA_KEY_PAIR`, ``0x7001``
-
+    ML-KEM, Public key, 0, 2, 0, `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY`, ``0x4004``
+    , Key pair, 3, 2, 0, `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`, ``0x7004``
+    
 .. _ecc-key-encoding:
 
 Elliptic curve key encoding
