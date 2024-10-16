@@ -5,3 +5,21 @@
     :title: PSA Certified Crypto API
     :doc_no: IHI 0086
     :url: arm-software.github.io/psa-api/crypto
+
+.. reference:: FIPS202
+    :title: FIPS Publication 202: SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions
+    :author: NIST
+    :publication: August 2015
+    :url: doi.org/10.6028/NIST.FIPS.202
+
+.. reference:: FIPS205
+    :title: FIPS Publication 205: Stateless Hash-Based Digital Signature Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.205
+
+.. reference:: LAMPS-SLHDSA
+    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA (Draft 02)
+    :author: IETF
+    :publication: October 2024 (DRAFT)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa-02

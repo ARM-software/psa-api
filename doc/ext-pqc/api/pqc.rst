@@ -25,12 +25,7 @@ This chapter is divided into sections for each of the PQC algorithms in the |API
 
 .. toctree::
 
-
+    hash
+    slhdsa
 
 See :secref:`pqc-encodings` for the encoding of the key types and algorithm identifiers added by this extension.
-
-PlaceHolder
-===========
-
-.. macro:: PLACEHOLDER
-    :definition: /* TBD */
