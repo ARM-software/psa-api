@@ -1482,6 +1482,80 @@ SPAKE2+ keys
     .. return:: psa_ecc_family_t
         The elliptic curve family id, if ``type`` is a supported SPAKE2+ key. Unspecified if ``type`` is not a supported SPAKE2+ key.
 
+
+Module Lattice-based Key Encapsulation keys
+-------------------------------------------
+
+
+The |API| supports Module Lattice-based Key Encapsulation as defined in :cite:`FIPS203`. 
+
+.. macro:: PSA_KEY_TYPE_ML_KEM_KEY_PAIR
+    :definition: ((psa_key_type_t)0x7004)
+
+    .. summary::
+        ML-KEM key pair: contains both the decapsulation and encapsulation keys.
+        
+    The |API| treats decapsulation keys as private keys and encapsulation keys as public keys. 
+    
+    The key attribute size of an ML-KEM key is specified by the numeric part of the parameter set identifier defined in :CITE:`FIPS203`.
+    
+    The parameter set identifiers refer to the key strength, and not to the actual size of the key, the key and ciphertext sizes are given in the following table. 
+    
+    .. list-table:: Sizes (in bytes) of keys and cipher texts for ML-KEM
+       :header-rows: 1
+
+       * - Key Attribute Size
+         - Parameter Set
+         - Encapsulation key
+         - Decapsulation key 
+         - Ciphertext
+
+       * - 512
+         - ML-KEM-512
+         - 800
+         - 1632
+         - 768
+       
+       * - 768
+         - ML-KEM-768
+         - 1184
+         - 2400
+         - 1088
+         
+       * - 1024
+         - ML-KEM-1024
+         - 1568
+         - 3168
+         - 1568
+
+    In all cases the shared secret produced is 32-bytes, 256-bits long.
+    The shared secret can be used directly or passed to a PRF to derive further keys. 
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_ML_KEM`
+
+.. macro:: PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4004)
+
+    .. summary::
+        ML-KEM public key.
+
+    The size of an ML-KEM key is the numeric part of the parameter set identifier.
+
+    .. subsection:: Compatible algorithms
+
+        | `PSA_ALG_ML_KEM` (encapsulation only)
+         
+.. macro:: PSA_KEY_TYPE_IS_ML_KEM
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an ML-KEM key. This includes both key pairs and public keys.
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
 Attribute accessors
 -------------------
 
