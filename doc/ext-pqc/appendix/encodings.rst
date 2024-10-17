@@ -50,6 +50,10 @@ See also *Asymmetric signature algorithm encoding* in `[PSA-CRYPT]` Appendix B.
     :widths: auto
 
     Signature algorithm, SIGN-TYPE, Algorithm identifier, Algorithm value
+    Hedged ML-DSA, ``0x44``, `PSA_ALG_ML_DSA`, ``0x06004400``
+    Deterministic ML-DSA, ``0x45``, `PSA_ALG_DETERMINISTIC_ML_DSA`, ``0x06004500``
+    Hedged HashML-DSA, ``0x46``, :code:`PSA_ALG_HASH_ML_DSA(hash)`, ``0x060046hh`` :sup:`a`
+    Deterministic HashML-DSA, ``0x47``, :code:`PSA_ALG_DETERMINISTIC_HASH_ML_DSA(hash)`, ``0x060047hh`` :sup:`a`
     Hedged SLH-DSA, ``0x40``, `PSA_ALG_SLH_DSA`, ``0x06004000``
     Deterministic SLH-DSA, ``0x41``, `PSA_ALG_DETERMINISTIC_SLH_DSA`, ``0x06004100``
     Hedged HashSLH-DSA, ``0x42``, :code:`PSA_ALG_HASH_SLH_DSA(hash)`, ``0x060042hh`` :sup:`a`
@@ -73,6 +77,24 @@ See also *Asymmetric key encoding* in `[PSA-CRYPT]` Appendix B.
 
     Asymmetric key type, ASYM-TYPE, Details
     SLH-DSA, 3, See :secref:`slh-dsa-key-encoding`
+
+.. _simple-asymmetric-key-encoding:
+
+Non-parameterized asymmetric key encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Additional non-parameterized asymmetric key types defined by this extension are shown in :numref:`table-np-type`.
+See also *Non-parameterized asymmetric key encoding* in `[PSA-CRYPT]` Appendix B.
+
+.. csv-table:: Non-parameterized asymmetric key family values
+    :name: table-np-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Key family, Public/pair, PAIR, NP-FAMILY, P, Key type, Key value
+    ML-DSA, Public key, 0, 1, 0, `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY`, ``0x4002``
+    , Key pair, 3, 1, 0, `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`, ``0x7002``
 
 .. _slh-dsa-key-encoding:
 

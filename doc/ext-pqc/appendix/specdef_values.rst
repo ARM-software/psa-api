@@ -24,32 +24,51 @@ Updated macros
     #define PSA_ALG_IS_HASH_AND_SIGN(alg) \
         (PSA_ALG_IS_RSA_PSS(alg) || PSA_ALG_IS_RSA_PKCS1V15_SIGN(alg) || \
          PSA_ALG_IS_ECDSA(alg) || PSA_ALG_IS_HASH_EDDSA(alg) || \
-         PSA_ALG_IS_HASH_SLH_DSA(alg))
+         PSA_ALG_IS_HASH_ML_DSA(alg) || PSA_ALG_IS_HASH_SLH_DSA(alg))
 
     #define PSA_ALG_IS_SIGN_HASH(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
-         (alg) != PSA_ALG_PURE_EDDSA && !PSA_ALG_IS_SLH_DSA(alg))
-
+         (alg) != PSA_ALG_PURE_EDDSA && \
+         !PSA_ALG_IS_SLH_DSA(alg) && \
+         !PSA_ALG_IS_ML_DSA(alg))
 
 New macros
 ^^^^^^^^^^
 
 .. code-block:: xref
 
+    #define PSA_ALG_DETERMINISTIC_HASH_ML_DSA(hash_alg) \
+        ((psa_algorithm_t) (0x06004700 | ((hash_alg) & 0x000000ff)))
+
     #define PSA_ALG_DETERMINISTIC_HASH_SLH_DSA(hash_alg) \
         ((psa_algorithm_t) (0x06004300 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_HASH_ML_DSA(hash_alg) \
+        ((psa_algorithm_t) (0x06004600 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_HASH_SLH_DSA(hash_alg) \
         ((psa_algorithm_t) (0x06004200 | ((hash_alg) & 0x000000ff)))
 
+    #define PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA(alg) \
+        (((alg) & ~0x000000ff) == 0x06004700)
+
     #define PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA(alg) \
         (((alg) & ~0x000000ff) == 0x06004300)
+
+    #define PSA_ALG_IS_HASH_ML_DSA(alg) \
+        (((alg) & ~0x000001ff) == 0x06004600)
 
     #define PSA_ALG_IS_HASH_SLH_DSA(alg) \
         (((alg) & ~0x000001ff) == 0x06004200)
 
+    #define PSA_ALG_IS_HEDGED_HASH_ML_DSA(alg) \
+        (((alg) & ~0x000000ff) == 0x06004600)
+
     #define PSA_ALG_IS_HEDGED_HASH_SLH_DSA(alg) \
         (((alg) & ~0x000000ff) == 0x06004200)
+
+    #define PSA_ALG_IS_ML_DSA(alg) \
+        (((alg) & ~0x00000100) == 0x06004400)
 
     #define PSA_ALG_IS_SLH_DSA(alg) \
         (((alg) & ~0x00000100) == 0x06004000)
@@ -58,6 +77,9 @@ Key type macros
 ~~~~~~~~~~~~~~~
 
 .. code-block:: xref
+
+    #define PSA_KEY_TYPE_IS_ML_DSA(type) \
+        (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4002)
 
     #define PSA_KEY_TYPE_IS_SLH_DSA(type) \
         ((PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) & 0xff80) == 0x4180)
