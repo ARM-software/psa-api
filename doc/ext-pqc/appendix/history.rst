@@ -14,5 +14,7 @@ Beta release
 
 *   First release of the PQC Extension.
 
+*   Added support for FIPS 204 ML-DSA signature algorithm and keys.
+    See :secref:`ml-dsa-keys` and :secref:`ml-dsa-algorithms`.
 *   Added support for FIPS 205 SLH-DSA signature algorithm and keys.
     See :secref:`slh-dsa-keys` and :secref:`slh-dsa-algorithms`.

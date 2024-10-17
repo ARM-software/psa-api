@@ -12,11 +12,23 @@
     :publication: August 2015
     :url: doi.org/10.6028/NIST.FIPS.202
 
+.. reference:: FIPS204
+    :title: FIPS Publication 204: Module-Lattice-Based Digital Signature Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.204
+
 .. reference:: FIPS205
     :title: FIPS Publication 205: Stateless Hash-Based Digital Signature Standard
     :author: NIST
     :publication: August 2024
     :url: doi.org/10.6028/NIST.FIPS.205
+
+.. reference:: LAMPS-MLDSA
+    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for ML-DSA (Draft 04)
+    :author: IETF
+    :publication: July 2024 (DRAFT)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-dilithium-certificates-04
 
 .. reference:: LAMPS-SLHDSA
     :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA (Draft 02)
