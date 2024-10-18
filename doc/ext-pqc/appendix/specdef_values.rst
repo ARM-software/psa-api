@@ -81,6 +81,9 @@ Key type macros
     #define PSA_KEY_TYPE_IS_ML_DSA(type) \
         (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4002)
 
+    #define PSA_KEY_TYPE_IS_ML_KEM(type) \
+        (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4004)
+
     #define PSA_KEY_TYPE_IS_SLH_DSA(type) \
         ((PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) & 0xff80) == 0x4180)
 
