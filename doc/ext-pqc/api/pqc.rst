@@ -26,6 +26,7 @@ This chapter is divided into sections for each of the PQC algorithms in the |API
 .. toctree::
 
     hash
+    mlkem
     mldsa
     slhdsa
 

@@ -12,6 +12,12 @@
     :publication: August 2015
     :url: doi.org/10.6028/NIST.FIPS.202
 
+.. reference:: FIPS203
+    :title: FIPS Publication 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.203
+
 .. reference:: FIPS204
     :title: FIPS Publication 204: Module-Lattice-Based Digital Signature Standard
     :author: NIST
@@ -24,14 +30,20 @@
     :publication: August 2024
     :url: doi.org/10.6028/NIST.FIPS.205
 
-.. reference:: LAMPS-MLDSA
-    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for ML-DSA (Draft 04)
+.. reference:: LAMPS-MLKEM
+    :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM)
     :author: IETF
-    :publication: July 2024 (DRAFT)
+    :publication: September 2024 (Draft 04)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-kyber-certificates-04
+
+.. reference:: LAMPS-MLDSA
+    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for ML-DSA
+    :author: IETF
+    :publication: July 2024 (Draft 04)
     :url: datatracker.ietf.org/doc/draft-ietf-lamps-dilithium-certificates-04
 
 .. reference:: LAMPS-SLHDSA
-    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA (Draft 02)
+    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA
     :author: IETF
-    :publication: October 2024 (DRAFT)
+    :publication: October 2024 (Draft 02)
     :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa-02

@@ -18,6 +18,7 @@ This information should be read in conjunction with :cite:`PSA-CRYPT` Appendix B
 Algorithm encoding
 ------------------
 
+
 .. _hash-encoding:
 
 Hash algorithm encoding
@@ -61,6 +62,22 @@ See also *Asymmetric signature algorithm encoding* in `[PSA-CRYPT]` Appendix B.
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the signature algorithm.
 
+.. _encapsulation-encoding:
+
+Key-encapsulation algorithm encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Additional key-encapsulation algorithms defined by this extension are shown in :numref:`table-encapsulation-type`.
+
+.. csv-table:: Encapsulation algorithm sub-type values
+    :name: table-encapsulation-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Encapsulation algorithm, ENCAPS-TYPE, Algorithm identifier, Algorithm value
+    ML-KEM, ``0x02``, `PSA_ALG_ML_KEM`, ``0x0b000200``
+
 .. _pqc-key-encoding:
 
 Key encoding
@@ -95,6 +112,8 @@ See also *Non-parameterized asymmetric key encoding* in `[PSA-CRYPT]` Appendix B
     Key family, Public/pair, PAIR, NP-FAMILY, P, Key type, Key value
     ML-DSA, Public key, 0, 1, 0, `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY`, ``0x4002``
     , Key pair, 3, 1, 0, `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`, ``0x7002``
+    ML-KEM, Public key, 0, 2, 0, `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY`, ``0x4004``
+    , Key pair, 3, 2, 0, `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`, ``0x7004``
 
 .. _slh-dsa-key-encoding:
 
