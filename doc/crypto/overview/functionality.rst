@@ -271,7 +271,7 @@ This specification defines interfaces for the following types of asymmetric cryp
 *   Asymmetric encryption (also known as public key encryption). See :secref:`pke`.
 *   Asymmetric signature. See :secref:`sign`.
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
-*   Key encapsulation. See :secref:`encapsulation`.
+*   Key encapsulation. See :secref:`key-encapsulation`.
 *   Password-authenticated key exchange (PAKE). See :secref:`pake`.
 
 For asymmetric encryption, the API provides *single-part* functions.
