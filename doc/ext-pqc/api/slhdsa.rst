@@ -6,12 +6,12 @@
 
 .. _slh-dsa:
 
-Stateless Hash-based Signatures
+Stateless Hash-based signatures
 ===============================
 
 .. _slh-dsa-keys:
 
-Stateless Hash-based Signature keys
+Stateless Hash-based signature keys
 -----------------------------------
 
 The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined in :cite-title:`FIPS205`.
@@ -229,7 +229,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 .. _slh-dsa-algorithms:
 
 Stateless Hash-based signature algorithms
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 The SLH-DSA signature and verification scheme is defined in :cite-title:`FIPS205`.
 SLH-DSA has twelve parameter sets which provide differing security strengths, trade-off between signature size and computation cost, and selection between SHA2 and SHAKE-based hashing.

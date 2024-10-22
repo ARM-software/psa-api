@@ -52,17 +52,13 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 
         An ML-KEM key pair is the :math:`(ek,dk)` pair of encapsulation key and decapsulation key, which are generated from two secret 32-byte seeds, :math:`d` and :math:`z`. See `[FIPS203]` §7.1.
 
-        The data format for import and export of the key-pair is the concatenation of the two seed values:
-
-        .. math::
-
-            d\ ||\ z
+        The data format for import and export of the key-pair is the concatenation of the two seed values: :math:`d\ ||\ z`.
 
         .. rationale::
 
             The IETF working group responsible for defining the format of the ML-DSA keys in *SubjectPublicKeyInfo* and *OneAsymmetricKey* structures is discussing the formats at present (September 2024), with the current consensus to using just the seed values as the private key, for the following reasons:
 
-            *   ML-KEM decapsulation keys are 1.5 -- 3.0 kB in size, but can be recomputed efficiently from the initial 64-byte seed-pair.
+            *   ML-KEM decapsulation keys are 1.5--3.0 kB in size, but can be recomputed efficiently from the initial 64-byte seed-pair.
             *   There is no need to validate an imported ML-KEM key-pair --- every 64-byte pair of seed values is valid.
             *   It is better for the standard to choose a single format to improve interoperability.
 
@@ -169,4 +165,4 @@ See `[FIPS203]` §8 for details on the parameter sets.
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`
-        | `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY` (key encapsulation only)
+        | `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY` (encapsulation only)
