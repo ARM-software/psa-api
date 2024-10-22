@@ -19,17 +19,17 @@ doc_info = {
     'copyright': 'Arm Limited and/or its affiliates',
 
     # Arm document identifier, marked as open issue if not provided
-    #'doc_id': 'AES 0058',
+    'doc_id': 'AES 0119',
 
     # The short X.Y version. MANDATORY
     'version': '1.3',
     'extension_doc': 'PQC Extension',
 
     # Arm document quality status, marked as open issue if not provided
-    #'quality': 'BET',
+    'quality': 'BET',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    #'issue_no': 0,
+    'issue_no': 0,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     #'release_candidate': 0,
