@@ -6,12 +6,12 @@
 
 .. _ml-dsa:
 
-Module Lattice-based Signatures
+Module Lattice-based signatures
 ===============================
 
 .. _ml-dsa-keys:
 
-Module Lattice-based Signature keys
+Module Lattice-based signature keys
 -----------------------------------
 
 The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined in :cite-title:`FIPS204`.
@@ -143,7 +143,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 .. _ml-dsa-algorithms:
 
 Module Lattice-based signature algorithms
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 The ML-DSA signature and verification scheme is defined in :cite-title:`FIPS204`.
 ML-DSA has three parameter sets which provide differing security strengths.
