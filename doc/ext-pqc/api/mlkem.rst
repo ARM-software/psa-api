@@ -140,7 +140,7 @@ The encoding of each parameter set into the key attributes is described in :secr
 See `[FIPS203]` §8 for details on the parameter sets.
 
 .. macro:: PSA_ALG_ML_KEM
-    :definition: ((psa_algorithm_t)0x0b000200)
+    :definition: ((psa_algorithm_t)0x0c000200)
 
     .. summary::
         Module Lattice-based key encapsulation mechanism (ML-KEM).
