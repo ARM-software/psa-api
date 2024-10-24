@@ -15,6 +15,7 @@ Cryptographic operation reference
     mac
     cipher
     aead
+    key-wrapping
     key-derivation
     signature
     pk-encryption

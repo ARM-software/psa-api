@@ -101,6 +101,8 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     -   `PSA_KEY_USAGE_VERIFY_HASH`
     -   `PSA_KEY_USAGE_DERIVE`
     -   `PSA_KEY_USAGE_VERIFY_DERIVATION`
+    -   `PSA_KEY_USAGE_WRAP`
+    -   `PSA_KEY_USAGE_UNWRAP`
 
     The flag `PSA_KEY_USAGE_DERIVE_PUBLIC` is used in the function `psa_check_key_usage()` to query if a key can be used for the public role in the specified algorithm.
 
@@ -293,6 +295,27 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
         The key must have the `PSA_KEY_USAGE_DERIVE` permission.
     *   `PSA_ALG_HKDF` is invalid, as there is no such role in single-key derivation algorithms.
 
+.. macro:: PSA_KEY_USAGE_WRAP
+    :definition: ((psa_key_usage_t)0x00010000)
+
+    .. summary::
+        Permission to wrap another key with the key.
+
+    This flag is required to use the key in a key-wrapping operation.
+    The flag must be present on keys used with the following APIs:
+
+    *   `psa_wrap_key()`
+
+.. macro:: PSA_KEY_USAGE_UNWRAP
+    :definition: ((psa_key_usage_t)0x00020000)
+
+    .. summary::
+        Permission to unwrap another key with the key.
+
+    This flag is required to use the key in a key-unwrapping operation.
+    The flag must be present on keys used with the following APIs:
+
+    *   `psa_unwrap_key()`
 
 .. function:: psa_set_key_usage_flags
 
