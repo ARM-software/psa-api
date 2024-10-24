@@ -76,7 +76,7 @@ Additional key-encapsulation algorithms defined by this extension are shown in :
     :widths: auto
 
     Encapsulation algorithm, ENCAPS-TYPE, Algorithm identifier, Algorithm value
-    ML-KEM, ``0x02``, `PSA_ALG_ML_KEM`, ``0x0b000200``
+    ML-KEM, ``0x02``, `PSA_ALG_ML_KEM`, ``0x0C000200``
 
 .. _pqc-key-encoding:
 
