@@ -47,3 +47,9 @@
     :author: IETF
     :publication: October 2024 (Draft 02)
     :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa-02
+
+.. reference:: NIST-PQC
+    :title: Post-Quantum Cryptography
+    :author: NIST
+    :publication: PQC Project page
+    :url: nist.gov/pqcrypto
