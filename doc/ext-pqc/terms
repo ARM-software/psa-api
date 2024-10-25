@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. term:: Algorithm
@@ -153,13 +153,6 @@
 .. term:: Volatile key
 
     A key that has a short lifespan and is guaranteed not to exist after a restart of an application instance.
-
-.. term:: Password-authenticated key exchange
-    :abbr: PAKE
-
-    An interactive method for two or more parties to establish cryptographic keys based on knowledge of a low entropy secret, such as a password.
-
-    This can provide strong security for communication from a weak password, because the password is not directly communicated as part of the key exchange.
 
 .. term:: Post-Quantum Cryptography
     :abbr: PQC
