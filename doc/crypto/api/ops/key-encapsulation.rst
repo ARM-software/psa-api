@@ -72,7 +72,7 @@ The key derivation, encryption, and authentication steps are left to the applica
     *   The elliptic curve to use is determined by the key.
     *   The public key part of the input key is used as :math:`Q_V`.
     *   Cofactor ECDH is used to perform the key agreement.
-    *   The shared secret :math:`Z` is output as the shared output key.
+    *   The octet string :math:`Z` is output as the shared secret key.
     *   The ephemeral public key :math:`\overline{R}` is output as the ciphertext.
 
     A call to `psa_decapsulate()` carries out steps 2 to 5 of the ECIES decryption process described in `[SEC1]` §5.1.4:
@@ -81,12 +81,12 @@ The key derivation, encryption, and authentication steps are left to the applica
     *   The ciphertext is decoded as :math:`\overline{R}`.
     *   The private key of the input key is used as :math:`d_V`.
     *   Cofactor ECDH is used to perform the key agreement.
-    *   The shared secret :math:`Z` is output as the shared output key.
+    *   The octet string :math:`Z` is output as the shared secret key.
 
     The ciphertext produced by `PSA_ALG_ECIES_SEC1` is not authenticated.
     When used in a full ECIES scheme, the authentication of the encrypted message implicitly confirms that the derived keys were identical.
 
-    The shared output key that is produced by `PSA_ALG_ECIES_SEC1` is not suitable for use as an encryption key.
+    The shared secret key that is produced by `PSA_ALG_ECIES_SEC1` is not suitable for use as an encryption key.
     It must be used as an input to a key derivation operation to produce additional cryptographic keys.
 
     .. subsection:: Compatible key types
@@ -144,7 +144,7 @@ Key-encapsulation functions
             This is an input parameter: it is not updated with the final key attributes.
             The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
     .. param:: psa_key_id_t * output_key
-        On success, an identifier for the newly created shared output key.
+        On success, an identifier for the newly created shared secret key.
         `PSA_KEY_ID_NULL` on failure.
     .. param:: uint8_t * ciphertext
         Buffer where the ciphertext output is to be written.
@@ -161,13 +161,13 @@ Key-encapsulation functions
 
     .. retval:: PSA_SUCCESS
         Success.
-        The bytes of ``ciphertext`` contain the data to be sent to the other participant and ``output_key`` contains the identifier for the shared output key.
+        The bytes of ``ciphertext`` contain the data to be sent to the other participant and ``output_key`` contains the identifier for the shared secret key.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
         *   ``alg`` is not supported or is not a key-encapsulation algorithm.
         *   ``key`` is not supported for use with ``alg``.
-        *   The output key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
+        *   The output key attributes in ``attributes``, as a whole, are not supported, either by the implementation in general or in the specified storage location.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -175,8 +175,8 @@ Key-encapsulation functions
         *   ``key`` is not a public key or an asymmetric key pair, that is compatible with ``alg``.
         *   The output key attributes in ``attributes`` are not valid:
 
-            -   The key type is not valid for the shared output key.
-            -   The key size is nonzero, and is not the size of the shared output.
+            -   The key type is not valid for the shared secret.
+            -   The key size is nonzero, and is not the size of the shared secret.
             -   The key lifetime is invalid.
             -   The key identifier is not valid for the key lifetime.
             -   The key usage flags include invalid values.
@@ -201,8 +201,8 @@ Key-encapsulation functions
     The size of the returned key is always the bit-size of the shared secret, rounded up to a whole number of bytes.
     The size of the shared secret is dependent on the key-encapsulation algorithm and the type and size of ``key``.
 
-    It is recommended that this key is used as an input to a key derivation operation to produce additional cryptographic keys.
-    For some key-encapsulation algorithms, the shared secret is also suitable for use as a key in cryptographic operations such as encryption.
+    It is recommended that the shared secret key is used as an input to a key derivation operation to produce additional cryptographic keys.
+    For some key-encapsulation algorithms, the shared secret key is also suitable for use as a key in cryptographic operations such as encryption.
     Refer to the documentation of individual key-encapsulation algorithms for more information.
 
     The output ``ciphertext`` is to be sent to the other participant, who uses the decapsulation key to extract another copy of the shared secret key.
@@ -249,14 +249,14 @@ Key-encapsulation functions
             This is an input parameter: it is not updated with the final key attributes.
             The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
     .. param:: psa_key_id_t * output_key
-        On success, an identifier for the newly created shared output key.
+        On success, an identifier for the newly created shared secret key.
         `PSA_KEY_ID_NULL` on failure.
 
     .. return:: psa_status_t
 
     .. retval:: PSA_SUCCESS
         Success.
-        ``output_key`` contains the identifier for the shared output key.
+        ``output_key`` contains the identifier for the shared secret key.
 
         .. note::
             In some key-encapsulation algorithms, decapsulation failure is not reported with a explicit error code.
@@ -266,7 +266,7 @@ Key-encapsulation functions
 
         *   ``alg`` is not supported or is not a key-encapsulation algorithm.
         *   ``key`` is not supported for use with ``alg``.
-        *   The output key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
+        *   The output key attributes in ``attributes``, as a whole, are not supported, either by the implementation in general or in the specified storage location.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -274,8 +274,8 @@ Key-encapsulation functions
         *   ``key`` is not an asymmetric key pair, that is compatible with ``alg``.
         *   The output key attributes in ``attributes`` are not valid:
 
-            -   The key type is not valid for the shared output key.
-            -   The key size is nonzero, and is not the size of the shared output.
+            -   The key type is not valid for the shared secret.
+            -   The key size is nonzero, and is not the size of the shared secret.
             -   The key lifetime is invalid.
             -   The key identifier is not valid for the key lifetime.
             -   The key usage flags include invalid values.
@@ -305,8 +305,8 @@ Key-encapsulation functions
     The size of the returned key is always the bit-size of the shared secret, rounded up to a whole number of bytes.
     The size of the shared secret is dependent on the key-encapsulation algorithm and the type and size of ``key``.
 
-    It is recommended that this key is used as an input to a key derivation operation to produce additional cryptographic keys.
-    For some key-encapsulation algorithms, the shared secret is also suitable for use as a key in cryptographic operations such as encryption.
+    It is recommended that the shared secret key is used as an input to a key derivation operation to produce additional cryptographic keys.
+    For some key-encapsulation algorithms, the shared secret key is also suitable for use as a key in cryptographic operations such as encryption.
     Refer to the documentation of individual key-encapsulation algorithms for more information.
 
     .. warning::
@@ -318,7 +318,7 @@ Key-encapsulation functions
             This prevents disclosing information to an attacker that has manipulated the ciphertext.
         *   Some key-encapsulation algorithms are probablistic, and cannot guarantee that decapsulation will result in an identical key value.
 
-        It is strongly recommended that application uses the output key in a way that will confirm that the derived keys are identical.
+        It is strongly recommended that the application uses the output key in a way that will confirm that the derived keys are identical.
 
     .. admonition:: Implementation note
 
