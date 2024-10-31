@@ -309,16 +309,19 @@ Key-encapsulation functions
     For some key-encapsulation algorithms, the shared secret key is also suitable for use as a key in cryptographic operations such as encryption.
     Refer to the documentation of individual key-encapsulation algorithms for more information.
 
+    If the key-encapsulation protocol is executed correctly then, with overwhelming probability, the two copies of the shared secret are identical.
+    However, the protocol does not protect one participant against the other participant executing it incorrectly, or against a third party modifying data in transit.
+
     .. warning::
-        A :code:`PSA_SUCCESS` result from `psa_decapsulate()` does not guarantee that the output key is identical to the key produce by the call to `psa_encapsulate()`. For example:
+        A :code:`PSA_SUCCESS` result from `psa_decapsulate()` does not guarantee that the output key is identical to the key produced by the call to `psa_encapsulate()`. For example, :code:`PSA_SUCCESS` can be returned with a mismatched shared secret key value in the following situations:
 
-        *   Some key-encapsulation algorithms do not authenticate the ciphertext.
-            Manipulated ciphertext will not be detected during decapsulation.
-        *   Some key-encapsulation algorithms report authentication failure implicitly, by returning a pseudorandom key value.
-            This prevents disclosing information to an attacker that has manipulated the ciphertext.
-        *   Some key-encapsulation algorithms are probablistic, and cannot guarantee that decapsulation will result in an identical key value.
+        *   The key-encapsulation algorithm does not authenticate the ciphertext.
+            Manipulated or corrupted ciphertext will not be detected during decapsulation.
+        *   The key-encapsulation algorithm reports authentication failure implicitly, by returning a pseudorandom key value.
+            This is done to prevent disclosing information to an attacker that has manipulated the ciphertext.
+        *   The key-encapsulation algorithm is probablistic, and will *extremely* rarely result in non-identical key values.
 
-        It is strongly recommended that the application uses the output key in a way that will confirm that the derived keys are identical.
+        It is strongly recommended that the application uses the output key in a way that will confirm that the shared secret keys are identical.
 
     .. admonition:: Implementation note
 
