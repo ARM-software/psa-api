@@ -13,19 +13,19 @@ A key-encapsulation algorithm can be used by two participants to establish a sha
 The shared secret key can then be used with symmetric-key cryptographic algorithms.
 Key-encapsulation algorithms are often referred to as 'key-encapsulation mechanisms' or KEMs.
 
-In a key-encapsulation algorithm, one participant generates a key-pair: a private decapsulation key, and a public encapsulation key.
-The public encapsulation key is made available to a second participant that needs to establish secure communication with the first participant.
-The second participant uses the encapsulation key to generate one copy of a shared secret, and some ciphertext.
-The ciphertext is transferred to the first participant, who uses the private decapsulation key to compute another copy of the shared secret.
+In a key-encapsulation algorithm, participant A generates a key-pair: a private decapsulation key, and a public encapsulation key.
+The public encapsulation key is made available to participant B, who needs to establish secure communication with the participant A.
+Participant B uses the encapsulation key to generate one copy of a shared secret, and some ciphertext.
+The ciphertext is transferred to participant A, who uses the private decapsulation key to compute another copy of the shared secret.
 
-Typically, the shared secret is used as input to a key-derivation function, to create keys for secure communication between the participants.
+Typically, the shared secret is used as input to a key-derivation function, to create keys for secure communication between participants A and B.
 However, some key-encapsulation algorithms result in a uniformly pseudorandom shared secret, which is suitable to be used directly as a cryptographic key.
 
 Applications can use the resulting keys for different use cases.
 For example:
 
-*   Encrypting and authenticating a single non-interactive message.
-*   Securing an interactive communication channel.
+*   Encrypting and authenticating a single non-interactive message from participant B to participant A.
+*   Securing an interactive communication channel between participants A and B.
 
 .. _key-encapsulation-algorithms:
 
@@ -161,7 +161,7 @@ Key-encapsulation functions
 
     .. retval:: PSA_SUCCESS
         Success.
-        The bytes of ``ciphertext`` contain the data to be sent to the other participant and ``output_key`` contains the identifier for the shared secret key.
+        The bytes of ``ciphertext`` contain the data to be sent to the other participant, and ``output_key`` contains the identifier for the shared secret key.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
