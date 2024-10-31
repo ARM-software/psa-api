@@ -15,8 +15,8 @@ Key-encapsulation algorithms are often referred to as 'key encapsulation mechani
 
 In a key-encapsulation algorithm, one participant generates a key-pair: a private decapsulation key, and a public encapsulation key.
 The public encapsulation key is made available to a second participant that needs to establish secure communication with the first participant.
-The second participant uses the encapsulation key to generate one copy of a shared secret, and some associated encapsulation data.
-The encapsulation data is transferred to the first participant, who uses the private decapsulation key to compute another copy of the shared secret.
+The second participant uses the encapsulation key to generate one copy of a shared secret, and some ciphertext.
+The ciphertext is transferred to the first participant, who uses the private decapsulation key to compute another copy of the shared secret.
 
 Typically, the shared secret is used as input to a key-derivation function, to create keys for secure communication between the participants.
 However, some key-encapsulation algorithms result in a pseudo-random shared secret, which is suitable to be used directly as a cryptographic key.
@@ -73,17 +73,17 @@ The key derivation, encryption, and authentication steps are left to the applica
     *   The public key part of the input key is used as :math:`Q_V`.
     *   Cofactor ECDH is used to perform the key agreement.
     *   The shared secret :math:`Z` is output as the shared output key.
-    *   The ephemeral public key :math:`\overline{R}` is output as the encapsulation data.
+    *   The ephemeral public key :math:`\overline{R}` is output as the ciphertext.
 
     A call to `psa_decapsulate()` carries out steps 2 to 5 of the ECIES decryption process described in `[SEC1]` §5.1.4:
 
     *   The elliptic curve to use is determined by the key.
-    *   The encapsulation data is decoded as :math:`\overline{R}`.
+    *   The ciphertext is decoded as :math:`\overline{R}`.
     *   The private key of the input key is used as :math:`d_V`.
     *   Cofactor ECDH is used to perform the key agreement.
     *   The shared secret :math:`Z` is output as the shared output key.
 
-    The encapsulation data produced by `PSA_ALG_ECIES_SEC1` is not authenticated.
+    The ciphertext produced by `PSA_ALG_ECIES_SEC1` is not authenticated.
     When used in a full ECIES scheme, the authentication of the encrypted message implicitly confirms that the derived keys were identical.
 
     The shared output key that is produced by `PSA_ALG_ECIES_SEC1` is not suitable for use as an encryption key.
@@ -109,7 +109,7 @@ Key-encapsulation functions
 .. function:: psa_encapsulate
 
     .. summary::
-        Use a public key to generate a new shared secret key and associated encapsulation data.
+        Use a public key to generate a new shared secret key and associated ciphertext.
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the encapsulation.
@@ -146,22 +146,22 @@ Key-encapsulation functions
     .. param:: psa_key_id_t * output_key
         On success, an identifier for the newly created shared output key.
         `PSA_KEY_ID_NULL` on failure.
-    .. param:: uint8_t * encapsulation
-        Buffer where the encapsulated data is to be written.
+    .. param:: uint8_t * ciphertext
+        Buffer where the ciphertext output is to be written.
     .. param:: size_t encapsulation_size
-        Size of the ``encapsulation`` buffer in bytes.
+        Size of the ``ciphertext`` buffer in bytes.
         This must be appropriate for the selected algorithm and key:
 
-        *   A sufficient output size is :code:`PSA_ENCAPSULATION_SIZE(type, bits, alg)`, where ``type`` and ``bits`` are the type and bit-size of ``key``.
-        *   `PSA_ENCAPSULATION_MAX_SIZE` evaluates to the maximum output size of any supported key-encapsulation algorithm.
-    .. param:: size_t * encapsulation_length
-        On success, the number of bytes that make up the encapsulated data value.
+        *   A sufficient ciphertext size is :code:`PSA_ENCAPSULATE_CIPHERTEXT_SIZE(type, bits, alg)`, where ``type`` and ``bits`` are the type and bit-size of ``key``.
+        *   `PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE` evaluates to the maximum ciphertext size of any supported key-encapsulation algorithm.
+    .. param:: size_t * ciphertext_length
+        On success, the number of bytes that make up the ciphertext value.
 
     .. return:: psa_status_t
 
     .. retval:: PSA_SUCCESS
         Success.
-        The bytes of ``encapsulation`` contain the data to be sent to the other participant and ``output_key`` contains the identifier for the shared output key.
+        The bytes of ``ciphertext`` contain the data to be sent to the other participant and ``output_key`` contains the identifier for the shared output key.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
@@ -183,8 +183,8 @@ Key-encapsulation functions
             -   The key's permitted-usage algorithm is invalid.
             -   The key attributes, as a whole, are invalid.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
-        The size of the ``encapsulation`` buffer is too small.
-        `PSA_ENCAPSULATION_SIZE()` or `PSA_ENCAPSULATION_MAX_SIZE` can be used to determine a sufficient buffer size.
+        The size of the ``ciphertext`` buffer is too small.
+        `PSA_ENCAPSULATE_CIPHERTEXT_SIZE()` or `PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE` can be used to determine a sufficient buffer size.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -200,12 +200,12 @@ Key-encapsulation functions
     For some key-encapsulation algorithms, the shared secret is also suitable for use as a key in cryptographic operations such as encryption.
     Refer to the documentation of individual key-encapsulation algorithms for more information.
 
-    The ``encapsulation`` data is sent to the other participant, who uses the decapsulation key to extract another copy of the shared secret key.
+    The output ``ciphertext`` is to be sent to the other participant, who uses the decapsulation key to extract another copy of the shared secret key.
 
 .. function:: psa_decapsulate
 
     .. summary::
-        Use a private key to decapsulate a shared secret key from encapsulation data.
+        Use a private key to decapsulate a shared secret key from a ciphertext.
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the decapsulation.
@@ -213,10 +213,10 @@ Key-encapsulation functions
         It must permit the usage `PSA_KEY_USAGE_DECAPSULATE`.
     .. param:: psa_algorithm_t alg
         The key-encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_ENCAPSULATION(alg)` is true.
-    .. param:: const uint8_t * encapsulation
-        The encapsulation data received from the other participant.
+    .. param:: const uint8_t * ciphertext
+        The ciphertext received from the other participant.
     .. param:: size_t encapsulation_length
-        Size of the ``encapsulation`` buffer in bytes.
+        Size of the ``ciphertext`` buffer in bytes.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the output key.
         This function uses the attributes as follows:
@@ -276,10 +276,10 @@ Key-encapsulation functions
             -   The key usage flags include invalid values.
             -   The key's permitted-usage algorithm is invalid.
             -   The key attributes, as a whole, are invalid.
-        *   ``encapsulation`` is obviously invalid for the selected algorithm and key.
-            For example, the implementation can detect that it is an incorrect length.
+        *   ``ciphertext`` is obviously invalid for the selected algorithm and key.
+            For example, the implementation can detect that it has an incorrect length.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
-        Authentication of the encapsulation data fails.
+        Authentication of the ciphertext fails.
 
         .. note::
             Some key-encapsulation algorithms do not report an authentication failure explicitly.
@@ -302,49 +302,49 @@ Key-encapsulation functions
     .. warning::
         A :code:`PSA_SUCCESS` result from `psa_decapsulate()` does not guarantee that the output key is identical to the key produce by the call to `psa_encapsulate()`. For example:
 
-        *   Some key-encapsulation algorithms do not authenticate the encapsulation data.
-            Manipulated encapsulation data will not be detected during decapsulation.
+        *   Some key-encapsulation algorithms do not authenticate the ciphertext.
+            Manipulated ciphertext will not be detected during decapsulation.
         *   Some key-encapsulation algorithms report authentication failure implicitly, by returning a pseudo-random key value.
-            This prevents disclosing information to an attacker that has manipulated the encapsulation data.
+            This prevents disclosing information to an attacker that has manipulated the ciphertext.
         *   Some key-encapsulation algorithms are probablistic, and cannot guarantee that decapsulation will result in an identical key value.
 
         It is strongly recommended that application uses the output key in a way that will confirm that the derived keys are identical.
 
     .. admonition:: Implementation note
 
-        For key-encapsulation algorithms which involve data padding when computing the encapsulation data, the decapsulation algorithm **must not** report a distinct error status if invalid padding is detected.
+        For key-encapsulation algorithms which involve data padding when computing the ciphertext, the decapsulation algorithm **must not** report a distinct error status if invalid padding is detected.
 
         Instead, it is recommended that the decapsulation fails implicitly when invalid padding is detected, returning a pseudo-random key.
 
 Support macros
 --------------
 
-.. macro:: PSA_ENCAPSULATION_SIZE
+.. macro:: PSA_ENCAPSULATE_CIPHERTEXT_SIZE
     :definition: /* implementation-defined value */
 
     .. summary::
-       Sufficient encapsulation buffer size for `psa_encapsulate()`, in bytes.
+        Sufficient ciphertext buffer size for `psa_encapsulate()`, in bytes.
 
     .. param:: key_type
-       A key type that is compatible with algorithm ``alg``.
+        A key type that is compatible with algorithm ``alg``.
     .. param:: key_bits
-       The size of the key in bits.
+        The size of the key in bits.
     .. param:: alg
-       A key-encapsulation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_ENCAPSULATION(alg)` is true.
+        A key-encapsulation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_ENCAPSULATION(alg)` is true.
 
     .. return::
-       A sufficient output buffer size for the specified algorithm, key type, and size. An implementation can return either ``0`` or a correct size for an algorithm, key type, and size that it recognizes, but does not support. If the parameters are not valid, the return value is unspecified.
+        A sufficient ciphertext buffer size for the specified algorithm, key type, and size. An implementation can return either ``0`` or a correct size for an algorithm, key type, and size that it recognizes, but does not support. If the parameters are not valid, the return value is unspecified.
 
-       If the size of the output buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size. The actual size of the output might be smaller in any given call.
+        If the size of the ciphertext buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size. The actual size of the ciphertext might be smaller in any given call.
 
-        See also `PSA_ENCAPSULATION_MAX_SIZE`.
+        See also `PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE`.
 
-.. macro:: PSA_ENCAPSULATION_MAX_SIZE
+.. macro:: PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE
    :definition: /* implementation-defined value */
 
     .. summary::
-       Sufficient output buffer size for `psa_encapsulate()`, for any of the supported key types and key-encapsulation algorithms.
+        Sufficient ciphertext buffer size for `psa_encapsulate()`, for any of the supported key types and key-encapsulation algorithms.
 
-       If the size of the output buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size.
+        If the size of the ciphertext buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size.
 
-       See also `PSA_ENCAPSULATION_SIZE()`.
+        See also `PSA_ENCAPSULATE_CIPHERTEXT_SIZE()`.
