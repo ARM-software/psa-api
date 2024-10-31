@@ -138,7 +138,7 @@ Key-encapsulation functions
 
         The following attributes are optional:
 
-        *   If the key size is nonzero, it must be equal to the size of the shared secret.
+        *   If the key size is nonzero, it must be equal to the size, in bits, of the shared secret.
 
         .. note::
             This is an input parameter: it is not updated with the final key attributes.
@@ -238,7 +238,7 @@ Key-encapsulation functions
 
         The following attributes are optional:
 
-        *   If the key size is nonzero, it must be equal to the size of the shared secret.
+        *   If the key size is nonzero, it must be equal to the size, in bits, of the shared secret.
 
         .. note::
             This is an input parameter: it is not updated with the final key attributes.
