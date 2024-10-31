@@ -84,7 +84,7 @@ The key derivation, encryption, and authentication steps are left to the applica
     *   The octet string :math:`Z` is output as the shared secret key.
 
     The ciphertext produced by `PSA_ALG_ECIES_SEC1` is not authenticated.
-    When used in a full ECIES scheme, the authentication of the encrypted message implicitly confirms that the derived keys were identical.
+    In the full ECIES scheme, the authentication of the encrypted message using a key derived from the shared secret provides assurance that the message has not been manipulated.
 
     The shared secret key that is produced by `PSA_ALG_ECIES_SEC1` is not suitable for use as an encryption key.
     It must be used as an input to a key derivation operation to produce additional cryptographic keys.
