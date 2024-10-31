@@ -186,8 +186,13 @@ Key-encapsulation functions
         The size of the ``ciphertext`` buffer is too small.
         `PSA_ENCAPSULATE_CIPHERTEXT_SIZE()` or `PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE` can be used to determine a sufficient buffer size.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
@@ -285,8 +290,13 @@ Key-encapsulation functions
             Some key-encapsulation algorithms do not report an authentication failure explicitly.
             Instead, an incorrect, pseudorandom key is output.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
