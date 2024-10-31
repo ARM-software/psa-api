@@ -11,7 +11,7 @@ Key encapsulation
 
 A key-encapsulation algorithm can be used by two participants to establish a shared secret key over a public channel.
 The shared secret key can then be used with symmetric-key cryptographic algorithms.
-Key-encapsulation algorithms are often referred to as 'key encapsulation mechanisms' or KEMs.
+Key-encapsulation algorithms are often referred to as 'key-encapsulation mechanisms' or KEMs.
 
 In a key-encapsulation algorithm, one participant generates a key-pair: a private decapsulation key, and a public encapsulation key.
 The public encapsulation key is made available to a second participant that needs to establish secure communication with the first participant.
@@ -238,7 +238,7 @@ Key-encapsulation functions
 
         The following attributes are optional:
 
-        *   If the key size is nonzero, it must be equal to the size of the key-encapsulation shared secret.
+        *   If the key size is nonzero, it must be equal to the size of the shared secret.
 
         .. note::
             This is an input parameter: it is not updated with the final key attributes.
