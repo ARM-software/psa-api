@@ -19,7 +19,7 @@ The second participant uses the encapsulation key to generate one copy of a shar
 The ciphertext is transferred to the first participant, who uses the private decapsulation key to compute another copy of the shared secret.
 
 Typically, the shared secret is used as input to a key-derivation function, to create keys for secure communication between the participants.
-However, some key-encapsulation algorithms result in a pseudo-random shared secret, which is suitable to be used directly as a cryptographic key.
+However, some key-encapsulation algorithms result in a uniformly pseudorandom shared secret, which is suitable to be used directly as a cryptographic key.
 
 Applications can use the resulting keys for different use cases.
 For example:
@@ -123,7 +123,7 @@ Key-encapsulation functions
 
         *   The key type.
             All key-encapsulation algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
-            Key-encapsulation algorithms that produce a pseudo-random shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
+            Key-encapsulation algorithms that produce a uniformly pseudorandom shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
             Refer to the documentation of individual key-encapsulation algorithms for more information.
 
         The following attributes must be set for keys used in cryptographic operations:
@@ -223,7 +223,7 @@ Key-encapsulation functions
 
         *   The key type.
             All key-encapsulation algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
-            Key-encapsulation algorithms that produce a pseudo-random shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
+            Key-encapsulation algorithms that produce a uniformly pseudorandom shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
             Refer to the documentation of individual key-encapsulation algorithms for more information.
 
         The following attributes must be set for keys used in cryptographic operations:
@@ -255,7 +255,7 @@ Key-encapsulation functions
 
         .. note::
             In some key-encapsulation algorithms, decapsulation failure is not reported with a explicit error code.
-            Instead, an incorrect, pseudo-random key is output.
+            Instead, an incorrect, pseudorandom key is output.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
@@ -283,7 +283,7 @@ Key-encapsulation functions
 
         .. note::
             Some key-encapsulation algorithms do not report an authentication failure explicitly.
-            Instead, an incorrect, pseudo-random key is output.
+            Instead, an incorrect, pseudorandom key is output.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -304,7 +304,7 @@ Key-encapsulation functions
 
         *   Some key-encapsulation algorithms do not authenticate the ciphertext.
             Manipulated ciphertext will not be detected during decapsulation.
-        *   Some key-encapsulation algorithms report authentication failure implicitly, by returning a pseudo-random key value.
+        *   Some key-encapsulation algorithms report authentication failure implicitly, by returning a pseudorandom key value.
             This prevents disclosing information to an attacker that has manipulated the ciphertext.
         *   Some key-encapsulation algorithms are probablistic, and cannot guarantee that decapsulation will result in an identical key value.
 
@@ -314,7 +314,7 @@ Key-encapsulation functions
 
         For key-encapsulation algorithms which involve data padding when computing the ciphertext, the decapsulation algorithm **must not** report a distinct error status if invalid padding is detected.
 
-        Instead, it is recommended that the decapsulation fails implicitly when invalid padding is detected, returning a pseudo-random key.
+        Instead, it is recommended that the decapsulation fails implicitly when invalid padding is detected, returning a pseudorandom key.
 
 Support macros
 --------------
