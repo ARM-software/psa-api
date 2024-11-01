@@ -178,7 +178,7 @@ Clarifications and fixes
 
 *   Clarified how the `PSA_ALG_RSA_OAEP()` algorithm uses the hash algorithm parameter.
 
-*   Fixed error in `psa_key_derivation_setup()` documentation: combined key agreement and key derivation algorithms are valid for the |API|.
+*   Fixed error in `psa_key_derivation_setup()` documentation: combined key-agreement and key derivation algorithms are valid for the |API|.
 
 *   Added and clarified documentation for error conditions across the API.
 
@@ -227,7 +227,7 @@ Clarifications and fixes
 
 *   Provided details of signature algorithms, include requirements when using with `psa_sign_hash()` and `psa_verify_hash()`.
 
-*   Provided details of key agreement algorithms, and how to use them.
+*   Provided details of key-agreement algorithms, and how to use them.
 
 *   Aligned terminology relating to key policies, to clarify the combination of the usage flags and permitted algorithm in the policy.
 
@@ -692,7 +692,7 @@ Clarifications
 
 *   Guarantee that :code:`psa_destroy_key(PSA_KEY_ID_NULL)` always returns :code:`PSA_SUCCESS`.
 
-*   Clarified the TLS PSK to MS key agreement algorithm.
+*   Clarified the TLS PSK to MS key-agreement algorithm.
 
 *   Document the key policy requirements for all APIs that accept a key parameter.
 

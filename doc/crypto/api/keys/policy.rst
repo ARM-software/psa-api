@@ -33,7 +33,7 @@ The following algorithm policies are supported:
 *   `PSA_ALG_NONE` does not permit any cryptographic operation with the key. The key can still be used for non-cryptographic actions such as exporting, if permitted by the usage flags.
 *   A specific algorithm value permits exactly that particular algorithm.
 *   A signature algorithm constructed with `PSA_ALG_ANY_HASH` permits the specified signature scheme with any hash algorithm. In addition, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(PSA_ALG_ANY_HASH)` also permits the `PSA_ALG_RSA_PKCS1V15_SIGN_RAW` signature algorithm.
-*   A standalone key agreement algorithm also permits the specified key agreement scheme to be combined with any key derivation algorithm.
+*   A standalone key-agreement algorithm also permits the specified key-agreement scheme to be combined with any key derivation algorithm.
 *   An algorithm built from `PSA_ALG_AT_LEAST_THIS_LENGTH_MAC()` permits any MAC algorithm from the same base class (for example, CMAC) which computes or verifies a MAC length greater than or equal to the length encoded in the wildcard algorithm.
 *   An algorithm built from `PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG()` permits any AEAD algorithm from the same base class (for example, CCM) which computes or verifies a tag length greater than or equal to the length encoded in the wildcard algorithm.
 *   The `PSA_ALG_CCM_STAR_ANY_TAG` wildcard algorithm permits the `PSA_ALG_CCM_STAR_NO_TAG` cipher algorithm, the `PSA_ALG_CCM` AEAD algorithm, and the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` truncated-tag AEAD algorithm for ``tag_length`` equal to 4, 8 or 16.
@@ -243,7 +243,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to derive other keys or produce a password hash from this key.
 
-    This flag is required to use the key for derivation in a key derivation operation, or in a key agreement operation.
+    This flag is required to use the key for derivation in a key derivation operation, or in a key-agreement operation.
 
     This flag must be present on keys used with the following APIs:
 

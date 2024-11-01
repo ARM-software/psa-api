@@ -552,15 +552,15 @@ Key derivation functions
         The algorithm to compute. This must be one of the following:
 
         *   A key derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_DERIVATION(alg)` is true.
-        *   A key agreement and derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is false.
+        *   A key-agreement and derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is false.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
         Success. The operation is now active.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        ``alg`` is neither a key derivation algorithm, nor a key agreement and derivation algorithm.
+        ``alg`` is neither a key derivation algorithm, nor a key-agreement and derivation algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        ``alg`` is not supported or is not a key derivation algorithm, or a key agreement and derivation algorithm.
+        ``alg`` is not supported or is not a key derivation algorithm, or a key-agreement and derivation algorithm.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -572,7 +572,7 @@ Key derivation functions
 
     A key derivation algorithm takes some inputs and uses them to generate a byte stream in a deterministic way. This byte stream can be used to produce keys and other cryptographic material.
 
-    A key agreement and derivation algorithm uses a key agreement protocol to provide a shared secret which is used for the key derivation. See `psa_key_derivation_key_agreement()`.
+    A key-agreement and derivation algorithm uses a key-agreement protocol to provide a shared secret which is used for the key derivation. See `psa_key_derivation_key_agreement()`.
 
     The sequence of operations to derive a key is as follows:
 
@@ -688,7 +688,7 @@ Key derivation functions
         *   The operation state is not valid for this input ``step``. This can happen if the application provides a step out of order or repeats a step that may not be repeated.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key derivation or key agreement algorithm for information.
+    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key derivation or key-agreement algorithm for information.
 
     This function passes direct inputs, which is usually correct for non-secret inputs. To pass a secret input, which is normally in a key object, call `psa_key_derivation_input_key()` instead of this function. Refer to the documentation of individual step types (``PSA_KEY_DERIVATION_INPUT_xxx`` values of type `psa_key_derivation_step_t`) for more information.
 
@@ -734,7 +734,7 @@ Key derivation functions
 
     Which inputs are required and in what order depends on the algorithm.
     However, when an algorithm requires a particular order, numeric inputs usually come first as they tend to be configuration parameters.
-    Refer to the documentation of each key derivation or key agreement algorithm for information.
+    Refer to the documentation of each key derivation or key-agreement algorithm for information.
 
     This function is used for inputs which are fixed-size non-negative integers.
 
@@ -784,7 +784,7 @@ Key derivation functions
         *   The operation state is not valid for this input ``step``. This can happen if the application provides a step out of order or repeats a step that may not be repeated.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key derivation or key agreement algorithm for information.
+    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key derivation or key-agreement algorithm for information.
 
     This function obtains input from a key object, which is usually correct for secret inputs or for non-secret personalization strings kept in the key store. To pass a non-secret parameter which is not in the key store, call `psa_key_derivation_input_bytes()` instead of this function. Refer to the documentation of individual step types (``PSA_KEY_DERIVATION_INPUT_xxx`` values of type `psa_key_derivation_step_t`) for more information.
 
@@ -1297,7 +1297,7 @@ Support macros
     .. summary::
         This macro returns the maximum supported length of the PSK for the TLS-1.2 PSK-to-MS key derivation.
 
-    This implementation-defined value specifies the maximum length for the PSK input used with a `PSA_ALG_TLS12_PSK_TO_MS()` key agreement algorithm.
+    This implementation-defined value specifies the maximum length for the PSK input used with a `PSA_ALG_TLS12_PSK_TO_MS()` key-agreement algorithm.
 
     Quoting :RFC-title:`4279#5.3`:
 

@@ -797,7 +797,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
             *   -   Curve type
                 -   Compatible algorithms
             *   -   Weierstrass
-                -   Weierstrass curve key-pairs can be used in asymmetric signature, key agreement, and key-encapsulation algorithms.
+                -   Weierstrass curve key-pairs can be used in asymmetric signature, key-agreement, and key-encapsulation algorithms.
 
                     `PSA_ALG_DETERMINISTIC_ECDSA`
 
@@ -810,7 +810,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
                     `PSA_ALG_ECIES_SEC1`
 
             *   -   Montgomery
-                -   Montgomery curve key-pairs can be used in key agreement and key-encapsulation algorithms.
+                -   Montgomery curve key-pairs can be used in key-agreement and key-encapsulation algorithms.
 
                     `PSA_ALG_ECDH`
 
@@ -915,7 +915,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
         .. note::
 
             For key agreement, the public key of the peer is provided to the |API| as a buffer.
-            This avoids the need to import the public key data that is received from the peer, just to carry out the key agreement algorithm.
+            This avoids the need to import the public key data that is received from the peer, just to carry out the key-agreement algorithm.
 
         .. list-table:: Compatible algorithms for elliptic curve public keys
             :name: tab-ecc-public-key-algorithms
@@ -1259,7 +1259,7 @@ Diffie Hellman keys
 
     .. subsection:: Compatible algorithms
 
-        None: Finite-field Diffie-Hellman public keys are exported to use in a key agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key agreement algorithm as a buffer of key data.
+        None: Finite-field Diffie-Hellman public keys are exported to use in a key-agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key-agreement algorithm as a buffer of key data.
 
     .. subsection:: Key format
 
@@ -1275,7 +1275,7 @@ Diffie Hellman keys
     This family includes groups with the following key sizes (in bits): 2048, 3072, 4096, 6144, 8192.
     An implementation can support all of these sizes or only a subset.
 
-    Keys is this group can only be used with the `PSA_ALG_FFDH` key agreement algorithm.
+    Keys is this group can only be used with the `PSA_ALG_FFDH` key-agreement algorithm.
 
     These groups are defined by :rfc-title:`7919#A`.
 

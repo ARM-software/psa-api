@@ -180,9 +180,9 @@ for X.509-based authentication or pre-shared keys on enterprise networks.
 Device Pairing
 ^^^^^^^^^^^^^^
 
-The API provides support for key agreement protocols that are often used for
+The API provides support for key-agreement protocols that are often used for
 secure pairing of devices over wireless channels. For example, the pairing of an
-NFC token or a Bluetooth device might use key agreement protocols upon
+NFC token or a Bluetooth device might use key-agreement protocols upon
 first use.
 
 Secure Boot
