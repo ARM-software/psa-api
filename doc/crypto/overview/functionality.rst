@@ -251,7 +251,7 @@ Here is an example of a use case where a master key is used to generate both a m
     #.  Populate a `psa_key_attributes_t` object with the derived message encryption key’s attributes.
     #.  Call `psa_key_derivation_output_key()` to create the derived message key.
     #.  Call `psa_key_derivation_output_bytes()` to generate the derived IV.
-    #.  Call `psa_key_derivation_abort()` to release the key derivation operation memory.
+    #.  Call `psa_key_derivation_abort()` to release the key-derivation operation memory.
 
 #.  Encrypt the message with the derived material.
 
@@ -278,7 +278,7 @@ For asymmetric encryption, the API provides *single-part* functions.
 
 For asymmetric signature, the API provides single-part functions.
 
-For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
+For key agreement, the API provides single-part functions and an additional input method for a key-derivation operation.
 
 For key encapsulation, the API provides single-part functions.
 

@@ -498,7 +498,7 @@ The design of the API can mitigate, or enable a cryptoprocessor to mitigate, som
         -   T.1/A.C1 A.C2 A.C3
 
     *   -   SR.8 (O.1)
-        -   Key derivation functions that expose part of the key value, or make part of the key value easily recoverable, must not be provided in the API.
+        -   Key-derivation functions that expose part of the key value, or make part of the key value easily recoverable, must not be provided in the API.
         -
         -   T.3/A.C6
 
@@ -511,7 +511,7 @@ The design of the API can mitigate, or enable a cryptoprocessor to mitigate, som
 
     *   -   SR.10 (O.3)
         -   The API design must permit the implementation of operations with data-independent timing.
-        -   Provision of comparison functions for MAC, hash and key derivation operations.
+        -   Provision of comparison functions for MAC, hash and key-derivation operations.
         -   T.7/A.C11 --- enablement only, mitigation is delegated to the implementation.
 
     *   -   SR.11 (O.3)
@@ -580,7 +580,7 @@ Implementation remediations
 
     *   -   R.6 (O.1) (O.3)
         -   T.3/A.C5 A.C6 --- indirect key disclosure via the API.
-        -   Cryptoprocessor implementation-specific extensions to the API must avoid providing mechanisms that can extract or recover key values, such as trivial key derivation algorithms.
+        -   Cryptoprocessor implementation-specific extensions to the API must avoid providing mechanisms that can extract or recover key values, such as trivial key-derivation algorithms.
 
     *   -   R.8 (O.3)
         -   T.8/A.59 --- concurrent modification of parameter memory.

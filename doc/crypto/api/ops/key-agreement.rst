@@ -13,7 +13,7 @@ Three functions are provided for a Diffie-Hellman-style key agreement where each
 
 *   A call to `psa_key_agreement()` will compute the shared secret and store the result in a new derivation key.
 
-*   If the resulting shared secret will be used for a single key derivation, a :ref:`key derivation operation <kdf>` can be used with the `psa_key_derivation_key_agreement()` input function. This calculates the shared secret and inputs it directly to the key derivation operation.
+*   If the resulting shared secret will be used for a single key derivation, a :ref:`key-derivation operation <kdf>` can be used with the `psa_key_derivation_key_agreement()` input function. This calculates the shared secret and inputs it directly to the key-derivation operation.
 
 *   Where an application needs direct access to the shared secret, it can call `psa_raw_key_agreement()` instead.
 
@@ -34,14 +34,14 @@ Key-agreement algorithms
     .. summary::
         The finite-field Diffie-Hellman (DH) key-agreement algorithm.
 
-    This standalone key-agreement algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
+    This standalone key-agreement algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key-derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
     When used as a key's permitted-algorithm policy, the following uses are permitted:
 
     *   In a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, with algorithm `PSA_ALG_FFDH`.
-    *   In a call to `psa_key_derivation_key_agreement()`, with any combined key-agreement and key derivation algorithm constructed with `PSA_ALG_FFDH`.
+    *   In a call to `psa_key_derivation_key_agreement()`, with any combined key-agreement and key-derivation algorithm constructed with `PSA_ALG_FFDH`.
 
-    When used as part of a multi-part key derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single Diffie-Hellman key-pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
+    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single Diffie-Hellman key-pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
 
     The shared secret produced by this key-agreement algorithm is :math:`g^{ab}` in big-endian format. It is :math:`\lceil{(m / 8)}\rceil` bytes long where :math:`m` is the size of the prime :math:`p` in bits.
 
@@ -57,14 +57,14 @@ Key-agreement algorithms
     .. summary::
         The elliptic curve Diffie-Hellman (ECDH) key-agreement algorithm.
 
-    This standalone key-agreement algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
+    This standalone key-agreement algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key-derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
     When used as a key's permitted-algorithm policy, the following uses are permitted:
 
     *   In a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, with algorithm `PSA_ALG_ECDH`.
-    *   In a call to `psa_key_derivation_key_agreement()`, with any combined key-agreement and key derivation algorithm constructed with `PSA_ALG_ECDH`.
+    *   In a call to `psa_key_derivation_key_agreement()`, with any combined key-agreement and key-derivation algorithm constructed with `PSA_ALG_ECDH`.
 
-    When used as part of a multi-part key derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single elliptic curve key-pair for each participant. This includes the *Ephemeral unified model*, the *Static unified model*, and the *One-pass Diffie-Hellman* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
+    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single elliptic curve key-pair for each participant. This includes the *Ephemeral unified model*, the *Static unified model*, and the *One-pass Diffie-Hellman* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
 
     The shared secret produced by key agreement is the x-coordinate of the shared secret point. It is always :math:`\lceil{(m / 8)}\rceil` bytes long where :math:`m` is the bit size associated with the curve, i.e. the bit size of the order of the curve's coordinate field. When :math:`m` is not a multiple of 8, the byte containing the most significant bit of the shared secret is padded with zero bits. The byte order is either little-endian or big-endian depending on the curve type.
 
@@ -103,14 +103,14 @@ Key-agreement algorithms
     .. param:: ka_alg
         A key-agreement algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(ka_alg)` is true.
     .. param:: kdf_alg
-        A key derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_DERIVATION(kdf_alg)` is true.
+        A key-derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_DERIVATION(kdf_alg)` is true.
 
     .. return::
-        The corresponding key-agreement and derivation algorithm.
+        The corresponding key-agreement and key-derivation algorithm.
 
-        Unspecified if ``ka_alg`` is not a supported key-agreement algorithm or ``kdf_alg`` is not a supported key derivation algorithm.
+        Unspecified if ``ka_alg`` is not a supported key-agreement algorithm or ``kdf_alg`` is not a supported key-derivation algorithm.
 
-    A combined key-agreement algorithm is used with a multi-part key derivation operation, using a call to `psa_key_derivation_key_agreement()`.
+    A combined key-agreement algorithm is used with a multi-part key-derivation operation, using a call to `psa_key_derivation_key_agreement()`.
 
     The component parts of a key-agreement algorithm can be extracted using `PSA_ALG_KEY_AGREEMENT_GET_BASE()` and `PSA_ALG_KEY_AGREEMENT_GET_KDF()`.
 
@@ -221,10 +221,10 @@ Standalone key agreement
 
     The size of the returned key is always the bit-size of the shared secret, rounded up to a whole number of bytes.
 
-    This key can be used as input to a key derivation operation using `psa_key_derivation_input_key()`.
+    This key can be used as input to a key-derivation operation using `psa_key_derivation_input_key()`.
 
     .. warning::
-        The shared secret resulting from a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
+        The shared secret resulting from a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key-derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
 
 .. function:: psa_raw_key_agreement
 
@@ -286,7 +286,7 @@ Standalone key agreement
     A key-agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, returned in the ``output`` buffer.
 
     .. warning::
-        The result of a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key derivation algorithm.
+        The result of a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key-derivation algorithm.
 
         To chain a key agreement with a key derivation, either use `psa_key_agreement()` to obtain the result of the key agreement as a derivation key, or use `psa_key_derivation_key_agreement()` and other functions from the key derivation interface.
 
@@ -299,7 +299,7 @@ Combining key agreement and key derivation
         Perform a key agreement and use the shared secret as input to a key derivation.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` with a combined key-agreement and derivation algorithm ``alg``: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is false.
+        The key-derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` with a combined key-agreement and key-derivation algorithm ``alg``: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is false.
 
         The operation must be ready for an input of the type given by ``step``.
     .. param:: psa_key_derivation_step_t step
@@ -340,7 +340,7 @@ Combining key agreement and key derivation
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    A key-agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, which is directly input to the key derivation operation. Output from the key derivation operation can then be used as keys and other cryptographic material.
+    A key-agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, which is directly input to the key-derivation operation. Output from the key-derivation operation can then be used as keys and other cryptographic material.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
@@ -348,7 +348,7 @@ Combining key agreement and key derivation
 
         This function cannot be used when the resulting shared secret is required for multiple key derivations.
 
-        Instead, the application can call `psa_key_agreement()` to obtain the shared secret as a derivation key. This key can be used as input to as many key derivation operations as required.
+        Instead, the application can call `psa_key_agreement()` to obtain the shared secret as a derivation key. This key can be used as input to as many key-derivation operations as required.
 
 Support macros
 --------------
@@ -357,7 +357,7 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Get the standalone key-agreement algorithm from a combined key-agreement and key derivation algorithm.
+        Get the standalone key-agreement algorithm from a combined key-agreement and key-derivation algorithm.
 
     .. param:: alg
         A key-agreement algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true.
@@ -373,13 +373,13 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Get the key derivation algorithm used in a combined key-agreement and key derivation algorithm.
+        Get the key-derivation algorithm used in a combined key-agreement and key-derivation algorithm.
 
     .. param:: alg
         A key-agreement algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true.
 
     .. return::
-        The underlying key derivation algorithm if ``alg`` is a key-agreement algorithm.
+        The underlying key-derivation algorithm if ``alg`` is a key-agreement algorithm.
 
         Unspecified if ``alg`` is not a key-agreement algorithm or if it is not supported by the implementation.
 
@@ -397,7 +397,7 @@ Support macros
     .. return::
         ``1`` if ``alg`` is a standalone key-agreement algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    A standalone key-agreement algorithm is one that does not specify a key derivation function. Usually, standalone key-agreement algorithms are constructed directly with a ``PSA_ALG_xxx`` macro while combined key-agreement algorithms are constructed with `PSA_ALG_KEY_AGREEMENT()`.
+    A standalone key-agreement algorithm is one that does not specify a key-derivation function. Usually, standalone key-agreement algorithms are constructed directly with a ``PSA_ALG_xxx`` macro while combined key-agreement algorithms are constructed with `PSA_ALG_KEY_AGREEMENT()`.
 
     The standalone key-agreement algorithm can be extracted from a combined key-agreement algorithm identifier using `PSA_ALG_KEY_AGREEMENT_GET_BASE()`.
 
@@ -424,7 +424,7 @@ Support macros
     .. return::
         ``1`` if ``alg`` is a finite field Diffie-Hellman algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-agreement algorithm identifier.
 
-    This includes the standalone finite field Diffie-Hellman algorithm, as well as finite-field Diffie-Hellman combined with any supported key derivation algorithm.
+    This includes the standalone finite field Diffie-Hellman algorithm, as well as finite-field Diffie-Hellman combined with any supported key-derivation algorithm.
 
 .. macro:: PSA_ALG_IS_ECDH
     :definition: /* specification-defined value */
@@ -438,7 +438,7 @@ Support macros
     .. return::
         ``1`` if ``alg`` is an elliptic curve Diffie-Hellman algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-agreement algorithm identifier.
 
-    This includes the standalone elliptic curve Diffie-Hellman algorithm, as well as elliptic curve Diffie-Hellman combined with any supported key derivation algorithm.
+    This includes the standalone elliptic curve Diffie-Hellman algorithm, as well as elliptic curve Diffie-Hellman combined with any supported key-derivation algorithm.
 
 .. macro:: PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE
     :definition: /* implementation-defined value */
