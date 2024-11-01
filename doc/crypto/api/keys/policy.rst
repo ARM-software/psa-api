@@ -96,8 +96,6 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     -   `PSA_KEY_USAGE_VERIFY_HASH`
     -   `PSA_KEY_USAGE_DERIVE`
     -   `PSA_KEY_USAGE_VERIFY_DERIVATION`
-    -   `PSA_KEY_USAGE_ENCAPSULATE`
-    -   `PSA_KEY_USAGE_DECAPSULATE`
 
 .. typedef:: uint32_t psa_key_usage_t
 
@@ -153,15 +151,16 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     :definition: ((psa_key_usage_t)0x00000100)
 
     .. summary::
-        Permission to encrypt a message with the key.
+        Permission to encrypt a message, or perform key encapsulation, with the key.
 
-    This flag is required to use the key in a symmetric encryption operation, in an AEAD encryption-and-authentication operation, or in an asymmetric encryption operation. The flag must be present on keys used with the following APIs:
+    This flag is required to use the key in a symmetric encryption operation, in an AEAD encryption-and-authentication operation, in an asymmetric encryption operation, or in a key-encapsulation operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_cipher_encrypt()`
     *   `psa_cipher_encrypt_setup()`
     *   `psa_aead_encrypt()`
     *   `psa_aead_encrypt_setup()`
     *   `psa_asymmetric_encrypt()`
+    *   `psa_encapsulate()`
 
     For a key pair, this concerns the public key.
 
@@ -169,15 +168,16 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     :definition: ((psa_key_usage_t)0x00000200)
 
     .. summary::
-        Permission to decrypt a message with the key.
+        Permission to decrypt a message, or perform key decapsulation, with the key.
 
-    This flag is required to use the key in a symmetric decryption operation, in an AEAD decryption-and-verification operation, or in an asymmetric decryption operation. The flag must be present on keys used with the following APIs:
+    This flag is required to use the key in a symmetric decryption operation, in an AEAD decryption-and-verification operation, in an asymmetric decryption operation, or in a key-decapsulation operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_cipher_decrypt()`
     *   `psa_cipher_decrypt_setup()`
     *   `psa_aead_decrypt()`
     *   `psa_aead_decrypt_setup()`
     *   `psa_asymmetric_decrypt()`
+    *   `psa_decapsulate()`
 
     For a key pair, this concerns the private key.
 
@@ -264,34 +264,6 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     This flag must be present on keys used with `psa_key_derivation_verify_key()`.
 
     If this flag is present on all keys used in calls to `psa_key_derivation_input_key()` for a key derivation operation, then it permits calling `psa_key_derivation_verify_bytes()` or `psa_key_derivation_verify_key()` at the end of the operation.
-
-.. macro:: PSA_KEY_USAGE_ENCAPSULATE
-    :definition: ((psa_key_usage_t)0x00040000)
-
-    .. summary::
-        Permission to perform key encapsulation with the key.
-
-    This flag is required to use the key in a key-encapsulation operation.
-
-    This flag must be present on keys used with the following APIs:
-
-    *   `psa_encapsulate()`
-
-    For a key pair, this concerns the public key.
-
-.. macro:: PSA_KEY_USAGE_DECAPSULATE
-    :definition: ((psa_key_usage_t)0x00080000)
-
-    .. summary::
-        Permission to perform key decapsulation with the key.
-
-    This flag is required to use the key in a key-decapsulation operation.
-
-    This flag must be present on keys used with the following APIs:
-
-    *   `psa_decapsulate()`
-
-    For a key pair, this concerns the private key.
 
 .. function:: psa_set_key_usage_flags
 

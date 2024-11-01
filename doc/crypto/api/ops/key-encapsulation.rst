@@ -114,7 +114,7 @@ Key-encapsulation functions
     .. param:: psa_key_id_t key
         Identifier of the key to use for the encapsulation.
         It must be a public key or an asymmetric key pair.
-        It must permit the usage `PSA_KEY_USAGE_ENCAPSULATE`.
+        It must permit the usage `PSA_KEY_USAGE_ENCRYPT`.
     .. param:: psa_algorithm_t alg
         The key-encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_ENCAPSULATION(alg)` is true.
     .. param:: const psa_key_attributes_t * attributes
@@ -167,7 +167,7 @@ Key-encapsulation functions
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The following conditions can result in this error:
 
-        *   ``key`` does not have the `PSA_KEY_USAGE_ENCAPSULATE` flag, or it does not permit the requested algorithm.
+        *   ``key`` does not have the `PSA_KEY_USAGE_ENCRYPT` flag, or it does not permit the requested algorithm.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_ALREADY_EXISTS
         This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
@@ -224,7 +224,7 @@ Key-encapsulation functions
     .. param:: psa_key_id_t key
         Identifier of the key to use for the decapsulation.
         It must be an asymmetric key pair.
-        It must permit the usage `PSA_KEY_USAGE_DECAPSULATE`.
+        It must permit the usage `PSA_KEY_USAGE_DECRYPT`.
     .. param:: psa_algorithm_t alg
         The key-encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_ENCAPSULATION(alg)` is true.
     .. param:: const uint8_t * ciphertext
@@ -275,7 +275,7 @@ Key-encapsulation functions
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The following conditions can result in this error:
 
-        *   ``key`` does not have the `PSA_KEY_USAGE_DECAPSULATE` flag, or it does not permit the requested algorithm.
+        *   ``key`` does not have the `PSA_KEY_USAGE_DECRYPT` flag, or it does not permit the requested algorithm.
         *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
     .. retval:: PSA_ERROR_ALREADY_EXISTS
         This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
