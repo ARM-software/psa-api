@@ -52,7 +52,7 @@ Algorithm identifiers are 32-bit integer values of the type `psa_algorithm_t`. A
         -   Flag to indicate an algorithm built on a block cipher, when B=1.
     *   -   LEN/T2
         -   [21:16]
-        -   LEN is the length of a MAC or AEAD tag, T2 is a key agreement algorithm sub-type.
+        -   LEN is the length of a MAC or AEAD tag, T2 is a key-agreement algorithm sub-type.
     *   -   T1
         -   [15:8]
         -   Algorithm sub-type for most algorithm categories.
@@ -88,9 +88,9 @@ The CAT field in an algorithm identifier takes the values shown in :numref:`tabl
 
 .. rationale::
 
-    The values for the algorithm categories are chosen to support the composition of key agreement and key derivation algorithms.
+    The values for the algorithm categories are chosen to support the composition of key-agreement and key derivation algorithms.
 
-    The only categories that can combine in a bitwise OR into a valid key agreement algorithm identifier are key derivation (``0x08``) and key agreement (``0x09``). This reduces the risk of a programming error resulting in the combination of other algorithm types using `PSA_ALG_KEY_AGREEMENT()` and ending up with a valid algorithm identifier that can be used in a key agreement operation.
+    The only categories that can combine in a bitwise OR into a valid key-agreement algorithm identifier are key derivation (``0x08``) and key agreement (``0x09``). This reduces the risk of a programming error resulting in the combination of other algorithm types using `PSA_ALG_KEY_AGREEMENT()` and ending up with a valid algorithm identifier that can be used in a key-agreement operation.
 
 .. _hash-encoding:
 
@@ -355,37 +355,37 @@ a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to constr
 
 .. _ka-encoding:
 
-Key agreement algorithm encoding
+key-agreement algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A key agreement algorithm identifier can either be for the standalone key agreement algorithm, or for a combined key agreement with key derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
+A key-agreement algorithm identifier can either be for the standalone key-agreement algorithm, or for a combined key-agreement with key derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
 
-The algorithm identifier for standalone key agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
+The algorithm identifier for standalone key-agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
 
 .. figure:: ../figure/encoding/ka_raw.*
     :name: fig-ka-raw-fields
 
-    Standalone key agreement algorithm encoding
+    Standalone key-agreement algorithm encoding
 
 The defined values for KA-TYPE are shown in :numref:`table-ka-type`.
 
-.. csv-table:: Key agreement algorithm sub-type values
+.. csv-table:: Key-agreement algorithm sub-type values
     :name: table-ka-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    Key agreement algorithm, KA-TYPE, Algorithm identifier, Algorithm value
+    Key-agreement algorithm, KA-TYPE, Algorithm identifier, Algorithm value
     FFDH, ``0x01``, `PSA_ALG_FFDH`, ``0x09010000``
     ECDH, ``0x02``, `PSA_ALG_ECDH`, ``0x09020000``
 
-A combined key agreement is constructed by a bitwise OR of the standalone key agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
+A combined key agreement is constructed by a bitwise OR of the standalone key-agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
 
 .. figure:: ../figure/encoding/ka_combined.*
 
-    Combined key agreement algorithm encoding
+    Combined key-agreement algorithm encoding
 
-The underlying standalone key agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
+The underlying standalone key-agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
 
 .. _key-encapsulation-encoding:
 
