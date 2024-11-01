@@ -361,7 +361,7 @@ Key-derivation algorithms
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    PBKDF2 is specified by :RFC-title:`8018#5.2`. This macro constructs a PBKDF2 algorithm that uses a pseudo-random function based on HMAC with the specified hash.
+    PBKDF2 is specified by :RFC-title:`8018#5.2`. This macro constructs a PBKDF2 algorithm that uses a pseudorandom function based on HMAC with the specified hash.
 
     This key-derivation algorithm uses the following inputs, which must be provided in the following order:
 
@@ -387,7 +387,7 @@ Key-derivation algorithms
     .. summary::
         The PBKDF2-AES-CMAC-PRF-128 password-hashing or key-stretching algorithm.
 
-    PBKDF2 is specified by :RFC-title:`8018#5.2`. This algorithm specifies the PBKDF2 algorithm using the AES-CMAC-PRF-128 pseudo-random function specified by :RFC:`4615`
+    PBKDF2 is specified by :RFC-title:`8018#5.2`. This algorithm specifies the PBKDF2 algorithm using the AES-CMAC-PRF-128 pseudorandom function specified by :RFC:`4615`
 
     This key-derivation algorithm uses the same inputs as `PSA_ALG_PBKDF2_HMAC()` with the same constraints.
 
