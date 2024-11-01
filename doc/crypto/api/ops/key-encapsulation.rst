@@ -148,7 +148,7 @@ Key-encapsulation functions
         `PSA_KEY_ID_NULL` on failure.
     .. param:: uint8_t * ciphertext
         Buffer where the ciphertext output is to be written.
-    .. param:: size_t encapsulation_size
+    .. param:: size_t ciphertext_size
         Size of the ``ciphertext`` buffer in bytes.
         This must be appropriate for the selected algorithm and key:
 
@@ -229,7 +229,7 @@ Key-encapsulation functions
         The key-encapsulation algorithm to use: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_ENCAPSULATION(alg)` is true.
     .. param:: const uint8_t * ciphertext
         The ciphertext received from the other participant.
-    .. param:: size_t encapsulation_length
+    .. param:: size_t ciphertext_length
         Size of the ``ciphertext`` buffer in bytes.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the output key.
