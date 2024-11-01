@@ -269,26 +269,29 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     :definition: ((psa_key_usage_t)0x00040000)
 
     .. summary::
-        Permission to encapsulate new keys.
+        Permission to perform key encapsulation with the key.
 
-    This flag is required to encapsulate new keys to send to a counter party.
+    This flag is required to use the key in a key-encapsulation operation.
 
-    This flag must be present on public keys used with the following APIs:
+    This flag must be present on keys used with the following APIs:
 
     *   `psa_encapsulate()`
+
+    For a key pair, this concerns the public key.
 
 .. macro:: PSA_KEY_USAGE_DECAPSULATE
     :definition: ((psa_key_usage_t)0x00080000)
 
     .. summary::
-        Permission to decapsulate an encapsulated key.
+        Permission to perform key decapsulation with the key.
 
-    This flag is required to decapsulate the data obtained from a counter party.
+    This flag is required to use the key in a key-decapsulation operation.
 
-    This flag must be present on private keys used with the following APIs:
+    This flag must be present on keys used with the following APIs:
 
     *   `psa_decapsulate()`
 
+    For a key pair, this concerns the private key.
 
 .. function:: psa_set_key_usage_flags
 
