@@ -162,6 +162,15 @@ Key-encapsulation functions
     .. retval:: PSA_SUCCESS
         Success.
         The bytes of ``ciphertext`` contain the data to be sent to the other participant, and ``output_key`` contains the identifier for the shared secret key.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The following conditions can result in this error:
+
+        *   ``key`` does not have the `PSA_KEY_USAGE_ENCAPSULATE` flag, or it does not permit the requested algorithm.
+        *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
+    .. retval:: PSA_ERROR_ALREADY_EXISTS
+        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
@@ -261,6 +270,15 @@ Key-encapsulation functions
         .. note::
             In some key-encapsulation algorithms, decapsulation failure is not reported with a explicit error code.
             Instead, an incorrect, pseudorandom key is output.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The following conditions can result in this error:
+
+        *   ``key`` does not have the `PSA_KEY_USAGE_DECAPSULATE` flag, or it does not permit the requested algorithm.
+        *   The implementation does not permit creating a key with the specified attributes due to some implementation-specific policy.
+    .. retval:: PSA_ERROR_ALREADY_EXISTS
+        This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
