@@ -1025,7 +1025,7 @@ Multi-part PAKE operations
     The size of the returned key is always the bit-size of the PAKE shared secret, rounded up to a whole number of bytes. The size of the shared secret is dependent on the PAKE algorithm and cipher suite.
 
     This is the final call in a PAKE operation, which retrieves the shared secret as a key.
-    It is recommended that this key is used as an input to a key derivation operation to produce additional cryptographic keys.
+    It is recommended that this key is used as an input to a key-derivation operation to produce additional cryptographic keys.
     For some PAKE algorithms, the shared secret is also suitable for use as a key in cryptographic operations such as encryption.
     Refer to the documentation of individual PAKE algorithms for more information.
 
@@ -1341,7 +1341,7 @@ For more information about the format of the values which are passed for each st
 If the verification of a Zero-knowledge proof provided by the peer fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_ZK_PROOF` step will return :code:`PSA_ERROR_INVALID_SIGNATURE`.
 
 The shared secret that is produced by J-PAKE is not suitable for use as an encryption key.
-It must be used as an input to a key derivation operation to produce additional cryptographic keys.
+It must be used as an input to a key-derivation operation to produce additional cryptographic keys.
 
 .. warning::
 
@@ -1379,7 +1379,7 @@ J-PAKE algorithms
     J-PAKE does not confirm the shared secret key that results from the key exchange.
 
     The shared secret that is produced by J-PAKE is not suitable for use as an encryption key.
-    It must be used as an input to a key derivation operation to produce additional cryptographic keys.
+    It must be used as an input to a key-derivation operation to produce additional cryptographic keys.
 
     See :secref:`pake-jpake` for the J-PAKE protocol flow and how to implement it with the |API|.
 
@@ -1425,7 +1425,7 @@ SPAKE2+ is instantiated with the following parameters:
 
 *   An elliptic curve group.
 *   A cryptographic hash function.
-*   A key derivation function.
+*   A key-derivation function.
 *   A keyed MAC function.
 
 Valid combinations of these parameters are defined in the table of cipher suites in :rfc:`9383#4`.
@@ -1490,7 +1490,7 @@ The key pair is derived from the initial SPAKE2+ password prior to starting the 
 It is recommended to use a key-stretching derivation algorithm, for example PBKDF2.
 This process can take place immediately before the PAKE operation, or derived at some earlier point and stored by the participant.
 Alternatively, the Verifier can be provisioned with the `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()` for the protocol, by the Prover, or some other agent.
-:numref:`fig-spake2p-reg` illustrates some example SPAKE2+ key derivation flows.
+:numref:`fig-spake2p-reg` illustrates some example SPAKE2+ key-derivation flows.
 
 The resulting SPAKE2+ key-pair must be protected at least as well as the password.
 The public key, exported from the key pair, does not need to be kept confidential.
@@ -1499,15 +1499,15 @@ It is recommended that the Verifier stores only the public key, because disclosu
 .. figure:: /figure/pake/spake2plus-reg.*
     :name: fig-spake2p-reg
 
-    Examples of SPAKE2+ key derivation procedures
+    Examples of SPAKE2+ key-derivation procedures
 
     The variable names :math:`w0`, :math:`w1`, and :math:`L` are taken from the description of SPAKE2+ in :RFC:`9383`.
 
-    Details of the computation for the key derivation values are in :RFC:`9383#3.2`.
+    Details of the computation for the key-derivation values are in :RFC:`9383#3.2`.
 
 The following steps demonstrate the derivation of a SPAKE2+ key pair using PBKDF2-HMAC-SHA256, for use with a SPAKE2+ cipher suite, ``cipher_suite``. See :secref:`spake2p-cipher-suites` for an example of how to construct the cipher suite object.
 
-1.  Allocate and initialize a key derivation object:
+1.  Allocate and initialize a key-derivation object:
 
     .. code-block:: xref
 
@@ -1723,7 +1723,7 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows.
         psa_pake_get_shared_key(&spake2p_v, &att, &shared_key);
 
 The shared secret that is produced by SPAKE2+ is pseudorandom.
-Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key derivation operation to produce additional cryptographic keys.
+Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key-derivation operation to produce additional cryptographic keys.
 
 For more information about the format of the values which are passed for each step, see :secref:`pake-steps`.
 
@@ -1754,7 +1754,7 @@ SPAKE2+ algorithms
     The cipher suite's hash algorithm is used as input to `PSA_ALG_SPAKE2P_HMAC()`.
 
     The shared secret that is produced by SPAKE2+ is pseudorandom.
-    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key derivation operation to produce additional cryptographic keys.
+    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key-derivation operation to produce additional cryptographic keys.
 
     See :secref:`pake-spake2p` for the SPAKE2+ protocol flow and how to implement it with the |API|.
 
@@ -1783,7 +1783,7 @@ SPAKE2+ algorithms
     The cipher suite's hash algorithm is used as input to `PSA_ALG_SPAKE2P_CMAC()`.
 
     The shared secret that is produced by SPAKE2+ is pseudorandom.
-    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key derivation operation to produce additional cryptographic keys.
+    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key-derivation operation to produce additional cryptographic keys.
 
     See :secref:`pake-spake2p` for the SPAKE2+ protocol flow and how to implement it with the |API|.
 

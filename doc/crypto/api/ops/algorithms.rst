@@ -129,15 +129,15 @@ Algorithm categories
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is a key derivation algorithm.
+        Whether the specified algorithm is a key-derivation algorithm.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a key derivation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+        ``1`` if ``alg`` is a key-derivation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    See :secref:`key-derivation-algorithms` for a list of defined key derivation algorithms.
+    See :secref:`key-derivation-algorithms` for a list of defined key-derivation algorithms.
 
 .. macro:: PSA_ALG_IS_SIGN
     :definition: /* specification-defined value */

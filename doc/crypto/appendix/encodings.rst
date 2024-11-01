@@ -46,7 +46,7 @@ Algorithm identifiers are 32-bit integer values of the type `psa_algorithm_t`. A
         -   [23]
         -   For a cipher algorithm, this flag indicates a stream cipher when S=1.
 
-            For a key derivation algorithm, this flag indicates a key-stretching or password-hashing algorithm when S=1.
+            For a key-derivation algorithm, this flag indicates a key-stretching or password-hashing algorithm when S=1.
     *   -   B
         -   [22]
         -   Flag to indicate an algorithm built on a block cipher, when B=1.
@@ -88,7 +88,7 @@ The CAT field in an algorithm identifier takes the values shown in :numref:`tabl
 
 .. rationale::
 
-    The values for the algorithm categories are chosen to support the composition of key-agreement and key derivation algorithms.
+    The values for the algorithm categories are chosen to support the composition of key-agreement and key-derivation algorithms.
 
     The only categories that can combine in a bitwise OR into a valid key-agreement algorithm identifier are key derivation (``0x08``) and key agreement (``0x09``). This reduces the risk of a programming error resulting in the combination of other algorithm types using `PSA_ALG_KEY_AGREEMENT()` and ending up with a valid algorithm identifier that can be used in a key-agreement operation.
 
@@ -252,27 +252,27 @@ b.  This is the default algorithm identifier, specifying the default tag length 
 
 .. _kdf-encoding:
 
-Key derivation algorithm encoding
+Key-derivation algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The algorithm identifier for key derivation algorithms defined in this specification are encoded as shown in :numref:`fig-kdf-fields`.
+The algorithm identifier for key-derivation algorithms defined in this specification are encoded as shown in :numref:`fig-kdf-fields`.
 
 .. figure:: ../figure/encoding/kdf.*
     :name: fig-kdf-fields
 
-    Key derivation algorithm encoding
+    Key-derivation algorithm encoding
 
 The defined values for S and KDF-TYPE are shown in :numref:`table-kdf-type`.
 
 The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the specific KDF algorithm.
 
-.. csv-table:: Key derivation algorithm sub-type values
+.. csv-table:: Key-derivation algorithm sub-type values
     :name: table-kdf-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    Key derivation algorithm, S, KDF-TYPE, Algorithm identifier, Algorithm value
+    Key-derivation algorithm, S, KDF-TYPE, Algorithm identifier, Algorithm value
     HKDF, 0, ``0x01``, :code:`PSA_ALG_HKDF(hash)`, ``0x080001hh`` :sup:`a`
     TLS-1.2 PRF, 0, ``0x02``, :code:`PSA_ALG_TLS12_PRF(hash)`, ``0x080002hh`` :sup:`a`
     TLS-1.2 PSK-to-MasterSecret, 0, ``0x03``, :code:`PSA_ALG_TLS12_PSK_TO_MS(hash)`, ``0x080003hh`` :sup:`a`
@@ -284,7 +284,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     PBKDF2-HMAC, 1, ``0x01``, :code:`PSA_ALG_PBKDF2_HMAC(hash)`, ``0x088001hh`` :sup:`a`
     PBKDF2-AES-CMAC-PRF-128, 1, ``0x02``, :code:`PSA_ALG_PBKDF2_AES_CMAC_PRF_128`, ``0x08800200``
 
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
 
 .. _sign-encoding:
 
@@ -358,7 +358,7 @@ a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to constr
 key-agreement algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A key-agreement algorithm identifier can either be for the standalone key-agreement algorithm, or for a combined key-agreement with key derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
+A key-agreement algorithm identifier can either be for the standalone key-agreement algorithm, or for a combined key-agreement with key-derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
 
 The algorithm identifier for standalone key-agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
 
@@ -379,13 +379,13 @@ The defined values for KA-TYPE are shown in :numref:`table-ka-type`.
     FFDH, ``0x01``, `PSA_ALG_FFDH`, ``0x09010000``
     ECDH, ``0x02``, `PSA_ALG_ECDH`, ``0x09020000``
 
-A combined key agreement is constructed by a bitwise OR of the standalone key-agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
+A combined key agreement is constructed by a bitwise OR of the standalone key-agreement algorithm identifier and the key-derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
 
 .. figure:: ../figure/encoding/ka_combined.*
 
     Combined key-agreement algorithm encoding
 
-The underlying standalone key-agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
+The underlying standalone key-agreement algorithm can be extracted from the KA-TYPE field, and the key-derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
 
 .. _key-encapsulation-encoding:
 
@@ -438,7 +438,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     SPAKE2+ with CMAC, ``0x05``, :code:`PSA_ALG_SPAKE2P_CMAC(hash)`, ``0x0A0005hh`` :sup:`a`
     SPAKE2+ for Matter, ``0x06``, :code:`PSA_ALG_SPAKE2P_MATTER`, ``0x0A000609``
 
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
 
 .. _key-type-encoding:
 

@@ -171,9 +171,9 @@ Symmetric keys
 
     This key type is for high-entropy secrets only. For low-entropy secrets, `PSA_KEY_TYPE_PASSWORD` should be used instead.
 
-    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key derivation algorithms.
+    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key-derivation algorithms.
 
-    The key policy determines which key derivation algorithm the key can be used for.
+    The key policy determines which key-derivation algorithm the key can be used for.
 
     The bit size of a secret for key derivation must be a non-zero multiple of 8. The maximum size of a secret for key derivation is :scterm:`IMPLEMENTATION DEFINED`.
 
@@ -207,12 +207,12 @@ Symmetric keys
     It can be used for randomly generated or derived keys with maximum or near-maximum entropy, but `PSA_KEY_TYPE_DERIVE` is more suitable for such keys.
     It is not suitable for passwords with extremely low entropy, such as numerical PINs.
 
-    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key derivation algorithms.
+    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key-derivation algorithms.
     Algorithms that accept such an input were designed to accept low-entropy secret and are known as *password hashing* or *key stretching* algorithms.
 
-    These keys cannot be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` input step of key derivation algorithms, as the algorithms expect such an input to have high entropy.
+    These keys cannot be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` input step of key-derivation algorithms, as the algorithms expect such an input to have high entropy.
 
-    The key policy determines which key derivation algorithm the key can be used for, among the permissible subset defined above.
+    The key policy determines which key-derivation algorithm the key can be used for, among the permissible subset defined above.
 
     .. subsection:: Compatible algorithms
 
@@ -237,7 +237,7 @@ Symmetric keys
     .. summary::
         A secret value that can be used to verify a password hash.
 
-    The key policy determines which key derivation algorithm the key can be used for, among the same permissible subset as for `PSA_KEY_TYPE_PASSWORD`.
+    The key policy determines which key-derivation algorithm the key can be used for, among the same permissible subset as for `PSA_KEY_TYPE_PASSWORD`.
 
     .. subsection:: Compatible algorithms
 
@@ -262,7 +262,7 @@ Symmetric keys
     .. summary::
         A secret value that can be used when computing a password hash.
 
-    The key policy determines which key derivation algorithm the key can be used for, among the subset of algorithms that can use pepper.
+    The key policy determines which key-derivation algorithm the key can be used for, among the subset of algorithms that can use pepper.
 
     .. subsection:: Compatible algorithms
 
@@ -712,7 +712,7 @@ Elliptic curve keys are grouped into families of related curves.
 A keys for a specific curve is specified by a combination of the elliptic curve family and the bit-size of the key.
 
 There are three categories of elliptic curve key, shown in :numref:`tab-ecc-groups`.
-The curve type affects the key format, the key derivation procedure, and the algorithms which the key can be used with.
+The curve type affects the key format, the key-derivation procedure, and the algorithms which the key can be used with.
 
 .. list-table:: Types of elliptic curve key
     :name: tab-ecc-groups
@@ -859,7 +859,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
 
     .. subsection:: Key derivation
 
-        The key derivation method used when calling `psa_key_derivation_output_key()` depends on the type of elliptic curve.
+        The key-derivation method used when calling `psa_key_derivation_output_key()` depends on the type of elliptic curve.
         :numref:`tab-ecc-key-derivation` shows the derivation method for each type of elliptic curve key.
 
         .. list-table:: Key derivation for elliptic curve keys
