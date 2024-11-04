@@ -44,6 +44,8 @@ Clarifications and fixes
 *   Documented the use of context parameters in J-PAKE and SPAKE2+ PAKE operations.
     See :secref:`jpake-operation` and :secref:`spake2p-operation`.
 
+*   Clarified asymmetric signature support by categorizing the different types of signature algorithm.
+
 Other changes
 ~~~~~~~~~~~~~
 

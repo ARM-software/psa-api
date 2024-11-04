@@ -20,7 +20,7 @@ The specific algorithm identifiers are described alongside the cryptographic ope
 *   :secref:`cipher-algorithms`
 *   :secref:`aead-algorithms`
 *   :secref:`key-derivation-algorithms`
-*   :secref:`sign-algorithms`
+*   :secref:`sign`
 *   :secref:`asymmetric-encryption-algorithms`
 *   :secref:`key-agreement-algorithms`
 *   :secref:`pake`
@@ -150,7 +150,7 @@ Algorithm categories
     .. return::
         ``1`` if ``alg`` is an asymmetric signature algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    See :secref:`sign-algorithms` for a list of defined signature algorithms.
+    See :secref:`sign` for a list of defined signature algorithms.
 
 .. macro:: PSA_ALG_IS_ASYMMETRIC_ENCRYPTION
     :definition: /* specification-defined value */

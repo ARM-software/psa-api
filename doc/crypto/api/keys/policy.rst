@@ -204,7 +204,9 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to sign a message hash with the key.
 
-    This flag is required to use the key to sign a message hash in an asymmetric signature operation. The flag must be present on keys used when calling `psa_sign_hash()`.
+    This flag is required to use the key to sign a pre-computed message hash in an asymmetric signature operation. The flag must be present on keys used with the following APIs:
+
+    *   `psa_sign_hash()`
 
     This flag automatically sets `PSA_KEY_USAGE_SIGN_MESSAGE`: if an application sets the flag `PSA_KEY_USAGE_SIGN_HASH` when creating a key, then the key always has the permissions conveyed by `PSA_KEY_USAGE_SIGN_MESSAGE`, and the flag `PSA_KEY_USAGE_SIGN_MESSAGE` will also be present when the application queries the usage flags of the key.
 
@@ -216,7 +218,9 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to verify a message hash with the key.
 
-    This flag is required to use the key to verify a message hash in an asymmetric signature verification operation. The flag must be present on keys used when calling `psa_verify_hash()`.
+    This flag is required to use the key to verify a pre-computed message hash in an asymmetric signature verification operation. The flag must be present on keys used with the following APIs:
+
+    *   `psa_verify_hash()`
 
     This flag automatically sets `PSA_KEY_USAGE_VERIFY_MESSAGE`: if an application sets the flag `PSA_KEY_USAGE_VERIFY_HASH` when creating a key, then the key always has the permissions conveyed by `PSA_KEY_USAGE_VERIFY_MESSAGE`, and the flag `PSA_KEY_USAGE_VERIFY_MESSAGE` will also be present when the application queries the usage flags of the key.
 
