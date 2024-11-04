@@ -184,7 +184,7 @@ Hash algorithms
     .. summary::
         The first 512 bits (64 bytes) of the SHAKE256 output.
 
-    This is the prehashing for Ed448ph (see `PSA_ALG_ED448PH`).
+    This is the pre-hashing for Ed448ph (see `PSA_ALG_ED448PH`).
 
     SHAKE256 is defined in :cite:`FIPS202`.
 
