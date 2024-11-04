@@ -112,11 +112,13 @@ Most implementations provide the following functions:
 Cryptographic operations
 ------------------------
 
-For each type of cryptographic operation, the API can include:
+The API supports cryptographic operations through two kinds of interfaces:
 
-*   One or more *single-part* functions, which perform a whole operation in a single function call. For example, compute, verify, encrypt or decrypt. See :secref:`single-part-functions`.
+*   A *single-part* function performs a whole operation in a single function call. For example, compute, verify, encrypt or decrypt. See :secref:`single-part-functions`.
 
-*   A *multi-part operation* --- which is a set of functions that work with a stored operation state. This provides more control over operation configuration, piecewise processing of large input data, or handling for multi-step processes. See :secref:`multi-part-operations`.
+*   A *multi-part operation* is a set of functions that work with a stored operation state. This provides more control over operation configuration, piecewise processing of large input data, or handling for multi-step processes. See :secref:`multi-part-operations`.
+
+Depending on the mechanism, one or both kind of interfaces may be provided.
 
 .. _single-part-functions:
 
