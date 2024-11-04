@@ -131,7 +131,7 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 Module Lattice-based key-encapsulation algorithm
 ------------------------------------------------
 
-The ML-KEM key encapsulation mechanism is defined in :cite-title:`FIPS203`.
+ML-KEM is defined in :cite-title:`FIPS203`.
 ML-KEM has three parameter sets which provide differing security strengths.
 
 The generation of an ML-KEM key depends on the full parameter specification.
@@ -143,7 +143,7 @@ See `[FIPS203]` §8 for details on the parameter sets.
     :definition: ((psa_algorithm_t)0x0c000200)
 
     .. summary::
-        Module Lattice-based key encapsulation mechanism (ML-KEM).
+        Module Lattice-based key-encapsulation mechanism (ML-KEM).
 
     This is the ML-KEM key-encapsulation algorithm, defined by `[FIPS203]`.
     ML-KEM requires an ML-KEM key, which determines the ML-KEM parameter set for the operation.
@@ -160,7 +160,7 @@ See `[FIPS203]` §8 for details on the parameter sets.
         ML-KEM-1024, 1568
 
     The 32-byte shared output key that is produced by ML-KEM is pseudorandom.
-    Although it can be used directly as an encryption key, it is recommended to use the output key as an input to a key derivation operation to produce additional cryptographic keys.
+    Although it can be used directly as an encryption key, it is recommended to use the output key as an input to a key-derivation operation to produce additional cryptographic keys.
 
     .. subsection:: Compatible key types
 
