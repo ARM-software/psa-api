@@ -13,14 +13,14 @@
     Prover -> Prover: ""psa_key_derivation_setup(PBKDF)""\n""psa_key_derivation_input_key(password)""\n""psa_key_derivation_input_xxx()"" for //PBKDF-params//
 
     Prover -> Prover: ""psa_key_derivation_output_key(SPAKE2P_KEY_PAIR)""
-    note left: Compute key-pair (//w0//, //w1//)
+    note left: Compute key pair (//w0//, //w1//)
 
     alt Independent registration
 
         Verifier -> Verifier: ""psa_key_derivation_setup(PBKDF)""\n""psa_key_derivation_input_key(password)""\n""psa_key_derivation_input_xxx()"" for //PBKDF-params//
 
         Verifier -> Verifier: ""psa_key_derivation_output_key(SPAKE2P_KEY_PAIR)""
-        note left: Compute key-pair (//w0//, //w1//)
+        note left: Compute key pair (//w0//, //w1//)
 
     else Connected registration
 
@@ -30,11 +30,11 @@
         Prover ->> Verifier: Registration record ( //w0// || //L// )
 
         Verifier -> Verifier: ""psa_import_key(SPAKE2P_PUBLIC_KEY)"" from //w0// || //L//
-        note left: Import public-key (//w0//, //L//)
+        note left: Import public key (//w0//, //L//)
 
     end
 
-    note over Prover: Use key-pair for authentication flow
+    note over Prover: Use key pair for authentication flow
     / note over Verifier: Use key for authentication flow
 
 

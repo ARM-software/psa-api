@@ -21,7 +21,7 @@ Changes to the API
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
 
-*   Add extended key generation and derivation functions, `psa_generate_key_custom()` and `psa_key_derivation_output_key_custom()`, that accept additional parameters to control the key creation process.
+*   Add extended key-generation and key-derivation functions, `psa_generate_key_custom()` and `psa_key_derivation_output_key_custom()`, that accept additional parameters to control the key creation process.
 *   Define a key production parameter to select a non-default exponent for RSA key generation.
 
 *   Reworked the allocation of bits in the encoding of asymmetric keys, to increase the scope for additional asymmetric key types:
@@ -54,7 +54,7 @@ Other changes
 ~~~~~~~~~~~~~
 
 *   Integrated the PAKE Extension with the main specification for the |API|.
-*   Moved the documentation of key formats and key derivation procedures to sub-sections within each key type.
+*   Moved the documentation of key formats and key-derivation procedures to sub-sections within each key type.
 *   Clarified the flexibility for an implementation to return either :code:`PSA_ERROR_NOT_SUPPORTED` or :code:`PSA_ERROR_INVALID_ARGUMENT` when provided with unsupported algorithm identifier or key parameters.
 
 Changes between *1.2.0* and *1.2.1*
@@ -79,16 +79,16 @@ Changes to the API
 
 *   Added support for the XChaCha20 cipher and XChaCha20-Poly1305 AEAD algorithms. See `PSA_KEY_TYPE_XCHACHA20` and `PSA_ALG_XCHACHA20_POLY1305`.
 *   Added support for :cite-title:`ZIGBEE` cryptographic algorithms. See `PSA_ALG_AES_MMO_ZIGBEE` and `PSA_ALG_CCM_STAR_NO_TAG`.
-*   Defined key derivation algorithms based on the Counter mode recommendations in :cite-title:`SP800-108`. See `PSA_ALG_SP800_108_COUNTER_HMAC()` and `PSA_ALG_SP800_108_COUNTER_CMAC`.
+*   Defined key-derivation algorithms based on the Counter mode recommendations in :cite-title:`SP800-108`. See `PSA_ALG_SP800_108_COUNTER_HMAC()` and `PSA_ALG_SP800_108_COUNTER_CMAC`.
 *   Added support for TLS 1.2 ECJPAKE-to-PMS key-derivation. See `PSA_ALG_TLS12_ECJPAKE_TO_PMS`.
 
 *   Changed the policy for `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()`, so that these functions are also permitted when an input key has the `PSA_KEY_USAGE_DERIVE` usage flag.
-*   Removed the special treatment of :code:`PSA_ERROR_INVALID_SIGNATURE` for key derivation operations. A verification failure in `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()` now puts the operation into an error state.
+*   Removed the special treatment of :code:`PSA_ERROR_INVALID_SIGNATURE` for key-derivation operations. A verification failure in `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()` now puts the operation into an error state.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-*   Clarified the behavior of a key derivation operation when there is insufficient capacity for a call to `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, `psa_key_derivation_verify_bytes()`, or `psa_key_derivation_verify_key()`.
+*   Clarified the behavior of a key-derivation operation when there is insufficient capacity for a call to `psa_key_derivation_output_bytes()`, `psa_key_derivation_output_key()`, `psa_key_derivation_verify_bytes()`, or `psa_key_derivation_verify_key()`.
 *   Reserved the value ``0`` for most enum-like integral types.
 *   Changed terminology for clarification: a 'raw key agreement' algorithm is now a 'standalone key agreement', and a 'full key agreement' is a 'combined key agreement'.
 
@@ -117,7 +117,7 @@ Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Extended `PSA_ALG_TLS12_PSK_TO_MS` to support TLS cipher suites that mix a key exchange with a pre-shared key.
-*   Added a new key derivation input step `PSA_KEY_DERIVATION_INPUT_OTHER_SECRET`.
+*   Added a new key-derivation input step `PSA_KEY_DERIVATION_INPUT_OTHER_SECRET`.
 *   Added new algorithm families `PSA_ALG_HKDF_EXTRACT` and `PSA_ALG_HKDF_EXPAND` for protocols that require the two parts of HKDF separately.
 
 Other changes
@@ -132,21 +132,21 @@ Changes between *1.0.1* and *1.1.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
-*   Relaxation when a raw key agreement is used as a key's permitted-algorithm policy. This now also permits the key agreement to be combined with any key derivation algorithm. See `PSA_ALG_FFDH` and `PSA_ALG_ECDH`.
+*   Relaxation when a raw key agreement is used as a key's permitted-algorithm policy. This now also permits the key agreement to be combined with any key-derivation algorithm. See `PSA_ALG_FFDH` and `PSA_ALG_ECDH`.
 
 *   Provide wildcard permitted-algorithm polices for MAC and AEAD that can specify a minimum MAC or tag length. The following elements are added to the API:
 
     -   `PSA_ALG_AT_LEAST_THIS_LENGTH_MAC()`
     -   `PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG()`
 
-*   Added support for password-hashing and key-stretching algorithms, as key derivation operations.
+*   Added support for password-hashing and key-stretching algorithms, as key-derivation operations.
 
     -   Added key types `PSA_KEY_TYPE_PASSWORD`, `PSA_KEY_TYPE_PASSWORD_HASH` and `PSA_KEY_TYPE_PEPPER`, to support use of these new types of algorithm.
-    -   Add key derivation input steps `PSA_KEY_DERIVATION_INPUT_PASSWORD` and `PSA_KEY_DERIVATION_INPUT_COST`.
-    -   Added `psa_key_derivation_input_integer()` to support numerical inputs to a key derivation operation.
+    -   Add key-derivation input steps `PSA_KEY_DERIVATION_INPUT_PASSWORD` and `PSA_KEY_DERIVATION_INPUT_COST`.
+    -   Added `psa_key_derivation_input_integer()` to support numerical inputs to a key-derivation operation.
     -   Added functions `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()` to compare derivation output data within the cryptoprocessor.
     -   Added usage flag `PSA_KEY_USAGE_VERIFY_DERIVATION` for using keys with the new verification functions.
-    -   Modified the description of existing key derivation APIs to enable the use of key derivation functionality.
+    -   Modified the description of existing key-derivation APIs to enable the use of key-derivation functionality.
 
 *   Added algorithms `PSA_ALG_PBKDF2_HMAC()` and `PSA_ALG_PBKDF2_AES_CMAC_PRF_128` to implement the PBKDF2 password-hashing algorithm.
 
@@ -178,7 +178,7 @@ Clarifications and fixes
 
 *   Clarified how the `PSA_ALG_RSA_OAEP()` algorithm uses the hash algorithm parameter.
 
-*   Fixed error in `psa_key_derivation_setup()` documentation: combined key agreement and key derivation algorithms are valid for the |API|.
+*   Fixed error in `psa_key_derivation_setup()` documentation: combined key-agreement and key-derivation algorithms are valid for the |API|.
 
 *   Added and clarified documentation for error conditions across the API.
 
@@ -227,7 +227,7 @@ Clarifications and fixes
 
 *   Provided details of signature algorithms, include requirements when using with `psa_sign_hash()` and `psa_verify_hash()`.
 
-*   Provided details of key agreement algorithms, and how to use them.
+*   Provided details of key-agreement algorithms, and how to use them.
 
 *   Aligned terminology relating to key policies, to clarify the combination of the usage flags and permitted algorithm in the policy.
 
@@ -243,7 +243,7 @@ Clarifications and fixes
 
 *   Document that `psa_key_derivation_output_key()` does not return :code:`PSA_ERROR_NOT_PERMITTED` if the secret input is the result of a key agreement. This matches what was already documented for `PSA_KEY_DERIVATION_INPUT_SECRET`.
 
-*   Relax the requirement to use the defined key derivation methods in `psa_key_derivation_output_key()`: implementation-specific KDF algorithms can use implementation-defined methods to derive the key material.
+*   Relax the requirement to use the defined key-derivation methods in `psa_key_derivation_output_key()`: implementation-specific KDF algorithms can use implementation-defined methods to derive the key material.
 
 *   Clarify the requirements for implementations that support concurrent execution of API calls.
 
@@ -692,7 +692,7 @@ Clarifications
 
 *   Guarantee that :code:`psa_destroy_key(PSA_KEY_ID_NULL)` always returns :code:`PSA_SUCCESS`.
 
-*   Clarified the TLS PSK to MS key agreement algorithm.
+*   Clarified the TLS PSK to MS key-agreement algorithm.
 
 *   Document the key policy requirements for all APIs that accept a key parameter.
 
@@ -756,7 +756,7 @@ Changes to the API
 *   Define a range of key identifiers for use by applications and a separate range for use by implementations.
 
 *   Avoid the unusual terminology "generator": call them
-    "key derivation operations" instead. Rename a number of functions
+    "key-derivation operations" instead. Rename a number of functions
     and other identifiers related to for clarity and consistency:
 
     -   ``psa_crypto_generator_t`` → `psa_key_derivation_operation_t`

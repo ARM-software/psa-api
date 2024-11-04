@@ -156,7 +156,7 @@ code. There are specific conditions that can result in different behavior:
 *   The status :code:`PSA_ERROR_INSUFFICIENT_DATA` indicates that a key
     derivation object has reached its maximum capacity. The key derivation
     operation might have been modified by the call. Any further attempt to obtain
-    output from the key derivation operation will return
+    output from the key-derivation operation will return
     :code:`PSA_ERROR_INSUFFICIENT_DATA`.
 *   The status :code:`PSA_ERROR_COMMUNICATION_FAILURE` indicates that the
     communication between the application and the cryptoprocessor has broken
