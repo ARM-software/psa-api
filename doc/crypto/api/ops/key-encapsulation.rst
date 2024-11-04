@@ -13,10 +13,13 @@ A key-encapsulation algorithm can be used by two participants to establish a sha
 The shared secret key can then be used with symmetric-key cryptographic algorithms.
 Key-encapsulation algorithms are often referred to as 'key-encapsulation mechanisms' or KEMs.
 
-In a key-encapsulation algorithm, participant A generates a key-pair: a private decapsulation key, and a public encapsulation key.
-The public encapsulation key is made available to participant B, who needs to establish secure communication with the participant A.
-Participant B uses the encapsulation key to generate one copy of a shared secret, and some ciphertext.
-The ciphertext is transferred to participant A, who uses the private decapsulation key to compute another copy of the shared secret.
+In a key-encapsulation algorithm, participants A and B establish a shared secret as follows:
+
+1.  Participant A generates a key-pair: a private decapsulation key, and a public encapsulation key.
+#.  The public encapsulation key is made available to participant B.
+#.  Participant B uses the encapsulation key to generate one copy of a shared secret, and some ciphertext.
+#.  The ciphertext is transferred to participant A.
+#.  Participant A uses the private decapsulation key to compute another copy of the shared secret.
 
 Typically, the shared secret is used as input to a key-derivation function, to create keys for secure communication between participants A and B.
 However, some key-encapsulation algorithms result in a uniformly pseudorandom shared secret, which is suitable to be used directly as a cryptographic key.
