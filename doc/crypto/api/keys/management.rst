@@ -113,7 +113,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     This specification defines a single format for each key type. Implementations can optionally support other formats in addition to the standard format. It is recommended that implementations that support other formats ensure that the formats are clearly unambiguous, to minimize the risk that an invalid input is accidentally interpreted according to a different format.
 
     .. note::
-        The |API| does not support asymmetric private key objects outside of a key pair. To import a private key, the ``attributes`` must specify the corresponding key pair type. Depending on the key type, either the import format contains the public-key data or the implementation will reconstruct the public key from the private key as needed.
+        The |API| does not support asymmetric private key objects outside of a key pair. To import a private key, the ``attributes`` must specify the corresponding key-pair type. Depending on the key type, either the import format contains the public-key data or the implementation will reconstruct the public key from the private key as needed.
 
 .. struct:: psa_custom_key_parameters_t
     :type:
@@ -640,7 +640,7 @@ Key export
         Sufficient output buffer size for `psa_export_public_key()`.
 
     .. param:: key_type
-        A public key or key pair key type.
+        A public-key or key-pair key type.
     .. param:: key_bits
         The size of the key in bits.
 

@@ -15,7 +15,7 @@ Key-encapsulation algorithms are often referred to as 'key-encapsulation mechani
 
 In a key-encapsulation algorithm, participants A and B establish a shared secret as follows:
 
-1.  Participant A generates a key-pair: a private decapsulation key, and a public encapsulation key.
+1.  Participant A generates a key pair: a private decapsulation key, and a public encapsulation key.
 #.  The public encapsulation key is made available to participant B.
 #.  Participant B uses the encapsulation key to generate one copy of a shared secret, and some ciphertext.
 #.  The ciphertext is transferred to participant A.
