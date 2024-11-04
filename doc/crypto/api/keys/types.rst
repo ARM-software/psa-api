@@ -1229,7 +1229,7 @@ Diffie Hellman keys
     .. subsection:: Key format
 
         The data format for import and export of the key pair is the representation of the private key :math:`x` as a big-endian byte string.
-        The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
+        The length of the byte string is the private key's size in bytes, and leading zeroes are not stripped.
 
         See `PSA_KEY_TYPE_DH_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
 
