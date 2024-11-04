@@ -891,7 +891,7 @@ Support macros
         Sufficient signature buffer size for `psa_sign_message()` and `psa_sign_hash()`.
 
     .. param:: key_type
-        An asymmetric key type. This can be a key pair type or a public key type.
+        An asymmetric key type. This can be a key pair type or a public-key type.
     .. param:: key_bits
         The size of the key in bits.
     .. param:: alg

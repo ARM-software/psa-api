@@ -895,7 +895,7 @@ Key-derivation functions
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The key type is invalid, or is an asymmetric public key type.
+        *   The key type is invalid, or is an asymmetric public-key type.
         *   The key type is `PSA_KEY_TYPE_PASSWORD_HASH`, and the permitted-algorithm policy is not the same as the current operation's algorithm.
         *   The key size is not valid for the key type. Implementations must reject an attempt to derive a key of size ``0``.
         *   The key lifetime is invalid.
@@ -1005,7 +1005,7 @@ Key-derivation functions
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The key type is invalid, or is an asymmetric public key type.
+        *   The key type is invalid, or is an asymmetric public-key type.
         *   The key type is `PSA_KEY_TYPE_PASSWORD_HASH`, and the permitted-algorithm policy is not the same as the current operation's algorithm.
         *   The key size is not valid for the key type. Implementations must reject an attempt to derive a key of size ``0``.
         *   The key lifetime is invalid.

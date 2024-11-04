@@ -30,7 +30,7 @@
         Prover ->> Verifier: Registration record ( //w0// || //L// )
 
         Verifier -> Verifier: ""psa_import_key(SPAKE2P_PUBLIC_KEY)"" from //w0// || //L//
-        note left: Import public-key (//w0//, //L//)
+        note left: Import public key (//w0//, //L//)
 
     end
 

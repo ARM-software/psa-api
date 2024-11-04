@@ -514,7 +514,7 @@ PAKE step types
 
     The format for both input and output using this step is the same as the format for public keys on the group specified by the PAKE operation's primitive.
 
-    The public key formats are defined in the documentation for :code:`psa_export_public_key()`.
+    The public-key formats are defined in the documentation for :code:`psa_export_public_key()`.
 
     For information regarding how the group is determined, consult the documentation `PSA_PAKE_PRIMITIVE()`.
 
@@ -1549,7 +1549,7 @@ The following steps demonstrate the derivation of a SPAKE2+ key pair using PBKDF
         psa_key_derivation_output_key(&att, &pbkdf, &spake2p_key);
         psa_key_derivation_abort(&pbkdf);
 
-See :secref:`spake2p-keys` for details of the key types, key pair derivation, and public key format.
+See :secref:`spake2p-keys` for details of the key types, key pair derivation, and public-key format.
 
 .. _spake2p-operation:
 

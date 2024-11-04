@@ -113,7 +113,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     This specification defines a single format for each key type. Implementations can optionally support other formats in addition to the standard format. It is recommended that implementations that support other formats ensure that the formats are clearly unambiguous, to minimize the risk that an invalid input is accidentally interpreted according to a different format.
 
     .. note::
-        The |API| does not support asymmetric private key objects outside of a key pair. To import a private key, the ``attributes`` must specify the corresponding key pair type. Depending on the key type, either the import format contains the public key data or the implementation will reconstruct the public key from the private key as needed.
+        The |API| does not support asymmetric private key objects outside of a key pair. To import a private key, the ``attributes`` must specify the corresponding key pair type. Depending on the key type, either the import format contains the public-key data or the implementation will reconstruct the public key from the private key as needed.
 
 .. struct:: psa_custom_key_parameters_t
     :type:
@@ -202,7 +202,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The key type is invalid, or is an asymmetric public key type.
+        *   The key type is invalid, or is an asymmetric public-key type.
         *   The key size is not valid for the key type.
         *   The key lifetime is invalid.
         *   The key identifier is not valid for the key lifetime.
@@ -286,7 +286,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The key type is invalid, or is an asymmetric public key type.
+        *   The key type is invalid, or is an asymmetric public-key type.
         *   The key size is not valid for the key type.
         *   The key lifetime is invalid.
         *   The key identifier is not valid for the key lifetime.
@@ -594,7 +594,7 @@ Key export
 
     For standard key types, the output format is defined in the relevant *Key format* section in :secref:`key-types`.
 
-    Exporting a public key object or the public part of a key pair is always permitted, regardless of the key's usage flags.
+    Exporting a public-key object or the public part of a key pair is always permitted, regardless of the key's usage flags.
 
 .. macro:: PSA_EXPORT_KEY_OUTPUT_SIZE
     :definition: /* implementation-defined value */
