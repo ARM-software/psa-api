@@ -83,6 +83,7 @@ The CAT field in an algorithm identifier takes the values shown in :numref:`tabl
     Asymmetric signature, ``0x06``, See :secref:`sign-encoding`
     Asymmetric encryption, ``0x07``, See :secref:`pke-encoding`
     Key agreement, ``0x09``, See :secref:`ka-encoding`
+    Key encapsulation, ``0x0C``, See :secref:`key-encapsulation-encoding`
     PAKE, ``0x0A``, See :secref:`pake-encoding`
 
 .. rationale::
@@ -385,6 +386,29 @@ A combined key agreement is constructed by a bitwise OR of the standalone key ag
     Combined key agreement algorithm encoding
 
 The underlying standalone key agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
+
+.. _key-encapsulation-encoding:
+
+Key-encapsulation algorithm encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The algorithm identifier for key-encapsulation algorithms defined in this specification are encoded as shown in :numref:`fig-key-encapsulation-encoding`.
+
+.. figure:: /figure/encoding/kem_encoding.*
+    :name: fig-key-encapsulation-encoding
+
+    Encapsulation algorithm encoding
+
+The defined values for ENCAPS-TYPE are shown in :numref:`table-key-encapsulation-type`.
+
+.. csv-table:: Encapsulation algorithm sub-type values
+    :name: table-key-encapsulation-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Encapsulation algorithm, ENCAPS-TYPE, Algorithm identifier, Algorithm value
+    ECIES (SEC1), ``0x01``, `PSA_ALG_ECIES_SEC1`, ``0x0C000100``
 
 .. _pake-encoding:
 

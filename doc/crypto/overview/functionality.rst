@@ -41,6 +41,8 @@ Keys are created using one of the *key creation functions*:
 *   `psa_key_derivation_output_key()`
 *   `psa_key_derivation_output_key_custom()`
 *   `psa_key_agreement()`
+*   `psa_encapsulate()`
+*   `psa_decapsulate()`
 *   `psa_pake_get_shared_key()`
 *   `psa_copy_key()`
 
@@ -269,6 +271,7 @@ This specification defines interfaces for the following types of asymmetric cryp
 *   Asymmetric encryption (also known as public key encryption). See :secref:`pke`.
 *   Asymmetric signature. See :secref:`sign`.
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
+*   Key encapsulation. See :secref:`key-encapsulation`.
 *   Password-authenticated key exchange (PAKE). See :secref:`pake`.
 
 For asymmetric encryption, the API provides *single-part* functions.
@@ -276,6 +279,8 @@ For asymmetric encryption, the API provides *single-part* functions.
 For asymmetric signature, the API provides single-part functions.
 
 For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
+
+For key encapsulation, the API provides single-part functions.
 
 For PAKE, the API provides a *multi-part* operation.
 

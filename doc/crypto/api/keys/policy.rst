@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -86,7 +86,16 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
 *   The extractable flag `PSA_KEY_USAGE_EXPORT` determines whether the key material can be extracted from the cryptoprocessor, or copied outside of its current security boundary.
 *   The copyable flag `PSA_KEY_USAGE_COPY` determines whether the key material can be copied into a new key, which can have a different lifetime or a more restrictive policy.
 *   The cacheable flag `PSA_KEY_USAGE_CACHE` determines whether the implementation is permitted to retain non-essential copies of the key material in RAM. This policy only applies to persistent keys. See also :secref:`key-material`.
-*   The other usage flags, for example, `PSA_KEY_USAGE_ENCRYPT` and `PSA_KEY_USAGE_SIGN_MESSAGE`, determine whether the corresponding operation is permitted on the key.
+*   The following usage flags determine whether the corresponding operations are permitted with the key:
+
+    -   `PSA_KEY_USAGE_ENCRYPT`
+    -   `PSA_KEY_USAGE_DECRYPT`
+    -   `PSA_KEY_USAGE_SIGN_MESSAGE`
+    -   `PSA_KEY_USAGE_VERIFY_MESSAGE`
+    -   `PSA_KEY_USAGE_SIGN_HASH`
+    -   `PSA_KEY_USAGE_VERIFY_HASH`
+    -   `PSA_KEY_USAGE_DERIVE`
+    -   `PSA_KEY_USAGE_VERIFY_DERIVATION`
 
 .. typedef:: uint32_t psa_key_usage_t
 
@@ -142,15 +151,16 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     :definition: ((psa_key_usage_t)0x00000100)
 
     .. summary::
-        Permission to encrypt a message with the key.
+        Permission to encrypt a message, or perform key encapsulation, with the key.
 
-    This flag is required to use the key in a symmetric encryption operation, in an AEAD encryption-and-authentication operation, or in an asymmetric encryption operation. The flag must be present on keys used with the following APIs:
+    This flag is required to use the key in a symmetric encryption operation, in an AEAD encryption-and-authentication operation, in an asymmetric encryption operation, or in a key-encapsulation operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_cipher_encrypt()`
     *   `psa_cipher_encrypt_setup()`
     *   `psa_aead_encrypt()`
     *   `psa_aead_encrypt_setup()`
     *   `psa_asymmetric_encrypt()`
+    *   `psa_encapsulate()`
 
     For a key pair, this concerns the public key.
 
@@ -158,15 +168,16 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     :definition: ((psa_key_usage_t)0x00000200)
 
     .. summary::
-        Permission to decrypt a message with the key.
+        Permission to decrypt a message, or perform key decapsulation, with the key.
 
-    This flag is required to use the key in a symmetric decryption operation, in an AEAD decryption-and-verification operation, or in an asymmetric decryption operation. The flag must be present on keys used with the following APIs:
+    This flag is required to use the key in a symmetric decryption operation, in an AEAD decryption-and-verification operation, in an asymmetric decryption operation, or in a key-decapsulation operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_cipher_decrypt()`
     *   `psa_cipher_decrypt_setup()`
     *   `psa_aead_decrypt()`
     *   `psa_aead_decrypt_setup()`
     *   `psa_asymmetric_decrypt()`
+    *   `psa_decapsulate()`
 
     For a key pair, this concerns the private key.
 
