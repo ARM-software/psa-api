@@ -915,7 +915,7 @@ The curve type affects the key format, the key-derivation procedure, and the alg
         .. note::
 
             For key agreement, the public key of the peer is provided to the |API| as a buffer.
-            This avoids the need to import the public key data that is received from the peer, just to carry out the key-agreement algorithm.
+            This avoids the need to import the public-key data that is received from the peer, just to carry out the key-agreement algorithm.
 
         .. list-table:: Compatible algorithms for elliptic curve public keys
             :name: tab-ecc-public-key-algorithms
@@ -955,14 +955,14 @@ The curve type affects the key format, the key-derivation procedure, and the alg
         The data format for import and export of the public key depends on the type of elliptic curve.
         :numref:`tab-ecc-public-key-format` shows the format for each type of elliptic curve public key.
 
-        .. list-table:: Public key formats for elliptic curve keys
+        .. list-table:: Public-key formats for elliptic curve keys
             :name: tab-ecc-public-key-format
             :class: longtable
             :widths: 1,4
             :header-rows: 1
 
             *   -   Curve type
-                -   Public key format
+                -   Public-key format
             *   -   Weierstrass
                 -   The key data is the uncompressed representation of an elliptic curve point as an octet string defined in :cite-title:`SEC1` §2.3.3.
                     If :math:`m` is the bit size associated with the curve, i.e. the bit size of :math:`q` for a curve over :math:`\mathbb{F}_q`, then the representation of point :math:`P` consists of:
@@ -1283,10 +1283,10 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        The key pair type corresponding to a public key type.
+        The key pair type corresponding to a public-key type.
 
     .. param:: type
-        A public key type or key pair type.
+        A public-key type or key pair type.
 
     .. return::
         The corresponding key pair type. If ``type`` is not a public key or a key pair, the return value is undefined.
@@ -1297,15 +1297,15 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        The public key type corresponding to a key pair type.
+        The public-key type corresponding to a key pair type.
 
     .. param:: type
-        A public key type or key pair type.
+        A public-key type or key pair type.
 
     .. return::
-        The corresponding public key type. If ``type`` is not a public key or a key pair, the return value is undefined.
+        The corresponding public-key type. If ``type`` is not a public key or a key pair, the return value is undefined.
 
-    If ``type`` is a public key type, it will be left unchanged.
+    If ``type`` is a public-key type, it will be left unchanged.
 
 .. macro:: PSA_KEY_TYPE_IS_DH
     :definition: /* specification-defined value */

@@ -644,7 +644,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
     :align: left
     :widths: auto
 
-    ECC key family, ECC-FAMILY, P, ECC family :sup:`a`, Public key value, Key pair value
+    ECC key family, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key pair value
     SECP K1, 0x0B, 1, `PSA_ECC_FAMILY_SECP_K1`, ``0x4117``, ``0x7117``
     SECP R1, 0x09, 0, `PSA_ECC_FAMILY_SECP_R1`, ``0x4112``, ``0x7112``
     SECP R2, 0x0D, 1, `PSA_ECC_FAMILY_SECP_R2`, ``0x411B``, ``0x711B``
@@ -707,7 +707,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type
     :align: left
     :widths: auto
 
-    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public key value, Key pair value
+    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key pair value
     SECP R1, 0x09, 0, :code:`PSA_ECC_FAMILY_SECP_R1`, ``0x4412``, ``0x7412``
     Twisted Edwards, 0x21, 0, :code:`PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4442``, ``0x7442``
 

@@ -268,7 +268,7 @@ Asymmetric cryptography
 
 This specification defines interfaces for the following types of asymmetric cryptographic operation:
 
-*   Asymmetric encryption (also known as public key encryption). See :secref:`pke`.
+*   Asymmetric encryption (also known as public-key encryption). See :secref:`pke`.
 *   Asymmetric signature. See :secref:`sign`.
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
 *   Key encapsulation. See :secref:`key-encapsulation`.
