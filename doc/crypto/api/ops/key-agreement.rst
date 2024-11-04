@@ -288,7 +288,7 @@ Standalone key agreement
     .. warning::
         The result of a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key-derivation algorithm.
 
-        To chain a key agreement with a key derivation, either use `psa_key_agreement()` to obtain the result of the key agreement as a derivation key, or use `psa_key_derivation_key_agreement()` and other functions from the key derivation interface.
+        To chain a key agreement with a key derivation, either use `psa_key_agreement()` to obtain the result of the key agreement as a derivation key, or use `psa_key_derivation_key_agreement()` and other functions from the key-derivation interface.
 
 Combining key agreement and key derivation
 ------------------------------------------
