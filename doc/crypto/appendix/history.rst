@@ -33,6 +33,14 @@ Changes to the API
 
     See :secref:`asymmetric-key-encoding` and :secref:`appendix-specdef-key-values`.
 
+*   Added support for non-default key formats:
+
+    -   Added definitions for key formats and and formatting options.
+        See :secref:`key-formats`.
+    -   Added `psa_import_formatted_key()` to import keys in other formats.
+    -   Added `psa_export_formatted_key()` and `psa_export_formatted_public_key()` to export keys in other formats.
+    -   Added ``PSA_EXPORT_FORMATTED_XXX`` support macros to evaluate buffer sizes for the formatted export functions.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
