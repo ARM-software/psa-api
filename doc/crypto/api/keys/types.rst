@@ -839,7 +839,7 @@ The curve type affects the key format, the key-derivation procedure, and the alg
             :header-rows: 1
 
             *   -   Curve type
-                -   Key pair format
+                -   Key-pair format
             *   -   Weierstrass
                 -   The key data is the content of the ``privateKey`` field of the ``ECPrivateKey`` format defined by :RFC-title:`5915`.
 
@@ -1228,7 +1228,7 @@ Diffie Hellman keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key-pair is the representation of the private key :math:`x` as a big-endian byte string.
+        The data format for import and export of the key pair is the representation of the private key :math:`x` as a big-endian byte string.
         The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
 
         See `PSA_KEY_TYPE_DH_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
@@ -1283,24 +1283,24 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        The key pair type corresponding to a public-key type.
+        The key-pair type corresponding to a public-key type.
 
     .. param:: type
-        A public-key type or key pair type.
+        A public-key type or key-pair type.
 
     .. return::
-        The corresponding key pair type. If ``type`` is not a public key or a key pair, the return value is undefined.
+        The corresponding key-pair type. If ``type`` is not a public key or a key pair, the return value is undefined.
 
-    If ``type`` is a key pair type, it will be left unchanged.
+    If ``type`` is a key-pair type, it will be left unchanged.
 
 .. macro:: PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR
     :definition: /* specification-defined value */
 
     .. summary::
-        The public-key type corresponding to a key pair type.
+        The public-key type corresponding to a key-pair type.
 
     .. param:: type
-        A public-key type or key pair type.
+        A public-key type or key-pair type.
 
     .. return::
         The corresponding public-key type. If ``type`` is not a public key or a key pair, the return value is undefined.
@@ -1382,10 +1382,10 @@ SPAKE2+ keys
 
     .. subsection:: Key format
 
-        A SPAKE2+ key-pair consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
+        A SPAKE2+ key pair consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
         :math:`w0` and :math:`w1` are scalars in the same range as an elliptic curve private key from the group used as the SPAKE2+ primitive group.
 
-        The data format for import and export of the key-pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
+        The data format for import and export of the key pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
         For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
 
         *   The P-256 private key :math:`w0`.

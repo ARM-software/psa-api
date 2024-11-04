@@ -343,19 +343,19 @@ typedef uint8_t psa_dh_family_t;
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
 
 /**
- * @brief The key pair type corresponding to a public key type.
+ * @brief The key-pair type corresponding to a public key type.
  *
- * @param type A public key type or key pair type.
+ * @param type A public key type or key-pair type.
  *
- * @return The corresponding key pair type.
+ * @return The corresponding key-pair type.
  */
 #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
     /* specification-defined value */
 
 /**
- * @brief The public key type corresponding to a key pair type.
+ * @brief The public key type corresponding to a key-pair type.
  *
- * @param type A public key type or key pair type.
+ * @param type A public key type or key-pair type.
  *
  * @return The corresponding public key type.
  */

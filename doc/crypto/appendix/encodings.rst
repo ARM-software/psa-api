@@ -644,7 +644,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
     :align: left
     :widths: auto
 
-    ECC key family, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key pair value
+    ECC key family, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key-pair value
     SECP K1, 0x0B, 1, `PSA_ECC_FAMILY_SECP_K1`, ``0x4117``, ``0x7117``
     SECP R1, 0x09, 0, `PSA_ECC_FAMILY_SECP_R1`, ``0x4112``, ``0x7112``
     SECP R2, 0x0D, 1, `PSA_ECC_FAMILY_SECP_R2`, ``0x411B``, ``0x711B``
@@ -680,7 +680,7 @@ The defined values for DH-FAMILY and P are shown in :numref:`table-dh-type`.
     :align: left
     :widths: auto
 
-    DH key group, DH-FAMILY, P, DH group :sup:`a`, Public key value, Key pair value
+    DH key group, DH-FAMILY, P, DH group :sup:`a`, Public-key value, Key-pair value
     RFC7919, 0x01, 1, `PSA_DH_FAMILY_RFC7919`, ``0x4203``, ``0x7203``
 
 a.  The Diffie Hellman family values defined in the API also include the parity bit. The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
@@ -707,7 +707,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type
     :align: left
     :widths: auto
 
-    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key pair value
+    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key-pair value
     SECP R1, 0x09, 0, :code:`PSA_ECC_FAMILY_SECP_R1`, ``0x4412``, ``0x7412``
     Twisted Edwards, 0x21, 0, :code:`PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4442``, ``0x7442``
 

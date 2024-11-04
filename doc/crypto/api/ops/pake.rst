@@ -1479,7 +1479,7 @@ The registration phase of SPAKE2+ provides the initial password processing, desc
 The result of registration is two pairs of values --- :math:`(w0, w1)` and :math:`(w0, L)` --- that need to be provided during the authentication phase to the Prover and Verifier, respectively.
 The design of SPAKE2+ ensures that knowledge of :math:`(w0, L)` does not enable an attacker to determine the password, or to compute :math:`w1`.
 
-In the |API|, the registration output values are managed as an asymmetric key-pair:
+In the |API|, the registration output values are managed as an asymmetric key pair:
 
 *   The Prover values, :math:`(w0, w1)`, are stored in a key of type `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()`.
 *   The Verifier values, :math:`(w0, L)`, are stored in a key of type `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`, or derived from the matching `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()`.
@@ -1492,7 +1492,7 @@ This process can take place immediately before the PAKE operation, or derived at
 Alternatively, the Verifier can be provisioned with the `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()` for the protocol, by the Prover, or some other agent.
 :numref:`fig-spake2p-reg` illustrates some example SPAKE2+ key-derivation flows.
 
-The resulting SPAKE2+ key-pair must be protected at least as well as the password.
+The resulting SPAKE2+ key pair must be protected at least as well as the password.
 The public key, exported from the key pair, does not need to be kept confidential.
 It is recommended that the Verifier stores only the public key, because disclosure of the public key does not enable an attacker to impersonate the Prover.
 
@@ -1549,7 +1549,7 @@ The following steps demonstrate the derivation of a SPAKE2+ key pair using PBKDF
         psa_key_derivation_output_key(&att, &pbkdf, &spake2p_key);
         psa_key_derivation_abort(&pbkdf);
 
-See :secref:`spake2p-keys` for details of the key types, key pair derivation, and public-key format.
+See :secref:`spake2p-keys` for details of the key types, key-pair derivation, and public-key format.
 
 .. _spake2p-operation:
 
@@ -1572,9 +1572,9 @@ Setup
 
 In SPAKE2+, the Prover uses the `PSA_PAKE_ROLE_CLIENT` role, and the Verifier uses the `PSA_PAKE_ROLE_SERVER` role.
 
-The key passed to the Prover must be a SPAKE2+ key-pair, which is derived as recommended in :secref:`spake2p-registration`.
-The key passed to the Verifier can either be a SPAKE2+ key-pair, or a SPAKE2+ public key.
-A SPAKE2+ public key is imported from data that is output by calling :code:`psa_export_public_key()` on a SPAKE2+ key-pair.
+The key passed to the Prover must be a SPAKE2+ key pair, which is derived as recommended in :secref:`spake2p-registration`.
+The key passed to the Verifier can either be a SPAKE2+ key pair, or a SPAKE2+ public key.
+A SPAKE2+ public key is imported from data that is output by calling :code:`psa_export_public_key()` on a SPAKE2+ key pair.
 
 Both participants in SPAKE2+ have an optional identity.
 If no identity value is provided, then a zero-length string is used for that identity in the protocol.

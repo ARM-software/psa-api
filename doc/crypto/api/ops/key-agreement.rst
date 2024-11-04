@@ -41,7 +41,7 @@ Key-agreement algorithms
     *   In a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, with algorithm `PSA_ALG_FFDH`.
     *   In a call to `psa_key_derivation_key_agreement()`, with any combined key-agreement and key-derivation algorithm constructed with `PSA_ALG_FFDH`.
 
-    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single Diffie-Hellman key-pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
+    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single Diffie-Hellman key pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
 
     The shared secret produced by this key-agreement algorithm is :math:`g^{ab}` in big-endian format. It is :math:`\lceil{(m / 8)}\rceil` bytes long where :math:`m` is the size of the prime :math:`p` in bits.
 
@@ -64,7 +64,7 @@ Key-agreement algorithms
     *   In a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, with algorithm `PSA_ALG_ECDH`.
     *   In a call to `psa_key_derivation_key_agreement()`, with any combined key-agreement and key-derivation algorithm constructed with `PSA_ALG_ECDH`.
 
-    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single elliptic curve key-pair for each participant. This includes the *Ephemeral unified model*, the *Static unified model*, and the *One-pass Diffie-Hellman* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
+    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single elliptic curve key pair for each participant. This includes the *Ephemeral unified model*, the *Static unified model*, and the *One-pass Diffie-Hellman* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
 
     The shared secret produced by key agreement is the x-coordinate of the shared secret point. It is always :math:`\lceil{(m / 8)}\rceil` bytes long where :math:`m` is the bit size associated with the curve, i.e. the bit size of the order of the curve's coordinate field. When :math:`m` is not a multiple of 8, the byte containing the most significant bit of the shared secret is padded with zero bits. The byte order is either little-endian or big-endian depending on the curve type.
 
