@@ -147,7 +147,7 @@
 .. term:: Public-key cryptography
 
     A type of cryptographic system that uses key pairs. A keypair consists of a (secret) private key
-    and a public key (not secret). A public key cryptographic algorithm can be used for key distribution
+    and a public key (not secret). A public-key cryptographic algorithm can be used for key distribution
     and for digital signatures.
 
 .. term:: Volatile key

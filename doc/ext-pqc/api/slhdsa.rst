@@ -72,9 +72,9 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
             The current proposed format is based on the current expected outcome of that process.
 
-        A SLH-DSA key-pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
+        A SLH-DSA key pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
-        The data format for import and export of the key-pair is the concatenation of the four octet strings:
+        The data format for import and export of the key pair is the concatenation of the four octet strings:
 
         .. math::
 

@@ -58,7 +58,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
             The IETF working group responsible for defining the format of the ML-DSA keys in *SubjectPublicKeyInfo* and *OneAsymmetricKey* structures is discussing the formats at present (September 2024), with the current consensus to using just the seed value as the private key, for the following reasons:
 
-            *   ML-DSA key-pairs are several kB in size, but can be recomputed efficiently from the initial 32-byte seed.
+            *   ML-DSA key pairs are several kB in size, but can be recomputed efficiently from the initial 32-byte seed.
             *   There is no need to validate an imported ML-DSA private key --- every 32-byte seed values is valid.
             *   The public key cannot be derived from the secret key, so a key pair must store both the secret key and the public key.
                 The size of the key pair depends on the ML-DSA parameter set as follows:
@@ -84,7 +84,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
     .. subsection:: Key derivation
 
         A call to :code:`psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the 32-byte ML-DSA key-pair seed, :math:`xi`.
-        The key-pair :math:`(pk, sk)` is generated from the seed as defined by ``ML-DSA.KeyGen_internal()`` in `[FIPS204]` §6.1.
+        The key pair :math:`(pk, sk)` is generated from the seed as defined by ``ML-DSA.KeyGen_internal()`` in `[FIPS204]` §6.1.
 
         .. admonition:: Implementation note
 

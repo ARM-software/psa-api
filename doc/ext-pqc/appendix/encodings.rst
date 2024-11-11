@@ -137,7 +137,7 @@ The defined values for FAMILY and P are shown in :numref:`table-slh-dsa-type`.
     :align: left
     :widths: auto
 
-    SLH-DSA key family, FAMILY, P, SLH-DSA family :sup:`a`, Public key value, Key pair value
+    SLH-DSA key family, FAMILY, P, SLH-DSA family :sup:`a`, Public-key value, Key-pair value
     SLH-DSA-SHA2-\ *N*\ s, 0x01, 0, `PSA_SLH_DSA_FAMILY_SHA2_S`, ``0x4182``, ``0x7182``
     SLH-DSA-SHA2-\ *N*\ f, 0x02, 0, `PSA_SLH_DSA_FAMILY_SHA2_F`, ``0x4184``, ``0x7184``
     SLH-DSA-SHAKE-\ *N*\ s, 0x05, 1, `PSA_SLH_DSA_FAMILY_SHAKE_S`, ``0x418b``, ``0x718b``
