@@ -186,3 +186,8 @@
     application instances.
 
     See :secref:`isolation`.
+
+.. term:: Post-Quantum Cryptography
+    :abbr: PQC
+
+    A cryptographic scheme that relies on mathematical problems that do not have efficient algorithms for either classical or quantum computing.
