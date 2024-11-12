@@ -82,6 +82,8 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 
             It is :scterm:`implementation defined` whether the seed-pair :math:`(d,z)` is expanded to :math:`(ek,dk)` at the point of derivation, or only just before the key is used.
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4004)
 
@@ -119,6 +121,8 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
             ML-KEM-768, 1184
             ML-KEM-1024, 1568
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_KEY_TYPE_IS_ML_KEM
     :definition: /* specification-defined value */
 
@@ -127,6 +131,8 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
+
+    .. versionadded:: 1.3
 
 Module Lattice-based key-encapsulation algorithm
 ------------------------------------------------
@@ -166,3 +172,5 @@ See `[FIPS203]` §8 for details on the parameter sets.
 
         | `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY` (encapsulation only)
+
+    .. versionadded:: 1.3

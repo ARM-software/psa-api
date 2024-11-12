@@ -90,6 +90,8 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
             It is :scterm:`implementation defined` whether the seed :math:`xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4002)
 
@@ -130,6 +132,8 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
             ML-DSA-65, 1952
             ML-DSA-87, 2592
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_KEY_TYPE_IS_ML_DSA
     :definition: /* specification-defined value */
 
@@ -138,6 +142,8 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
+
+    .. versionadded:: 1.3
 
 
 .. _ml-dsa-algorithms:
@@ -232,6 +238,8 @@ A future version of this specification may add suitable functions and extend thi
         | `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_ALG_DETERMINISTIC_ML_DSA
     :definition: ((psa_algorithm_t) 0x06004500)
 
@@ -263,6 +271,8 @@ A future version of this specification may add suitable functions and extend thi
 
         | :code:`PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | :code:`PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
+
+    .. versionadded:: 1.3
 
 .. macro:: PSA_ALG_HASH_ML_DSA
     :definition: /* specification-defined value */
@@ -315,6 +325,8 @@ A future version of this specification may add suitable functions and extend thi
         | `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
 
+    .. versionadded:: 1.3
+
     .. comment
         Add this algorithm to the list in PSA_ALG_GET_HASH()
 
@@ -364,6 +376,8 @@ A future version of this specification may add suitable functions and extend thi
         | `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
 
+    .. versionadded:: 1.3
+
     .. comment
         Add this algorithm to the list in PSA_ALG_GET_HASH()
 
@@ -384,6 +398,8 @@ A future version of this specification may add suitable functions and extend thi
     .. note::
         Use `PSA_ALG_IS_HASH_ML_DSA()` to determine if an algorithm identifier is a HashML-DSA algorithm.
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_ALG_IS_HASH_ML_DSA
     :definition: /* specification-defined value */
 
@@ -401,6 +417,8 @@ A future version of this specification may add suitable functions and extend thi
     .. note::
         Use `PSA_ALG_IS_ML_DSA()` to determine if an algorithm identifier is a pre-hashed ML-DSA algorithm.
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA
     :definition: /* specification-defined value */
 
@@ -417,6 +435,8 @@ A future version of this specification may add suitable functions and extend thi
 
     See also `PSA_ALG_IS_HASH_ML_DSA()` and `PSA_ALG_IS_HEDGED_HASH_ML_DSA()`.
 
+    .. versionadded:: 1.3
+
 .. macro:: PSA_ALG_IS_HEDGED_HASH_ML_DSA
     :definition: /* specification-defined value */
 
@@ -432,3 +452,5 @@ A future version of this specification may add suitable functions and extend thi
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     See also `PSA_ALG_IS_HASH_ML_DSA()` and `PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA()`.
+
+    .. versionadded:: 1.3
