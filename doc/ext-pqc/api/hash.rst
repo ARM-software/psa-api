@@ -9,6 +9,9 @@
 Additional Hash algorithms
 ==========================
 
+SHAKE-based hash algorithms
+---------------------------
+
 .. macro:: PSA_ALG_SHAKE128_256
     :definition: ((psa_algorithm_t)0x02000016)
 
