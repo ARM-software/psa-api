@@ -23,7 +23,7 @@ The specific algorithm identifiers are described alongside the cryptographic ope
 *   :secref:`sign`
 *   :secref:`asymmetric-encryption-algorithms`
 *   :secref:`key-agreement-algorithms`
-*   :secref:`key-encapsulation-algorithms`
+*   :secref:`key-encapsulation`
 *   :secref:`pake`
 
 
@@ -206,7 +206,7 @@ Algorithm categories
     .. return::
         ``1`` if ``alg`` is a key-encapsulation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    See :secref:`key-encapsulation-algorithms` for a list of defined key-encapsulation algorithms.
+    See :secref:`key-encapsulation` for a list of defined key-encapsulation algorithms.
 
 Support macros
 --------------
