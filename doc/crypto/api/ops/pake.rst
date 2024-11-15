@@ -36,7 +36,7 @@ This section defines all of the common interfaces used to carry out a PAKE proto
 .. _pake-primitive:
 
 PAKE primitives
-~~~~~~~~~~~~~~~
+---------------
 
 A PAKE algorithm specifies a sequence of interactions between the participants.
 Many PAKE algorithms are designed to allow different cryptographic primitives to be used for the key establishment operation, so long as all the participants are using the same underlying cryptography.
@@ -199,7 +199,7 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
 .. _pake-cipher-suite:
 
 PAKE cipher suites
-~~~~~~~~~~~~~~~~~~
+------------------
 
 Most PAKE algorithms have parameters that must be specified by the application.
 These parameters include the following:
@@ -434,7 +434,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 .. _pake-roles:
 
 PAKE roles
-~~~~~~~~~~
+----------
 
 Some PAKE algorithms need to know which role each participant is taking in the algorithm.
 For example:
@@ -496,7 +496,7 @@ For example:
 .. _pake-steps:
 
 PAKE step types
-~~~~~~~~~~~~~~~
+---------------
 
 .. typedef:: uint8_t psa_pake_step_t
 
@@ -563,7 +563,7 @@ PAKE step types
 .. _pake-operation:
 
 Multi-part PAKE operations
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 .. typedef:: /* implementation-defined type */ psa_pake_operation_t
 
@@ -1092,7 +1092,7 @@ Multi-part PAKE operations
 .. _pake-support:
 
 PAKE support macros
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 .. macro:: PSA_PAKE_OUTPUT_SIZE
     :definition: /* implementation-defined value */
@@ -1354,7 +1354,7 @@ It must be used as an input to a key derivation operation to produce additional 
     To make the authentication explicit, there are various methods to confirm that both parties have the same key. See :RFC:`8236#5` for two examples.
 
 J-PAKE algorithms
-~~~~~~~~~~~~~~~~~
+-----------------
 
 .. macro:: PSA_ALG_JPAKE
     :definition: /* specification-defined value */
@@ -1423,10 +1423,10 @@ SPAKE2+ cipher suites
 
 SPAKE2+ is instantiated with the following parameters:
 
-    *   An elliptic curve group.
-    *   A cryptographic hash function.
-    *   A key derivation function.
-    *   A keyed MAC function.
+*   An elliptic curve group.
+*   A cryptographic hash function.
+*   A key derivation function.
+*   A keyed MAC function.
 
 Valid combinations of these parameters are defined in the table of cipher suites in :rfc:`9383#4`.
 
@@ -1733,7 +1733,7 @@ If the verification of a key confirmation value fails, then the corresponding ca
 .. _spake2p-algorithms:
 
 SPAKE2+ algorithms
-~~~~~~~~~~~~~~~~~~
+------------------
 
 .. macro:: PSA_ALG_SPAKE2P_HMAC
     :definition: /* specification-defined value */
