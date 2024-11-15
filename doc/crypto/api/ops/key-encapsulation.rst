@@ -369,16 +369,16 @@ Support macros
     .. return::
         A sufficient ciphertext buffer size for the specified algorithm, key type, and size. An implementation can return either ``0`` or a correct size for an algorithm, key type, and size that it recognizes, but does not support. If the parameters are not valid, the return value is unspecified.
 
-        If the size of the ciphertext buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size. The actual size of the ciphertext might be smaller in any given call.
+    If the size of the ciphertext buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size. The actual size of the ciphertext might be smaller in any given call.
 
-        See also `PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE`.
+    See also `PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE`.
 
 .. macro:: PSA_ENCAPSULATE_CIPHERTEXT_MAX_SIZE
-   :definition: /* implementation-defined value */
+    :definition: /* implementation-defined value */
 
     .. summary::
         Sufficient ciphertext buffer size for `psa_encapsulate()`, for any of the supported key types and key-encapsulation algorithms.
 
-        If the size of the ciphertext buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size.
+    If the size of the ciphertext buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size.
 
-        See also `PSA_ENCAPSULATE_CIPHERTEXT_SIZE()`.
+    See also `PSA_ENCAPSULATE_CIPHERTEXT_SIZE()`.
