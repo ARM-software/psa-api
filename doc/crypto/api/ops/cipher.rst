@@ -396,7 +396,7 @@ Single-part cipher functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing, see :secref:`library-init`.
 
     This function encrypts a message with a random initialization vector (IV).
     The length of the IV is :code:`PSA_CIPHER_IV_LENGTH(key_type, alg)` where ``key_type`` is the type of ``key``.
@@ -460,7 +460,7 @@ Single-part cipher functions
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing, see :secref:`library-init`.
 
     This function decrypts a message encrypted with a symmetric cipher.
 
@@ -559,7 +559,7 @@ Multi-part cipher operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be inactive.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing, see :secref:`library-init`.
 
     The sequence of operations to encrypt a message with a symmetric cipher is as follows:
 
@@ -621,7 +621,7 @@ Multi-part cipher operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be inactive.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing, see :secref:`library-init`.
 
     The sequence of operations to decrypt a message with a symmetric cipher is as follows:
 
@@ -666,7 +666,7 @@ Multi-part cipher operations
 
         *   The cipher algorithm does not use an IV.
         *   The operation state is not valid: it must be active, with no IV set.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing, see :secref:`library-init`.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
         The size of the ``iv`` buffer is too small. `PSA_CIPHER_IV_LENGTH()` or `PSA_CIPHER_IV_MAX_SIZE` can be used to determine a sufficient buffer size.
     .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
@@ -707,7 +707,7 @@ Multi-part cipher operations
 
         *   The cipher algorithm does not use an IV.
         *   The operation state is not valid: it must be an active cipher encrypt operation, with no IV set.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing, see :secref:`library-init`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -763,7 +763,7 @@ Multi-part cipher operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active, with an IV set if required for the algorithm.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing, see :secref:`library-init`.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
         The size of the ``output`` buffer is too small. `PSA_CIPHER_UPDATE_OUTPUT_SIZE()` or `PSA_CIPHER_UPDATE_OUTPUT_MAX_SIZE()` can be used to determine a sufficient buffer size.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -818,7 +818,7 @@ Multi-part cipher operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active, with an IV set if required for the algorithm.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing, see :secref:`library-init`.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
         The size of the ``output`` buffer is too small. `PSA_CIPHER_FINISH_OUTPUT_SIZE()` or `PSA_CIPHER_FINISH_OUTPUT_MAX_SIZE` can be used to determine a sufficient buffer size.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
@@ -849,7 +849,7 @@ Multi-part cipher operations
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing, see :secref:`library-init`.
 
     Aborting an operation frees all associated resources except for the ``operation`` object itself. Once aborted, the operation object can be reused for another operation by calling `psa_cipher_encrypt_setup()` or `psa_cipher_decrypt_setup()` again.
 
