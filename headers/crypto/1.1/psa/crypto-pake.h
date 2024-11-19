@@ -11,9 +11,9 @@
 /**
  * @brief Whether the specified algorithm is a password-authenticated key
  *        exchange.
- * 
+ *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
- * 
+ *
  * @return 1 if alg is a password-authenticated key exchange (PAKE) algorithm, 0
  *         otherwise.
  */
@@ -52,12 +52,12 @@ typedef uint32_t psa_pake_primitive_t;
 
 /**
  * @brief Construct a PAKE primitive from type, family and bit-size.
- * 
+ *
  * @param pake_type   The type of the primitive: a value of type
  *                    psa_pake_primitive_type_t.
  * @param pake_family The family of the primitive.
  * @param pake_bits   The bit-size of the primitive: a value of type size_t.
- * 
+ *
  * @return The constructed primitive value.
  */
 #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
@@ -81,16 +81,16 @@ psa_pake_cipher_suite_t psa_pake_cipher_suite_init(void);
 
 /**
  * @brief Retrieve the PAKE algorithm from a PAKE cipher suite.
- * 
+ *
  * @param cipher_suite The cipher suite object to query.
- * 
+ *
  * @return The PAKE algorithm stored in the cipher suite object.
  */
 psa_algorithm_t psa_pake_cs_get_algorithm(const psa_pake_cipher_suite_t* cipher_suite);
 
 /**
  * @brief Declare the PAKE algorithm for the cipher suite.
- * 
+ *
  * @param cipher_suite The cipher suite object to write to.
  * @param alg          The PAKE algorithm to write: a value of type
  *                     psa_algorithm_t such that PSA_ALG_IS_PAKE(alg) is true.
@@ -100,16 +100,16 @@ void psa_pake_cs_set_algorithm(psa_pake_cipher_suite_t* cipher_suite,
 
 /**
  * @brief Retrieve the primitive from a PAKE cipher suite.
- * 
+ *
  * @param cipher_suite The cipher suite object to query.
- * 
+ *
  * @return The primitive stored in the cipher suite object.
  */
 psa_pake_primitive_t psa_pake_cs_get_primitive(const psa_pake_cipher_suite_t* cipher_suite);
 
 /**
  * @brief Declare the primitive for a PAKE cipher suite.
- * 
+ *
  * @param cipher_suite The cipher suite object to write to.
  * @param primitive    The PAKE primitive to write: a value of type
  *                     psa_pake_primitive_t.
@@ -119,16 +119,16 @@ void psa_pake_cs_set_primitive(psa_pake_cipher_suite_t* cipher_suite,
 
 /**
  * @brief Retrieve the hash algorithm from a PAKE cipher suite.
- * 
+ *
  * @param cipher_suite The cipher suite object to query.
- * 
+ *
  * @return The hash algorithm stored in the cipher suite object.
  */
 psa_pake_primitive_t psa_pake_cs_get_hash(const psa_pake_cipher_suite_t* cipher_suite);
 
 /**
  * @brief Declare the hash algorithm for a PAKE cipher suite.
- * 
+ *
  * @param cipher_suite The cipher suite object to write to.
  * @param hash_alg     The hash algorithm to write: a value of type
  *                     psa_algorithm_t such that PSA_ALG_IS_HASH(hash_alg) is
@@ -205,7 +205,7 @@ psa_pake_operation_t psa_pake_operation_init(void);
 
 /**
  * @brief Set the session information for a password-authenticated key exchange.
- * 
+ *
  * @param operation    The operation object to set up.
  * @param cipher_suite The cipher suite to use.
  */
@@ -215,7 +215,7 @@ psa_status_t psa_pake_setup(psa_pake_operation_t *operation,
 /**
  * @brief Set the password for a password-authenticated key exchange using a
  *        key.
- * 
+ *
  * @param operation Active PAKE operation.
  * @param password  Identifier of the key holding the password or a value
  *                  derived from the password.
@@ -225,7 +225,7 @@ psa_status_t psa_pake_set_password_key(psa_pake_operation_t *operation,
 
 /**
  * @brief Set the user ID for a password-authenticated key exchange.
- * 
+ *
  * @param operation   Active PAKE operation.
  * @param user_id     The user ID to authenticate with.
  * @param user_id_len Size of the user_id buffer in bytes.
@@ -236,7 +236,7 @@ psa_status_t psa_pake_set_user(psa_pake_operation_t *operation,
 
 /**
  * @brief Set the peer ID for a password-authenticated key exchange.
- * 
+ *
  * @param operation   Active PAKE operation.
  * @param peer_id     The peer's ID to authenticate.
  * @param peer_id_len Size of the peer_id buffer in bytes.
@@ -247,7 +247,7 @@ psa_status_t psa_pake_set_peer(psa_pake_operation_t *operation,
 
 /**
  * @brief Set the application role for a password-authenticated key exchange.
- * 
+ *
  * @param operation Active PAKE operation.
  * @param role      A value of type psa_pake_role_t indicating the application
  *                  role in the PAKE algorithm.
@@ -257,7 +257,7 @@ psa_status_t psa_pake_set_role(psa_pake_operation_t *operation,
 
 /**
  * @brief Get output for a step of a password-authenticated key exchange.
- * 
+ *
  * @param operation     Active PAKE operation.
  * @param step          The step of the algorithm for which the output is
  *                      requested.
@@ -273,7 +273,7 @@ psa_status_t psa_pake_output(psa_pake_operation_t *operation,
 
 /**
  * @brief Provide input for a step of a password-authenticated key exchange.
- * 
+ *
  * @param operation    Active PAKE operation.
  * @param step         The step for which the input is provided.
  * @param input        Buffer containing the input.
@@ -287,7 +287,7 @@ psa_status_t psa_pake_input(psa_pake_operation_t *operation,
 /**
  * @brief Pass the implicitly confirmed shared secret from a PAKE into a key
  *        derivation operation.
- * 
+ *
  * @param operation Active PAKE operation.
  * @param output    A key derivation operation that is ready for an input step
  *                  of type PSA_KEY_DERIVATION_INPUT_SECRET.
@@ -297,21 +297,21 @@ psa_status_t psa_pake_get_implicit_key(psa_pake_operation_t *operation,
 
 /**
  * @brief Abort a PAKE operation.
- * 
+ *
  * @param operation Initialized PAKE operation.
  */
 psa_status_t psa_pake_abort(psa_pake_operation_t * operation);
 
 /**
  * @brief Sufficient output buffer size for psa_pake_output(), in bytes.
- * 
+ *
  * @param alg         A PAKE algorithm: a value of type psa_algorithm_t such
  *                    that PSA_ALG_IS_PAKE(alg) is true.
  * @param primitive   A primitive of type psa_pake_primitive_t that is
  *                    compatible with algorithm alg.
  * @param output_step A value of type psa_pake_step_t that is valid for the
  *                    algorithm alg.
- * 
+ *
  * @return A sufficient output buffer size for the specified PAKE algorithm,
  *         primitive, and output step.
  */
@@ -326,14 +326,14 @@ psa_status_t psa_pake_abort(psa_pake_operation_t * operation);
 
 /**
  * @brief Sufficient buffer size for inputs to psa_pake_input().
- * 
+ *
  * @param alg        A PAKE algorithm: a value of type psa_algorithm_t such that
  *                   PSA_ALG_IS_PAKE(alg) is true.
  * @param primitive  A primitive of type psa_pake_primitive_t that is compatible
  *                   with algorithm alg.
  * @param input_step A value of type psa_pake_step_t that is valid for the
  *                   algorithm alg.
- * 
+ *
  * @return A sufficient buffer size for the specified PAKE algorithm, primitive,
  *         and input step.
  */
