@@ -251,7 +251,7 @@ Here is an example of a use case where a master key is used to generate both a m
     #.  Populate a `psa_key_attributes_t` object with the derived message encryption key’s attributes.
     #.  Call `psa_key_derivation_output_key()` to create the derived message key.
     #.  Call `psa_key_derivation_output_bytes()` to generate the derived IV.
-    #.  Call `psa_key_derivation_abort()` to release the key derivation operation memory.
+    #.  Call `psa_key_derivation_abort()` to release the key-derivation operation memory.
 
 #.  Encrypt the message with the derived material.
 
@@ -268,7 +268,7 @@ Asymmetric cryptography
 
 This specification defines interfaces for the following types of asymmetric cryptographic operation:
 
-*   Asymmetric encryption (also known as public key encryption). See :secref:`pke`.
+*   Asymmetric encryption (also known as public-key encryption). See :secref:`pke`.
 *   Asymmetric signature. See :secref:`sign`.
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
 *   Key encapsulation. See :secref:`key-encapsulation`.
@@ -278,7 +278,7 @@ For asymmetric encryption, the API provides *single-part* functions.
 
 For asymmetric signature, the API provides single-part functions.
 
-For key agreement, the API provides single-part functions and an additional input method for a key derivation operation.
+For key agreement, the API provides single-part functions and an additional input method for a key-derivation operation.
 
 For key encapsulation, the API provides single-part functions.
 
@@ -288,6 +288,6 @@ For PAKE, the API provides a *multi-part* operation.
 Randomness and key generation
 -----------------------------
 
-We strongly recommended that implementations include a random generator, consisting of a cryptographically secure pseudo-random generator (CSPRNG), which is adequately seeded with a cryptographic-quality hardware entropy source, commonly referred to as a true random number generator (TRNG). Constrained implementations can omit the random generation functionality if they do not implement any algorithm that requires randomness internally, and they do not provide a key generation functionality. For example, a special-purpose component for signature verification can omit this.
+We strongly recommended that implementations include a random generator, consisting of a cryptographically secure pseudorandom generator (CSPRNG), which is adequately seeded with a cryptographic-quality hardware entropy source, commonly referred to as a true random number generator (TRNG). Constrained implementations can omit the random generation functionality if they do not implement any algorithm that requires randomness internally, and they do not provide a key-generation functionality. For example, a special-purpose component for signature verification can omit this.
 
 It is recommended that applications use `psa_generate_key()`, `psa_cipher_generate_iv()` or `psa_aead_generate_nonce()` to generate suitably-formatted random data, as applicable. In addition, the API includes a function `psa_generate_random()` to generate and extract arbitrary random data.

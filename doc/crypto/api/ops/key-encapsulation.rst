@@ -15,7 +15,7 @@ Key-encapsulation algorithms are often referred to as 'key-encapsulation mechani
 
 In a key-encapsulation algorithm, participants A and B establish a shared secret as follows:
 
-1.  Participant A generates a key-pair: a private decapsulation key, and a public encapsulation key.
+1.  Participant A generates a key pair: a private decapsulation key, and a public encapsulation key.
 #.  The public encapsulation key is made available to participant B.
 #.  Participant B uses the encapsulation key to generate one copy of a shared secret, and some ciphertext.
 #.  The ciphertext is transferred to participant A.
@@ -73,7 +73,7 @@ The key derivation, encryption, and authentication steps are left to the applica
     A call to `psa_encapsulate()` carries out steps 1 to 4 of the ECIES encryption process described in `[SEC1]` §5.1.3:
 
     *   The elliptic curve to use is determined by the key.
-    *   The public key part of the input key is used as :math:`Q_V`.
+    *   The public-key part of the input key is used as :math:`Q_V`.
     *   Cofactor ECDH is used to perform the key agreement.
     *   The octet string :math:`Z` is output as the shared secret key.
     *   The ephemeral public key :math:`\overline{R}` is output as the ciphertext.

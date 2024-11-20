@@ -9,7 +9,7 @@
 Key derivation
 ==============
 
-A key derivation encodes a deterministic method to generate a finite stream of bytes. This data stream is computed by the cryptoprocessor and extracted in chunks. If two key derivation operations are constructed with the same parameters, then they produce the same output.
+A key derivation encodes a deterministic method to generate a finite stream of bytes. This data stream is computed by the cryptoprocessor and extracted in chunks. If two key-derivation operations are constructed with the same parameters, then they produce the same output.
 
 A key derivation consists of two phases:
 
@@ -19,7 +19,7 @@ A key derivation consists of two phases:
 The specification defines a `multi-part operation <multi-part-operations>` API for key derivation that allows:
 
 *   Multiple key and non-key outputs to be produced from a single derivation operation object.
-*   Key and non-key outputs can be extracted from the key derivation object, or compared with existing key and non-key values.
+*   Key and non-key outputs can be extracted from the key-derivation object, or compared with existing key and non-key values.
 *   Algorithms that require high-entropy secret inputs. For example `PSA_ALG_HKDF`.
 *   Algorithms that work with low-entropy secret inputs, or passwords. For example `PSA_ALG_PBKDF2_HMAC()`.
 
@@ -29,12 +29,12 @@ An implementation with :term:`isolation` has the following properties:
 *   If an output of the derivation is a non-exportable key, then this key cannot be recovered outside the isolation boundary.
 *   If an output of the derivation is compared using `psa_key_derivation_verify_bytes()` or `psa_key_derivation_verify_key()`, then the output is not visible to the caller.
 
-Applications use the `psa_key_derivation_operation_t` type to create key derivation operations. The operation object is used as follows:
+Applications use the `psa_key_derivation_operation_t` type to create key-derivation operations. The operation object is used as follows:
 
 1.  Initialize a `psa_key_derivation_operation_t` object to zero or to `PSA_KEY_DERIVATION_OPERATION_INIT`.
-#.  Call `psa_key_derivation_setup()` to select a key derivation algorithm.
-#.  Call the functions `psa_key_derivation_input_key()` or `psa_key_derivation_key_agreement()` to provide the secret inputs, and `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_integer()` to provide the non-secret inputs, to the key derivation algorithm. Many key derivation algorithms take multiple inputs; the ``step`` parameter to these functions indicates which input is being provided. The documentation for each key derivation algorithm describes the expected inputs for that algorithm and in what order to pass them.
-#.  Optionally, call `psa_key_derivation_set_capacity()` to set a limit on the amount of data that can be output from the key derivation operation.
+#.  Call `psa_key_derivation_setup()` to select a key-derivation algorithm.
+#.  Call the functions `psa_key_derivation_input_key()` or `psa_key_derivation_key_agreement()` to provide the secret inputs, and `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_integer()` to provide the non-secret inputs, to the key-derivation algorithm. Many key-derivation algorithms take multiple inputs; the ``step`` parameter to these functions indicates which input is being provided. The documentation for each key-derivation algorithm describes the expected inputs for that algorithm and in what order to pass them.
+#.  Optionally, call `psa_key_derivation_set_capacity()` to set a limit on the amount of data that can be output from the key-derivation operation.
 #.  Call an output or verification function:
 
     *   `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()` to create a derived key.
@@ -43,15 +43,15 @@ Applications use the `psa_key_derivation_operation_t` type to create key derivat
     *   `psa_key_derivation_verify_bytes()` to compare derived data with a buffer.
 
     These functions can be called multiple times to read successive output from the key derivation, until the stream is exhausted when its capacity has been reached.
-#.  Key derivation does not finish in the same way as other multi-part operations. Call `psa_key_derivation_abort()` to release the key derivation operation memory when the object is no longer required.
+#.  Key derivation does not finish in the same way as other multi-part operations. Call `psa_key_derivation_abort()` to release the key-derivation operation memory when the object is no longer required.
 
-To recover from an error, call `psa_key_derivation_abort()` to release the key derivation operation memory.
+To recover from an error, call `psa_key_derivation_abort()` to release the key-derivation operation memory.
 
-A key derivation operation cannot be rewound. Once a part of the stream has been output, it cannot be output again. This ensures that the same part of the output will not be used for different purposes.
+A key-derivation operation cannot be rewound. Once a part of the stream has been output, it cannot be output again. This ensures that the same part of the output will not be used for different purposes.
 
 .. _key-derivation-algorithms:
 
-Key derivation algorithms
+Key-derivation algorithms
 -------------------------
 
 .. macro:: PSA_ALG_HKDF
@@ -70,7 +70,7 @@ Key derivation algorithms
 
     This is the HMAC-based Extract-and-Expand Key Derivation Function (HKDF) specified by :RFC-title:`5869`.
 
-    This key derivation algorithm uses the following inputs:
+    This key-derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SALT` is the salt used in the "extract" step. It is optional; if omitted, the derivation uses an empty salt.
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret key (input keying material) used in the "extract" step.
@@ -104,7 +104,7 @@ Key derivation algorithms
 
     This is the Extract step of HKDF as specified by :RFC-title:`5869#2.2`.
 
-    This key derivation algorithm uses the following inputs:
+    This key-derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SALT` is the salt.
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the input keying material used in the "extract" step.
@@ -138,7 +138,7 @@ Key derivation algorithms
 
     This is the Expand step of HKDF as specified by :RFC-title:`5869#2.3`.
 
-    This key derivation algorithm uses the following inputs:
+    This key-derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the pseudorandom key (PRK).
     *   `PSA_KEY_DERIVATION_INPUT_INFO` is the info string.
@@ -163,13 +163,13 @@ Key derivation algorithms
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
     .. return::
-        The corresponding key derivation algorithm. For example, the counter-mode KDF using HMAC-SHA-256 is :code:`PSA_ALG_SP800_108_COUNTER_HMAC(PSA_ALG_SHA_256)`.
+        The corresponding key-derivation algorithm. For example, the counter-mode KDF using HMAC-SHA-256 is :code:`PSA_ALG_SP800_108_COUNTER_HMAC(PSA_ALG_SHA_256)`.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This is an HMAC-based, counter mode key derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
+    This is an HMAC-based, counter mode key-derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
 
-    This key derivation algorithm uses the following inputs:
+    This key-derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, :math:`K_{IN}`.
     *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the :math:`Label`. It is optional; if omitted, :math:`Label` is a zero-length string. If provided, it must not contain any null bytes.
@@ -177,7 +177,7 @@ Key derivation algorithms
 
     Each input can only be passed once. Inputs must be passed in the order above.
 
-    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
+    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key-derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
 
     When the first output is requested, the value of :math:`L` is calculated as :math:`L=8*cap`, where :math:`cap` is the value of `psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
 
@@ -191,7 +191,7 @@ Key derivation algorithms
 
     .. rationale::
 
-        :cite:`SP800-108` describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
+        :cite:`SP800-108` describes a set of general constructions for key-derivation algorithms, with flexibility for specific implementation requirements.
 
         The precise definition provided here enables compatibility between different implementations of the |API|.
 
@@ -207,9 +207,9 @@ Key derivation algorithms
     .. summary::
         Macro to build a NIST SP 800-108 conformant, counter-mode KDF algorithm based on CMAC.
 
-    This is a CMAC-based, counter mode key derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
+    This is a CMAC-based, counter mode key-derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
 
-    This key derivation algorithm uses the following inputs:
+    This key-derivation algorithm uses the following inputs:
 
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret input keying material, :math:`K_{IN}`. This must be a block-cipher key that is compatible with the CMAC algorithm, and must be input using `psa_key_derivation_input_key()`. See also `PSA_ALG_CMAC`.
     *   `PSA_KEY_DERIVATION_INPUT_LABEL` is the :math:`Label`. It is optional; if omitted, :math:`Label` is a zero-length string. If provided, it must not contain any null bytes.
@@ -217,7 +217,7 @@ Key derivation algorithms
 
     Each input can only be passed once. Inputs must be passed in the order above.
 
-    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
+    This algorithm uses the output length as part of the derivation process. In the derivation this value is :math:`L`, the required output size in bits. After setup, the initial capacity of the key-derivation operation is :math:`2^{29}-1` bytes (``0x1fffffff``). The capacity can be set to a lower value by calling `psa_key_derivation_set_capacity()`.
 
     When the first output is requested, the value of :math:`L` is calculated as :math:`L=8*cap`, where :math:`cap` is the value of `psa_key_derivation_get_capacity()`. Subsequent calls to `psa_key_derivation_set_capacity()` are not permitted for this algorithm.
 
@@ -238,7 +238,7 @@ Key derivation algorithms
 
     .. rationale::
 
-        :cite:`SP800-108` describes a set of general constructions for key derivation algorithms, with flexibility for specific implementation requirements.
+        :cite:`SP800-108` describes a set of general constructions for key-derivation algorithms, with flexibility for specific implementation requirements.
 
         The precise definition provided here enables compatibility between different implementations of the |API|.
 
@@ -266,7 +266,7 @@ Key derivation algorithms
 
     TLS 1.2 uses a custom pseudorandom function (PRF) for key schedule, specified in :RFC-title:`5246#5`. It is based on HMAC and can be used with either SHA-256 or SHA-384.
 
-    This key derivation algorithm uses the following inputs, which must be passed in the order given here:
+    This key-derivation algorithm uses the following inputs, which must be passed in the order given here:
 
     *   `PSA_KEY_DERIVATION_INPUT_SEED` is the seed.
     *   `PSA_KEY_DERIVATION_INPUT_SECRET` is the secret key.
@@ -300,7 +300,7 @@ Key derivation algorithms
 
     In a pure-PSK handshake in TLS 1.2, the master secret (MS) is derived from the pre-shared key (PSK) through the application of padding (:RFC-title:`4279#2`) and the TLS-1.2 PRF (:RFC-title:`5246#5`). The latter is based on HMAC and can be used with either SHA-256 or SHA-384.
 
-    This key derivation algorithm uses the following inputs, which must be passed in the order given here:
+    This key-derivation algorithm uses the following inputs, which must be passed in the order given here:
 
     *   `PSA_KEY_DERIVATION_INPUT_SEED` is the seed.
     *   `PSA_KEY_DERIVATION_INPUT_OTHER_SECRET` is the other secret for the computation of the premaster secret. This input is optional; if omitted, it defaults to a string of null bytes with the same length as the secret (PSK) input.
@@ -315,8 +315,8 @@ Key derivation algorithms
     *   The other secret depends on the key exchange specified in the cipher suite:
 
         -   For a plain PSK cipher suite (:RFC:`4279#2`), omit `PSA_KEY_DERIVATION_INPUT_OTHER_SECRET`.
-        -   For a DHE-PSK (:RFC:`4279#3`) or ECDHE-PSK cipher suite (:RFC-title:`5489#2`), the other secret should be the output of the `PSA_ALG_FFDH` or `PSA_ALG_ECDH` key agreement performed with the peer. The recommended way to pass this input is to use a key derivation algorithm constructed as :code:`PSA_ALG_KEY_AGREEMENT(ka_alg, PSA_ALG_TLS12_PSK_TO_MS(hash_alg))` and to call `psa_key_derivation_key_agreement()`. Alternatively, this input may be an output of `psa_key_agreement()` passed with `psa_key_derivation_input_key()`, or an equivalent input passed with `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_key()`.
-        -   For a RSA-PSK cipher suite (:RFC:`4279#4`), the other secret should be the 48-byte client challenge (the ``PreMasterSecret`` of :RFC:`5246#7.4.7.1`) concatenation of the TLS version and a 46-byte random string chosen by the client. On the server, this is typically an output of `psa_asymmetric_decrypt()` using `PSA_ALG_RSA_PKCS1V15_CRYPT`, passed to the key derivation operation with `psa_key_derivation_input_bytes()`.
+        -   For a DHE-PSK (:RFC:`4279#3`) or ECDHE-PSK cipher suite (:RFC-title:`5489#2`), the other secret should be the output of the `PSA_ALG_FFDH` or `PSA_ALG_ECDH` key agreement performed with the peer. The recommended way to pass this input is to use a key-derivation algorithm constructed as :code:`PSA_ALG_KEY_AGREEMENT(ka_alg, PSA_ALG_TLS12_PSK_TO_MS(hash_alg))` and to call `psa_key_derivation_key_agreement()`. Alternatively, this input may be an output of `psa_key_agreement()` passed with `psa_key_derivation_input_key()`, or an equivalent input passed with `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_key()`.
+        -   For a RSA-PSK cipher suite (:RFC:`4279#4`), the other secret should be the 48-byte client challenge (the ``PreMasterSecret`` of :RFC:`5246#7.4.7.1`) concatenation of the TLS version and a 46-byte random string chosen by the client. On the server, this is typically an output of `psa_asymmetric_decrypt()` using `PSA_ALG_RSA_PKCS1V15_CRYPT`, passed to the key-derivation operation with `psa_key_derivation_input_bytes()`.
 
     *   The label is ``"master secret"`` or ``"extended master secret"``.
 
@@ -361,9 +361,9 @@ Key derivation algorithms
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    PBKDF2 is specified by :RFC-title:`8018#5.2`. This macro constructs a PBKDF2 algorithm that uses a pseudo-random function based on HMAC with the specified hash.
+    PBKDF2 is specified by :RFC-title:`8018#5.2`. This macro constructs a PBKDF2 algorithm that uses a pseudorandom function based on HMAC with the specified hash.
 
-    This key derivation algorithm uses the following inputs, which must be provided in the following order:
+    This key-derivation algorithm uses the following inputs, which must be provided in the following order:
 
     *   `PSA_KEY_DERIVATION_INPUT_COST` is the iteration count.
         This input step must be used exactly once.
@@ -387,9 +387,9 @@ Key derivation algorithms
     .. summary::
         The PBKDF2-AES-CMAC-PRF-128 password-hashing or key-stretching algorithm.
 
-    PBKDF2 is specified by :RFC-title:`8018#5.2`. This algorithm specifies the PBKDF2 algorithm using the AES-CMAC-PRF-128 pseudo-random function specified by :RFC:`4615`
+    PBKDF2 is specified by :RFC-title:`8018#5.2`. This algorithm specifies the PBKDF2 algorithm using the AES-CMAC-PRF-128 pseudorandom function specified by :RFC:`4615`
 
-    This key derivation algorithm uses the same inputs as `PSA_ALG_PBKDF2_HMAC()` with the same constraints.
+    This key-derivation algorithm uses the same inputs as `PSA_ALG_PBKDF2_HMAC()` with the same constraints.
 
     .. subsection:: Compatible key types
 
@@ -410,7 +410,7 @@ Input step types
 
     .. admonition:: Implementation note
 
-        It is recommended that the value ``0`` is not allocated as a valid key derivation step.
+        It is recommended that the value ``0`` is not allocated as a valid key-derivation step.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_SECRET
     :definition: /* implementation-defined value */
@@ -490,15 +490,15 @@ Input step types
 
     This must be a direct input, passed to `psa_key_derivation_input_integer()`.
 
-Key derivation functions
+Key-derivation functions
 ------------------------
 
 .. typedef:: /* implementation-defined type */ psa_key_derivation_operation_t
 
     .. summary::
-        The type of the state object for key derivation operations.
+        The type of the state object for key-derivation operations.
 
-    Before calling any function on a key derivation operation object, the application must initialize it by any of the following means:
+    Before calling any function on a key-derivation operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
 
@@ -532,35 +532,35 @@ Key derivation functions
     :definition: /* implementation-defined value */
 
     .. summary::
-        This macro returns a suitable initializer for a key derivation operation object of type `psa_key_derivation_operation_t`.
+        This macro returns a suitable initializer for a key-derivation operation object of type `psa_key_derivation_operation_t`.
 
 .. function:: psa_key_derivation_operation_init
 
     .. summary::
-        Return an initial value for a key derivation operation object.
+        Return an initial value for a key-derivation operation object.
 
     .. return:: psa_key_derivation_operation_t
 
 .. function:: psa_key_derivation_setup
 
     .. summary::
-        Set up a key derivation operation.
+        Set up a key-derivation operation.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to set up. It must have been initialized but not set up yet.
+        The key-derivation operation object to set up. It must have been initialized but not set up yet.
     .. param:: psa_algorithm_t alg
         The algorithm to compute. This must be one of the following:
 
-        *   A key derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_DERIVATION(alg)` is true.
-        *   A key agreement and derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is false.
+        *   A key-derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_DERIVATION(alg)` is true.
+        *   A key-agreement and key-derivation algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_KEY_AGREEMENT(alg)` is true and :code:`PSA_ALG_IS_RAW_KEY_AGREEMENT(alg)` is false.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
         Success. The operation is now active.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
-        ``alg`` is neither a key derivation algorithm, nor a key agreement and derivation algorithm.
+        ``alg`` is neither a key-derivation algorithm, nor a key-agreement and key-derivation algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        ``alg`` is not supported or is not a key derivation algorithm, or a key agreement and derivation algorithm.
+        ``alg`` is not supported or is not a key-derivation algorithm, or a key-agreement and key-derivation algorithm.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -570,19 +570,19 @@ Key derivation functions
         *   The operation state is not valid: it must be inactive.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    A key derivation algorithm takes some inputs and uses them to generate a byte stream in a deterministic way. This byte stream can be used to produce keys and other cryptographic material.
+    A key-derivation algorithm takes some inputs and uses them to generate a byte stream in a deterministic way. This byte stream can be used to produce keys and other cryptographic material.
 
-    A key agreement and derivation algorithm uses a key agreement protocol to provide a shared secret which is used for the key derivation. See `psa_key_derivation_key_agreement()`.
+    A key-agreement and key-derivation algorithm uses a key-agreement protocol to provide a shared secret which is used for the key derivation. See `psa_key_derivation_key_agreement()`.
 
     The sequence of operations to derive a key is as follows:
 
-    1.  Allocate a key derivation operation object which will be passed to all the functions listed here.
+    1.  Allocate a key-derivation operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_key_derivation_operation_t`, e.g. `PSA_KEY_DERIVATION_OPERATION_INIT`.
     #.  Call `psa_key_derivation_setup()` to specify the algorithm.
     #.  Provide the inputs for the key derivation by calling `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_key()` as appropriate. Which inputs are needed, in what order, whether keys are permitted, and what type of keys depends on the algorithm.
     #.  Optionally set the operation's maximum capacity with `psa_key_derivation_set_capacity()`. This can be done before, in the middle of, or after providing inputs. For some algorithms, this step is mandatory because the output depends on the maximum capacity.
-    #.  To derive a key, call `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()`. To derive a byte string for a different purpose, call `psa_key_derivation_output_bytes()`. Successive calls to these functions use successive output bytes calculated by the key derivation algorithm.
-    #.  Clean up the key derivation operation object with `psa_key_derivation_abort()`.
+    #.  To derive a key, call `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()`. To derive a byte string for a different purpose, call `psa_key_derivation_output_bytes()`. Successive calls to these functions use successive output bytes calculated by the key-derivation algorithm.
+    #.  Clean up the key-derivation operation object with `psa_key_derivation_abort()`.
 
     After a successful call to `psa_key_derivation_setup()`, the operation is active, and the application must eventually terminate the operation with a call to `psa_key_derivation_abort()`.
 
@@ -595,7 +595,7 @@ Key derivation functions
 .. function:: psa_key_derivation_get_capacity
 
     .. summary::
-        Retrieve the current capacity of a key derivation operation.
+        Retrieve the current capacity of a key-derivation operation.
 
     .. param:: const psa_key_derivation_operation_t * operation
         The operation to query.
@@ -614,18 +614,18 @@ Key derivation functions
         *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
-    The capacity of a key derivation is the maximum number of bytes that it can return. Reading :math:`N` bytes of output from a key derivation operation reduces its capacity by at least :math:`N`. The capacity can be reduced by more than :math:`N` in the following situations:
+    The capacity of a key derivation is the maximum number of bytes that it can return. Reading :math:`N` bytes of output from a key-derivation operation reduces its capacity by at least :math:`N`. The capacity can be reduced by more than :math:`N` in the following situations:
 
-    *   Calling `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()` can reduce the capacity by more than the key size, depending on the type of key being generated. See  `psa_key_derivation_output_key()` for details of the key derivation process.
+    *   Calling `psa_key_derivation_output_key()` or `psa_key_derivation_output_key_custom()` can reduce the capacity by more than the key size, depending on the type of key being generated. See  `psa_key_derivation_output_key()` for details of the key-derivation process.
     *   When the `psa_key_derivation_operation_t` object is operating as a deterministic random bit generator (DBRG), which reduces capacity in whole blocks, even when less than a block is read.
 
 .. function:: psa_key_derivation_set_capacity
 
     .. summary::
-        Set the maximum capacity of a key derivation operation.
+        Set the maximum capacity of a key-derivation operation.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to modify.
+        The key-derivation operation object to modify.
     .. param:: size_t capacity
         The new capacity of the operation. It must be less or equal to the operation's current capacity.
 
@@ -642,7 +642,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
-    The capacity of a key derivation operation is the maximum number of bytes that the key derivation operation can return from this point onwards.
+    The capacity of a key-derivation operation is the maximum number of bytes that the key-derivation operation can return from this point onwards.
 
     .. note::
 
@@ -654,7 +654,7 @@ Key derivation functions
         Provide an input for key derivation or key agreement.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` and must not have produced any output yet.
+        The key-derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` and must not have produced any output yet.
     .. param:: psa_key_derivation_step_t step
         Which step the input data is for.
     .. param:: const uint8_t * data
@@ -688,7 +688,7 @@ Key derivation functions
         *   The operation state is not valid for this input ``step``. This can happen if the application provides a step out of order or repeats a step that may not be repeated.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key derivation or key agreement algorithm for information.
+    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key-derivation or key-agreement algorithm for information.
 
     This function passes direct inputs, which is usually correct for non-secret inputs. To pass a secret input, which is normally in a key object, call `psa_key_derivation_input_key()` instead of this function. Refer to the documentation of individual step types (``PSA_KEY_DERIVATION_INPUT_xxx`` values of type `psa_key_derivation_step_t`) for more information.
 
@@ -700,7 +700,7 @@ Key derivation functions
         Provide a numeric input for key derivation or key agreement.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` and must not have produced any output yet.
+        The key-derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` and must not have produced any output yet.
     .. param:: psa_key_derivation_step_t step
         Which step the input data is for.
     .. param:: uint64_t value
@@ -734,7 +734,7 @@ Key derivation functions
 
     Which inputs are required and in what order depends on the algorithm.
     However, when an algorithm requires a particular order, numeric inputs usually come first as they tend to be configuration parameters.
-    Refer to the documentation of each key derivation or key agreement algorithm for information.
+    Refer to the documentation of each key-derivation or key-agreement algorithm for information.
 
     This function is used for inputs which are fixed-size non-negative integers.
 
@@ -746,7 +746,7 @@ Key derivation functions
         Provide an input for key derivation in the form of a key.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` and must not have produced any output yet.
+        The key-derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` and must not have produced any output yet.
     .. param:: psa_key_derivation_step_t step
         Which step the input data is for.
     .. param:: psa_key_id_t key
@@ -784,7 +784,7 @@ Key derivation functions
         *   The operation state is not valid for this input ``step``. This can happen if the application provides a step out of order or repeats a step that may not be repeated.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key derivation or key agreement algorithm for information.
+    Which inputs are required and in what order depends on the algorithm. Refer to the documentation of each key-derivation or key-agreement algorithm for information.
 
     This function obtains input from a key object, which is usually correct for secret inputs or for non-secret personalization strings kept in the key store. To pass a non-secret parameter which is not in the key store, call `psa_key_derivation_input_bytes()` instead of this function. Refer to the documentation of individual step types (``PSA_KEY_DERIVATION_INPUT_xxx`` values of type `psa_key_derivation_step_t`) for more information.
 
@@ -803,10 +803,10 @@ Key derivation functions
 .. function:: psa_key_derivation_output_bytes
 
     .. summary::
-        Read some data from a key derivation operation.
+        Read some data from a key-derivation operation.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to read from.
+        The key-derivation operation object to read from.
     .. param:: uint8_t * output
         Buffer where the output will be written.
     .. param:: size_t output_length
@@ -835,7 +835,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    This function calculates output bytes from a key derivation algorithm and returns those bytes. If the key derivation's output is viewed as a stream of bytes, this function consumes the requested number of bytes from the stream and returns them to the caller. The operation's capacity decreases by the number of bytes read.
+    This function calculates output bytes from a key-derivation algorithm and returns those bytes. If the key derivation's output is viewed as a stream of bytes, this function consumes the requested number of bytes from the stream and returns them to the caller. The operation's capacity decreases by the number of bytes read.
 
     A request to extract more data than the remaining capacity --- :code:`output_length > psa_key_derivation_get_capacity()` --- fails with :code:`PSA_ERROR_INSUFFICIENT_DATA`, and sets the remaining capacity to zero.
 
@@ -846,7 +846,7 @@ Key derivation functions
 .. function:: psa_key_derivation_output_key
 
     .. summary::
-        Derive a key from an ongoing key derivation operation.
+        Derive a key from an ongoing key-derivation operation.
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
@@ -873,7 +873,7 @@ Key derivation functions
             The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to read from.
+        The key-derivation operation object to read from.
     .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key.
         For persistent keys, this is the key identifier defined in ``attributes``.
@@ -895,7 +895,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The key type is invalid, or is an asymmetric public key type.
+        *   The key type is invalid, or is an asymmetric public-key type.
         *   The key type is `PSA_KEY_TYPE_PASSWORD_HASH`, and the permitted-algorithm policy is not the same as the current operation's algorithm.
         *   The key size is not valid for the key type. Implementations must reject an attempt to derive a key of size ``0``.
         *   The key lifetime is invalid.
@@ -922,7 +922,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    This function calculates output bytes from a key derivation algorithm and uses those bytes to generate a key deterministically. The key's location, policy, type and size are taken from ``attributes``.
+    This function calculates output bytes from a key-derivation algorithm and uses those bytes to generate a key deterministically. The key's location, policy, type and size are taken from ``attributes``.
 
     If the key derivation's output is viewed as a stream of bytes, this function consumes the required number of bytes from the stream. The operation's capacity decreases by the number of bytes used to derive the key.
 
@@ -930,7 +930,7 @@ Key derivation functions
 
     If this function returns an error status other than :code:`PSA_ERROR_INSUFFICIENT_DATA`, the operation enters an error state and must be aborted by calling `psa_key_derivation_abort()`.
 
-    How much output is produced and consumed from the operation, and how the key is derived, depends on the key type. The key derivation procedures for standard key derivation algorithms are described in the *Key derivation* section of each key definition in :secref:`key-types`. Implementations can use other methods for implementation-specific algorithms.
+    How much output is produced and consumed from the operation, and how the key is derived, depends on the key type. The key-derivation procedures for standard key-derivation algorithms are described in the *Key derivation* section of each key definition in :secref:`key-types`. Implementations can use other methods for implementation-specific algorithms.
 
     .. rationale::
 
@@ -944,7 +944,7 @@ Key derivation functions
 
 .. function:: psa_key_derivation_output_key_custom
 
-    .. summary:: Derive a key from an ongoing key derivation operation with custom production parameters.
+    .. summary:: Derive a key from an ongoing key-derivation operation with custom production parameters.
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
@@ -971,7 +971,7 @@ Key derivation functions
             The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to read from.
+        The key-derivation operation object to read from.
     .. param:: const psa_custom_key_parameters_t * custom
         Customized production parameters for the key derivation.
 
@@ -1005,7 +1005,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   The key type is invalid, or is an asymmetric public key type.
+        *   The key type is invalid, or is an asymmetric public-key type.
         *   The key type is `PSA_KEY_TYPE_PASSWORD_HASH`, and the permitted-algorithm policy is not the same as the current operation's algorithm.
         *   The key size is not valid for the key type. Implementations must reject an attempt to derive a key of size ``0``.
         *   The key lifetime is invalid.
@@ -1033,10 +1033,10 @@ Key derivation functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
 
-    This function calculates output bytes from a key derivation algorithm and uses those bytes to generate a key deterministically. The key's location, policy, type and size are taken from ``attributes``.
+    This function calculates output bytes from a key-derivation algorithm and uses those bytes to generate a key deterministically. The key's location, policy, type and size are taken from ``attributes``.
 
     This function operates in a similar way to `psa_key_derivation_output_key()`, but enables explicit production parameters to be provided when deriving a key.
-    For example, the production parameters can be used to select an alternative key derivation process, or configure additional key parameters.
+    For example, the production parameters can be used to select an alternative key-derivation process, or configure additional key parameters.
     See `psa_key_derivation_output_key()` for the operation of this function with the default production parameters.
 
     See `psa_custom_key_parameters_t` for a list of non-default production parameters. See the key type definitions in :secref:`key-types` for details of the custom production parameters used for key derivation.
@@ -1044,10 +1044,10 @@ Key derivation functions
 .. function:: psa_key_derivation_verify_bytes
 
     .. summary::
-        Compare output data from a key derivation operation to an expected value.
+        Compare output data from a key-derivation operation to an expected value.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to read from.
+        The key-derivation operation object to read from.
     .. param:: const uint8_t * expected_output
         Buffer containing the expected derivation output.
     .. param:: size_t output_length
@@ -1056,9 +1056,9 @@ Key derivation functions
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
         Success.
-        The output of the key derivation operation matches ``expected_output``.
+        The output of the key-derivation operation matches ``expected_output``.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
-        The output of the key derivation operation does not match the value in ``expected_output``.
+        The output of the key-derivation operation does not match the value in ``expected_output``.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
         The operation's capacity was less than ``output_length`` bytes. In this case, the operation's capacity is set to zero.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
@@ -1073,7 +1073,7 @@ Key derivation functions
         *   The operation state is not valid: it must be active, with all required input steps complete.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    This function calculates output bytes from a key derivation algorithm and compares those bytes to an expected value.
+    This function calculates output bytes from a key-derivation algorithm and compares those bytes to an expected value.
     If the key derivation's output is viewed as a stream of bytes, this function destructively reads ``output_length`` bytes from the stream before comparing them with ``expected_output``.
     The operation's capacity decreases by the number of bytes read.
 
@@ -1098,15 +1098,15 @@ Key derivation functions
 
     .. admonition:: Implementation note
 
-        Implementations must make the best effort to ensure that the comparison between the actual key derivation output and the expected output is performed in constant time.
+        Implementations must make the best effort to ensure that the comparison between the actual key-derivation output and the expected output is performed in constant time.
 
 .. function:: psa_key_derivation_verify_key
 
     .. summary::
-        Compare output data from a key derivation operation to an expected value stored in a key.
+        Compare output data from a key-derivation operation to an expected value stored in a key.
 
     .. param:: psa_key_derivation_operation_t * operation
-        The key derivation operation object to read from.
+        The key-derivation operation object to read from.
     .. param:: psa_key_id_t expected
         A key of type `PSA_KEY_TYPE_PASSWORD_HASH` containing the expected output.
         The key must permit the usage `PSA_KEY_USAGE_VERIFY_DERIVATION`, and the permitted algorithm must match the operation's algorithm.
@@ -1116,7 +1116,7 @@ Key derivation functions
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
         Success.
-        The output of the key derivation operation matches the ``expected`` key value.
+        The output of the key-derivation operation matches the ``expected`` key value.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``expected`` is not a valid key identifier.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -1124,7 +1124,7 @@ Key derivation functions
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The ``expected`` key does not have the `PSA_KEY_USAGE_VERIFY_DERIVATION` flag, or it does not permit the requested algorithm.
     .. retval:: PSA_ERROR_INVALID_SIGNATURE
-        The output of the key derivation operation does not match the value of the ``expected`` key.
+        The output of the key-derivation operation does not match the value of the ``expected`` key.
     .. retval:: PSA_ERROR_INSUFFICIENT_DATA
         The operation's capacity was less than the length of the ``expected`` key. In this case, the operation's capacity is set to zero.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
@@ -1139,7 +1139,7 @@ Key derivation functions
         *   The operation state is not valid: it must be active, with all required input steps complete.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    This function calculates output bytes from a key derivation algorithm and compares those bytes to an expected value, provided as key of type `PSA_KEY_TYPE_PASSWORD_HASH`.
+    This function calculates output bytes from a key-derivation algorithm and compares those bytes to an expected value, provided as key of type `PSA_KEY_TYPE_PASSWORD_HASH`.
     If the key derivation's output is viewed as a stream of bytes, this function destructively reads the number of bytes corresponding to the length of the ``expected`` key from the stream before comparing them with the key value.
     The operation's capacity decreases by the number of bytes read.
 
@@ -1153,12 +1153,12 @@ Key derivation functions
 
     .. admonition:: Implementation note
 
-        Implementations must make the best effort to ensure that the comparison between the actual key derivation output and the expected output is performed in constant time.
+        Implementations must make the best effort to ensure that the comparison between the actual key-derivation output and the expected output is performed in constant time.
 
 .. function:: psa_key_derivation_abort
 
     .. summary::
-        Abort a key derivation operation.
+        Abort a key-derivation operation.
 
     .. param:: psa_key_derivation_operation_t * operation
         The operation to abort.
@@ -1192,10 +1192,10 @@ Support macros
 
     .. return::
         ``1`` if ``alg`` is a key-stretching or password-hashing algorithm, ``0`` otherwise.
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm algorithm identifier.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm algorithm identifier.
 
-    A key-stretching or password-hashing algorithm is a key derivation algorithm that is suitable for use with a low-entropy secret such as a password.
-    Equivalently, it's a key derivation algorithm that uses a `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step.
+    A key-stretching or password-hashing algorithm is a key-derivation algorithm that is suitable for use with a low-entropy secret such as a password.
+    Equivalently, it's a key-derivation algorithm that uses a `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step.
 
 .. macro:: PSA_ALG_IS_HKDF
     :definition: /* specification-defined value */
@@ -1207,9 +1207,9 @@ Support macros
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is an HKDF algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+        ``1`` if ``alg`` is an HKDF algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm identifier.
 
-    HKDF is a family of key derivation algorithms that are based on a hash function and the HMAC construction.
+    HKDF is a family of key-derivation algorithms that are based on a hash function and the HMAC construction.
 
 .. macro:: PSA_ALG_IS_HKDF_EXTRACT
     :definition: /* specification-defined value */
@@ -1221,7 +1221,7 @@ Support macros
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is an HKDF-Extract algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+        ``1`` if ``alg`` is an HKDF-Extract algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm identifier.
 
 .. macro:: PSA_ALG_IS_HKDF_EXPAND
     :definition: /* specification-defined value */
@@ -1233,19 +1233,19 @@ Support macros
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is an HKDF-Expand algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+        ``1`` if ``alg`` is an HKDF-Expand algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm identifier.
 
 .. macro:: PSA_ALG_IS_SP800_108_COUNTER_HMAC
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is a key derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg)`.
+        Whether the specified algorithm is a key-derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg)`.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a key derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC()`, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+        ``1`` if ``alg`` is a key-derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC()`, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm identifier.
 
 .. macro:: PSA_ALG_IS_TLS12_PRF
     :definition: /* specification-defined value */
@@ -1257,7 +1257,7 @@ Support macros
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a TLS-1.2 PRF algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+        ``1`` if ``alg`` is a TLS-1.2 PRF algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm identifier.
 
 .. macro:: PSA_ALG_IS_TLS12_PSK_TO_MS
     :definition: /* specification-defined value */
@@ -1269,7 +1269,7 @@ Support macros
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a TLS-1.2 PSK to MS algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+        ``1`` if ``alg`` is a TLS-1.2 PSK to MS algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm identifier.
 
 .. macro:: PSA_ALG_IS_PBKDF2_HMAC
     :definition: /* specification-defined value */
@@ -1281,15 +1281,15 @@ Support macros
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a PBKDF2-HMAC algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key derivation algorithm identifier.
+        ``1`` if ``alg`` is a PBKDF2-HMAC algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-derivation algorithm identifier.
 
 .. macro:: PSA_KEY_DERIVATION_UNLIMITED_CAPACITY
     :definition: /* implementation-defined value */
 
     .. summary::
-        Use the maximum possible capacity for a key derivation operation.
+        Use the maximum possible capacity for a key-derivation operation.
 
-    Use this value as the capacity argument when setting up a key derivation to specify that the operation will use the maximum possible capacity. The value of the maximum possible capacity depends on the key derivation algorithm.
+    Use this value as the capacity argument when setting up a key derivation to specify that the operation will use the maximum possible capacity. The value of the maximum possible capacity depends on the key-derivation algorithm.
 
 .. macro:: PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE
     :definition: /* implementation-defined value */
@@ -1297,7 +1297,7 @@ Support macros
     .. summary::
         This macro returns the maximum supported length of the PSK for the TLS-1.2 PSK-to-MS key derivation.
 
-    This implementation-defined value specifies the maximum length for the PSK input used with a `PSA_ALG_TLS12_PSK_TO_MS()` key agreement algorithm.
+    This implementation-defined value specifies the maximum length for the PSK input used with a `PSA_ALG_TLS12_PSK_TO_MS()` key-agreement algorithm.
 
     Quoting :RFC-title:`4279#5.3`:
 

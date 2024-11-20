@@ -16,7 +16,7 @@ An asymmetric signature algorithm provides two functions:
 
 Successful verification indicates that the message signature was calculated using the private key that is associated with the public key.
 
-In the |API|, an asymmetric-sign function requires an asymmetric key-pair; and an asymmetric-verify function requires an asymmetric public-key or key-pair.
+In the |API|, an asymmetric-sign function requires an asymmetric key pair; and an asymmetric-verify function requires an asymmetric public key or key pair.
 
 .. rubric:: Signature schemes
 
@@ -891,7 +891,7 @@ Support macros
         Sufficient signature buffer size for `psa_sign_message()` and `psa_sign_hash()`.
 
     .. param:: key_type
-        An asymmetric key type. This can be a key pair type or a public key type.
+        An asymmetric key type. This can be a key-pair type or a public-key type.
     .. param:: key_bits
         The size of the key in bits.
     .. param:: alg
