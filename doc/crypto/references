@@ -396,3 +396,8 @@
     :author: Thread Group
     :publication: July 2022
     :url: www.threadgroup.org/ThreadSpec
+
+.. reference:: PSA-PQC
+    :title: PSA Certified Crypto API 1.3 PQC Extension
+    :doc_no: ARM AES 0119
+    :url: arm-software.github.io/psa-api/crypto
