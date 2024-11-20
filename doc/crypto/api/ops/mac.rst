@@ -146,6 +146,8 @@ MAC algorithms
     .. summary::
         Macro to build a MAC minimum-MAC-length wildcard algorithm.
 
+        .. versionadded:: 1.1
+
     .. param:: mac_alg
         A MAC algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_MAC(alg)` is true. This can be a truncated or untruncated MAC algorithm.
     .. param:: min_mac_length

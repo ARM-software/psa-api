@@ -179,6 +179,8 @@ RSA signature algorithms
         The RSA PSS message signature scheme, with hashing.
         This variant permits any salt length for signature verification.
 
+        .. versionadded:: 1.1
+
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true. This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
 
@@ -245,6 +247,8 @@ RSA signature algorithms
     .. summary::
         Whether the specified algorithm is an RSA PSS signature algorithm that permits any salt length.
 
+        .. versionadded:: 1.1
+
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
@@ -262,6 +266,8 @@ RSA signature algorithms
 
     .. summary::
         Whether the specified algorithm is an RSA PSS signature algorithm that requires the standard salt length.
+
+        .. versionadded:: 1.1
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
@@ -449,6 +455,8 @@ EdDSA signature algorithms
     .. summary::
         Edwards-curve digital signature algorithm without pre-hashing (PureEdDSA), using standard parameters.
 
+        .. versionadded:: 1.1
+
     This message signature algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
     This is the PureEdDSA digital signature algorithm defined by :RFC-title:`8032`, using standard parameters.
@@ -477,6 +485,8 @@ EdDSA signature algorithms
 
     .. summary::
         Edwards-curve digital signature algorithm with pre-hashing (HashEdDSA), using the Edwards25519 curve.
+
+        .. versionadded:: 1.1
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
 
@@ -509,6 +519,8 @@ EdDSA signature algorithms
     .. summary::
         Edwards-curve digital signature algorithm with pre-hashing (HashEdDSA), using the Edwards448 curve.
 
+        .. versionadded:: 1.1
+
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
 
     This calculates the Ed448ph algorithm as specified in :RFC-title:`8032#5.2`, and requires an Edwards448 curve key. An empty string is used as the context. The pre-hash function is the first 64 bytes of the output from SHAKE256, see `PSA_ALG_SHAKE256_512`.
@@ -539,6 +551,8 @@ EdDSA signature algorithms
 
     .. summary::
         Whether the specified algorithm is HashEdDSA.
+
+        .. versionadded:: 1.1
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.

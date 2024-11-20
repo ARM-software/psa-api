@@ -158,6 +158,8 @@ Cipher algorithms
     .. summary::
         The CCM* cipher mode without authentication.
 
+        .. versionadded:: 1.2
+
     This is CCM* as specified in :cite-title:`IEEE-CCM` §7, with a tag length of 0. For CCM* with a nonzero tag length, use the AEAD algorithm `PSA_ALG_CCM`.
 
     The underlying block cipher is determined by the key type.
@@ -879,6 +881,8 @@ Support macros
 
     .. summary::
         A wildcard algorithm that permits the use of the key with CCM* as both an AEAD and an unauthenticated cipher algorithm.
+
+        .. versionadded:: 1.2
 
     If a block-cipher key specifies `PSA_ALG_CCM_STAR_ANY_TAG` as its permitted algorithm, then the key can be used with the `PSA_ALG_CCM_STAR_NO_TAG` unauthenticated cipher, the `PSA_ALG_CCM` AEAD algorithm, and truncated `PSA_ALG_CCM` AEAD algorithms.
 

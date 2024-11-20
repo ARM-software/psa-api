@@ -50,6 +50,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         Encoding of the primitive associated with the PAKE.
 
+        .. versionadded:: 1.1
+
     PAKE primitive values are constructed using `PSA_PAKE_PRIMITIVE()`.
 
     :numref:`fig-pake-primitive` shows how the components of the primitive are encoded into a `psa_pake_primitive_t` value.
@@ -73,6 +75,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         Encoding of the type of the PAKE's primitive.
 
+        .. versionadded:: 1.1
+
     The range of PAKE primitive type values is divided as follows:
 
     :code:`0x00`
@@ -93,6 +97,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         The PAKE primitive type indicating the use of elliptic curves.
 
+        .. versionadded:: 1.1
+
     The values of the ``family`` and ``bits`` components of the PAKE primitive identify a specific elliptic curve, using the same mapping that is used for ECC keys.
     See the definition of ``psa_ecc_family_t``.
     Here ``family`` and ``bits`` refer to the values used to construct the PAKE primitive using `PSA_PAKE_PRIMITIVE()`.
@@ -104,12 +110,13 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     *   The format for scalars is the same as that for private keys on the specific elliptic curve.
         See *Key format* within the definition of `PSA_KEY_TYPE_ECC_KEY_PAIR()`.
 
-
 .. macro:: PSA_PAKE_PRIMITIVE_TYPE_DH
     :definition: ((psa_pake_primitive_type_t)0x02)
 
     .. summary::
         The PAKE primitive type indicating the use of Diffie-Hellman groups.
+
+        .. versionadded:: 1.1
 
     The values of the ``family`` and ``bits`` components of the PAKE primitive identify a specific Diffie-Hellman group, using the same mapping that is used for Diffie-Hellman keys.
     See the definition of ``psa_dh_family_t``.
@@ -128,6 +135,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         Encoding of the family of the primitive associated with the PAKE.
 
+        .. versionadded:: 1.1
+
     For more information on the family values, see `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH`.
 
 .. macro:: PSA_PAKE_PRIMITIVE
@@ -135,6 +144,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
 
     .. summary::
         Construct a PAKE primitive from type, family and bit-size.
+
+        .. versionadded:: 1.1
 
     .. param:: pake_type
         The type of the primitive: a value of type `psa_pake_primitive_type_t`.
@@ -159,6 +170,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     .. summary::
         Extract the PAKE primitive type from a PAKE primitive.
 
+        .. versionadded:: 1.2
+
     .. param:: pake_primitive
         A PAKE primitive: a value of type `psa_pake_primitive_t`.
 
@@ -171,6 +184,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
 
     .. summary::
         Extract the family from a PAKE primitive.
+
+        .. versionadded:: 1.2
 
     .. param:: pake_primitive
         A PAKE primitive: a value of type `psa_pake_primitive_t`.
@@ -186,6 +201,8 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
 
     .. summary::
         Extract the bit-size from a PAKE primitive.
+
+        .. versionadded:: 1.2
 
     .. param:: pake_primitive
         A PAKE primitive: a value of type `psa_pake_primitive_t`.
@@ -217,6 +234,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. summary::
         The type of an object describing a PAKE cipher suite.
+
+        .. versionadded:: 1.1
 
     This is the object that represents the cipher suite used for a PAKE algorithm.
     The PAKE cipher suite specifies the PAKE algorithm, and the options selected for that algorithm.
@@ -293,10 +312,14 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     .. summary::
         This macro returns a suitable initializer for a PAKE cipher suite object of type `psa_pake_cipher_suite_t`.
 
+        .. versionadded:: 1.1
+
 .. function:: psa_pake_cipher_suite_init
 
     .. summary::
         Return an initial value for a PAKE cipher suite object.
+
+        .. versionadded:: 1.1
 
     .. return:: psa_pake_cipher_suite_t
 
@@ -304,6 +327,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. summary::
         Retrieve the PAKE algorithm from a PAKE cipher suite.
+
+        .. versionadded:: 1.1
 
     .. param:: const psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to query.
@@ -320,6 +345,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. summary::
         Declare the PAKE algorithm for the cipher suite.
+
+        .. versionadded:: 1.1
 
     .. param:: psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to write to.
@@ -340,6 +367,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     .. summary::
         Retrieve the primitive from a PAKE cipher suite.
 
+        .. versionadded:: 1.1
+
     .. param:: const psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to query.
 
@@ -355,6 +384,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. summary::
         Declare the primitive for a PAKE cipher suite.
+
+        .. versionadded:: 1.1
 
     .. param:: psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to write to.
@@ -374,7 +405,10 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 .. macro:: PSA_PAKE_CONFIRMED_KEY
     :definition: 0
 
-    .. summary:: A key confirmation value that indicates an confirmed key in a PAKE cipher suite.
+    .. summary::
+        A key confirmation value that indicates an confirmed key in a PAKE cipher suite.
+
+        .. versionadded:: 1.2
 
     This key confirmation value will result in the PAKE algorithm exchanging data to verify that the shared key is identical for both parties.
     This is the default key confirmation value in an initialized PAKE cipher suite object.
@@ -384,7 +418,10 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 .. macro:: PSA_PAKE_UNCONFIRMED_KEY
     :definition: 1
 
-    .. summary:: A key confirmation value that indicates an unconfirmed key in a PAKE cipher suite.
+    .. summary::
+        A key confirmation value that indicates an unconfirmed key in a PAKE cipher suite.
+
+        .. versionadded:: 1.2
 
     This key confirmation value will result in the PAKE algorithm terminating prior to confirming that the resulting shared key is identical for both parties.
 
@@ -398,6 +435,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. summary::
         Retrieve the key confirmation from a PAKE cipher suite.
+
+        .. versionadded:: 1.2
 
     .. param:: const psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to query.
@@ -414,6 +453,8 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
 
     .. summary::
         Declare the key confirmation from a PAKE cipher suite.
+
+        .. versionadded:: 1.2
 
     .. param:: psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to write to.
@@ -447,6 +488,8 @@ For example:
     .. summary::
         Encoding of the application role in a PAKE algorithm.
 
+        .. versionadded:: 1.1
+
     This type is used to encode the application's role in the algorithm being executed.
     For more information see the documentation of individual PAKE role constants.
 
@@ -456,6 +499,8 @@ For example:
     .. summary::
         A value to indicate no role in a PAKE algorithm.
 
+        .. versionadded:: 1.1
+
     This value can be used in a call to `psa_pake_set_role()` for symmetric PAKE algorithms which do not assign roles.
 
 .. macro:: PSA_PAKE_ROLE_FIRST
@@ -463,6 +508,8 @@ For example:
 
     .. summary::
         The first peer in a balanced PAKE.
+
+        .. versionadded:: 1.1
 
     Although balanced PAKE algorithms are symmetric, some of them need the peers to be ordered for the transcript calculations.
     If the algorithm does not need a specific ordering, then either do not call `psa_pake_set_role()`, or use `PSA_PAKE_ROLE_NONE` as the role parameter.
@@ -473,6 +520,8 @@ For example:
     .. summary::
         The second peer in a balanced PAKE.
 
+        .. versionadded:: 1.1
+
     Although balanced PAKE algorithms are symmetric, some of them need the peers to be ordered for the transcript calculations.
     If the algorithm does not need a specific ordering, then either do not call `psa_pake_set_role()`, or use `PSA_PAKE_ROLE_NONE` as the role parameter.
 
@@ -482,6 +531,8 @@ For example:
     .. summary::
         The client in an augmented PAKE.
 
+        .. versionadded:: 1.1
+
     Augmented PAKE algorithms need to differentiate between client and server.
 
 .. macro:: PSA_PAKE_ROLE_SERVER
@@ -489,6 +540,8 @@ For example:
 
     .. summary::
         The server in an augmented PAKE.
+
+        .. versionadded:: 1.1
 
     Augmented PAKE algorithms need to differentiate between client and server.
 
@@ -503,6 +556,8 @@ PAKE step types
     .. summary::
         Encoding of input and output steps for a PAKE algorithm.
 
+        .. versionadded:: 1.1
+
     Some PAKE algorithms need to exchange more data than a single key share.
     This type encodes additional input and output steps for such algorithms.
 
@@ -511,6 +566,8 @@ PAKE step types
 
     .. summary::
         The key share being sent to or received from the peer.
+
+        .. versionadded:: 1.1
 
     The format for both input and output using this step is the same as the format for public keys on the group specified by the PAKE operation's primitive.
 
@@ -523,6 +580,8 @@ PAKE step types
 
     .. summary::
         A Schnorr NIZKP public key.
+
+        .. versionadded:: 1.1
 
     This is the ephemeral public key in the Schnorr Non-Interactive Zero-Knowledge Proof, this is the value denoted by *V* in :RFC:`8235`.
 
@@ -537,6 +596,8 @@ PAKE step types
 
     .. summary::
         A Schnorr NIZKP proof.
+
+        .. versionadded:: 1.1
 
     This is the proof in the Schnorr Non-Interactive Zero-Knowledge Proof, this is the value denoted by *r* in :RFC:`8235`.
 
@@ -556,6 +617,8 @@ PAKE step types
     .. summary::
         The key confirmation value.
 
+        .. versionadded:: 1.2
+
     This value is used during the key confirmation phase of a PAKE protocol. The format of the value depends on the algorithm and cipher suite:
 
     *   For :code:`PSA_ALG_SPAKE2P`, the format for both input and output at this step is the same as the output of the MAC algorithm specified in the cipher suite.
@@ -569,6 +632,8 @@ Multi-part PAKE operations
 
     .. summary::
         The type of the state object for PAKE operations.
+
+        .. versionadded:: 1.1
 
     Before calling any function on a PAKE operation object, the application must initialize it by any of the following means:
 
@@ -607,10 +672,14 @@ Multi-part PAKE operations
     .. summary::
         This macro returns a suitable initializer for a PAKE operation object of type `psa_pake_operation_t`.
 
+        .. versionadded:: 1.1
+
 .. function:: psa_pake_operation_init
 
     .. summary::
         Return an initial value for a PAKE operation object.
+
+        .. versionadded:: 1.1
 
     .. return:: psa_pake_operation_t
 
@@ -618,6 +687,10 @@ Multi-part PAKE operations
 
     .. summary::
         Setup a password-authenticated key exchange.
+
+        .. versionadded:: 1.1
+
+        .. versionchanged:: 1.2 Added key to the operation setup.
 
     .. param:: psa_pake_operation_t * operation
         The operation object to set up.
@@ -699,10 +772,13 @@ Multi-part PAKE operations
 
     See :secref:`multi-part-operations`.
 
+
 .. function:: psa_pake_set_role
 
     .. summary::
         Set the application role for a password-authenticated key exchange.
+
+        .. versionadded:: 1.1
 
     .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
@@ -744,6 +820,8 @@ Multi-part PAKE operations
     .. summary::
         Set the user ID for a password-authenticated key exchange.
 
+        .. versionadded:: 1.1
+
     .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
     .. param:: const uint8_t * user_id
@@ -777,6 +855,8 @@ Multi-part PAKE operations
 
     .. summary::
         Set the peer ID for a password-authenticated key exchange.
+
+        .. versionadded:: 1.1
 
     .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
@@ -813,6 +893,8 @@ Multi-part PAKE operations
     .. summary::
         Set the context data for a password-authenticated key exchange.
 
+        .. versionadded:: 1.2
+
     .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
     .. param:: const uint8_t * context
@@ -846,6 +928,8 @@ Multi-part PAKE operations
 
     .. summary::
         Get output for a step of a password-authenticated key exchange.
+
+        .. versionadded:: 1.1
 
     .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
@@ -899,6 +983,8 @@ Multi-part PAKE operations
     .. summary::
         Provide input for a step of a password-authenticated key exchange.
 
+        .. versionadded:: 1.1
+
     .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
     .. param:: psa_pake_step_t step
@@ -949,6 +1035,8 @@ Multi-part PAKE operations
 
     .. summary::
         Extract the shared secret from the PAKE as a key.
+
+        .. versionadded:: 1.2
 
     .. param:: psa_pake_operation_t * operation
         Active PAKE operation.
@@ -1069,6 +1157,8 @@ Multi-part PAKE operations
     .. summary::
         Abort a PAKE operation.
 
+        .. versionadded:: 1.1
+
     .. param:: psa_pake_operation_t * operation
         Initialized PAKE operation.
 
@@ -1100,6 +1190,8 @@ PAKE support macros
     .. summary::
         Sufficient output buffer size for `psa_pake_output()`, in bytes.
 
+        .. versionadded:: 1.1
+
     .. param:: alg
         A PAKE algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
     .. param:: primitive
@@ -1123,6 +1215,8 @@ PAKE support macros
     .. summary::
         Sufficient output buffer size for `psa_pake_output()` for any of the supported PAKE algorithms, primitives and output steps.
 
+        .. versionadded:: 1.1
+
     If the size of the output buffer is at least this large, it is guaranteed that `psa_pake_output()` will not fail due to an insufficient buffer size.
 
     See also `PSA_PAKE_OUTPUT_SIZE()`.
@@ -1132,6 +1226,8 @@ PAKE support macros
 
     .. summary::
         Sufficient buffer size for inputs to `psa_pake_input()`.
+
+        .. versionadded:: 1.1
 
     .. param:: alg
         A PAKE algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
@@ -1156,6 +1252,8 @@ PAKE support macros
 
     .. summary::
         Sufficient buffer size for inputs to `psa_pake_input()` for any of the supported PAKE algorithms, primitives and input steps.
+
+        .. versionadded:: 1.1
 
     This macro can be useful when transferring inputs from the peer into the PAKE operation.
 
@@ -1362,6 +1460,10 @@ J-PAKE algorithms
     .. summary::
         Macro to build the Password-authenticated key exchange by juggling (J-PAKE) algorithm.
 
+        .. versionadded:: 1.1
+
+        .. versionchanged:: 1.2 Parameterize J-PAKE algorithm by hash.
+
     .. param:: hash_alg
         A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
@@ -1393,6 +1495,8 @@ J-PAKE algorithms
 
     .. summary::
         Whether the specified algorithm is a J-PAKE algorithm.
+
+        .. versionadded:: 1.2
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -1741,6 +1845,8 @@ SPAKE2+ algorithms
     .. summary::
         Macro to build the SPAKE2+ algorithm, using HMAC-based key confirmation.
 
+        .. versionadded:: 1.2
+
     .. param:: hash_alg
         A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
@@ -1768,6 +1874,8 @@ SPAKE2+ algorithms
 
     .. summary::
         Macro to build the SPAKE2+ algorithm, using CMAC-based key confirmation.
+
+        .. versionadded:: 1.2
 
     .. param:: hash_alg
         A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -1797,6 +1905,8 @@ SPAKE2+ algorithms
 
     .. summary::
         The SPAKE2+ algorithm, as used by the Matter v1 specification.
+
+        .. versionadded:: 1.2
 
     This is the PAKE algorithm specified as MATTER_PAKE in :cite-title:`MATTER`.
     This is based on draft-02 of the SPAKE2+ protocol, :cite-title:`SPAKE2P-2`.
@@ -1834,6 +1944,8 @@ SPAKE2+ algorithms
     .. summary::
         Whether the specified algorithm is a SPAKE2+ algorithm.
 
+        .. versionadded:: 1.2
+
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
 
@@ -1849,6 +1961,8 @@ SPAKE2+ algorithms
     .. summary::
         Whether the specified algorithm is a SPAKE2+ algorithm that uses a HMAC-based key confirmation.
 
+        .. versionadded:: 1.2
+
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
 
@@ -1863,6 +1977,8 @@ SPAKE2+ algorithms
 
     .. summary::
         Whether the specified algorithm is a SPAKE2+ algorithm that uses a CMAC-based key confirmation.
+
+        .. versionadded:: 1.2
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.

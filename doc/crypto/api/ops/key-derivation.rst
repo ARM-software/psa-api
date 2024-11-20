@@ -94,6 +94,8 @@ Key-derivation algorithms
     .. summary::
         Macro to build an HKDF-Extract algorithm.
 
+        .. versionadded:: 1.1
+
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
@@ -128,6 +130,8 @@ Key-derivation algorithms
     .. summary::
         Macro to build an HKDF-Expand algorithm.
 
+        .. versionadded:: 1.1
+
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
@@ -158,6 +162,8 @@ Key-derivation algorithms
 
     .. summary::
         Macro to build a NIST SP 800-108 conformant, counter-mode KDF algorithm based on HMAC.
+
+        .. versionadded:: 1.2
 
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -206,6 +212,8 @@ Key-derivation algorithms
 
     .. summary::
         Macro to build a NIST SP 800-108 conformant, counter-mode KDF algorithm based on CMAC.
+
+        .. versionadded:: 1.2
 
     This is a CMAC-based, counter mode key-derivation function, using the construction recommended by :cite-title:`SP800-108`, §4.1.
 
@@ -290,6 +298,8 @@ Key-derivation algorithms
     .. summary::
         Macro to build a TLS-1.2 PSK-to-MasterSecret algorithm.
 
+        .. versionchanged:: 1.1 Added step to support cipher-suites that include a key-exchange.
+
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
@@ -353,6 +363,8 @@ Key-derivation algorithms
     .. summary::
         Macro to build a PBKDF2-HMAC password-hashing or key-stretching algorithm.
 
+        .. versionadded:: 1.1
+
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
@@ -386,6 +398,8 @@ Key-derivation algorithms
 
     .. summary::
         The PBKDF2-AES-CMAC-PRF-128 password-hashing or key-stretching algorithm.
+
+        .. versionadded:: 1.1
 
     PBKDF2 is specified by :RFC-title:`8018#5.2`. This algorithm specifies the PBKDF2 algorithm using the AES-CMAC-PRF-128 pseudorandom function specified by :RFC:`4615`
 
@@ -430,6 +444,8 @@ Input step types
     .. summary::
         A high-entropy additional secret input for key derivation.
 
+        .. versionadded:: 1.1
+
     This is typically the shared secret resulting from a key agreement obtained via `psa_key_derivation_key_agreement()`. It may alternatively be a key of type `PSA_KEY_TYPE_DERIVE` passed to `psa_key_derivation_input_key()`, or a direct input passed to `psa_key_derivation_input_bytes()`.
 
 .. macro:: PSA_KEY_DERIVATION_INPUT_PASSWORD
@@ -437,6 +453,8 @@ Input step types
 
     .. summary::
         A low-entropy secret input for password hashing or key stretching.
+
+        .. versionadded:: 1.1
 
     This is usually a key of type `PSA_KEY_TYPE_PASSWORD` passed to `psa_key_derivation_input_key()` or a direct input passed to `psa_key_derivation_input_bytes()` that is a password or passphrase. It can also be high-entropy secret, for example, a key of type `PSA_KEY_TYPE_DERIVE`, or the shared secret resulting from a key agreement.
 
@@ -487,6 +505,8 @@ Input step types
 
     .. summary::
         A cost parameter for password hashing or key stretching.
+
+        .. versionadded:: 1.1
 
     This must be a direct input, passed to `psa_key_derivation_input_integer()`.
 
@@ -698,6 +718,8 @@ Key-derivation functions
 
     .. summary::
         Provide a numeric input for key derivation or key agreement.
+
+        .. versionadded:: 1.1
 
     .. param:: psa_key_derivation_operation_t * operation
         The key-derivation operation object to use. It must have been set up with `psa_key_derivation_setup()` and must not have produced any output yet.
@@ -946,6 +968,8 @@ Key-derivation functions
 
     .. summary:: Derive a key from an ongoing key-derivation operation with custom production parameters.
 
+        .. versionadded:: 1.3
+
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
 
@@ -1046,6 +1070,8 @@ Key-derivation functions
     .. summary::
         Compare output data from a key-derivation operation to an expected value.
 
+        .. versionadded:: 1.1
+
     .. param:: psa_key_derivation_operation_t * operation
         The key-derivation operation object to read from.
     .. param:: const uint8_t * expected_output
@@ -1104,6 +1130,8 @@ Key-derivation functions
 
     .. summary::
         Compare output data from a key-derivation operation to an expected value stored in a key.
+
+        .. versionadded:: 1.1
 
     .. param:: psa_key_derivation_operation_t * operation
         The key-derivation operation object to read from.
@@ -1238,6 +1266,8 @@ Support macros
 .. macro:: PSA_ALG_IS_SP800_108_COUNTER_HMAC
     :definition: /* specification-defined value */
 
+        .. versionadded:: 1.2
+
     .. summary::
         Whether the specified algorithm is a key-derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg)`.
 
@@ -1310,5 +1340,7 @@ Support macros
 
     .. summary::
         The size of the output from the TLS 1.2 ECJPAKE-to-PMS key-derivation algorithm, in bytes.
+
+        .. versionadded:: 1.2
 
     This value can be used when extracting the result of a key-derivation operation that was set up with the `PSA_ALG_TLS12_ECJPAKE_TO_PMS` algorithm.
