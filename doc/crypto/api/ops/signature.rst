@@ -832,6 +832,8 @@ An interruptible asymmetric signature operation is used as follows:
     .. summary::
         The type of the state data structure for an interruptible asymmetric signature operation.
 
+        .. versionadded:: 1.x
+
     Before calling any function on an interruptible asymmetric signature operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
@@ -868,10 +870,14 @@ An interruptible asymmetric signature operation is used as follows:
     .. summary::
         This macro evaluates to an initializer for an interruptible asymmetric signature operation object of type `psa_sign_iop_t`.
 
+        .. versionadded:: 1.x
+
 .. function:: psa_sign_iop_init
 
     .. summary::
         Return an initial value for an interruptible asymmetric signature operation object.
+
+        .. versionadded:: 1.x
 
     .. return:: psa_sign_iop_t
 
@@ -879,6 +885,8 @@ An interruptible asymmetric signature operation is used as follows:
 
     .. summary::
         Get the number of *ops* that an interruptible asymmetric signature operation has taken so far.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_sign_iop_t * operation
         The interruptible asymmetric signature operation to inspect.
@@ -896,6 +904,8 @@ An interruptible asymmetric signature operation is used as follows:
 
     .. summary::
         Begin the setup of an interruptible asymmetric signature operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_sign_iop_t * operation
         The interruptible asymmetric signature operation to set up. It must have been initialized as per the documentation for `psa_sign_iop_t` and not yet in use.
@@ -952,6 +962,8 @@ An interruptible asymmetric signature operation is used as follows:
     .. summary::
         Finish setting up an interruptible asymmetric signature operation.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_sign_iop_t * operation
         The interruptible asymmetric signature operation to use. The operation must be in the process of being set up.
 
@@ -987,6 +999,8 @@ An interruptible asymmetric signature operation is used as follows:
 
     .. summary::
         Input a pre-computed hash to an interruptible asymmetric signature operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_sign_iop_t * operation
         The interruptible asymmetric signature operation to use. The operation must have been set up, with no data input.
@@ -1038,6 +1052,8 @@ An interruptible asymmetric signature operation is used as follows:
 
     .. summary::
         Add a message fragment to an interruptible asymmetric signature operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_sign_iop_t * operation
         The interruptible asymmetric signature operation to use. The operation must have been set up, with no hash value input.
@@ -1091,6 +1107,8 @@ An interruptible asymmetric signature operation is used as follows:
     .. summary::
         Attempt to finish the interruptible calculation of an asymmetric signature.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_sign_iop_t * operation
         The interruptible asymmetric signature operation to use. The operation must have hash or message data input, or be in the process of finishing.
     .. param:: uint8_t * signature
@@ -1139,6 +1157,8 @@ An interruptible asymmetric signature operation is used as follows:
     .. summary::
         Abort an interruptible asymmetric signature operation.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_sign_iop_t * operation
         The interruptible signature operation to abort.
 
@@ -1184,6 +1204,8 @@ An interruptible asymmetric verification operation is used as follows:
     .. summary::
         The type of the state data structure for an interruptible asymmetric verification operation.
 
+        .. versionadded:: 1.x
+
     Before calling any function on an interruptible asymmetric verification operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
@@ -1220,10 +1242,14 @@ An interruptible asymmetric verification operation is used as follows:
     .. summary::
         This macro evaluates to an initializer for an interruptible asymmetric verification operation object of type `psa_verify_iop_t`.
 
+        .. versionadded:: 1.x
+
 .. function:: psa_verify_iop_init
 
     .. summary::
         Return an initial value for an interruptible asymmetric verification operation object.
+
+        .. versionadded:: 1.x
 
     .. return:: psa_verify_iop_t
 
@@ -1231,6 +1257,8 @@ An interruptible asymmetric verification operation is used as follows:
 
     .. summary::
         Get the number of *ops* that an interruptible asymmetric verification operation has taken so far.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_verify_iop_t * operation
         The interruptible asymmetric verification operation to inspect.
@@ -1248,6 +1276,8 @@ An interruptible asymmetric verification operation is used as follows:
 
     .. summary::
         Begin the setup of an interruptible asymmetric verification operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_verify_iop_t * operation
         The interruptible verification operation to set up. It must have been initialized as per the documentation for `psa_verify_iop_t` and not yet in use.
@@ -1310,6 +1340,8 @@ An interruptible asymmetric verification operation is used as follows:
     .. summary::
         Finish setting up an interruptible asymmetric verification operation.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_verify_iop_t * operation
         The interruptible verification operation to use. The operation must be in the process of being set up.
 
@@ -1346,6 +1378,8 @@ An interruptible asymmetric verification operation is used as follows:
 
     .. summary::
         Input a pre-computed hash to an interruptible asymmetric verification operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_verify_iop_t * operation
         The interruptible verification operation to use. The operation must have been set up, with no data input.
@@ -1398,6 +1432,8 @@ An interruptible asymmetric verification operation is used as follows:
     .. summary::
         Add a message fragment to an interruptible asymmetric verification operation.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_verify_iop_t * operation
         The interruptible verification operation to use. The operation must have been set up, with no hash value input.
     .. param:: const uint8_t * input
@@ -1449,6 +1485,8 @@ An interruptible asymmetric verification operation is used as follows:
     .. summary::
         Attempt to finish the interruptible verification of an asymmetric signature.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_verify_iop_t * operation
         The interruptible verification operation to use. The operation must have hash or message data input, or be in the process of finishing.
 
@@ -1485,6 +1523,8 @@ An interruptible asymmetric verification operation is used as follows:
 
     .. summary::
         Abort an interruptible asymmetric verification operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_verify_iop_t * operation
         The interruptible verification operation to abort.

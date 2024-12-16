@@ -87,6 +87,8 @@ See :secref:`interruptible-operations`.
     .. summary::
         Set the maximum number of *ops* allowed to be executed by an interruptible function in a single call.
 
+        .. versionadded:: 1.x
+
     .. param:: uint32_t max_ops
         The maximum number of ops to be executed in a single call, this can be a number from ``0`` to `PSA_IOP_MAX_OPS_UNLIMITED`, where ``0`` is obviously the least amount of work done per call.
 
@@ -112,6 +114,8 @@ See :secref:`interruptible-operations`.
     .. summary::
        Get the maximum number of *ops* allowed to be executed by an interruptible function in a single call.
 
+        .. versionadded:: 1.x
+
     .. return:: uint32_t
        Maximum number of *ops* allowed to be executed by an interruptible function in a single call.
 
@@ -121,7 +125,8 @@ See :secref:`interruptible-operations`.
     :definition: UINT32_MAX
 
     .. summary::
-
         Maximum value for use with `psa_iop_set_max_ops()`.
+
+        .. versionadded:: 1.x
 
     Using this value in a call to `psa_iop_set_max_ops()` will cause interruptible functions to complete their calculation before returning.
