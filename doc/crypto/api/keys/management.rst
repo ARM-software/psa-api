@@ -744,6 +744,8 @@ An interruptible key generation operation is used as follows:
     .. summary::
         The type of the state data structure for an interruptible key generation operation.
 
+        .. versionadded:: 1.x
+
     Before calling any function on an interruptible key generation operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
@@ -781,10 +783,14 @@ An interruptible key generation operation is used as follows:
     .. summary::
         This macro evaluates to an initializer for an interruptible key generation operation object of type `psa_generate_key_iop_t`.
 
+        .. versionadded:: 1.x
+
 .. function:: psa_generate_key_iop_init
 
     .. summary::
         Return an initial value for an interruptible key generation operation object.
+
+        .. versionadded:: 1.x
 
     .. return:: psa_generate_key_iop_t
 
@@ -792,6 +798,8 @@ An interruptible key generation operation is used as follows:
 
     .. summary::
         Get the number of *ops* that an interruptible key generation operation has taken so far.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_generate_key_iop_t * operation
         The interruptible key generation operation to inspect.
@@ -810,6 +818,8 @@ An interruptible key generation operation is used as follows:
 
     .. summary::
         Start an interruptible operation to generate a key or key pair.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_generate_key_iop_t * operation
         The interruptible key generation operation to set up.
@@ -897,6 +907,8 @@ An interruptible key generation operation is used as follows:
     .. summary::
         Attempt to finish the interruptible generation of a key.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_generate_key_iop_t * operation
         The interruptible key generation operation to use.
         The operation must be active.
@@ -941,6 +953,8 @@ An interruptible key generation operation is used as follows:
     .. summary::
         Abort an interruptible key generation operation.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_generate_key_iop_t * operation
         The interruptible key generation operation to abort.
 
@@ -983,6 +997,8 @@ An interruptible public-key export operation is used as follows:
     .. summary::
         The type of the state data structure for an interruptible public-key export operation.
 
+        .. versionadded:: 1.x
+
     Before calling any function on an interruptible public-key export operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
@@ -1020,10 +1036,14 @@ An interruptible public-key export operation is used as follows:
     .. summary::
         This macro evaluates to an initializer for an interruptible public-key export operation object of type `psa_export_public_key_iop_t`.
 
+        .. versionadded:: 1.x
+
 .. function:: psa_export_public_key_iop_init
 
     .. summary::
         Return an initial value for an interruptible public-key export operation object.
+
+        .. versionadded:: 1.x
 
     .. return:: psa_export_public_key_iop_t
 
@@ -1031,6 +1051,8 @@ An interruptible public-key export operation is used as follows:
 
     .. summary::
         Get the number of *ops* that an interruptible public-key export operation has taken so far.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_export_public_key_iop_t * operation
         The interruptible public-key export operation to inspect.
@@ -1049,6 +1071,8 @@ An interruptible public-key export operation is used as follows:
 
     .. summary::
         Start an interruptible operation to export a public key or the public part of a key pair in binary format.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_export_public_key_iop_t * operation
         The interruptible public-key export operation to set up.
@@ -1100,6 +1124,8 @@ An interruptible public-key export operation is used as follows:
 
     .. summary::
         Attempt to finish the interruptible export of a public key.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_export_public_key_iop_t * operation
         The interruptible public-key export operation to use.
@@ -1157,6 +1183,8 @@ An interruptible public-key export operation is used as follows:
 
     .. summary::
         Abort an interruptible public-key export operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_export_public_key_iop_t * operation
         The interruptible public-key export operation to abort.

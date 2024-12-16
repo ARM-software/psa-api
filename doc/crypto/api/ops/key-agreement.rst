@@ -381,6 +381,8 @@ An interruptible key agreement operation is used as follows:
     .. summary::
         The type of the state data structure for an interruptible key agreement operation.
 
+        .. versionadded:: 1.x
+
     Before calling any function on an interruptible key agreement operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
@@ -418,10 +420,14 @@ An interruptible key agreement operation is used as follows:
     .. summary::
         This macro evaluates to an initializer for an interruptible key agreement operation object of type `psa_key_agreement_iop_t`.
 
+        .. versionadded:: 1.x
+
 .. function:: psa_key_agreement_iop_init
 
     .. summary::
         Return an initial value for an interruptible key agreement operation object.
+
+        .. versionadded:: 1.x
 
     .. return:: psa_key_agreement_iop_t
 
@@ -429,6 +435,8 @@ An interruptible key agreement operation is used as follows:
 
     .. summary::
         Get the number of *ops* that an interruptible key agreement operation has taken so far.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_key_agreement_iop_t * operation
         The interruptible key agreement operation to inspect.
@@ -447,6 +455,8 @@ An interruptible key agreement operation is used as follows:
 
     .. summary::
         Start an interruptible operation to perform a key agreement.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_key_agreement_iop_t * operation
         The interruptible key agreement operation to set up.
@@ -560,6 +570,8 @@ An interruptible key agreement operation is used as follows:
     .. summary::
         Attempt to finish a key agreement and return the shared secret.
 
+        .. versionadded:: 1.x
+
     .. param:: psa_key_agreement_iop_t * operation
         The interruptible key agreement operation to use.
         The operation must be active.
@@ -609,6 +621,8 @@ An interruptible key agreement operation is used as follows:
 
     .. summary::
         Abort an interruptible key agreement operation.
+
+        .. versionadded:: 1.x
 
     .. param:: psa_key_agreement_iop_t * operation
         The interruptible key agreement operation to abort.
