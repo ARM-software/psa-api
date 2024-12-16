@@ -121,6 +121,8 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     .. summary::
         Custom production parameters for key generation or key derivation.
 
+        .. versionadded:: 1.3
+
     .. field:: uint32_t flags
         Flags to control the key production process.
         ``0`` for the default production parameters.
@@ -155,6 +157,8 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. summary::
         The default production parameters for key generation or key derivation.
+
+        .. versionadded:: 1.3
 
     Calling `psa_generate_key_custom()` or `psa_key_derivation_output_key_custom()` with :code:`custom == PSA_CUSTOM_KEY_PARAMETERS_INIT` and ``custom_data_length == 0`` is equivalent to calling `psa_generate_key()` or `psa_key_derivation_output_key()`
     respectively.
@@ -236,6 +240,8 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
     .. summary::
         Generate a key or key pair using custom production parameters.
+
+        .. versionadded:: 1.3
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
@@ -697,6 +703,8 @@ Key export
 
     .. summary::
         Sufficient buffer size for exporting any asymmetric key pair or public key.
+
+        .. versionadded:: 1.3
 
     This value must be a sufficient buffer size when calling `psa_export_key()` or `psa_export_public_key()` to export any asymmetric key pair or public key that is supported by the implementation, regardless of the exact key type and key size.
 

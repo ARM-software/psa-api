@@ -56,6 +56,7 @@ Other changes
 *   Integrated the PAKE Extension with the main specification for the |API|.
 *   Moved the documentation of key formats and key-derivation procedures to sub-sections within each key type.
 *   Clarified the flexibility for an implementation to return either :code:`PSA_ERROR_NOT_SUPPORTED` or :code:`PSA_ERROR_INVALID_ARGUMENT` when provided with unsupported algorithm identifier or key parameters.
+*   Added API version information to APIs that have been added or changed since version 1.0 of the |API|.
 
 Changes between *1.2.0* and *1.2.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

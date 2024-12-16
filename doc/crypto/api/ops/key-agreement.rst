@@ -127,6 +127,8 @@ Standalone key agreement
     .. summary::
         Perform a key agreement and return the shared secret as a derivation key.
 
+        .. versionadded:: 1.2
+
     .. param:: psa_key_id_t private_key
         Identifier of the private key to use.
         It must permit the usage `PSA_KEY_USAGE_DERIVE`.
@@ -391,6 +393,8 @@ Support macros
     .. summary::
         Whether the specified algorithm is a standalone key-agreement algorithm.
 
+        .. versionadded:: 1.2
+
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
@@ -407,10 +411,10 @@ Support macros
     .. summary::
         Whether the specified algorithm is a standalone key-agreement algorithm.
 
+        .. deprecated:: 1.2 Use `PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()` instead.
+
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
-
-    This is the original API name for `PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()`.
 
 .. macro:: PSA_ALG_IS_FFDH
     :definition: /* specification-defined value */

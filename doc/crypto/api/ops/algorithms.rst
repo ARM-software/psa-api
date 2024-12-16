@@ -187,6 +187,8 @@ Algorithm categories
     .. summary::
         Whether the specified algorithm is a password-authenticated key exchange.
 
+        .. versionadded:: 1.1
+
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
 
@@ -199,6 +201,8 @@ Algorithm categories
 
     .. summary::
         Whether the specified algorithm is a key-encapsulation algorithm.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.

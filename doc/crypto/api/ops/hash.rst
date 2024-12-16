@@ -79,6 +79,8 @@ Hash algorithms
     .. summary::
         The *Zigbee* 1.0 hash function based on a Matyas-Meyer-Oseas (MMO) construction using AES-128.
 
+        .. versionadded:: 1.2
+
     This is the cryptographic hash function based on the Merkle-Damgård construction over a Matyas-Meyer-Oseas one-way compression function and the AES-128 block cipher, with the parametrization defined in :cite-title:`ZIGBEE` §B.6.
 
     This hash function can operate on input strings of up to :math:`2^{32} - 1` bits.
@@ -183,6 +185,8 @@ Hash algorithms
 
     .. summary::
         The first 512 bits (64 bytes) of the SHAKE256 output.
+
+        .. versionadded:: 1.1
 
     This is the pre-hashing for Ed448ph (see `PSA_ALG_ED448PH`).
 

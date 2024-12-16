@@ -203,6 +203,8 @@ Symmetric keys
     .. summary::
         A low-entropy secret for password hashing or key derivation.
 
+        .. versionadded:: 1.1
+
     This key type is suitable for passwords and passphrases which are typically intended to be memorizable by humans, and have a low entropy relative to their size.
     It can be used for randomly generated or derived keys with maximum or near-maximum entropy, but `PSA_KEY_TYPE_DERIVE` is more suitable for such keys.
     It is not suitable for passwords with extremely low entropy, such as numerical PINs.
@@ -237,6 +239,8 @@ Symmetric keys
     .. summary::
         A secret value that can be used to verify a password hash.
 
+        .. versionadded:: 1.1
+
     The key policy determines which key-derivation algorithm the key can be used for, among the same permissible subset as for `PSA_KEY_TYPE_PASSWORD`.
 
     .. subsection:: Compatible algorithms
@@ -261,6 +265,8 @@ Symmetric keys
 
     .. summary::
         A secret value that can be used when computing a password hash.
+
+        .. versionadded:: 1.1
 
     The key policy determines which key-derivation algorithm the key can be used for, among the subset of algorithms that can use pepper.
 
@@ -331,6 +337,8 @@ Symmetric keys
 
     .. summary::
         Key for a cipher, AEAD or MAC algorithm based on the ARIA block cipher.
+
+        .. versionadded:: 1.1
 
     The size of the key is related to the ARIA algorithm variant. For algorithms except the XTS block cipher mode, the following key sizes are used:
 
@@ -561,6 +569,8 @@ Symmetric keys
 
     .. summary::
         Key for the XChaCha20 stream cipher or the XChaCha20-Poly1305 AEAD algorithm.
+
+        .. versionadded:: 1.2
 
     The XChaCha20 key size is 256 bits (32 bytes).
 
@@ -1132,6 +1142,8 @@ The curve type affects the key format, the key-derivation procedure, and the alg
     .. summary::
         Twisted Edwards curves.
 
+        .. versionadded:: 1.1
+
     This family comprises the following twisted Edwards curves:
 
     *   Edwards25519 : ``key_bits = 255``. This curve is birationally equivalent to Curve25519.
@@ -1357,6 +1369,8 @@ SPAKE2+ keys
     .. summary::
         SPAKE2+ key pair: both the prover and verifier key.
 
+        .. versionadded:: 1.2
+
     .. param:: curve
         A value of type :code:`psa_ecc_family_t` that identifies the elliptic curve family to be used.
 
@@ -1422,6 +1436,8 @@ SPAKE2+ keys
     .. summary::
         SPAKE2+ public key: the verifier key.
 
+        .. versionadded:: 1.2
+
     .. param:: curve
         A value of type :code:`psa_ecc_family_t` that identifies the elliptic curve family to be used.
 
@@ -1462,6 +1478,8 @@ SPAKE2+ keys
     .. summary::
         Whether a key type is a SPAKE2+ key, either a key pair or a public key.
 
+        .. versionadded:: 1.2
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
 
@@ -1470,6 +1488,8 @@ SPAKE2+ keys
 
     .. summary::
         Whether a key type is a SPAKE2+ key pair.
+
+        .. versionadded:: 1.2
 
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
@@ -1480,6 +1500,8 @@ SPAKE2+ keys
     .. summary::
         Whether a key type is a SPAKE2+ public key.
 
+        .. versionadded:: 1.2
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
 
@@ -1488,6 +1510,8 @@ SPAKE2+ keys
 
     .. summary::
         Extract the curve family from a SPAKE2+ key type.
+
+        .. versionadded:: 1.2
 
     .. param:: type
         A SPAKE2+ key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SPAKE2P(type)` is true.

@@ -259,6 +259,8 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to verify the result of a key derivation, including password hashing.
 
+        .. versionadded:: 1.1
+
     This flag is required to use the key for verification in a key-derivation operation.
 
     This flag must be present on keys used with `psa_key_derivation_verify_key()`.

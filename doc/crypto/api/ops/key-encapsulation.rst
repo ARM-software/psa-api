@@ -68,6 +68,8 @@ The key derivation, encryption, and authentication steps are left to the applica
     .. summary::
         The Elliptic Curve Integrated Encryption Scheme (ECIES).
 
+        .. versionadded:: 1.3
+
     This key-encapsulation algorithm is defined by :cite-title:`SEC1` §5.1 under the name Elliptic Curve Integrated Encryption Scheme.
 
     A call to `psa_encapsulate()` carries out steps 1 to 4 of the ECIES encryption process described in `[SEC1]` §5.1.3:
@@ -113,6 +115,8 @@ Key-encapsulation functions
 
     .. summary::
         Use a public key to generate a new shared secret key and associated ciphertext.
+
+        .. versionadded:: 1.3
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the encapsulation.
@@ -223,6 +227,8 @@ Key-encapsulation functions
 
     .. summary::
         Use a private key to decapsulate a shared secret key from a ciphertext.
+
+        .. versionadded:: 1.3
 
     .. param:: psa_key_id_t key
         Identifier of the key to use for the decapsulation.
@@ -359,6 +365,8 @@ Support macros
     .. summary::
         Sufficient ciphertext buffer size for `psa_encapsulate()`, in bytes.
 
+        .. versionadded:: 1.3
+
     .. param:: key_type
         A key type that is compatible with algorithm ``alg``.
     .. param:: key_bits
@@ -378,6 +386,8 @@ Support macros
 
     .. summary::
         Sufficient ciphertext buffer size for `psa_encapsulate()`, for any of the supported key types and key-encapsulation algorithms.
+
+        .. versionadded:: 1.3
 
     If the size of the ciphertext buffer is at least this large, it is guaranteed that `psa_encapsulate()` will not fail due to an insufficient buffer size.
 
