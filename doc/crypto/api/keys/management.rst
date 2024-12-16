@@ -725,15 +725,15 @@ Interruptible key generation
 Generation of some key types can be computationally expensive.
 For example, RSA keys, and elliptic curve public keys.
 
-For such keys, an interruptible key generation operation can be used instead of calling `psa_generate_key()`, in applications that have bounded execution requirements for use cases that require key generation.
+For such keys, an interruptible key-generation operation can be used instead of calling `psa_generate_key()`, in applications that have bounded execution requirements for use cases that require key generation.
 
 .. note::
     An implementation of the |API| does not need to provide incremental generation for all key types supported by the implementation.
     Use `psa_generate_key()` to create keys for types that do not need to be incrementally generated.
 
-An interruptible key generation operation is used as follows:
+An interruptible key-generation operation is used as follows:
 
-1.  Allocate an interruptible key generation operation object, of type `psa_generate_key_iop_t`, which will be passed to all the functions listed here.
+1.  Allocate an interruptible key-generation operation object, of type `psa_generate_key_iop_t`, which will be passed to all the functions listed here.
 #.  Initialize the operation object with one of the methods described in the documentation for `psa_generate_key_iop_t`, for example, `PSA_GENERATE_KEY_IOP_INIT`.
 #.  Call `psa_generate_key_iop_setup()` to specify the key attributes.
 #.  Call `psa_generate_key_iop_complete()` to finish generating the key, until this function does not return :code:`PSA_OPERATION_INCOMPLETE`.
@@ -742,11 +742,11 @@ An interruptible key generation operation is used as follows:
 .. typedef:: /* implementation-defined type */ psa_generate_key_iop_t
 
     .. summary::
-        The type of the state data structure for an interruptible key generation operation.
+        The type of the state data structure for an interruptible key-generation operation.
 
         .. versionadded:: 1.x
 
-    Before calling any function on an interruptible key generation operation object, the application must initialize it by any of the following means:
+    Before calling any function on an interruptible key-generation operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
 
@@ -781,14 +781,14 @@ An interruptible key generation operation is used as follows:
     :definition: /* implementation-defined value */
 
     .. summary::
-        This macro evaluates to an initializer for an interruptible key generation operation object of type `psa_generate_key_iop_t`.
+        This macro evaluates to an initializer for an interruptible key-generation operation object of type `psa_generate_key_iop_t`.
 
         .. versionadded:: 1.x
 
 .. function:: psa_generate_key_iop_init
 
     .. summary::
-        Return an initial value for an interruptible key generation operation object.
+        Return an initial value for an interruptible key-generation operation object.
 
         .. versionadded:: 1.x
 
@@ -797,12 +797,12 @@ An interruptible key generation operation is used as follows:
 .. function:: psa_generate_key_iop_get_num_ops
 
     .. summary::
-        Get the number of *ops* that an interruptible key generation operation has taken so far.
+        Get the number of *ops* that an interruptible key-generation operation has taken so far.
 
         .. versionadded:: 1.x
 
     .. param:: psa_generate_key_iop_t * operation
-        The interruptible key generation operation to inspect.
+        The interruptible key-generation operation to inspect.
 
     .. return:: uint32_t
         Number of *ops* that the operation has taken so far.
@@ -822,7 +822,7 @@ An interruptible key generation operation is used as follows:
         .. versionadded:: 1.x
 
     .. param:: psa_generate_key_iop_t * operation
-        The interruptible key generation operation to set up.
+        The interruptible key-generation operation to set up.
         It must have been initialized as per the documentation for `psa_generate_key_iop_t`, and be inactive.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
@@ -910,7 +910,7 @@ An interruptible key generation operation is used as follows:
         .. versionadded:: 1.x
 
     .. param:: psa_generate_key_iop_t * operation
-        The interruptible key generation operation to use.
+        The interruptible key-generation operation to use.
         The operation must be active.
     .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key.
@@ -951,12 +951,12 @@ An interruptible key generation operation is used as follows:
 .. function:: psa_generate_key_iop_abort
 
     .. summary::
-        Abort an interruptible key generation operation.
+        Abort an interruptible key-generation operation.
 
         .. versionadded:: 1.x
 
     .. param:: psa_generate_key_iop_t * operation
-        The interruptible key generation operation to abort.
+        The interruptible key-generation operation to abort.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -979,7 +979,7 @@ An interruptible key generation operation is used as follows:
 Interruptible public-key export
 -------------------------------
 
-Extracting a public key from an asymmetric key-pair can be computationally expensive.
+Extracting a public key from an asymmetric key pair can be computationally expensive.
 For example, computing an elliptic curve public key from the private key.
 
 An interruptible public-key export operation can be used instead of calling `psa_export_public_key()`, in applications that have bounded execution requirements for use cases that require public-key export.

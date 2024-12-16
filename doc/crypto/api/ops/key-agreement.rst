@@ -17,10 +17,10 @@ Three functions are provided for a Diffie-Hellman-style key agreement where each
 
 *   Where an application needs direct access to the shared secret, it can call `psa_raw_key_agreement()` instead.
 
-If an application requires bounded execution during a key agreement, it can use an interruptible key agreement operation.
+If an application requires bounded execution during a key agreement, it can use an interruptible key-agreement operation.
 See :secref:`interruptible-key-agreement`.
 
-Using `psa_key_agreement()`, `psa_key_derivation_key_agreement()`, or an interruptible key agreement operation is recommended, as these do not expose the shared secret to the application.
+Using `psa_key_agreement()`, `psa_key_derivation_key_agreement()`, or an interruptible key-agreement operation is recommended, as these do not expose the shared secret to the application.
 
 .. note::
 
@@ -231,7 +231,7 @@ Standalone key agreement
     .. warning::
         The shared secret resulting from a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key-derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
 
-    If an application requires bounded execution during key agreement, it can use an interruptible key agreement operation.
+    If an application requires bounded execution during key agreement, it can use an interruptible key-agreement operation.
     See :secref:`interruptible-key-agreement`.
 
 .. function:: psa_raw_key_agreement
@@ -363,13 +363,13 @@ Combining key agreement and key derivation
 Interruptible key agreement
 ---------------------------
 
-Most key agreement algorithms are computationally expensive.
+Most key-agreement algorithms are computationally expensive.
 
-An interruptible key agreement operation can be used instead of calling `psa_key_agreement()`, in applications that have bounded execution requirements for use cases involving key agreement.
+An interruptible key-agreement operation can be used instead of calling `psa_key_agreement()`, in applications that have bounded execution requirements for use cases involving key agreement.
 
-An interruptible key agreement operation is used as follows:
+An interruptible key-agreement operation is used as follows:
 
-1.  Allocate an interruptible key agreement operation object, of type `psa_key_agreement_iop_t`, which will be passed to all the functions listed here.
+1.  Allocate an interruptible key-agreement operation object, of type `psa_key_agreement_iop_t`, which will be passed to all the functions listed here.
 #.  Initialize the operation object with one of the methods described in the documentation for `psa_key_agreement_iop_t`, for example, `PSA_KEY_AGREEMENT_IOP_INIT`.
 #.  Call `psa_key_agreement_iop_setup()` to specify the algorithm, and provide the private key and the peer public key.
 #.  Call `psa_key_agreement_iop_complete()` to finish the key agreement and output the shared secret, until this function does not return :code:`PSA_OPERATION_INCOMPLETE`.
@@ -379,11 +379,11 @@ An interruptible key agreement operation is used as follows:
 .. typedef:: /* implementation-defined type */ psa_key_agreement_iop_t
 
     .. summary::
-        The type of the state data structure for an interruptible key agreement operation.
+        The type of the state data structure for an interruptible key-agreement operation.
 
         .. versionadded:: 1.x
 
-    Before calling any function on an interruptible key agreement operation object, the application must initialize it by any of the following means:
+    Before calling any function on an interruptible key-agreement operation object, the application must initialize it by any of the following means:
 
     *   Set the object to all-bits-zero, for example:
 
@@ -418,14 +418,14 @@ An interruptible key agreement operation is used as follows:
     :definition: /* implementation-defined value */
 
     .. summary::
-        This macro evaluates to an initializer for an interruptible key agreement operation object of type `psa_key_agreement_iop_t`.
+        This macro evaluates to an initializer for an interruptible key-agreement operation object of type `psa_key_agreement_iop_t`.
 
         .. versionadded:: 1.x
 
 .. function:: psa_key_agreement_iop_init
 
     .. summary::
-        Return an initial value for an interruptible key agreement operation object.
+        Return an initial value for an interruptible key-agreement operation object.
 
         .. versionadded:: 1.x
 
@@ -434,12 +434,12 @@ An interruptible key agreement operation is used as follows:
 .. function:: psa_key_agreement_iop_get_num_ops
 
     .. summary::
-        Get the number of *ops* that an interruptible key agreement operation has taken so far.
+        Get the number of *ops* that an interruptible key-agreement operation has taken so far.
 
         .. versionadded:: 1.x
 
     .. param:: psa_key_agreement_iop_t * operation
-        The interruptible key agreement operation to inspect.
+        The interruptible key-agreement operation to inspect.
 
     .. return:: uint32_t
         Number of *ops* that the operation has taken so far.
@@ -459,7 +459,7 @@ An interruptible key agreement operation is used as follows:
         .. versionadded:: 1.x
 
     .. param:: psa_key_agreement_iop_t * operation
-        The interruptible key agreement operation to set up.
+        The interruptible key-agreement operation to set up.
         It must have been initialized as per the documentation for `psa_key_agreement_iop_t`, and be inactive.
     .. param:: psa_key_id_t private_key
         Identifier of the private key to use.
@@ -472,7 +472,7 @@ An interruptible key agreement operation is used as follows:
     .. param:: size_t peer_key_length
         Size of ``peer_key`` in bytes.
     .. param:: psa_algorithm_t alg
-        The standalone key agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is true.
+        The standalone key-agreement algorithm to compute: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_STANDALONE_KEY_AGREEMENT(alg)` is true.
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the key to be output on completion.
 
@@ -518,12 +518,12 @@ An interruptible key agreement operation is used as follows:
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   ``alg`` is not a key agreement algorithm.
+        *   ``alg`` is not a key-agreement algorithm.
         *   ``private_key`` is not compatible with ``alg``.
         *   ``peer_key`` is not a valid public key corresponding to ``private_key``.
         *   The output key attributes in ``attributes`` are not valid :
 
-            -   The key type is not valid for key agreement output.
+            -   The key type is not valid for key-agreement output.
             -   The key size is nonzero, and is not the size of the shared secret.
             -   The key lifetime is invalid.
             -   The key identifier is not valid for the key lifetime.
@@ -534,7 +534,7 @@ An interruptible key agreement operation is used as follows:
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
-        *   ``alg`` is not supported or is not a key agreement algorithm.
+        *   ``alg`` is not supported or is not a key-agreement algorithm.
         *   ``private_key`` is not supported for use with ``alg``.
         *   The output key attributes, as a whole, are not supported, either by the implementation in general or in the specified storage location.
     .. retval:: PSA_ERROR_BAD_STATE
@@ -550,8 +550,8 @@ An interruptible key agreement operation is used as follows:
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_INSUFFICIENT_STORAGE
 
-    This function sets up an interruptible operation to perform a key agreement.
-    A key agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``.
+    This function sets up an interruptible operation to perform a key-agreement.
+    A key-agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``.
 
     When the interruptible operation completes, the shared secret is output in a key. The key's location, policy, and type are taken from ``attributes``. The size of the key is always the bit-size of the shared secret, rounded up to a whole number of bytes.
 
@@ -573,7 +573,7 @@ An interruptible key agreement operation is used as follows:
         .. versionadded:: 1.x
 
     .. param:: psa_key_agreement_iop_t * operation
-        The interruptible key agreement operation to use.
+        The interruptible key-agreement operation to use.
         The operation must be active.
     .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key.
@@ -610,7 +610,7 @@ An interruptible key agreement operation is used as follows:
     This key can be input to a key derivation operation using `psa_key_derivation_input_key()`.
 
     .. warning::
-        The shared secret resulting from a key agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
+        The shared secret resulting from a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
 
     If this function returns :code:`PSA_OPERATION_INCOMPLETE`, no key is returned, and this function must be called again to continue the operation.
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_key_agreement_iop_abort()`.
@@ -620,12 +620,12 @@ An interruptible key agreement operation is used as follows:
 .. function:: psa_key_agreement_iop_abort
 
     .. summary::
-        Abort an interruptible key agreement operation.
+        Abort an interruptible key-agreement operation.
 
         .. versionadded:: 1.x
 
     .. param:: psa_key_agreement_iop_t * operation
-        The interruptible key agreement operation to abort.
+        The interruptible key-agreement operation to abort.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
