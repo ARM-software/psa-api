@@ -9,6 +9,9 @@
 Additional Hash algorithms
 ==========================
 
+SHAKE-based hash algorithms
+---------------------------
+
 .. macro:: PSA_ALG_SHAKE128_256
     :definition: ((psa_algorithm_t)0x02000016)
 
@@ -21,6 +24,8 @@ Additional Hash algorithms
 
     .. note::
         For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-256 is recommended. SHA3-256 has the same output size, and a theoretically higher security strength.
+
+    .. versionadded:: 1.3
 
 .. comment
     Update the description of PSA_ALG_SHAKE256_512 to state:
