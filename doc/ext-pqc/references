@@ -1,0 +1,55 @@
+.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. reference:: PSA-CRYPT
+    :title: PSA Certified Crypto API
+    :doc_no: IHI 0086
+    :url: arm-software.github.io/psa-api/crypto
+
+.. reference:: FIPS202
+    :title: FIPS Publication 202: SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions
+    :author: NIST
+    :publication: August 2015
+    :url: doi.org/10.6028/NIST.FIPS.202
+
+.. reference:: FIPS203
+    :title: FIPS Publication 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.203
+
+.. reference:: FIPS204
+    :title: FIPS Publication 204: Module-Lattice-Based Digital Signature Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.204
+
+.. reference:: FIPS205
+    :title: FIPS Publication 205: Stateless Hash-Based Digital Signature Standard
+    :author: NIST
+    :publication: August 2024
+    :url: doi.org/10.6028/NIST.FIPS.205
+
+.. reference:: LAMPS-MLKEM
+    :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM)
+    :author: IETF
+    :publication: September 2024 (Draft 04)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-kyber-certificates-04
+
+.. reference:: LAMPS-MLDSA
+    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for ML-DSA
+    :author: IETF
+    :publication: July 2024 (Draft 04)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-dilithium-certificates-04
+
+.. reference:: LAMPS-SLHDSA
+    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA
+    :author: IETF
+    :publication: October 2024 (Draft 02)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa-02
+
+.. reference:: NIST-PQC
+    :title: Post-Quantum Cryptography
+    :author: NIST
+    :publication: PQC Project page
+    :url: nist.gov/pqcrypto

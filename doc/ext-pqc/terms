@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. term:: Algorithm
@@ -131,8 +131,6 @@
 
     A key that is stored in protected non-volatile memory.
 
-    See :secref:`key-lifetimes`.
-
 .. term:: Salt
 
     Used as an input for certain algorithms, such as key derivations.
@@ -155,37 +153,6 @@
 .. term:: Volatile key
 
     A key that has a short lifespan and is guaranteed not to exist after a restart of an application instance.
-
-    See :secref:`key-lifetimes`.
-
-.. term:: No isolation
-
-    Property of an implementation in which there is no security boundary between the application and the
-    cryptoprocessor.
-
-    See :secref:`isolation`.
-
-.. term:: Isolation
-
-    Property of an implementation in which there is a security boundary between the application and the
-    cryptoprocessor.
-
-    See :secref:`isolation`.
-
-.. term:: Cryptoprocessor isolation
-
-    Property of an implementation in which there is a security boundary between the application and the
-    cryptoprocessor, but the cryptoprocessor does not communicate with other applications.
-
-    See :secref:`isolation`.
-
-.. term:: Caller isolation
-
-    Property of an implementation in which there are multiple application instances, with a security
-    boundary between the application instances, as well as between the cryptoprocessor and the
-    application instances.
-
-    See :secref:`isolation`.
 
 .. term:: Post-Quantum Cryptography
     :abbr: PQC
