@@ -250,7 +250,7 @@ There are three components in an interruptible operation:
 
     An application can set an overall *maximum ops* value, that limits the *ops* performed within any interruptible function called by that application. The current *maximum ops* value can also be queried. If the *maximum ops* is not set by an application, interruptible functions will not return until the operation is complete.
 
-    Each interruptible operation also provides a function to report the cumulative number of *ops* used by the operation. This value is only reset when the operation object is set up for a new operation, which permits the value to be queried after an operation has finished.
+    Each interruptible operation also provides a function to report the cumulative number of *ops* used by the operation. This value is only reset when the operation is aborted, or when an operation object is set up for a new operation. This permits the final value to be queried after an operation has finished successfully.
 
 Interruptible operations follow a common pattern of use, which is shown in :numref:`fig-interruptible`.
 
@@ -281,6 +281,8 @@ The typical sequence of actions with a interruptible operation is as follows:
 #.  **Setup:** Start a new interruptible operation on an *inactive* operation object.
     Each interruptible operation object will define one or more setup functions to start a specific operation.
 
+    The accumulated *ops* value for the operation is reset to zero.
+
     On success, a setup function will put an interruptible operation object into an *active* state.
     On failure, the operation object will remain *inactive*.
 
@@ -294,7 +296,7 @@ The typical sequence of actions with a interruptible operation is as follows:
     An application needs to repeat this step until the completion function returns with a success or an error status.
 
 #.  **Abort:** An interruptible operation can be aborted at any stage during its use by calling the associated ``psa_xxx_iop_abort()`` function.
-    This will release any resources associated with the operation and return the operation object to the *inactive* state.
+    This will release any resources associated with the operation, return the operation object to the *inactive* state, and reset the accumulated *ops* value to zero.
 
     Any error that occurs to an operation while it is in an *active* state will result in the operation entering an *error* state.
     The application must call the associated ``psa_xxx_iop_abort()`` function to release the operation resources and return the object to the *inactive* state.
@@ -347,6 +349,8 @@ In the following sequence, detail is only provided where actions behave differen
 
 #.  **Begin-setup:** Start a new interruptible operation on an *inactive* operation object.
     Each operation object will define one or more setup functions to start a specific operation.
+
+    The accumulated *ops* value for the operation is reset to zero.
 
     On success, an operation object enters a *setup* state.
     On failure, the operation object will remain *inactive*.
