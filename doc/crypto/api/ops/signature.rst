@@ -116,7 +116,7 @@ RSA signature algorithms
     .. summary::
         The raw RSA PKCS#1 v1.5 signature algorithm, without hashing.
 
-    This specialized signature algorithm can be only used with the `psa_sign_hash()` and `psa_verify_hash()` functions.
+    This specialized signature algorithm can only be used with the `psa_sign_hash()` and `psa_verify_hash()` functions.
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
@@ -334,7 +334,7 @@ ECDSA signature algorithms
     .. summary::
         The randomized ECDSA signature scheme, without hashing.
 
-    This specialized signature algorithm can be only used with the `psa_sign_hash()` and `psa_verify_hash()` functions.
+    This specialized signature algorithm can only be used with the `psa_sign_hash()` and `psa_verify_hash()` functions.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -457,7 +457,7 @@ EdDSA signature algorithms
 
         .. versionadded:: 1.1
 
-    This message signature algorithm can be only used with the `psa_sign_message()` and `psa_verify_message()` functions.
+    This message signature algorithm can only be used with the `psa_sign_message()` and `psa_verify_message()` functions.
 
     This is the PureEdDSA digital signature algorithm defined by :RFC-title:`8032`, using standard parameters.
 

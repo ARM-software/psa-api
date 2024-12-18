@@ -217,7 +217,7 @@ A future version of this specification may add suitable functions and extend thi
 
         .. versionadded:: 1.3
 
-    This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
+    This algorithm can only be used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -248,7 +248,7 @@ A future version of this specification may add suitable functions and extend thi
 
         .. versionadded:: 1.3
 
-    This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
+    This algorithm can only be used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
