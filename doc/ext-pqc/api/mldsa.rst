@@ -22,6 +22,8 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
     .. summary::
         ML-DSA key pair: both the private and public key.
 
+        .. versionadded:: 1.3
+
     The key attribute size of an ML-DSA key is the numeric ML-DSA parameter-set identifier defined in `[FIPS204]`.
     The values are based on the dimensions of the matrix :math:`A`, and do not directly define the key size in bytes:
 
@@ -48,7 +50,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
             The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
             See :cite-title:`LAMPS-MLDSA`.
 
-            The current proposed format is based on the current expected outcome of that process.
+            The current proposed format is based on the expected outcome of that process.
 
         An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See `[FIPS204]` §5.1.
 
@@ -90,13 +92,13 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
             It is :scterm:`implementation defined` whether the seed :math:`xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4002)
 
     .. summary::
         ML-DSA public key.
+
+        .. versionadded:: 1.3
 
     The key attribute size of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
 
@@ -117,7 +119,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
             The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
             See :cite-title:`LAMPS-MLDSA`.
 
-            The current proposed format is based on the current expected outcome of that process.
+            The current proposed format is based on the expected outcome of that process.
 
         An ML-DSA public key is the :math:`pk` output of ``ML-DSA.KeyGen()``, defined in `[FIPS204]` §5.1.
 
@@ -132,18 +134,16 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
             ML-DSA-65, 1952
             ML-DSA-87, 2592
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_KEY_TYPE_IS_ML_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether a key type is an ML-DSA key, either a key pair or a public key.
 
+        .. versionadded:: 1.3
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
-
-    .. versionadded:: 1.3
 
 
 .. _ml-dsa-algorithms:
@@ -215,6 +215,8 @@ A future version of this specification may add suitable functions and extend thi
     .. summary::
         Module lattice-based digital signature algorithm without pre-hashing (ML-DSA).
 
+        .. versionadded:: 1.3
+
     This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
@@ -238,13 +240,13 @@ A future version of this specification may add suitable functions and extend thi
         | `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_DETERMINISTIC_ML_DSA
     :definition: ((psa_algorithm_t) 0x06004500)
 
     .. summary::
         Deterministic module lattice-based digital signature algorithm without pre-hashing (ML-DSA).
+
+        .. versionadded:: 1.3
 
     This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
@@ -272,13 +274,13 @@ A future version of this specification may add suitable functions and extend thi
         | :code:`PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | :code:`PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_HASH_ML_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Module lattice-based digital signature algorithm with pre-hashing (HashML-DSA).
+
+        .. versionadded:: 1.3
 
     .. param:: hash_alg
         A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -325,8 +327,6 @@ A future version of this specification may add suitable functions and extend thi
         | `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
 
-    .. versionadded:: 1.3
-
     .. comment
         Add this algorithm to the list in PSA_ALG_GET_HASH()
 
@@ -335,6 +335,8 @@ A future version of this specification may add suitable functions and extend thi
 
     .. summary::
         Deterministic module lattice-based digital signature algorithm with pre-hashing (HashML-DSA).
+
+        .. versionadded:: 1.3
 
     .. param:: hash_alg
         A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -376,8 +378,6 @@ A future version of this specification may add suitable functions and extend thi
         | `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` (signature verification only)
 
-    .. versionadded:: 1.3
-
     .. comment
         Add this algorithm to the list in PSA_ALG_GET_HASH()
 
@@ -386,6 +386,8 @@ A future version of this specification may add suitable functions and extend thi
 
     .. summary::
         Whether the specified algorithm is ML-DSA, without pre-hashing.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -398,13 +400,13 @@ A future version of this specification may add suitable functions and extend thi
     .. note::
         Use `PSA_ALG_IS_HASH_ML_DSA()` to determine if an algorithm identifier is a HashML-DSA algorithm.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_IS_HASH_ML_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether the specified algorithm is HashML-DSA.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -417,13 +419,13 @@ A future version of this specification may add suitable functions and extend thi
     .. note::
         Use `PSA_ALG_IS_ML_DSA()` to determine if an algorithm identifier is a pre-hashed ML-DSA algorithm.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether the specified algorithm is deterministic HashML-DSA.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -435,13 +437,13 @@ A future version of this specification may add suitable functions and extend thi
 
     See also `PSA_ALG_IS_HASH_ML_DSA()` and `PSA_ALG_IS_HEDGED_HASH_ML_DSA()`.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_IS_HEDGED_HASH_ML_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether the specified algorithm is hedged HashML-DSA.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -452,5 +454,3 @@ A future version of this specification may add suitable functions and extend thi
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     See also `PSA_ALG_IS_HASH_ML_DSA()` and `PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA()`.
-
-    .. versionadded:: 1.3
