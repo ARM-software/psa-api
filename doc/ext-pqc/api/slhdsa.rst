@@ -21,6 +21,8 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. summary::
         The type of identifiers of a Stateless hash-based DSA parameter set.
 
+        .. versionadded:: 1.3
+
     The parameter-set identifier is required to create an SLH-DSA key using the `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()` or `PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` macros.
 
     The specific SLH-DSA parameter set within a family is identified by the ``key_bits`` attribute of the key.
@@ -40,13 +42,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     The least significant bit of an SLH-DSA family identifier is a parity bit for the whole key type.
     See :secref:`slh-dsa-key-encoding` for details of the encoding of asymmetric key types.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_KEY_TYPE_SLH_DSA_KEY_PAIR
     :definition: /* specification-defined value */
 
     .. summary::
         SLH-DSA key pair: both the private key and public key.
+
+        .. versionadded:: 1.3
 
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
@@ -72,7 +74,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
             The standardization of exchange formats for SHL-DSA public and private keys is in progress, but final documents have not been published.
             See :cite-title:`LAMPS-SLHDSA`.
 
-            The current proposed format is based on the current expected outcome of that process.
+            The current proposed format is based on the expected outcome of that process.
 
         A SLH-DSA key pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
@@ -94,13 +96,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
         The private key :math:`(SK\text{.seed},SK\text{.prf},PK\text{.seed},PK\text{.root})` is generated from these values as defined by ``slh_keygen_internal()`` in `[FIPS205]` §9.1.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY
     :definition: /* specification-defined value */
 
     .. summary::
         SLH-DSA public key.
+
+        .. versionadded:: 1.3
 
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
@@ -125,7 +127,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
             The standardization of exchange formats for SHL-DSA public and private keys is in progress, but final documents have not been published.
             See :cite-title:`LAMPS-SLHDSA`.
 
-            The current proposed format is based on the current expected outcome of that process.
+            The current proposed format is based on the expected outcome of that process.
 
         A SLH-DSA public key is defined in `[FIPS205]` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
@@ -135,13 +137,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
             PK\text{.seed}\ ||\ PK\text{.root}
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_SLH_DSA_FAMILY_SHA2_S
     :definition: ((psa_slh_dsa_family_t) 0x02)
 
     .. summary::
         SLH-DSA family for the SLH-DSA-SHA2-\ *NNN*\ s parameter sets.
+
+        .. versionadded:: 1.3
 
     This family comprises the following parameter sets:
 
@@ -151,13 +153,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     They are defined in `[FIPS205]`.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_SLH_DSA_FAMILY_SHA2_F
     :definition: ((psa_slh_dsa_family_t) 0x04)
 
     .. summary::
         SLH-DSA family for the SLH-DSA-SHA2-\ *NNN*\ f parameter sets.
+
+        .. versionadded:: 1.3
 
     This family comprises the following parameter sets:
 
@@ -167,13 +169,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     They are defined in `[FIPS205]`.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_SLH_DSA_FAMILY_SHAKE_S
     :definition: ((psa_slh_dsa_family_t) 0x0b)
 
     .. summary::
         SLH-DSA family for the SLH-DSA-SHAKE-\ *NNN*\ s parameter sets.
+
+        .. versionadded:: 1.3
 
     This family comprises the following parameter sets:
 
@@ -183,13 +185,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     They are defined in `[FIPS205]`.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_SLH_DSA_FAMILY_SHAKE_F
     :definition: ((psa_slh_dsa_family_t) 0x0d)
 
     .. summary::
         SLH-DSA family for the SLH-DSA-SHAKE-\ *NNN*\ f parameter sets.
+
+        .. versionadded:: 1.3
 
     This family comprises the following parameter sets:
 
@@ -199,18 +201,16 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     They are defined in `[FIPS205]`.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_KEY_TYPE_IS_SLH_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether a key type is an SLH-DSA key, either a key pair or a public key.
 
+        .. versionadded:: 1.3
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
-
-    .. versionadded:: 1.3
 
 .. macro:: PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR
     :definition: /* specification-defined value */
@@ -218,10 +218,10 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. summary::
         Whether a key type is an SLH-DSA key pair.
 
+        .. versionadded:: 1.3
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
-
-    .. versionadded:: 1.3
 
 .. macro:: PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY
     :definition: /* specification-defined value */
@@ -229,10 +229,10 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. summary::
         Whether a key type is an SLH-DSA public key.
 
+        .. versionadded:: 1.3
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
-
-    .. versionadded:: 1.3
 
 .. macro:: PSA_KEY_TYPE_SLH_DSA_GET_FAMILY
     :definition: /* specification-defined value */
@@ -240,13 +240,13 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. summary::
         Extract the parameter-set family from an SLH-DSA key type.
 
+        .. versionadded:: 1.3
+
     .. param:: type
         An SLH-DSA key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SLH_DSA(type)` is true.
 
     .. return:: psa_dh_family_t
         The SLH-DSA parameter-set family id, if ``type`` is a supported SLH-DSA key. Unspecified if ``type`` is not a supported SLH-DSA key.
-
-    .. versionadded:: 1.3
 
 .. _slh-dsa-algorithms:
 
@@ -321,6 +321,8 @@ A future version of this specification may add suitable functions and extend thi
     .. summary::
         Stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA).
 
+        .. versionadded:: 1.3
+
     This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
     This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
@@ -344,13 +346,13 @@ A future version of this specification may add suitable functions and extend thi
         | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
         | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_DETERMINISTIC_SLH_DSA
     :definition: ((psa_algorithm_t) 0x06004100)
 
     .. summary::
         Deterministic stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA).
+
+        .. versionadded:: 1.3
 
     This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
@@ -378,13 +380,13 @@ A future version of this specification may add suitable functions and extend thi
         | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
         | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_HASH_SLH_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA).
+
+        .. versionadded:: 1.3
 
     .. param:: hash_alg
         A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -431,8 +433,6 @@ A future version of this specification may add suitable functions and extend thi
         | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
         | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
-    .. versionadded:: 1.3
-
     .. comment
         Add this algorithm to the list in PSA_ALG_GET_HASH()
 
@@ -441,6 +441,8 @@ A future version of this specification may add suitable functions and extend thi
 
     .. summary::
         Deterministic stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA).
+
+        .. versionadded:: 1.3
 
     .. param:: hash_alg
         A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
@@ -482,8 +484,6 @@ A future version of this specification may add suitable functions and extend thi
         | :code:`PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()`
         | :code:`PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` (signature verification only)
 
-    .. versionadded:: 1.3
-
     .. comment
         Add this algorithm to the list in PSA_ALG_GET_HASH()
 
@@ -493,6 +493,8 @@ A future version of this specification may add suitable functions and extend thi
     .. summary::
         Whether the specified algorithm is SLH-DSA.
 
+        .. versionadded:: 1.3
+
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
 
@@ -501,13 +503,13 @@ A future version of this specification may add suitable functions and extend thi
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_IS_HASH_SLH_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether the specified algorithm is HashSLH-DSA.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -517,13 +519,13 @@ A future version of this specification may add suitable functions and extend thi
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether the specified algorithm is deterministic HashSLH-DSA.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -535,13 +537,13 @@ A future version of this specification may add suitable functions and extend thi
 
     See also `PSA_ALG_IS_HASH_SLH_DSA()` and `PSA_ALG_IS_HEDGED_HASH_SLH_DSA()`.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_ALG_IS_HEDGED_HASH_SLH_DSA
     :definition: /* specification-defined value */
 
     .. summary::
         Whether the specified algorithm is hedged HashSLH-DSA.
+
+        .. versionadded:: 1.3
 
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
@@ -552,5 +554,3 @@ A future version of this specification may add suitable functions and extend thi
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     See also `PSA_ALG_IS_HASH_SLH_DSA()` and `PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA()`.
-
-    .. versionadded:: 1.3
