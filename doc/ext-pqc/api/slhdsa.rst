@@ -323,7 +323,7 @@ A future version of this specification may add suitable functions and extend thi
 
         .. versionadded:: 1.3
 
-    This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
+    This algorithm can only be used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
     This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -354,7 +354,7 @@ A future version of this specification may add suitable functions and extend thi
 
         .. versionadded:: 1.3
 
-    This algorithm can be only used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
+    This algorithm can only be used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
 
     This is the pure SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
