@@ -104,6 +104,8 @@ doc_info = {
     #   'chapter'  : before every chapter
     # Default to 'appendix'
     'page_break': 'chapter',
+
+    'prolog_files': ['/substitutions'],
     }
 
 # absolute or relative path to the psa_spec material from this file
