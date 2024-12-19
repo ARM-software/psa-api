@@ -22,6 +22,8 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
     .. summary::
         ML-KEM key pair: both the decapsulation and encapsulation key.
 
+        .. versionadded:: 1.3
+
     The |API| treats decapsulation keys as private keys and encapsulation keys as public keys.
 
     The key attribute size of an ML-KEM key is specified by the numeric part of the parameter-set identifier defined in `[FIPS203]`.
@@ -48,7 +50,7 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
             The standardization of exchange formats for ML-KEM public and private keys is in progress, but final documents have not been published.
             See :cite-title:`LAMPS-MLKEM`.
 
-            The current proposed format is based on the current expected outcome of that process.
+            The current proposed format is based on the expected outcome of that process.
 
         An ML-KEM key pair is the :math:`(ek,dk)` pair of encapsulation key and decapsulation key, which are generated from two secret 32-byte seeds, :math:`d` and :math:`z`. See `[FIPS203]` §7.1.
 
@@ -82,13 +84,13 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 
             It is :scterm:`implementation defined` whether the seed-pair :math:`(d,z)` is expanded to :math:`(ek,dk)` at the point of derivation, or only just before the key is used.
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4004)
 
     .. summary::
         ML-KEM public (encapsulation) key.
+
+        .. versionadded:: 1.3
 
     The key attribute size of an ML-KEM public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`.
 
@@ -106,7 +108,7 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
             The standardization of exchange formats for ML-KEM public and private keys is in progress, but final documents have not been published.
             See :cite-title:`LAMPS-MLKEM`.
 
-            The current proposed format is based on the current expected outcome of that process.
+            The current proposed format is based on the expected outcome of that process.
 
         An ML-KEM public key is the :math:`ek` output of ``ML-KEM.KeyGen()``, defined in `[FIPS203]` §7.1.
 
@@ -121,18 +123,16 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
             ML-KEM-768, 1184
             ML-KEM-1024, 1568
 
-    .. versionadded:: 1.3
-
 .. macro:: PSA_KEY_TYPE_IS_ML_KEM
     :definition: /* specification-defined value */
 
     .. summary::
         Whether a key type is an ML-DSA key, either a key pair or a public key.
 
+        .. versionadded:: 1.3
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
-
-    .. versionadded:: 1.3
 
 Module Lattice-based key-encapsulation algorithm
 ------------------------------------------------
@@ -150,6 +150,8 @@ See `[FIPS203]` §8 for details on the parameter sets.
 
     .. summary::
         Module Lattice-based key-encapsulation mechanism (ML-KEM).
+
+        .. versionadded:: 1.3
 
     This is the ML-KEM key-encapsulation algorithm, defined by `[FIPS203]`.
     ML-KEM requires an ML-KEM key, which determines the ML-KEM parameter set for the operation.
@@ -172,5 +174,3 @@ See `[FIPS203]` §8 for details on the parameter sets.
 
         | `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`
         | `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY` (encapsulation only)
-
-    .. versionadded:: 1.3

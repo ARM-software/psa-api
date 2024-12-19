@@ -18,14 +18,14 @@ SHAKE-based hash algorithms
     .. summary::
         The first 256 bits (32 bytes) of the SHAKE128 output.
 
+        .. versionadded:: 1.3
+
     This can be used as pre-hashing for SLH-DSA (see `PSA_ALG_HASH_SLH_DSA()`).
 
     SHAKE128 is defined in :cite:`FIPS202`.
 
     .. note::
         For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-256 is recommended. SHA3-256 has the same output size, and a theoretically higher security strength.
-
-    .. versionadded:: 1.3
 
 .. comment
     Update the description of PSA_ALG_SHAKE256_512 to state:
