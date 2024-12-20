@@ -3,7 +3,9 @@
 
 ..  title::
 
-    This document is part of the PSA Certified API specifications. It defines interfaces to provide secure storage services.
+    .. abstract::
+
+        This document is part of the PSA Certified API specifications. It defines interfaces to provide secure storage services.
 
 ..  front-matter::
 
