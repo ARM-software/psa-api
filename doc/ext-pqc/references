@@ -33,23 +33,53 @@
 .. reference:: LAMPS-MLKEM
     :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM)
     :author: IETF
-    :publication: September 2024 (Draft 04)
-    :url: datatracker.ietf.org/doc/draft-ietf-lamps-kyber-certificates-04
+    :publication: November 2024 (Draft 06)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-kyber-certificates
 
 .. reference:: LAMPS-MLDSA
     :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for ML-DSA
     :author: IETF
-    :publication: July 2024 (Draft 04)
-    :url: datatracker.ietf.org/doc/draft-ietf-lamps-dilithium-certificates-04
+    :publication: November 2024 (Draft 05)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-dilithium-certificates
 
 .. reference:: LAMPS-SLHDSA
     :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA
     :author: IETF
-    :publication: October 2024 (Draft 02)
-    :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa-02
+    :publication: November 2024 (Draft 03)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa
 
 .. reference:: NIST-PQC
     :title: Post-Quantum Cryptography
     :author: NIST
     :publication: PQC Project page
     :url: nist.gov/pqcrypto
+
+.. reference:: SP800-208
+    :title: NIST Special Publication 800-208: Recommendation for Stateful Hash-Based Signature Schemes
+    :author: NIST
+    :publication: October 2020
+    :url: doi.org/10.6028/NIST.SP.800-208
+
+.. reference:: RFC8391
+    :title: XMSS: eXtended Merkle Signature Scheme
+    :author: IRTF
+    :publication: May 2018
+    :url: tools.ietf.org/html/rfc8391
+
+.. reference:: RFC8554
+    :title: Leighton-Micali Hash-Based Signatures
+    :author: IRTF
+    :publication: April 2019
+    :url: tools.ietf.org/html/rfc8554
+
+.. reference:: CFRG-LMS
+    :title: Additional Parameter sets for HSS/LMS Hash-Based Signatures
+    :author: IRTF
+    :publication: October 2024 (Draft 17)
+    :url: datatracker.ietf.org/doc/draft-fluhrer-lms-more-parm-sets
+
+.. reference:: LAMPS-SHBS
+    :title: Use of the HSS and XMSS Hash-Based Signature Algorithms in Internet X.509 Public Key Infrastructure
+    :author: IETF
+    :publication: December 2024 (Draft 13)
+    :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-shbs
