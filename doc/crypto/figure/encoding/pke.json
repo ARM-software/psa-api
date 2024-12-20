@@ -8,7 +8,7 @@
         { "name": "0x07", "bits": 7 },
         { "name": "0", "bits": 1 }
     ],
-    "options": {
+    "config": {
         "lanes": 1,
         "fontfamily": "lato",
         "fontsize": 11,

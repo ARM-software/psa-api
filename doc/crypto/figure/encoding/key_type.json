@@ -6,7 +6,7 @@
         { "name": "A", "bits": 1 },
         { "name": "V", "bits": 1 }
     ],
-    "options": {
+    "config": {
         "lanes": 1,
         "fontfamily": "lato",
         "fontsize": 11,
