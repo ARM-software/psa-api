@@ -51,14 +51,17 @@ See also *Asymmetric signature algorithm encoding* in `[PSA-CRYPT]` Appendix B.
     :widths: auto
 
     Signature algorithm, SIGN-TYPE, Algorithm identifier, Algorithm value
-    Hedged ML-DSA, ``0x44``, `PSA_ALG_ML_DSA`, ``0x06004400``
-    Deterministic ML-DSA, ``0x45``, `PSA_ALG_DETERMINISTIC_ML_DSA`, ``0x06004500``
-    Hedged HashML-DSA, ``0x46``, :code:`PSA_ALG_HASH_ML_DSA(hash)`, ``0x060046hh`` :sup:`a`
-    Deterministic HashML-DSA, ``0x47``, :code:`PSA_ALG_DETERMINISTIC_HASH_ML_DSA(hash)`, ``0x060047hh`` :sup:`a`
     Hedged SLH-DSA, ``0x40``, `PSA_ALG_SLH_DSA`, ``0x06004000``
     Deterministic SLH-DSA, ``0x41``, `PSA_ALG_DETERMINISTIC_SLH_DSA`, ``0x06004100``
     Hedged HashSLH-DSA, ``0x42``, :code:`PSA_ALG_HASH_SLH_DSA(hash)`, ``0x060042hh`` :sup:`a`
     Deterministic HashSLH-DSA, ``0x43``, :code:`PSA_ALG_DETERMINISTIC_HASH_SLH_DSA(hash)`, ``0x060043hh`` :sup:`a`
+    Hedged ML-DSA, ``0x44``, `PSA_ALG_ML_DSA`, ``0x06004400``
+    Deterministic ML-DSA, ``0x45``, `PSA_ALG_DETERMINISTIC_ML_DSA`, ``0x06004500``
+    Hedged HashML-DSA, ``0x46``, :code:`PSA_ALG_HASH_ML_DSA(hash)`, ``0x060046hh`` :sup:`a`
+    Deterministic HashML-DSA, ``0x47``, :code:`PSA_ALG_DETERMINISTIC_HASH_ML_DSA(hash)`, ``0x060047hh`` :sup:`a`
+    HSS/LMS, ``0x49``, :code:`PSA_ALG_HSS_LMS`, ``0x06004900``
+    XMSS, ``0x4a``, :code:`PSA_ALG_XMSS`, ``0x06004a00``
+    |XMSS^MT|, ``0x4b``, :code:`PSA_ALG_XMSS_MT`, ``0x06004b00``
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the signature algorithm.
 
@@ -114,6 +117,9 @@ See also *Non-parameterized asymmetric key encoding* in `[PSA-CRYPT]` Appendix B
     , Key pair, 3, 1, 0, `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`, ``0x7002``
     ML-KEM, Public key, 0, 2, 0, `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY`, ``0x4004``
     , Key pair, 3, 2, 0, `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`, ``0x7004``
+    HSS/LMS, Public key, 0, 3, 1, `PSA_KEY_TYPE_HSS_LMS_PUBLIC_KEY`, ``0x4007``
+    XMSS, Public key, 0, 4, 0, `PSA_KEY_TYPE_XMSS_PUBLIC_KEY`, ``0x4008``
+    |XMSS^MT|, Public key, 0, 5, 1, `PSA_KEY_TYPE_XMSS_MT_PUBLIC_KEY`, ``0x400b``
 
 .. _slh-dsa-key-encoding:
 

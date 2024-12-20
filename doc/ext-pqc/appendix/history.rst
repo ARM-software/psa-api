@@ -20,3 +20,7 @@ Beta release
     See :secref:`ml-dsa`.
 *   Added support for FIPS 205 SLH-DSA signature algorithm and keys.
     See :secref:`slh-dsa`.
+*   Added support for HSS/LMS stateful hash-based signature verification and public keys.
+    See :secref:`lms`.
+*   Added support for XMSS and |XMSS^MT| stateful hash-based signature verification and public keys.
+    See :secref:`xmss`.

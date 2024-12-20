@@ -15,7 +15,8 @@ You can read more about PSA Certified here at :url:`www.psacertified.org` and fi
 About the |API| PQC Extension
 -----------------------------
 
-This document defines an extension to the :cite-title:`PSA-CRYPT` specification, to provide support for :term:`Post-Quantum Cryptography` (PQC) algorithms, and specifically for the NIST-approved standards for ML-DSA, SLH-DSA, and ML-KEM.
+This document defines an extension to the :cite-title:`PSA-CRYPT` specification, to provide support for :term:`Post-Quantum Cryptography` (PQC) algorithms.
+Specifically, for the NIST-approved schemes for HSS/LMS, XMSS, |XMSS^MT|, ML-DSA, SLH-DSA, and ML-KEM.
 
 When the proposed extension is sufficiently stable to be classed as Final, it will be integrated into a future version of `[PSA-CRYPT]`.
 
@@ -47,6 +48,9 @@ NIST is hosting a project to collaboratively develop, analyze, refine, and selec
 Selection of algorithms
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+NIST PQC project finalists
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 PQC algorithms that have been standardized are obvious candidates for inclusion in the |API|. The current set of standards is the following:
 
 *   :cite-title:`FIPS203`
@@ -62,3 +66,17 @@ However, it is not expected that other aspects of the API in this document will 
 .. note::
     Although PQC algorithms that are draft standards could be considered, any definitions for these algorithms would be have to be considered experimental.
     Significant aspects of the algorithm, such as approved parameter sets, can change before publication of a final standard, potentially requiring a revision of any proposed interface for the |API|.
+
+Other NIST-approved schemes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In :cite-title:`SP800-208`, NIST approved use of the following stateful hash-based signature (HBS) schemes:
+
+*   The Leighton-Micali Signature (LMS) system, and its multi-tree variant, the Hierarchical Signature System (HSS/LMS).
+    These are defined in :rfc-title:`8554`.
+*   The eXtended Merkle Signature Scheme (XMSS), and its multi-tree variant |XMSS^MT|.
+    These are defined in :rfc-title:`8391`.
+
+HBS schemes have additional challenges with regards to deploying secure and resilient systems for signing operations. These challenges, outlined in `[SP800-208]` sections §1.2 and §8.1, result in a recommendation to use these schemes in a limited set of use cases, for example, authentication of firmware in constrained devices.
+
+At present, it is not expected that the |API| will be used to create HBS private keys, or to carry out signing operations. However, there is a use case with the |API| for verification of HBS signatures. Therefore, for these HBS schemes, the |API| only provides support for public keys and signature verification algorithms.
