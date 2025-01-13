@@ -326,6 +326,12 @@ Key type macros
     #define PSA_KEY_TYPE_IS_UNSTRUCTURED(type) \
         (((type) & 0x7000) == 0x1000 || ((type) & 0x7000) == 0x2000)
 
+    #define PSA_KEY_TYPE_IS_WPA3_SAE_DH(type) \
+        (((type) & 0xff80) == 0x3300)
+
+    #define PSA_KEY_TYPE_IS_WPA3_SAE_ECC(type) \
+        (((type) & 0xff80) == 0x3280)
+
     #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
         ((psa_key_type_t) ((type) | 0x3000))
 
@@ -340,6 +346,18 @@ Key type macros
 
     #define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
         ((psa_key_type_t) (0x4400 | ((curve) & 0x007f)))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_DH_GET_FAMILY(type) \
+        ((psa_dh_family_t) ((type) & 0x007f))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_DH_PT(family) \
+        ((psa_key_type_t) (0x3300 | ((family) & 0x007f)))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY(type) \
+        ((psa_ecc_family_t) ((type) & 0x007f))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_ECC_PT(curve) \
+        ((psa_key_type_t) (0x3280 | ((curve) & 0x007f)))
 
 Hash suspend state macros
 ~~~~~~~~~~~~~~~~~~~~~~~~~

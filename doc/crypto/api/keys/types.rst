@@ -49,6 +49,8 @@ The key type is used to identify what the key value is, and what can be used for
 
 *   :secref:`unstructured-keys` --- defines types for non-key data and unstructured symmetric keys.
     For example, passwords, key-derivation secrets, or AES keys.
+*   :secref:`structured-keys` --- defines types for structured symmetric keys.
+    For example, WPA3-SAE password tokens.
 *   :secref:`asymmetric-keys` --- defines types for asymmetric keys.
     For example, elliptic curve or SPAKE2+ keys.
 
@@ -335,6 +337,22 @@ Diffie-Hellman families
     Keys is this group can only be used with the `PSA_ALG_FFDH` key-agreement algorithm.
 
     These groups are defined by :rfc-title:`7919#A`.
+
+.. macro:: PSA_DH_FAMILY_RFC3526
+    :definition: ((psa_dh_family_t) 0x05)
+
+    .. summary::
+        Finite-field Diffie-Hellman groups defined for IKE2 in RFC 3526.
+
+        .. versionadded:: 1.4
+
+    This family includes groups with the following key sizes (in bits): 2048, 3072, 4096, 6144, 8192.
+    An implementation can support all of these sizes or only a subset.
+
+    Groups in this family can be used with the `PSA_ALG_FFDH` key-agreement algorithm, or with the `PSA_ALG_WPA3_SAE_FIXED` and `PSA_ALG_WPA3_SAE_GDH` PAKE algorithms.
+
+    These groups are defined by :rfc-title:`3526`.
+
 
 Attribute accessors
 ~~~~~~~~~~~~~~~~~~~
@@ -931,6 +949,153 @@ Symmetric cryptographic keys
     .. subsection:: Key derivation
 
         A call to `psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the key data.
+
+
+.. _structured-keys:
+
+Structured keys
+---------------
+
+.. _wpa3-sae-keys:
+
+WPA3-SAE password tokens
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The WPA3-SAE PAKE defines two techniques for generating the password element used during the PAKE protocol.
+The recommended hash-2-curve method is used to generate an intermediate password token, which is an element of the cyclic group used in the PAKE ciphersuite.
+The password token can be stored as a key object, and later used in the PAKE operation when performing the WPA3-SAE protocol.
+
+WPA3-SAE password tokens are defined for both elliptic curve and finite field groups.
+
+.. macro:: PSA_KEY_TYPE_WPA3_SAE_ECC_PT
+    :definition: /* specification-defined value */
+
+    .. summary::
+        WPA3-SAE password token using elliptic curves.
+
+        .. versionadded:: 1.4
+
+    .. param:: curve
+        A value of type `psa_ecc_family_t` that identifies the elliptic curve family to be used.
+
+    .. todo:: Consider removing the _PT suffix from the WPA3-SAE key types - the only keys are the password token keys, so not sure the suffix is helpful?
+
+    The bit-size of a WPA3-SAE password token is the bit size associated with the specific curve within the elliptic curve family.
+    See the documentation of the elliptic curve family for details.
+
+    To construct a WPA3-SAE password token, it must be output from key derivation operation using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_WPA3_SAE_FIXED`
+            *   `PSA_ALG_WPA3_SAE_GDH`
+
+    .. subsection:: Key format
+
+        The data format for import and export of a WPA3-SAE password token is :scterm:`implementation defined`.
+
+        .. rationale::
+
+            :issue:`No export/import format is needed for this key type: password tokens should ALWAYS be derived from the password?`
+
+            .. todo:: Decide if we need to define the format for WPA3-SAE password token keys
+
+    .. subsection:: Key derivation
+
+        A elliptic curve-based WPA3-SAE password token can only be derived using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
+        The call to `psa_key_derivation_output_key()` uses the  method defined in :cite-title:`IEEE-802.11` §12.4.4.2.3 to generate the key value.
+
+.. macro:: PSA_KEY_TYPE_WPA3_SAE_DH_PT
+    :definition: /* specification-defined value */
+
+    .. summary::
+        WPA3-SAE password token using finite fields.
+
+        .. versionadded:: 1.4
+
+    .. param:: group
+        A value of type `psa_dh_family_t` that identifies the finite field Diffie-Hellman family to be used.
+
+    .. todo:: Consider removing the _PT suffix from the WPA3-SAE key types - the only keys are the password token keys, so not sure the suffix is helpful?
+
+    The bit-size of a WPA3-SAE password token is the bit size associated with the specific group within the Diffie-Hellman family.
+    See the documentation of the Diffie-Hellman family for details.
+
+    To construct a WPA3-SAE password token, it must be output from key derivation operation using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_WPA3_SAE_FIXED`
+            *   `PSA_ALG_WPA3_SAE_GDH`
+
+    .. subsection:: Key format
+
+        The data format for import and export of a WPA3-SAE password token is :scterm:`implementation defined`.
+
+        .. rationale::
+
+            :issue:`No export/import format is needed for this key type: password tokens should ALWAYS be derived from the password?`
+
+        .. todo:: Decide if we need to define the format for WPA3-SAE password token keys
+
+    .. subsection:: Key derivation
+
+        A finite field-based WPA3-SAE password token can only be derived using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
+        The call to `psa_key_derivation_output_key()` uses the  method defined in :cite-title:`IEEE-802.11` §12.4.4.3.3 to generate the key value.
+
+.. macro:: PSA_KEY_TYPE_IS_WPA3_SAE_ECC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a WPA3-SAE password token using elliptic curves.
+
+        .. versionadded:: 1.4
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the curve family from a WPA3-SAE password token using elliptic curves.
+
+        .. versionadded:: 1.4
+
+    .. param:: type
+        A WPA3-SAE password token using elliptic curve key type: a value of type `psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_WPA3_SAE_ECC(type)` is true.
+
+    .. return:: psa_ecc_family_t
+        The elliptic curve family id, if ``type`` is a supported WPA3-SAE password token using elliptic curve key. Unspecified if ``type`` is not a supported WPA3-SAE password token using elliptic curve key.
+
+.. macro:: PSA_KEY_TYPE_IS_WPA3_SAE_DH
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is a WPA3-SAE password token using elliptic curves.
+
+        .. versionadded:: 1.4
+
+    .. param:: type
+        A key type: a value of type `psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_WPA3_SAE_DH_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the finite field group family from a WPA3-SAE password token using finite fields.
+
+        .. versionadded:: 1.4
+
+    .. param:: type
+        A WPA3-SAE password token using finite fields key type: a value of type `psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_WPA3_SAE_DH(type)` is true.
+
+    .. return:: psa_ecc_family_t
+        The finite field group family id, if ``type`` is a supported WPA3-SAE password token using finite fields key. Unspecified if ``type`` is not a supported WPA3-SAE password token using finite fields key.
 
 .. _asymmetric-keys:
 
