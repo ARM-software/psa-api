@@ -355,7 +355,7 @@ a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to constr
 
 .. _ka-encoding:
 
-key-agreement algorithm encoding
+Key-agreement algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A key-agreement algorithm identifier can either be for the standalone key-agreement algorithm, or for a combined key-agreement with key-derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
