@@ -114,19 +114,19 @@ A PAKE primitive is required when constructing a PAKE cipher-suite object, `psa_
     :definition: ((psa_pake_primitive_type_t)0x02)
 
     .. summary::
-        The PAKE primitive type indicating the use of Diffie-Hellman groups.
+        The PAKE primitive type indicating the use of a finite field Diffie-Hellman group.
 
         .. versionadded:: 1.1
 
-    The values of the ``family`` and ``bits`` components of the PAKE primitive identify a specific Diffie-Hellman group, using the same mapping that is used for Diffie-Hellman keys.
+    The values of the ``family`` and ``bits`` components of the PAKE primitive identify a specific finite field Diffie-Hellman group, using the same mapping that is used for finite field Diffie-Hellman keys.
     See the definition of ``psa_dh_family_t``.
     Here ``family`` and ``bits`` refer to the values used to construct the PAKE primitive using `PSA_PAKE_PRIMITIVE()`.
 
     Input and output during the operation can involve group elements and scalar values:
 
-    *   The format for group elements is the same as that for public keys in the specific Diffie-Hellman group.
+    *   The format for group elements is the same as that for public keys in the specific finite field Diffie-Hellman group.
         See *Key format* within the definition of `PSA_KEY_TYPE_DH_PUBLIC_KEY()`.
-    *   The format for scalars is the same as that for private keys in the specific Diffie-Hellman group.
+    *   The format for scalars is the same as that for private keys in the specific finite field Diffie-Hellman group.
         See *Key format* within the definition of `PSA_KEY_TYPE_DH_PUBLIC_KEY()`.
 
 
@@ -605,7 +605,7 @@ PAKE step types
     The format depends on the group as well:
 
     *   For Montgomery curves, the encoding is little endian.
-    *   For other elliptic curves, and for Diffie-Hellman groups, the encoding is big endian. See :cite:`SEC1` §2.3.8.
+    *   For other elliptic curves, and for finite field Diffie-Hellman groups, the encoding is big endian. See :cite:`SEC1` §2.3.8.
 
     In both cases leading zeroes are permitted as long as the length in bytes does not exceed the byte length of the group order.
 
@@ -1293,7 +1293,7 @@ For example, the following code creates a cipher suite to select J-PAKE using P-
                                                  PSA_ECC_FAMILY_SECP_R1, 256));
     psa_pake_cs_set_key_confirmation(&cipher_suite, PSA_PAKE_UNCONFIRMED_KEY);
 
-More information on selecting a specific elliptic curve or Diffie-Hellman field is provided with the `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH` constants.
+More information on selecting a specific elliptic curve or finite field Diffie-Hellman group is provided with the `PSA_PAKE_PRIMITIVE_TYPE_ECC` and `PSA_PAKE_PRIMITIVE_TYPE_DH` constants.
 
 .. _jpake-passwords:
 
