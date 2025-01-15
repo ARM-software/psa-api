@@ -32,7 +32,7 @@ Key-agreement algorithms
     :definition: ((psa_algorithm_t)0x09010000)
 
     .. summary::
-        The finite-field Diffie-Hellman (DH) key-agreement algorithm.
+        The finite field Diffie-Hellman (DH) key-agreement algorithm.
 
     This standalone key-agreement algorithm can be used directly in a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, or combined with a key-derivation operation using `PSA_ALG_KEY_AGREEMENT()` for use with `psa_key_derivation_key_agreement()`.
 
@@ -41,7 +41,7 @@ Key-agreement algorithms
     *   In a call to `psa_key_agreement()` or `psa_raw_key_agreement()`, with algorithm `PSA_ALG_FFDH`.
     *   In a call to `psa_key_derivation_key_agreement()`, with any combined key-agreement and key-derivation algorithm constructed with `PSA_ALG_FFDH`.
 
-    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single Diffie-Hellman key pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
+    When used as part of a multi-part key-derivation operation, this implements a Diffie-Hellman key-agreement scheme using a single finite field Diffie-Hellman key pair for each participant. This includes the *dhEphem*, *dhOneFlow*, and *dhStatic* schemes. The input step `PSA_KEY_DERIVATION_INPUT_SECRET` is used when providing the secret and peer keys to the operation.
 
     The shared secret produced by this key-agreement algorithm is :math:`g^{ab}` in big-endian format. It is :math:`\lceil{(m / 8)}\rceil` bytes long where :math:`m` is the size of the prime :math:`p` in bits.
 
@@ -226,7 +226,7 @@ Standalone key agreement
     This key can be used as input to a key-derivation operation using `psa_key_derivation_input_key()`.
 
     .. warning::
-        The shared secret resulting from a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key-derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
+        The shared secret resulting from a key-agreement algorithm such as finite field Diffie-Hellman or elliptic curve Diffie-Hellman has biases. This makes it unsuitable for use as key material, for example, as an AES key. Instead, it is recommended that a key-derivation algorithm is applied to the result, to derive unbiased cryptographic keys.
 
 .. function:: psa_raw_key_agreement
 
@@ -288,7 +288,7 @@ Standalone key agreement
     A key-agreement algorithm takes two inputs: a private key ``private_key``, and a public key ``peer_key``. The result of this function is a shared secret, returned in the ``output`` buffer.
 
     .. warning::
-        The result of a key-agreement algorithm such as finite-field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key-derivation algorithm.
+        The result of a key-agreement algorithm such as finite field Diffie-Hellman or elliptic curve Diffie-Hellman has biases, and is not suitable for direct use as key material, for example, as an AES key. Instead it is recommended that the result is used as input to a key-derivation algorithm.
 
         To chain a key agreement with a key derivation, either use `psa_key_agreement()` to obtain the result of the key agreement as a derivation key, or use `psa_key_derivation_key_agreement()` and other functions from the key-derivation interface.
 
@@ -428,7 +428,7 @@ Support macros
     .. return::
         ``1`` if ``alg`` is a finite field Diffie-Hellman algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported key-agreement algorithm identifier.
 
-    This includes the standalone finite field Diffie-Hellman algorithm, as well as finite-field Diffie-Hellman combined with any supported key-derivation algorithm.
+    This includes the standalone finite field Diffie-Hellman algorithm, as well as finite field Diffie-Hellman combined with any supported key-derivation algorithm.
 
 .. macro:: PSA_ALG_IS_ECDH
     :definition: /* specification-defined value */

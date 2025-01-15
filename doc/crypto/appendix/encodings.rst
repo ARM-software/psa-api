@@ -619,6 +619,7 @@ The defined values for BLK, SYM-TYPE and P are shown in :numref:`table-symmetric
     SM4, 4, 2, 1, `PSA_KEY_TYPE_SM4`, ``0x2405``
     ARIA, 4, 3, 0, `PSA_KEY_TYPE_ARIA`, ``0x2406``
 
+.. _structured-key-encoding:
 
 Structured key encoding
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -648,8 +649,8 @@ The defined values for FAMILY depend on the STRUCT-TYPE value. See the details f
 WPA3-SAE password token encoding
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-WPA3-SAE can use either elliptic curve or Diffie-Hellman cipher suites.
-These use distinct STRUCT-TYPE values, and use the same FAMILY values as elliptic curve and Diffie-Hellman key types.
+WPA3-SAE is defined to use either elliptic curve or finite field groups.
+These use distinct STRUCT-TYPE values, and use the same FAMILY values as elliptic curve and finite field Diffie-Hellman key types.
 
 .. rubric:: WPA3-SAE password tokens using elliptic curves
 
@@ -687,7 +688,7 @@ The defined values for DH-FAMILY and P are shown in :numref:`table-wpa3-sae-dh-t
 
 RFC3526 defines a set of FF groups that are recommended for use with WPA3-SAE (those with primes >=3072 bits)
 
-.. csv-table:: WPA3-SAE password token Diffie-Hellman family values
+.. csv-table:: WPA3-SAE password token finite field Diffie-Hellman family values
     :name: table-wpa3-sae-dh-type
     :header-rows: 1
     :align: left
@@ -696,7 +697,7 @@ RFC3526 defines a set of FF groups that are recommended for use with WPA3-SAE (t
     WPA3-SAE suite, DH-FAMILY, P, DH family :sup:`a`, Key value
     RFC3526, 0x02, 1, `PSA_DH_FAMILY_RFC3526`, ``0x3305``
 
-a.  The Diffie Hellman family values defined in the API also include the parity bit. The password token key type value is constructed from the Diffie Hellman family using :code:`PSA_KEY_TYPE_WPA3_SAE_DH_PT(family)`.
+a.  The finite field Diffie Hellman family values defined in the API also include the parity bit. The password token key type value is constructed from the finite field Diffie Hellman family using :code:`PSA_KEY_TYPE_WPA3_SAE_DH_PT(family)`.
 
 .. _asymmetric-key-encoding:
 
@@ -792,30 +793,30 @@ a.  The elliptic curve family values defined in the API also include the parity 
 
 .. _dh-key-encoding:
 
-Diffie Hellman key encoding
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Finite field Diffie Hellman key encoding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The key type for Diffie Hellman keys defined in this specification are encoded as shown in :numref:`fig-dh-key-fields`.
+The key type for finite field Diffie Hellman keys defined in this specification are encoded as shown in :numref:`fig-dh-key-fields`.
 
 .. figure:: ../figure/encoding/dh_key.*
     :name: fig-dh-key-fields
 
-    Diffie Hellman key encoding
+    Finite field Diffie Hellman key encoding
 
 PAIR is either 0 for a public key, or 3 for a key pair.
 
 The defined values for DH-FAMILY and P are shown in :numref:`table-dh-type`.
 
-.. csv-table:: Diffie Hellman key group values
+.. csv-table:: Finite field Diffie Hellman key group values
     :name: table-dh-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    DH key group, DH-FAMILY, P, DH group :sup:`a`, Public-key value, Key-pair value
+    DH key group, DH-FAMILY, P, DH family :sup:`a`, Public-key value, Key-pair value
     RFC7919, 0x01, 1, `PSA_DH_FAMILY_RFC7919`, ``0x4203``, ``0x7203``
 
-a.  The Diffie Hellman family values defined in the API also include the parity bit. The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
+a.  The finite field Diffie Hellman group family values defined in the API also include the parity bit. The key type value is constructed from the finite field Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
 
 .. _spakep2-key-encoding:
 

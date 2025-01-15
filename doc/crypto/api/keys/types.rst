@@ -105,7 +105,7 @@ Elliptic curve families
     .. summary::
         The type of identifiers of an elliptic curve family.
 
-    The curve identifier is required to create a number of key types:
+    The curve family identifier is required to create a number of key types:
 
     *   ECC keys using `PSA_KEY_TYPE_ECC_KEY_PAIR()` or `PSA_KEY_TYPE_ECC_PUBLIC_KEY()`.
         These keys are used in various asymmetric signature, key-encapsulation, and key-agreement algorithms.
@@ -114,15 +114,18 @@ Elliptic curve families
     *   WPA3-SAE password tokens using `PSA_KEY_TYPE_WPA3_SAE_ECC_PT()`.
         These keys are used in the WPA3-SAE PAKE algorithms.
 
+    Elliptic curve family identifiers are also used to construct PAKE primitives for cipher suites based on elliptic curve groups.
+    See :secref:`pake-primitive`.
+
     The specific ECC curve within a family is identified by the ``key_bits`` attribute of the key.
 
     The range of elliptic curve family identifier values is divided as follows:
 
     :code:`0x00`
         Reserved.
-        Not allocated to an ECC family.
+        Not allocated to an elliptic curve family.
     :code:`0x01 - 0x7f`
-        ECC family identifiers defined by this standard.
+        Elliptic curve family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 - 0xff`
         Invalid.
@@ -294,47 +297,55 @@ Elliptic curve families
     Edwards25519 is defined in :cite-title:`Ed25519`. Edwards448 is defined in :cite-title:`Curve448`.
 
 
-Diffie-Hellman families
-~~~~~~~~~~~~~~~~~~~~~~~
+Finite field Diffie-Hellman families
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. typedef:: uint8_t psa_dh_family_t
 
     .. summary::
-        The type of identifiers of a finite-field Diffie-Hellman group family.
+        The type of identifiers of a finite field Diffie-Hellman group family.
 
-    The group family identifier is required to create a finite-field Diffie-Hellman key using the `PSA_KEY_TYPE_DH_KEY_PAIR()` or `PSA_KEY_TYPE_DH_PUBLIC_KEY()` macros.
+    The group family identifier is required to create a number of key types:
 
-    The specific Diffie-Hellman group within a family is identified by the ``key_bits`` attribute of the key.
+    *   Diffie-Hellman keys using `PSA_KEY_TYPE_DH_KEY_PAIR()` or `PSA_KEY_TYPE_DH_PUBLIC_KEY()`.
+        These keys are used in the FFDH key-agreement algorithm.
+    *   WPA3-SAE password tokens using `PSA_KEY_TYPE_WPA3_SAE_DH_PT()`.
+        These keys are used in the WPA3-SAE PAKE algorithms.
 
-    The range of Diffie-Hellman group family identifier values is divided as follows:
+    Finite field Diffie-Hellman group identifiers are also used to construct PAKE primitives for cipher suites based on finite field groups.
+    See :secref:`pake-primitive`.
+
+    The specific finite field Diffie-Hellman group within a family is identified by the ``key_bits`` attribute of the key.
+
+    The range of finite field Diffie-Hellman group family identifier values is divided as follows:
 
     :code:`0x00`
         Reserved.
-        Not allocated to a DH group family.
+        Not allocated to a Diffie-Hellman group family.
     :code:`0x01 - 0x7f`
-        DH group family identifiers defined by this standard.
+        Diffie-Hellman group family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
     :code:`0x80 - 0xff`
         Invalid.
         Values in this range must not be used.
 
-    The least significant bit of a Diffie-Hellman group family identifier is a parity bit for the whole key type.
+    The least significant bit of a finite field Diffie-Hellman group family identifier is a parity bit for the whole key type.
     See :secref:`asymmetric-key-encoding` for details of the encoding of asymmetric key types.
 
     .. admonition:: Implementation note
 
-        To provide other Diffie-Hellman group families, it is recommended that an implementation defines a key type with bit 15 set, which indicates an :scterm:`implementation defined` key type.
+        To provide other finite field Diffie-Hellman group families, it is recommended that an implementation defines a key type with bit 15 set, which indicates an :scterm:`implementation defined` key type.
 
 .. macro:: PSA_DH_FAMILY_RFC7919
     :definition: ((psa_dh_family_t) 0x03)
 
     .. summary::
-        Finite-field Diffie-Hellman groups defined for TLS in RFC 7919.
+        Finite field Diffie-Hellman groups defined for TLS in RFC 7919.
 
     This family includes groups with the following key sizes (in bits): 2048, 3072, 4096, 6144, 8192.
     An implementation can support all of these sizes or only a subset.
 
-    Keys is this group can only be used with the `PSA_ALG_FFDH` key-agreement algorithm.
+    Groups in this family can be used with the `PSA_ALG_FFDH` key-agreement algorithm.
 
     These groups are defined by :rfc-title:`7919#A`.
 
@@ -342,7 +353,7 @@ Diffie-Hellman families
     :definition: ((psa_dh_family_t) 0x05)
 
     .. summary::
-        Finite-field Diffie-Hellman groups defined for IKE2 in RFC 3526.
+        Finite field Diffie-Hellman groups defined for IKE2 in RFC 3526.
 
         .. versionadded:: 1.4
 
@@ -1020,8 +1031,8 @@ WPA3-SAE password tokens are defined for both elliptic curve and finite field gr
 
     .. todo:: Consider removing the _PT suffix from the WPA3-SAE key types - the only keys are the password token keys, so not sure the suffix is helpful?
 
-    The bit-size of a WPA3-SAE password token is the bit size associated with the specific group within the Diffie-Hellman family.
-    See the documentation of the Diffie-Hellman family for details.
+    The bit-size of the WPA3-SAE password token is the bit size associated with the specific group within the finite field Diffie-Hellman family.
+    See the documentation of the selected Diffie-Hellman family for details.
 
     To construct a WPA3-SAE password token, it must be output from key derivation operation using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
 
@@ -1532,10 +1543,10 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        Finite-field Diffie-Hellman key pair: both the private key and public key.
+        Finite field Diffie-Hellman key pair: both the private key and public key.
 
     .. param:: group
-        A value of type `psa_dh_family_t` that identifies the Diffie-Hellman group family to be used.
+        A value of type `psa_dh_family_t` that identifies the finite field Diffie-Hellman group family to be used.
 
     .. subsection:: Compatible algorithms
 
@@ -1554,7 +1565,7 @@ Diffie Hellman keys
 
         A call to `psa_key_derivation_output_key()` will use the following process, defined in *Key-Pair Generation by Testing Candidates* in :cite-title:`SP800-56A` §5.6.1.1.4.
 
-        A Diffie-Hellman private key is :math:`x \in [1, p - 1]`, where :math:`p` is the group's prime modulus.
+        A finite field Diffie-Hellman private key is :math:`x \in [1, p - 1]`, where :math:`p` is the group's prime modulus.
         Let :math:`m` be the bit size of :math:`p`, such that :math:`2^{m-1} \leq p < 2^m`.
 
         This function generates the private key using the following process:
@@ -1569,14 +1580,14 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        Finite-field Diffie-Hellman public key.
+        Finite field Diffie-Hellman public key.
 
     .. param:: group
-        A value of type `psa_dh_family_t` that identifies the Diffie-Hellman group family to be used.
+        A value of type `psa_dh_family_t` that identifies the finite field Diffie-Hellman group family to be used.
 
     .. subsection:: Compatible algorithms
 
-        None: Finite-field Diffie-Hellman public keys are exported to use in a key-agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key-agreement algorithm as a buffer of key data.
+        None: Finite field Diffie-Hellman public keys are exported to use in a key-agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key-agreement algorithm as a buffer of key data.
 
     .. subsection:: Key format
 
@@ -1587,7 +1598,7 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether a key type is a Diffie-Hellman key, either a key pair or a public key.
+        Whether a key type is a finite field Diffie-Hellman key, either a key pair or a public key.
 
     .. param:: type
         A key type: a value of type `psa_key_type_t`.
@@ -1596,7 +1607,7 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether a key type is a Diffie-Hellman key pair.
+        Whether a key type is a finite field Diffie-Hellman key pair.
 
     .. param:: type
         A key type: a value of type `psa_key_type_t`.
@@ -1605,7 +1616,7 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether a key type is a Diffie-Hellman public key.
+        Whether a key type is a finite field Diffie-Hellman public key.
 
     .. param:: type
         A key type: a value of type `psa_key_type_t`.
@@ -1614,13 +1625,13 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        Extract the group family from a Diffie-Hellman key type.
+        Extract the group family from a finite field Diffie-Hellman key type.
 
     .. param:: type
-        A Diffie-Hellman key type: a value of type `psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_DH(type)` is true.
+        A finite field Diffie-Hellman key type: a value of type `psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_DH(type)` is true.
 
     .. return:: psa_dh_family_t
-        The Diffie-Hellman group family id, if ``type`` is a supported Diffie-Hellman key. Unspecified if ``type`` is not a supported Diffie-Hellman key.
+        The finite field Diffie-Hellman group family id, if ``type`` is a supported finite field Diffie-Hellman key. Unspecified if ``type`` is not a supported finite field Diffie-Hellman key.
 
 
 .. _spake2p-keys:
