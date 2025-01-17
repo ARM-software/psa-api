@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Introduction
@@ -16,7 +16,7 @@ About the |API| PQC Extension
 -----------------------------
 
 This document defines an extension to the :cite-title:`PSA-CRYPT` specification, to provide support for :term:`Post-Quantum Cryptography` (PQC) algorithms.
-Specifically, for the NIST-approved schemes for HSS/LMS, XMSS, |XMSS^MT|, ML-DSA, SLH-DSA, and ML-KEM.
+Specifically, for the NIST-approved schemes for LMS, HSS, XMSS, |XMSS^MT|, ML-DSA, SLH-DSA, and ML-KEM.
 
 When the proposed extension is sufficiently stable to be classed as Final, it will be integrated into a future version of `[PSA-CRYPT]`.
 

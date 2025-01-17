@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto-pqc
@@ -9,7 +9,8 @@
 eXtended Merkle Signature Scheme
 ================================
 
-The |API| supports eXtended Merkle Signature Scheme (XMSS), and the multi-tree variant |XMSS^MT|. These schemes are defined in :rfc-title:`8391`.
+The |API| supports eXtended Merkle Signature Scheme (XMSS), and the multi-tree variant |XMSS^MT|.
+These schemes are defined in :rfc-title:`8391`.
 
 For the |API| to support signature verification, it is only necessary to define public keys for these schemes, and the default public key formats for import and export.
 
@@ -30,7 +31,7 @@ XMSS and |XMSS^MT| keys
 The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined in :cite-title:`FIPS205`.
 
 .. macro:: PSA_KEY_TYPE_XMSS_PUBLIC_KEY
-    :definition: ((psa_key_type_t)0x4008)
+    :definition: ((psa_key_type_t)0x400B)
 
     .. summary::
         eXtended Merkle Signature Scheme (XMSS) public key.
@@ -65,7 +66,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
         The data format for import or export of the public key is the encoded ``xmss_public_key`` structure, defined in :rfc:`8391#B.3`.
 
 .. macro:: PSA_KEY_TYPE_XMSS_MT_PUBLIC_KEY
-    :definition: ((psa_key_type_t)0x400b)
+    :definition: ((psa_key_type_t)0x400D)
 
     .. summary::
         Multi-tree eXtended Merkle Signature Scheme (|XMSS^MT|) public key.
@@ -103,7 +104,7 @@ XMSS and |XMSS^MT| algorithms
 -----------------------------
 
 .. macro:: PSA_ALG_XMSS
-    :definition: ((psa_algorithm_t) 0x06004a00)
+    :definition: ((psa_algorithm_t) 0x06004A00)
 
     .. summary::
         eXtended Merkle Signature Scheme (XMSS) signature algorithm.
@@ -124,7 +125,7 @@ XMSS and |XMSS^MT| algorithms
         | :code:`PSA_KEY_TYPE_XMSS_PUBLIC_KEY` (signature verification only)
 
 .. macro:: PSA_ALG_XMSS_MT
-    :definition: ((psa_algorithm_t) 0x06004b00)
+    :definition: ((psa_algorithm_t) 0x06004B00)
 
     .. summary::
         Multi-tree eXtended Merkle Signature Scheme (|XMSS^MT|) signature algorithm.
