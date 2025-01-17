@@ -28,8 +28,6 @@ For the |API| to support signature verification, it is only necessary to define 
 XMSS and |XMSS^MT| keys
 -----------------------
 
-The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined in :cite-title:`FIPS205`.
-
 .. macro:: PSA_KEY_TYPE_XMSS_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x400B)
 
@@ -40,9 +38,19 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     The parameterization of an XMSS key is fully encoded in the key data.
 
-    The key attribute size of an XMSS public key is :issue:`not used?`
+    The key attribute size of an XMSS public key is output length, in bits, of the hash function identified by the XMSS parameter set.
 
-    .. todo:: Decide if we want to use the ``key_bits`` attribute for XMSS keys at all.
+    *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
+    *   SHA-256, SHAKE256/256 : ``key_bits = 256``
+
+    .. todo:: We could make the key_bits equal the key size in bits (416 and 544, above), but the hash output size is more intuitive (for comparison, see SLH-DSA). The actual key size is a straight-forward computation for each of the HBS key types.
+
+    .. todo::
+
+        Do we also want to indicate the values for SHA-512, SHAKE256/512 and SHAKE128/256 based parameter sets, as described in `[RFC8391]`?
+
+        These parameter sets are not described in :cite-title:`SP800-208`.
+
 
     .. note::
         For a multi-tree XMSS key, see `PSA_KEY_TYPE_XMSS_MT_PUBLIC_KEY`.
@@ -75,9 +83,12 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     The parameterization of an |XMSS^MT| key is fully encoded in the key data.
 
-    The key attribute size of an |XMSS^MT| public key is :issue:`not used?`
+    The key attribute size of an |XMSS^MT| public key is output length, in bits, of the hash function identified by the |XMSS^MT| parameter set.
 
-    .. todo:: Decide if we want to use the ``key_bits`` attribute for |XMSS^MT| keys at all.
+    *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
+    *   SHA-256, SHAKE256/256 : ``key_bits = 256``
+
+    .. todo:: See todos on `PSA_KEY_TYPE_XMSS_PUBLIC_KEY`.
 
     .. subsection:: Compatible algorithms
 
