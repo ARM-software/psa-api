@@ -43,8 +43,6 @@ Leighton-Micali Signature keys
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``
 
-    .. todo:: We could make the key_bits equal the key size in bits (384 and 448, above), but the hash output size is more intuitive (for comparison, see SLH-DSA). The actual key size is a straight-forward computation for each of the HBS key types.
-
     .. subsection:: Compatible algorithms
 
         .. hlist::
@@ -69,8 +67,6 @@ Leighton-Micali Signature keys
 
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``
-
-    .. todo:: We could make the key_bits equal the key size in bits (416 and 480, above), but the hash output size is more intuitive (for comparison, see SLH-DSA). The actual key size is a straight-forward computation for each of the HBS key types.
 
     .. subsection:: Compatible algorithms
 
