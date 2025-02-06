@@ -34,7 +34,10 @@ See also *Hash algorithm encoding* in `[PSA-CRYPT]` Appendix B.
     :widths: auto
 
     Hash algorithm, HASH-TYPE, Algorithm identifier, Algorithm value
-    SHAKE128-256, ``0x16``, `PSA_ALG_SHAKE128_256`, ``0x02000016``
+    SHA-256/192, ``0x0E``, `PSA_ALG_SHA_256_192`, ``0x0200000E``
+    SHAKE128/256, ``0x16``, `PSA_ALG_SHAKE128_256`, ``0x02000016``
+    SHAKE256/192, ``0x17``, `PSA_ALG_SHAKE256_192`, ``0x02000017``
+    SHAKE256/256, ``0x18``, `PSA_ALG_SHAKE256_256`, ``0x02000018``
 
 .. _sign-encoding:
 

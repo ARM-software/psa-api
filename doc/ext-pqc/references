@@ -6,6 +6,12 @@
     :doc_no: IHI 0086
     :url: arm-software.github.io/psa-api/crypto
 
+.. reference:: FIPS180-4
+    :title: FIPS Publication 180-4: Secure Hash Standard (SHS)
+    :author: NIST
+    :publication: August 2015
+    :url: doi.org/10.6028/NIST.FIPS.180-4
+
 .. reference:: FIPS202
     :title: FIPS Publication 202: SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions
     :author: NIST
