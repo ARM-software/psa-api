@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Changes to the API
@@ -20,3 +20,7 @@ Beta release
     See :secref:`ml-dsa`.
 *   Added support for FIPS 205 SLH-DSA signature algorithm and keys.
     See :secref:`slh-dsa`.
+*   Added support for LMS and HSS stateful hash-based signature verification and public keys.
+    See :secref:`lms`.
+*   Added support for XMSS and |XMSS^MT| stateful hash-based signature verification and public keys.
+    See :secref:`xmss`.

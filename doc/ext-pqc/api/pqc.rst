@@ -29,5 +29,7 @@ This chapter is divided into sections for each of the PQC algorithms in the |API
     mlkem
     mldsa
     slhdsa
+    lms
+    xmss
 
 See :secref:`pqc-encodings` for the encoding of the key types and algorithm identifiers added by this extension.

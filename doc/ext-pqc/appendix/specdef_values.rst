@@ -27,10 +27,10 @@ Updated macros
          PSA_ALG_IS_HASH_ML_DSA(alg) || PSA_ALG_IS_HASH_SLH_DSA(alg))
 
     #define PSA_ALG_IS_SIGN_HASH(alg) \
-        (PSA_ALG_IS_SIGN(alg) && \
-         (alg) != PSA_ALG_PURE_EDDSA && \
-         !PSA_ALG_IS_SLH_DSA(alg) && \
-         !PSA_ALG_IS_ML_DSA(alg))
+        (PSA_ALG_IS_HASH_AND_SIGN(alg) ||
+        (alg) == PSA_ALG_RSA_PKCS1V15_SIGN_RAW ||
+        (alg) == PSA_ALG_ECDSA_ANY
+        )
 
 New macros
 ^^^^^^^^^^
