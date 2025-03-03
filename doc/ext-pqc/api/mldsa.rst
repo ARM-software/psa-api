@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto-pqc
@@ -24,12 +24,11 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. versionadded:: 1.3
 
-    The key attribute size of an ML-DSA key is the numeric ML-DSA parameter-set identifier defined in `[FIPS204]`.
-    The values are based on the dimensions of the matrix :math:`A`, and do not directly define the key size in bytes:
+    The key attribute size of an ML-DSA key is a measure of the security strength of the ML-DSA parameter-set in `[FIPS204]`:
 
-    *   ML-DSA-44 : ``key_bits = 44``
-    *   ML-DSA-65 : ``key_bits = 65``
-    *   ML-DSA-87 : ``key_bits = 87``
+    *   ML-DSA-44 : ``key_bits = 128``
+    *   ML-DSA-65 : ``key_bits = 192``
+    *   ML-DSA-87 : ``key_bits = 256``
 
     See also §4 in `[FIPS204]`.
 
