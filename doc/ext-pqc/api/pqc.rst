@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 ..  _pqc-api:
@@ -12,7 +12,7 @@ API Reference
     The API defined in this specification will be integrated into a future version of :cite:`PSA-CRYPT`.
 
 .. header:: psa/crypto-pqc
-    :copyright: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
     :license: Apache-2.0
 
     /* This file contains reference definitions for implementation of the
