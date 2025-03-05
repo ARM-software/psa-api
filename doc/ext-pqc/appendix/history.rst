@@ -12,7 +12,7 @@ Document change history
 Beta release
 ^^^^^^^^^^^^
 
-*   First release of the PQC Extension.
+First release of the PQC Extension.
 
 *   Added support for FIPS 203 ML-KEM key-encapsulation algorithm and keys.
     See :secref:`ml-kem`.

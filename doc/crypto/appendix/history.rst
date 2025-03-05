@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Changes to the API
@@ -14,16 +14,12 @@ This section provides the detailed changes made between published version of the
 Changes between *1.2.1* and *1.3.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:issue:`TBD`
-
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Added `PSA_EXPORT_ASYMMETRIC_KEY_MAX_SIZE` to evaluate the export buffer size for any asymmetric key pair or public key.
-
 *   Add extended key-generation and key-derivation functions, `psa_generate_key_custom()` and `psa_key_derivation_output_key_custom()`, that accept additional parameters to control the key creation process.
 *   Define a key production parameter to select a non-default exponent for RSA key generation.
-
 *   Reworked the allocation of bits in the encoding of asymmetric keys, to increase the scope for additional asymmetric key types:
 
     -   Bit 7 was previously an unused indicator for :sc:`implementation defined` family values, and is now allocated to the ASYM-TYPE.
@@ -32,7 +28,6 @@ Changes to the API
     This has no effect on any currently allocated key type values, but affects the correct implementation of macros used to manipulate asymmetric key types.
 
     See :secref:`asymmetric-key-encoding` and :secref:`appendix-specdef-key-values`.
-
 *   Added key-encapsulation functions, `psa_encapsulate()` and `psa_decapsulate()`.
 
     -   Added `PSA_ALG_ECIES_SEC1` as a key-encapsulation algorithm that implements the key agreement steps of ECIES.
@@ -41,13 +36,10 @@ Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 *   Clarified the documentation of key attributes in key creation functions.
-
 *   Clarified the constraint on `psa_key_derivation_output_key()` for algorithms that have a `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step.
 *   Removed the redundant key input constraints on `psa_key_derivation_verify_bytes()` and `psa_key_derivation_verify_key()`. These match the policy already checked in `psa_key_derivation_input_key()`.
-
 *   Documented the use of context parameters in J-PAKE and SPAKE2+ PAKE operations.
     See :secref:`jpake-operation` and :secref:`spake2p-operation`.
-
 *   Clarified asymmetric signature support by categorizing the different types of signature algorithm.
 
 Other changes
