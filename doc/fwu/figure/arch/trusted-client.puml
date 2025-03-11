@@ -16,11 +16,11 @@ file "Firmware package" <<data>> as firmware #ArmDarkBlue
 
 dfd_tb($label = "Device") {
     rectangle "Update client" <<app>> as client #ArmMidGray
-    interface "**  Firmware**\n**Update API**" as api  #ArmGreen
+    interface "  **Firmware**\n**Update API**" as api  #ArmGreen
     rectangle "Update service" <<library>> as service #ArmMidBlue
     database "Firmware store" as store #ArmLightGray
     rectangle "Bootloader" as bootloader #ArmMidBlue
-    label "<size:30>    <&key>\nTrust anchor" as anchor
+    label "<size:30>   <&key>\nTrust anchor" as anchor
 }
 
 firmware -> client

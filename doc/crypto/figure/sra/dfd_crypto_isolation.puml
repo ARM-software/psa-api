@@ -16,10 +16,12 @@ dfd_tb("System boundary") {
 }
 
 ext <-> app: "ciphertext"
-app -> crypto: "Crypto API call"
-app <- crypto: "response"
+app <--> nvm: "ciphertext"
+nvm -[hidden]r- crypto
+
+app --> crypto: "Crypto API\ncall"
+app <-- crypto: "response"
 crypto -> keys: "store key"
 crypto <- keys: "load key"
-app <--> nvm: "ciphertext"
 
 @enduml

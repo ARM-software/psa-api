@@ -4,40 +4,24 @@
 @startuml
 
 !include atg-spec.pumh
-!include atg-dataflow.pumh
+!include atg-lifecycle.pumh
 
-skinparam rectangle {
-    backgroundColor #ArmMidBlue
-    borderColor darkred
-    borderThickness 0
-    fontColor white
+stakeholder "SiP and OEM" as n1
+stakeholder "SiP and/or OEM" as n2
+stakeholder "[everybody]" as n3
+stakeholder_skip as n4
+stakeholder "SiP, OEM,\nand Owner" as n5
+
+lifecycle_phase "Manufacturing" as r1 {
+   lifecycle_state "System\nmanufacturing\nand initialization" as lc1
+   lifecycle_state "Provision of\nRoot of Trust\nsecrets" as lc2
 }
-
-skinparam card {
-    backgroundColor #0091BD20
-    borderColor #ArmMidBlue
-    borderThickness 0
-    fontColor black
+lifecycle_phase "Operational" as r3 {
+   lifecycle_state "Boot" as lc3
+   lifecycle_state "Secure operation" as lc4
 }
-
-left to right direction
-
-note "SiP and OEM" as n1
-note "SiP and/or OEM" as n2
-note "[everybody]" as n3
-label " " as n4
-note "SiP, OEM,\nand Owner" as n5
-
-card "Manufacturing" as r1 {
-   rectangle "System\nmanufacturing\nand initialization" as lc1
-   rectangle "Provision of\nRoot of Trust\nsecrets" as lc2
-}
-card "Operational" as r3 {
-   rectangle "Boot" as lc3
-   rectangle "Secure operation" as lc4
-}
-card "End of life" as r5 {
-   rectangle "Return to\nManufacturer" as lc5
+lifecycle_phase "End of life" as r5 {
+   lifecycle_state "Return to\nManufacturer" as lc5
 }
 
 lc1 --> lc2

@@ -15,11 +15,11 @@ rectangle "Firmware creator" as creator #ArmDarkBlue
 cloud Internet {
     rectangle "Update server" as server #ArmMidGray
 }
-interface "MQTT\n CoAP\nHTTPS\n      ..." as tls #ArmLightGray
+interface "MQTT\n CoAP\nHTTPS\n     ..." as tls #ArmLightGray
 
 dfd_tb("Device ") {
     rectangle "Update client" as client #ArmMidGray
-    interface "**  Firmware**\n**Update API**" as api  #ArmGreen
+    interface "  **Firmware**\n**Update API**" as api  #ArmGreen
     rectangle "Update service" as service #ArmMidBlue
     database "Firmware store" as store #ArmLightGray
     rectangle "Bootloader" as bootloader #ArmMidBlue
