@@ -15,7 +15,7 @@ rectangle "Firmware creator" as creator #ArmDarkBlue
 cloud Internet {
     rectangle "Update server" as server #ArmMidGray
 }
-interface "MQTT\n CoAP\nHTTPS\n      ..." as tls #ArmLightGray
+interface "MQTT\n CoAP\nHTTPS\n     ..." as tls #ArmLightGray
 
 dfd_tb("Device ") {
     rectangle "Update client" as client #ArmMidBlue

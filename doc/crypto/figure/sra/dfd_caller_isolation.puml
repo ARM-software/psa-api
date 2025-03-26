@@ -23,8 +23,8 @@ dfd_tb("System boundary") {
 
 ext <-> app: "ciphertext"
 ext2 <-> app2: "ciphertext"
-app <-[norank]d-> nvm: "ciphertext"
-nvm <-[norank]d-> app2: "ciphertext"
+app <--> nvm: "ciphertext"
+nvm <--> app2: "ciphertext"
 nvm -[hidden]r- crypto
 ext -[hidden]d- ext2
 

@@ -15,21 +15,28 @@ skinparam InterfaceBorderColor #ArmMidGray
 file "Firmware package" <<data>> as firmware #ArmDarkBlue
 
 dfd_tb($label = "Device") {
-    rectangle "Update client" <<app>> as client #ArmMidGray
-    interface "**  Firmware**\n**Update API**" as api  #ArmGreen
-    rectangle "Update service proxy" <<library>> as proxy #ArmMidBlue
+    dfd_align() {
+        rectangle "Update client" <<app>> as client #ArmMidGray
+        interface "  **Firmware**\n**Update API**" as api  #ArmGreen
+        rectangle "Update service proxy" <<library>> as proxy #ArmMidBlue
+    }
     dfd_tb($label = "Platform Root of Trust") as rot {
         rectangle "Update service" <<RoT service>> as service #ArmMidBlue
         database "Firmware store" as store #ArmLightGray
         rectangle "Bootloader" as bootloader #ArmMidBlue
-        label "<size:30>    <&key>\nTrust anchor" as anchor
+        label "<size:30>   <&key>\nTrust anchor" as anchor
     }
 }
 
 firmware -> client
 client - api
 api -> proxy
+proxy -[hidden] service
+proxy -[hidden] service
 proxy -> service
+proxy -[hidden] service
+proxy -[hidden] service
+proxy -[hidden] service
 service --> store
 service -[hidden]right-> bootloader
 bootloader --> store
