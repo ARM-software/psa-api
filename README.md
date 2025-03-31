@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -22,7 +22,7 @@ The following specifications are part of the PSA Certified API.
 
 Specification | Published | Document source | Reference headers | Dashboard
 -|-|-|-|-
-Crypto API | [1.2.1][crypto-specs] | [doc/crypto/] | [headers/crypto/1.2/] | [Project board][crypto-dash]
+Crypto API | [1.3.0][crypto-specs] | [doc/crypto/] | [headers/crypto/1.3/] | [Project board][crypto-dash]
 Secure Storage API | [1.0.3][storage-specs] | [doc/storage/] |  [headers/storage/1.0/] | [Project board][storage-dash] |
 Attestation API | [1.0.3][attestation-specs] | [doc/attestation/] |  [headers/attestation/1.0/] | [Project board][attestation-dash] |
 Firmware Update API | [1.0.0][fwu-specs] | [doc/fwu/] |  [headers/fwu/1.0/] | [Project board][fwu-dash]
@@ -46,7 +46,7 @@ Status code API | [1.0.3][status-specs] | [doc/status-code/] |  [headers/status-
 [doc/fwu/]:             doc/fwu
 [doc/status-code/]:     doc/status-code
 
-[headers/crypto/1.2/]:      headers/crypto/1.2
+[headers/crypto/1.3/]:      headers/crypto/1.3
 [headers/storage/1.0/]:     headers/storage/1.0
 [headers/attestation/1.0/]: headers/attestation/1.0
 [headers/fwu/1.0/]:         headers/fwu/1.0
@@ -58,9 +58,10 @@ Extension specifications introduce new functionality that is not yet stable enou
 
 API | Extension | Published | Document source | Reference headers | Dashboard
 -|-|-|-|-|-
-Crypto API | PAKE | [1.2 Final 1][crypto-specs] |  [doc/ext-pake/] | [headers/crypto/1.2/]  | [Project board][crypto-dash]
+Crypto API | PAKE | [*Integrated in 1.3.0*][crypto-specs] | *n/a* | *n/a* | *n/a*
+Crypto API | PQC | [1.3 Beta][crypto-specs] |  [doc/ext-pqc/] | [headers/crypto/1.3/]  | [Project board][crypto-dash]
 
-[doc/ext-pake/]:        doc/ext-pake
+[doc/ext-pqc/]:        doc/ext-pqc
 
 
 ## Reference header files
