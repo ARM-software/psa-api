@@ -28,7 +28,7 @@ Key identifier type
 -------------------
 
 .. header:: psa/crypto
-    :seq: 11
+    :seq: 110
 
 .. typedef:: uint32_t psa_key_id_t
 
@@ -38,7 +38,7 @@ Key identifier type
     A key identifier can be a permanent name for a persistent key, or a transient reference to volatile key. See :secref:`key-identifiers`.
 
 .. header:: psa/crypto
-    :seq: 15
+    :seq: 150
 
 .. macro:: PSA_KEY_ID_NULL
     :definition: ((psa_key_id_t)0)
