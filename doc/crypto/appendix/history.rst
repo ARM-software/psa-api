@@ -17,7 +17,7 @@ Changes between *1.3.0* and *1.3.1*
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-*
+*   Clarify the way a 'volatile key' is designated, based on a persistence level of `PSA_KEY_PERSISTENCE_VOLATILE`, to ensure that this is consistent throughout the specification. See :secref:`key-lifetimes`.
 
 Changes between *1.2.1* and *1.3.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
