@@ -266,7 +266,7 @@ Attribute accessors
 .. function:: psa_set_key_lifetime
 
     .. summary::
-        Set the location of a persistent key.
+        Set the lifetime of a key, for a persistent key or a non-default location.
 
     .. param:: psa_key_attributes_t * attributes
         The attribute object to write to.
