@@ -11,6 +11,25 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.3.0* and *1.4.0*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+*   Add support for extendable-output functions (XOF).
+    See :secref:`xof`.
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   TBD
+
+Other changes
+~~~~~~~~~~~~~
+
+*   TBD
+
 Changes between *1.2.1* and *1.3.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

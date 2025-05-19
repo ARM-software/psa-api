@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _algorithms:
@@ -16,6 +16,7 @@ Algorithm identifiers are used for two purposes in the |API|:
 The specific algorithm identifiers are described alongside the cryptographic operation functions to which they apply:
 
 *   :secref:`hash-algorithms`
+*   :secref:`xof-algorithms`
 *   :secref:`mac-algorithms`
 *   :secref:`cipher-algorithms`
 *   :secref:`aead-algorithms`
@@ -31,7 +32,7 @@ Algorithm encoding
 ------------------
 
 .. header:: psa/crypto
-    :seq: 16
+    :seq: 160
 
 .. typedef:: uint32_t psa_algorithm_t
 
@@ -56,7 +57,7 @@ Algorithm encoding
     The :secref:`appendix-encodings` appendix provides a full definition of the algorithm identifier encoding.
 
 .. header:: psa/crypto
-    :seq: 20
+    :seq: 200
 
 .. macro:: PSA_ALG_NONE
     :definition: ((psa_algorithm_t)0)
@@ -82,6 +83,21 @@ Algorithm categories
         ``1`` if ``alg`` is a hash algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     See :secref:`hash-algorithms` for a list of defined hash algorithms.
+
+.. macro:: PSA_ALG_IS_XOF
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an XOF algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an XOF algorithm, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`xof-algorithms` for a list of defined XOF algorithms.
 
 .. macro:: PSA_ALG_IS_MAC
     :definition: /* specification-defined value */

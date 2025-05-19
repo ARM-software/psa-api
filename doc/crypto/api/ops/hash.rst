@@ -1,8 +1,8 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
-    :seq: 21
+    :seq: 210
 
 .. _hashes:
 
@@ -184,13 +184,16 @@ Hash algorithms
     :definition: ((psa_algorithm_t)0x02000015)
 
     .. summary::
-        The first 512 bits (64 bytes) of the SHAKE256 output.
+        The first 512 bits (64 bytes) of the output from SHAKE256.
 
         .. versionadded:: 1.1
 
-    This is the pre-hashing for Ed448ph (see `PSA_ALG_ED448PH`).
+    This is used for pre-hashing in Ed448ph, see `PSA_ALG_ED448PH`.
 
-    SHAKE256 is defined in :cite:`FIPS202`.
+    The SHAKE256 XOF is defined in :cite:`FIPS202`.
+
+    .. note::
+        To use SHAKE256 as an XOF, see :secref:`xof` and `PSA_ALG_SHAKE256`.
 
     .. note::
         For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-512 is recommended. SHA3-512 has the same output size, and a theoretically higher security strength.
