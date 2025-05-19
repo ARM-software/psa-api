@@ -11,6 +11,24 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.3.0* and *1.4.0*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+*   Added `psa_attach_key()` to register existing key material as a volatile key within the implementation.
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   TBD
+
+Other changes
+~~~~~~~~~~~~~
+
+*   TBD
+
 Changes between *1.2.1* and *1.3.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
