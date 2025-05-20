@@ -11,6 +11,14 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.3.0* and *1.3.1*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Corrected the type of the key id parameter to `psa_generate_key_custom()` and `psa_key_derivation_output_key_custom()`.
+
 Changes between *1.2.1* and *1.3.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
