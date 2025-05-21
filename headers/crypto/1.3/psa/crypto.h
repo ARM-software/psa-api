@@ -533,7 +533,8 @@ typedef uint32_t psa_key_location_t;
 #define PSA_KEY_LOCATION_PRIMARY_SECURE_ELEMENT ((psa_key_location_t) 0x000001)
 
 /**
- * @brief Set the location of a persistent key.
+ * @brief Set the lifetime of a key, for a persistent key or a non-default
+ *        location.
  *
  * @param attributes The attribute object to write to.
  * @param lifetime   The lifetime for the key.

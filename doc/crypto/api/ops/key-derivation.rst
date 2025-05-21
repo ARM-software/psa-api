@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -885,7 +885,7 @@ Key-derivation functions
             If the key type to be created is `PSA_KEY_TYPE_PASSWORD_HASH`, then the permitted-algorithm policy must be either the same as the current operation's algorithm, or `PSA_ALG_NONE`.
         *   The key usage flags, see :secref:`key-usage-flags`.
 
-        The following attributes must be set for keys that do not use the default volatile lifetime:
+        The following attributes must be set for keys that do not use the default `PSA_KEY_LIFETIME_VOLATILE` lifetime:
 
         *   The key lifetime, see :secref:`key-lifetimes`.
         *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
@@ -985,7 +985,7 @@ Key-derivation functions
             If the key type to be created is `PSA_KEY_TYPE_PASSWORD_HASH`, then the permitted-algorithm policy must be either the same as the current operation's algorithm, or `PSA_ALG_NONE`.
         *   The key usage flags, see :secref:`key-usage-flags`.
 
-        The following attributes must be set for keys that do not use the default volatile lifetime:
+        The following attributes must be set for keys that do not use the default `PSA_KEY_LIFETIME_VOLATILE` lifetime:
 
         *   The key lifetime, see :secref:`key-lifetimes`.
         *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.

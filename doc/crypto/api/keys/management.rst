@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -47,7 +47,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
         *   The key usage flags, see :secref:`key-usage-flags`.
 
-        The following attributes must be set for keys that do not use the default volatile lifetime:
+        The following attributes must be set for keys that do not use the default `PSA_KEY_LIFETIME_VOLATILE` lifetime:
 
         *   The key lifetime, see :secref:`key-lifetimes`.
         *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
@@ -181,7 +181,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
         *   The key usage flags, see :secref:`key-usage-flags`.
 
-        The following attributes must be set for keys that do not use the default volatile lifetime:
+        The following attributes must be set for keys that do not use the default `PSA_KEY_LIFETIME_VOLATILE` lifetime:
 
         *   The key lifetime, see :secref:`key-lifetimes`.
         *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
@@ -256,7 +256,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         *   The key permitted-algorithm policy, see :secref:`permitted-algorithms`.
         *   The key usage flags, see :secref:`key-usage-flags`.
 
-        The following attributes must be set for keys that do not use the default volatile lifetime:
+        The following attributes must be set for keys that do not use the default `PSA_KEY_LIFETIME_VOLATILE` lifetime:
 
         *   The key lifetime, see :secref:`key-lifetimes`.
         *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
@@ -341,7 +341,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
         These flags are combined with the source key policy so that both sets of restrictions apply, as described in the documentation of this function.
 
-        The following attributes must be set for keys that do not use the default volatile lifetime:
+        The following attributes must be set for keys that do not use the default `PSA_KEY_LIFETIME_VOLATILE` lifetime:
 
         *   The key lifetime, see :secref:`key-lifetimes`.
         *   The key identifier is required for a key with a persistent lifetime, see :secref:`key-identifiers`.
