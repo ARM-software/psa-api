@@ -24,7 +24,7 @@ Volatile keys
 
 Volatile keys are automatically destroyed when the application instance terminates or on a power reset of the device. Volatile keys can be explicitly destroyed by the application.
 
-Conceptually, a volatile key is stored in RAM. Volatile keys have the persistence level `PSA_KEY_PERSISTENCE_VOLATILE` in the key lifetime value, see :secref:`key-lifetime-encoding`.
+Volatile keys have the persistence level `PSA_KEY_PERSISTENCE_VOLATILE` in the key lifetime value, see :secref:`key-lifetime-encoding`.
 Unless the key lifetime is explicitly set in the key attributes before creating a key, a volatile key will be created with the default `PSA_KEY_LIFETIME_VOLATILE` lifetime value.
 
 To create a volatile key:
