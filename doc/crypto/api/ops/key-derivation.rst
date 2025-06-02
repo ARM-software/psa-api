@@ -341,6 +341,8 @@ Key-derivation algorithms
     .. summary::
         The TLS 1.2 ECJPAKE-to-PMS key-derivation algorithm.
 
+        .. versionadded:: 1.2
+
     This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using a PAKE operation, see :secref:`pake`.
 
     This KDF takes the shared secret :math:`K`` (an uncompressed EC point in case of EC J-PAKE) and calculates :math:`\text{SHA256}(K.x)`.
@@ -1215,6 +1217,8 @@ Support macros
     .. summary::
         Whether the specified algorithm is a key-stretching or password-hashing algorithm.
 
+        .. versionadded:: 1.1
+
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
@@ -1245,6 +1249,8 @@ Support macros
     .. summary::
         Whether the specified algorithm is an HKDF-Extract algorithm (:code:`PSA_ALG_HKDF_EXTRACT(hash_alg)`).
 
+        .. versionadded:: 1.1
+
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
@@ -1257,6 +1263,8 @@ Support macros
     .. summary::
         Whether the specified algorithm is an HKDF-Expand algorithm (:code:`PSA_ALG_HKDF_EXPAND(hash_alg)`).
 
+        .. versionadded:: 1.1
+
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
@@ -1266,10 +1274,10 @@ Support macros
 .. macro:: PSA_ALG_IS_SP800_108_COUNTER_HMAC
     :definition: /* specification-defined value */
 
-        .. versionadded:: 1.2
-
     .. summary::
         Whether the specified algorithm is a key-derivation algorithm constructed using :code:`PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg)`.
+
+        .. versionadded:: 1.2
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
@@ -1306,6 +1314,8 @@ Support macros
 
     .. summary::
         Whether the specified algorithm is a PBKDF2-HMAC algorithm.
+
+        .. versionadded:: 1.1
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
