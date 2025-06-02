@@ -793,7 +793,7 @@ psa_status_t psa_generate_key_custom(const psa_key_attributes_t * attributes,
                                      const psa_custom_key_parameters_t * custom,
                                      const uint8_t * custom_data,
                                      size_t custom_data_length,
-                                     mbedtls_svc_key_id_t * key);
+                                     psa_key_id_t * key);
 
 /**
  * @brief Make a copy of a key.
@@ -2568,7 +2568,7 @@ psa_status_t psa_key_derivation_output_key_custom(const psa_key_attributes_t * a
                                                   const psa_custom_key_parameters_t * custom,
                                                   const uint8_t * custom_data,
                                                   size_t custom_data_length,
-                                                  mbedtls_svc_key_id_t * key);
+                                                  psa_key_id_t * key);
 
 /**
  * @brief Compare output data from a key-derivation operation to an expected

@@ -273,7 +273,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         A buffer containing additional variable-sized production parameters.
     .. param:: size_t custom_data_length
         Length of ``custom_data`` in bytes.
-    .. param:: mbedtls_svc_key_id_t * key
+    .. param:: psa_key_id_t * key
         On success, an identifier for the newly created key.
         For persistent keys, this is the key identifier defined in ``attributes``.
         `PSA_KEY_ID_NULL` on failure.
