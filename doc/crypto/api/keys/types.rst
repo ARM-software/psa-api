@@ -1361,7 +1361,7 @@ Diffie Hellman keys
 .. _spake2p-keys:
 
 SPAKE2+ keys
-~~~~~~~~~~~~
+------------
 
 .. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
     :definition: /* specification-defined value */
