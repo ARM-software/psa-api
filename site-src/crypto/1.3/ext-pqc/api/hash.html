@@ -12,8 +12,8 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
 <link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.3 PQC Extension" />
-<meta property="og:description" content="SHA-256-based hash algorithms: PSA_ALG_SHA_256_192(macro): The SHA-256/192 message digest algorithm. SHA-256/192 is the first 192 bits (24 bytes) of the SHA-256 output. SHA-256 is defined in[FIPS18..." />
-<meta name="description" content="SHA-256-based hash algorithms: PSA_ALG_SHA_256_192(macro): The SHA-256/192 message digest algorithm. SHA-256/192 is the first 192 bits (24 bytes) of the SHA-256 output. SHA-256 is defined in[FIPS18..." />
+<meta property="og:description" content="These algorithms extend those defined in PSA Certified Crypto API[PSA-CRYPT] §10.2 Message digests. They are used with the hash functions and multi-part operations, or combined with composite algor..." />
+<meta name="description" content="These algorithms extend those defined in PSA Certified Crypto API[PSA-CRYPT] §10.2 Message digests. They are used with the hash functions and multi-part operations, or combined with composite algor..." />
 
     <title>2.1 Additional Hash algorithms &#8212; PSA Certified Crypto API 1.3 PQC Extension</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
@@ -22,9 +22,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" />
-    <script src="../_static/documentation_options.js?v=4322f07d"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=27ed2039"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="../about.html" />
@@ -45,12 +45,12 @@
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
             </a></p><hr />
-<h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+<h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 AES 0119<br/>
 Non-confidential<br/>
-Version 1.3 PQC Extension Beta (Issue 0)
+Version 1.3 PQC Extension Beta (Issue 1)
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -100,6 +100,8 @@ Version 1.3 PQC Extension Beta (Issue 0)
             
   <section id="additional-hash-algorithms">
 <span id="hashes"></span><h1><span class="section-number">2.1 </span>Additional Hash algorithms<a class="headerlink" href="#additional-hash-algorithms" title="Link to this heading">¶</a></h1>
+<p>These algorithms extend those defined in <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="../about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span> §10.2 <em>Message digests</em>.
+They are used with the hash functions and multi-part operations, or combined with composite algorithms that are parameterized by a hash algorithm.</p>
 <section id="sha-256-based-hash-algorithms">
 <h2><span class="section-number">2.1.1 </span>SHA-256-based hash algorithms<a class="headerlink" href="#sha-256-based-hash-algorithms" title="Link to this heading">¶</a></h2>
 <section id="c.PSA_ALG_SHA_256_192">

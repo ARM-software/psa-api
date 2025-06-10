@@ -26,7 +26,8 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
-1.3.0 | [HTML][1-3-html] | [&darr; PDF][1-3-0-pdf] | March 2025
+1.3.1 | [HTML][1-3-html] | [&darr; PDF][1-3-1-pdf] | June 2025
+1.3.0 | | [&darr; PDF][1-3-0-pdf] | March 2025
 1.2.1 | [HTML][1-2-html] | [&darr; PDF][1-2-1-pdf] | March 2024
 1.2.0 | | [&darr; PDF][1-2-0-pdf] | February 2024
 1.1.2 | [HTML][1-1-html] | [&darr; PDF][1-1-2-pdf] | March 2023
@@ -39,7 +40,8 @@ Version | | | Publication
 
 Extension | Version | | | Publication
 -|-|-|-|-:
-PQC | 1.3 Beta 0 | [HTML][pqc-beta-html] | [&darr; PDF][pqc-beta-0-pdf] | March 2025
+PQC | 1.3 Beta 1 | [HTML][pqc-beta-html] | [&darr; PDF][pqc-beta-1-pdf] | June 2025
+PQC | 1.3 Beta 0 | | [&darr; PDF][pqc-beta-0-pdf] | March 2025
 PAKE | 1.3.0 | *Integrated* | *n/a* | March 2025
 PAKE | 1.2 Final 1 | [HTML][pake-rel-html] | [&darr; PDF][pake-rel-1-pdf] | March 2024
 PAKE | 1.2 Final | | [&darr; PDF][pake-rel-0-pdf] | February 2024
@@ -47,6 +49,7 @@ PAKE | 1.1 Beta 1 | [HTML][pake-beta-html] | [&darr; PDF][pake-beta-1-pdf] | Oct
 PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 
 [1-3-html]:             1.3/
+[1-3-1-pdf]:            1.3/IHI0086-PSA_Certified_Crypto_API-1.3.1.pdf
 [1-3-0-pdf]:            1.3/IHI0086-PSA_Certified_Crypto_API-1.3.0.pdf
 
 [1-2-html]:             1.2/
@@ -71,6 +74,7 @@ PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 [pake-beta-0-pdf]:      1.1/ext-pake/AES0058-PSA_Cryptography_API-1.1_PAKE_Extension-bet.0.pdf
 
 [pqc-beta-html]:        1.3/ext-pqc/
+[pqc-beta-1-pdf]:       1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.1.pdf
 [pqc-beta-0-pdf]:       1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.0.pdf
 
 *Copyright 2022-2025, Arm Limited and/or its affiliates*

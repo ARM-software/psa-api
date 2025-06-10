@@ -19,9 +19,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" />
-    <script src="../../_static/documentation_options.js?v=96647119"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../../_static/documentation_options.js?v=f2aba15d"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
@@ -42,12 +42,12 @@
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../index.html">
-              <img class="logo" src="../../_static/Arm_logo_blue_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+              <img class="logo" src="../../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
             </a></p><hr />
-<h3><a href="../../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+<h3><a href="../../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.3.0
+Version 1.3.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about.html">About this document</a></li>
@@ -175,7 +175,7 @@ Version 1.3.0
 <p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">void</span></code></p>
 <p class="rubric">Description</p>
 <p>The application must choose a value for <code class="docutils literal notranslate"><span class="pre">id</span></code> between <a class="reference internal" href="#c.PSA_KEY_ID_USER_MIN" title="PSA_KEY_ID_USER_MIN"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_ID_USER_MIN</span></code></a> and <a class="reference internal" href="#c.PSA_KEY_ID_USER_MAX" title="PSA_KEY_ID_USER_MAX"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_ID_USER_MAX</span></code></a>.</p>
-<p>If the attribute object currently declares the key as volatile, which is the default lifetime of an attribute object, this function sets the lifetime attribute to <a class="reference internal" href="lifetimes.html#c.PSA_KEY_LIFETIME_PERSISTENT" title="PSA_KEY_LIFETIME_PERSISTENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_LIFETIME_PERSISTENT</span></code></a>.</p>
+<p>If the attribute object currently declares the key as volatile, this function sets the persistence level in the lifetime attribute to <a class="reference internal" href="lifetimes.html#c.PSA_KEY_PERSISTENCE_DEFAULT" title="PSA_KEY_PERSISTENCE_DEFAULT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_PERSISTENCE_DEFAULT</span></code></a> without changing the key location. See <a class="reference internal" href="lifetimes.html#key-lifetimes"><span class="secref">Key lifetimes</span></a>.</p>
 <p>This function does not access storage, it merely stores the given value in the attribute object. The persistent key will be written to storage when the attribute object is passed to a key creation function such as <a class="reference internal" href="management.html#c.psa_import_key" title="psa_import_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_import_key()</span></code></a>, <a class="reference internal" href="management.html#c.psa_generate_key" title="psa_generate_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_generate_key()</span></code></a>, <a class="reference internal" href="management.html#c.psa_generate_key_custom" title="psa_generate_key_custom"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_generate_key_custom()</span></code></a>, <a class="reference internal" href="../ops/key-derivation.html#c.psa_key_derivation_output_key" title="psa_key_derivation_output_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_output_key()</span></code></a>, <a class="reference internal" href="../ops/key-derivation.html#c.psa_key_derivation_output_key_custom" title="psa_key_derivation_output_key_custom"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_output_key_custom()</span></code></a>, <a class="reference internal" href="../ops/key-agreement.html#c.psa_key_agreement" title="psa_key_agreement"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_agreement()</span></code></a>, <a class="reference internal" href="../ops/key-encapsulation.html#c.psa_encapsulate" title="psa_encapsulate"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_encapsulate()</span></code></a>, <a class="reference internal" href="../ops/key-encapsulation.html#c.psa_decapsulate" title="psa_decapsulate"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_decapsulate()</span></code></a>, <a class="reference internal" href="../ops/pake.html#c.psa_pake_get_shared_key" title="psa_pake_get_shared_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_pake_get_shared_key()</span></code></a>, or <a class="reference internal" href="management.html#c.psa_copy_key" title="psa_copy_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_copy_key()</span></code></a>.</p>
 <div class="admonition-implementation-note admonition">
 <p class="admonition-title">Implementation note</p>

@@ -12,8 +12,8 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
 <link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.3" />
-<meta property="og:description" content="Document change history: This section provides the detailed changes made between published version of the document. Changes between 1.2.1 and 1.3.0: Changes to the API: Added PSA_EXPORT_ASYMMETRIC_..." />
-<meta name="description" content="Document change history: This section provides the detailed changes made between published version of the document. Changes between 1.2.1 and 1.3.0: Changes to the API: Added PSA_EXPORT_ASYMMETRIC_..." />
+<meta property="og:description" content="Document change history: This section provides the detailed changes made between published version of the document. Changes between 1.3.0 and 1.3.1: Clarifications and fixes: Clarify the way a ‘vol..." />
+<meta name="description" content="Document change history: This section provides the detailed changes made between published version of the document. Changes between 1.3.0 and 1.3.1: Clarifications and fixes: Clarify the way a ‘vol..." />
 
     <title>5 Changes to the API &#8212; PSA Certified Crypto API 1.3</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
@@ -22,9 +22,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" />
-    <script src="../_static/documentation_options.js?v=96647119"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=f2aba15d"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="../about.html" />
@@ -44,12 +44,12 @@
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
             </a></p><hr />
-<h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+<h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.3.0
+Version 1.3.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -73,16 +73,17 @@ Version 1.3.0
 <li class="toctree-l1"><a class="reference internal" href="sra.html">D Security Risk Assessment</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">E Changes to the API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#document-change-history">E.1 Document change history</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-2-1-and-1-3-0">E.1.1 Changes between <em>1.2.1</em> and <em>1.3.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-2-0-and-1-2-1">E.1.2 Changes between <em>1.2.0</em> and <em>1.2.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-1-2-and-1-2-0">E.1.3 Changes between <em>1.1.2</em> and <em>1.2.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-1-1-and-1-1-2">E.1.4 Changes between <em>1.1.1</em> and <em>1.1.2</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-1-0-and-1-1-1">E.1.5 Changes between <em>1.1.0</em> and <em>1.1.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-1-and-1-1-0">E.1.6 Changes between <em>1.0.1</em> and <em>1.1.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-0-and-1-0-1">E.1.7 Changes between <em>1.0.0</em> and <em>1.0.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-beta-3-and-1-0-0">E.1.8 Changes between <em>1.0 beta 3</em> and <em>1.0.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-beta-2-and-1-0-beta-3">E.1.9 Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-beta-1-and-1-0-beta-2">E.1.10 Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-3-0-and-1-3-1">E.1.1 Changes between <em>1.3.0</em> and <em>1.3.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-2-1-and-1-3-0">E.1.2 Changes between <em>1.2.1</em> and <em>1.3.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-2-0-and-1-2-1">E.1.3 Changes between <em>1.2.0</em> and <em>1.2.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-1-2-and-1-2-0">E.1.4 Changes between <em>1.1.2</em> and <em>1.2.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-1-1-and-1-1-2">E.1.5 Changes between <em>1.1.1</em> and <em>1.1.2</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-1-0-and-1-1-1">E.1.6 Changes between <em>1.1.0</em> and <em>1.1.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-1-and-1-1-0">E.1.7 Changes between <em>1.0.1</em> and <em>1.1.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-0-and-1-0-1">E.1.8 Changes between <em>1.0.0</em> and <em>1.0.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-beta-3-and-1-0-0">E.1.9 Changes between <em>1.0 beta 3</em> and <em>1.0.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-beta-2-and-1-0-beta-3">E.1.10 Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-between-1-0-beta-1-and-1-0-beta-2">E.1.11 Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#planned-changes-for-version-1-2-x">E.2 Planned changes for version 1.2.x</a></li>
@@ -116,8 +117,19 @@ Version 1.3.0
 <section id="document-change-history">
 <span id="changes"></span><h2><span class="section-number">E.1 </span>Document change history<a class="headerlink" href="#document-change-history" title="Link to this heading">¶</a></h2>
 <p>This section provides the detailed changes made between published version of the document.</p>
+<section id="changes-between-1-3-0-and-1-3-1">
+<h3><span class="section-number">E.1.1 </span>Changes between <em>1.3.0</em> and <em>1.3.1</em><a class="headerlink" href="#changes-between-1-3-0-and-1-3-1" title="Link to this heading">¶</a></h3>
+<section id="clarifications-and-fixes">
+<h4>Clarifications and fixes<a class="headerlink" href="#clarifications-and-fixes" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Clarify the way a ‘volatile key’ is designated, based on a persistence level of <a class="reference internal" href="../api/keys/lifetimes.html#c.PSA_KEY_PERSISTENCE_VOLATILE" title="PSA_KEY_PERSISTENCE_VOLATILE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_PERSISTENCE_VOLATILE</span></code></a>, to ensure that this is consistent throughout the specification. See <a class="reference internal" href="../api/keys/lifetimes.html#key-lifetimes"><span class="secref">Key lifetimes</span></a>.</p></li>
+<li><p>Corrected the type of the key id parameter to <a class="reference internal" href="../api/keys/management.html#c.psa_generate_key_custom" title="psa_generate_key_custom"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_generate_key_custom()</span></code></a> and <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_output_key_custom" title="psa_key_derivation_output_key_custom"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_output_key_custom()</span></code></a>.</p></li>
+<li><p>Added missing ‘Added in version’ information to key derivation macros.</p></li>
+</ul>
+</section>
+</section>
 <section id="changes-between-1-2-1-and-1-3-0">
-<h3><span class="section-number">E.1.1 </span>Changes between <em>1.2.1</em> and <em>1.3.0</em><a class="headerlink" href="#changes-between-1-2-1-and-1-3-0" title="Link to this heading">¶</a></h3>
+<h3><span class="section-number">E.1.2 </span>Changes between <em>1.2.1</em> and <em>1.3.0</em><a class="headerlink" href="#changes-between-1-2-1-and-1-3-0" title="Link to this heading">¶</a></h3>
 <section id="id1">
 <h4>Changes to the API<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
 <ul>
@@ -139,8 +151,8 @@ Version 1.3.0
 </li>
 </ul>
 </section>
-<section id="clarifications-and-fixes">
-<h4>Clarifications and fixes<a class="headerlink" href="#clarifications-and-fixes" title="Link to this heading">¶</a></h4>
+<section id="id2">
+<h4>Clarifications and fixes<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Clarified the documentation of key attributes in key creation functions.</p></li>
 <li><p>Clarified the constraint on <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_output_key" title="psa_key_derivation_output_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_output_key()</span></code></a> for algorithms that have a <a class="reference internal" href="../api/ops/key-derivation.html#c.PSA_KEY_DERIVATION_INPUT_PASSWORD" title="PSA_KEY_DERIVATION_INPUT_PASSWORD"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_DERIVATION_INPUT_PASSWORD</span></code></a> input step.</p></li>
@@ -161,9 +173,9 @@ See <a class="reference internal" href="../api/ops/pake.html#jpake-operation"><s
 </section>
 </section>
 <section id="changes-between-1-2-0-and-1-2-1">
-<h3><span class="section-number">E.1.2 </span>Changes between <em>1.2.0</em> and <em>1.2.1</em><a class="headerlink" href="#changes-between-1-2-0-and-1-2-1" title="Link to this heading">¶</a></h3>
-<section id="id2">
-<h4>Clarifications and fixes<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.3 </span>Changes between <em>1.2.0</em> and <em>1.2.1</em><a class="headerlink" href="#changes-between-1-2-0-and-1-2-1" title="Link to this heading">¶</a></h3>
+<section id="id3">
+<h4>Clarifications and fixes<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Fix the example implementation of <a class="reference internal" href="../api/ops/key-agreement.html#c.PSA_ALG_KEY_AGREEMENT_GET_BASE" title="PSA_ALG_KEY_AGREEMENT_GET_BASE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_KEY_AGREEMENT_GET_BASE()</span></code></a> and <a class="reference internal" href="../api/ops/key-agreement.html#c.PSA_ALG_KEY_AGREEMENT_GET_KDF" title="PSA_ALG_KEY_AGREEMENT_GET_KDF"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_KEY_AGREEMENT_GET_KDF()</span></code></a> in <a class="reference internal" href="specdef_values.html#appendix-specdef-values"><span class="secref">Example macro implementations</span></a>, to give correct results for key agreements combined with PBKDF2.</p></li>
 <li><p>Remove the dependency on the underlying hash algorithm in definition of HMAC keys, and their behavior on import and export.
@@ -174,9 +186,9 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 </section>
 </section>
 <section id="changes-between-1-1-2-and-1-2-0">
-<h3><span class="section-number">E.1.3 </span>Changes between <em>1.1.2</em> and <em>1.2.0</em><a class="headerlink" href="#changes-between-1-1-2-and-1-2-0" title="Link to this heading">¶</a></h3>
-<section id="id3">
-<h4>Changes to the API<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.4 </span>Changes between <em>1.1.2</em> and <em>1.2.0</em><a class="headerlink" href="#changes-between-1-1-2-and-1-2-0" title="Link to this heading">¶</a></h3>
+<section id="id4">
+<h4>Changes to the API<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Added <a class="reference internal" href="../api/ops/key-agreement.html#c.psa_key_agreement" title="psa_key_agreement"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_agreement()</span></code></a> for standalone key agreement that outputs to a new key object. Also added <a class="reference internal" href="../api/ops/key-agreement.html#c.PSA_ALG_IS_STANDALONE_KEY_AGREEMENT" title="PSA_ALG_IS_STANDALONE_KEY_AGREEMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_STANDALONE_KEY_AGREEMENT()</span></code></a> as a synonym for <a class="reference internal" href="../api/ops/key-agreement.html#c.PSA_ALG_IS_RAW_KEY_AGREEMENT" title="PSA_ALG_IS_RAW_KEY_AGREEMENT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_RAW_KEY_AGREEMENT()</span></code></a>.</p></li>
 <li><p>Added support for the XChaCha20 cipher and XChaCha20-Poly1305 AEAD algorithms. See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_XCHACHA20" title="PSA_KEY_TYPE_XCHACHA20"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_XCHACHA20</span></code></a> and <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_XCHACHA20_POLY1305" title="PSA_ALG_XCHACHA20_POLY1305"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_XCHACHA20_POLY1305</span></code></a>.</p></li>
@@ -187,8 +199,8 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 <li><p>Removed the special treatment of <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_INVALID_SIGNATURE</span></code> for key-derivation operations. A verification failure in <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_verify_bytes" title="psa_key_derivation_verify_bytes"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_verify_bytes()</span></code></a> and <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_verify_key" title="psa_key_derivation_verify_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_verify_key()</span></code></a> now puts the operation into an error state.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h4>Clarifications and fixes<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h4>
+<section id="id5">
+<h4>Clarifications and fixes<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Clarified the behavior of a key-derivation operation when there is insufficient capacity for a call to <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_output_bytes" title="psa_key_derivation_output_bytes"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_output_bytes()</span></code></a>, <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_output_key" title="psa_key_derivation_output_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_output_key()</span></code></a>, <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_verify_bytes" title="psa_key_derivation_verify_bytes"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_verify_bytes()</span></code></a>, or <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_verify_key" title="psa_key_derivation_verify_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_derivation_verify_key()</span></code></a>.</p></li>
 <li><p>Reserved the value <code class="docutils literal notranslate"><span class="pre">0</span></code> for most enum-like integral types.</p></li>
@@ -197,9 +209,9 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 </section>
 </section>
 <section id="changes-between-1-1-1-and-1-1-2">
-<h3><span class="section-number">E.1.4 </span>Changes between <em>1.1.1</em> and <em>1.1.2</em><a class="headerlink" href="#changes-between-1-1-1-and-1-1-2" title="Link to this heading">¶</a></h3>
-<section id="id5">
-<h4>Clarifications and fixes<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.5 </span>Changes between <em>1.1.1</em> and <em>1.1.2</em><a class="headerlink" href="#changes-between-1-1-1-and-1-1-2" title="Link to this heading">¶</a></h3>
+<section id="id6">
+<h4>Clarifications and fixes<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Clarified the requirements on the <code class="docutils literal notranslate"><span class="pre">hash</span></code> parameter in the <a class="reference internal" href="../api/ops/signature.html#c.psa_sign_hash" title="psa_sign_hash"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_sign_hash()</span></code></a> and <a class="reference internal" href="../api/ops/signature.html#c.psa_verify_hash" title="psa_verify_hash"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_verify_hash()</span></code></a> functions.</p></li>
 <li><p>Explicitly described the handling of input and output in <a class="reference internal" href="../api/ops/cipher.html#c.psa_cipher_update" title="psa_cipher_update"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_cipher_update()</span></code></a>, consistent with the documentation of <a class="reference internal" href="../api/ops/aead.html#c.psa_aead_update" title="psa_aead_update"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_aead_update()</span></code></a>.</p></li>
@@ -208,25 +220,25 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 <li><p>Clarified <a class="reference internal" href="../api/keys/policy.html#c.PSA_KEY_USAGE_EXPORT" title="PSA_KEY_USAGE_EXPORT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_USAGE_EXPORT</span></code></a>: “it permits moving a key outside of its current security boundary”. This improves understanding of why it is not only required for <a class="reference internal" href="../api/keys/management.html#c.psa_export_key" title="psa_export_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_export_key()</span></code></a>, but can also be required for <a class="reference internal" href="../api/keys/management.html#c.psa_copy_key" title="psa_copy_key"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_copy_key()</span></code></a> in some situations.</p></li>
 </ul>
 </section>
-<section id="id6">
-<h4>Other changes<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h4>
+<section id="id7">
+<h4>Other changes<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Moved the documentation of supported key import/export formats to a separate section of the specification.</p></li>
 </ul>
 </section>
 </section>
 <section id="changes-between-1-1-0-and-1-1-1">
-<h3><span class="section-number">E.1.5 </span>Changes between <em>1.1.0</em> and <em>1.1.1</em><a class="headerlink" href="#changes-between-1-1-0-and-1-1-1" title="Link to this heading">¶</a></h3>
-<section id="id7">
-<h4>Changes to the API<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.6 </span>Changes between <em>1.1.0</em> and <em>1.1.1</em><a class="headerlink" href="#changes-between-1-1-0-and-1-1-1" title="Link to this heading">¶</a></h3>
+<section id="id8">
+<h4>Changes to the API<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Extended <a class="reference internal" href="../api/ops/key-derivation.html#c.PSA_ALG_TLS12_PSK_TO_MS" title="PSA_ALG_TLS12_PSK_TO_MS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_TLS12_PSK_TO_MS</span></code></a> to support TLS cipher suites that mix a key exchange with a pre-shared key.</p></li>
 <li><p>Added a new key-derivation input step <a class="reference internal" href="../api/ops/key-derivation.html#c.PSA_KEY_DERIVATION_INPUT_OTHER_SECRET" title="PSA_KEY_DERIVATION_INPUT_OTHER_SECRET"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_DERIVATION_INPUT_OTHER_SECRET</span></code></a>.</p></li>
 <li><p>Added new algorithm families <a class="reference internal" href="../api/ops/key-derivation.html#c.PSA_ALG_HKDF_EXTRACT" title="PSA_ALG_HKDF_EXTRACT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXTRACT</span></code></a> and <a class="reference internal" href="../api/ops/key-derivation.html#c.PSA_ALG_HKDF_EXPAND" title="PSA_ALG_HKDF_EXPAND"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXPAND</span></code></a> for protocols that require the two parts of HKDF separately.</p></li>
 </ul>
 </section>
-<section id="id8">
-<h4>Other changes<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h4>
+<section id="id9">
+<h4>Other changes<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Relicensed the document under Attribution-ShareAlike 4.0 International with a patent license derived from Apache License 2.0. See <a class="reference internal" href="../about.html#license"><span class="secref">License</span></a>.</p></li>
 <li><p>Adopted a standard set of Adversarial models for the Security Risk Assessment. See <a class="reference internal" href="sra.html#adversarial-models"><span class="secref">Adversarial models</span></a>.</p></li>
@@ -234,9 +246,9 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 </section>
 </section>
 <section id="changes-between-1-0-1-and-1-1-0">
-<h3><span class="section-number">E.1.6 </span>Changes between <em>1.0.1</em> and <em>1.1.0</em><a class="headerlink" href="#changes-between-1-0-1-and-1-1-0" title="Link to this heading">¶</a></h3>
-<section id="id9">
-<h4>Changes to the API<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.7 </span>Changes between <em>1.0.1</em> and <em>1.1.0</em><a class="headerlink" href="#changes-between-1-0-1-and-1-1-0" title="Link to this heading">¶</a></h3>
+<section id="id10">
+<h4>Changes to the API<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Relaxation when a raw key agreement is used as a key’s permitted-algorithm policy. This now also permits the key agreement to be combined with any key-derivation algorithm. See <a class="reference internal" href="../api/ops/key-agreement.html#c.PSA_ALG_FFDH" title="PSA_ALG_FFDH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_FFDH</span></code></a> and <a class="reference internal" href="../api/ops/key-agreement.html#c.PSA_ALG_ECDH" title="PSA_ALG_ECDH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDH</span></code></a>.</p></li>
 <li><p>Provide wildcard permitted-algorithm polices for MAC and AEAD that can specify a minimum MAC or tag length. The following elements are added to the API:</p>
@@ -270,8 +282,8 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 <li><p>Added <a class="reference internal" href="../api/ops/signature.html#c.PSA_ALG_RSA_PSS_ANY_SALT" title="PSA_ALG_RSA_PSS_ANY_SALT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PSS_ANY_SALT()</span></code></a>, which creates the same signatures as <a class="reference internal" href="../api/ops/signature.html#c.PSA_ALG_RSA_PSS" title="PSA_ALG_RSA_PSS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PSS()</span></code></a>, but permits any salt length when verifying a signature. Also added the helper macros <a class="reference internal" href="../api/ops/signature.html#c.PSA_ALG_IS_RSA_PSS_ANY_SALT" title="PSA_ALG_IS_RSA_PSS_ANY_SALT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_RSA_PSS_ANY_SALT()</span></code></a> and <a class="reference internal" href="../api/ops/signature.html#c.PSA_ALG_IS_RSA_PSS_STANDARD_SALT" title="PSA_ALG_IS_RSA_PSS_STANDARD_SALT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_RSA_PSS_STANDARD_SALT()</span></code></a>, and extended <a class="reference internal" href="../api/ops/signature.html#c.PSA_ALG_IS_RSA_PSS" title="PSA_ALG_IS_RSA_PSS"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_RSA_PSS()</span></code></a> to detect both variants of the RSA-PSS algorithm.</p></li>
 </ul>
 </section>
-<section id="id10">
-<h4>Clarifications and fixes<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h4>
+<section id="id11">
+<h4>Clarifications and fixes<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Described the use of header files and the general API conventions. See <a class="reference internal" href="../overview/conventions.html#library-conventions"><span class="secref">Library conventions</span></a>.</p></li>
 <li><p>Added details for SHA-512/224 to the hash suspend state. See <a class="reference internal" href="../api/ops/hash.html#hash-suspend-state"><span class="secref">Hash suspend state</span></a>.</p></li>
@@ -287,8 +299,8 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 <li><p>Clarified the way that <a class="reference internal" href="../api/ops/aead.html#c.PSA_ALG_CCM" title="PSA_ALG_CCM"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_CCM</span></code></a> determines the value of the CCM configuration parameter <em>L</em>. Clarified that nonces generated by <a class="reference internal" href="../api/ops/aead.html#c.psa_aead_generate_nonce" title="psa_aead_generate_nonce"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_aead_generate_nonce()</span></code></a> can be shorter than the default nonce length provided by <a class="reference internal" href="../api/ops/aead.html#c.PSA_AEAD_NONCE_LENGTH" title="PSA_AEAD_NONCE_LENGTH"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_AEAD_NONCE_LENGTH()</span></code></a>.</p></li>
 </ul>
 </section>
-<section id="id11">
-<h4>Other changes<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h4>
+<section id="id12">
+<h4>Other changes<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Add new appendix describing the encoding of algorithm identifiers and key types. See <a class="reference internal" href="encodings.html#appendix-encodings"><span class="secref">Algorithm and key type encoding</span></a>.</p></li>
 <li><p>Migrated cryptographic operation summaries to the start of the appropriate operation section, and out of the <a class="reference internal" href="../overview/functionality.html#functionality-overview"><span class="secref">Functionality overview</span></a>.</p></li>
@@ -297,16 +309,16 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 </section>
 </section>
 <section id="changes-between-1-0-0-and-1-0-1">
-<h3><span class="section-number">E.1.7 </span>Changes between <em>1.0.0</em> and <em>1.0.1</em><a class="headerlink" href="#changes-between-1-0-0-and-1-0-1" title="Link to this heading">¶</a></h3>
-<section id="id12">
-<h4>Changes to the API<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.8 </span>Changes between <em>1.0.0</em> and <em>1.0.1</em><a class="headerlink" href="#changes-between-1-0-0-and-1-0-1" title="Link to this heading">¶</a></h3>
+<section id="id13">
+<h4>Changes to the API<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Added subtypes <a class="reference internal" href="../api/keys/lifetimes.html#c.psa_key_persistence_t" title="psa_key_persistence_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_persistence_t</span></code></a> and <a class="reference internal" href="../api/keys/lifetimes.html#c.psa_key_location_t" title="psa_key_location_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_location_t</span></code></a> for key lifetimes, and defined standard values for these attributes.</p></li>
 <li><p>Added identifiers for <a class="reference internal" href="../api/ops/hash.html#c.PSA_ALG_SM3" title="PSA_ALG_SM3"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SM3</span></code></a> and <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_SM4" title="PSA_KEY_TYPE_SM4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SM4</span></code></a>.</p></li>
 </ul>
 </section>
-<section id="id13">
-<h4>Clarifications and fixes<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h4>
+<section id="id14">
+<h4>Clarifications and fixes<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Provided citation references for all cryptographic algorithms in the specification.</p></li>
 <li><p>Provided precise key size information for all key types.</p></li>
@@ -327,8 +339,8 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 <li><p>Clarify the requirements for implementations that support concurrent execution of API calls.</p></li>
 </ul>
 </section>
-<section id="id14">
-<h4>Other changes<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h4>
+<section id="id15">
+<h4>Other changes<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Provided a glossary of terms.</p></li>
 <li><p>Provided a table of references.</p></li>
@@ -343,9 +355,9 @@ See <a class="reference internal" href="../api/keys/types.html#c.PSA_KEY_TYPE_HM
 </section>
 </section>
 <section id="changes-between-1-0-beta-3-and-1-0-0">
-<h3><span class="section-number">E.1.8 </span>Changes between <em>1.0 beta 3</em> and <em>1.0.0</em><a class="headerlink" href="#changes-between-1-0-beta-3-and-1-0-0" title="Link to this heading">¶</a></h3>
-<section id="id15">
-<h4>Changes to the API<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.9 </span>Changes between <em>1.0 beta 3</em> and <em>1.0.0</em><a class="headerlink" href="#changes-between-1-0-beta-3-and-1-0-0" title="Link to this heading">¶</a></h3>
+<section id="id16">
+<h4>Changes to the API<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h4>
 <ul>
 <li><p>Added <a class="reference internal" href="../api/library/library.html#c.PSA_CRYPTO_API_VERSION_MAJOR" title="PSA_CRYPTO_API_VERSION_MAJOR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_CRYPTO_API_VERSION_MAJOR</span></code></a> and <a class="reference internal" href="../api/library/library.html#c.PSA_CRYPTO_API_VERSION_MINOR" title="PSA_CRYPTO_API_VERSION_MINOR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_CRYPTO_API_VERSION_MINOR</span></code></a> to report the Crypto API version.</p></li>
 <li><p>Removed <code class="docutils literal notranslate"><span class="pre">PSA_ALG_GMAC</span></code> algorithm identifier.</p></li>
@@ -795,8 +807,8 @@ Example definitions of these macros is provided in <a class="reference internal"
 <li><p>Document more of the error codes for each function.</p></li>
 </ul>
 </section>
-<section id="id16">
-<h4>Other changes<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h4>
+<section id="id17">
+<h4>Other changes<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Require C99 for this specification instead of C89.</p></li>
 <li><p>Removed references to non-standard mbed-crypto header files. The only header file that applications need to include is <code class="file docutils literal notranslate"><span class="pre">psa/crypto.h</span></code>.</p></li>
@@ -806,9 +818,9 @@ Example definitions of these macros is provided in <a class="reference internal"
 </section>
 </section>
 <section id="changes-between-1-0-beta-2-and-1-0-beta-3">
-<h3><span class="section-number">E.1.9 </span>Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em><a class="headerlink" href="#changes-between-1-0-beta-2-and-1-0-beta-3" title="Link to this heading">¶</a></h3>
-<section id="id17">
-<h4>Changes to the API<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.10 </span>Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em><a class="headerlink" href="#changes-between-1-0-beta-2-and-1-0-beta-3" title="Link to this heading">¶</a></h3>
+<section id="id18">
+<h4>Changes to the API<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Change the value of error codes, and some names, to align
 with other PSA Certified APIs. The name changes are:</p>
@@ -869,8 +881,8 @@ and other identifiers related to for clarity and consistency:</p>
 <li><p>Convert TLS1.2 KDF descriptions to multi-part key derivation.</p></li>
 </ul>
 </section>
-<section id="id18">
-<h4>Clarifications<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h4>
+<section id="id19">
+<h4>Clarifications<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Specify <code class="docutils literal notranslate"><span class="pre">psa_generator_import_key()</span></code> for most key types.</p></li>
 <li><p>Clarify the behavior in various corner cases.</p></li>
@@ -879,22 +891,22 @@ and other identifiers related to for clarity and consistency:</p>
 </section>
 </section>
 <section id="changes-between-1-0-beta-1-and-1-0-beta-2">
-<h3><span class="section-number">E.1.10 </span>Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em><a class="headerlink" href="#changes-between-1-0-beta-1-and-1-0-beta-2" title="Link to this heading">¶</a></h3>
-<section id="id19">
-<h4>Changes to the API<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h4>
+<h3><span class="section-number">E.1.11 </span>Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em><a class="headerlink" href="#changes-between-1-0-beta-1-and-1-0-beta-2" title="Link to this heading">¶</a></h3>
+<section id="id20">
+<h4>Changes to the API<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Remove obsolete definition <code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_KEY_SELECTION</span></code>.</p></li>
 <li><p><a class="reference internal" href="../api/ops/aead.html#c.PSA_AEAD_FINISH_OUTPUT_SIZE" title="PSA_AEAD_FINISH_OUTPUT_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_AEAD_FINISH_OUTPUT_SIZE</span></code></a>: remove spurious parameter <code class="docutils literal notranslate"><span class="pre">plaintext_length</span></code>.</p></li>
 </ul>
 </section>
-<section id="id20">
-<h4>Clarifications<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h4>
+<section id="id21">
+<h4>Clarifications<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">psa_key_agreement()</span></code>: document <code class="docutils literal notranslate"><span class="pre">alg</span></code> parameter.</p></li>
 </ul>
 </section>
-<section id="id21">
-<h4>Other changes<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h4>
+<section id="id22">
+<h4>Other changes<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>Document formatting improvements.</p></li>
 </ul>
