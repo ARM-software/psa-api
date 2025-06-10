@@ -22,9 +22,9 @@
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" />
-    <script src="_static/documentation_options.js?v=4322f07d"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="_static/documentation_options.js?v=27ed2039"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="#" />
@@ -45,12 +45,12 @@
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/Arm_logo_blue_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+              <img class="logo" src="_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
             </a></p><hr />
-<h3><a href="index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+<h3><a href="index.html">PSA Certified<br />Crypto API</a></h3>
 AES 0119<br/>
 Non-confidential<br/>
-Version 1.3 PQC Extension Beta (Issue 0)
+Version 1.3 PQC Extension Beta (Issue 1)
 <hr />
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">About this document</a><ul>
@@ -120,6 +120,11 @@ Version 1.3 PQC Extension Beta (Issue 0)
 <td><p>Beta 0</p></td>
 <td><p>Non-confidential</p></td>
 <td><p>Initial release of the 1.3 PQC Extension specification</p></td>
+</tr>
+<tr class="row-odd"><td><p>June 2025</p></td>
+<td><p>Beta 1</p></td>
+<td><p>Non-confidential</p></td>
+<td><p>Added clarifications</p></td>
 </tr>
 </tbody>
 </table>
@@ -243,138 +248,138 @@ draft issues of this document have been released, to a limited circulation.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><span><span class="target" id="term-aead"></span><span>AEAD</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-aead"></span><span>AEAD</span></p></td>
 <td><span>See <a class="reference internal" href="#term-authenticated-encryption-with-associated-data"><span class="term">Authenticated Encryption with Associated Data</span></a>.</span></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-algorithm"></span><span>Algorithm</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-algorithm"></span><span>Algorithm</span></p></td>
 <td><p>A finite sequence of steps to perform a particular operation.</p>
 <p>In this specification, an algorithm is a <a class="reference internal" href="#term-cipher"><span class="term">cipher</span></a> or a related function.
 Other texts call this a cryptographic mechanism.</p>
 </td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-api"></span><span>API</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-api"></span><span>API</span></p></td>
 <td><p>Application Programming Interface.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-asymmetric"></span><span>Asymmetric</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-asymmetric"></span><span>Asymmetric</span></p></td>
 <td><p>See <a class="reference internal" href="#term-public-key-cryptography"><span class="term">Public-key cryptography</span></a>.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-authenticated-encryption-with-associated-data"></span><span>Authenticated Encryption with Associated Data (AEAD)</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-authenticated-encryption-with-associated-data"></span><span>Authenticated Encryption with Associated Data (AEAD)</span></p></td>
 <td><p>A type of encryption that
 provides confidentiality and authenticity of data using <a class="reference internal" href="#term-symmetric"><span class="term">symmetric</span></a> keys.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-byte"></span><span>Byte</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-byte"></span><span>Byte</span></p></td>
 <td><p>In this specification, a unit of storage comprising eight bits, also called an octet.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-cipher"></span><span>Cipher</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-cipher"></span><span>Cipher</span></p></td>
 <td><p>An algorithm used for encryption or decryption with a <a class="reference internal" href="#term-symmetric"><span class="term">symmetric</span></a> key.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-cryptoprocessor"></span><span>Cryptoprocessor</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-cryptoprocessor"></span><span>Cryptoprocessor</span></p></td>
 <td><p>The component that performs cryptographic operations.
 A cryptoprocessor might contain a <a class="reference internal" href="#term-keystore"><span class="term">keystore</span></a> and countermeasures against a range of physical and timing attacks.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-hash"></span><span>Hash</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-hash"></span><span>Hash</span></p></td>
 <td><p>A cryptographic hash function, or the value returned by such a function.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-hmac"></span><span>HMAC</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-hmac"></span><span>HMAC</span></p></td>
 <td><p>A type of <a class="reference internal" href="#term-mac"><span class="term">MAC</span></a> that uses a cryptographic key with a <a class="reference internal" href="#term-hash"><span class="term">hash</span></a> function.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-implementation-defined"></span><span class="sc">Implementation defined</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-implementation-defined"></span><span class="sc">Implementation defined</span></p></td>
 <td><p>Behavior that is not defined by the architecture, but is defined and documented by individual implementations.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-initialization-vector"></span><span>Initialization vector (IV)</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-initialization-vector"></span><span>Initialization vector (IV)</span></p></td>
 <td><p>An additional input that is not part of the message. It is used to prevent an attacker from making any
 correlation between cipher text and plain text.</p>
 <p>This specification uses the term for such initial inputs
 in all contexts. For example, the initial counter in CTR mode is called the IV.</p>
 </td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-iv"></span><span>IV</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-iv"></span><span>IV</span></p></td>
 <td><span>See <a class="reference internal" href="#term-initialization-vector"><span class="term">Initialization vector</span></a>.</span></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-kdf"></span><span>KDF</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-kdf"></span><span>KDF</span></p></td>
 <td><span>See <a class="reference internal" href="#term-key-derivation-function"><span class="term">Key Derivation Function</span></a>.</span></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-key-agreement"></span><span>Key agreement</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-key-agreement"></span><span>Key agreement</span></p></td>
 <td><p>An algorithm for two or more parties to establish a common secret key.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-key-derivation-function"></span><span>Key Derivation Function (KDF)</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-key-derivation-function"></span><span>Key Derivation Function (KDF)</span></p></td>
 <td><p>Key Derivation Function. An algorithm for deriving keys from secret material.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-key-identifier"></span><span>Key identifier</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-key-identifier"></span><span>Key identifier</span></p></td>
 <td><p>A reference to a cryptographic key. Key identifiers in the Crypto API are 32-bit integers.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-key-policy"></span><span>Key policy</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-key-policy"></span><span>Key policy</span></p></td>
 <td><p>Key metadata that describes and restricts what a key can be used for.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-key-size"></span><span>Key size</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-key-size"></span><span>Key size</span></p></td>
 <td><p>The size of a key as defined by common conventions for each key type.
 For keys that are built from several numbers of strings, this is the size of a particular one of these numbers or strings.</p>
 <p>This specification expresses key sizes in bits.</p>
 </td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-key-type"></span><span>Key type</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-key-type"></span><span>Key type</span></p></td>
 <td><p>Key metadata that describes the structure and content of a key.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-keystore"></span><span>Keystore</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-keystore"></span><span>Keystore</span></p></td>
 <td><p>A hardware or software component that protects, stores, and manages cryptographic keys.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-lifetime"></span><span>Lifetime</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-lifetime"></span><span>Lifetime</span></p></td>
 <td><p>Key metadata that describes when a key is destroyed.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-mac"></span><span>MAC</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-mac"></span><span>MAC</span></p></td>
 <td><span>See <a class="reference internal" href="#term-message-authentication-code"><span class="term">Message Authentication Code</span></a>.</span></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-message-authentication-code"></span><span>Message Authentication Code (MAC)</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-message-authentication-code"></span><span>Message Authentication Code (MAC)</span></p></td>
 <td><p>A short piece of information used to authenticate a message.
 It is created and verified using a <a class="reference internal" href="#term-symmetric"><span class="term">symmetric</span></a> key.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-message-digest"></span><span>Message digest</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-message-digest"></span><span>Message digest</span></p></td>
 <td><p>A <a class="reference internal" href="#term-hash"><span class="term">hash</span></a> of a message. Used to determine if a message has been tampered.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-multi-part-operation"></span><span>Multi-part operation</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-multi-part-operation"></span><span>Multi-part operation</span></p></td>
 <td><p>An <a class="reference internal" href="#term-api"><span class="term">API</span></a> which splits a single cryptographic operation into a sequence of separate steps.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-non-extractable-key"></span><span>Non-extractable key</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-non-extractable-key"></span><span>Non-extractable key</span></p></td>
 <td><p>A key with a <a class="reference internal" href="#term-key-policy"><span class="term">key policy</span></a> that prevents it from being read by ordinary means.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-nonce"></span><span>Nonce</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-nonce"></span><span>Nonce</span></p></td>
 <td><p>Used as an input for certain <a class="reference internal" href="#term-aead"><span class="term">AEAD</span></a> algorithms.
 Nonces must not be reused with the same key because this can break a cryptographic protocol.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-persistent-key"></span><span>Persistent key</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-persistent-key"></span><span>Persistent key</span></p></td>
 <td><p>A key that is stored in protected non-volatile memory.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-post-quantum-cryptography"></span><span>Post-Quantum Cryptography (PQC)</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-post-quantum-cryptography"></span><span>Post-Quantum Cryptography (PQC)</span></p></td>
 <td><p>A cryptographic scheme that relies on mathematical problems that do not have efficient algorithms for either classical or quantum computing.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-pqc"></span><span>PQC</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-pqc"></span><span>PQC</span></p></td>
 <td><span>See <a class="reference internal" href="#term-post-quantum-cryptography"><span class="term">Post-Quantum Cryptography</span></a>.</span></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-psa"></span><span>PSA</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-psa"></span><span>PSA</span></p></td>
 <td><p>Platform Security Architecture</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-public-key-cryptography"></span><span>Public-key cryptography</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-public-key-cryptography"></span><span>Public-key cryptography</span></p></td>
 <td><p>A type of cryptographic system that uses key pairs. A keypair consists of a (secret) private key
 and a public key (not secret). A public-key cryptographic algorithm can be used for key distribution
 and for digital signatures.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-salt"></span><span>Salt</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-salt"></span><span>Salt</span></p></td>
 <td><p>Used as an input for certain algorithms, such as key derivations.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-signature"></span><span>Signature</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-signature"></span><span>Signature</span></p></td>
 <td><p>The output of a digital signature scheme that uses an <a class="reference internal" href="#term-asymmetric"><span class="term">asymmetric</span></a> keypair. Used to establish who produced a message.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-single-part-function"></span><span>Single-part function</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-single-part-function"></span><span>Single-part function</span></p></td>
 <td><p>An <a class="reference internal" href="#term-api"><span class="term">API</span></a> that implements the cryptographic operation in a single function call.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-specification-defined"></span><span class="sc">Specification defined</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-specification-defined"></span><span class="sc">Specification defined</span></p></td>
 <td><p>Behavior that is defined by this specification.</p></td>
 </tr>
-<tr class="row-odd"><td><span><span class="target" id="term-symmetric"></span><span>Symmetric</span></span></td>
+<tr class="row-odd"><td><p><span class="target" id="term-symmetric"></span><span>Symmetric</span></p></td>
 <td><p>A type of cryptographic algorithm that uses a single key. A symmetric key can be used with
 a block cipher or a stream cipher.</p></td>
 </tr>
-<tr class="row-even"><td><span><span class="target" id="term-volatile-key"></span><span>Volatile key</span></span></td>
+<tr class="row-even"><td><p><span class="target" id="term-volatile-key"></span><span>Volatile key</span></p></td>
 <td><p>A key that has a short lifespan and is guaranteed not to exist after a restart of an application instance.</p></td>
 </tr>
 </tbody>
@@ -430,7 +435,7 @@ Please ensure that you have the latest revision.</p>
 <p>If you have comments on the content of this book, visit <a class="reference external" href="https://github.com/arm-software/psa-api/issues">github.com/arm-software/psa-api/issues</a> to create a new issue at the PSA Certified API GitHub project. Give:</p>
 <ul class="simple">
 <li><p>The title (Crypto API).</p></li>
-<li><p>The number and issue (AES 0119 1.3 PQC Extension Beta (Issue 0)).</p></li>
+<li><p>The number and issue (AES 0119 1.3 PQC Extension Beta (Issue 1)).</p></li>
 <li><p>The location in the document to which your comments apply.</p></li>
 <li><p>A concise explanation of your comments.</p></li>
 </ul>

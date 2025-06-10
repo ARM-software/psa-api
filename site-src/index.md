@@ -47,7 +47,7 @@ Older versions of the PAKE Extension can be found on the [Crypto API](crypto/) p
 [status-code-html]:  status-code/1.0/
 [status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.3.pdf
 [crypto-html]:       crypto/1.3/
-[crypto-pdf]:        crypto/1.3/IHI0086-PSA_Certified_Crypto_API-1.3.0.pdf
+[crypto-pdf]:        crypto/1.3/IHI0086-PSA_Certified_Crypto_API-1.3.1.pdf
 [storage-html]:      storage/1.0/
 [storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.3.pdf
 [attestation-html]:  attestation/1.0/
@@ -55,7 +55,7 @@ Older versions of the PAKE Extension can be found on the [Crypto API](crypto/) p
 [fwu-html]:          fwu/1.0/
 [fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.0.pdf
 [pqc-html]:          crypto/1.3/ext-pqc/
-[pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.0.pdf
+[pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.1.pdf
 
 ## Feedback
 
