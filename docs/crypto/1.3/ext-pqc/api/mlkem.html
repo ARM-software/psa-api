@@ -19,12 +19,12 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" />
-    <script src="../_static/documentation_options.js?v=4322f07d"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=27ed2039"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>window.MathJax = {"chtml": {"mtextInheritFont": true}}</script>
+    <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -44,12 +44,12 @@
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
             </a></p><hr />
-<h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+<h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 AES 0119<br/>
 Non-confidential<br/>
-Version 1.3 PQC Extension Beta (Issue 0)
+Version 1.3 PQC Extension Beta (Issue 1)
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -226,6 +226,11 @@ See <span><em>Internet X.509 Public Key Infrastructure - Algorithm Identifiers f
 </section>
 <section id="module-lattice-based-key-encapsulation-algorithm">
 <h2><span class="section-number">2.2.2 </span>Module Lattice-based key-encapsulation algorithm<a class="headerlink" href="#module-lattice-based-key-encapsulation-algorithm" title="Link to this heading">¶</a></h2>
+<p>These algorithms extend those defined in <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="../about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span> §10.10 <em>Key encapsulation</em>, for use with the key-encapsulation functions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The key-encapsulation functions, <code class="docutils literal notranslate"><span class="pre">psa_encapsulate</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_decapsulate</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, were introduced in version 1.3 of the Crypto API.</p>
+</div>
 <p>ML-KEM is defined in <span><em>FIPS Publication 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard</em> <a class="reference internal" href="../about.html#cite-fips203"><span class="cite">[FIPS203]</span></a></span>.
 ML-KEM has three parameter sets which provide differing security strengths.</p>
 <p>The generation of an ML-KEM key depends on the full parameter specification.

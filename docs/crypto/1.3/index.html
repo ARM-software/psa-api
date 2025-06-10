@@ -9,8 +9,8 @@
 <meta property="og:url" content="https://arm-software.github.io/psa-api/crypto/1.3/" />
 <link rel="canonical" href="https://arm-software.github.io/psa-api/crypto/1.3/" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.3" />
-<meta property="og:description" content="Arm PSA Certified Crypto API 1.3:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 0,, Confidentiality:, Non-confidential,, Date of Issue:, 31/03/2025,,,, Abstract This docum..." />
-<meta name="description" content="Arm PSA Certified Crypto API 1.3:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 0,, Confidentiality:, Non-confidential,, Date of Issue:, 31/03/2025,,,, Abstract This docum..." />
+<meta property="og:description" content="Arm PSA Certified Crypto API 1.3:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 1,, Confidentiality:, Non-confidential,, Date of Issue:, 10/06/2025,,,, Abstract This docum..." />
+<meta name="description" content="Arm PSA Certified Crypto API 1.3:,, Document number:, IHI 0086,, Release Quality:, Final,, Issue Number:, 1,, Confidentiality:, Non-confidential,, Date of Issue:, 10/06/2025,,,, Abstract This docum..." />
 
     <title>PSA Certified Crypto API 1.3 &#8212; PSA Certified Crypto API 1.3</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
@@ -19,12 +19,12 @@
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" />
-    <script src="_static/documentation_options.js?v=96647119"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="_static/documentation_options.js?v=f2aba15d"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>window.MathJax = {"chtml": {"mtextInheritFont": true}}</script>
+    <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -43,12 +43,12 @@
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="#">
-              <img class="logo" src="_static/Arm_logo_blue_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+              <img class="logo" src="_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
             </a></p><hr />
-<h3><a href="#"><b>PSA Certified<br />Crypto API</b></a></h3>
+<h3><a href="#">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.3.0
+Version 1.3.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
@@ -93,7 +93,7 @@ Version 1.3.0
 
           <div class="body" role="main">
             
-  <img alt="Arm" class="titlelogo" src="_images/Arm_logo_blue_RGB.svg" />
+  <img alt="Arm" class="titlelogo" src="_images/ARM_LOGO-2025_INK_RGB.svg" />
 <section id="docrsttitle-docversion">
 <h1>PSA Certified <br /> Crypto API 1.3<a class="headerlink" href="#docrsttitle-docversion" title="Link to this heading">¶</a></h1>
 <table class="titletable borderless docutils align-default">
@@ -105,13 +105,13 @@ Version 1.3.0
 <td><p>Final</p></td>
 </tr>
 <tr class="row-odd"><td><p>Issue Number:</p></td>
-<td><p>0</p></td>
+<td><p>1</p></td>
 </tr>
 <tr class="row-even"><td><p>Confidentiality:</p></td>
 <td><p>Non-confidential</p></td>
 </tr>
 <tr class="row-odd"><td><p>Date of Issue:</p></td>
-<td><p>31/03/2025</p></td>
+<td><p>10/06/2025</p></td>
 </tr>
 </tbody>
 </table>
@@ -279,13 +279,14 @@ Version 1.3.0
 <li class="toctree-l3"><a class="reference internal" href="api/keys/types.html#rsa-keys">9.2.5 RSA keys</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/types.html#elliptic-curve-keys">9.2.6 Elliptic Curve keys</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/types.html#diffie-hellman-keys">9.2.7 Diffie Hellman keys</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/keys/types.html#attribute-accessors">9.2.8 Attribute accessors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/keys/types.html#spake2-keys">9.2.8 SPAKE2+ keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/keys/types.html#attribute-accessors">9.2.9 Attribute accessors</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/keys/lifetimes.html">9.3 Key lifetimes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/lifetimes.html#volatile-keys">9.3.1 Volatile keys</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/lifetimes.html#persistent-keys">9.3.2 Persistent keys</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/keys/lifetimes.html#lifetime-encodings">9.3.3 Lifetime encodings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/keys/lifetimes.html#key-lifetime-encoding">9.3.3 Key lifetime encoding</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/lifetimes.html#lifetime-values">9.3.4 Lifetime values</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/lifetimes.html#attribute-accessors">9.3.5 Attribute accessors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/keys/lifetimes.html#support-macros">9.3.6 Support macros</a></li>
@@ -464,16 +465,17 @@ Version 1.3.0
 </li>
 <li class="toctree-l1"><a class="reference internal" href="appendix/history.html">E Changes to the API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="appendix/history.html#document-change-history">E.1 Document change history</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-2-1-and-1-3-0">E.1.1 Changes between <em>1.2.1</em> and <em>1.3.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-2-0-and-1-2-1">E.1.2 Changes between <em>1.2.0</em> and <em>1.2.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-2-and-1-2-0">E.1.3 Changes between <em>1.1.2</em> and <em>1.2.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-1-and-1-1-2">E.1.4 Changes between <em>1.1.1</em> and <em>1.1.2</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-0-and-1-1-1">E.1.5 Changes between <em>1.1.0</em> and <em>1.1.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-1-and-1-1-0">E.1.6 Changes between <em>1.0.1</em> and <em>1.1.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-0-and-1-0-1">E.1.7 Changes between <em>1.0.0</em> and <em>1.0.1</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-3-and-1-0-0">E.1.8 Changes between <em>1.0 beta 3</em> and <em>1.0.0</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-2-and-1-0-beta-3">E.1.9 Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em></a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-1-and-1-0-beta-2">E.1.10 Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-3-0-and-1-3-1">E.1.1 Changes between <em>1.3.0</em> and <em>1.3.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-2-1-and-1-3-0">E.1.2 Changes between <em>1.2.1</em> and <em>1.3.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-2-0-and-1-2-1">E.1.3 Changes between <em>1.2.0</em> and <em>1.2.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-2-and-1-2-0">E.1.4 Changes between <em>1.1.2</em> and <em>1.2.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-1-and-1-1-2">E.1.5 Changes between <em>1.1.1</em> and <em>1.1.2</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-1-0-and-1-1-1">E.1.6 Changes between <em>1.1.0</em> and <em>1.1.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-1-and-1-1-0">E.1.7 Changes between <em>1.0.1</em> and <em>1.1.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-0-and-1-0-1">E.1.8 Changes between <em>1.0.0</em> and <em>1.0.1</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-3-and-1-0-0">E.1.9 Changes between <em>1.0 beta 3</em> and <em>1.0.0</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-2-and-1-0-beta-3">E.1.10 Changes between <em>1.0 beta 2</em> and <em>1.0 beta 3</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/history.html#changes-between-1-0-beta-1-and-1-0-beta-2">E.1.11 Changes between <em>1.0 beta 1</em> and <em>1.0 beta 2</em></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="appendix/history.html#planned-changes-for-version-1-2-x">E.2 Planned changes for version 1.2.x</a></li>

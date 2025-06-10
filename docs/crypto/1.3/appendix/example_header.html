@@ -19,9 +19,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" />
-    <script src="../_static/documentation_options.js?v=96647119"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=f2aba15d"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="../about.html" />
@@ -42,12 +42,12 @@
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
             </a></p><hr />
-<h3><a href="../index.html"><b>PSA Certified<br />Crypto API</b></a></h3>
+<h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.3.0
+Version 1.3.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -263,7 +263,7 @@ psa_status_t <a class="reference internal" href="../api/keys/management.html#c.p
                                      const <a class="reference internal" href="../api/keys/management.html#c.psa_custom_key_parameters_t" title="psa_custom_key_parameters_t">psa_custom_key_parameters_t</a> * custom,
                                      const uint8_t * custom_data,
                                      size_t custom_data_length,
-                                     mbedtls_svc_key_id_t * key);
+                                     <a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a> * key);
 psa_status_t <a class="reference internal" href="../api/keys/management.html#c.psa_copy_key" title="psa_copy_key">psa_copy_key</a>(<a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a> source_key,
                           const <a class="reference internal" href="../api/keys/attributes.html#c.psa_key_attributes_t" title="psa_key_attributes_t">psa_key_attributes_t</a> * attributes,
                           <a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a> * target_key);
@@ -628,7 +628,7 @@ psa_status_t <a class="reference internal" href="../api/ops/key-derivation.html#
                                                   const <a class="reference internal" href="../api/keys/management.html#c.psa_custom_key_parameters_t" title="psa_custom_key_parameters_t">psa_custom_key_parameters_t</a> * custom,
                                                   const uint8_t * custom_data,
                                                   size_t custom_data_length,
-                                                  mbedtls_svc_key_id_t * key);
+                                                  <a class="reference internal" href="../api/keys/ids.html#c.psa_key_id_t" title="psa_key_id_t">psa_key_id_t</a> * key);
 psa_status_t <a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_verify_bytes" title="psa_key_derivation_verify_bytes">psa_key_derivation_verify_bytes</a>(<a class="reference internal" href="../api/ops/key-derivation.html#c.psa_key_derivation_operation_t" title="psa_key_derivation_operation_t">psa_key_derivation_operation_t</a> * operation,
                                              const uint8_t * expected_output,
                                              size_t output_length);
