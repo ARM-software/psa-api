@@ -79,15 +79,15 @@ The |API| provides several functions for calculating and verifying signatures:
     These functions can also be used on the specialized signature algorithms, with a hash or encoded-hash as input. See also `PSA_ALG_IS_SIGN_HASH()`.
 
     Many modern signature algorithms have been designed to also accept a context string to provide domain separation. Release 1.4.0 introduced four new functions that accept contexts: `psa_sign_message_with_context()` `psa_sign_hash_with_context()`, `psa_verify_message_with_context()` `psa_verify_hash_with_context()`.
-    
+
     If called with a zero-length context, these functions are - except for the Edwards 25519 curve, see ``PSA_ALG_PURE_EDDSA`` - produce the same signature as the original function.
-    
+
     It is an error to provide a non-empty context with an algorithms that does not accept contexts.
-    
+
     Code written to be cryptographically agile can use the new functions, provided it guards against providing a non-empty context with an algorithm that does not support  them.
-    
-    There is a support macro ``PSA_ALG_SUPPORTS_CONTEXT`` that can be used to determine if the implementation of an algorithm supports the use of non-empty contexts.  
-    
+
+    There is a support macro ``PSA_ALG_SUPPORTS_CONTEXT`` that can be used to determine if the implementation of an algorithm supports the use of non-empty contexts.
+
 See :secref:`single-part-signature`.
 
 .. _rsa-sign-algorithms:
@@ -189,7 +189,7 @@ RSA signature algorithms
         The RSA PSS message signature scheme, with hashing.
         This variant permits any salt length for signature verification.
 
-        .. :: 1.1
+        .. versionadded :: 1.1
 
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true. This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
@@ -452,7 +452,7 @@ ECDSA signature algorithms
 
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-PureEdDSA    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_DETERMINISTIC_ECDSA()`.
+    See also `PSA_ALG_IS_ECDSA()` and `PSA_ALG_IS_DETERMINISTIC_ECDSA()`.
 
 .. _eddsa-sign-algorithms:
 
@@ -473,7 +473,7 @@ EdDSA signature algorithms
 
     PureEdDSA requires an elliptic curve key on a twisted Edwards curve. The following curves are supported:
 
-    *   Edwards25519: the Ed25519 algorithm is computed. The output signature is a 64-byte string: the concatenation of :math:`R` and :math:`S` as defined by :RFC:`8032#5.1.6`. 
+    *   Edwards25519: the Ed25519 algorithm is computed. The output signature is a 64-byte string: the concatenation of :math:`R` and :math:`S` as defined by :RFC:`8032#5.1.6`. This does not accept a context, so it cannot be used with functions that accept a context parameter, such as :code:`psa_sign_message_with_context()` and :code:`psa_verify_message_with_context()`, except with an empty context string.
 
     *   Edwards448: Unless you use the signature functions that accept a context parameter, such as :code:`psa_sign_message_with_context()` and :code:`psa_verify_message_with_context()`, the Ed448 algorithm is computed with an empty string as the context. The output signature is a 114-byte string: the concatenation of :math:`R` and :math:`S` as defined by :RFC:`8032#5.2.6`.
 
@@ -484,8 +484,8 @@ EdDSA signature algorithms
 
     .. note::
         When signatures on the Edwards 25519 curve were originally defined without domain separation. Later the Ed25519ctx and Ed25519ph variants were defined, both of which accept a context string. However, a signature made with Ed25519ctx and an empty context is distinct from a signature made using the Ed25519.
-        
-        As PureEdDSA does not support contexts, using PureEdDSA with a non-empty context is an error. 
+
+        As PureEdDSA does not support contexts, using PureEdDSA with a non-empty context on the 25519 curve is an error.
 
     .. subsection:: Compatible key types
 
@@ -493,18 +493,22 @@ EdDSA signature algorithms
         | :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(PSA_ECC_FAMILY_TWISTED_EDWARDS)` (signature verification only)
 
 .. macro:: PSA_ALG_ED25519CTX
-    :definition: ((psa_algorithm_t) 0x0600090C)
+    :definition: ((psa_algorithm_t) 0x06000A00)
 
     .. summary::
         Edwards-curve digital signature algorithm with context, using the Edwards25519 curve.
 
-        .. versionadded:: 1.4.0
-        
-    This signature algorithm can be used with both the message and hash signature functions.
+        .. versionadded:: 1.4
 
-    This calculates the Ed25519ctx algorithm as specified in :RFC-title:`8032#5.1`, and requires an Edwards25519 curve key. The `psa_sign_message()` and `psa_verify_message()` functions use an empty context string when computing or verifying signatures. 
-    
+    This signature algorithm can be used with both the message and message with context  signature functions.
+
+    This calculates the Ed25519ctx algorithm as specified in :RFC-title:`8032#5.1`, and requires an Edwards25519 curve key. The `psa_sign_message()` and `psa_verify_message()` functions use an empty context string when computing or verifying signatures.
+
     To use a non-empty context, use the signature functions that accept a context parameter, such as :code:`psa_sign_message_with_context()` and :code:`psa_verify_message_with_context()`
+
+    .. admonition:: Implementation note
+
+       Even if you do supply an empty context, signatures created with Ed25519ctx are distinct from those created with PureEdDSA.
 
     .. subsection:: Usage
 
@@ -519,9 +523,6 @@ EdDSA signature algorithms
         | :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_TWISTED_EDWARDS)`
         | :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(PSA_ECC_FAMILY_TWISTED_EDWARDS)` (signature verification only)
 
-    .. admonition:: Implementation note
-
-       Even if you do supply an empty context, signatures created with Ed25519ctx are distinct from those created with PureEdDSA.
 
 .. macro:: PSA_ALG_ED25519PH
     :definition: ((psa_algorithm_t) 0x0600090B)
@@ -534,7 +535,7 @@ EdDSA signature algorithms
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
 
     This calculates the Ed25519ph algorithm as specified in :RFC-title:`8032#5.1`, and requires an Edwards25519 curve key. The default signature functions use an empty context string when computing or verifying signatures.
-    
+
     To use a non-empty context, use the signature functions that accept a context parameter, such as :code:`psa_sign_message_with_context()` and :code:`psa_verify_hash_with_context()`
 
     The pre-hash function is SHA-512, see `PSA_ALG_SHA_512`.
@@ -570,14 +571,14 @@ EdDSA signature algorithms
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
 
-    This calculates the Ed448ph algorithm as specified in :RFC-title:`8032#5.2`, and requires an Edwards448 curve key. 
-    
+    This calculates the Ed448ph algorithm as specified in :RFC-title:`8032#5.2`, and requires an Edwards448 curve key.
+
     The pre-hash function is the first 64 bytes of the output from SHAKE256, see `PSA_ALG_SHAKE256_512`.
 
     When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the truncated SHAKE256 message digest.
 
     The default signature functions use an empty string as the context. To use a non-empty context, use one of the functions that support supplied contexts, for example `psa_sign_hash_with_context()` or `psa_verify_message_with_context()`.
-     
+
     .. subsection:: Usage
 
         This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:
@@ -724,7 +725,7 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a message.
-        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero. 
+        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero.
         *   ``key`` is not supported for use with ``alg``.
         *   ``input_length`` is too large for the implementation.
         *   ``context_length`` is too large for the implementation.
@@ -839,7 +840,7 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a message.
-        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero. 
+        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero.
         *   ``key`` is not supported for use with ``alg``.
         *   ``input_length`` is too large for the implementation.
         *   ``context_length`` is too large for the implementation.
@@ -850,7 +851,7 @@ Asymmetric signature functions
         *   ``key`` is not a public key or an asymmetric key pair, that is compatible with ``alg``.
         *   ``input_length`` is too large for the algorithm and key type.
         *   ``context_length`` is not valid for the algorithm and key type.
-        *   ``context`` is not a valid input value for the algorithm and key type.        
+        *   ``context`` is not a valid input value for the algorithm and key type.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -975,7 +976,7 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a pre-computed hash.
-        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero. 
+        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero.
         *   ``key`` is not supported for use with ``alg``.
         *   ``context_length`` is too large for the implementation.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -1096,7 +1097,7 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a pre-computed hash.
-        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero. 
+        *   ``alg`` does not support non-empty contexts, and ``context_length`` is not zero.
         *   ``key`` is not supported for use with ``alg``.
         *   ``context_length`` is too large for the implementation.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
@@ -1191,7 +1192,7 @@ Support macros
 
         A wildcard signature algorithm policy, using `PSA_ALG_ANY_HASH`, returns the same value as the signature algorithm parameterized with a valid hash algorithm.
 
-    This macro identifies algorithms that can be used with the functions that support non-empty contexts, for example `psa_sign_message_with_context()` or `psa_verify_hash_with_context()`. 
+    This macro identifies algorithms that can be used with the functions that support non-empty contexts, for example `psa_sign_message_with_context()` or `psa_verify_hash_with_context()`.
 
 .. macro:: PSA_ALG_ANY_HASH
     :definition: ((psa_algorithm_t)0x020000ff)
