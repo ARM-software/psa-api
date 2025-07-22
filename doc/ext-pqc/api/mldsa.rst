@@ -84,12 +84,12 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
     .. subsection:: Key derivation
 
-        A call to :code:`psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the 32-byte ML-DSA key-pair seed, :math:`xi`.
+        A call to :code:`psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the 32-byte ML-DSA key-pair seed, :math:`\xi`.
         The key pair :math:`(pk, sk)` is generated from the seed as defined by ``ML-DSA.KeyGen_internal()`` in `[FIPS204]` §6.1.
 
         .. admonition:: Implementation note
 
-            It is :scterm:`implementation defined` whether the seed :math:`xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
+            It is :scterm:`implementation defined` whether the seed :math:`\xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
 
 .. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4002)
