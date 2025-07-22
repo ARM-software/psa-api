@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto-pqc
@@ -78,7 +78,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
         A SLH-DSA key pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
-        The data format for import and export of the key pair is the concatenation of the four octet strings:
+        In calls to :code:`psa_import_key()` and :code:`psa_export_key()`, the key-pair data format is the concatenation of the four octet strings:
 
         .. math::
 
@@ -133,7 +133,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
         A SLH-DSA public key is defined in `[FIPS205]` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
-        The data format for export of the public key is the concatenation of the two octet strings:
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the concatenation of the two octet strings:
 
         .. math::
 

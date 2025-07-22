@@ -53,7 +53,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See `[FIPS204]` §5.1.
 
-        The data format for import and export of the key pair is the 32-byte seed :math:`\xi`.
+        In calls to :code:`psa_import_key()` and :code:`psa_export_key()`, the key-pair data format is the 32-byte seed :math:`\xi`.
 
         .. rationale::
 
@@ -121,6 +121,8 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
             The current proposed format is based on the expected outcome of that process.
 
         An ML-DSA public key is the :math:`pk` output of ``ML-DSA.KeyGen()``, defined in `[FIPS204]` §5.1.
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is :math:`pk`.
 
         The size of the public key depends on the ML-DSA parameter set as follows:
 
