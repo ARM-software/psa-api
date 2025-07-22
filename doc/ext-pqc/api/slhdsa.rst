@@ -90,9 +90,11 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
         A call to :code:`psa_key_derivation_output_key()` will draw output bytes as follows:
 
-        *   32 bytes are drawn as :math:`SK\text{.seed}`.
-        *   32 bytes are drawn as :math:`SK\text{.prf}`.
-        *   32 bytes are drawn as :math:`PK\text{.seed}`.
+        *   :math:`n` bytes are drawn as :math:`SK\text{.seed}`.
+        *   :math:`n` bytes are drawn as :math:`SK\text{.prf}`.
+        *   :math:`n` bytes are drawn as :math:`PK\text{.seed}`.
+
+        Here, :math:`n` is the security parameter for the selected SLH-DSA parameter set.
 
         The private key :math:`(SK\text{.seed},SK\text{.prf},PK\text{.seed},PK\text{.root})` is generated from these values as defined by ``slh_keygen_internal()`` in `[FIPS205]` §9.1.
 
