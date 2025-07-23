@@ -18,7 +18,7 @@ About the |API| PQC Extension
 This document defines an extension to the :cite-title:`PSA-CRYPT` specification, to provide support for :term:`Post-Quantum Cryptography` (PQC) algorithms.
 Specifically, for the NIST-approved schemes for LMS, HSS, XMSS, |XMSS^MT|, ML-DSA, SLH-DSA, and ML-KEM.
 
-When the proposed extension is sufficiently stable to be classed as Final, it will be integrated into a future version of `[PSA-CRYPT]`.
+This extension is now classed as Final, and it will be integrated into a future version of `[PSA-CRYPT]`.
 
 This specification must be read and implemented in conjunction with `[PSA-CRYPT]`.
 All of the conventions, design considerations, and implementation considerations that are described in `[PSA-CRYPT]` apply to this specification.

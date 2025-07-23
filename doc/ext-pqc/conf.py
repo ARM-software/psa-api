@@ -26,15 +26,15 @@ doc_info = {
     'extension_doc': 'PQC Extension',
 
     # Arm document quality status, marked as open issue if not provided
-    'quality': 'BET',
+    'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 2,
+    'issue_no': 0,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     'release_candidate': 0,
     # Draft status - use this to indicate the document is not ready for publication
-    'draft': False,
+    'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
