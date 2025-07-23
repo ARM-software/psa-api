@@ -9,6 +9,12 @@ Changes to the API
 Document change history
 -----------------------
 
+Changes between *Beta 1* and *Beta 2*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 Changes between *Beta 0* and *Beta 1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
