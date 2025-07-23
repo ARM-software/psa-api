@@ -6,6 +6,13 @@
 Document change history
 =======================
 
+Changes between *Beta 3* and *Final 0*
+--------------------------------------
+
+.. rubric:: Clarifications and fixes
+
+:issue:`TBD`
+
 Changes between *Beta 2* and *Beta 3*
 -------------------------------------
 
