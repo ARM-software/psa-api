@@ -58,10 +58,8 @@ PQC algorithms that have been standardized are obvious candidates for inclusion 
 *   :cite-title:`FIPS205`
 
 Although the NIST standards for these algorithms are now finalized, the definition of keys in the |API| depends on import and export formats.
-To maximize key exchange interoperability with other specifications, the default export format in the |API| should be aligned with the definitions selected for X.509 public-key infrastructure.
-As the IETF process for defining the X.509 key formats is still ongoing at the time of publishing this document, the interfaces within this document are at BETA status.
-
-However, it is not expected that other aspects of the API in this document will change when it becomes FINAL.
+To maximize key exchange interoperability with other specifications, the default export format in the |API| should be compatible with the definitions selected for X.509 public-key infrastructure.
+The IETF process for defining the X.509 key formats is nearing completion, and decisions have be made regarding the key formats in the |API|.
 
 .. note::
     Although PQC algorithms that are draft standards could be considered, any definitions for these algorithms would be have to be considered experimental.
