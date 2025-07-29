@@ -17,7 +17,7 @@ Clarifications and fixes
 
 *   Fixed the derivation of SLH-DSA key pairs to extract the correct number of bytes from the key derivation operation.
     See `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR`.
-*   Clarified that the standard key formats is used in the :code:`psa_import_key()` and :code:`psa_export_key()` functions.
+*   Clarified that the standard key formats are used in the :code:`psa_import_key()` and :code:`psa_export_key()` functions.
 
 Changes between *Beta 0* and *Beta 1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
