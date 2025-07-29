@@ -24,7 +24,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../_static/documentation_options.js?v=27ed2039"></script>
+    <script src="../_static/documentation_options.js?v=8abd50f5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
@@ -52,7 +52,7 @@
 <h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 AES 0119<br/>
 Non-confidential<br/>
-Version 1.3 PQC Extension Beta (Issue 1)
+Version 1.3 PQC Extension Beta (Issue 2)
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
@@ -167,17 +167,18 @@ See <span><em>Internet X.509 Public Key Infrastructure: Algorithm Identifiers fo
 <p>The current proposed format is based on the expected outcome of that process.</p>
 </div>
 <p>A SLH-DSA key pair is defined in <a class="reference internal" href="../about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.1 as the four <span class="math notranslate nohighlight">\(n\)</span>-byte values, <span class="math notranslate nohighlight">\(SK\text{.seed}\)</span>, <span class="math notranslate nohighlight">\(SK\text{.prf}\)</span>, <span class="math notranslate nohighlight">\(PK\text{.seed}\)</span>, and <span class="math notranslate nohighlight">\(PK\text{.root}\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the security parameter.</p>
-<p>The data format for import and export of the key pair is the concatenation of the four octet strings:</p>
+<p>In calls to <code class="docutils literal notranslate"><span class="pre">psa_import_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_export_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, the key-pair data format is the concatenation of the four octet strings:</p>
 <div class="math notranslate nohighlight">
 \[SK\text{.seed}\ ||\ SK\text{.prf}\ ||\ PK\text{.seed}\ ||\ PK\text{.root}\]</div>
 <p>See <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</span></code></a> for the data format used when exporting the public key with <code class="docutils literal notranslate"><span class="pre">psa_export_public_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
 <p class="rubric">Key derivation</p>
 <p>A call to <code class="docutils literal notranslate"><span class="pre">psa_key_derivation_output_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> will draw output bytes as follows:</p>
 <ul class="simple">
-<li><p>32 bytes are drawn as <span class="math notranslate nohighlight">\(SK\text{.seed}\)</span>.</p></li>
-<li><p>32 bytes are drawn as <span class="math notranslate nohighlight">\(SK\text{.prf}\)</span>.</p></li>
-<li><p>32 bytes are drawn as <span class="math notranslate nohighlight">\(PK\text{.seed}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> bytes are drawn as <span class="math notranslate nohighlight">\(SK\text{.seed}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> bytes are drawn as <span class="math notranslate nohighlight">\(SK\text{.prf}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> bytes are drawn as <span class="math notranslate nohighlight">\(PK\text{.seed}\)</span>.</p></li>
 </ul>
+<p>Here, <span class="math notranslate nohighlight">\(n\)</span> is the security parameter for the selected SLH-DSA parameter set.</p>
 <p>The private key <span class="math notranslate nohighlight">\((SK\text{.seed},SK\text{.prf},PK\text{.seed},PK\text{.root})\)</span> is generated from these values as defined by <code class="docutils literal notranslate"><span class="pre">slh_keygen_internal()</span></code> in <a class="reference internal" href="../about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.1.</p>
 </section>
 <section id="c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY">
@@ -217,7 +218,7 @@ See <span><em>Internet X.509 Public Key Infrastructure: Algorithm Identifiers fo
 <p>The current proposed format is based on the expected outcome of that process.</p>
 </div>
 <p>A SLH-DSA public key is defined in <a class="reference internal" href="../about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.1 as two <span class="math notranslate nohighlight">\(n\)</span>-byte values, <span class="math notranslate nohighlight">\(PK\text{.seed}\)</span> and <span class="math notranslate nohighlight">\(PK\text{.root}\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the security parameter.</p>
-<p>The data format for export of the public key is the concatenation of the two octet strings:</p>
+<p>In calls to <code class="docutils literal notranslate"><span class="pre">psa_import_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, <code class="docutils literal notranslate"><span class="pre">psa_export_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, and <code class="docutils literal notranslate"><span class="pre">psa_export_public_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, the public-key data format is the concatenation of the two octet strings:</p>
 <div class="math notranslate nohighlight">
 \[PK\text{.seed}\ ||\ PK\text{.root}\]</div>
 </section>
