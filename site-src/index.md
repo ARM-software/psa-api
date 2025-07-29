@@ -55,7 +55,7 @@ Older versions of the PAKE Extension can be found on the [Crypto API](crypto/) p
 [fwu-html]:          fwu/1.0/
 [fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.0.pdf
 [pqc-html]:          crypto/1.3/ext-pqc/
-[pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.1.pdf
+[pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.2.pdf
 
 ## Feedback
 
