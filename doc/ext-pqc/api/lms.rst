@@ -76,16 +76,11 @@ Leighton-Micali Signature keys
 
     .. subsection:: Key format
 
-        .. warning::
-
-            The key format may change in a final version of this API.
-            The standardization of exchange formats for HSS public keys is in progress, but final documents have not been published.
-            See :cite-title:`LAMPS-SHBS`.
-
-            The current proposed format is based on the expected outcome of that process.
-
         In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the encoded ``hss_public_key`` structure, defined in :rfc:`8554#3`.
 
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9802`.
 
 .. _lms-algorithms:
 
