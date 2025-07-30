@@ -496,16 +496,16 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
     This function can only be used to create a volatile key.
     That is, a key with a lifetime persistence level of `PSA_KEY_PERSISTENCE_VOLATILE`.
 
-    Depending on the key being regsitered, the implementation can provide some or all of the key type, size, and policy.
+    Depending on the key being registered, the implementation can provide some or all of the key type, size, and policy.
     For example:
 
     *   Provisioned key material has a fixed size.
         The implementation might permit the application to define the key type and policy, as long as these are compatible with the key material.
     *   An implementation-specific derived key can require the application to provide a key type and size, using these in the derivation process.
     *   An implementation-provided key can be fully defined by the implementation, with a fixed type, size, and policy.
-        The call to `psa_attach_key()` needs to specify the location and label of the key, and a macthing policy, in order to obtain a key id.
+        The call to `psa_attach_key()` needs to specify the location and label of the key, and a matching policy, in order to obtain a key id.
 
-    Calling `psa_destroy_key()` with a key identifier returned by `psa_attach_key()` will remove the key identifer and policy from the key store, but any implementation-provided key material remains within the implementation.
+    Calling `psa_destroy_key()` with a key identifier returned by `psa_attach_key()` will remove the key identifier and policy from the key store, but any implementation-provided key material remains within the implementation.
     A subsequent call to `psa_attach_key()` with the same parameters will return a new key identifier for the same key.
 
     It is :scterm:`implementation defined` whether the same implementation-provided key can be attached to multiple key identifiers concurrently.
@@ -514,7 +514,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
 
         This function is intended for scenarios where key material is provided outside the |API|, and the application needs to use such keys within the |API| framework.
 
-        The function does not allow registering keys that are not already provided by the implementation.
+        The function only allows registering key material that is provided by the implementation.
         To import new key material, use `psa_import_key()`.
 
         Although the implementation verifies that the application-supplied attributes are compatible with the implementation-provided key; it is the application's responsibility to ensure correctness for attributes that are provided by the implementation.
@@ -526,7 +526,7 @@ When creating a key, the attributes for the new key are specified in a `psa_key_
         Implementations may impose restrictions on which keys can be registered, depending on their storage architecture and security policies.
 
         The behavior of a call `psa_attach_key()` with a persistent key-lifetime might be specified in a future version of the |API|.
-        Such a call must result in a :code:`PSA_ERROR_INVALID_ARGUMENT` error in an implementation of version |docversion| of the |API|.
+        At present, it is recommended that such a call returns :code:`PSA_ERROR_INVALID_ARGUMENT`, and does not provide implementation-specific behavior.
 
 .. _key-destruction:
 
