@@ -207,10 +207,11 @@ A HashML-DSA signature can only be verified with a HashML-DSA algorithm.
 
 .. rubric:: Contexts
 
-Contexts are not supported in the current version of this specification because there is no suitable signature interface that can take the context as a parameter.
-A empty context string is used when computing or verifying ML-DSA signatures.
+From release 1.4.0 this specification includes functions that take non-empty contexts. 
 
-A future version of this specification may add suitable functions and extend this algorithm to support contexts.
+The default signature functions use an empty context string when computing or verifying ML-DSA signatures.
+To use a supplied context, use a function that accepts a context parameter, such as :code:`psa_sign_message_with_context()` and :code:`psa_verify_hash_with_context()`
+
 
 .. macro:: PSA_ALG_ML_DSA
     :definition: ((psa_algorithm_t) 0x06004400)
@@ -220,7 +221,8 @@ A future version of this specification may add suitable functions and extend thi
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the :code:`psa_sign_message()` and :code:`psa_verify_message()` functions.
+    This algorithm can only be used with the message signature and verify functions. 
+    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.

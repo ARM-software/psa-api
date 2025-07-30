@@ -87,4 +87,5 @@
     :date: ? 2025
     :confidentiality: Non-confidential
 
-    TBD
+   TBD
+   Added new functions for signatures with context. 
