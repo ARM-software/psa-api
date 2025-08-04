@@ -53,7 +53,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
 
-    The key attribute size of of an SLH-DSA key pair is the bit-size of each component in the SLH-DSA keys defined in `[FIPS205]`.
+    The bit size used in the attributes of an SLH-DSA key pair is the bit-size of each component in the SLH-DSA keys defined in `[FIPS205]`.
     That is, for a parameter set with security parameter :math:`n`, the bit-size in the key attributes is :math:`8n`.
     See the documentation of each SLH-DSA parameter-set family for details.
 
@@ -105,7 +105,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
 
-    The key attribute size of an SLH-DSA public key is the same as the corresponding private key.
+    The bit size used in the attributes of an SLH-DSA public key is the same as the corresponding private key.
     See `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()` and the documentation of each SLH-DSA parameter-set family for details.
 
     .. subsection:: Compatible algorithms

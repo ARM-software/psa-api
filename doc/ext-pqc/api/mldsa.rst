@@ -24,7 +24,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. versionadded:: 1.3
 
-    The key attribute size of an ML-DSA key is a measure of the security strength of the ML-DSA parameter set in `[FIPS204]`:
+    The bit size used in the attributes of an ML-DSA key is a measure of the security strength of the ML-DSA parameter set in `[FIPS204]`:
 
     *   ML-DSA-44 : ``key_bits = 128``
     *   ML-DSA-65 : ``key_bits = 192``
@@ -79,7 +79,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. versionadded:: 1.3
 
-    The key attribute size of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
+    The bit size used in the attributes of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
 
     .. subsection:: Compatible algorithms
 

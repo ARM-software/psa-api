@@ -38,7 +38,7 @@ XMSS and |XMSS^MT| keys
 
     The parameterization of an XMSS key is fully encoded in the key data.
 
-    The key attribute size of an XMSS public key is output length, in bits, of the hash function identified by the XMSS parameter set.
+    The bit size used in the attributes of an XMSS public key is output length, in bits, of the hash function identified by the XMSS parameter set.
 
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``
@@ -70,7 +70,7 @@ XMSS and |XMSS^MT| keys
 
     The parameterization of an |XMSS^MT| key is fully encoded in the key data.
 
-    The key attribute size of an |XMSS^MT| public key is output length, in bits, of the hash function identified by the |XMSS^MT| parameter set.
+    The bit size used in the attributes of an |XMSS^MT| public key is output length, in bits, of the hash function identified by the |XMSS^MT| parameter set.
 
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``
