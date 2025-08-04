@@ -53,7 +53,7 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
             The formats for X.509 handling of ML-KEM keys are specified in :cite-title:`LAMPS-MLKEM`.
             This permits a choice of three formats for the decapsulation key material, incorporating one, or both, of the seed values :math:`d\ ||\ z` and the expanded decapsulation key :math:`dk`.
 
-            The |API| only supports the recommended format of the seed, but without the ASN.1 encoding prefix.
+            The |API| only supports the recommended format from `[LAMPS-MLKEM]`, which is the concatenated bytes of the seed values :math:`d\ ||\ z`, but without the ASN.1 encoding prefix.
             This suits the constrained nature of |API| implementations, where interoperation with expanded decapsulation-key formats is not required.
 
         See `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
