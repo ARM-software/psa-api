@@ -74,7 +74,7 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 
         .. admonition:: Implementation note
 
-            It is :scterm:`implementation defined` whether the seed-pair :math:`(d,z)` is expanded to :math:`(ek,dk)` at the point of derivation, or only just before the key is used.
+            It is an implementation choice whether the seed-pair :math:`(d,z)` is expanded to :math:`(ek,dk)` at the point of derivation, or only just before the key is used.
 
 .. macro:: PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4004)
