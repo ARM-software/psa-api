@@ -38,7 +38,7 @@ Leighton-Micali Signature keys
 
     The parameterization of an LMS key is fully encoded in the key data.
 
-    The key attribute size of an LMS public key is output length, in bits, of the hash function identified by the LMS parameter set.
+    The bit size used in the attributes of an LMS public key is output length, in bits, of the hash function identified by the LMS parameter set.
 
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``
@@ -63,7 +63,7 @@ Leighton-Micali Signature keys
 
     The parameterization of an HSS key is fully encoded in the key data.
 
-    The key attribute size of an HSS public key is output length, in bits, of the hash function identified by the HSS parameter set.
+    The bit size used in the attributes of an HSS public key is output length, in bits, of the hash function identified by the HSS parameter set.
 
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``

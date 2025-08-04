@@ -26,7 +26,7 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 
     The |API| treats decapsulation keys as private keys and encapsulation keys as public keys.
 
-    The key attribute size of an ML-KEM key is specified by the numeric part of the parameter-set identifier defined in `[FIPS203]`.
+    The bit size used in the attributes of an ML-KEM key is specified by the numeric part of the parameter-set identifier defined in `[FIPS203]`.
     The parameter-set identifier refers to the key strength, and not to the actual size of the key.
     The following values for the ``key_bits`` key attribute are used to select a specific ML-KEM parameter set:
 
@@ -84,7 +84,7 @@ The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in 
 
         .. versionadded:: 1.3
 
-    The key attribute size of an ML-KEM public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`.
+    The bit size used in the attributes of an ML-KEM public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`.
 
     .. subsection:: Compatible algorithms
 
