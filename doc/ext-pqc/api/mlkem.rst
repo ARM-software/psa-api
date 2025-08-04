@@ -14,7 +14,7 @@ Module Lattice-based key encapsulation
 Module Lattice-based key-encapsulation keys
 -------------------------------------------
 
-The |API| supports Module Lattice-based key ecapsulation (ML-KEM) as defined in :cite-title:`FIPS203`.
+The |API| supports Module Lattice-based key encapsulation (ML-KEM) as defined in :cite-title:`FIPS203`.
 
 .. macro:: PSA_KEY_TYPE_ML_KEM_KEY_PAIR
     :definition: ((psa_key_type_t)0x7004)
