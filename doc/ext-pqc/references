@@ -40,19 +40,19 @@
     :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM)
     :author: IETF
     :publication: July 2025 (Draft 11)
-    :url: datatracker.ietf.org/doc/draft-ietf-lamps-kyber-certificates
+    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-kyber-certificates-11
 
 .. reference:: LAMPS-MLDSA
     :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)
     :author: IETF
     :publication: June 2025 (Draft 12)
-    :url: datatracker.ietf.org/doc/draft-ietf-lamps-dilithium-certificates
+    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-dilithium-certificates-12
 
 .. reference:: LAMPS-SLHDSA
     :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA
     :author: IETF
     :publication: June 2025 (Draft 09)
-    :url: datatracker.ietf.org/doc/draft-ietf-lamps-x509-slhdsa
+    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-x509-slhdsa-09
 
 .. reference:: NIST-PQC
     :title: Post-Quantum Cryptography
@@ -81,8 +81,8 @@
 .. reference:: CFRG-LMS
     :title: Additional Parameter sets for HSS/LMS Hash-Based Signatures
     :author: IRTF
-    :publication: October 2024 (Draft 17)
-    :url: datatracker.ietf.org/doc/draft-fluhrer-lms-more-parm-sets
+    :publication: February 2025 (Draft 19)
+    :url: datatracker.ietf.org/doc/html/draft-fluhrer-lms-more-parm-sets-19
 
 .. reference:: RFC9802
     :title: Use of the HSS and XMSS Hash-Based Signature Algorithms in Internet X.509 Public Key Infrastructure
