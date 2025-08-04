@@ -69,7 +69,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. admonition:: Implementation note
 
-            It is :scterm:`implementation defined` whether the seed :math:`\xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
+            It is :an implementation choice whether the seed :math:`\xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
 
 .. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4002)
