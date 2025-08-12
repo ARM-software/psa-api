@@ -22,7 +22,7 @@ The single-part functions for encrypting or decrypting a message using an unauth
 
 The `psa_cipher_operation_t` `multi-part operation <multi-part-operations>` permits alternative initialization parameters and allows messages to be processed in fragments. A multi-part cipher operation is used as follows:
 
-1.  Initialize the `psa_cipher_operation_t` object to zero, or by assigning the value of the associated macro `PSA_CIPHER_OPERATION_INIT`.
+1.  Initialize the `psa_cipher_operation_t` object to zero, or by assigning the value of the associated macro `PSA_CIPHER_OPERATION_INIT`, call `psa_cipher_clone()` to duplicate the state of *active* .`psa_cipher_operation_t` object.
 #.  Call `psa_cipher_encrypt_setup()` or `psa_cipher_decrypt_setup()` to specify the algorithm and key.
 #.  Provide additional parameters:
 
@@ -858,6 +858,34 @@ Multi-part cipher operations
     This function can be called any time after the operation object has been initialized as described in `psa_cipher_operation_t`.
 
     In particular, calling `psa_cipher_abort()` after the operation has been terminated by a call to `psa_cipher_abort()` or `psa_cipher_finish()` is safe and has no effect.
+
+.. function:: psa_cipher_clone
+
+    .. summary::
+        Clone a cipher operation.
+
+    .. param:: const psa_cipher_operation_t * source_operation
+        The active cipher operation to clone.
+    .. param:: psa_cipher_operation_t * target_operation
+        The operation object to set up. It must be initialized but not active.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        ``target_operation`` is ready to continue the same cipher operation as ``source_operation``.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The ``source_operation`` state is not valid: it must be active.
+        *   The ``target_operation`` state is not valid: it must be inactive.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+
+    This function copies the state of an ongoing cipher operation to a new operation object. In other words, this function is equivalent to calling `psa_cipher_setup()` on ``target_operation`` with the same algorithm that ``source_operation`` was set up for, then `psa_cipher_update()` on ``target_operation`` with the same input that that was passed to ``source_operation``. After this function returns, the two objects are independent, i.e. subsequent calls involving one of the objects do not affect the other object.
+    
+
 
 Support macros
 --------------
