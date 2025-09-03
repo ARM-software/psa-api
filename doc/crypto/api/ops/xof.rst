@@ -9,16 +9,6 @@
 Extendable-output functions (XOF)
 =================================
 
-.. todo::
-
-    Should it be `psa_xof_input()` and `psa_xof_output()` (current), or :code:`psa_xof_input_bytes()` and :code:`psa_xof_output_bytes()`, or something else?
-
-    For comparison:
-
-    *   Hash operations use ``update()`` and ``finish()``, but only have a single output call. ``update()`` and ``output()`` doesn't seem quite right.
-    *   KDF operations have ``input_bytes()`` and ``output_bytes()``, but also have ``_key()`` variants so distinguishing bytes vs keys is necessary for KDF.
-    *   PAKE operations has ``input()`` and ``output()`` for the data transfer protocol steps.
-
 An eXtendable-Output Function (XOF) is similar to a cryptographic hash, transforming an arbitrary amount of input data into pseudorandom output.
 Unlike hash algorithms, an XOF can produce an arbitrary amount of output.
 
@@ -29,7 +19,7 @@ A multi-part XOF operation is used as follows:
 
 1.  Initialize the `psa_xof_operation_t` object to zero, or by assigning the value of the associated macro `PSA_XOF_OPERATION_INIT`.
 #.  Call `psa_xof_setup()` to specify the required XOF algorithm.
-#.  Call the `psa_xof_input()` function on successive chunks of the input data.
+#.  Call the `psa_xof_update()` function on successive chunks of the input data.
 #.  After input is complete, call `psa_xof_output()` one or more times to extract successive chunks of output.
 #.  When output is complete, call `psa_xof_abort()` to end the operation.
 
@@ -40,7 +30,7 @@ To abort the operation or recover from an error, call `psa_xof_abort()`.
     For an XOF algorithm:
 
     *   The result does not depend on how the overall input is fragmented.
-        For example, calling `psa_xof_input()` twice with input :math:`i_1` and :math:`i_2` has the same effect as calling `psa_xof_input()` once with the concatenation :math:`i_1\ ||\ i_2`.
+        For example, calling `psa_xof_update()` twice with input :math:`i_1` and :math:`i_2` has the same effect as calling `psa_xof_update()` once with the concatenation :math:`i_1\ ||\ i_2`.
     *   The overall output does not depend on how the output is fragmented.
         If the output is considered as a stream of bytes, `psa_xof_output()` is an operation that reads bytes in sequence from the stream of data.
 
@@ -176,7 +166,7 @@ Multi-part XOF operations
     1.  Allocate an XOF operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_xof_operation_t`, e.g. `PSA_XOF_OPERATION_INIT`.
     #.  Call `psa_xof_setup()` to specify the algorithm.
-    #.  Call `psa_xof_input()` zero, one, or more times, passing a fragment of the input each time.
+    #.  Call `psa_xof_update()` zero, one, or more times, passing a fragment of the input each time.
     #.  To extract XOF output data, call `psa_xof_output()` one or more times.
 
     After a successful call to `psa_xof_setup()`, the operation is active, and the application must eventually terminate the operation with a call to `psa_xof_abort()`.
@@ -188,7 +178,7 @@ Multi-part XOF operations
 
     See :secref:`multi-part-operations`.
 
-.. function:: psa_xof_input
+.. function:: psa_xof_update
 
     .. summary::
         Add input to a multi-part XOF operation.
@@ -220,6 +210,11 @@ Multi-part XOF operations
 
     The application must call `psa_xof_setup()` before calling this function.
 
+    This function can be called zero, one, or more times to provide input for the XOF.
+    The input to the XOF is only finalized on the first call to `psa_xof_output()`.
+
+    `psa_xof_update()` cannot be called on an XOF operation once `psa_xof_output()` has been called on the operation.
+
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_xof_abort()`.
 
 .. function:: psa_xof_output
@@ -249,10 +244,11 @@ Multi-part XOF operations
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
 
-    The application must call `psa_xof_setup()` and supply all input data, using calls to `psa_xof_input()`, before calling this function.
-
     This function calculates output bytes from the XOF algorithm and returns those bytes.
     If the key derivation's output is viewed as a stream of bytes, this function consumes the requested number of bytes from the stream and returns them to the caller.
+
+    The application must call `psa_xof_setup()` and supply all input data, using calls to `psa_xof_update()`, before calling this function.
+    The input to the XOF is finalized on the first call to `psa_xof_output()` before data is extracted from the XOF.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_xof_abort()`.
 
