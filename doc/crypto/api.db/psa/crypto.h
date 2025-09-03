@@ -757,12 +757,12 @@ psa_status_t psa_verify_message(psa_key_id_t key,
                                 const uint8_t * signature,
                                 size_t signature_length);
 psa_status_t psa_xof_abort(psa_xof_operation_t * operation);
-psa_status_t psa_xof_input(psa_xof_operation_t * operation,
-                           const uint8_t * input,
-                           size_t input_length);
 psa_xof_operation_t psa_xof_operation_init(void);
 psa_status_t psa_xof_output(psa_xof_operation_t * operation,
                             uint8_t * output,
                             size_t output_length);
 psa_status_t psa_xof_setup(psa_xof_operation_t * operation,
                            psa_algorithm_t alg);
+psa_status_t psa_xof_update(psa_xof_operation_t * operation,
+                            const uint8_t * input,
+                            size_t input_length);
