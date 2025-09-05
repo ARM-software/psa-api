@@ -14,6 +14,8 @@ This section provides the detailed changes made between published version of the
 Changes between *1.3.2* and *1.4.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+:issue:`TBD`
+
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
@@ -24,6 +26,15 @@ Changes to the API
 *   Added support for key wrapping using key-wrapping algorithms.
     See :secref:`key-wrapping`.
 
+*   Added support for the WPA3-SAE PAKE:
+
+    -   Add `PSA_KEY_TYPE_WPA3_SAE_ECC_PT` and `PSA_KEY_TYPE_WPA3_SAE_DH_PT` key types for WPA3-SAE password tokens.
+    -   Added the `PSA_ALG_WPA3_SAE_H2E()` KDF for generating a WPA3-SAE password token from a password.
+    -   Added WPA3-SAE PAKE algorithms, `PSA_ALG_WPA3_SAE_FIXED()` and `PSA_ALG_WPA3_SAE_GDH()`.
+    -   Added finite field Diffie-Hellman family `PSA_DH_FAMILY_RFC3526`, which provides cyclic groups used for WPA3-SAE.
+
+    See :secref:`pake-wpa3-sae`.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -32,7 +43,8 @@ Clarifications and fixes
 Other changes
 ~~~~~~~~~~~~~
 
-*   TBD
+*   Reorganised the chapter on key types.
+    See :secref:`key-types`.
 
 Changes between *1.3.1* and *1.3.2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
