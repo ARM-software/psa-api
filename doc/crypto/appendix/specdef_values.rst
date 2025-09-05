@@ -194,6 +194,15 @@ Algorithm macros
          (((alg) & 0x7f008000) == 0x03008000) || \
          (((alg) & 0x7f008000) == 0x05008000))
 
+    #define PSA_ALG_IS_WPA3_SAE(alg) \
+        (((alg) & ~0x000001ff) == 0x0a000800)
+
+    #define PSA_ALG_IS_WPA3_SAE_FIXED(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000800)
+
+    #define PSA_ALG_IS_WPA3_SAE_GDH(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000900)
+
     #define PSA_ALG_IS_WPA3_SAE_H2E(alg) \
         (((alg) & ~0x000000ff) == 0x08800400)
 
@@ -244,6 +253,12 @@ Algorithm macros
 
     #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
         ((psa_algorithm_t) (((mac_alg) & ~0x003f8000) | (((mac_length) & 0x3f) << 16)))
+
+    #define PSA_ALG_WPA3_SAE_FIXED(hash_alg) \
+        ((psa_algorithm_t) (0x0a000800 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_WPA3_SAE_GDH(hash_alg) \
+        ((psa_algorithm_t) (0x0a000900 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_WPA3_SAE_H2E(hash_alg) \
         ((psa_algorithm_t) (0x08800400 | ((hash_alg) & 0x000000ff)))
