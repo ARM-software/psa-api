@@ -335,6 +335,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     SP 800-108 Counter CMAC, 0, ``0x08``, :code:`PSA_ALG_SP800_108_COUNTER_CMAC`, ``0x08000800``
     PBKDF2-HMAC, 1, ``0x01``, :code:`PSA_ALG_PBKDF2_HMAC(hash)`, ``0x088001hh`` :sup:`a`
     PBKDF2-AES-CMAC-PRF-128, 1, ``0x02``, :code:`PSA_ALG_PBKDF2_AES_CMAC_PRF_128`, ``0x08800200``
+    WPA3-SAE Hash-to-element, 1, ``0x04``, :code:`PSA_ALG_WPA3_SAE_H2E(hash)`, ``0x088004hh`` :sup:`a`
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
 
