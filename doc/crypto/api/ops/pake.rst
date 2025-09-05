@@ -289,7 +289,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
             -   Value
 
         *   -   algorithm
-            -   :code:`PSA_ALG_NONE` --- an invalid algorithm identifier.
+            -   `PSA_ALG_NONE` --- an invalid algorithm identifier.
         *   -   primitive
             -   ``0`` --- an invalid PAKE primitive.
         *   -   key confirmation
@@ -351,7 +351,7 @@ A PAKE cipher suite is required when setting up a PAKE operation in `psa_pake_se
     .. param:: psa_pake_cipher_suite_t* cipher_suite
         The cipher suite object to write to.
     .. param:: psa_algorithm_t alg
-        The PAKE algorithm to write: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
+        The PAKE algorithm to write: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
 
     .. return:: void
 
@@ -565,13 +565,13 @@ PAKE step types
     :definition: ((psa_pake_step_t)0x01)
 
     .. summary::
-        The key share being sent to or received from the peer.
+        A key share being sent to or received from a PAKE participant.
 
         .. versionadded:: 1.1
 
     The format for both input and output using this step is the same as the format for public keys on the group specified by the PAKE operation's primitive.
 
-    The public-key formats are defined in the documentation for :code:`psa_export_public_key()`.
+    The public-key formats are defined in the documentation for `psa_export_public_key()`.
 
     For information regarding how the group is determined, consult the documentation `PSA_PAKE_PRIMITIVE()`.
 
@@ -579,7 +579,7 @@ PAKE step types
     :definition: ((psa_pake_step_t)0x02)
 
     .. summary::
-        A Schnorr NIZKP public key.
+        A Schnorr NIZKP public key being sent to or received from a PAKE participant.
 
         .. versionadded:: 1.1
 
@@ -587,7 +587,7 @@ PAKE step types
 
     The format for both input and output at this step is the same as that for public keys on the group specified by the PAKE operation's primitive.
 
-    For more information on the format, consult the documentation of :code:`psa_export_public_key()`.
+    For more information on the format, consult the documentation of `psa_export_public_key()`.
 
     For information regarding how the group is determined, consult the documentation `PSA_PAKE_PRIMITIVE()`.
 
@@ -595,7 +595,7 @@ PAKE step types
     :definition: ((psa_pake_step_t)0x03)
 
     .. summary::
-        A Schnorr NIZKP proof.
+        A Schnorr NIZKP proof being sent to or received from a PAKE participant.
 
         .. versionadded:: 1.1
 
@@ -615,7 +615,7 @@ PAKE step types
     :definition: ((psa_pake_step_t)0x04)
 
     .. summary::
-        The key confirmation value.
+        A key confirmation value being sent to or received from a PAKE participant.
 
         .. versionadded:: 1.2
 
@@ -702,7 +702,7 @@ Multi-part PAKE operations
         The valid key types depend on the PAKE algorithm, and participant role.
         Refer to the documentation of individual PAKE algorithms for more information.
 
-        The key must permit the usage :code:`PSA_KEY_USAGE_DERIVE`.
+        The key must permit the usage `PSA_KEY_USAGE_DERIVE`.
     .. param:: const psa_pake_cipher_suite_t * cipher_suite
         The cipher suite to use.
         A PAKE cipher suite fully characterizes a PAKE algorithm, including the PAKE algorithm.
@@ -716,11 +716,11 @@ Multi-part PAKE operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be inactive.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``password_key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
-        ``psssword_key`` does not have the :code:`PSA_KEY_USAGE_DERIVE` flag, or it does not permit the algorithm in ``cipher_suite``.
+        ``psssword_key`` does not have the `PSA_KEY_USAGE_DERIVE` flag, or it does not permit the algorithm in ``cipher_suite``.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -793,7 +793,7 @@ Multi-part PAKE operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active, and `psa_pake_set_role()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -836,7 +836,7 @@ Multi-part PAKE operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active, and `psa_pake_set_user()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         ``user_id`` is not valid for the operation's algorithm and cipher suite.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -873,7 +873,7 @@ Multi-part PAKE operations
 
         *   The operation state is not valid: it must be active, and `psa_pake_set_peer()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
         *   Calling `psa_pake_set_peer()` is invalid with the operation's algorithm.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         ``peer_id`` is not valid for the operation's algorithm and cipher suite.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -910,7 +910,7 @@ Multi-part PAKE operations
 
         *   The operation state is not valid: it must be active, and `psa_pake_set_context()`, `psa_pake_input()`, and `psa_pake_output()` must not have been called yet.
         *   Calling `psa_pake_set_context()` is invalid with the operation's algorithm.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         ``context`` is not valid for the operation's algorithm and cipher suite.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -955,7 +955,7 @@ Multi-part PAKE operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active and fully set up, and this call must conform to the algorithm's requirements for ordering of input and output steps.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         ``step`` is not compatible with the operation's algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -1002,7 +1002,7 @@ Multi-part PAKE operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active and fully set up, and this call must conform to the algorithm's requirements for ordering of input and output steps.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -1046,8 +1046,8 @@ Multi-part PAKE operations
         The following attributes are required for all keys:
 
         *   The key type.
-            All PAKE algorithms can output a key of type :code:`PSA_KEY_TYPE_DERIVE` or :code:`PSA_KEY_TYPE_HMAC`.
-            PAKE algorithms that produce a pseudorandom shared secret, can also output block-cipher key types, for example :code:`PSA_KEY_TYPE_AES`.
+            All PAKE algorithms can output a key of type `PSA_KEY_TYPE_DERIVE` or `PSA_KEY_TYPE_HMAC`.
+            PAKE algorithms that produce a pseudorandom shared secret, can also output block-cipher key types, for example `PSA_KEY_TYPE_AES`.
             Refer to the documentation of individual PAKE algorithms for more information.
 
         The following attributes must be set for keys used in cryptographic operations:
@@ -1069,7 +1069,7 @@ Multi-part PAKE operations
             The final attributes of the new key can be queried by calling `psa_get_key_attributes()` with the key's identifier.
 
     .. param:: psa_key_id_t * key
-        On success, an identifier for the newly created key. :code:`PSA_KEY_ID_NULL` on failure.
+        On success, an identifier for the newly created key. `PSA_KEY_ID_NULL` on failure.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -1083,7 +1083,7 @@ Multi-part PAKE operations
             For an unconfirmed key, this will be when the key-exchange output and input steps are complete, but prior to any key-confirmation output and input steps.
 
             For a confirmed key, this will be when all key-exchange and key-confirmation output and input steps are complete.
-        *   The library requires initializing by a call to :code:`psa_crypto_init()`.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_ALREADY_EXISTS
         This is an attempt to create a persistent key, and there is already a persistent key with the given identifier.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -1140,9 +1140,6 @@ Multi-part PAKE operations
 
                 Following key confirmation, the PAKE algorithm provides a cryptographic guarantee that the peer used the same password and identity inputs, and has computed the identical shared secret key.
 
-                Since the peer is not authenticated, no action should be taken that assumes that the peer is who it claims to be.
-                For example, do not access restricted resources on the peer's behalf until an explicit authentication has succeeded.
-
                 .. note::
                     Some PAKE algorithms do not include any key-confirmation steps.
 
@@ -1169,7 +1166,7 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to :code:`psa_crypto_init()`.
+        The library requires initializing by a call to `psa_crypto_init()`.
 
     Aborting an operation frees all associated resources except for the ``operation`` object itself.
     Once aborted, the operation object can be reused for another operation by calling `psa_pake_setup()` again.
@@ -1193,7 +1190,7 @@ PAKE support macros
         .. versionadded:: 1.1
 
     .. param:: alg
-        A PAKE algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
+        A PAKE algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
     .. param:: primitive
         A primitive of type `psa_pake_primitive_t` that is compatible with algorithm ``alg``.
     .. param:: output_step
@@ -1230,7 +1227,7 @@ PAKE support macros
         .. versionadded:: 1.1
 
     .. param:: alg
-        A PAKE algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
+        A PAKE algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_PAKE(alg)` is true.
     .. param:: primitive
         A primitive of type `psa_pake_primitive_t` that is compatible with algorithm ``alg``.
     .. param:: input_step
@@ -1277,7 +1274,7 @@ J-PAKE cipher suites
 
 When setting up a PAKE cipher suite to use the J-PAKE protocol:
 
-*   Use the :code:`PSA_ALG_JPAKE()` algorithm, parameterized by the required hash algorithm.
+*   Use the `PSA_ALG_JPAKE()` algorithm, parameterized by the required hash algorithm.
 *   Use a PAKE primitive for the required elliptic curve, or finite field group.
 *   J-PAKE does not confirm the shared secret key that results from the key exchange.
 
@@ -1300,7 +1297,7 @@ More information on selecting a specific elliptic curve or finite field Diffie-H
 J-PAKE password processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The PAKE operation for J-PAKE expects a key of type type :code:`PSA_KEY_TYPE_PASSWORD` or :code:`PSA_KEY_TYPE_PASSWORD_HASH`.
+The PAKE operation for J-PAKE expects a key of type type `PSA_KEY_TYPE_PASSWORD` or PSA_KEY_TYPE_PASSWORD_HASH`.
 The same key value must be provided to the PAKE operation in both participants.
 
 The key can be the password text itself, in an agreed character encoding, or some value derived from the password, as required by a higher level protocol.
@@ -1335,7 +1332,7 @@ A call to `psa_pake_set_context()` for a J-PAKE operation will fail with :code:`
 
 The following steps demonstrate the application code for 'User' in :numref:`fig-jpake`. The code flow for the 'Peer' is the same as for 'User', as J-PAKE is a balanced PAKE.
 
-1.  To prepare a J-PAKE operation, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
+1.  To prepare a J-PAKE operation, initialize and set up a `psa_pake_operation_t` object by calling the following functions:
 
     .. code-block:: xref
 
@@ -1360,7 +1357,7 @@ After setup, the key exchange flow for J-PAKE is as follows:
 
     The application can either extract the round one output values first, and then provide the round one inputs that are received from the Peer; or provide the peer inputs first, and then extract the outputs.
 
-    *   To get the first round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
+    To get the first round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
 
         .. code-block:: xref
 
@@ -1377,7 +1374,7 @@ After setup, the key exchange flow for J-PAKE is as follows:
             // Get r2, the ZKP proof for x2
             psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-    *   To provide the first round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
+    To provide the first round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
 
         .. code-block:: xref
 
@@ -1394,11 +1391,11 @@ After setup, the key exchange flow for J-PAKE is as follows:
             // Set r4, the ZKP proof for x4
             psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-#.  Round two.
+3.  Round two.
 
     The application can either extract the round two output values first, and then provide the round two inputs that are received from the Peer; or provide the peer inputs first, and then extract the outputs.
 
-    *   To get the second round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
+    To get the second round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
 
         .. code-block:: xref
 
@@ -1409,7 +1406,7 @@ After setup, the key exchange flow for J-PAKE is as follows:
             // Get r5, the ZKP proof for x2*s
             psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-    *   To provide the second round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
+    To provide the second round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
 
         .. code-block:: xref
 
@@ -1420,7 +1417,11 @@ After setup, the key exchange flow for J-PAKE is as follows:
             // Set r6, the ZKP proof for x4*s
             psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
-#.  To use the shared secret, extract it as a key-derivation key. For example, to extract a derivation key for HKDF-SHA-256:
+Extract shared secret
+^^^^^^^^^^^^^^^^^^^^^
+
+4.  To use the shared secret, extract it as a key-derivation key.
+    For example, to extract a derivation key for HKDF-SHA-256:
 
     .. code-block:: xref
 
@@ -1465,7 +1466,7 @@ J-PAKE algorithms
         .. versionchanged:: 1.2 Parameterize J-PAKE algorithm by hash.
 
     .. param:: hash_alg
-        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
     .. return::
         A J-PAKE algorithm, parameterized by a specific hash.
@@ -1487,8 +1488,8 @@ J-PAKE algorithms
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_PASSWORD`
-        | :code:`PSA_KEY_TYPE_PASSWORD_HASH`
+        | `PSA_KEY_TYPE_PASSWORD`
+        | `PSA_KEY_TYPE_PASSWORD_HASH`
 
 .. macro:: PSA_ALG_IS_JPAKE
     :definition: /* specification-defined value */
@@ -1499,7 +1500,7 @@ J-PAKE algorithms
         .. versionadded:: 1.2
 
     .. param:: alg
-        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+        An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
         ``1`` if ``alg`` is a J-PAKE algorithm, ``0`` otherwise.
@@ -1536,8 +1537,8 @@ Valid combinations of these parameters are defined in the table of cipher suites
 
 When setting up a PAKE cipher suite to use the SPAKE2+ protocol defined in :rfc:`9383`:
 
-*   For cipher-suites that use HMAC for key confirmation, use the :code:`PSA_ALG_SPAKE2P_HMAC()` algorithm, parameterized by the required hash algorithm.
-*   For cipher-suites that use CMAC-AES-128 for key confirmation, use the :code:`PSA_ALG_SPAKE2P_CMAC()` algorithm, parameterized by the required hash algorithm.
+*   For cipher-suites that use HMAC for key confirmation, use the `PSA_ALG_SPAKE2P_HMAC()` algorithm, parameterized by the required hash algorithm.
+*   For cipher-suites that use CMAC-AES-128 for key confirmation, use the `PSA_ALG_SPAKE2P_CMAC()` algorithm, parameterized by the required hash algorithm.
 *   Use a PAKE primitive for the required elliptic curve.
 
 For example, the following code creates a cipher suite to select SPAKE2+ using edwards25519 with the SHA-256 hash function:
@@ -1553,7 +1554,7 @@ For example, the following code creates a cipher suite to select SPAKE2+ using e
 
 When setting up a PAKE cipher suite to use the SPAKE2+ protocol used by :cite:`MATTER`:
 
-*   Use the :code:`PSA_ALG_SPAKE2P_MATTER` algorithm.
+*   Use the `PSA_ALG_SPAKE2P_MATTER` algorithm.
 *   Use the :code:`PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC, PSA_ECC_FAMILY_SECP_R1, 256)` PAKE primitive.
 
 The following code creates a cipher suite to select the :cite:`MATTER` variant of SPAKE2+:
@@ -1678,7 +1679,7 @@ In SPAKE2+, the Prover uses the `PSA_PAKE_ROLE_CLIENT` role, and the Verifier us
 
 The key passed to the Prover must be a SPAKE2+ key pair, which is derived as recommended in :secref:`spake2p-registration`.
 The key passed to the Verifier can either be a SPAKE2+ key pair, or a SPAKE2+ public key.
-A SPAKE2+ public key is imported from data that is output by calling :code:`psa_export_public_key()` on a SPAKE2+ key pair.
+A SPAKE2+ public key is imported from data that is output by calling `psa_export_public_key()` on a SPAKE2+ key pair.
 
 Both participants in SPAKE2+ have an optional identity.
 If no identity value is provided, then a zero-length string is used for that identity in the protocol.
@@ -1696,7 +1697,7 @@ If the participants do not supply the same context value to the protocol, the co
 The following steps demonstrate the application code for both Prover and Verifier in :numref:`fig-spake2p`.
 
 **Prover**
-    To prepare a SPAKE2+ operation for the Prover, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
+    To prepare a SPAKE2+ operation for the Prover, initialize and set up a `psa_pake_operation_t` object by calling the following functions:
 
     .. code-block:: xref
 
@@ -1718,7 +1719,7 @@ The following steps demonstrate the application code for both Prover and Verifie
         psa_pake_set_context(&spake2p_p, ...);    // Optional context
 
 **Verifier**
-    To prepare a SPAKE2+ operation for the Verifier, initialize and set up a :code:`psa_pake_operation_t` object by calling the following functions:
+    To prepare a SPAKE2+ operation for the Verifier, initialize and set up a `psa_pake_operation_t` object by calling the following functions:
 
     .. code-block:: xref
 
@@ -1739,8 +1740,8 @@ The following steps demonstrate the application code for both Prover and Verifie
         psa_pake_set_peer(&spake2p_v, ...);       // Prover identity
         psa_pake_set_context(&spake2p_v, ...);    // Optional context
 
-Key exchange
-^^^^^^^^^^^^
+Key exchange and confirmation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 After setup, the key exchange and confirmation flow for SPAKE2+ is as follows.
 
@@ -1800,6 +1801,9 @@ After setup, the key exchange and confirmation flow for SPAKE2+ is as follows.
         // Set confirmP
         psa_pake_input(&spake2p_v, PSA_PAKE_STEP_CONFIRM, ...);
 
+Extract shared secret
+^^^^^^^^^^^^^^^^^^^^^
+
 **Prover**
     To use the shared secret, extract it as a key-derivation key.
     For example, to extract a derivation key for HKDF-SHA-256:
@@ -1848,7 +1852,7 @@ SPAKE2+ algorithms
         .. versionadded:: 1.2
 
     .. param:: hash_alg
-        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
     .. return::
         A SPAKE2+ algorithm, using HMAC for key confirmation, parameterized by a specific hash.
@@ -1857,7 +1861,7 @@ SPAKE2+ algorithms
 
     This is SPAKE2+, as defined by :RFC-title:`9383`, for cipher suites that use HMAC for key confirmation.
     SPAKE2+ cipher suites are specified in :rfc:`9383#4`.
-    The cipher suite's hash algorithm is used as input to `PSA_ALG_SPAKE2P_HMAC()`.
+    See :secref:`spake2p-cipher-suites`.
 
     The shared secret that is produced by SPAKE2+ is pseudorandom.
     Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key-derivation operation to produce additional cryptographic keys.
@@ -1866,8 +1870,8 @@ SPAKE2+ algorithms
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
-        | :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
+        | `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
+        | `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
 
 .. macro:: PSA_ALG_SPAKE2P_CMAC
     :definition: /* specification-defined value */
@@ -1878,7 +1882,7 @@ SPAKE2+ algorithms
         .. versionadded:: 1.2
 
     .. param:: hash_alg
-        A hash algorithm: a value of type :code:`psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
     .. return::
         A SPAKE2+ algorithm, using CMAC for key confirmation, parameterized by a specific hash.
@@ -1897,8 +1901,8 @@ SPAKE2+ algorithms
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
-        | :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
+        | `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
+        | `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
 
 .. macro:: PSA_ALG_SPAKE2P_MATTER
     :definition: ((psa_algoirithm_t)0x0A000609)
@@ -1935,8 +1939,8 @@ SPAKE2+ algorithms
 
     .. subsection:: Compatible key types
 
-        | :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
-        | :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
+        | `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR`
+        | `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
 
 .. macro:: PSA_ALG_IS_SPAKE2P
     :definition: /* specification-defined value */
@@ -1947,7 +1951,7 @@ SPAKE2+ algorithms
         .. versionadded:: 1.2
 
     .. param:: alg
-        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+        An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
         ``1`` if ``alg`` is a SPAKE2+ algorithm, ``0`` otherwise.
@@ -1964,7 +1968,7 @@ SPAKE2+ algorithms
         .. versionadded:: 1.2
 
     .. param:: alg
-        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+        An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
         ``1`` if ``alg`` is a SPAKE2+ algorithm that uses a HMAC-based key confirmation, ``0`` otherwise.
@@ -1981,7 +1985,7 @@ SPAKE2+ algorithms
         .. versionadded:: 1.2
 
     .. param:: alg
-        An algorithm identifier: a value of type :code:`psa_algorithm_t`.
+        An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
         ``1`` if ``alg`` is a SPAKE2+ algorithm that uses a CMAC-based key confirmation, ``0`` otherwise.
