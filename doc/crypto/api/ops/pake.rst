@@ -18,6 +18,7 @@ This chapter is divided into the following sections:
 *   :secref:`pake-common-api` --- the common interface elements, including the PAKE operation.
 *   :secref:`pake-jpake` --- the J-PAKE protocol, and the associated interface elements.
 *   :secref:`pake-spake2p` --- the SPAKE2+ protocols, and the associated interface elements.
+*   :secref:`pake-wpa3-sae` --- the WPA3-SAE protocol, and the associated interface elements.
 
 .. _pake-common-api:
 
@@ -575,6 +576,16 @@ PAKE step types
 
     For information regarding how the group is determined, consult the documentation `PSA_PAKE_PRIMITIVE()`.
 
+    .. todo::
+
+        Decide on how to handle COMMIT-ELEMENT format in WPA3-SAE.
+        This is an element in the group, using a big-endian scalar value for FFDH (== public key format (I think - no truncation)), and a big-endian encoding of the {x,y} coordinates for ECC. The latter is close to public key format, but there is no :code:```0x04``` prefix.
+
+        1. Use a WPA3-SAE-specific PAKE step for the COMMIT-ELEMENT, and specify the format (by reference to 802.11).
+        2. Make the format of KEY_SHARE step algorithm-specific, and describe it separately for J-PAKE, SPAKE2+, and WPA3-SAE.
+        3. Make a COMMIT step for WPA3-SAE that concatenates both the scalar and ELEMENT values (means application has to know the size of the scalar element to split/combine this correctly, and cannot read/write this directly from SAE frame structures in memory).
+        4. Stick with KEY_SHARE and the 'public key format', making the application deal with the extra prefix (prevents application directly reading from/writing to the SAE frame structures in memory).
+
 .. macro:: PSA_PAKE_STEP_ZK_PUBLIC
     :definition: ((psa_pake_step_t)0x02)
 
@@ -619,9 +630,82 @@ PAKE step types
 
         .. versionadded:: 1.2
 
-    This value is used during the key confirmation phase of a PAKE protocol. The format of the value depends on the algorithm and cipher suite:
+    This value is used during the key confirmation phase of a PAKE protocol.
+    The use of this step, and format of the value depends on the algorithm and cipher suite:
 
-    *   For :code:`PSA_ALG_SPAKE2P`, the format for both input and output at this step is the same as the output of the MAC algorithm specified in the cipher suite.
+    *   For a SPAKE2+ algorithm, the format for both input and output at this step is the same as the output of the MAC algorithm specified in the cipher suite.
+        See :secref:`spake2p-operation`.
+
+    *   For a WPA3-SAE algorithm, the format for both input and output at this step is a 2-byte little-endian *send-confirm* counter, followed by the *confirm* value, which is the output from the hash algorithm specified in the cipher suite.
+        See :secref:`wpa3-sae-operation`.
+
+.. macro:: PSA_PAKE_STEP_SALT
+    :definition: ((psa_pake_step_t)0x05)
+
+    .. summary::
+        A salt value used for deriving shared secrets within a PAKE operation.
+
+        .. versionadded:: 1.4
+
+    This input can be used during the key exchange phase of a PAKE protocol.
+    The use of this step, and format of the value depends on the algorithm and cipher suite:
+
+    *   For a WPA3-SAE algorithm, a salt value must be provided as defined in `[IEEE-802.11]` §12.4.5.4.
+        See :secref:`wpa3-sae-operation`.
+
+..
+    Oberon's approach
+
+    /** The WPA3-SAE commit step.
+    *
+    * The format for both input and output at this step is a 2 byte number
+    * specifying the group used followed by a scalar and an element of the
+    * specified group.
+    */
+    #define PSA_PAKE_STEP_COMMIT                    ((psa_pake_step_t)0x06)
+
+.. macro:: PSA_PAKE_STEP_COMMIT_SCALAR
+    :definition: ((psa_pake_step_t)0x06)
+
+    .. summary::
+        A scalar value being sent to or received from a PAKE participant.
+
+        .. versionadded:: 1.4
+
+    This input and output is used during the key exchange phase of a PAKE protocol.
+    The use of this step, and format of the value depends on the algorithm and cipher suite:
+
+    *   For a WPA3-SAE algorithm, the format for input at this step is a string that encodes the *commit-scalar* or *peer-commit-scalar* values, as defined in `[IEEE-802.11]` §12.4.7.3.
+        See :secref:`wpa3-sae-operation`.
+
+.. macro:: PSA_PAKE_STEP_CONFIRM_COUNT
+    :definition: ((psa_pake_step_t)0x07)
+
+    .. summary::
+        A counter used as part of key confirmation.
+
+        .. versionadded:: 1.4
+
+    This value is input during the key confirmation phase of a PAKE protocol.
+    It enables multiple confirmation attempts to result in distinct confirmation values.
+    The use of this step, and format of the value depends on the algorithm and cipher suite:
+
+    *   For a WPA3-SAE algorithm, the format for input at this step is the 2-byte little-endian *send-confirm* counter.
+        See :secref:`wpa3-sae-operation`.
+
+.. macro:: PSA_PAKE_STEP_KEY_ID
+    :definition: ((psa_pake_step_t)0x08)
+
+    .. summary::
+        A key identifier value from a PAKE operation.
+
+        .. versionadded:: 1.4
+
+    This value can be output from a PAKE operation following key confirmation.
+    The use of this step, and format of the value depends on the algorithm and cipher suite:
+
+    *   For a WPA3-SAE algorithm, the format of the output at this step is the 16-byte PMKID.
+        See :secref:`wpa3-sae-operation`.
 
 .. _pake-operation:
 
@@ -1359,37 +1443,37 @@ After setup, the key exchange flow for J-PAKE is as follows:
 
     To get the first round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
 
-        .. code-block:: xref
+    .. code-block:: xref
 
-            // Get g1
-            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Get V1, the ZKP public key for x1
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Get r1, the ZKP proof for x1
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-            // Get g2
-            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Get V2, the ZKP public key for x2
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Get r2, the ZKP proof for x2
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+        // Get g1
+        psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Get V1, the ZKP public key for x1
+        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+        // Get r1, the ZKP proof for x1
+        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+        // Get g2
+        psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Get V2, the ZKP public key for x2
+        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+        // Get r2, the ZKP proof for x2
+        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
     To provide the first round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
 
-        .. code-block:: xref
+    .. code-block:: xref
 
-            // Set g3
-            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Set V3, the ZKP public key for x3
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Set r3, the ZKP proof for x3
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
-            // Set g4
-            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Set V4, the ZKP public key for x4
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Set r4, the ZKP proof for x4
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+        // Set g3
+        psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Set V3, the ZKP public key for x3
+        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+        // Set r3, the ZKP proof for x3
+        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+        // Set g4
+        psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Set V4, the ZKP public key for x4
+        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+        // Set r4, the ZKP proof for x4
+        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
 3.  Round two.
 
@@ -1397,25 +1481,25 @@ After setup, the key exchange flow for J-PAKE is as follows:
 
     To get the second round data that needs to be sent to the peer, make the following calls to `psa_pake_output()`, in the order shown:
 
-        .. code-block:: xref
+    .. code-block:: xref
 
-            // Get A
-            psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Get V5, the ZKP public key for x2*s
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Get r5, the ZKP proof for x2*s
-            psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+        // Get A
+        psa_pake_output(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Get V5, the ZKP public key for x2*s
+        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+        // Get r5, the ZKP proof for x2*s
+        psa_pake_output(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
     To provide the second round data received from the peer to the operation, make the following calls to `psa_pake_input()`, in the order shown:
 
-        .. code-block:: xref
+    .. code-block:: xref
 
-            // Set B
-            psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
-            // Set V6, the ZKP public key for x4*s
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
-            // Set r6, the ZKP proof for x4*s
-            psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
+        // Set B
+        psa_pake_input(&jpake, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Set V6, the ZKP public key for x4*s
+        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PUBLIC, ...);
+        // Set r6, the ZKP proof for x4*s
+        psa_pake_input(&jpake, PSA_PAKE_STEP_ZK_PROOF, ...);
 
 Extract shared secret
 ^^^^^^^^^^^^^^^^^^^^^
@@ -1992,3 +2076,468 @@ SPAKE2+ algorithms
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
 
     SPAKE2+ algorithms, using CMAC-based key confirmation, are constructed using :code:`PSA_ALG_SPAKE2P_CMAC(hash_alg)`.
+
+
+.. _pake-wpa3-sae:
+
+The WPA3-SAE protocol
+---------------------
+
+WPA3-SAE is a balanced, password-authenticated key exchange protocol, defined by :cite-title:`IEEE-802.11`.
+It is used as the authentication and key exchange protocol for WLAN access points and mesh networks.
+WPA3-SAE includes confirmation of the shared secret key that results from the key exchange.
+
+.. _wpa3-sae-cipher-suites:
+
+WPA3-SAE cipher suites
+~~~~~~~~~~~~~~~~~~~~~~
+
+WPA3-SAE is instantiated with the following parameters:
+
+*   An elliptic curve group or a finite field cyclic group.
+*   A cryptographic hash function.
+
+`[IEEE-802.11]` describes three variants of the WPA3-SAE algorithm.
+These differ in the method used to generate a password element (PWE) from the password, and in the size of the key confirmation key (SAE-KCK) and pairwise master key (PMK).
+
+:numref:`tab-wpa3-sae-variants` summarizes the properties of the different algorithm variants.
+
+.. list-table:: WPA3-SAE algorithm variants
+    :name: tab-wpa3-sae-variants
+    :header-rows: 1
+    :widths: 4 3 3 2 2
+
+    *   -   Algorithm variant
+        -   PWE method
+        -   Hash algorithm
+        -   SAE-KCK size
+        -   PMK size
+
+    *   -   Looping
+        -   Looping
+        -   SHA-256
+        -   256
+        -   256
+    *   -   Hash-to-element
+        -   Hash-to-element
+        -   SHA-256
+
+            SHA-384
+
+            SHA-512
+        -   256
+
+            384
+
+            512
+        -   256
+
+            256
+
+            256
+    *   -   Group-dependent-hash
+        -   Hash-to-element
+        -   SHA-256
+
+            SHA-384
+
+            SHA-512
+        -   256
+
+            384
+
+            512
+        -   256
+
+            384
+
+            512
+
+When setting up a PAKE cipher suite to use the WPA3-SAE protocol:
+
+*   For the looping variant, use the :code:`PSA_ALG_WPA3_SAE_FIXED(PSA_ALG_SHA_256)` algorithm.
+*   For the hash-to-element variant, use the :code:`PSA_ALG_WPA3_SAE_FIXED(hash_alg)` algorithm, where ``hash_alg`` is the required hash algorithm.
+*   For the group-dependent-hash variant, use the :code:`PSA_ALG_WPA3_SAE_GDH(hash_alg)` algorithm, where ``hash_alg`` is the required hash algorithm.
+*   Use a PAKE primitive for the required elliptic curve or finite field group.
+
+Valid elliptic curves and finite field groups for WPA3-SAE are defined in `[IEEE-802.11]` §12.4.4.1.
+For the hash-to-element and group-dependent-hash variants, the required hash algorithm is determined from the size of the prime for the cyclic group.
+See Table 12-1 in `[IEEE-802.11]` §12.4.2.
+
+If the hash algorithm in the cipher suite is not compatible with the WPA3-SAE algorithm and PAKE primitive, the call to `psa_pake_setup()` will fail with :code:`PSA_ERROR_INVALID_ARGUMENT`.
+
+For example, the following code creates a PAKE cipher suite for WPA3-SAE using hash-to-element over the secp256r1 elliptic curve (IANA group 19):
+
+.. code-block:: xref
+
+    psa_pake_cipher_suite_t cipher_suite = PSA_PAKE_CIPHER_SUITE_INIT;
+
+    psa_pake_cs_set_algorithm(&cipher_suite, PSA_ALG_WPA3_SAE_FIXED(PSA_ALG_SHA_256));
+    psa_pake_cs_set_primitive(&cipher_suite,
+                              PSA_PAKE_PRIMITIVE(PSA_PAKE_PRIMITIVE_TYPE_ECC,
+                                                 PSA_ECC_FAMILY_SECP_R1, 256));
+
+
+.. _wpa3-sae-passwords:
+
+WPA3-SAE password processing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+WPA3-SAE defines the following two methods for deriving the password element (PWE) from the password:
+
+.. list-table::
+    :widths: 1 4
+    :class: borderless
+
+    *   -   Looping method
+        -   Repeatedly sample candidate element values using a hash computed from the password, until a valid element is found.
+            This derivation occurs as part of the authentication flow.
+
+    *   -   Hash-to-element method
+        -   Derive a password token (PT) element from the password, using the hash-to-curve procedure for elliptic curve groups, and a direct method for finite field groups.
+            This derivation can be carried out when the network SSID and password is provisioned to the device, and the PT stored as part of the configuration.
+
+            During authentication, the PWE is derived from the PT.
+
+The hash-to-element method is recommended, as it is less vulnerable to timing-based attacks, and reduces the authentication time.
+
+:numref:`fig-wpa3-sae-pt` illustrates the password processing required prior to the WPA3-SAE authentication flow.
+
+.. figure:: /figure/pake/wpa3-sae-pt.*
+    :name: fig-wpa3-sae-pt
+
+    WPA3-SAE password processing
+
+.. rubric:: Looping method
+
+To use the looping method, import the password into a key of type `PSA_KEY_TYPE_PASSWORD`.
+The password must be encoded as defined in `[IEEE-802.11]` §12.4.3.
+Provide this key to the WPA3-SAE PAKE operation in the call to `psa_pake_setup()`.
+
+.. rubric:: Hash-to-element method
+
+To use the hash-to-element method:
+
+1.  Import the password into a key of type `PSA_KEY_TYPE_PASSWORD`.
+    The password must be encoded as defined in `[IEEE-802.11]` §12.4.3.
+
+#.  A WPA3-SAE password token (PT) is derived from the WPA3-SAE password, using a key-derivation operation with the `PSA_ALG_WPA3_SAE_H2E()` algorithm.
+    The `PSA_ALG_WPA3_SAE_H2E()` algorithm is parameterized by the hash used in the required WPA3-SAE cipher suite.
+
+    The PT is output from the key-derivation operation as a key of type `PSA_KEY_TYPE_WPA3_SAE_ECC_PT()` or `PSA_KEY_TYPE_WPA3_SAE_DH_PT()`.
+    The key type is parameterized by the elliptic curve or finite field Diffie-Hellman group used in the required WPA3-SAE cipher suite.
+
+    The PT key must be protected at least as well as the password.
+
+#.  Pass the PT key to the WPA3-SAE PAKE operation in the call to `psa_pake_setup()`.
+
+The following steps demonstrate the derivation of a password token for use with the group-dependent-hash variant of WPA3-SAE.
+The selected cipher suite in the example is IANA Group 20: ECC using secp384r1, hash function SHA-384.
+
+1.  Allocate and initialize a key-derivation object:
+
+    .. code-block:: xref
+
+        psa_key_derivation_operation_t h2e_kdf = PSA_KEY_DERIVATION_OPERATION_INIT;
+
+#.  Setup the key derivation from the WPA3-SAE password, ``password_key``, with network SSID ``ssid``:
+
+    .. code-block:: xref
+
+        psa_key_derivation_setup(&h2e_kdf, PSA_ALG_WPA3_SAE_H2E(PSA_ALG_SHA_384));
+        psa_key_derivation_input_bytes(&h2e_kdf, PSA_KEY_DERIVATION_INPUT_SALT, ssid, ssid_len);
+        psa_key_derivation_input_key(&h2e_kdf, PSA_KEY_DERIVATION_INPUT_PASSWORD, password_key);
+
+#.  Allocate and initialize a key attributes object:
+
+    .. code-block:: xref
+
+        psa_key_attributes_t pt_att = PSA_KEY_ATTRIBUTES_INIT;
+
+#.  Set the key type, size, and policy:
+
+    .. code-block:: xref
+
+        psa_set_key_type(&pt_att,
+                         PSA_KEY_TYPE_WPA3_SAE_ECC_PT(PSA_ECC_FAMILT_SECP_R1));
+        psa_set_key_bits(&pt_att, 384);
+        psa_set_key_usage_flags(&pt_att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&pt_att, PSA_ALG_WPA3_SAE_GDH(PSA_ALG_SHA_384));
+
+#.  Derive the password token key:
+
+    .. code-block:: xref
+
+        psa_key_id_t pt_key;
+        psa_key_derivation_output_key(&pt_att, &h2e_kdf, &pt_key);
+        psa_key_derivation_abort(&h2e_kdf);
+
+See :secref:`wpa3-sae-keys` for details of the key types and key derivation.
+
+.. _wpa3-sae-operation:
+
+WPA3-SAE operation
+~~~~~~~~~~~~~~~~~~
+
+The WPA3-SAE authentication operation follows the protocol shown in :numref:`fig-wpa3-sae`.
+
+.. figure:: /figure/pake/wpa3-sae.*
+    :name: fig-wpa3-sae
+
+    The WPA3-SAE authentication and key confirmation protocol
+
+    The variable names *commit-scalar*, *COMMIT-ELEMENT*, *peer-commit-scalar*, and so on, are taken from the description of WPA3-SAE in `[IEEE-802.11]` §12.4.5.
+
+Setup
+^^^^^
+
+The type of keys used to set up a PAKE multi-part operation for WPA3-SAE depends on the variant of WPA3-SAE that is required:
+
+*   For the *Looping* variant, use a `PSA_KEY_TYPE_PASSWORD` key containing the secret password.
+*   For the *Hash-to-element* and *Group-dependent-hash* variants, use a `PSA_KEY_TYPE_WPA3_SAE_ECC_PT` or `PSA_KEY_TYPE_WPA3_SAE_DH_PT` key that is derived from the secret password, as described in :secref:`wpa3-sae-passwords`.
+
+WPA-SAE does not assign roles to the participants, so it is not necessary to call `psa_pake_set_role()`.
+
+WPA-SAE requires the MAC addresses of both participants, which are provided to the PAKE multi-part operation as the user and peer identities.
+
+WPA-SAE does not use a context.
+A call to `psa_pake_set_context()` for a WPA-SAE operation will fail with :code:`PSA_ERROR_BAD_STATE`.
+
+The following steps demonstrate the application code for STA-A in :numref:`fig-wpa3-sae`.
+The flow for STA-B is the same as for STA-A, as WPA3-SAE is a balanced PAKE.
+
+1.  To prepare a WPA3-SAE operation, initialize and set up a `psa_pake_operation_t` object by calling the following functions:
+
+    .. code-block:: xref
+
+        psa_pake_operation_t wpa3_sae = PSA_PAKE_OPERATION_INIT;
+
+        psa_pake_setup(&wpa3_sae, pt_key, &cipher_suite);
+        psa_pake_set_user(&wpa3_sae, &sta_a_mac, mac_length);
+        psa_pake_set_peer(&wpa3_sae, &sta_b_mac, mac_length);
+
+    See :secref:`wpa3-sae-cipher-suites` and :secref:`wpa3-sae-passwords` for details on the requirements for the cipher suite and key.
+
+Commit
+^^^^^^
+
+2.  Exchange commitment values to establish shared secret and confirmation keys.
+
+    The application can either extract the commitment values first, and then provide the commitment values that are received from the peer; or provide the peer inputs first, and then extract the outputs.
+
+    To get the commitment values to send to STA-B, call:
+
+    .. code-block:: xref
+
+        // Get commit-scalar
+        psa_pake_output(&wpa3_sae, PSA_PAKE_STEP_COMMIT_SCALAR, ...);
+        // Get COMMIT-ELEMENT
+        psa_pake_output(&wpa3_sae, PSA_PAKE_STEP_KEY_SHARE, ...);
+
+    To provide and validate the commitment values from STA-B, call:
+
+    .. code-block:: xref
+
+        // Set peer-commit-scalar
+        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_COMMIT_SCALAR, ...);
+        // Set PEER-COMMIT-ELEMENT
+        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_KEY_SHARE, ...);
+
+3.  Provide the salt used for shared secret derivation, as described in `[IEEE-802.11]` §12.4.5.4.
+    For Hash-to-element and Group-dependent-hash variants, this is the list of rejected groups.
+
+    .. code-block:: xref
+
+        // Set salt
+        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_SALT, ...);
+
+Confirm
+^^^^^^^
+
+4.  Exchange and verify confirmation values.
+
+    WPA3-SAE can make multiple attempts to confirm key establishment, to mitigate frame losses that can occur.
+    To prevent replay of confirmation messages, each attempt generates a distinct confirmation value by including a confirmation counter value.
+
+    The application can either extract a confirmation value first, and then provide a confirmation value received from the peer; or provide the peer input first, and then extract the output.
+
+    To get a confirmation value to send to STA-B, the confirmation counter value :math:`send{-}confirm` must be updated before extracting the combined *send-confirm* || *confirm* value, as follows:
+
+    .. code-block:: xref
+
+        // Set send-confirm counter
+        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_SEND_CONFIRM, ...);
+        // Get combined send-confirm || confirm value
+        psa_pake_output(&wpa3_sae, PSA_PAKE_STEP_CONFIRM, ...);
+
+    To verify a confirmation value received from the peer, call:
+
+    .. code-block:: xref
+
+        // Set combined peer-send-confirm || peer-confirm value
+        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_CONFIRM, ...);
+
+    .. note::
+
+        The application is permitted to request new confirmation values, or verify additional peer confirmation values, even after a peer confirmation value has been successfully verified.
+
+Extract shared secret
+^^^^^^^^^^^^^^^^^^^^^
+
+5.  Optionally, to extract the identity of the shared secret key, PMKID, call:
+
+    .. code-block:: xref
+
+        // Get PMKID
+        psa_pake_output(&wpa3_sae, PSA_PAKE_STEP_KEY_ID, ...);
+
+6.  To use the shared secret, extract it as a key-derivation key.
+    For example, to extract a derivation key for HKDF-SHA-256:
+
+    .. code-block:: xref
+
+        // Set up the key attributes
+        psa_key_attributes_t att = PSA_KEY_ATTRIBUTES_INIT;
+        psa_set_key_type(&att, PSA_KEY_TYPE_DERIVE);
+        psa_set_key_usage_flags(&att, PSA_KEY_USAGE_DERIVE);
+        psa_set_key_algorithm(&att, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+
+        // Get K_shared
+        psa_key_id_t shared_key;
+        psa_pake_get_shared_key(&spake2p_p, &att, &shared_key);
+
+The shared secret that is produced by WPA3-SAE is pseudorandom.
+Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key-derivation operation to produce additional cryptographic keys.
+
+For more information about the format of the values which are passed for each step, see :secref:`pake-steps`.
+
+If the validation of a commitment value fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_KEY_SHARE` or `PSA_PAKE_STEP_COMMIT_SCALAR` step will return :code:`PSA_ERROR_INVALID_ARGUMENT`.
+If the verification of a confirmation value fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_CONFIRM` step will return :code:`PSA_ERROR_INVALID_SIGNATURE`.
+
+.. _wpa3-sae-algorithms:
+
+WPA3-SAE algorithms
+-------------------
+
+
+.. macro:: PSA_ALG_WPA3_SAE_FIXED
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Macro to build the WPA3-SAE algorithm, with fixed-sized PMK output key.
+
+        .. versionadded:: 1.4
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+
+    .. return::
+        A WPA3-SAE algorithm, for the Looping or Hash-to-element variants, parameterized by a specific hash.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This is WPA3-SAE, as defined by :cite-title:`IEEE-802.11` §12.4, using the Looping or Hash-to-element password element derivation procedure, with fixed-sized PMK output key.
+
+    The hash algorithm specified must match one of the supported WPA3-SAE cipher suites.
+    See :secref:`wpa3-sae-cipher-suites`.
+
+    The shared secret that is produced by WPA3-SAE is pseudorandom.
+    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key-derivation operation to produce additional cryptographic keys.
+
+    See :secref:`pake-wpa3-sae` for the WPA3-SAE protocol flow and how to implement it with the |API|.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_PASSWORD`
+        | `PSA_KEY_TYPE_WPA3_SAE_ECC_PT`
+        | `PSA_KEY_TYPE_WPA3_SAE_DH_PT`
+
+.. macro:: PSA_ALG_WPA3_SAE_GDH
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Macro to build the WPA3-SAE algorithm, with group-dependent size of the PMK output key.
+
+        .. versionadded:: 1.4
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+
+    .. return::
+        A WPA3-SAE algorithm, for the group-dependent-hash variant, parameterized by a specific hash.
+
+        Unspecified if ``hash_alg`` is not a supported hash algorithm.
+
+    This is WPA3-SAE, as defined by :cite-title:`IEEE-802.11` §12.4, using the hash-to-element password element derivation procedure, with group-dependent size for the PMK output key.
+
+    The hash algorithm specified must match one of the supported WPA3-SAE cipher suites.
+    See :secref:`wpa3-sae-cipher-suites`.
+
+    The shared secret that is produced by WPA3-SAE is pseudorandom.
+    Although it can be used directly as an encryption key, it is recommended to use the shared secret as an input to a key-derivation operation to produce additional cryptographic keys.
+
+    See :secref:`pake-wpa3-sae` for the WPA3-SAE protocol flow and how to implement it with the |API|.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_WPA3_SAE_ECC_PT`
+        | `PSA_KEY_TYPE_WPA3_SAE_DH_PT`
+
+.. macro:: PSA_ALG_IS_WPA3_SAE
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a WPA3-SAE algorithm.
+
+        .. versionadded:: 1.4
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a WPA3-SAE algorithm, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+
+    WPA3-SAE algorithms are constructed using :code:`PSA_ALG_WPA3_SAE_FIXED(hash_alg)` or :code:`PSA_ALG_WPA3_SAE_GDH(hash_alg)`.
+
+.. macro:: PSA_ALG_IS_WPA3_SAE_FIXED
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a WPA3-SAE algorithm with a fixed-sized output key.
+
+        .. versionadded:: 1.4
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a WPA3-SAE algorithm with a fixed-sized output key, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+
+    WPA3-SAE algorithms with a fixed-sized output key, are constructed using :code:`PSA_ALG_WPA3_SAE_FIXED(hash_alg)`.
+
+.. macro:: PSA_ALG_IS_WPA3_SAE_GDH
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a WPA3-SAE algorithm with a group-dependent size for the output key.
+
+        .. versionadded:: 1.4
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a WPA3-SAE algorithm with a group-dependent size for the output key, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported PAKE algorithm identifier.
+
+    WPA3-SAE algorithms with a group-dependent size for the output key, are constructed using :code:`PSA_ALG_WPA3_SAE_GDH(hash_alg)`.
+
+.. todo::
+
+    Wildcard algorithms are needed:
+
+    1.  A WPA3-SAE password can be derived for use with different cipher suites (ECC vs DH, group size affects hash algorithm selection). Desirable to have a wildcard that does not constrain which WPA3-SAE key derivation algorithm is permitted, so that password can be persisted in key store.
+    2.  A WPA3-SAE password key to be used in both the key-derivation (to password token), and the `PSA_ALG_IS_WPA3_SAE_FIXED` algorithm (for looping). The same password can be used in different ways that is only discovered at runtime in the device - based on protocol interactions. Workaround: could make copies of the password?
+    3.  A SPA3-SAE password token key to be used in both the `PSA_ALG_IS_WPA3_SAE_FIXED` and `PSA_ALG_IS_WPA3_SAE_GDH` algorithms? - Less pressing as this differs in AKM selector, and device already has need to store multiple password tokens for a single password, based on cipher suite selection (cyclic group that is used): but GDH/FIXED does not affect PT derivation so wildcard could be helpful.
