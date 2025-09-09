@@ -10,11 +10,11 @@ PSA Cryptoprocessor Driver Interface
     *This is a ReStructuredText source with identical content.*
 
 
-This document describes an interface for cryptoprocessor drivers in the PSA cryptography API. This interface complements the `PSA Cryptography API specification <https://armmbed.github.io/mbed-crypto/psa/#application-programming-interface>`__, which describes the interface between a PSA Cryptography implementation and an application.
+This document describes an interface for cryptoprocessor drivers in an implementation of the PSA Certified Crypto API. This interface complements the `PSA Certified Crypto API specification <https://arm-software.github.io/psa-api/crypto/>`__, which describes the interface between a Crypto API implementation and an application.
 
-This specification is work in progress and should be considered to be in a beta stage. There is ongoing work to implement this interface in Mbed TLS, which is the reference implementation of the PSA Cryptography API. At this stage, Arm does not expect major changes, but minor changes are expected based on experience from the first implementation and on external feedback.
+This specification is work in progress and should be considered to be in a beta stage. There is ongoing work to implement this interface in Mbed TLS, which is the reference implementation of the Crypto API. At this stage, Arm does not expect major changes, but minor changes are expected based on experience from the first implementation and on external feedback.
 
-For a practical guide, with a description of the current state of drivers Mbed TLS, see our `PSA Cryptoprocessor driver development examples <https://github.com/Mbed-TLS/TF-PSA-Crypto/blob/92673db5db061562dd6713ec76150b4904c7a122/docs/psa-driver-example-and-guide.html>`__.
+For a practical guide, with a description of the current state of drivers Mbed TLS, see the `PSA Cryptoprocessor driver development examples <https://github.com/Mbed-TLS/TF-PSA-Crypto/blob/92673db5db061562dd6713ec76150b4904c7a122/docs/psa-driver-example-and-guide.html>`__.
 
 Introduction
 ------------
@@ -22,18 +22,18 @@ Introduction
 Purpose of the driver interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The PSA Cryptography API defines an interface that allows applications to perform cryptographic operations in a uniform way regardless of how the operations are performed. Under the hood, different keys may be stored and used in different hardware or in different logical partitions, and different algorithms may involve different hardware or software components.
+The Crypto API defines an interface that allows applications to perform cryptographic operations in a uniform way regardless of how the operations are performed. Under the hood, different keys may be stored and used in different hardware or in different logical partitions, and different algorithms may involve different hardware or software components.
 
-The driver interface allows implementations of the PSA Cryptography API to be built compositionally. An implementation of the PSA Cryptography API is composed of a **core** and zero or more **drivers**. The core handles key management, enforces key usage policies, and dispatches cryptographic operations either to the applicable driver or to built-in code.
+The driver interface allows implementations of the Crypto API to be built compositionally. An implementation of the Crypto API is composed of a **core** and zero or more **drivers**. The core handles key management, enforces key usage policies, and dispatches cryptographic operations either to the applicable driver or to built-in code.
 
-Functions in the PSA Cryptography API invoke functions in the core. Code from the core calls drivers as described in the present document.
+Functions in the Crypto API implementation invoke functions in the core. Code from the core calls drivers as described in the present document.
 
 Types of drivers
 ~~~~~~~~~~~~~~~~
 
-The PSA Cryptography driver interface supports two types of cryptoprocessors, and accordingly two types of drivers.
+The PSA Cryptoprocessor driver interface supports two types of cryptoprocessors, and accordingly two types of drivers.
 
-*   **Transparent** drivers implement cryptographic operations on keys that are provided in cleartext at the beginning of each operation. They are typically used for hardware **accelerators**. When a transparent driver is available for a particular combination of parameters (cryptographic algorithm, key type and size, etc.), it is used instead of the default software implementation. Transparent drivers can also be pure software implementations that are distributed as plug-ins to a PSA Cryptography implementation (for example, an alternative implementation with different performance characteristics, or a certified implementation).
+*   **Transparent** drivers implement cryptographic operations on keys that are provided in cleartext at the beginning of each operation. They are typically used for hardware **accelerators**. When a transparent driver is available for a particular combination of parameters (cryptographic algorithm, key type and size, etc.), it is used instead of the default software implementation. Transparent drivers can also be pure software implementations that are distributed as plug-ins to a Crypto API implementation (for example, an alternative implementation with different performance characteristics, or a certified implementation).
 *   **Opaque** drivers implement cryptographic operations on keys that can only be used inside a protected environment such as a **secure element**, a hardware security module, a smartcard, a secure enclave, etc. An opaque driver is invoked for the specific `key location <lifetimes-and-locations_>`_ that the driver is registered for: the dispatch is based on the key's lifetime.
 
 Requirements
@@ -80,14 +80,14 @@ The concrete syntax for a driver description file is JSON.
 
 In addition to the properties described here, any JSON object may have a property called ``"_comment"`` of type string, which will be ignored.
 
-PSA Cryptography core implementations may support additional properties. Such properties must use names consisting of the implementation's name, a slash, and additional characters. For example, the Yoyodyne implementation may use property names such as ``"yoyodyne/foo"`` and ``"yoyodyne/widgets/girth"``.
+Crypto API core implementations may support additional properties. Such properties must use names consisting of the implementation's name, a slash, and additional characters. For example, the Yoyodyne implementation may use property names such as ``"yoyodyne/foo"`` and ``"yoyodyne/widgets/girth"``.
 
 .. _driver-description-list:
 
 Driver description list
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-PSA Cryptography core implementations should support multiple drivers. The driver description files are passed to the implementation as an ordered list in an unspecified manner. This may be, for example, a list of file names passed on a command line, or a JSON list whose elements are individual driver descriptions.
+Crypto API core implementations should support multiple drivers. The driver description files are passed to the implementation as an ordered list in an unspecified manner. This may be, for example, a list of file names passed on a command line, or a JSON list whose elements are individual driver descriptions.
 
 .. _driver-description-top-level-element:
 
@@ -128,7 +128,7 @@ A capability is a JSON object containing the following properties:
 Capability semantics
 ^^^^^^^^^^^^^^^^^^^^
 
-When the PSA Cryptography implementation performs a cryptographic mechanism, it invokes available driver entry points as described in the section `Driver entry points`_.
+When the Crypto API implementation performs a cryptographic mechanism, it invokes available driver entry points as described in the section `Driver entry points`_.
 
 A driver is considered available for a cryptographic mechanism that invokes a given entry point if all of the following conditions are met:
 
@@ -188,7 +188,7 @@ Algorithm and key specifications
 Algorithm specifications
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-An algorithm specification is a string consisting of a ``PSA_ALG_xxx`` macro that specifies a cryptographic algorithm or an algorithm wildcard policy defined by the PSA Cryptography API. If the macro takes arguments, the string must have the syntax of a C macro call and each argument must be an algorithm specification or a decimal or hexadecimal literal with no suffix, depending on the expected type of argument.
+An algorithm specification is a string consisting of a ``PSA_ALG_xxx`` macro that specifies a cryptographic algorithm or an algorithm wildcard policy defined by the Crypto API. If the macro takes arguments, the string must have the syntax of a C macro call and each argument must be an algorithm specification or a decimal or hexadecimal literal with no suffix, depending on the expected type of argument.
 
 Spaces are optional after commas. Whether other whitespace is permitted is implementation-specific.
 
@@ -206,7 +206,7 @@ Valid examples:
 Key type specifications
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-An algorithm specification is a string consisting of a ``PSA_KEY_TYPE_xxx`` macro that specifies a key type defined by the PSA Cryptography API. If the macro takes an argument, the string must have the syntax of a C macro call and each argument must be the name of a constant of suitable type (curve or group).
+An algorithm specification is a string consisting of a ``PSA_KEY_TYPE_xxx`` macro that specifies a key type defined by the Crypto API. If the macro takes an argument, the string must have the syntax of a C macro call and each argument must be the name of a constant of suitable type (curve or group).
 
 The name ``_`` may be used instead of a curve or group to indicate that the capability concerns all curves or groups.
 
@@ -226,11 +226,11 @@ Driver entry points
 Overview of driver entry points
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Drivers define functions, each of which implements an aspect of a capability of a driver, such as a cryptographic operation, a part of a cryptographic operation, or a key management action. These functions are called the **entry points** of the driver. Most driver entry points correspond to a particular function in the PSA Cryptography API. For example, if a call to ``psa_sign_hash()`` is dispatched to a driver, it invokes the driver's ``sign_hash`` function.
+Drivers define functions, each of which implements an aspect of a capability of a driver, such as a cryptographic operation, a part of a cryptographic operation, or a key management action. These functions are called the **entry points** of the driver. Most driver entry points correspond to a particular function in the Crypto API. For example, if a call to ``psa_sign_hash()`` is dispatched to a driver, it invokes the driver's ``sign_hash`` function.
 
-All driver entry points return a status of type ``psa_status_t`` which should use the status codes documented for PSA services in general and for PSA Cryptography in particular: ``PSA_SUCCESS`` indicates that the function succeeded, and ``PSA_ERROR_xxx`` values indicate that an error occurred.
+All driver entry points return a status of type ``psa_status_t`` which should use the status codes documented for PSA services in general and for the Crypto API. In particular: ``PSA_SUCCESS`` indicates that the function succeeded, and ``PSA_ERROR_xxx`` values indicate that an error occurred.
 
-The signature of a driver entry point generally looks like the signature of the PSA Cryptography API that it implements, with some modifications. This section gives an overview of modifications that apply to whole classes of entry points. Refer to the reference section for each entry point or entry point family for details.
+The signature of a driver entry point generally looks like the signature of the Crypto API that it implements, with some modifications. This section gives an overview of modifications that apply to whole classes of entry points. Refer to the reference section for each entry point or entry point family for details.
 
 *   For entry points that operate on an existing key, the ``psa_key_id_t`` parameter is replaced by a sequence of three parameters that describe the key:
 
@@ -238,7 +238,7 @@ The signature of a driver entry point generally looks like the signature of the 
     2.  ``const uint8_t *key_buffer``: a key material or key context buffer.
     3.  ``size_t key_buffer_size``: the size of the key buffer in bytes.
 
-    For transparent drivers, the key buffer contains the key material, in the same format as defined for ``psa_export_key()`` and ``psa_export_public_key()`` in the PSA Cryptography API. For opaque drivers, the content of the key buffer is entirely up to the driver.
+    For transparent drivers, the key buffer contains the key material, in the same format as defined for ``psa_export_key()`` and ``psa_export_public_key()`` in the Crypto API. For opaque drivers, the content of the key buffer is entirely up to the driver.
 
 *   For entry points that involve a multi-part operation, the operation state type (``psa_XXX_operation_t``) is replaced by a driver-specific operation state type (*prefix*\ ``_XXX_operation_t``).
 
@@ -314,7 +314,7 @@ This family requires the following type and entry points:
 *   ``"hash_setup"``: called by ``psa_hash_setup()``.
 *   ``"hash_update"``: called by ``psa_hash_update()``.
 *   ``"hash_finish"``: called by ``psa_hash_finish()`` and ``psa_hash_verify()``.
-*   ``"hash_abort"``: called by all multi-part hash functions of the PSA Cryptography API.
+*   ``"hash_abort"``: called by all multi-part hash functions of the Crypto API.
 
 To verify a hash with ``psa_hash_verify()``, the core calls the driver's *prefix*\ ``_hash_finish`` entry point and compares the result with the reference hash value.
 
@@ -894,7 +894,7 @@ Additionally, opaque drivers can create keys through their `"key_derivation_outp
 
 TODO: copy
 
-*   The key attributes (``attributes``) have the same semantics as in the PSA Cryptography application interface.
+*   The key attributes (``attributes``) have the same semantics as in the Crypto API.
 *   For the ``"import_key"`` entry point, the input in the ``data`` buffer is either the export format or an implementation-specific format that the core documents as an acceptable input format for ``psa_import_key()``.
 *   The size of the key data buffer ``key_buffer`` is sufficient for the internal representation of the key. For a transparent driver, this is the key's `export format <key-format-for-transparent-drivers_>`_. For an opaque driver, this is the size determined from the driver description and the key attributes, as specified in the section `Key format for opaque drivers`_.
 *   For an opaque driver with an ``"allocate_key"`` entry point, the content of the key data buffer on entry is the output of that entry point.
@@ -908,13 +908,13 @@ Key size determination on import
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The ``"import_key"`` entry point must determine or validate the key size.
-The PSA Cryptography API exposes the key size as part of the key attributes.
+The Crypto API exposes the key size as part of the key attributes.
 When importing a key, the key size recorded in the key attributes can be either a size specified by the caller of the API (who may not be trusted), or ``0`` which indicates that the size must be calculated from the data.
 
 When the core calls the ``"import_key"`` entry point to process a call to ``psa_import_key``, it passes an ``attributes`` structure such that ``psa_get_key_bits(attributes)`` is the size passed by the caller of ``psa_import_key``. If this size is ``0``, the ``"import_key"`` entry point must set the ``bits`` input-output parameter to the correct key size. The semantics of ``bits`` is as follows:
 
 *   The core sets ``*bits`` to ``psa_get_key_bits(attributes)`` before calling the ``"import_key"`` entry point.
-*   If `*bits == 0`, the driver must determine the key size from the data and set ``*bits`` to this size. If the key size cannot be determined from the data, the driver must return ``PSA_ERROR_INVALID_ARGUMENT`` (as of version 1.0 of the PSA Cryptography API specification, it is possible to determine the key size for all standard key types).
+*   If `*bits == 0`, the driver must determine the key size from the data and set ``*bits`` to this size. If the key size cannot be determined from the data, the driver must return ``PSA_ERROR_INVALID_ARGUMENT`` (as of version 1.0 of the Crypto API specification, it is possible to determine the key size for all standard key types).
 *   If `*bits != 0`, the driver must check the value of ``*bits`` against the data and return ``PSA_ERROR_INVALID_ARGUMENT`` if it does not match. If the driver entry point changes ``*bits`` to a different value but returns ``PSA_SUCCESS``, the core will consider the key as invalid and the import will fail.
 
 Key validation
@@ -957,7 +957,7 @@ The semantics of the parameters is as follows:
 
 *   ``flags``: a bit-mask of `entropy collection flags <entropy-collection-flags_>`_.
 *   ``estimate_bits``: on success, an estimate of the amount of entropy that is present in the ``output`` buffer, in bits. This must be at least ``1`` on success. The value is ignored on failure. Drivers should return a conservative estimate, even in circumstances where the quality of the entropy source is degraded due to environmental conditions (e.g. undervolting, low temperature, etc.).
-*   ``output``: on success, this buffer contains non-deterministic data with an estimated entropy of at least ``*estimate_bits`` bits. When the entropy is coming from a hardware peripheral, this should preferably be raw or lightly conditioned measurements from a physical process, such that statistical tests run over a sufficiently large amount of output can confirm the entropy estimates. But this specification also permits entropy sources that are fully conditioned, for example when the PSA Cryptography system is running as an application in an operating system and ``"get_entropy"`` returns data from the random generator in the operating system's kernel.
+*   ``output``: on success, this buffer contains non-deterministic data with an estimated entropy of at least ``*estimate_bits`` bits. When the entropy is coming from a hardware peripheral, this should preferably be raw or lightly conditioned measurements from a physical process, such that statistical tests run over a sufficiently large amount of output can confirm the entropy estimates. But this specification also permits entropy sources that are fully conditioned, for example when the Crypto API implementation is running within an application in an operating system and ``"get_entropy"`` returns data from the random generator in the operating system's kernel.
 *   ``output_size``: the size of the ``output`` buffer in bytes. This size should be large enough to allow a driver to pass unconditioned data with a low density of entropy; for example a peripheral that returns eight bytes of data with an estimated one bit of entropy cannot provide meaningful output in less than 8 bytes.
 
 Note that there is no output parameter indicating how many bytes the driver wrote to the buffer. Such an output length indication is not necessary because the entropy may be located anywhere in the buffer, so the driver may write less than ``output_size`` bytes but the core does not need to know this. The output parameter ``estimate_bits`` contains the amount of entropy, expressed in bits, which may be significantly less than ``output_size * 8``.
@@ -1002,11 +1002,11 @@ Miscellaneous driver entry points
 Driver initialization
 ^^^^^^^^^^^^^^^^^^^^^
 
-A driver may declare an ``"init"`` entry point in a capability with no algorithm, key type or key size. If so, the core calls this entry point once during the initialization of the PSA Cryptography subsystem. If the init entry point of any driver fails, the initialization of the PSA Cryptography subsystem fails.
+A driver may declare an ``"init"`` entry point in a capability with no algorithm, key type or key size. If so, the core calls this entry point once during the initialization of the Crypto API implementation. If the init entry point of any driver fails, the initialization of the Crypto API implementation fails.
 
 When multiple drivers have an init entry point, the order in which they are called is unspecified. It is also unspecified whether other drivers' ``"init"`` entry points are called if one or more init entry point fails.
 
-On platforms where the PSA Cryptography implementation is a subsystem of a single application, the initialization of the PSA Cryptography subsystem takes place during the call to ``psa_crypto_init()``. On platforms where the PSA Cryptography implementation is separate from the application or applications, the initialization of the PSA Cryptography subsystem takes place before or during the first time an application calls ``psa_crypto_init()``.
+On platforms where the Crypto API implementation is a subsystem of a single application, the initialization of the Crypto API implementation takes place during the call to ``psa_crypto_init()``. On platforms where the Crypto API implementation is separate from the application or applications, the initialization of the Crypto API implementation takes place before or during the first time an application calls ``psa_crypto_init()``.
 
 The init entry point does not take any parameter.
 
@@ -1023,7 +1023,7 @@ Transparent drivers
 Key format for transparent drivers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The format of a key for transparent drivers is the same as in applications. Refer to the documentation of `psa_export_key() <https://armmbed.github.io/mbed-crypto/html/api/keys/management.html#c.psa_export_key>`__ and `psa_export_public_key() <https://armmbed.github.io/mbed-crypto/html/api/keys/management.html#c.psa_export_public_key>`__ in the PSA Cryptography API specification. For custom key types defined by an implementation, refer to the documentation of that implementation.
+The format of a key for transparent drivers is the same as in applications. Refer to the documentation in the *Key format* sub-section of each key type in `§9.2 Key types <https://arm-software.github.io/psa-api/crypto/1.3/api/keys/types.html#key-types>`__ in the Crypto API specification. For custom key types defined by an implementation, refer to the documentation of that implementation.
 
 .. _key-management-with-transparent-drivers:
 
@@ -1058,10 +1058,10 @@ As discussed in `the general section about key management entry points <driver-e
 
 This entry point has several roles:
 
-1.  Parse the key data in the input buffer ``data``. The driver must support the export format for the key types that the entry point is declared for. It may support additional formats as specified in the description of `psa_import_key() <https://armmbed.github.io/mbed-crypto/html/api/keys/management.html#c.psa_export_key>`__ in the PSA Cryptography API specification.
+1.  Parse the key data in the input buffer ``data``. The driver must support the export format for the key types that the entry point is declared for. It may support additional formats as specified in the description of `psa_import_key() <https://arm-software.github.io/psa-api/crypto/1.3/api/keys/management.html#c.psa_import_key>`__ in the Crypto API specification.
 2.  Validate the key data. The necessary validation is described in the section `Key validation`_ above.
 3.  `Determine the key size <key-size-determination-on-import_>`_ and output it through ``*bits``.
-4.  Copy the validated key data from ``data`` to ``key_buffer``. The output must be in the canonical format documented for `psa_export_key() <https://armmbed.github.io/mbed-crypto/html/api/keys/management.html#c.psa_export_key>`__ or `psa_export_public_key() <https://armmbed.github.io/mbed-crypto/html/api/keys/management.html#c.psa_export_public_key>`__, so if the input is not in this format, the entry point must convert it.
+4.  Copy the validated key data from ``data`` to ``key_buffer``. The output must be in the canonical format documented for the key type: see the *Key format* sub-section of the key type in `§9.2 Key types <https://arm-software.github.io/psa-api/crypto/1.3/api/keys/types.html#key-types>`__, so if the input is not in this format, the entry point must convert it.
 
 .. _random-generation-entry-points:
 
@@ -1149,9 +1149,9 @@ Random generator drivers without entropy injection
 
 Random generator drivers should have the capability to inject additional entropy through the ``"add_entropy"`` entry point. This ensures that the random generator depends on all the entropy sources that are available on the platform. A driver where a call to ``"add_entropy"`` does not affect the state of the random generator is not compliant with this specification.
 
-However, a driver may omit the ``"add_entropy"`` entry point. This limits the driver's portability: implementations of the PSA Cryptography specification may reject drivers without an ``"add_entropy"`` entry point, or only accept such drivers in certain configurations. In particular, the ``"add_entropy"`` entry point is required if:
+However, a driver may omit the ``"add_entropy"`` entry point. This limits the driver's portability: implementations of the Crypto API specification may reject drivers without an ``"add_entropy"`` entry point, or only accept such drivers in certain configurations. In particular, the ``"add_entropy"`` entry point is required if:
 
-*   the integration of PSA Cryptography includes an entropy source that is outside the driver; or
+*   the implementation of the Crypto API includes an entropy source that is outside the driver; or
 *   the core saves random data in persistent storage to be preserved across platform resets.
 
 .. _the-get_random-entry-point:
@@ -1198,7 +1198,7 @@ If a transparent driver entry point is part of a capability where the ``"fallbac
 Opaque drivers
 --------------
 
-Opaque drivers allow a PSA Cryptography implementation to delegate cryptographic operations to a separate environment that might not allow exporting key material in cleartext. The opaque driver interface is designed so that the core never inspects the representation of a key. The opaque driver interface is designed to support two subtypes of cryptoprocessors:
+Opaque drivers allow a Crypto API implementation to delegate cryptographic operations to a separate environment that might not allow exporting key material in cleartext. The opaque driver interface is designed so that the core never inspects the representation of a key. The opaque driver interface is designed to support two subtypes of cryptoprocessors:
 
 *   Some cryptoprocessors do not have persistent storage for individual keys. The representation of a key is the key material wrapped with a master key which is located in the cryptoprocessor and never exported from it. The core stores this wrapped key material on behalf of the cryptoprocessor.
 *   Some cryptoprocessors have persistent storage for individual keys. The representation of a key is an identifier such as label or slot number. The core stores this identifier.
@@ -1349,7 +1349,7 @@ If a failure occurs after the ``"allocate_key"`` step but before the call to the
 
 To destroy a key, the core calls the driver's ``"destroy_key"`` entry point.
 
-Note that the key allocation and destruction entry points must not rely solely on the key identifier in the key attributes to identify a key. Some implementations of the PSA Cryptography API store keys on behalf of multiple clients, and different clients may use the same key identifier to designate different keys. The manner in which the core distinguishes keys that have the same identifier but are part of the key namespace for different clients is implementation-dependent and is not accessible to drivers. Some typical strategies to allocate an internal key identifier are:
+Note that the key allocation and destruction entry points must not rely solely on the key identifier in the key attributes to identify a key. Some implementations of the Crypto API store keys on behalf of multiple clients, and different clients may use the same key identifier to designate different keys. The manner in which the core distinguishes keys that have the same identifier but are part of the key namespace for different clients is implementation-dependent and is not accessible to drivers. Some typical strategies to allocate an internal key identifier are:
 
 *   Maintain a set of free slot numbers which is stored either in the secure element or in the driver's persistent storage. To allocate a key slot, find a free slot number, mark it as occupied and store the number in the key context. When the key is destroyed, mark the slot number as free.
 *   Maintain a monotonic counter with a practically unbounded range in the secure element or in the driver's persistent storage. To allocate a key slot, increment the counter and store the current value in the key context. Destroying a key does not change the counter.
@@ -1438,7 +1438,7 @@ In a multithreaded environment, the driver may only call these two functions fro
 Built-in keys
 ^^^^^^^^^^^^^
 
-Opaque drivers may declare built-in keys. Built-in keys can be accessed, but not created, through the PSA Cryptography API.
+Opaque drivers may declare built-in keys. Built-in keys can be accessed, but not created, through the Crypto API.
 
 A built-in key is identified by its location and its **slot number**. Drivers that support built-in keys must provide a ``"get_builtin_key"`` entry point to retrieve the key data and metadata. The core calls this entry point when it needs to access the key, typically because the application requested an operation on the key. The core may keep information about the key in cache, and successive calls to access the same slot number should return the same data. This entry point has the following prototype:
 
@@ -1503,7 +1503,7 @@ Using opaque drivers from an application
 Lifetimes and locations
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The PSA Cryptography API, version 1.0.0, defines `lifetimes <https://armmbed.github.io/mbed-crypto/html/api/keys/attributes.html?highlight=psa_key_lifetime_t#c.psa_key_lifetime_t>`__ as an attribute of a key that indicates where the key is stored and which application and system actions will create and destroy it. The lifetime is expressed as a 32-bit value (``typedef uint32_t psa_key_lifetime_t``). An upcoming version of the PSA Cryptography API defines more structure for lifetime values to separate these two aspects of the lifetime:
+The PSA Certified Crypto API defines `lifetimes <https://arm-software.github.io/psa-api/crypto/1.3/api/keys/lifetimes.html#key-lifetimes>`__ as an attribute of a key that indicates where the key is stored and which application and system actions will create and destroy it. The lifetime is expressed as a 32-bit value (``typedef uint32_t psa_key_lifetime_t``). An upcoming version of the Crypto API defines more structure for lifetime values to separate these two aspects of the lifetime:
 
 *   Bits 0-7 are a *persistence level*. This value indicates what device management actions can cause it to be destroyed. In particular, it indicates whether the key is volatile or persistent.
 *   Bits 8-31 are a *location indicator*. This value indicates where the key material is stored and where operations on the key are performed. Location values can be stored in a variable of type ``psa_key_location_t``.
