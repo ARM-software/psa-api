@@ -80,6 +80,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_ECIES_SEC1 ((psa_algorithm_t)0x0c000100)
 #define PSA_ALG_ED25519PH ((psa_algorithm_t) 0x0600090B)
 #define PSA_ALG_ED448PH ((psa_algorithm_t) 0x06000915)
+#define PSA_ALG_EDDSA_CTX ((psa_algorithm_t) 0x06000A00)
 #define PSA_ALG_FFDH ((psa_algorithm_t)0x09010000)
 #define PSA_ALG_FULL_LENGTH_MAC(mac_alg) /* specification-defined value */
 #define PSA_ALG_GCM ((psa_algorithm_t)0x05500200)
@@ -181,6 +182,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_SPAKE2P_HMAC(hash_alg) /* specification-defined value */
 #define PSA_ALG_SPAKE2P_MATTER ((psa_algoirithm_t)0x0A000609)
 #define PSA_ALG_STREAM_CIPHER ((psa_algorithm_t)0x04800100)
+#define PSA_ALG_SUPPORTS_CONTEXT(alg) /* implementation-defined value */
 #define PSA_ALG_TLS12_ECJPAKE_TO_PMS ((psa_algorithm_t)0x08000609)
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
@@ -745,6 +747,15 @@ psa_status_t psa_sign_hash(psa_key_id_t key,
                            uint8_t * signature,
                            size_t signature_size,
                            size_t * signature_length);
+psa_status_t psa_sign_hash_with_context(psa_key_id_t key,
+                                        psa_algorithm_t alg,
+                                        const uint8_t * hash,
+                                        size_t hash_length,
+                                        const uint8_t * context,
+                                        size_t context_length,
+                                        uint8_t * signature,
+                                        size_t signature_size,
+                                        size_t * signature_length);
 psa_status_t psa_sign_message(psa_key_id_t key,
                               psa_algorithm_t alg,
                               const uint8_t * input,
@@ -752,6 +763,15 @@ psa_status_t psa_sign_message(psa_key_id_t key,
                               uint8_t * signature,
                               size_t signature_size,
                               size_t * signature_length);
+psa_status_t psa_sign_message_with_context(psa_key_id_t key,
+                                           psa_algorithm_t alg,
+                                           const uint8_t * input,
+                                           size_t input_length,
+                                           const uint8_t * context,
+                                           size_t context_length,
+                                           uint8_t * signature,
+                                           size_t signature_size,
+                                           size_t * signature_length);
 psa_status_t psa_unwrap_key(const psa_key_attributes_t * attributes,
                             psa_key_id_t wrapping_key,
                             psa_algorithm_t alg,
@@ -764,12 +784,28 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
                              size_t hash_length,
                              const uint8_t * signature,
                              size_t signature_length);
+psa_status_t psa_verify_hash_with_context(psa_key_id_t key,
+                                          psa_algorithm_t alg,
+                                          const uint8_t * hash,
+                                          size_t hash_length,
+                                          const uint8_t * context,
+                                          size_t context_length,
+                                          const uint8_t * signature,
+                                          size_t signature_length);
 psa_status_t psa_verify_message(psa_key_id_t key,
                                 psa_algorithm_t alg,
                                 const uint8_t * input,
                                 size_t input_length,
                                 const uint8_t * signature,
                                 size_t signature_length);
+psa_status_t psa_verify_message_with_context(psa_key_id_t key,
+                                             psa_algorithm_t alg,
+                                             const uint8_t * input,
+                                             size_t input_length,
+                                             const uint8_t * context,
+                                             size_t context_length,
+                                             const uint8_t * signature,
+                                             size_t signature_length);
 psa_status_t psa_wrap_key(psa_key_id_t wrapping_key,
                           psa_algorithm_t alg,
                           psa_key_id_t key,

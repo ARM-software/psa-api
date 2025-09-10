@@ -23,6 +23,9 @@ Changes to the API
     See :secref:`xof`.
 *   Added support for key wrapping using key-wrapping algorithms.
     See :secref:`key-wrapping`.
+*   Added support for context parameters in signature algorithms.
+*   Added PureEdDSA algorithms with non-zero context.
+    See :secref:`eddsa-sign-algorithms` and `PSA_ALG_EDDSA_CTX`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~

@@ -368,8 +368,9 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for message signature algorithms t
     Randomized ECDSA, ``0x06``, :code:`PSA_ALG_ECDSA(hash_alg)`, ``0x060006hh`` :sup:`a`
     Randomized ECDSA no hash :sup:`b`, ``0x06``, `PSA_ALG_ECDSA_ANY`, ``0x06000600``
     Deterministic ECDSA, ``0x07``, :code:`PSA_ALG_DETERMINISTIC_ECDSA(hash_alg)`, ``0x060007hh`` :sup:`a`
-    PureEdDSA, ``0x08``, `PSA_ALG_PURE_EDDSA`, ``0x06000800``
+    PureEdDSA without context, ``0x08``, `PSA_ALG_PURE_EDDSA`, ``0x06000800``
     HashEdDSA, ``0x09``, `PSA_ALG_ED25519PH` and `PSA_ALG_ED448PH`, ``0x060009hh`` :sup:`c`
+    PureEdDSA with context, ``0x0a``, `PSA_ALG_EDDSA_CTX`, ``0x06000a00``
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to construct the signature algorithm.
 
