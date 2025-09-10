@@ -472,11 +472,11 @@ Both PureEdDSA and HashEdDSA can be used with contexts, which enables domain-sep
 
 The development of EdDSA resulted in a total of five distinct algorithms:
 
-*   Ed25519 : the original PureEdDSA algorithm for the Edwards25519 curve, which does not accept a context.
-*   Ed25519ctx : a second PureEdDSA algorithm for the Edwards25519 curve, with a context parameter.
-*   Ed448 : the PureEdDSA algorithm for the Edwards448 curve, with a context parameter.
-*   Ed25519ph : the HashEdDSA algorithm for the Edwards25519 curve, with a context parameter.
-*   Ed448ph : the HashEdDSA algorithm for the Edwards448 curve, with a context parameter.
+*   Ed25519: the original PureEdDSA algorithm for the Edwards25519 curve, which does not accept a context.
+*   Ed25519ctx: a second PureEdDSA algorithm for the Edwards25519 curve, with a context parameter.
+*   Ed448: the PureEdDSA algorithm for the Edwards448 curve, with a context parameter.
+*   Ed25519ph: the HashEdDSA algorithm for the Edwards25519 curve, with a context parameter.
+*   Ed448ph: the HashEdDSA algorithm for the Edwards448 curve, with a context parameter.
 
 :numref:`table-eddsa-algs` shows the algorithm identifiers in the |API|, and how they are used to select the appropriate EdDSA algorithm.
 
@@ -485,11 +485,11 @@ The development of EdDSA resulted in a total of five distinct algorithms:
     :header-rows: 1
     :widths: auto
 
-    *   Algorithm identifier, With 255-bit ke, With 448-bit key, Sign/verify hash, Support non-zero-length context
-    *   `PSA_ALG_PURE_EDDSA`, Ed25519, Ed448, No, No
-    *   `PSA_ALG_ED25519PH`, Ed25519ph, *INVALID*, Yes, Yes
-    *   `PSA_ALG_ED448PH`, *INVALID*, Ed448ph, Yes, Yes
-    *   `PSA_ALG_EDDSA_CTX`, Ed25519ctx, Ed448, No, Yes
+    Algorithm identifier, With 255-bit key, With 448-bit key, Sign/verify hash, Support non-zero-length context
+    `PSA_ALG_PURE_EDDSA`, Ed25519, Ed448, No, No
+    `PSA_ALG_ED25519PH`, Ed25519ph, *INVALID*, Yes, Yes
+    `PSA_ALG_ED448PH`, *Invalid*, Ed448ph, Yes, Yes
+    `PSA_ALG_EDDSA_CTX`, Ed25519ctx, Ed448, No, Yes
 
 .. note::
 
