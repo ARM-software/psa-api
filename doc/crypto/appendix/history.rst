@@ -18,6 +18,9 @@ Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Added `psa_attach_key()` to register existing key material as a volatile key within the implementation.
+*   Added support for context parameters in signature algorithms.
+*   Added PureEdDSA algorithms with non-zero context.
+    See :secref:`eddsa-sign-algorithms` and `PSA_ALG_EDDSA_CTX`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
