@@ -103,7 +103,7 @@ The language in the additional patent license is largely identical to that in se
 
 2. The scope of the defensive termination clause is changed from "any patent licenses granted to You" to "any licenses granted to You". This change is intended to help maintain a healthy ecosystem by providing additional protection to the community against patent litigation claims.
 
-[CC-BY-SA-4.0]:     https://creativecommons.org/licenses/by/4.0
+[CC-BY-SA-4.0]:     https://creativecommons.org/licenses/by-sa/4.0
 [APACHE-2.0]:       https://www.apache.org/licenses/LICENSE-2.0
 [trademarks]:       https://www.arm.com/company/policies/trademarks
 
@@ -135,4 +135,4 @@ Anyone may contribute to the PSA Certified API. Discussion of changes and enhanc
 
 ----
 
-*Copyright 2022-2024 Arm Limited and/or its affiliates*
+*Copyright 2022-2025 Arm Limited and/or its affiliates*
