@@ -239,6 +239,9 @@ Algorithm macros
     #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
         ((psa_algorithm_t) (((mac_alg) & ~0x003f8000) | (((mac_length) & 0x3f) << 16)))
 
+    #define PSA_ALG_XOF_HAS_CONTEXT(alg) \
+        (((alg) & 0x00008000) != 0)
+
     #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
         ((pake_bits & 0xFFFF) != pake_bits) ? 0 :                 \
         ((psa_pake_primitive_t) (((pake_type) << 24 |             \
