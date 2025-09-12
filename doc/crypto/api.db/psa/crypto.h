@@ -60,6 +60,10 @@ typedef struct psa_custom_key_parameters_t {
     /* specification-defined value */
 #define PSA_ALG_AES_MMO_ZIGBEE ((psa_algorithm_t)0x02000007)
 #define PSA_ALG_ANY_HASH ((psa_algorithm_t)0x020000ff)
+#define PSA_ALG_ASCON_AEAD128 ((psa_algorithm_t)0x05100700)
+#define PSA_ALG_ASCON_CXOF128 ((psa_algorithm_t)0x0D008300)
+#define PSA_ALG_ASCON_HASH256 ((psa_algorithm_t)0x02000020)
+#define PSA_ALG_ASCON_XOF128 ((psa_algorithm_t)0x0D000300)
 #define PSA_ALG_AT_LEAST_THIS_LENGTH_MAC(mac_alg, min_mac_length) \
     /* specification-defined value */
 #define PSA_ALG_CBC_MAC ((psa_algorithm_t)0x03c00100)
@@ -197,6 +201,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_WPA3_SAE_GDH(hash_alg) /* specification-defined value */
 #define PSA_ALG_WPA3_SAE_H2E(hash_alg) /* specification-defined value */
 #define PSA_ALG_XCHACHA20_POLY1305 ((psa_algorithm_t)0x05100600)
+#define PSA_ALG_XOF_HAS_CONTEXT(alg) /* specification-defined value */
 #define PSA_ALG_XTS ((psa_algorithm_t)0x0440ff00)
 #define PSA_ASYMMETRIC_DECRYPT_OUTPUT_MAX_SIZE \
     /* implementation-defined value */
@@ -301,6 +306,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_AES ((psa_key_type_t)0x2400)
 #define PSA_KEY_TYPE_ARC4 ((psa_key_type_t)0x2002)
 #define PSA_KEY_TYPE_ARIA ((psa_key_type_t)0x2406)
+#define PSA_KEY_TYPE_ASCON ((psa_key_type_t)0x2008)
 #define PSA_KEY_TYPE_CAMELLIA ((psa_key_type_t)0x2403)
 #define PSA_KEY_TYPE_CHACHA20 ((psa_key_type_t)0x2004)
 #define PSA_KEY_TYPE_DERIVE ((psa_key_type_t)0x1200)
@@ -838,6 +844,9 @@ psa_xof_operation_t psa_xof_operation_init(void);
 psa_status_t psa_xof_output(psa_xof_operation_t * operation,
                             uint8_t * output,
                             size_t output_length);
+psa_status_t psa_xof_set_context(psa_xof_operation_t * operation,
+                                 const uint8_t * context,
+                                 size_t context_length);
 psa_status_t psa_xof_setup(psa_xof_operation_t * operation,
                            psa_algorithm_t alg);
 psa_status_t psa_xof_update(psa_xof_operation_t * operation,

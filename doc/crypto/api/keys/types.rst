@@ -961,6 +961,33 @@ Symmetric cryptographic keys
 
         A call to `psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the key data.
 
+.. macro:: PSA_KEY_TYPE_ASCON
+    :definition: ((psa_key_type_t)0x2008)
+
+    .. summary::
+        Key for the Ascon-AEAD128 AEAD algorithm.
+
+        .. versionadded:: 1.4
+
+    The standard Ascon-AEAD128 key size is 128 bits (16 bytes).
+
+    For the nonce-masking variant of Ascon-AEAD128, use a key size of 256 bits (32-bytes).
+
+    See `PSA_ALG_ASCON_AEAD128` for details of this algorithm.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+        *   `PSA_ALG_ASCON_AEAD128`
+
+    .. subsection:: Key format
+
+        The data format for import and export of the key is the raw bytes of the key.
+
+    .. subsection:: Key derivation
+
+        A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
 
 .. _structured-keys:
 

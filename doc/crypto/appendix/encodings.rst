@@ -135,6 +135,7 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
     SHA3-512, ``0x13``, `PSA_ALG_SHA3_512`, ``0x02000013``
     SM3, ``0x14``, `PSA_ALG_SM3`, ``0x02000014``
     SHAKE256-512, ``0x15``, `PSA_ALG_SHAKE256_512`, ``0x02000015``
+    Ascon-Hash256, ``0x20``, `PSA_ALG_ASCON_HASH256`, ``0x02000020``
     *wildcard* :sup:`a`, ``0xFF``, `PSA_ALG_ANY_HASH`, ``0x020000FF``
 
 a.  The wildcard hash `PSA_ALG_ANY_HASH` can be used to parameterize a signature algorithm which defines a key usage policy, permitting any hash algorithm to be specified in a signature operation using the key.
@@ -151,7 +152,8 @@ The algorithm identifier for XOF algorithms defined in this specification are en
 
     XOF algorithm encoding
 
-The defined values for XOF-TYPE are shown in :numref:`table-xof-type`.
+A C value of ``1`` indicates that the XOF algorithm has a context parameter.
+The defined values for C and XOF-TYPE are shown in :numref:`table-xof-type`.
 
 .. csv-table:: XOF algorithm sub-type values
     :name: table-xof-type
@@ -159,9 +161,11 @@ The defined values for XOF-TYPE are shown in :numref:`table-xof-type`.
     :align: left
     :widths: auto
 
-    XOF algorithm, XOF-TYPE, Algorithm identifier, Algorithm value
-    SHAKE128, ``0x01``, `PSA_ALG_SHAKE128`, ``0x0D000100``
-    SHAKE256, ``0x02``, `PSA_ALG_SHAKE256`, ``0x0D000200``
+    XOF algorithm, C, XOF-TYPE, Algorithm identifier, Algorithm value
+    SHAKE128, 0, ``0x01``, `PSA_ALG_SHAKE128`, ``0x0D000100``
+    SHAKE256, 0, ``0x02``, `PSA_ALG_SHAKE256`, ``0x0D000200``
+    Ascon-XOF128, 0, ``0x03``, `PSA_ALG_ASCON_XOF128`, ``0x0D000300``
+    Ascon-CXOF128, 1, ``0x03``, `PSA_ALG_ASCON_CXOF128`, ``0x0D008300``
 
 .. _mac-encoding:
 
@@ -273,6 +277,7 @@ W is a flag to indicate a wildcard permitted-algorithm policy:
     GCM :sup:`a`, 1, ``0x02``, `PSA_ALG_GCM`, ``0x05500200`` :sup:`b`
     ChaCha20-Poly1305, 0, ``0x05``, `PSA_ALG_CHACHA20_POLY1305`, ``0x05100500`` :sup:`b`
     XChaCha20-Poly1305, 0, ``0x06``, `PSA_ALG_XCHACHA20_POLY1305`, ``0x05100600`` :sup:`b`
+    Ascon-AEAD128, 0, ``0x07``, ``PSA_ALG_ASCON_AEAD128``, ``0x05100700`` :sup:`b`
 
 a.  This is an AEAD mode of an underlying block cipher. The block cipher is determined by the key type that is provided to the AEAD operation.
 
@@ -622,6 +627,7 @@ The defined values for BLK, SYM-TYPE and P are shown in :numref:`table-symmetric
     ARC4, 0, 1, 0, `PSA_KEY_TYPE_ARC4`, ``0x2002``
     ChaCha20, 0, 2, 0, `PSA_KEY_TYPE_CHACHA20`, ``0x2004``
     XChaCha20, 0, 3, 1, `PSA_KEY_TYPE_XCHACHA20`, ``0x2007``
+    Ascon, 0, 4, 0, `PSA_KEY_TYPE_ASCON`, ``0x2008``
     DES, 3, 0, 1, `PSA_KEY_TYPE_DES`, ``0x2301``
     AES, 4, 0, 0, `PSA_KEY_TYPE_AES`, ``0x2400``
     CAMELLIA, 4, 1, 1, `PSA_KEY_TYPE_CAMELLIA`, ``0x2403``
