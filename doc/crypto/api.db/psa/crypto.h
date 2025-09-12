@@ -331,7 +331,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_USAGE_COPY ((psa_key_usage_t)0x00000002)
 #define PSA_KEY_USAGE_DECRYPT ((psa_key_usage_t)0x00000200)
 #define PSA_KEY_USAGE_DERIVE ((psa_key_usage_t)0x00004000)
-#define PSA_KEY_USAGE_DERIVE_PUBLIC ((psa_key_usage_t)0x00010000)
+#define PSA_KEY_USAGE_DERIVE_PUBLIC ((psa_key_usage_t)0x00000080)
 #define PSA_KEY_USAGE_ENCRYPT ((psa_key_usage_t)0x00000100)
 #define PSA_KEY_USAGE_EXPORT ((psa_key_usage_t)0x00000001)
 #define PSA_KEY_USAGE_SIGN_HASH ((psa_key_usage_t)0x00001000)
