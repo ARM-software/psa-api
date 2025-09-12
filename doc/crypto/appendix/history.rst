@@ -22,7 +22,7 @@ Changes to the API
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-*   TBD
+*   Corrected the example implementation of `PSA_ALG_IS_SIGN_HASH()` in :secref:`appendix-specdef-values`, to exclude PureEdDSA.
 
 Other changes
 ~~~~~~~~~~~~~

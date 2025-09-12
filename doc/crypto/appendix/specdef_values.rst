@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2020-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _appendix-specdef-values:
@@ -155,7 +155,8 @@ Algorithm macros
         (((alg) & 0x7f000000) == 0x06000000)
 
     #define PSA_ALG_IS_SIGN_HASH(alg) \
-        PSA_ALG_IS_SIGN(alg)
+        (PSA_ALG_IS_SIGN(alg) && \
+         (alg) != PSA_ALG_PURE_EDDSA)
 
     #define PSA_ALG_IS_SIGN_MESSAGE(alg) \
         (PSA_ALG_IS_SIGN(alg) && \
