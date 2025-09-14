@@ -18,6 +18,8 @@ Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Added `psa_attach_key()` to register existing key material as a volatile key within the implementation.
+*   Add support for extendable-output functions (XOF).
+    See :secref:`xof`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~

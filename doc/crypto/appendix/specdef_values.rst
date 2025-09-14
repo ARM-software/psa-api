@@ -191,6 +191,9 @@ Algorithm macros
          (((alg) & 0x7f008000) == 0x03008000) || \
          (((alg) & 0x7f008000) == 0x05008000))
 
+    #define PSA_ALG_IS_XOF(alg) \
+        (((alg) & 0x7f000000) == 0x0D000000)
+
     #define PSA_ALG_JPAKE(hash_alg) \
         ((psa_algorithm_t) (0x0a000100 | ((hash_alg) & 0x000000ff)))
 
