@@ -191,6 +191,18 @@ Algorithm macros
          (((alg) & 0x7f008000) == 0x03008000) || \
          (((alg) & 0x7f008000) == 0x05008000))
 
+    #define PSA_ALG_IS_WPA3_SAE(alg) \
+        (((alg) & ~0x000001ff) == 0x0a000800)
+
+    #define PSA_ALG_IS_WPA3_SAE_FIXED(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000800)
+
+    #define PSA_ALG_IS_WPA3_SAE_GDH(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000900)
+
+    #define PSA_ALG_IS_WPA3_SAE_H2E(alg) \
+        (((alg) & ~0x000000ff) == 0x08800400)
+
     #define PSA_ALG_JPAKE(hash_alg) \
         ((psa_algorithm_t) (0x0a000100 | ((hash_alg) & 0x000000ff)))
 
@@ -235,6 +247,15 @@ Algorithm macros
 
     #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
         ((psa_algorithm_t) (((mac_alg) & ~0x003f8000) | (((mac_length) & 0x3f) << 16)))
+
+    #define PSA_ALG_WPA3_SAE_FIXED(hash_alg) \
+        ((psa_algorithm_t) (0x0a000800 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_WPA3_SAE_GDH(hash_alg) \
+        ((psa_algorithm_t) (0x0a000900 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_WPA3_SAE_H2E(hash_alg) \
+        ((psa_algorithm_t) (0x08800400 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
         ((pake_bits & 0xFFFF) != pake_bits) ? 0 :                 \
@@ -320,6 +341,12 @@ Key type macros
     #define PSA_KEY_TYPE_IS_UNSTRUCTURED(type) \
         (((type) & 0x7000) == 0x1000 || ((type) & 0x7000) == 0x2000)
 
+    #define PSA_KEY_TYPE_IS_WPA3_SAE_DH(type) \
+        (((type) & 0xff80) == 0x3300)
+
+    #define PSA_KEY_TYPE_IS_WPA3_SAE_ECC(type) \
+        (((type) & 0xff80) == 0x3280)
+
     #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
         ((psa_key_type_t) ((type) | 0x3000))
 
@@ -334,6 +361,18 @@ Key type macros
 
     #define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
         ((psa_key_type_t) (0x4400 | ((curve) & 0x007f)))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_DH_GET_FAMILY(type) \
+        ((psa_dh_family_t) ((type) & 0x007f))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_DH_PT(family) \
+        ((psa_key_type_t) (0x3300 | ((family) & 0x007f)))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY(type) \
+        ((psa_ecc_family_t) ((type) & 0x007f))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_ECC_PT(curve) \
+        ((psa_key_type_t) (0x3280 | ((curve) & 0x007f)))
 
 Hash suspend state macros
 ~~~~~~~~~~~~~~~~~~~~~~~~~
