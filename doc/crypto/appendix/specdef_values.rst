@@ -191,6 +191,9 @@ Algorithm macros
          (((alg) & 0x7f008000) == 0x03008000) || \
          (((alg) & 0x7f008000) == 0x05008000))
 
+    #define PSA_ALG_IS_XOF(alg) \
+        (((alg) & 0x7f000000) == 0x0D000000)
+
     #define PSA_ALG_JPAKE(hash_alg) \
         ((psa_algorithm_t) (0x0a000100 | ((hash_alg) & 0x000000ff)))
 
@@ -235,6 +238,9 @@ Algorithm macros
 
     #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
         ((psa_algorithm_t) (((mac_alg) & ~0x003f8000) | (((mac_length) & 0x3f) << 16)))
+
+    #define PSA_ALG_XOF_HAS_CONTEXT(alg) \
+        (((alg) & 0x00008000) != 0)
 
     #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
         ((pake_bits & 0xFFFF) != pake_bits) ? 0 :                 \

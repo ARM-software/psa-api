@@ -18,6 +18,14 @@ Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Added `psa_attach_key()` to register existing key material as a volatile key within the implementation.
+*   Add support for extendable-output functions (XOF).
+    See :secref:`xof`.
+*   Add support for the Ascon family of light-weight algorithms:
+
+    -   `PSA_ALG_ASCON_AEAD128`
+    -   `PSA_ALG_ASCON_HASH256`
+    -   `PSA_ALG_ASCON_XOF128`
+    -   `PSA_ALG_ASCON_CXOF128`
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
