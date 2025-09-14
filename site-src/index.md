@@ -74,7 +74,7 @@ The latest versions of the PSA Certified APIs that are hosted on this website ar
 
 Refer to individual documents for license details.
 
-[CC-BY-SA-4.0]:     https://creativecommons.org/licenses/by/4.0
+[CC-BY-SA-4.0]:     https://creativecommons.org/licenses/by-sa/4.0
 [APACHE-2.0]:       https://www.apache.org/licenses/LICENSE-2.0
 
 ----
