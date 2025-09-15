@@ -88,7 +88,7 @@ The |API| provides several functions for calculating and verifying signatures:
 
     Code written to be cryptographically agile can use the new functions, provided it guards against providing a non-zero-length context with an algorithm that does not support them.
 
-    The `PSA_ALG_SUPPORTS_CONTEXT()` macro can be used to determine if the implementation of an algorithm supports the use of non-zero-length contexts.
+    The `PSA_ALG_SIGN_HAS_CONTEXT()` macro can be used to determine if the implementation of an algorithm supports the use of non-zero-length contexts.
 
 See :secref:`single-part-signature`.
 
@@ -487,7 +487,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
 
     Algorithm identifier, With 255-bit key, With 448-bit key, Sign/verify hash, Support non-zero-length context
     `PSA_ALG_PURE_EDDSA`, Ed25519, Ed448, No, No
-    `PSA_ALG_ED25519PH`, Ed25519ph, *INVALID*, Yes, Yes
+    `PSA_ALG_ED25519PH`, Ed25519ph, *Invalid*, Yes, Yes
     `PSA_ALG_ED448PH`, *Invalid*, Ed448ph, Yes, Yes
     `PSA_ALG_EDDSA_CTX`, Ed25519ctx, Ed448, No, Yes
 
@@ -1274,25 +1274,28 @@ Support macros
                          hash, sizeof(hash), &hash_len);
         psa_sign_hash(key, alg, hash, hash_len, ...);
 
-.. macro:: PSA_ALG_SUPPORTS_CONTEXT
+.. macro:: PSA_ALG_SIGN_HAS_CONTEXT
     :definition: /* implementation-defined value */
 
     .. summary::
-        Whether the implementation of the specified algorithm supports a context parameter.
+        Whether the specified signature algorithm has a context parameter.
 
         .. versionadded:: 1.4
 
     .. param:: alg
-        An algorithm identifier: a value of type `psa_algorithm_t`.
+        A signature algorithm identifier: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN(alg)` is true.
 
     .. return::
-        ``1`` if ``alg`` supports use of contexts, ``0`` otherwise.
-        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+        ``1`` if ``alg`` is a signature algorithm that has a context parameter.
+        ``0`` if ``alg`` is a signature algorithm that does not have a context parameter.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported signature algorithm identifier.
 
         A wildcard signature algorithm policy, using `PSA_ALG_ANY_HASH`, returns the same value as the signature algorithm parameterized with a valid hash algorithm.
 
-    This macro identifies algorithms that have a context parameter, and can be used with the appropriate functions that support non-zero-length contexts.
-    For example, for a signature algorithm, this macro indicates if it can be used with a non-zero-context in a call to `psa_verify_message_with_context()`.
+        .. todo::
+            Is this definition OK? - we could require that it returns zero for any non-signature algorithm, similar to some of the other support macros.
+
+    This macro identifies signature algorithms that have a context parameter, and can be used with the appropriate functions that support non-zero-length contexts.
 
 .. macro:: PSA_ALG_ANY_HASH
     :definition: ((psa_algorithm_t)0x020000ff)
