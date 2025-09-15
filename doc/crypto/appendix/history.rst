@@ -18,6 +18,7 @@ Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Added `psa_attach_key()` to register existing key material as a volatile key within the implementation.
+*   Added support for key wrapping using key-wrapping algorithms. See :secref:`key-wrapping`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,8 +60,6 @@ Changes to the API
 *   Added key-encapsulation functions, `psa_encapsulate()` and `psa_decapsulate()`.
 
     -   Added `PSA_ALG_ECIES_SEC1` as a key-encapsulation algorithm that implements the key agreement steps of ECIES.
-
-*   Added support for key wrapping using key-wrapping algorithms. See :secref:`key-wrapping`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~

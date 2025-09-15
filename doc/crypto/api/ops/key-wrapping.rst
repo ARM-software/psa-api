@@ -38,48 +38,54 @@ When using one of these key-wrapping algorithms, the key attributes are managed 
 Key-wrapping algorithms
 -----------------------
 
-.. macro:: PSA_ALG_AES_KW
+.. macro:: PSA_ALG_KW
     :definition: ((psa_algorithm_t)0x0B400100)
 
     .. summary::
-        The AES-KW key-wrapping algorithm.
+        A key-wrapping algorithm based on the NIST Key Wrap (KW) mode of a block cipher.
 
-    .. todo::
-        Decide if we should support any 128-bit block-cipher, as described in SP800-38F.
-        If so, the name of this algorithm would need to change.
-        For example, to ``PSA_ALG_SP800_38_KEY_WRAP``?
+        .. versionadded:: 1.4
 
-    This is the NIST Key Wrap algorithm, using an AES key-encryption key, as defined in :cite-title:`SP800-38F`.
-    The algorithm is also defined in :rfc-title:`3394`.
+    KW is defined for block ciphers that have a 128-bit block size.
+    The underlying block cipher is determined by the key type.
 
-    Keys to be wrapped must have a length equal to a multiple of the 'semi-block' size for AES.
+    Keys to be wrapped must have a length equal to a multiple of the 'semi-block' size for the block cipher.
     That is, a multiple of 8 bytes.
 
-    To wrap keys that are not a multiple of the AES semi-block size, `PSA_ALG_AES_KWP` can be used.
+    To wrap keys that are not a multiple of the semi-block size, `PSA_ALG_KWP` can be used.
+
+    This is the NIST Key Wrap algorithm, using any block-cipher that operates on 128-bit blocks, as defined in :cite-title:`SP800-38F`.
+    A definition of AES-KW is also found in :rfc-title:`3394`.
 
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_AES`
+        | `PSA_KEY_TYPE_ARIA`
+        | `PSA_KEY_TYPE_CAMELLIA`
+        | `PSA_KEY_TYPE_SM4`
 
-.. macro:: PSA_ALG_AES_KWP
+.. macro:: PSA_ALG_KWP
     :definition: ((psa_algorithm_t)0x0BC00200)
 
     .. summary::
-        The AES-KWP key-wrapping algorithm with padding.
+        A key-wrapping algorithm based on the NIST Key Wrap with Padding (KWP) mode of a block cipher.
 
-    .. todo::
-        Decide if we should support any 128-bit block-cipher, as described in SP800-38F.
-        If so, the name of this algorithm would need to change.
-        For example, to ``PSA_ALG_SP800_38_KEY_WRAP_WITH_PADDING``?
+        .. versionadded:: 1.4
 
-    This is the NIST Key Wrap with Padding algorithm, using an AES key-encryption key, as defined in :cite-title:`SP800-38F`.
-    The algorithm is also defined in :rfc-title:`5649`.
+    KWP is defined for block ciphers that have a 128-bit block size.
+    The underlying block cipher is determined by the key type.
 
     This algorithm can wrap a key of any length.
+
+    This is the NIST Key Wrap with Padding algorithm, using any block-cipher that operates on 128-bit blocks, as defined in :cite-title:`SP800-38F`.
+    A definition of AES-KWP is also found in :rfc-title:`5649`.
 
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_AES`
+        | `PSA_KEY_TYPE_ARIA`
+        | `PSA_KEY_TYPE_CAMELLIA`
+        | `PSA_KEY_TYPE_SM4`
 
 Key wrapping functions
 ----------------------
@@ -88,6 +94,8 @@ Key wrapping functions
 
     .. summary::
         Unwrap and import a key using a specified wrapping key.
+
+        .. versionadded:: 1.4
 
     .. param:: const psa_key_attributes_t * attributes
         The attributes for the new key.
@@ -200,6 +208,8 @@ Key wrapping functions
     .. summary::
         Wrap and export a key using a specified wrapping key.
 
+        .. versionadded:: 1.4
+
     .. param:: psa_key_id_t wrapping_key
         Identifier of the key to use for the wrapping operation.
         It must permit the usage `PSA_KEY_USAGE_WRAP`.
@@ -280,6 +290,8 @@ Support macros
     .. summary::
         Sufficient output buffer size for `psa_wrap_key()`.
 
+        .. versionadded:: 1.4
+
     .. param:: wrap_key_type
        A supported key-wrapping key type.
     .. param:: alg
@@ -299,6 +311,8 @@ Support macros
 
     .. summary::
         Sufficient buffer size for wrapping any asymmetric key pair.
+
+        .. versionadded:: 1.4
 
     This value must be a sufficient buffer size when calling `psa_wrap_key()` to export any asymmetric key pair that is supported by the implementation, regardless of the exact key type and key size.
 
