@@ -163,7 +163,6 @@ Key wrapping functions
         *   The key usage flags include invalid values.
         *   The key's permitted-usage algorithm is invalid.
         *   The key attributes, as a whole, are invalid.
-        *   The key format is invalid.
         *   The key data is not correctly formatted for the key type.
     .. retval:: PSA_ERROR_NOT_PERMITTED
         The following conditions can result in this error:
@@ -184,13 +183,12 @@ Key wrapping functions
 
     The wrapped key data determines the key size.
     :code:``psa_get_key_bits(attributes)`` must either match the determined key size or be ``0``.
-    Implementations must reject an attempt to import a key of size zero.
+
+    Implementations must reject an attempt to unwrap a key if the determined key size is ``0``.
 
     .. note::
         A call to `psa_unwrap_key()` first applies the decryption procedure associated with the key-wrapping algorithm ``alg``, using the ``wrapping_key`` key, to the supplied ``data`` buffer.
-        If the decryption succeeds, the resulting plaintext, along with the provided ``attributes`` are then processed as if they were inputs to ``psa_import_key()``.
-
-        The benefit of using `psa_unwrap_key()` is that the plaintext key material is not exposed outside of the cryptoprocessor.
+        The resulting plaintext is retained within the cryptoprocessor, and used with the provided ``attributes`` to create a key, as if they were inputs to `psa_import_key()`.
 
     .. note::
         The |API| does not support asymmetric private key objects outside of a key pair.
@@ -225,8 +223,9 @@ Key wrapping functions
         This must be appropriate for the key:
 
         *   The required output size is :code:`PSA_WRAP_KEY_OUTPUT_SIZE(wrap_key_type, alg, type, bits)`, where ``wrap_key_type`` is the type of the wrapping key, ``alg`` is the key-wrapping algorithm, ``type`` is the type of the key being wrapped, and ``bits`` is the bit-size of the key being wrapped.
-        *   `PSA_WRAP_KEY_PAIR_MAX_SIZE` evaluates to the maximum wrapped output size of any supported key pair, in any supported combination of key-wrapping algorithm, wrapping-key type, key format and options.
-        *   This API defines no maximum size for wrapped symmetric keys. Arbitrarily large data items can be stored in the key store, for example certificates that correspond to a stored private key or input material for key derivation.
+        *   `PSA_WRAP_KEY_PAIR_MAX_SIZE` evaluates to the maximum wrapped output size of any supported key pair, in any supported combination of key-wrapping algorithm and wrapping-key type.
+        *   This API defines no maximum size for wrapped symmetric keys.
+            Arbitrarily large data items can be stored in the key store, for example certificates that correspond to a stored private key or input material for key derivation.
     .. param:: size_t * data_length
         On success, the number of bytes that make up the wrapped key data.
 
@@ -269,7 +268,7 @@ Key wrapping functions
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    Wrap a key from the key store into a data buffer using a specified key-wrapping algorithm, and key-wrapping key.
+    Wrap a key from the key store into a data buffer using a specified key-wrapping algorithm and key-wrapping key.
     On success, the output contains the wrapped key value.
     The policy of the key to be wrapped must have the usage flag `PSA_KEY_USAGE_EXPORT` set.
 
