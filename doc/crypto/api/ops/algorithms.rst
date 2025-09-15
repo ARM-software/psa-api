@@ -20,6 +20,7 @@ The specific algorithm identifiers are described alongside the cryptographic ope
 *   :secref:`mac-algorithms`
 *   :secref:`cipher-algorithms`
 *   :secref:`aead-algorithms`
+*   :secref:`key-wrapping-algorithms`
 *   :secref:`key-derivation-algorithms`
 *   :secref:`sign`
 *   :secref:`asymmetric-encryption-algorithms`

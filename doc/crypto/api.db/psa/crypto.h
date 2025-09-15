@@ -58,8 +58,6 @@ typedef struct psa_custom_key_parameters_t {
     /* specification-defined value */
 #define PSA_ALG_AEAD_WITH_SHORTENED_TAG(aead_alg, tag_length) \
     /* specification-defined value */
-#define PSA_ALG_AES_KW ((psa_algorithm_t)0x0B400100)
-#define PSA_ALG_AES_KWP ((psa_algorithm_t)0x0BC00200)
 #define PSA_ALG_AES_MMO_ZIGBEE ((psa_algorithm_t)0x02000007)
 #define PSA_ALG_ANY_HASH ((psa_algorithm_t)0x020000ff)
 #define PSA_ALG_AT_LEAST_THIS_LENGTH_MAC(mac_alg, min_mac_length) \
@@ -144,6 +142,8 @@ typedef struct psa_custom_key_parameters_t {
     /* specification-defined value */
 #define PSA_ALG_KEY_AGREEMENT_GET_BASE(alg) /* specification-defined value */
 #define PSA_ALG_KEY_AGREEMENT_GET_KDF(alg) /* specification-defined value */
+#define PSA_ALG_KW ((psa_algorithm_t)0x0B400100)
+#define PSA_ALG_KWP ((psa_algorithm_t)0x0BC00200)
 #define PSA_ALG_MD2 ((psa_algorithm_t)0x02000001)
 #define PSA_ALG_MD4 ((psa_algorithm_t)0x02000002)
 #define PSA_ALG_MD5 ((psa_algorithm_t)0x02000003)

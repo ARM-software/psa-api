@@ -299,8 +299,8 @@ The defined values for S, B, and WRAP-TYPE are shown in :numref:`table-key-wrap-
     :widths: auto
 
     Key-wrapping algorithm, S, B,  WRAP-TYPE, Algorithm identifier, Algorithm value
-    AES-KW, 0, 1, ``0x01``, `PSA_ALG_AES_KW`, ``0x0B400100``
-    AES-KWP, 1, 1, ``0x02``, `PSA_ALG_AES_KWP`, ``0x0BC00200``
+    AES-KW, 0, 1, ``0x01``, `PSA_ALG_KW`, ``0x0B400100``
+    AES-KWP, 1, 1, ``0x02``, `PSA_ALG_KWP`, ``0x0BC00200``
 
 .. _kdf-encoding:
 
