@@ -174,7 +174,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_SHA_512 ((psa_algorithm_t)0x0200000b)
 #define PSA_ALG_SHA_512_224 ((psa_algorithm_t)0x0200000c)
 #define PSA_ALG_SHA_512_256 ((psa_algorithm_t)0x0200000d)
-#define PSA_ALG_SIGN_HAS_CONTEXT(alg) /* implementation-defined value */
+#define PSA_ALG_SIGN_SUPPORTS_CONTEXT(alg) /* implementation-defined value */
 #define PSA_ALG_SM3 ((psa_algorithm_t)0x02000014)
 #define PSA_ALG_SP800_108_COUNTER_CMAC ((psa_algorithm_t)0x08000800)
 #define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
