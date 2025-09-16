@@ -88,7 +88,7 @@ The |API| provides several functions for calculating and verifying signatures:
 
     Code written to be cryptographically agile can use the new functions, provided it guards against providing a non-zero-length context with an algorithm that does not support them.
 
-    The `PSA_ALG_SIGN_HAS_CONTEXT()` macro can be used to determine if the implementation of an algorithm supports the use of non-zero-length contexts.
+    The `PSA_ALG_SIGN_SUPPORTS_CONTEXT()` macro can be used to determine if the implementation of an algorithm supports the use of non-zero-length contexts.
 
 See :secref:`single-part-signature`.
 
@@ -1274,11 +1274,11 @@ Support macros
                          hash, sizeof(hash), &hash_len);
         psa_sign_hash(key, alg, hash, hash_len, ...);
 
-.. macro:: PSA_ALG_SIGN_HAS_CONTEXT
+.. macro:: PSA_ALG_SIGN_SUPPORTS_CONTEXT
     :definition: /* implementation-defined value */
 
     .. summary::
-        Whether the specified signature algorithm has a context parameter.
+        Whether the specified signature algorithm can be used with a non-zero-length context.
 
         .. versionadded:: 1.4
 
@@ -1286,14 +1286,11 @@ Support macros
         A signature algorithm identifier: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN(alg)` is true.
 
     .. return::
-        ``1`` if ``alg`` is a signature algorithm that has a context parameter.
-        ``0`` if ``alg`` is a signature algorithm that does not have a context parameter.
+        ``1`` if ``alg`` is a signature algorithm that can be used with a non-zero-length context.
+        ``0`` if ``alg`` is a signature algorithm that cannot be used with a non-zero-length context.
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported signature algorithm identifier.
 
         A wildcard signature algorithm policy, using `PSA_ALG_ANY_HASH`, returns the same value as the signature algorithm parameterized with a valid hash algorithm.
-
-        .. todo::
-            Is this definition OK? - we could require that it returns zero for any non-signature algorithm, similar to some of the other support macros.
 
     This macro identifies signature algorithms that have a context parameter, and can be used with the appropriate functions that support non-zero-length contexts.
 
