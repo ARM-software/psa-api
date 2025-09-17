@@ -14,7 +14,7 @@ This document describes an interface for cryptoprocessor drivers in an implement
 
 This specification is work in progress and should be considered to be in a beta stage. There is ongoing work to implement this interface in Mbed TLS, which is the reference implementation of the Crypto API. At this stage, Arm does not expect major changes, but minor changes are expected based on experience from the first implementation and on external feedback.
 
-For a practical guide, with a description of the current state of drivers Mbed TLS, see the `PSA Cryptoprocessor driver development examples <https://github.com/Mbed-TLS/TF-PSA-Crypto/blob/92673db5db061562dd6713ec76150b4904c7a122/docs/psa-driver-example-and-guide.html>`__.
+For a practical guide, with a description of the current state of drivers Mbed TLS, see the `PSA Cryptoprocessor driver development examples <https://github.com/Mbed-TLS/TF-PSA-Crypto/blob/92673db5db061562dd6713ec76150b4904c7a122/docs/psa-driver-example-and-guide.md>`__.
 
 Introduction
 ------------
@@ -41,19 +41,26 @@ Requirements
 
 The present specification was designed to fulfill the following high-level requirements.
 
-[Req.plugins] It is possible to combine multiple drivers from different providers into the same implementation, without any prior arrangement other than choosing certain names and values from disjoint namespaces.
+[Req.plugins]
+    It is possible to combine multiple drivers from different providers into the same implementation, without any prior arrangement other than choosing certain names and values from disjoint namespaces.
 
-[Req.compile] It is possible to compile the code of each driver and of the core separately, and link them together. A small amount of glue code may need to be compiled once the list of drivers is available.
+[Req.compile]
+    It is possible to compile the code of each driver and of the core separately, and link them together. A small amount of glue code may need to be compiled once the list of drivers is available.
 
-[Req.types] Support drivers for the following types of hardware: accelerators that operate on keys in cleartext; cryptoprocessors that can wrap keys with a built-in keys but not store user keys; and cryptoprocessors that store key material.
+[Req.types]
+    Support drivers for the following types of hardware: accelerators that operate on keys in cleartext; cryptoprocessors that can wrap keys with a built-in keys but not store user keys; and cryptoprocessors that store key material.
 
-[Req.portable] The interface between drivers and the core does not involve any platform-specific consideration. Driver calls are simple C function calls. Interactions with platform-specific hardware happen only inside the driver (and in fact a driver need not involve any hardware at all).
+[Req.portable]
+    The interface between drivers and the core does not involve any platform-specific consideration. Driver calls are simple C function calls. Interactions with platform-specific hardware happen only inside the driver (and in fact a driver need not involve any hardware at all).
 
-[Req.location] Applications can tell which location values correspond to which secure element drivers.
+[Req.location]
+    Applications can tell which location values correspond to which secure element drivers.
 
-[Req.fallback] Accelerator drivers can specify that they do not fully support a cryptographic mechanism and that a fallback to core code may be necessary. Conversely, if an accelerator fully supports cryptographic mechanism, the core must be able to omit code for this mechanism.
+[Req.fallback]
+    Accelerator drivers can specify that they do not fully support a cryptographic mechanism and that a fallback to core code may be necessary. Conversely, if an accelerator fully supports cryptographic mechanism, the core must be able to omit code for this mechanism.
 
-[Req.mechanisms] Drivers can specify which mechanisms they support. A driver's code will not be invoked for cryptographic mechanisms that it does not support.
+[Req.mechanisms]
+    Drivers can specify which mechanisms they support. A driver's code will not be invoked for cryptographic mechanisms that it does not support.
 
 Overview of drivers
 -------------------
