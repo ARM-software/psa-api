@@ -81,12 +81,17 @@ When a key is used in a cryptographic operation, the application must supply the
 Key usage flags
 ---------------
 
-The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. Five kinds of usage flag can be specified:
+The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. There are two kinds of usage flag:
 
-*   The extractable flag `PSA_KEY_USAGE_EXPORT` determines whether the key material can be extracted from the cryptoprocessor, or copied outside of its current security boundary.
-*   The copyable flag `PSA_KEY_USAGE_COPY` determines whether the key material can be copied into a new key, which can have a different lifetime or a more restrictive policy.
-*   The cacheable flag `PSA_KEY_USAGE_CACHE` determines whether the implementation is permitted to retain non-essential copies of the key material in RAM. This policy only applies to persistent keys. See also :secref:`key-material`.
-*   The following usage flags determine whether the corresponding operations are permitted with the key:
+1.  Key-management usage flags.
+
+    -   The extractable flag `PSA_KEY_USAGE_EXPORT` determines whether the key material can be extracted from the cryptoprocessor, or copied outside of its current security boundary.
+    -   The copyable flag `PSA_KEY_USAGE_COPY` determines whether the key material can be copied into a new key, which can have a different lifetime or a more restrictive policy.
+    -   The cacheable flag `PSA_KEY_USAGE_CACHE` determines whether the implementation is permitted to retain non-essential copies of the key material in RAM. This policy only applies to persistent keys. See also :secref:`key-material`.
+
+2.  Cryptographic-operation usage flags.
+
+    The following usage flags determine whether the corresponding cryptographic operations are permitted with the key:
 
     -   `PSA_KEY_USAGE_ENCRYPT`
     -   `PSA_KEY_USAGE_DECRYPT`
@@ -97,7 +102,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     -   `PSA_KEY_USAGE_DERIVE`
     -   `PSA_KEY_USAGE_VERIFY_DERIVATION`
 
-*   The flag `PSA_KEY_USAGE_DERIVE_PUBLIC` is used in the function `psa_check_key_usage()` to query if a key can be used for the public role in the specified algorithm.
+    The flag `PSA_KEY_USAGE_DERIVE_PUBLIC` is used in the function `psa_check_key_usage()` to query if a key can be used for the public role in the specified algorithm.
 
 .. typedef:: uint32_t psa_key_usage_t
 
@@ -124,7 +129,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to copy the key.
 
-    This flag is required to make a copy of a key using `psa_copy_key()`.
+    This key-managament usage flag is required to make a copy of a key using `psa_copy_key()`.
 
     For a key lifetime that corresponds to a secure element location that enforces the non-exportability of keys, copying a key outside the secure element also requires the usage flag `PSA_KEY_USAGE_EXPORT`. Copying the key within the secure element is permitted with just `PSA_KEY_USAGE_COPY`, if the secure element supports it. For keys with the lifetime `PSA_KEY_LIFETIME_VOLATILE` or `PSA_KEY_LIFETIME_PERSISTENT`, the usage flag `PSA_KEY_USAGE_COPY` is sufficient to permit the copy.
 
@@ -155,7 +160,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to encrypt a message, or perform key encapsulation, with the key.
 
-    This flag is required to use the key in a symmetric encryption operation, in an AEAD encryption-and-authentication operation, in an asymmetric encryption operation, or in a key-encapsulation operation. The flag must be present on keys used with the following APIs:
+    This key-managament usage flag is required to use the key in a symmetric encryption operation, in an AEAD encryption-and-authentication operation, in an asymmetric encryption operation, or in a key-encapsulation operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_cipher_encrypt()`
     *   `psa_cipher_encrypt_setup()`
@@ -172,7 +177,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to decrypt a message, or perform key decapsulation, with the key.
 
-    This flag is required to use the key in a symmetric decryption operation, in an AEAD decryption-and-verification operation, in an asymmetric decryption operation, or in a key-decapsulation operation. The flag must be present on keys used with the following APIs:
+    This key-managament usage flag is required to use the key in a symmetric decryption operation, in an AEAD decryption-and-verification operation, in an asymmetric decryption operation, or in a key-decapsulation operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_cipher_decrypt()`
     *   `psa_cipher_decrypt_setup()`
@@ -189,7 +194,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to sign a message with the key.
 
-    This flag is required to use the key in a MAC calculation operation, or in an asymmetric message signature operation. The flag must be present on keys used with the following APIs:
+    This cryptographic-operation usage flag is required to use the key in a MAC calculation operation, or in an asymmetric message signature operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_mac_compute()`
     *   `psa_mac_sign_setup()`
@@ -203,7 +208,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to verify a message signature with the key.
 
-    This flag is required to use the key in a MAC verification operation, or in an asymmetric message signature verification operation. The flag must be present on keys used with the following APIs:
+    This cryptographic-operation usage flag is required to use the key in a MAC verification operation, or in an asymmetric message signature verification operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_mac_verify()`
     *   `psa_mac_verify_setup()`
@@ -217,7 +222,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to sign a message hash with the key.
 
-    This flag is required to use the key to sign a pre-computed message hash in an asymmetric signature operation. The flag must be present on keys used with the following APIs:
+    This cryptographic-operation usage flag is required to use the key to sign a pre-computed message hash in an asymmetric signature operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_sign_hash()`
 
@@ -231,7 +236,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to verify a message hash with the key.
 
-    This flag is required to use the key to verify a pre-computed message hash in an asymmetric signature verification operation. The flag must be present on keys used with the following APIs:
+    This cryptographic-operation usage flag is required to use the key to verify a pre-computed message hash in an asymmetric signature verification operation. The flag must be present on keys used with the following APIs:
 
     *   `psa_verify_hash()`
 
@@ -245,7 +250,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. summary::
         Permission to derive other keys or produce a password hash from this key.
 
-    This flag is required to use the key for derivation in a key-derivation operation, or in a key-agreement operation.
+    This cryptographic-operation usage flag is required to use the key for derivation in a key-derivation operation, or in a key-agreement operation.
 
     This flag must be present on keys used with the following APIs:
 
@@ -263,7 +268,7 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
 
         .. versionadded:: 1.1
 
-    This flag is required to use the key for verification in a key-derivation operation.
+    This cryptographic-operation usage flag is required to use the key for verification in a key-derivation operation.
 
     This flag must be present on keys used with `psa_key_derivation_verify_key()`.
 
@@ -277,8 +282,8 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
 
         .. versionadded:: 1.4
 
-    This flag is only used with the `psa_check_key_usage()` function.
-    This flag is never checked when performing cryptographic operations.
+    This cryptographic-operation usage flag is only used with the `psa_check_key_usage()` function.
+    This flag is not currently checked when performing any cryptographic operation.
 
     For example, calling `psa_check_key_usage()` with `PSA_KEY_USAGE_DERIVE_PUBLIC` and with:
 
@@ -346,16 +351,23 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   ``alg`` is not a specific cryptographic algorithm.
-            It cannot be a wildcard algorithm.
-        *   ``usage`` is not a valid role for algorithm ``alg``.
-        *   ``key`` is not compatible with ``alg`` and ``usage``.
+        *   If ``alg`` is `PSA_ALG_NONE` and ``usage`` is not a key-management usage flag.
+        *   If ``alg`` is not `PSA_ALG_NONE`, then any of the following conditions can result in this error:
+
+            *   ``alg`` is not a valid, specific cryptographic algorithm.
+                It cannot be a wildcard algorithm.
+            *   ``usage`` is not a cryptographic-operation usage flag.
+            *   ``usage`` is not a valid role for algorithm ``alg``.
+            *   ``key`` is not compatible with ``alg`` and ``usage``.
     .. retval: PSA_ERROR_INVALID_HANDLE:
         ``key`` is not a valid key identifier.
     .. retval: PSA_ERROR_NOT_PERMITTED
         ``key`` does not permit the requested usage or algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
-        The implementation does not support using ``key`` with the cryptographic operation associated with ``alg`` and ``usage``.
+        The following conditions can result in this error:
+
+        *   The implementation does not support algorithm ``alg``.
+        *   The implementation does not support using ``key`` with the operation associated with ``alg`` and ``usage``.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -365,14 +377,33 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
     .. retval:: PSA_ERROR_BAD_STATE
         The library requires initializing by a call to `psa_crypto_init()`.
 
-    Returns success only if this key object exists, is compatible with the operation associated with the algorithm and usage, has the required permission, and this implementation supports this key type for this operation.
-
+    This function reports whether the implementation supports the use of a key with the operation associated with a provided algorithm and usage.
     This function does not attempt to perform the operation, so does not use any resources in the cryptographic engine.
 
-    ``alg`` must be a fully specified algorithm, and not a wildcard.
+    If ``usage`` is a key-management usage flag, then:
 
-    ``usage`` must be a valid role within a cryptographic algorithm.
-    It must not be a non-cryptographic key usage flag, such as `PSA_KEY_USAGE_COPY` or `PSA_KEY_USAGE_EXPORT`.
+    *   ``alg`` must be `PSA_ALG_NONE`.
+    *   ``key`` must exist, and permit the requested usage flag.
 
-    Note that for the key pair or public key of a valid type in a key agreement function, this function returns :code:`PSA_SUCCESS` for the usage `PSA_KEY_USAGE_DERIVE_PUBLIC`, regardless of the key's policy.
-    This is because the corresponding API functions take a key buffer as input, not a key object, and the key data can extracted by calling `psa_export_public_key()`, which does not require any usage flag.
+    If ``usage`` is a cryptographic-operation usage flag, then:
+
+    *   ``alg`` must be a valid, fully specified algorithm, and not a wildcard.
+        For example:
+
+        -   :code:`PSA_ALG_ECDSA(PSA_ALG_ANY_HASH)` is invalid as it is a wildcard algorithm.
+        -   :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_GCM, 9)` is invalid as it has an invalid tag-length for GCM.
+        -   :code:`PSA_ALG_SPAKE2P_HMAC(PSA_ALG_SHA_1)` is invalid as SPAKE2+ does have SHA-1 in any cipher-suite.
+    *   ``usage`` must identify a valid role within the algorithm.
+        For example, if :code:`alg == PSA_ALG_GCM`, the ``usage`` must be either `PSA_KEY_USAGE_ENCRYPT` or `PSA_KEY_USAGE_DECRYPT`, as these are the key-usage policy flags for AEAD functions.
+    *   ``key`` must exist, have a type and size that is compatible with the operation associated with ``alg`` and ``usage``, and have the required permission for the algorithm and usage.
+        For example:
+
+        -   A Edwards25519 key pair is not compatible with :code:`PSA_ALG_ECDSA(PSA_ALG_SHA_256)`.
+        -   A ``512``-bit RSA key pair is not compatible with :code:`PSA_ALG_RSA_OAEP(PSA_ALG_SHA_512)` as the algorithm requires a larger key size.
+        -   A ``512``-bit AES key (double-length key for use in AES-256-XTS) is not compatible with `PSA_ALG_CTR`.
+
+    .. todo:: Is this asking too much of this function? Could/should we relax some of the validation reqiurements to be recommendations?
+
+    .. note::
+        For the key pair or public key of a valid type in a key agreement function, this function returns :code:`PSA_SUCCESS` for the usage `PSA_KEY_USAGE_DERIVE_PUBLIC`, regardless of the key's policy.
+        This is because the corresponding API functions take a key buffer as input, not a key object, and the key data can extracted by calling `psa_export_public_key()`, which does not require any usage flag.
