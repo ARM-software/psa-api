@@ -856,7 +856,7 @@ For ``PSA_ALG_JPAKE`` the following steps are available for input operation:
 *   ``PSA_JPAKE_X4S_STEP_ZK_PUBLIC``    Round 2: input Schnorr NIZKP public key for the X4S key
 *   ``PSA_JPAKE_X4S_STEP_ZK_PROOF``     Round 2: input Schnorr NIZKP proof for the X4S key
 
-The core checks that ``input_length`` is not greater than `PSA_PAKE_INPUT_SIZE(alg, prim, step)` and
+The core checks that ``input_length`` is not greater than ``PSA_PAKE_INPUT_SIZE(alg, prim, step)`` and
 the driver can rely on that.
 
 PAKE driver get implicit key
@@ -921,8 +921,8 @@ When importing a key, the key size recorded in the key attributes can be either 
 When the core calls the ``"import_key"`` entry point to process a call to ``psa_import_key``, it passes an ``attributes`` structure such that ``psa_get_key_bits(attributes)`` is the size passed by the caller of ``psa_import_key``. If this size is ``0``, the ``"import_key"`` entry point must set the ``bits`` input-output parameter to the correct key size. The semantics of ``bits`` is as follows:
 
 *   The core sets ``*bits`` to ``psa_get_key_bits(attributes)`` before calling the ``"import_key"`` entry point.
-*   If `*bits == 0`, the driver must determine the key size from the data and set ``*bits`` to this size. If the key size cannot be determined from the data, the driver must return ``PSA_ERROR_INVALID_ARGUMENT`` (as of version 1.0 of the Crypto API specification, it is possible to determine the key size for all standard key types).
-*   If `*bits != 0`, the driver must check the value of ``*bits`` against the data and return ``PSA_ERROR_INVALID_ARGUMENT`` if it does not match. If the driver entry point changes ``*bits`` to a different value but returns ``PSA_SUCCESS``, the core will consider the key as invalid and the import will fail.
+*   If ``*bits == 0``, the driver must determine the key size from the data and set ``*bits`` to this size. If the key size cannot be determined from the data, the driver must return ``PSA_ERROR_INVALID_ARGUMENT`` (as of version 1.0 of the Crypto API specification, it is possible to determine the key size for all standard key types).
+*   If ``*bits != 0``, the driver must check the value of ``*bits`` against the data and return ``PSA_ERROR_INVALID_ARGUMENT`` if it does not match. If the driver entry point changes ``*bits`` to a different value but returns ``PSA_SUCCESS``, the core will consider the key as invalid and the import will fail.
 
 Key validation
 ^^^^^^^^^^^^^^
@@ -1515,7 +1515,7 @@ The PSA Certified Crypto API defines `lifetimes <https://arm-software.github.io/
 *   Bits 0-7 are a *persistence level*. This value indicates what device management actions can cause it to be destroyed. In particular, it indicates whether the key is volatile or persistent.
 *   Bits 8-31 are a *location indicator*. This value indicates where the key material is stored and where operations on the key are performed. Location values can be stored in a variable of type ``psa_key_location_t``.
 
-An opaque driver is attached to a specific location. Keys in the default location (`PSA_KEY_LOCATION_LOCAL_STORAGE = 0`) are transparent: the core has direct access to the key material. For keys in a location that is managed by an opaque driver, only the secure element has access to the key material and can perform operations on the key, while the core only manipulates a wrapped form of the key or an identifier of the key.
+An opaque driver is attached to a specific location. Keys in the default location (``PSA_KEY_LOCATION_LOCAL_STORAGE = 0``) are transparent: the core has direct access to the key material. For keys in a location that is managed by an opaque driver, only the secure element has access to the key material and can perform operations on the key, while the core only manipulates a wrapped form of the key or an identifier of the key.
 
 Creating a key in a secure element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
