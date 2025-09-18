@@ -28,4 +28,5 @@
 
 ..  appendix::
 
+    appendix/open-issues
     appendix/history
