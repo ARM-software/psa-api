@@ -19,7 +19,7 @@ Types of drivers
 The PSA Cryptoprocessor driver interface supports two types of cryptoprocessors, and accordingly two types of drivers.
 
 *   **Transparent** drivers implement cryptographic operations on keys that are provided in cleartext at the beginning of each operation. They are typically used for hardware **accelerators**. When a transparent driver is available for a particular combination of parameters (cryptographic algorithm, key type and size, etc.), it is used instead of the default software implementation. Transparent drivers can also be pure software implementations that are distributed as plug-ins to a Crypto API implementation (for example, an alternative implementation with different performance characteristics, or a certified implementation).
-*   **Opaque** drivers implement cryptographic operations on keys that can only be used inside a protected environment such as a **secure element**, a hardware security module, a smartcard, a secure enclave, etc. An opaque driver is invoked for the specific `key location <lifetimes-and-locations_>`_ that the driver is registered for: the dispatch is based on the key's lifetime.
+*   **Opaque** drivers implement cryptographic operations on keys that can only be used inside a protected environment such as a **secure element**, a hardware security module, a smartcard, a secure enclave, etc. An opaque driver is invoked for the specific `key location <lifetimes-and-locations>` that the driver is registered for: the dispatch is based on the key's lifetime.
 
 Requirements
 ~~~~~~~~~~~~
@@ -55,7 +55,7 @@ Deliverables for a driver
 
 To write a driver, you need to implement some functions with C linkage, and to declare these functions in a **driver description file**. The driver description file declares which functions the driver implements and what cryptographic mechanisms they support. If the driver description references custom types, macros or constants, you also need to provide C header files defining those elements.
 
-The concrete syntax for a driver description file is JSON. The structure of this JSON file is specified in the section `Driver description syntax`_.
+The concrete syntax for a driver description file is JSON. The structure of this JSON file is specified in the section :secref:`driver-description-syntax`.
 
 A driver therefore consists of:
 
@@ -64,6 +64,8 @@ A driver therefore consists of:
 *   An object file compiled for the target platform defining the entry point functions specified by the driver description. Implementations may allow drivers to be provided as source files and compiled with the core instead of being pre-compiled.
 
 How to provide the driver description file, the C header files and the object code is implementation-dependent.
+
+.. _driver-description-syntax:
 
 Driver description syntax
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,10 +93,10 @@ A driver description is a JSON object containing the following properties:
 *   ``"prefix"`` (mandatory, string). This must be a valid, non-empty prefix for a C identifier. All the types and functions provided by the driver have a name that starts with this prefix unless overridden with a ``"name"`` element in the applicable capability as described below.
 *   ``"type"`` (mandatory, string). One of ``"transparent"`` or ``"opaque"``.
 *   ``"headers"`` (optional, array of strings). A list of header files. These header files must define the types, macros and constants referenced by the driver description. They may declare the entry point functions, but this is not required. They may include other PSA headers and standard headers of the platform. Whether they may include other headers is implementation-specific. If omitted, the list of headers is empty. The header files must be present at the specified location relative to a directory on the compiler's include path when compiling glue code between the core and the drivers.
-*   ``"capabilities"`` (mandatory, array of `capabilities <driver-description-capability_>`_). A list of **capabilities**. Each capability describes a family of functions that the driver implements for a certain class of cryptographic mechanisms.
-*   ``"key_context"`` (not permitted for transparent drivers, mandatory for opaque drivers): information about the `representation of keys <key-format-for-opaque-drivers_>`_.
-*   ``"persistent_state_size"`` (not permitted for transparent drivers, optional for opaque drivers, integer or string). The size in bytes of the `persistent state of the driver <opaque-driver-persistent-state_>`_. This may be either a non-negative integer or a C constant expression of type ``size_t``.
-*   ``"location"`` (not permitted for transparent drivers, optional for opaque drivers, integer or string). The `location value <lifetimes-and-locations_>`_ for which this driver is invoked. In other words, this determines the lifetimes for which the driver is invoked. This may be either a non-negative integer or a C constant expression of type ``psa_key_location_t``.
+*   ``"capabilities"`` (mandatory, array of `capabilities <driver-description-capability>`). A list of **capabilities**. Each capability describes a family of functions that the driver implements for a certain class of cryptographic mechanisms.
+*   ``"key_context"`` (not permitted for transparent drivers, mandatory for opaque drivers): information about the `representation of keys <key-format-for-opaque-drivers>`.
+*   ``"persistent_state_size"`` (not permitted for transparent drivers, optional for opaque drivers, integer or string). The size in bytes of the `persistent state of the driver <opaque-driver-persistent-state>`. This may be either a non-negative integer or a C constant expression of type ``size_t``.
+*   ``"location"`` (not permitted for transparent drivers, optional for opaque drivers, integer or string). The `location value <lifetimes-and-locations>` for which this driver is invoked. In other words, this determines the lifetimes for which the driver is invoked. This may be either a non-negative integer or a C constant expression of type ``psa_key_location_t``.
 
 .. _driver-description-capability:
 
@@ -110,17 +112,17 @@ A capability declares a family of functions that the driver implements for a cer
 
 A capability is a JSON object containing the following properties:
 
-*   ``"entry_points"`` (mandatory, list of strings). Each element is the name of a `driver entry point <driver-entry-points_>`_ or driver entry point family. An entry point is a function defined by the driver. If specified, the core will invoke this capability of the driver only when performing one of the specified operations. The driver must implement all the specified entry points, as well as the types if applicable.
-*   ``"algorithms"`` (optional, list of strings). Each element is an `algorithm specification <algorithm-specifications_>`_. If specified, the core will invoke this capability of the driver only when performing one of the specified algorithms. If omitted, the core will invoke this capability for all applicable algorithms.
-*   ``"key_types"`` (optional, list of strings). Each element is a `key type specification <key-type-specifications_>`_. If specified, the core will invoke this capability of the driver only for operations involving a key with one of the specified key types. If omitted, the core will invoke this capability of the driver for all applicable key types.
+*   ``"entry_points"`` (mandatory, list of strings). Each element is the name of a `driver entry point <driver-entry-points>` or driver entry point family. An entry point is a function defined by the driver. If specified, the core will invoke this capability of the driver only when performing one of the specified operations. The driver must implement all the specified entry points, as well as the types if applicable.
+*   ``"algorithms"`` (optional, list of strings). Each element is an `algorithm specification <algorithm-specifications>`. If specified, the core will invoke this capability of the driver only when performing one of the specified algorithms. If omitted, the core will invoke this capability for all applicable algorithms.
+*   ``"key_types"`` (optional, list of strings). Each element is a `key type specification <key-type-specifications>`. If specified, the core will invoke this capability of the driver only for operations involving a key with one of the specified key types. If omitted, the core will invoke this capability of the driver for all applicable key types.
 *   ``"key_sizes"`` (optional, list of integers). If specified, the core will invoke this capability of the driver only for operations involving a key with one of the specified key sizes. If omitted, the core will invoke this capability of the driver for all applicable key sizes. Key sizes are expressed in bits.
 *   ``"names"`` (optional, object). A mapping from entry point names described by the ``"entry_points"`` property, to the name of the C function in the driver that implements the corresponding function. If a function is not listed here, name of the driver function that implements it is the driver's prefix followed by an underscore (``_``) followed by the function name. If this property is omitted, it is equivalent to an empty object (so each entry point *suffix* is implemented by a function called *prefix*\ ``_``\ *suffix*).
-*   ``"fallback"`` (optional for transparent drivers, not permitted for opaque drivers, boolean). If present and true, the driver may return ``PSA_ERROR_NOT_SUPPORTED``, in which case the core should call another driver or use built-in code to perform this operation. If absent or false, the driver is expected to fully support the mechanisms described by this capability. See the section `Fallback`_ for more information.
+*   ``"fallback"`` (optional for transparent drivers, not permitted for opaque drivers, boolean). If present and true, the driver may return ``PSA_ERROR_NOT_SUPPORTED``, in which case the core should call another driver or use built-in code to perform this operation. If absent or false, the driver is expected to fully support the mechanisms described by this capability. See the section :secref:`fallback` for more information.
 
 Capability semantics
 ^^^^^^^^^^^^^^^^^^^^
 
-When the Crypto API implementation performs a cryptographic mechanism, it invokes available driver entry points as described in the section `Driver entry points`_.
+When the Crypto API implementation performs a cryptographic mechanism, it invokes available driver entry points as described in the section :secref:`driver-entry-points`.
 
 A driver is considered available for a cryptographic mechanism that invokes a given entry point if all of the following conditions are met:
 
@@ -128,7 +130,7 @@ A driver is considered available for a cryptographic mechanism that invokes a gi
 *   If the mechanism involves an algorithm:
 
     *   either the capability does not have an ``"algorithms"`` property;
-    *   or the value of the capability's ``"algorithms"`` property includes an `algorithm specification <algorithm-specifications_>`_ that matches this algorithm.
+    *   or the value of the capability's ``"algorithms"`` property includes an `algorithm specification <algorithm-specifications>` that matches this algorithm.
 *   If the mechanism involves a key:
 
     *   either the key is transparent (its location is ``PSA_KEY_LOCATION_LOCAL_STORAGE``) and the driver is transparent;
@@ -136,7 +138,7 @@ A driver is considered available for a cryptographic mechanism that invokes a gi
 *   If the mechanism involves a key:
 
     *   either the capability does not have a ``"key_types"`` property;
-    *   or the value of the capability's ``"key_types"`` property includes a `key type specification <key-type-specifications_>`_ that matches this algorithm.
+    *   or the value of the capability's ``"key_types"`` property includes a `key type specification <key-type-specifications>` that matches this algorithm.
 *   If the mechanism involves a key:
 
     *   either the capability does not have a ``"key_sizes"`` property;
@@ -144,7 +146,7 @@ A driver is considered available for a cryptographic mechanism that invokes a gi
 
 If a driver includes multiple applicable capabilities for a given combination of entry point, algorithm, key type and key size, and all the capabilities map the entry point to the same function name, the driver is considered available for this cryptographic mechanism. If a driver includes multiple applicable capabilities for a given combination of entry point, algorithm, key type and key size, and at least two of these capabilities map the entry point to the different function names, the driver specification is invalid.
 
-If multiple transparent drivers have applicable capabilities for a given combination of entry point, algorithm, key type and key size, the first matching driver in the `specification list <driver-description-list_>`_ is invoked. If the capability has `fallback <fallback_>`_ enabled and the first driver returns ``PSA_ERROR_NOT_SUPPORTED``, the next matching driver is invoked, and so on.
+If multiple transparent drivers have applicable capabilities for a given combination of entry point, algorithm, key type and key size, the first matching driver in the `specification list <driver-description-list>` is invoked. If the capability has `fallback <fallback>` enabled and the first driver returns ``PSA_ERROR_NOT_SUPPORTED``, the next matching driver is invoked, and so on.
 
 If multiple opaque drivers have the same location, the list of driver specifications is invalid.
 
@@ -242,7 +244,7 @@ The signature of a driver entry point generally looks like the signature of the 
 
 Some entry points are grouped in families that must be implemented as a whole. If a driver supports an entry point family, it must provide all the entry points in the family.
 
-Drivers can also have entry points related to random generation. A transparent driver can provide a `random generation interface <random-generation-entry-points_>`_. Separately, transparent and opaque drivers can have `entropy collection entry points <entropy-collection-entry-point_>`_.
+Drivers can also have entry points related to random generation. A transparent driver can provide a `random generation interface <random-generation-entry-points>`. Separately, transparent and opaque drivers can have `entropy collection entry points <entropy-collection-entry-point>`.
 
 General considerations on driver entry point parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -377,7 +379,7 @@ The core decides whether to dispatch a key derivation operation to a driver base
 
     *   If the driver for this secure element implements the ``"key_derivation"`` family for the specified algorithm, the core calls that driver's ``"key_derivation_setup"`` and subsequent entry points.
         Note that for all currently specified algorithms, the key type for the secret input does not matter.
-    *   Otherwise the core calls the secure element driver's `"export_key" <key-management-with-opaque-drivers_>`_ entry point.
+    *   Otherwise the core calls the secure element driver's `"export_key" <key-management-with-opaque-drivers>` entry point.
 2.  Otherwise (`or on fallback? <fallback-for-key-derivation-in-opaque-drivers>`), if there is a transparent driver for the specified algorithm, the core calls that driver's ``"key_derivation_setup"`` and subsequent entry points.
 3.  Otherwise, or on fallback, the core uses its built-in implementation.
 
@@ -386,11 +388,11 @@ Summary of entry points for the operation family ``"key_derivation"``
 
 A key derivation driver has the following entry points:
 
-*   ``"key_derivation_setup"`` (mandatory): always the first entry point to be called. This entry point provides the `initial inputs <key-derivation-driver-initial-inputs_>`_. See `Key derivation driver setup`_.
-*   ``"key_derivation_input_step"`` (mandatory if the driver supports a key derivation algorithm with long inputs, otherwise ignored): provide an extra input for the key derivation. This entry point is only mandatory in drivers that support algorithms that have extra inputs. See `Key derivation driver long inputs`_.
-*   ``"key_derivation_output_bytes"`` (mandatory): derive cryptographic material and output it. See `Key derivation driver outputs`_.
-*   ``"key_derivation_output_key"``, ``"key_derivation_verify_bytes"``, ``"key_derivation_verify_key"`` (optional, opaque drivers only): derive key material which remains inside the same secure element. See `Key derivation driver outputs`_.
-*   ``"key_derivation_set_capacity"`` (mandatory for opaque drivers that implement ``"key_derivation_output_key"`` for “cooked”, i.e. non-raw-data key types; ignored for other opaque drivers; not permitted for transparent drivers): update the capacity policy on the operation. See `Key derivation driver operation capacity`_.
+*   ``"key_derivation_setup"`` (mandatory): always the first entry point to be called. This entry point provides the `initial inputs <key-derivation-driver-initial-inputs>`. See :secref:`key-derivation-driver-setup`.
+*   ``"key_derivation_input_step"`` (mandatory if the driver supports a key derivation algorithm with long inputs, otherwise ignored): provide an extra input for the key derivation. This entry point is only mandatory in drivers that support algorithms that have extra inputs. See :secref:`key-derivation-driver-long-inputs`.
+*   ``"key_derivation_output_bytes"`` (mandatory): derive cryptographic material and output it. See :secref:`key-derivation-driver-outputs`.
+*   ``"key_derivation_output_key"``, ``"key_derivation_verify_bytes"``, ``"key_derivation_verify_key"`` (optional, opaque drivers only): derive key material which remains inside the same secure element. See :secref:`key-derivation-driver-outputs`.
+*   ``"key_derivation_set_capacity"`` (mandatory for opaque drivers that implement ``"key_derivation_output_key"`` for “cooked”, i.e. non-raw-data key types; ignored for other opaque drivers; not permitted for transparent drivers): update the capacity policy on the operation. See :secref:`key-derivation-driver-operation-capacity`.
 *   ``"key_derivation_abort"`` (mandatory): always the last entry point to be called.
 
 For naming purposes, here and in the following subsection, this specification takes the example of a driver with the prefix ``"acme"`` that implements the ``"key_derivation"`` entry point family with a capability that does not use the ``"names"`` property to declare different type and entry point names. Such a driver must implement the following type and functions, as well as the entry points listed above and described in the following subsections:
@@ -469,10 +471,12 @@ The get-data functions take the following parameters:
 These functions can return the following statuses:
 
 *   ``PSA_SUCCESS``: the call succeeded and the requested value has been copied to the output parameter (``size``, ``buffer``, ``value`` or ``p_key_buffer``) and if applicable the size of the value has been written to the applicable parameter (``buffer_length``, ``key_buffer_size``).
-*   ``PSA_ERROR_DOES_NOT_EXIST``: the input step is valid for this particular algorithm, but it is not part of the initial inputs. This is not a fatal error. The driver will receive the input later as a `long input <key-derivation-driver-long-inputs_>`_.
+*   ``PSA_ERROR_DOES_NOT_EXIST``: the input step is valid for this particular algorithm, but it is not part of the initial inputs. This is not a fatal error. The driver will receive the input later as a `long input <key-derivation-driver-long-inputs>`.
 *   ``PSA_ERROR_INVALID_ARGUMENT``: the input type is not compatible with this function or was omitted. Call ``psa_crypto_driver_key_derivation_get_input_type()`` to find out the actual type of this input step. This is not a fatal error and the driver can, for example, subsequently call the appropriate function on the same step.
 *   ``PSA_ERROR_BUFFER_TOO_SMALL`` (``psa_crypto_driver_key_derivation_get_input_bytes`` only): the output buffer is too small. This is not a fatal error and the driver can, for example, subsequently call the same function again with a larger buffer. Call ``psa_crypto_driver_key_derivation_get_input_size`` to obtain the required size.
 *   The core may return other errors such as ``PSA_ERROR_CORRUPTION_DETECTED`` or ``PSA_ERROR_COMMUNICATION_FAILURE`` to convey implementation-specific error conditions. Portable drivers should treat such conditions as fatal errors.
+
+.. _key-derivation-driver-setup:
 
 Key derivation driver setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -488,14 +492,14 @@ A key derivation driver must implement the following entry point:
 
 *   ``operation`` is a zero-initialized operation object.
 *   ``alg`` is the algorithm for the key derivation operation. It does not include a key agreement component.
-*   ``inputs`` is an opaque pointer to the `initial inputs <key-derivation-driver-initial-inputs_>`_ for the key derivation.
+*   ``inputs`` is an opaque pointer to the `initial inputs <key-derivation-driver-initial-inputs>` for the key derivation.
 
 .. _key-derivation-driver-long-inputs:
 
 Key derivation driver long inputs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Some key derivation algorithms take long inputs which it would not be practical to pass in the `initial inputs <key-derivation-driver-initial-inputs_>`_. A driver that implements a key derivation algorithm that takes such inputs must provide a ``"key_derivation_input_step"`` entry point. The core calls this entry point for all the long inputs after calling ``"acme_key_derivation_setup"``. A long input step may be fragmented into multiple calls of ``psa_key_derivation_input_bytes()``, and the core may reassemble or refragment those fragments before passing them to the driver. Calls to this entry point for different step values occur in an unspecified order and may be interspersed.
+Some key derivation algorithms take long inputs which it would not be practical to pass in the `initial inputs <key-derivation-driver-initial-inputs>`. A driver that implements a key derivation algorithm that takes such inputs must provide a ``"key_derivation_input_step"`` entry point. The core calls this entry point for all the long inputs after calling ``"acme_key_derivation_setup"``. A long input step may be fragmented into multiple calls of ``psa_key_derivation_input_bytes()``, and the core may reassemble or refragment those fragments before passing them to the driver. Calls to this entry point for different step values occur in an unspecified order and may be interspersed.
 
 .. code-block::
 
@@ -506,10 +510,12 @@ Some key derivation algorithms take long inputs which it would not be practical 
 
 At the time of writing, no standard key derivation algorithm has long inputs. It is likely that such algorithms will be added in the future.
 
+.. _key-derivation-driver-operation-capacity:
+
 Key derivation driver operation capacity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The core keeps track of an operation's capacity and enforces it. The core guarantees that it will not request output beyond the capacity of the operation, with one exception: opaque drivers that support `"key_derivation_output_key" <key-derivation-driver-outputs_>`_, i.e. for key types where the derived key material is not a direct copy of the key derivation's output stream.
+The core keeps track of an operation's capacity and enforces it. The core guarantees that it will not request output beyond the capacity of the operation, with one exception: opaque drivers that support `"key_derivation_output_key" <key-derivation-driver-outputs>`, i.e. for key types where the derived key material is not a direct copy of the key derivation's output stream.
 
 Such drivers must enforce the capacity limitation and must return ``PSA_ERROR_INSUFFICIENT_CAPACITY`` from any output request that exceeds the operation's capacity. Such drivers must provide the following entry point:
 
@@ -577,7 +583,7 @@ If the key derivation's ``PSA_KEY_DERIVATION_INPUT_SECRET`` input is in a secure
 
 If the key derivation operation is not handled by an opaque driver as described above, the core calls the ``"key_derivation_output_bytes"`` from the applicable transparent driver (or multiple drivers in succession if fallback applies). In some cases, the core then calls additional entry points in the same or another driver:
 
-*   For a call to ``psa_key_derivation_output_key()`` for some key types, the core calls a transparent driver's ``"derive_key"`` entry point. See `Transparent cooked key derivation`_.
+*   For a call to ``psa_key_derivation_output_key()`` for some key types, the core calls a transparent driver's ``"derive_key"`` entry point. See :secref:`transparent-cooked-key-derivation`.
 *   For a call to ``psa_key_derivation_output_key()`` where the derived key is in a secure element, call that secure element driver's ``"import_key"`` entry point.
 
 .. _transparent-cooked-key-derivation:
@@ -585,12 +591,12 @@ If the key derivation operation is not handled by an opaque driver as described 
 Transparent cooked key derivation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Key derivation is said to be *raw* for some key types, where the key material of a derived (8\ *n*)-bit key consists of the next *n* bytes of output from the key derivation, and *cooked* otherwise. When deriving a raw key, the core only calls the driver's ``"output_bytes"`` entry point, except when deriving a key entirely inside a secure element as described in `Key derivation driver outputs`_. When deriving a cooked key, the core calls a transparent driver's ``"derive_key"`` entry point if available.
+Key derivation is said to be *raw* for some key types, where the key material of a derived (8\ *n*)-bit key consists of the next *n* bytes of output from the key derivation, and *cooked* otherwise. When deriving a raw key, the core only calls the driver's ``"output_bytes"`` entry point, except when deriving a key entirely inside a secure element as described in :secref:`key-derivation-driver-outputs`. When deriving a cooked key, the core calls a transparent driver's ``"derive_key"`` entry point if available.
 
-A capability for cooked key derivation contains the following properties (this is not a subset of `the usual entry point properties <capability-syntax_>`_):
+A capability for cooked key derivation contains the following properties (this is not a subset of `the usual entry point properties <capability-syntax>`):
 
 *   ``"entry_points"`` (mandatory, list of strings). Must be ``["derive_key"]``.
-*   ``"derived_types"`` (mandatory, list of strings). Each element is a `key type specification <key-type-specifications_>`_. This capability only applies when deriving a key of the specified type.
+*   ``"derived_types"`` (mandatory, list of strings). Each element is a `key type specification <key-type-specifications>`. This capability only applies when deriving a key of the specified type.
 *   ``"derived_sizes"`` (optional, list of integers). Each element is a size for the derived key, in bits. This capability only applies when deriving a key of the specified sizes. If absent, this capability applies to all sizes for the specified types.
 *   ``"memory"`` (optional, boolean). If present and true, the driver must define a type ``"derive_key_memory_t"`` and the core will allocate an object of that type as specified below.
 *   ``"names"`` (optional, object). A mapping from entry point names to C function and type names, as usual.
@@ -610,7 +616,7 @@ A transparent driver with the prefix ``"acme"`` that implements cooked key deriv
 *   ``attributes`` contains the attributes of the specified key. Note that only the key type and the bit-size are guaranteed to be set.
 *   ``input`` is a buffer of ``input_length`` bytes which contains the raw key stream, i.e. the data that ``psa_key_derivation_output_bytes()`` would return.
 *   If ``"memory"`` property in the driver capability is true, ``memory`` is a data structure that the driver may use to store data between successive calls of the ``"derive_key"`` entry point to derive the same key. If the ``"memory"`` property is false or absent, the ``memory`` parameter is a null pointer.
-*   ``key_buffer`` is a buffer for the output material, in the appropriate `export format <key-format-for-transparent-drivers_>`_ for the key type. Its size is ``key_buffer_size`` bytes.
+*   ``key_buffer`` is a buffer for the output material, in the appropriate `export format <key-format-for-transparent-drivers>` for the key type. Its size is ``key_buffer_size`` bytes.
 *   On success, ``*key_buffer_length`` must contain the number of bytes written to ``key_buffer``.
 
 This entry point may return the following statuses:
@@ -778,7 +784,7 @@ PAKE driver setup
 
 
 *   ``operation`` is a zero-initialized operation object.
-*   ``inputs`` is an opaque pointer to the `inputs <pake-driver-inputs_>`_ for the PAKE operation.
+*   ``inputs`` is an opaque pointer to the `inputs <pake-driver-inputs>` for the PAKE operation.
 
 The setup driver function should preserve the inputs using get-data functions.
 
@@ -864,7 +870,7 @@ PAKE driver get implicit key
 Driver entry points for key management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The driver entry points for key management differ significantly between `transparent drivers <key-management-with-transparent-drivers_>`_ and `opaque drivers <key-management-with-opaque-drivers_>`_. This section describes common elements. Refer to the applicable section for each driver type for more information.
+The driver entry points for key management differ significantly between `transparent drivers <key-management-with-transparent-drivers>` and `opaque drivers <key-management-with-opaque-drivers>`. This section describes common elements. Refer to the applicable section for each driver type for more information.
 
 The entry points that create or format key data have the following prototypes for a driver with the prefix ``"acme"``:
 
@@ -882,17 +888,17 @@ The entry points that create or format key data have the following prototypes fo
                                    size_t key_buffer_size,
                                    size_t *key_buffer_length);
 
-Additionally, opaque drivers can create keys through their `"key_derivation_output_key" <key-derivation-driver-outputs_>`_ and `"key_agreement_key" <key-agreement_>`_ entry points. Transparent drivers can create key material through their `"derive_key" <transparent-cooked-key-derivation_>`_ entry point.
+Additionally, opaque drivers can create keys through their `"key_derivation_output_key" <key-derivation-driver-outputs>` and `"key_agreement_key" <key-agreement>` entry points. Transparent drivers can create key material through their `"derive_key" <transparent-cooked-key-derivation>` entry point.
 
 TODO: copy
 
 *   The key attributes (``attributes``) have the same semantics as in the Crypto API.
 *   For the ``"import_key"`` entry point, the input in the ``data`` buffer is either the export format or an implementation-specific format that the core documents as an acceptable input format for ``psa_import_key()``.
-*   The size of the key data buffer ``key_buffer`` is sufficient for the internal representation of the key. For a transparent driver, this is the key's `export format <key-format-for-transparent-drivers_>`_. For an opaque driver, this is the size determined from the driver description and the key attributes, as specified in the section `Key format for opaque drivers`_.
+*   The size of the key data buffer ``key_buffer`` is sufficient for the internal representation of the key. For a transparent driver, this is the key's `export format <key-format-for-transparent-drivers>`. For an opaque driver, this is the size determined from the driver description and the key attributes, as specified in the section :secref:`key-format-for-opaque-drivers`.
 *   For an opaque driver with an ``"allocate_key"`` entry point, the content of the key data buffer on entry is the output of that entry point.
-*   The ``"import_key"`` entry point must determine or validate the key size and set ``*bits`` as described in the section `Key size determination on import`_ below.
+*   The ``"import_key"`` entry point must determine or validate the key size and set ``*bits`` as described in :secref:`key-size-determination-on-import`.
 
-All key creation entry points must ensure that the resulting key is valid as specified in the section `Key validation`_ below. This is primarily important for import entry points since the key data comes from the application.
+All key creation entry points must ensure that the resulting key is valid as specified in :secref:`key-validation`. This is primarily important for import entry points since the key data comes from the application.
 
 .. _key-size-determination-on-import:
 
@@ -908,6 +914,8 @@ When the core calls the ``"import_key"`` entry point to process a call to ``psa_
 *   The core sets ``*bits`` to ``psa_get_key_bits(attributes)`` before calling the ``"import_key"`` entry point.
 *   If ``*bits == 0``, the driver must determine the key size from the data and set ``*bits`` to this size. If the key size cannot be determined from the data, the driver must return ``PSA_ERROR_INVALID_ARGUMENT`` (as of version 1.0 of the Crypto API specification, it is possible to determine the key size for all standard key types).
 *   If ``*bits != 0``, the driver must check the value of ``*bits`` against the data and return ``PSA_ERROR_INVALID_ARGUMENT`` if it does not match. If the driver entry point changes ``*bits`` to a different value but returns ``PSA_SUCCESS``, the core will consider the key as invalid and the import will fail.
+
+.. _key-validation:
 
 Key validation
 ^^^^^^^^^^^^^^
@@ -947,7 +955,7 @@ A driver can declare an entropy source by providing a ``"get_entropy"`` entry po
 
 The semantics of the parameters is as follows:
 
-*   ``flags``: a bit-mask of `entropy collection flags <entropy-collection-flags_>`_.
+*   ``flags``: a bit-mask of `entropy collection flags <entropy-collection-flags>`.
 *   ``estimate_bits``: on success, an estimate of the amount of entropy that is present in the ``output`` buffer, in bits. This must be at least ``1`` on success. The value is ignored on failure. Drivers should return a conservative estimate, even in circumstances where the quality of the entropy source is degraded due to environmental conditions (e.g. undervolting, low temperature, etc.).
 *   ``output``: on success, this buffer contains non-deterministic data with an estimated entropy of at least ``*estimate_bits`` bits. When the entropy is coming from a hardware peripheral, this should preferably be raw or lightly conditioned measurements from a physical process, such that statistical tests run over a sufficiently large amount of output can confirm the entropy estimates. But this specification also permits entropy sources that are fully conditioned, for example when the Crypto API implementation is running within an application in an operating system and ``"get_entropy"`` returns data from the random generator in the operating system's kernel.
 *   ``output_size``: the size of the ``output`` buffer in bytes. This size should be large enough to allow a driver to pass unconditioned data with a low density of entropy; for example a peripheral that returns eight bytes of data with an estimated one bit of entropy cannot provide meaningful output in less than 8 bytes.
@@ -978,7 +986,7 @@ If the entry point returns ``PSA_ERROR_NOT_SUPPORTED``, the core may try calling
 Entropy collection and blocking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The intent of the ``NONBLOCK`` and ``KEEPALIVE`` `flags <entropy-collection-flags_>`_ is to support drivers for TRNG (True Random Number Generator, i.e. an entropy source peripheral) that have a long ramp-up time, especially on platforms with multiple entropy sources.
+The intent of the ``NONBLOCK`` and ``KEEPALIVE`` `flags <entropy-collection-flags>` is to support drivers for TRNG (True Random Number Generator, i.e. an entropy source peripheral) that have a long ramp-up time, especially on platforms with multiple entropy sources.
 
 Here is a suggested call sequence for entropy collection that leverages these flags:
 
@@ -1024,7 +1032,7 @@ Key management with transparent drivers
 
 Transparent drivers may provide the following key management entry points:
 
-*   `"import_key" <key-import-with-transparent-drivers_>`_: called by ``psa_import_key()``, only when importing a key pair or a public key (key such that ``PSA_KEY_TYPE_IS_ASYMMETRIC`` is true).
+*   `"import_key" <key-import-with-transparent-drivers>`: called by ``psa_import_key()``, only when importing a key pair or a public key (key such that ``PSA_KEY_TYPE_IS_ASYMMETRIC`` is true).
 *   ``"generate_key"``: called by ``psa_generate_key()``, only when generating a key pair (key such that ``PSA_KEY_TYPE_IS_KEY_PAIR`` is true).
 *   ``"key_derivation_output_key"``: called by ``psa_key_derivation_output_key()``, only when deriving a key pair (key such that ``PSA_KEY_TYPE_IS_KEY_PAIR`` is true).
 *   ``"export_public_key"``: called by the core to obtain the public key of a key pair. The core may call this function at any time to obtain the public key, which can be for ``psa_export_public_key()`` but also at other times, including during a cryptographic operation that requires the public key such as a call to ``psa_verify_message()`` on a key pair object.
@@ -1036,7 +1044,7 @@ Transparent drivers are not involved when exporting, copying or destroying keys,
 Key import with transparent drivers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-As discussed in `the general section about key management entry points <driver-entry-points-for-key-management_>`_, the key import entry points has the following prototype for a driver with the prefix ``"acme"``:
+As discussed in `the general section about key management entry points <driver-entry-points-for-key-management>`, the key import entry points has the following prototype for a driver with the prefix ``"acme"``:
 
 .. code-block::
 
@@ -1051,8 +1059,8 @@ As discussed in `the general section about key management entry points <driver-e
 This entry point has several roles:
 
 1.  Parse the key data in the input buffer ``data``. The driver must support the export format for the key types that the entry point is declared for. It may support additional formats as specified in the description of `psa_import_key() <https://arm-software.github.io/psa-api/crypto/1.3/api/keys/management.html#c.psa_import_key>`__ in the Crypto API specification.
-2.  Validate the key data. The necessary validation is described in the section `Key validation`_ above.
-3.  `Determine the key size <key-size-determination-on-import_>`_ and output it through ``*bits``.
+2.  Validate the key data. The necessary validation is described in :secref:`key-validation`.
+3.  `Determine the key size <key-size-determination-on-import>` and output it through ``*bits``.
 4.  Copy the validated key data from ``data`` to ``key_buffer``. The output must be in the canonical format documented for the key type: see the *Key format* sub-section of the key type in `§9.2 Key types <https://arm-software.github.io/psa-api/crypto/1.3/api/keys/types.html#key-types>`__, so if the input is not in this format, the entry point must convert it.
 
 .. _random-generation-entry-points:
@@ -1063,8 +1071,8 @@ Random generation entry points
 A transparent driver may provide an operation family that can be used as a cryptographic random number generator. The random generation mechanism must obey the following requirements:
 
 *   The random output must be of cryptographic quality, with a uniform distribution. Therefore, if the random generator includes an entropy source, this entropy source must be fed through a CSPRNG (cryptographically secure pseudo-random number generator).
-*   Random generation is expected to be fast. (If a device can provide entropy but is slow at generating random data, declare it as an `entropy driver <entropy-collection-entry-point_>`_ instead.)
-*   The random generator should be able to incorporate entropy provided by an outside source. If it isn't, the random generator can only be used if it's the only entropy source on the platform. (A random generator peripheral can be declared as an `entropy source <entropy-collection-entry-point_>`_ instead of a random generator; this way the core will combine it with other entropy sources.)
+*   Random generation is expected to be fast. (If a device can provide entropy but is slow at generating random data, declare it as an `entropy driver <entropy-collection-entry-point>` instead.)
+*   The random generator should be able to incorporate entropy provided by an outside source. If it isn't, the random generator can only be used if it's the only entropy source on the platform. (A random generator peripheral can be declared as an `entropy source <entropy-collection-entry-point>` instead of a random generator; this way the core will combine it with other entropy sources.)
 *   The random generator may either be deterministic (in the sense that it always returns the same data when given the same entropy inputs) or non-deterministic (including its own entropy source). In other words, this interface is suitable both for PRNG (pseudo-random number generator, also known as DRBG (deterministic random bit generator)) and for NRBG (non-deterministic random bit generator).
 
 If no driver implements the random generation entry point family, the core provides an unspecified random generation mechanism.
@@ -1072,11 +1080,11 @@ If no driver implements the random generation entry point family, the core provi
 This operation family requires the following type, entry points and parameters (TODO: where exactly are the parameters in the JSON structure?):
 
 *   Type ``"random_context_t"``: the type of a random generation context.
-*   ``"init_random"`` (entry point, optional): if this function is present, `the core calls it once <random-generator-initialization_>`_ after allocating a ``"random_context_t"`` object.
-*   ``"add_entropy"`` (entry point, optional): the core calls this function to `inject entropy <entropy-injection_>`_. This entry point is optional if the driver is for a peripheral that includes an entropy source of its own, however `random generator drivers without entropy injection <random-generator-drivers-without-entropy-injection_>`_ have limited portability since they can only be used on platforms with no other entropy source. This entry point is mandatory if ``"initial_entropy_size"`` is nonzero.
-*   ``"get_random"`` (entry point, mandatory): the core calls this function whenever it needs to `obtain random data <the-get_random-entry-point_>`_.
+*   ``"init_random"`` (entry point, optional): if this function is present, `the core calls it once <random-generator-initialization>` after allocating a ``"random_context_t"`` object.
+*   ``"add_entropy"`` (entry point, optional): the core calls this function to `inject entropy <entropy-injection>`. This entry point is optional if the driver is for a peripheral that includes an entropy source of its own, however `random generator drivers without entropy injection <random-generator-drivers-without-entropy-injection>` have limited portability since they can only be used on platforms with no other entropy source. This entry point is mandatory if ``"initial_entropy_size"`` is nonzero.
+*   ``"get_random"`` (entry point, mandatory): the core calls this function whenever it needs to `obtain random data <the-get_random-entry-point>`.
 *   ``"initial_entropy_size"`` (integer, mandatory): the minimum number of bytes of entropy that the core must supply before the driver can output random data. This can be ``0`` if the driver is for a peripheral that includes an entropy source of its own.
-*   ``"reseed_entropy_size"`` (integer, optional): the minimum number of bytes of entropy that the core should supply via `"add_entropy" <entropy-injection_>`_ when the driver runs out of entropy. This value is also a hint for the size to supply if the core makes additional calls to ``"add_entropy"``, for example to enforce prediction resistance. If omitted, the core should pass an amount of entropy corresponding to the expected security strength of the device (for example, pass 32 bytes of entropy when reseeding to achieve a security strength of 256 bits). If specified, the core should pass the larger of ``"reseed_entropy_size"`` and the amount corresponding to the security strength.
+*   ``"reseed_entropy_size"`` (integer, optional): the minimum number of bytes of entropy that the core should supply via `"add_entropy" <entropy-injection>` when the driver runs out of entropy. This value is also a hint for the size to supply if the core makes additional calls to ``"add_entropy"``, for example to enforce prediction resistance. If omitted, the core should pass an amount of entropy corresponding to the expected security strength of the device (for example, pass 32 bytes of entropy when reseeding to achieve a security strength of 256 bits). If specified, the core should pass the larger of ``"reseed_entropy_size"`` and the amount corresponding to the security strength.
 
 Random generation is not parametrized by an algorithm. The choice of algorithm is up to the driver.
 
@@ -1126,7 +1134,7 @@ When the driver requires entropy, the core can supply it with one or more succes
 Combining entropy sources with a random generation driver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This section provides guidance on combining one or more `entropy sources <entropy-collection-entry-point_>`_ (each having a ``"get_entropy"`` entry point) with a random generation driver (with an ``"add_entropy"`` entry point).
+This section provides guidance on combining one or more `entropy sources <entropy-collection-entry-point>` (each having a ``"get_entropy"`` entry point) with a random generation driver (with an ``"add_entropy"`` entry point).
 
 Note that ``"get_entropy"`` returns data with an estimated amount of entropy that is in general less than the buffer size. The core must apply a mixing algorithm to the output of ``"get_entropy"`` to obtain full-entropy data.
 
@@ -1171,16 +1179,18 @@ The driver may return the following status codes:
 
 *   ``PSA_SUCCESS``: the ``output`` buffer contains ``*output_length`` bytes of cryptographic-quality random data. Note that this may be less than ``output_size``; in this case the core should call the driver's ``"add_entropy"`` method to supply at least ``"reseed_entropy_size"`` bytes of entropy before calling ``"get_random"`` again.
 *   ``PSA_ERROR_INSUFFICIENT_ENTROPY``: the core must supply additional entropy by calling the ``"add_entropy"`` entry point with at least ``"reseed_entropy_size"`` bytes.
-*   ``PSA_ERROR_NOT_SUPPORTED``: the random generator is not available. This is only permitted if the driver specification for random generation has the `fallback property <fallback_>`_ enabled.
+*   ``PSA_ERROR_NOT_SUPPORTED``: the random generator is not available. This is only permitted if the driver specification for random generation has the `fallback property <fallback>` enabled.
 *   Other error codes such as ``PSA_ERROR_COMMUNICATION_FAILURE`` or ``PSA_ERROR_HARDWARE_FAILURE`` indicate a transient or permanent error.
+
+.. _fallback:
 
 Fallback
 ~~~~~~~~
 
 Sometimes cryptographic accelerators only support certain cryptographic mechanisms partially. The capability description language allows specifying some restrictions, including restrictions on key sizes, but it cannot cover all the possibilities that may arise in practice. Furthermore, it may be desirable to deploy the same binary image on different devices, only some of which have a cryptographic accelerators.
-For these purposes, a transparent driver can declare that it only supports a `capability <driver-description-capability_>`_ partially, by setting the capability's ``"fallback"`` property to true.
+For these purposes, a transparent driver can declare that it only supports a `capability <driver-description-capability>` partially, by setting the capability's ``"fallback"`` property to true.
 
-If a transparent driver entry point is part of a capability which has a true ``"fallback"`` property and returns ``PSA_ERROR_NOT_SUPPORTED``, the core will call the next transparent driver that supports the mechanism, if there is one. The core considers drivers in the order given by the `driver description list <driver-description-list_>`_.
+If a transparent driver entry point is part of a capability which has a true ``"fallback"`` property and returns ``PSA_ERROR_NOT_SUPPORTED``, the core will call the next transparent driver that supports the mechanism, if there is one. The core considers drivers in the order given by the `driver description list <driver-description-list>`.
 
 If all the available drivers have fallback enabled and return ``PSA_ERROR_NOT_SUPPORTED``, the core will perform the operation using built-in code.
 As soon as a driver returns any value other than ``PSA_ERROR_NOT_SUPPORTED`` (``PSA_SUCCESS`` or a different error code), this value is returned to the application, without attempting to call any other driver or built-in code.
@@ -1204,7 +1214,7 @@ The format of a key for opaque drivers is an opaque blob. The content of this bl
 
 Note that since the core stores the key context blob as it is in memory, it must only contain data that is meaningful after a reboot. In particular, it must not contain any pointers or transient handles.
 
-The ``"key_context"`` property in the `driver description <driver-description-top-level-element_>`_ specifies how to calculate the size of the key context as a function of the key type and size. This is an object with the following properties:
+The ``"key_context"`` property in the `driver description <driver-description-top-level-element>` specifies how to calculate the size of the key context as a function of the key type and size. This is an object with the following properties:
 
 *   ``"base_size"`` (integer or string, optional): this many bytes are included in every key context. If omitted, this value defaults to 0.
 *   ``"key_pair_size"`` (integer or string, optional): this many bytes are included in every key context for a key pair. If omitted, this value defaults to 0.
@@ -1212,7 +1222,7 @@ The ``"key_context"`` property in the `driver description <driver-description-to
 *   ``"symmetric_factor"`` (integer or string, optional): every key context for a symmetric key includes this many times the key size. If omitted, this value defaults to 0.
 *   ``"store_public_key"`` (boolean, optional): If specified and true, for a key pair, the key context includes space for the public key. If omitted or false, no additional space is added for the public key.
 *   ``"size_function"`` (string, optional): the name of a function that returns the number of bytes that the driver needs in a key context for a key. This may be a pointer to function. This must be a C identifier; more complex expressions are not permitted. If the core uses this function, it supersedes all the other properties except for ``"builtin_key_size"`` (where applicable, if present).
-*   ``"builtin_key_size"`` (integer or string, optional): If specified, this overrides all other methods (including the ``"size_function"`` entry point) to determine the size of the key context for `built-in keys <built-in-keys_>`_. This allows drivers to efficiently represent application keys as wrapped key material, but built-in keys by an internal identifier that takes up less space.
+*   ``"builtin_key_size"`` (integer or string, optional): If specified, this overrides all other methods (including the ``"size_function"`` entry point) to determine the size of the key context for `built-in keys <built-in-keys>`. This allows drivers to efficiently represent application keys as wrapped key material, but built-in keys by an internal identifier that takes up less space.
 
 The integer properties must be C language constants. A typical value for ``"base_size"`` is ``sizeof(acme_key_context_t)`` where ``acme_key_context_t`` is a type defined in a driver header file.
 
@@ -1277,13 +1287,13 @@ Key management with opaque drivers
 
 Opaque drivers may provide the following key management entry points:
 
-*   ``"export_key"``: called by ``psa_export_key()``, or by ``psa_copy_key()`` when copying a key from or to a different `location <lifetimes-and-locations_>`_, or `as a fallback for key derivation <key-derivation-driver-dispatch-logic_>`_.
+*   ``"export_key"``: called by ``psa_export_key()``, or by ``psa_copy_key()`` when copying a key from or to a different `location <lifetimes-and-locations>`, or `as a fallback for key derivation <key-derivation-driver-dispatch-logic>`.
 *   ``"export_public_key"``: called by the core to obtain the public key of a key pair. The core may call this entry point at any time to obtain the public key, which can be for ``psa_export_public_key()`` but also at other times, including during a cryptographic operation that requires the public key such as a call to ``psa_verify_message()`` on a key pair object.
 *   ``"import_key"``: called by ``psa_import_key()``, or by ``psa_copy_key()`` when copying a key from another location.
 *   ``"generate_key"``: called by ``psa_generate_key()``.
 *   ``"key_derivation_output_key"``: called by ``psa_key_derivation_output_key()``.
-*   ``"copy_key"``: called by ``psa_copy_key()`` when copying a key within the same `location <lifetimes-and-locations_>`_.
-*   ``"get_builtin_key"``: called by functions that access a key to retrieve information about a `built-in key <built-in-keys_>`_.
+*   ``"copy_key"``: called by ``psa_copy_key()`` when copying a key within the same `location <lifetimes-and-locations>`.
+*   ``"get_builtin_key"``: called by functions that access a key to retrieve information about a `built-in key <built-in-keys>`.
 
 In addition, secure elements that store the key material internally must provide the following two entry points:
 
@@ -1369,7 +1379,7 @@ The key creation entry points have the following prototypes for a driver with th
                                    size_t key_buffer_size,
                                    size_t *key_buffer_length);
 
-If the driver has an `"allocate_key" entry point <key-management-in-a-secure-element-with-storage_>`_, the core calls the ``"allocate_key"`` entry point with the same attributes on the same key buffer before calling the key creation entry point.
+If the driver has an `"allocate_key" entry point <key-management-in-a-secure-element-with-storage>`, the core calls the ``"allocate_key"`` entry point with the same attributes on the same key buffer before calling the key creation entry point.
 
 TODO: derivation, copy
 
@@ -1393,7 +1403,7 @@ The key export entry points have the following prototypes for a driver with the 
                                         size_t data_size,
                                         size_t *data_length);
 
-The core will only call ``acme_export_public_key`` on a private key. Drivers implementers may choose to store the public key in the key context buffer or to recalculate it on demand. If the key context includes the public key, it needs to have an adequate size; see `Key format for opaque drivers`_.
+The core will only call ``acme_export_public_key`` on a private key. Drivers implementers may choose to store the public key in the key context buffer or to recalculate it on demand. If the key context includes the public key, it needs to have an adequate size; see :secref:`key-format-for-opaque-drivers`.
 
 The core guarantees that the size of the output buffer (``data_size``) is sufficient to export any key with the given attributes. The driver must set ``*data_length`` to the exact size of the exported key.
 
@@ -1402,9 +1412,9 @@ The core guarantees that the size of the output buffer (``data_size``) is suffic
 Opaque driver persistent state
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The core maintains persistent state on behalf of an opaque driver. This persistent state consists of a single byte array whose size is given by the ``"persistent_state_size"`` property in the `driver description <driver-description-top-level-element_>`_.
+The core maintains persistent state on behalf of an opaque driver. This persistent state consists of a single byte array whose size is given by the ``"persistent_state_size"`` property in the `driver description <driver-description-top-level-element>`.
 
-The core loads the persistent state in memory before it calls the driver's `init entry point <driver-initialization_>`_. It is adjusted to match the size declared by the driver, in case a driver upgrade changes the size:
+The core loads the persistent state in memory before it calls the driver's `init entry point <driver-initialization>`. It is adjusted to match the size declared by the driver, in case a driver upgrade changes the size:
 
 *   The first time the driver is loaded on a system, the persistent state is all-bits-zero.
 *   If the stored persistent state is smaller than the declared size, the core pads the persistent state with all-bits-zero at the end.
@@ -1446,9 +1456,9 @@ If this function returns ``PSA_SUCCESS`` or ``PSA_ERROR_BUFFER_TOO_SMALL``, it m
 
 On entry, ``psa_get_key_lifetime(attributes)`` is the location at which the driver was declared and a persistence level with which the platform is attempting to register the key. The driver entry point may choose to change the lifetime (``psa_set_key_lifetime(attributes, lifetime)``) of the reported key attributes to one with the same location but a different persistence level, in case the driver has more specific knowledge about the actual persistence level of the key which is being retrieved. For example, if a driver knows it cannot delete a key, it may override the persistence level in the lifetime to ``PSA_KEY_PERSISTENCE_READ_ONLY``. The standard attributes other than the key identifier and lifetime have the value conveyed by ``PSA_KEY_ATTRIBUTES_INIT``.
 
-The output parameter ``key_buffer`` points to a writable buffer of ``key_buffer_size`` bytes. If the driver has a `"builtin_key_size" property <key-format-for-opaque-drivers_>`_ property, ``key_buffer_size`` has this value, otherwise ``key_buffer_size`` has the value determined from the key type and size.
+The output parameter ``key_buffer`` points to a writable buffer of ``key_buffer_size`` bytes. If the driver has a `"builtin_key_size" property <key-format-for-opaque-drivers>` property, ``key_buffer_size`` has this value, otherwise ``key_buffer_size`` has the value determined from the key type and size.
 
-Typically, for a built-in key, the key context is a reference to key material that is kept inside the secure element, similar to the format returned by `"allocate_key" <key-management-in-a-secure-element-with-storage_>`_. A driver may have built-in keys even if it doesn't have an ``"allocate_key"`` entry point.
+Typically, for a built-in key, the key context is a reference to key material that is kept inside the secure element, similar to the format returned by `"allocate_key" <key-management-in-a-secure-element-with-storage>`. A driver may have built-in keys even if it doesn't have an ``"allocate_key"`` entry point.
 
 This entry point may return the following status values:
 
@@ -1457,7 +1467,7 @@ This entry point may return the following status values:
 *   ``PSA_ERROR_DOES_NOT_EXIST``: the requested key does not exist.
 *   Other error codes such as ``PSA_ERROR_COMMUNICATION_FAILURE`` or ``PSA_ERROR_HARDWARE_FAILURE`` indicate a transient or permanent error.
 
-The core will pass authorized requests to destroy a built-in key to the `"destroy_key" <key-management-in-a-secure-element-with-storage_>`_ entry point if there is one. If built-in keys must not be destroyed, it is up to the driver to reject such requests.
+The core will pass authorized requests to destroy a built-in key to the `"destroy_key" <key-management-in-a-secure-element-with-storage>` entry point if there is one. If built-in keys must not be destroyed, it is up to the driver to reject such requests.
 
 How to use drivers from an application
 --------------------------------------
@@ -1470,7 +1480,7 @@ Transparent drivers linked into the library are automatically used for the mecha
 Using opaque drivers
 ~~~~~~~~~~~~~~~~~~~~
 
-Each opaque driver is assigned a `location <lifetimes-and-locations_>`_. The driver is invoked for all actions that use a key in that location. A key's location is indicated by its lifetime. The application chooses the key's lifetime when it creates the key.
+Each opaque driver is assigned a `location <lifetimes-and-locations>`. The driver is invoked for all actions that use a key in that location. A key's location is indicated by its lifetime. The application chooses the key's lifetime when it creates the key.
 
 For example, the following snippet creates an AES-GCM key which is only accessible inside the secure element designated by the location ``PSA_KEY_LOCATION_acme``.
 
