@@ -1,21 +1,6 @@
 ..  SPDX-FileCopyrightText: Copyright 2020-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 ..  SPDX-License-Identifier: CC-BY-SA-4.0
 
-PSA Cryptoprocessor Driver Interface
-====================================
-
-**Note:**
-    *The initial commit is a copy of* `psa-driver-interface.md <https://github.com/Mbed-TLS/TF-PSA-Crypto/blob/92673db5db061562dd6713ec76150b4904c7a122/docs/proposed/psa-driver-interface.md>`__ *from the MbedTLS/TF-PSA-Crypto Github repository @92673db5.*
-
-    *This is a ReStructuredText source with identical content.*
-
-
-This document describes an interface for cryptoprocessor drivers in an implementation of the PSA Certified Crypto API. This interface complements the `PSA Certified Crypto API specification <https://arm-software.github.io/psa-api/crypto/>`__, which describes the interface between a Crypto API implementation and an application.
-
-This specification is work in progress and should be considered to be in a beta stage. There is ongoing work to implement this interface in Mbed TLS, which is the reference implementation of the Crypto API. At this stage, Arm does not expect major changes, but minor changes are expected based on experience from the first implementation and on external feedback.
-
-For a practical guide, with a description of the current state of drivers Mbed TLS, see the `PSA Cryptoprocessor driver development examples <https://github.com/Mbed-TLS/TF-PSA-Crypto/blob/92673db5db061562dd6713ec76150b4904c7a122/docs/psa-driver-example-and-guide.md>`__.
-
 Introduction
 ------------
 
