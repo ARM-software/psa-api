@@ -83,6 +83,20 @@ A driver therefore consists of:
 
 How to provide the driver description file, the C header files and the object code is implementation-dependent.
 
+.. _driver-description-list:
+
+Driver description list
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Crypto API core implementations should support multiple drivers.
+The driver description files are passed to the implementation as an ordered list in an unspecified manner.
+This may be, for example, a list of file names passed on a command line, or a JSON list whose elements are individual driver descriptions.
+
+.. _driver-description:
+
+Driver description
+------------------
+
 .. _driver-description-syntax:
 
 Driver description syntax
@@ -96,19 +110,10 @@ Crypto API core implementations may support additional properties.
 Such properties must use names consisting of the implementation's name, a slash, and additional characters.
 For example, the Yoyodyne implementation may use property names such as ``"yoyodyne/foo"`` and ``"yoyodyne/widgets/girth"``.
 
-.. _driver-description-list:
-
-Driver description list
-^^^^^^^^^^^^^^^^^^^^^^^
-
-Crypto API core implementations should support multiple drivers.
-The driver description files are passed to the implementation as an ordered list in an unspecified manner.
-This may be, for example, a list of file names passed on a command line, or a JSON list whose elements are individual driver descriptions.
-
 .. _driver-description-top-level-element:
 
 Driver description top-level element
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A driver description is a JSON object containing the following properties:
 
@@ -281,10 +286,10 @@ Valid examples:
 .. _driver-entry-points:
 
 Driver entry points
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 Overview of driver entry points
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Drivers define functions, each of which implements an aspect of a capability of a driver, such as a cryptographic operation, a part of a cryptographic operation, or a key management action.
 These functions are called the **entry points** of the driver.
@@ -339,7 +344,7 @@ Input buffers and other input-only parameters (``const`` pointers) may be in rea
 Overlap is possible between input buffers, and between an input buffer and an output buffer, but not between two output buffers or between a non-buffer parameter and another parameter.
 
 Driver entry points for single-part cryptographic operations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following driver entry points perform a cryptographic operation in one shot (single-part operation):
 
@@ -849,7 +854,7 @@ Core side is responsible for keeping inputs and core set-data functions do not h
 Collected inputs are available for drivers via get-data functions for ``password``, ``role`` and ``cipher_suite``.
 
 PAKE driver dispatch logic
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The core decides whether to dispatch a PAKE operation to a driver based on the location of the provided password.
 When all inputs are collected and ``"psa_pake_output"`` or ``"psa_pake_input"`` is called for the first time ``"pake_setup"`` driver entry point is invoked.
@@ -862,7 +867,7 @@ When all inputs are collected and ``"psa_pake_output"`` or ``"psa_pake_input"`` 
     -   the core calls the ``"pake_setup"`` entry point of the secure element driver and subsequent entry points.
 
 Summary of entry points for PAKE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A PAKE driver has the following entry points:
 
@@ -1800,8 +1805,8 @@ This entry point may return the following status values:
 The core will pass authorized requests to destroy a built-in key to the `"destroy_key" <key-management-in-a-secure-element-with-storage>` entry point if there is one.
 If built-in keys must not be destroyed, it is up to the driver to reject such requests.
 
-How to use drivers from an application
---------------------------------------
+Using drivers from an application
+---------------------------------
 
 Using transparent drivers
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1831,13 +1836,10 @@ For example, the following snippet creates an AES-GCM key which is only accessib
     psa_key_id_t key;
     psa_generate_key(&attributes, &key);
 
-Using opaque drivers from an application
-----------------------------------------
-
 .. _lifetimes-and-locations:
 
 Lifetimes and locations
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 The PSA Certified Crypto API defines `lifetimes <https://arm-software.github.io/psa-api/crypto/1.3/api/keys/lifetimes.html#key-lifetimes>`__ as an attribute of a key that indicates where the key is stored and which application and system actions will create and destroy it.
 The lifetime is expressed as a 32-bit value (``typedef uint32_t psa_key_lifetime_t``).
@@ -1855,7 +1857,7 @@ Keys in the default location (``PSA_KEY_LOCATION_LOCAL_STORAGE = 0``) are transp
 For keys in a location that is managed by an opaque driver, only the secure element has access to the key material and can perform operations on the key, while the core only manipulates a wrapped form of the key or an identifier of the key.
 
 Creating a key in a secure element
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The core defines a compile-time constant for each opaque driver indicating its location called ``PSA_KEY_LOCATION_``\ *prefix* where *prefix* is the value of the ``"prefix"`` property in the driver description.
 For convenience, Mbed TLS also declares a compile-time constant for the corresponding lifetime with the default persistence called ``PSA_KEY_LIFETIME_``\ *prefix*.
