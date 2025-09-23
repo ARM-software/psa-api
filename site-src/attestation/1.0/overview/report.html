@@ -1,46 +1,98 @@
 ---
 ---
 
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<meta property="og:title" content="3. Initial Attestation report" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3 Initial Attestation report" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Attestation API 1.0" />
 <meta property="og:description" content="This section begins with a description of the information model for the report and then describes the expected format. Information model: The following table describes the mandatory and optional cl..." />
 <meta name="description" content="This section begins with a description of the information model for the report and then describes the expected format. Information model: The following table describes the mandatory and optional cl..." />
 
-    <title>3. Initial Attestation report &#8212; PSA Certified Attestation API 1.0</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <title>3 Initial Attestation report &#8212; PSA Certified Attestation API 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=e9607266"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. API reference" href="../api/api.html" />
-    <link rel="prev" title="2. Use cases and rationale" href="use-cases.html" />
+    <link rel="next" title="4 API reference" href="../api/api.html" />
+    <link rel="prev" title="2 Use cases and rationale" href="use-cases.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
-  
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Attestation API"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Attestation API</a></h3>
+IHI 0085<br/>
+Non-confidential<br/>
+Version 1.0.4
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-cases.html">2 Use cases and rationale</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3 Initial Attestation report</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#information-model">3.1 Information model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#software-components">3.1.1 Software components</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#report-format-and-signing">3.2 Report format and signing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#token-encoding">3.2.1 Token encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#signing">3.2.2 Signing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eat-standard-claims">3.2.3 EAT standard claims</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eat-custom-claims">3.2.4 EAT custom claims</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">4 API reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/example-header.html">A Example header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/example-token.html">B Example report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/cddl.html">C CDDL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">D Document history</a></li>
+</ul>
 
-    <div class="document">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
           
@@ -48,16 +100,16 @@
           <div class="body" role="main">
             
   <section id="initial-attestation-report">
-<span id="report"></span><h1><span class="section-number">3. </span>Initial Attestation report<a class="headerlink" href="#initial-attestation-report" title="Permalink to this headline">¶</a></h1>
+<span id="report"></span><h1><span class="section-number">3 </span>Initial Attestation report<a class="headerlink" href="#initial-attestation-report" title="Link to this heading">¶</a></h1>
 <p>This section begins with a description of the information model for the report and then describes the expected format.</p>
 <section id="information-model">
-<h2><span class="section-number">3.1. </span>Information model<a class="headerlink" href="#information-model" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1 </span>Information model<a class="headerlink" href="#information-model" title="Link to this heading">¶</a></h2>
 <p>The following table describes the mandatory and optional claims in the report:</p>
-<table class="colwidths-given longtable docutils align-right">
+<table class="docutils align-default">
 <colgroup>
-<col style="width: 24%" />
-<col style="width: 18%" />
-<col style="width: 59%" />
+<col style="width: 23.5%" />
+<col style="width: 17.6%" />
+<col style="width: 58.8%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Claim</p></th>
@@ -149,14 +201,14 @@ The full definition of the software component is described in <a class="referenc
 </tbody>
 </table>
 <section id="software-components">
-<span id="id1"></span><h3><span class="section-number">3.1.1. </span>Software components<a class="headerlink" href="#software-components" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3><span class="section-number">3.1.1 </span>Software components<a class="headerlink" href="#software-components" title="Link to this heading">¶</a></h3>
 <p>Each software component in the Software Components claim must include the required properties of the following table:</p>
-<table class="colwidths-given longtable docutils align-left">
+<table class="longtable docutils align-left">
 <colgroup>
-<col style="width: 11%" />
-<col style="width: 26%" />
-<col style="width: 11%" />
-<col style="width: 53%" />
+<col style="width: 10.5%" />
+<col style="width: 26.3%" />
+<col style="width: 10.5%" />
+<col style="width: 52.6%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key ID</p></th>
@@ -215,14 +267,14 @@ The full definition of the software component is described in <a class="referenc
 </section>
 </section>
 <section id="report-format-and-signing">
-<h2><span class="section-number">3.2. </span>Report format and signing<a class="headerlink" href="#report-format-and-signing" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.2 </span>Report format and signing<a class="headerlink" href="#report-format-and-signing" title="Link to this heading">¶</a></h2>
 <p>This section describes the specific representation, encoding and signing of the information described in the Information Model.</p>
 <section id="token-encoding">
-<h3><span class="section-number">3.2.1. </span>Token encoding<a class="headerlink" href="#token-encoding" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.1 </span>Token encoding<a class="headerlink" href="#token-encoding" title="Link to this heading">¶</a></h3>
 <p>The report is represented as a token, which must be formatted in accordance to <span><em>IETF Entity Attestation Token (EAT)</em> <a class="reference internal" href="../about.html#cite-eat"><span class="cite">[EAT]</span></a></span> draft specification. The token consists of a series of claims declaring evidence as to the nature of the instance of hardware and software. The claims are encoded with the <a class="reference internal" href="../about.html#term-cbor"><span class="term">CBOR</span></a> format, defined in <span><em>Concise Binary Object Representation (CBOR)</em> <a class="reference internal" href="../about.html#cite-std94"><span class="cite">[STD94]</span></a></span>.</p>
 </section>
 <section id="signing">
-<h3><span class="section-number">3.2.2. </span>Signing<a class="headerlink" href="#signing" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.2 </span>Signing<a class="headerlink" href="#signing" title="Link to this heading">¶</a></h3>
 <p>The token is signed following the structure defined in <span><em>CBOR Object Signing and Encryption (COSE): Structures and Process</em> <a class="reference internal" href="../about.html#cite-std96"><span class="cite">[STD96]</span></a></span> specification:</p>
 <ul>
 <li><p>For asymmetric key algorithms, the signature structure must be COSE-Sign1. An asymmetric key algorithm is needed to achieve all the use cases defined in <a class="reference internal" href="use-cases.html#use-cases"><span class="secref">Use cases and rationale</span></a>.</p></li>
@@ -235,7 +287,7 @@ The full definition of the software component is described in <a class="referenc
 </ul>
 </section>
 <section id="eat-standard-claims">
-<h3><span class="section-number">3.2.3. </span>EAT standard claims<a class="headerlink" href="#eat-standard-claims" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.3 </span>EAT standard claims<a class="headerlink" href="#eat-standard-claims" title="Link to this heading">¶</a></h3>
 <p>The token is modelled to include custom values that correspond to the following EAT standard claims (as expressed in the draft EAT proposal):</p>
 <ul class="simple">
 <li><p><strong>nonce</strong> (mandatory); arm_psa_nonce is used instead</p></li>
@@ -244,15 +296,15 @@ The full definition of the software component is described in <a class="referenc
 <p>A future version of the profile, corresponding to an issued standard, might declare support for both custom and standard claims as a transitionary state towards exclusive use of standard claims.</p>
 </section>
 <section id="eat-custom-claims">
-<span id="custom-claims"></span><h3><span class="section-number">3.2.4. </span>EAT custom claims<a class="headerlink" href="#eat-custom-claims" title="Permalink to this headline">¶</a></h3>
+<span id="custom-claims"></span><h3><span class="section-number">3.2.4 </span>EAT custom claims<a class="headerlink" href="#eat-custom-claims" title="Link to this heading">¶</a></h3>
 <p>The token can include the following EAT custom claims. Custom claims for the Attestation API have a root identity of -75000.</p>
 <p>Some fields must be at least 32 bytes to provide sufficient cryptographic strength.</p>
-<table class="colwidths-given longtable docutils align-left">
+<table class="longtable docutils align-left">
 <colgroup>
-<col style="width: 11%" />
-<col style="width: 27%" />
-<col style="width: 29%" />
-<col style="width: 33%" />
+<col style="width: 10.9%" />
+<col style="width: 27.2%" />
+<col style="width: 29.3%" />
+<col style="width: 32.6%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key ID</p></th>
@@ -339,62 +391,10 @@ The full definition of the software component is described in <a class="referenc
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
-            </a></p><hr />
-<h3><a href="../index.html"><b>PSA Certified<br />Attestation API</b></a></h3>
-IHI 0085<br/>
-Non-confidential<br/>
-Version 1.0.3
-<span style="font-weight: bold;"></span>
-<hr />
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
-</ul>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="use-cases.html">2. Use cases and rationale</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Initial Attestation report</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#information-model">3.1. Information model</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#software-components">3.1.1. Software components</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#report-format-and-signing">3.2. Report format and signing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#token-encoding">3.2.1. Token encoding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#signing">3.2.2. Signing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#eat-standard-claims">3.2.3. EAT standard claims</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#eat-custom-claims">3.2.4. EAT custom claims</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../api/api.html">4. API reference</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/example-header.html">A. Example header file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/example-token.html">B. Example report</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/cddl.html">C. CDDL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">D. Document history</a></li>
-</ul>
-
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
+    <div class="clearer"></div>
+  </div>
     <div class="footer">
-      &copy; 2018-2020, 2022 Arm Limited and/or its affiliates.
+      &#169; 2018-2020, 2022, 2025 Arm Limited and/or its affiliates.
       
     </div>
 

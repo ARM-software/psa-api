@@ -45,17 +45,17 @@ Since Crypto API 1.3, the PAKE Extension is integrated into the Crypto API speci
 Older versions of the PAKE Extension can be found on the [Crypto API](crypto/) page.
 
 [status-code-html]:  status-code/1.0/
-[status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.3.pdf
+[status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.4.pdf
 [crypto-html]:       crypto/1.3/
-[crypto-pdf]:        crypto/1.3/IHI0086-PSA_Certified_Crypto_API-1.3.1.pdf
+[crypto-pdf]:        crypto/1.3/IHI0086-PSA_Certified_Crypto_API-1.3.2.pdf
 [storage-html]:      storage/1.0/
-[storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.3.pdf
+[storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.4.pdf
 [attestation-html]:  attestation/1.0/
-[attestation-pdf]:   attestation/1.0/IHI0085-PSA_Certified_Attestation_API-1.0.3.pdf
+[attestation-pdf]:   attestation/1.0/IHI0085-PSA_Certified_Attestation_API-1.0.4.pdf
 [fwu-html]:          fwu/1.0/
-[fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.0.pdf
+[fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.1.pdf
 [pqc-html]:          crypto/1.3/ext-pqc/
-[pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.2.pdf
+[pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.3.pdf
 
 ## Feedback
 

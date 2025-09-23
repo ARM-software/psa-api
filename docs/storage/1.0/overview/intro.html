@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<meta property="og:title" content="1. Introduction" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="1 Introduction" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://arm-software.github.io/psa-api/storage/1.0/overview/intro.html" />
 <link rel="canonical" href="https://arm-software.github.io/psa-api/storage/1.0/overview/intro.html" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
-<meta property="og:description" content="About Platform Security Architecture: This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of PSA Certified on..." />
-<meta name="description" content="About Platform Security Architecture: This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of PSA Certified on..." />
+<meta property="og:description" content="About Platform Security Architecture: This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of GlobalPlatform’s..." />
+<meta name="description" content="About Platform Security Architecture: This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of GlobalPlatform’s..." />
 
-    <title>1. Introduction &#8212; PSA Certified Secure Storage API 1.0</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <title>1 Introduction &#8212; PSA Certified Secure Storage API 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=e9607266"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2. Architecture" href="architecture.html" />
+    <link rel="next" title="2 Architecture" href="architecture.html" />
     <link rel="prev" title="About this document" href="../about.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
-  
-
-    <div class="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Secure Storage API"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Secure Storage API</a></h3>
+IHI 0087<br/>
+Non-confidential<br/>
+Version 1.0.4
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1 Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#about-platform-security-architecture">1.1 About Platform Security Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#about-the-api">1.2 About the Secure Storage API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">2 Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">3 Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operation.html">4 Theory of Operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">5 API Reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/headers.html">A Example header files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/sra.html">B Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">C Document history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
           
@@ -47,18 +90,18 @@
           <div class="body" role="main">
             
   <section id="introduction">
-<span id="intro"></span><h1><span class="section-number">1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<span id="intro"></span><h1><span class="section-number">1 </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
 <section id="about-platform-security-architecture">
-<h2><span class="section-number">1.1. </span>About Platform Security Architecture<a class="headerlink" href="#about-platform-security-architecture" title="Permalink to this heading">¶</a></h2>
-<p>This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of PSA Certified on Arm-based platforms. The PSA Certified scheme provides a framework and methodology that helps silicon manufacturers, system software providers and OEMs to develop more secure products. Arm resources that support PSA Certified range from threat models, standard architectures that simplify development and increase portability, and open-source partnerships that provide ready-to-use software. You can read more about PSA Certified here at <a class="reference external" href="https://www.psacertified.org">www.psacertified.org</a> and find more Arm resources here at <a class="reference external" href="https://developer.arm.com/platform-security-resources">developer.arm.com/platform-security-resources</a>.</p>
+<h2><span class="section-number">1.1 </span>About Platform Security Architecture<a class="headerlink" href="#about-platform-security-architecture" title="Link to this heading">¶</a></h2>
+<p>This document is one of a set of resources provided by Arm that can help organizations develop products that meet the security requirements of GlobalPlatform’s PSA Certified evaluation scheme on Arm-based platforms. The PSA Certified scheme provides a framework and methodology that helps silicon manufacturers, system software providers and OEMs to develop more secure products. Arm resources that support PSA Certified range from threat models, standard architectures that simplify development and increase portability, and open-source partnerships that provide ready-to-use software. You can read more about PSA Certified here at <a class="reference external" href="https://www.psacertified.org">www.psacertified.org</a> and find more Arm resources here at <a class="reference external" href="https://developer.arm.com/platform-security-resources">developer.arm.com/platform-security-resources</a> and <a class="reference external" href="https://www.trustedfirmware.org">www.trustedfirmware.org</a>.</p>
 </section>
 <section id="about-the-api">
-<h2><span class="section-number">1.2. </span>About the Secure Storage API<a class="headerlink" href="#about-the-api" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">1.2 </span>About the Secure Storage API<a class="headerlink" href="#about-the-api" title="Link to this heading">¶</a></h2>
 <p>The interface described in this document is a PSA Certified API, that provides key/value storage interfaces for use with device-protected storage. The Secure Storage API describes two interfaces for storage:</p>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col style="width: 30%" />
-<col style="width: 70%" />
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Internal Trusted Storage API</p></td>
@@ -80,54 +123,10 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
-            </a></p><hr />
-<h3><a href="../index.html"><b>PSA Certified<br />Secure Storage API</b></a></h3>
-IHI 0087<br/>
-Non-confidential<br/>
-Version 1.0.3
-<hr />
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
-</ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#about-platform-security-architecture">1.1. About Platform Security Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-the-api">1.2. About the Secure Storage API</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">2. Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="requirements.html">3. Requirements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="operation.html">4. Theory of Operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/api.html">5. API Reference</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/headers.html">A. Example header files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/sra.html">B. Security Risk Assessment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">C. Document history</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
-</ul>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
+    <div class="clearer"></div>
+  </div>
     <div class="footer">
-      &copy; 2018-2019, 2022-2024 Arm Limited and/or its affiliates.
+      &#169; 2018-2019, 2022-2025 Arm Limited and/or its affiliates.
       
     </div>
 
