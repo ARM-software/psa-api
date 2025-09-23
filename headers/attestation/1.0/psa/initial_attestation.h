@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2020, 2022, 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file is a reference template for implementation of the
- * PSA Certified Attestation API v1.0.3
+ * PSA Certified Attestation API v1.0
  */
 
 #ifndef PSA_INITIAL_ATTESTATION_H
@@ -48,7 +48,7 @@ extern "C" {
 
 /**
  * @brief Retrieve the Initial Attestation Token.
- * 
+ *
  * @param auth_challenge Buffer with a challenge object.
  * @param challenge_size Size of the buffer auth_challenge in bytes.
  * @param token_buf      Output buffer where the attestation token is to be
@@ -64,7 +64,7 @@ psa_status_t psa_initial_attest_get_token(const uint8_t *auth_challenge,
 
 /**
  * @brief Calculate the size of an Initial Attestation Token.
- * 
+ *
  * @param challenge_size Size of a challenge object in bytes.
  * @param token_size     Output variable for the token size.
  */
