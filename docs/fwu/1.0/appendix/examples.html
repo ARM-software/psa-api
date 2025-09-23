@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<meta property="og:title" content="2. Example usage" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="2 Example usage" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://arm-software.github.io/psa-api/fwu/1.0/appendix/examples.html" />
 <link rel="canonical" href="https://arm-software.github.io/psa-api/fwu/1.0/appendix/examples.html" />
@@ -12,34 +12,82 @@
 <meta property="og:description" content="Retrieve versions of installed images: This example shows the retrieval of image versions for all components. Individual component update (single part operation): This example shows the installatio..." />
 <meta name="description" content="Retrieve versions of installed images: This example shows the retrieval of image versions for all components. Individual component update (single part operation): This example shows the installatio..." />
 
-    <title>2. Example usage &#8212; PSA Certified Firmware Update API 1.0</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <title>2 Example usage &#8212; PSA Certified Firmware Update API 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=c5e1e573"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3. Variation in system design parameters" href="variations.html" />
-    <link rel="prev" title="1. Example header file" href="example-header.html" />
+    <link rel="next" title="3 Variation in system design parameters" href="variations.html" />
+    <link rel="prev" title="1 Example header file" href="example-header.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
-  
-
-    <div class="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Firmware Update API"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Firmware Update API</a></h3>
+IHI 0093<br/>
+Non-confidential<br/>
+Version 1.0.1
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/goals.html">2 Design goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/architecture.html">3 Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/programming-model.html">4 Programming model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">5 API reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example-header.html">A Example header file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">B Example usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#retrieve-versions-of-installed-images">B.1 Retrieve versions of installed images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#individual-component-update-single-part-operation">B.2 Individual component update (single part operation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#individual-component-update-multi-part-operation">B.3 Individual component update (multi part operation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-components-with-dependent-images">B.4 Multiple components with dependent images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clean-up-all-component-updates">B.5 Clean up all component updates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="variations.html">C Variation in system design parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sra.html">D Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="change-history.html">E Document change history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
           
@@ -47,13 +95,13 @@
           <div class="body" role="main">
             
   <section id="example-usage">
-<span id="examples"></span><h1><span class="section-number">B. </span>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">¶</a></h1>
+<span id="examples"></span><h1><span class="section-number">B </span>Example usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>These examples are for illustrative purposes only and are not guaranteed to compile. Many error codes are not handled in order to keep the examples brief. A real implementation will need to initialize variables appropriately and handle failures as they see fit.</p>
 </div>
 <section id="retrieve-versions-of-installed-images">
-<h2><span class="section-number">B.1. </span>Retrieve versions of installed images<a class="headerlink" href="#retrieve-versions-of-installed-images" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">B.1 </span>Retrieve versions of installed images<a class="headerlink" href="#retrieve-versions-of-installed-images" title="Link to this heading">¶</a></h2>
 <p>This example shows the retrieval of image versions for all components.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   
@@ -78,7 +126,7 @@
 21   }</pre>
 </section>
 <section id="individual-component-update-single-part-operation">
-<h2><span class="section-number">B.2. </span>Individual component update (single part operation)<a class="headerlink" href="#individual-component-update-single-part-operation" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">B.2 </span>Individual component update (single part operation)<a class="headerlink" href="#individual-component-update-single-part-operation" title="Link to this heading">¶</a></h2>
 <p>This example shows the installation of a single component that is smaller than <a class="reference internal" href="../api/api.html#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   
@@ -117,7 +165,7 @@
 35   }</pre>
 </section>
 <section id="individual-component-update-multi-part-operation">
-<span id="example-multi-write"></span><h2><span class="section-number">B.3. </span>Individual component update (multi part operation)<a class="headerlink" href="#individual-component-update-multi-part-operation" title="Permalink to this heading">¶</a></h2>
+<span id="example-multi-write"></span><h2><span class="section-number">B.3 </span>Individual component update (multi part operation)<a class="headerlink" href="#individual-component-update-multi-part-operation" title="Link to this heading">¶</a></h2>
 <p>This example shows the installation of a component that can be larger than <a class="reference internal" href="../api/api.html#c.PSA_FWU_MAX_WRITE_SIZE" title="PSA_FWU_MAX_WRITE_SIZE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_FWU_MAX_WRITE_SIZE</span></code></a>, and requires writing in multiple blocks.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   #include &lt;stdlib.h&gt;
@@ -188,7 +236,7 @@
 67   }</pre>
 </section>
 <section id="multiple-components-with-dependent-images">
-<span id="multi-component-example"></span><h2><span class="section-number">B.4. </span>Multiple components with dependent images<a class="headerlink" href="#multiple-components-with-dependent-images" title="Permalink to this heading">¶</a></h2>
+<span id="multi-component-example"></span><h2><span class="section-number">B.4 </span>Multiple components with dependent images<a class="headerlink" href="#multiple-components-with-dependent-images" title="Link to this heading">¶</a></h2>
 <p>This example shows how multiple components can be installed together. This is required if the images are inter-dependent, and it is not possible to install them in sequence because of the dependencies.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -275,7 +323,7 @@
 79   }</pre>
 </section>
 <section id="clean-up-all-component-updates">
-<h2><span class="section-number">B.5. </span>Clean up all component updates<a class="headerlink" href="#clean-up-all-component-updates" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">B.5 </span>Clean up all component updates<a class="headerlink" href="#clean-up-all-component-updates" title="Link to this heading">¶</a></h2>
 <p>This example removes any prepared and failed update images for all components.</p>
 <pre class="literal-block"> 1   #include &lt;psa/update.h&gt;
  2   
@@ -325,59 +373,10 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
-            </a></p><hr />
-<h3><a href="../index.html"><b>PSA Certified<br />Firmware Update API</b></a></h3>
-IHI 0093<br/>
-Non-confidential<br/>
-Version 1.0.0
-<hr />
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../overview/goals.html">2. Design goals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../overview/architecture.html">3. Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../overview/programming-model.html">4. Programming model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/api.html">5. API reference</a></li>
-</ul>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="example-header.html">A. Example header file</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">B. Example usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#retrieve-versions-of-installed-images">B.1. Retrieve versions of installed images</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#individual-component-update-single-part-operation">B.2. Individual component update (single part operation)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#individual-component-update-multi-part-operation">B.3. Individual component update (multi part operation)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#multiple-components-with-dependent-images">B.4. Multiple components with dependent images</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#clean-up-all-component-updates">B.5. Clean up all component updates</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="variations.html">C. Variation in system design parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sra.html">D. Security Risk Assessment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="change-history.html">E. Document change history</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
-</ul>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
+    <div class="clearer"></div>
+  </div>
     <div class="footer">
-      &copy; 2020-2023 Arm Limited and/or its affiliates.
+      &#169; 2020-2025 Arm Limited and/or its affiliates.
       
     </div>
 

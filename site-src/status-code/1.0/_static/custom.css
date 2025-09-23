@@ -1,36 +1,44 @@
-/* SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com> */
+/* SPDX-FileCopyrightText: Copyright 2020-2025 Arm Limited and/or its affiliates <open-source-office@arm.com> */
 
 /* CSS overrides for the html output */
 
 body {
     font-family: Lato, sans-serif;
     font-size: 15px;
+    font-weight: 300;
+    color: #080225;
 }
 
 div.document {
-    width: 935px;
+    width: 965px;
 }
 
 div.bodywrapper {
-    margin: 0 0 0 240px;
+    margin: 0 0 0 270px;
 }
 
 div.body {
     background-color: unset;
+    color: #080225;
     padding: 0;
 }
 
 div.sphinxsidebar {
-    width: 210px;
+    width: 240px;
     font-size: 12.5px;
+    margin-top: -30px;
 }
 
 div.sphinxsidebarwrapper {
     padding: 0;
 }
 
+div.sphinxsidebarwrapper p.logo {
+    margin: 0;
+}
+
 div.footer {
-    width: 935px;
+    width: 965px;
 }
 
 div.watermark {
@@ -44,6 +52,7 @@ div.watermark {
 div.watermark p {
     color: #EEE;
     font-size: 160px;
+    font-weight: 400;
     pointer-events: none;
     user-select: none;
     margin: 0px;
@@ -60,68 +69,103 @@ div.body h4,
 div.body h5,
 div.body h6 {
     font-family: Lato, sans-serif;
-    font-weight: bold;
+    font-weight: 400;
 }
 
 div.sphinxsidebar h3,
 div.sphinxsidebar h4 {
     font-family: Lato, sans-serif;
+    font-size: 20px;
 }
 
-a {
-    color: #0091BD;
+p.rubric {
+    font-weight: 400;
+}
+
+div.body input, div.sphinxsidebar input {
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+}
+
+a, a:visited {
+    color: #0042c0;
     text-decoration: none;
 }
 
-a.reference {
+a.reference, div.sphinxsidebar a.reference {
     border-bottom: none;
 }
 
-a.reference:hover {
-    color: #00617E;
-    border-bottom: 1px solid #00617E;
-    background: unset;
+a.reference:hover, div.sphinxsidebar a.reference:hover, a:hover code, a:hover tt {
+    color: #561bc6;
+    border-bottom: 1px dotted #561bc6;
+    background: unset;˙}
+
+pre a:hover, a:hover code, a:hover tt {
+    font-weight: 400;
+}
+
+mjx-math {
+    color: #5b566d
 }
 
 tt, code {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 0.85em;
+    font-family: "Noto Sans Mono", monospace;
+    font-size: 76%;
     background-color: unset;
+    color: #080225;
 }
 
 code.xref, a code {
-    font-weight: normal;
-    color: #0091BD;
+    font-weight: 300;
+    color: #0042c0;
     background-color: unset;
     border-bottom: unset;
 }
 
 pre {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 0.8em;
+    font-family: "Noto Sans Mono", monospace;
+    font-size: 76%;
+    color: #080225;
     background: rgba(187,187,187,0.12);
-    padding: 7px 10px;
-    margin: 15px 0px 15px 15px;
+    padding: 5px;
+    margin: 10px -6px;
     line-height: 1.3em;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: rgba(187,187,187,0.3);
+}
+
+/* Fix the specific overrides in basic.css and alabaster.css for code blocks */
+div.highlight pre, dl pre, blockquote pre, li pre {
+    padding: 5px;
+    margin: 10px -6px;
 }
 
 sub {
     font-size: 70%;
     vertical-align: -10%;
-    font-weight: bold;
+    font-weight: 400;
+    color: #5b566d;
 }
 
-super {
+sup {
     font-size: 70%;
     vertical-align: 25%;
-    font-weight: bold;
+    font-weight: 400;
+    color: #5b566d;
 }
 
 /* Default table formatting is like 'booktabs', 'standard' formatting can
    can be specified explicitly.
  */
 
- table.docutils {
+table {
+    font-weight: 300;
+}
+
+table.docutils {
     font-size: unset;
     box-shadow: none;
     -moz-box-shadow: none;
@@ -165,7 +209,7 @@ table.docutils caption, div.figure p.caption, figcaption {
 }
 
 table.docutils caption span.caption-number, div.figure p.caption span.caption-number, figcaption span.caption-number {
-    font-weight: bold;
+    font-weight: 400;
     font-style: normal;
 }
 
@@ -191,7 +235,7 @@ table.docutils th > p:first-child, table.docutils td > p:first-child {
 }
 
 table.docutils th {
-    font-weight: bold;
+    font-weight: 400;
     font-size: 90%;
 }
 
@@ -250,7 +294,7 @@ div.admonition {
 
 div.admonition p.admonition-title {
     font-family: Lato, sans-serif;
-    font-weight: bold;
+    font-weight: 400;
     font-size: 90%;
 }
 
@@ -318,12 +362,12 @@ div.admonition-todo p.admonition-title {
 div.license p.sectiontitle {
     display: block;
     margin-top: 24px;
-    font-weight: bold;
+    font-weight: 400;
     font-size: 144%;
 }
 
 .anchor {
-    color: #0091BD;
+    color: #0042c0;
 }
 
 .issue {
@@ -341,16 +385,16 @@ div.license p.sectiontitle {
 .sectiontitle {
     display: block;
     margin-top: 30px;
-    font-weight: bold;
+    font-weight: 400;
     font-size: 180%;
 }
 
 .sralabel {
-    font-weight: bold;
+    font-weight: 400;
 }
 
 .sradef {
-    font-weight: bold;
+    font-weight: 400;
     font-size: 90%;
 }
 
@@ -368,10 +412,8 @@ img.titlelogo {
 
 img.logo {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1em;
-    width: 50%;
+    margin: 1em auto;
+    width: 40%;
 }
 
 div.sphinxsidebar hr {

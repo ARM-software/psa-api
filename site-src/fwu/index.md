@@ -4,7 +4,7 @@ description: The Firmware Update API defines a standard firmware interface for i
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2023, 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -26,15 +26,17 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
-1.0.0 | [HTML][1-0-html] | [&darr; PDF][1-0-0-pdf] | August 2023
+1.0.1 | [HTML][1-0-html] | [&darr; PDF][1-0-1-pdf] | September 2025
+1.0.0 | | [&darr; PDF][1-0-0-pdf] | August 2023
 1.0 Beta | | [&darr; PDF][1-0-beta-pdf] | October 2022
 0.7 Beta | [HTML][0-7-html] | [&darr; PDF][0-7-beta-pdf] | January 2021
 
 [1-0-html]:           1.0/
+[1-0-1-pdf]:          1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.1.pdf
 [1-0-0-pdf]:          1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.0.pdf
 [1-0-beta-pdf]:       1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0-bet.0.pdf
 
 [0-7-html]:           0.7/
 [0-7-beta-pdf]:       0.7/IHI0093-PSA_FWU_API-0.7-beta0.pdf
 
-*Copyright 2022-2023, Arm Limited and/or its affiliates*
+*Copyright 2022-2023, 2025, Arm Limited and/or its affiliates*

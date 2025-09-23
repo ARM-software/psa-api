@@ -4,7 +4,7 @@ description: The Status code API provides common status and error codes for the 
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022, 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -26,7 +26,8 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
-1.0.3 | [HTML][1-0-html] | [&darr; PDF][1-0-3-pdf] | January 2024
+1.0.4 | [HTML][1-0-html] | [&darr; PDF][1-0-4-pdf] | September 2025
+1.0.3 | | [&darr; PDF][1-0-3-pdf] | January 2024
 1.0.2 | | [&darr; PDF][1-0-2-pdf] | December 2022
 1.0.1 | | [&darr; PDF][1-0-1-pdf] | October 2022
 
@@ -36,7 +37,8 @@ Prior to version 1.0.1, the PSA status codes were defined as part of the *PSA Fi
 [1-0-1-pdf]:            1.0/IHI0097-PSA_Certified_Status_code_API-1.0.1.pdf
 [1-0-2-pdf]:            1.0/IHI0097-PSA_Certified_Status_code_API-1.0.2.pdf
 [1-0-3-pdf]:            1.0/IHI0097-PSA_Certified_Status_code_API-1.0.3.pdf
+[1-0-4-pdf]:            1.0/IHI0097-PSA_Certified_Status_code_API-1.0.4.pdf
 
 [ffm-1-0-pdf]:          https://developer.arm.com/-/media/Files/pdf/PlatformSecurityArchitecture/Architect/DEN0063-PSA_Firmware_Framework-1.0.0-2.pdf
 
-*Copyright 2022, 2024 Arm Limited and/or its affiliates*
+*Copyright 2022, 2024-2025 Arm Limited and/or its affiliates*

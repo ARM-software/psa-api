@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="PSA Certified  Secure Storage API 1.0" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://arm-software.github.io/psa-api/storage/1.0/" />
 <link rel="canonical" href="https://arm-software.github.io/psa-api/storage/1.0/" />
 <meta property="og:site_name" content="PSA Certified Secure Storage API 1.0" />
-<meta property="og:description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 3,, Confidentiality:, Non-confidential,, Date of Issue:, 22/01/2024,,,, Contents Ab..." />
-<meta name="description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 3,, Confidentiality:, Non-confidential,, Date of Issue:, 22/01/2024,,,, Contents Ab..." />
+<meta property="og:description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 4,, Confidentiality:, Non-confidential,, Date of Issue:, 23/09/2025,,,, Abstract Th..." />
+<meta name="description" content="Arm PSA Certified Secure Storage API 1.0:,, Document number:, IHI 0087,, Release Quality:, Final,, Issue Number:, 4,, Confidentiality:, Non-confidential,, Date of Issue:, 23/09/2025,,,, Abstract Th..." />
 
     <title>PSA Certified Secure Storage API 1.0 &#8212; PSA Certified Secure Storage API 1.0</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="_static/documentation_options.js?v=e9607266"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,26 +31,63 @@
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
-  
-
-    <div class="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Secure Storage API"/>
+            </a></p><hr />
+<h3><a href="#">PSA Certified<br />Secure Storage API</a></h3>
+IHI 0087<br/>
+Non-confidential<br/>
+Version 1.0.4
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview/intro.html">1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/architecture.html">2 Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/requirements.html">3 Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/operation.html">4 Theory of Operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/api.html">5 API Reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix/headers.html">A Example header files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">B Security Risk Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">C Document history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
           
 
           <div class="body" role="main">
             
-  <img alt="Arm" class="titlelogo" src="_images/Arm_logo_blue_RGB.svg" /><section id="docrsttitle-docversion">
-<h1>PSA Certified <br /> Secure Storage API 1.0<a class="headerlink" href="#docrsttitle-docversion" title="Permalink to this heading">¶</a></h1>
+  <img alt="Arm" class="titlelogo" src="_images/ARM_LOGO-2025_INK_RGB.svg" />
+<section id="docrsttitle-docversion">
+<h1>PSA Certified <br /> Secure Storage API 1.0<a class="headerlink" href="#docrsttitle-docversion" title="Link to this heading">¶</a></h1>
 <table class="titletable borderless docutils align-default">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Document number:</p></td>
 <td><p>IHI 0087</p></td>
@@ -60,16 +96,18 @@
 <td><p>Final</p></td>
 </tr>
 <tr class="row-odd"><td><p>Issue Number:</p></td>
-<td><p>3</p></td>
+<td><p>4</p></td>
 </tr>
 <tr class="row-even"><td><p>Confidentiality:</p></td>
 <td><p>Non-confidential</p></td>
 </tr>
 <tr class="row-odd"><td><p>Date of Issue:</p></td>
-<td><p>22/01/2024</p></td>
+<td><p>23/09/2025</p></td>
 </tr>
 </tbody>
 </table>
+<p><span class="sectiontitle">Abstract</span></p>
+<p>This document is part of the PSA Certified API specifications. It defines interfaces to provide secure storage services.</p>
 <p><span class="sectiontitle">Contents</span></p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -87,63 +125,63 @@
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="overview/intro.html">1. Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview/intro.html#about-platform-security-architecture">1.1. About Platform Security Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/intro.html#about-the-api">1.2. About the Secure Storage API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/intro.html">1 Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/intro.html#about-platform-security-architecture">1.1 About Platform Security Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/intro.html#about-the-api">1.2 About the Secure Storage API</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="overview/architecture.html">2. Architecture</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#use-cases-and-rationale">2.1. Use Cases and Rationale</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#technical-background">2.2. Technical Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#the-protected-storage-api">2.3. The Protected Storage API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#the-internal-trusted-storage-api">2.4. The Internal Trusted Storage API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#uids">2.5. UIDs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#atomicity-of-operations">2.6. Atomicity of Operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#components">2.7. Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/architecture.html">2 Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#use-cases-and-rationale">2.1 Use Cases and Rationale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#technical-background">2.2 Technical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#the-protected-storage-api">2.3 The Protected Storage API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#the-internal-trusted-storage-api">2.4 The Internal Trusted Storage API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#uids">2.5 UIDs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#atomicity-of-operations">2.6 Atomicity of Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/architecture.html#components">2.7 Components</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="overview/requirements.html">3. Requirements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview/requirements.html#protected-storage-requirements">3.1. Protected Storage requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/requirements.html#internal-trusted-storage-requirements">3.2. Internal Trusted Storage requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/requirements.html">3 Requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/requirements.html#protected-storage-requirements">3.1 Protected Storage requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/requirements.html#internal-trusted-storage-requirements">3.2 Internal Trusted Storage requirements</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="overview/operation.html">4. Theory of Operation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview/operation.html#internal-trusted-storage-api">4.1. Internal Trusted Storage API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview/operation.html#memory-access-errors">4.2. Memory access errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/operation.html">4 Theory of Operation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview/operation.html#internal-trusted-storage-api">4.1 Internal Trusted Storage API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview/operation.html#memory-access-errors">4.2 Memory access errors</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/api.html">5. API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/api.html#status-codes">5.1. Status codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/api.html#general-definitions">5.2. General Definitions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_storage_info_t">5.2.1. <code class="docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code> (struct)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_storage_create_flags_t">5.2.2. <code class="docutils literal notranslate"><span class="pre">psa_storage_create_flags_t</span></code> (typedef)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_storage_uid_t">5.2.3. <code class="docutils literal notranslate"><span class="pre">psa_storage_uid_t</span></code> (typedef)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_NONE">5.2.4. <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NONE</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_WRITE_ONCE">5.2.5. <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_NO_CONFIDENTIALITY">5.2.6. <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_CONFIDENTIALITY</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION">5.2.7. <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_SUPPORT_SET_EXTENDED">5.2.8. <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_SUPPORT_SET_EXTENDED</span></code> (macro)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/api.html">5 API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#status-codes">5.1 Status codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#general-definitions">5.2 General Definitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_storage_info_t">5.2.1 <code class="docutils literal notranslate"><span class="pre">psa_storage_info_t</span></code> (struct)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_storage_create_flags_t">5.2.2 <code class="docutils literal notranslate"><span class="pre">psa_storage_create_flags_t</span></code> (typedef)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_storage_uid_t">5.2.3 <code class="docutils literal notranslate"><span class="pre">psa_storage_uid_t</span></code> (typedef)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_NONE">5.2.4 <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NONE</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_WRITE_ONCE">5.2.5 <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_WRITE_ONCE</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_NO_CONFIDENTIALITY">5.2.6 <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_CONFIDENTIALITY</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION">5.2.7 <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_STORAGE_SUPPORT_SET_EXTENDED">5.2.8 <code class="docutils literal notranslate"><span class="pre">PSA_STORAGE_SUPPORT_SET_EXTENDED</span></code> (macro)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/api.html#internal-trusted-storage-api">5.3. Internal Trusted Storage API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_ITS_API_VERSION_MAJOR">5.3.1. <code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MAJOR</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_ITS_API_VERSION_MINOR">5.3.2. <code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MINOR</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_set">5.3.3. <code class="docutils literal notranslate"><span class="pre">psa_its_set</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_get">5.3.4. <code class="docutils literal notranslate"><span class="pre">psa_its_get</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_get_info">5.3.5. <code class="docutils literal notranslate"><span class="pre">psa_its_get_info</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_remove">5.3.6. <code class="docutils literal notranslate"><span class="pre">psa_its_remove</span></code> (function)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#internal-trusted-storage-api">5.3 Internal Trusted Storage API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_ITS_API_VERSION_MAJOR">5.3.1 <code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MAJOR</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_ITS_API_VERSION_MINOR">5.3.2 <code class="docutils literal notranslate"><span class="pre">PSA_ITS_API_VERSION_MINOR</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_set">5.3.3 <code class="docutils literal notranslate"><span class="pre">psa_its_set</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_get">5.3.4 <code class="docutils literal notranslate"><span class="pre">psa_its_get</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_get_info">5.3.5 <code class="docutils literal notranslate"><span class="pre">psa_its_get_info</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_its_remove">5.3.6 <code class="docutils literal notranslate"><span class="pre">psa_its_remove</span></code> (function)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/api.html#protected-storage-api">5.4. Protected Storage API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_PS_API_VERSION_MAJOR">5.4.1. <code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MAJOR</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_PS_API_VERSION_MINOR">5.4.2. <code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MINOR</span></code> (macro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_set">5.4.3. <code class="docutils literal notranslate"><span class="pre">psa_ps_set</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_get">5.4.4. <code class="docutils literal notranslate"><span class="pre">psa_ps_get</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_get_info">5.4.5. <code class="docutils literal notranslate"><span class="pre">psa_ps_get_info</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_remove">5.4.6. <code class="docutils literal notranslate"><span class="pre">psa_ps_remove</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_create">5.4.7. <code class="docutils literal notranslate"><span class="pre">psa_ps_create</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_set_extended">5.4.8. <code class="docutils literal notranslate"><span class="pre">psa_ps_set_extended</span></code> (function)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_get_support">5.4.9. <code class="docutils literal notranslate"><span class="pre">psa_ps_get_support</span></code> (function)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/api.html#protected-storage-api">5.4 Protected Storage API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_PS_API_VERSION_MAJOR">5.4.1 <code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MAJOR</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.PSA_PS_API_VERSION_MINOR">5.4.2 <code class="docutils literal notranslate"><span class="pre">PSA_PS_API_VERSION_MINOR</span></code> (macro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_set">5.4.3 <code class="docutils literal notranslate"><span class="pre">psa_ps_set</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_get">5.4.4 <code class="docutils literal notranslate"><span class="pre">psa_ps_get</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_get_info">5.4.5 <code class="docutils literal notranslate"><span class="pre">psa_ps_get_info</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_remove">5.4.6 <code class="docutils literal notranslate"><span class="pre">psa_ps_remove</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_create">5.4.7 <code class="docutils literal notranslate"><span class="pre">psa_ps_create</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_set_extended">5.4.8 <code class="docutils literal notranslate"><span class="pre">psa_ps_set_extended</span></code> (function)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/api.html#c.psa_ps_get_support">5.4.9 <code class="docutils literal notranslate"><span class="pre">psa_ps_get_support</span></code> (function)</a></li>
 </ul>
 </li>
 </ul>
@@ -152,52 +190,52 @@
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="appendix/headers.html">A. Example header files</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="appendix/headers.html#psa-storage-common-h">A.1. psa/storage_common.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="appendix/headers.html#psa-internal-trusted-storage-h">A.2. psa/internal_trusted_storage.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="appendix/headers.html#psa-protected-storage-h">A.3. psa/protected_storage.h</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/headers.html">A Example header files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/headers.html#psa-storage-common-h">A.1 psa/storage_common.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/headers.html#psa-internal-trusted-storage-h">A.2 psa/internal_trusted_storage.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/headers.html#psa-protected-storage-h">A.3 psa/protected_storage.h</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">B. Security Risk Assessment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#about-this-assessment">B.1. About this assessment</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#subject-and-scope">B.1.1. Subject and scope</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#risk-assessment-methodology">B.1.2. Risk assessment methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">B Security Risk Assessment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#about-this-assessment">B.1 About this assessment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#subject-and-scope">B.1.1 Subject and scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#risk-assessment-methodology">B.1.2 Risk assessment methodology</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#feature-definition">B.2. Feature definition</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#introduction">B.2.1. Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#lifecycle">B.2.2. Lifecycle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#operation-and-trust-boundaries">B.2.3. Operation and trust boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#deployment-models">B.2.4. Deployment models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#assumptions-constraints-and-interacting-entities">B.2.5. Assumptions, constraints, and interacting entities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#stakeholders-and-assets">B.2.6. Stakeholders and Assets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#goals">B.2.7. Goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#adversarial-models">B.2.8. Adversarial models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#feature-definition">B.2 Feature definition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#introduction">B.2.1 Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#lifecycle">B.2.2 Lifecycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#operation-and-trust-boundaries">B.2.3 Operation and trust boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#deployment-models">B.2.4 Deployment models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#assumptions-constraints-and-interacting-entities">B.2.5 Assumptions, constraints, and interacting entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#stakeholders-and-assets">B.2.6 Stakeholders and Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#goals">B.2.7 Goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#adversarial-models">B.2.8 Adversarial models</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#threats">B.3. Threats</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-interface-abuse-illegal-inputs-to-the-api">B.3.1. <span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-spoof-read-use-the-api-to-read-another-caller-s-data">B.3.2. <span class="sradef">T.SPOOF_READ</span>: Use the API to read another caller’s data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-spoof-write-use-the-api-to-modify-another-caller-s-data">B.3.3. <span class="sradef">T.SPOOF_WRITE</span>: Use the API to modify another caller’s data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-eavesdropping-eavesdropping">B.3.4. <span class="sradef">T.EAVESDROPPING</span>: Eavesdropping</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-mitm-man-in-the-middle">B.3.5. <span class="sradef">T.MITM</span>: Man In The Middle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-direct-read-bypassing-the-api-to-directly-read-data">B.3.6. <span class="sradef">T.DIRECT_READ</span>: Bypassing the API to directly read data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-direct-write-bypassing-the-api-to-directly-modify-data">B.3.7. <span class="sradef">T.DIRECT_WRITE</span>: Bypassing the API to directly modify data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-replace-physical-replacement-of-the-storage-medium">B.3.8. <span class="sradef">T.REPLACE</span>: Physical replacement of the storage medium</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-glitch-read-glitching-during-a-read">B.3.9. <span class="sradef">T.GLITCH_READ</span>: Glitching during a read</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-glitch-write-glitching-during-a-write">B.3.10. <span class="sradef">T.GLITCH_WRITE</span>: Glitching during a write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#threats">B.3 Threats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-interface-abuse-illegal-inputs-to-the-api">B.3.1 <span class="sradef">T.INTERFACE_ABUSE</span>: Illegal inputs to the API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-spoof-read-use-the-api-to-read-another-caller-s-data">B.3.2 <span class="sradef">T.SPOOF_READ</span>: Use the API to read another caller’s data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-spoof-write-use-the-api-to-modify-another-caller-s-data">B.3.3 <span class="sradef">T.SPOOF_WRITE</span>: Use the API to modify another caller’s data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-eavesdropping-eavesdropping">B.3.4 <span class="sradef">T.EAVESDROPPING</span>: Eavesdropping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-mitm-man-in-the-middle">B.3.5 <span class="sradef">T.MITM</span>: Man In The Middle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-direct-read-bypassing-the-api-to-directly-read-data">B.3.6 <span class="sradef">T.DIRECT_READ</span>: Bypassing the API to directly read data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-direct-write-bypassing-the-api-to-directly-modify-data">B.3.7 <span class="sradef">T.DIRECT_WRITE</span>: Bypassing the API to directly modify data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-replace-physical-replacement-of-the-storage-medium">B.3.8 <span class="sradef">T.REPLACE</span>: Physical replacement of the storage medium</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-glitch-read-glitching-during-a-read">B.3.9 <span class="sradef">T.GLITCH_READ</span>: Glitching during a read</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#t-glitch-write-glitching-during-a-write">B.3.10 <span class="sradef">T.GLITCH_WRITE</span>: Glitching during a write</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#mitigation-summary">B.4. Mitigation Summary</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#architecture-level-mitigations">B.4.1. Architecture level mitigations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#implementation-level-mitigations">B.4.2. Implementation-level mitigations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#user-level-mitigations">B.4.3. User-level mitigations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#mitigations-required-by-each-deployment-model">B.4.4. Mitigations required by each deployment model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/sra.html#mitigation-summary">B.4 Mitigation Summary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#architecture-level-mitigations">B.4.1 Architecture level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#implementation-level-mitigations">B.4.2 Implementation-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#user-level-mitigations">B.4.3 User-level mitigations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/sra.html#mitigations-required-by-each-deployment-model">B.4.4 Mitigations required by each deployment model</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">C. Document history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">C Document history</a></li>
 </ul>
 </div>
 </section>
@@ -207,50 +245,10 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="#">
-              <img class="logo" src="_static/Arm_logo_blue_RGB.svg" alt="Logo"/>
-            </a></p><hr />
-<h3><a href="#"><b>PSA Certified<br />Secure Storage API</b></a></h3>
-IHI 0087<br/>
-Non-confidential<br/>
-Version 1.0.3
-<hr />
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="overview/intro.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overview/architecture.html">2. Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overview/requirements.html">3. Requirements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overview/operation.html">4. Theory of Operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/api.html">5. API Reference</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="appendix/headers.html">A. Example header files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/sra.html">B. Security Risk Assessment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">C. Document history</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="atg_c-identifiers.html">Index of API elements</a></li>
-</ul>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
+    <div class="clearer"></div>
+  </div>
     <div class="footer">
-      &copy; 2018-2019, 2022-2024 Arm Limited and/or its affiliates.
+      &#169; 2018-2019, 2022-2025 Arm Limited and/or its affiliates.
       
     </div>
 
