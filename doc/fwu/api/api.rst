@@ -1,9 +1,9 @@
 
-.. SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2020-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/update
-   :copyright: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+   :copyright: Copyright 2020-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
    :license: Apache-2.0
    :guard:
    :c++:
@@ -11,7 +11,7 @@
    :include: psa/error.h
 
    /* This file is a reference template for implementation of the
-    * PSA Certified Firmware Update API v1.0.0
+    * PSA Certified Firmware Update API v1.0
     */
 
 .. _api-reference:
