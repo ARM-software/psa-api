@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _document-history:
@@ -46,3 +46,7 @@ Document history
     * - 2024-01-22
       - *1.0.3 Rel*
       - Introduced a Security Risk Assessment. See :secref:`sra`.
+
+    * - 2025-09-23
+      - *1.0.4 Rel*
+      - Updated introduction to reflect GlobalPlatform assuming the governance of the PSA Certified evaluation scheme.

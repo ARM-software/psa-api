@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 API Reference
@@ -44,7 +44,7 @@ General Definitions
     :system-include: stddef.h stdint.h
 
     /* This file is a reference template for implementation of the
-     * PSA Certified Secure Storage API v1.0.1
+     * PSA Certified Secure Storage API v1.0
      *
      * This file includes common definitions
      */
@@ -116,7 +116,7 @@ Internal Trusted Storage API
     :include: psa/error.h psa/storage_common.h
 
     /* This file is a reference template for implementation of the
-     * PSA Certified Secure Storage API v1.0.1
+     * PSA Certified Secure Storage API v1.0
      *
      * This file describes the Internal Trusted Storage API
      */
@@ -327,7 +327,7 @@ Protected Storage API
     :include: psa/error.h psa/storage_common.h
 
     /* This file is a reference template for implementation of the
-     * PSA Certified Secure Storage API v1.0.1
+     * PSA Certified Secure Storage API v1.0
      *
      * This file describes the Protected Storage API
      */
