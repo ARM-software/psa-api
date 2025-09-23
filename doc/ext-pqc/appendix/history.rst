@@ -9,6 +9,16 @@ Changes to the API
 Document change history
 -----------------------
 
+Changes between *Beta 2* and *Final 0*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*   Finalized the key format specification for SLH-DSA, ML-KEM, and ML-DSA keys.
+    The formats are unchanged from the Beta version of this specification.
+    See :secref:`slh-dsa`, :secref:`ml-dsa`, and :secref:`ml-kem`.
+
 Changes between *Beta 1* and *Beta 2*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
