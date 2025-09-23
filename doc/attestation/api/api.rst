@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _api:
@@ -7,14 +7,14 @@ API reference
 =============
 
 .. header:: psa/initial_attestation
-    :copyright: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2018-2020, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
     :license: Apache-2.0
     :c++:
     :guard:
     :system-include: stddef.h stdint.h
 
     /* This file is a reference template for implementation of the
-     * PSA Certified Attestation API v2.0.0
+     * PSA Certified Attestation API v2.0
      */
 
 The |API| defines a header file that is provided by the implementation. The header is :file:`psa/initial_attestation.h`.

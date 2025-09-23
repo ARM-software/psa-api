@@ -43,7 +43,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '10/06/2025',
+    'date': '23/09/2025',
 
     # Default header file for API definitions
     # default to None, and can be set in documentation source
