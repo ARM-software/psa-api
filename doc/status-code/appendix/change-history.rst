@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022, 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _change-history:
@@ -6,6 +6,11 @@
 ==============
 Change history
 ==============
+
+Changes between version 1.0.3 and version 1.0.4
+-----------------------------------------------
+
+*  Updated introduction to reflect GlobalPlatform assuming the governance of the PSA Certified evaluation scheme.
 
 Changes between version 1.0.2 and version 1.0.3
 -----------------------------------------------
