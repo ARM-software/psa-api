@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 # PSA Certified API document configuration
@@ -8,14 +8,14 @@
 
 doc_info = {
     # Document template
-    'template': 'psa-api-2022',
+    'template': 'psa-api-2025',
 
     # Document title, MANDATORY
     'title': 'PSA Certified\nAttestation API',
     'author': 'Arm Limited',
 
     # Document copyright date, default to year of 'date'
-    'copyright_date': '2018-2020, 2022-2023',
+    'copyright_date': '2018-2020, 2022-2025',
     'copyright': 'Arm Limited and/or its affiliates',
 
     # Arm document identifier, marked as open issue if not provided
@@ -42,7 +42,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    #'date': '17/10/2022',
+    #'date': '23/09/2025',
 
     # psa_spec: default header file for API definitions
     # default to None, and can be set in documentation source

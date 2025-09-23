@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: Copyright 2018-2020, 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2020, 2022, 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file is a reference template for implementation of the
- * PSA Certified Attestation API v1.0.3
+ * PSA Certified Attestation API v1.0
  */
 
 #ifndef PSA_INITIAL_ATTESTATION_H
