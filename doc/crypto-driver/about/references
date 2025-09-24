@@ -5,8 +5,3 @@
     :title: PSA Certified Crypto API
     :doc_no: IHI 0086
     :url: arm-software.github.io/psa-api/crypto
-
-.. reference:: CDI-EXAMPLE
-    :title: PSA Cryptoprocessor driver development examples
-    :author: Arm
-    :url: github.com/Mbed-TLS/TF-PSA-Crypto/blob/development/docs/psa-driver-example-and-guide.md

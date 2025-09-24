@@ -32,9 +32,9 @@
     This document is at Alpha quality.
     It is shared to support ongoing development and discussion of the architecture and interfaces for Cryptoprocessor drivers.
 
-    There is ongoing work to implement this interface in Mbed TLS, which is the reference implementation of :cite-title:`PSA-CRYPT`.
+    There are several projects currently implementing the |API|, see :url:`github.com/arm-software/psa-api/blob/main/related-projects.md`.
 
-    For a practical guide, with a description of the current state of drivers Mbed TLS, see the examples in :cite-title:`CDI-EXAMPLE`.
+    For a practical guide, with a description of the current state of drivers in Mbed TLS, see the examples in :url:`github.com/Mbed-TLS/TF-PSA-Crypto/blob/development/docs/psa-driver-example-and-guide.md`.
 
 
 .. about::
