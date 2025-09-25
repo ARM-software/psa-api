@@ -29,7 +29,8 @@ Updated Sep 2025.
 
 ## Crypto driver implementations
 
-The PSA Crypto Driver Interface complements the Crypto API. Initially developed as part of the Mbed TLS project, and now development continues now as part of the PSA Certified API project.
+The PSA Crypto Driver Interface complements the Crypto API.
+Initially developed as part of the Mbed TLS project, development now continues as part of the PSA Certified API project.
 
 The aim of the Driver Interface is to simplify the integration of cryptographic peripherals, secure elements, and optimized software into implementations of the Crypto API. See [doc/crypto-driver/psa-driver-interface.rst](doc/crypto-driver/psa-driver-interface.rst).
 
