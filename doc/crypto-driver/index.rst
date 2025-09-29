@@ -12,11 +12,7 @@
 
         This specification is work in progress and should be considered to be in at 'alpha' quality.
 
-        At this stage, the following changes are expected:
-
-        * Completing missing parts of the interface.
-        * Alignment with the published Crypto API for PAKE.
-        * Improvements based on the experience of early implementations.
+        See :secref:`current-status`.
 
 ..  front-matter::
 

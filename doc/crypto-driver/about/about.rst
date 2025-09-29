@@ -30,7 +30,9 @@
 .. current-status::
 
     This document is at Alpha quality.
-    It is shared to support ongoing development and discussion of the architecture and interfaces for Cryptoprocessor drivers.
+    It is shared to support ongoing development and discussion of the architecture and interfaces for Crypto Drivers.
+
+    The current planned scope for v1.0 is found here at :url:`github.com/ARM-software/psa-api/discussions/306`.
 
     There are several projects currently implementing the |API|, see :url:`github.com/arm-software/psa-api/blob/main/related-projects.md`.
 
