@@ -11,7 +11,7 @@ doc_info = {
     'template': 'psa-api-2025',
 
     # Document title, MANDATORY
-    'title': 'PSA\nCryptoprocessor Driver Interface',
+    'title': 'PSA Certified\nCrypto Driver Interface',
     'author': 'Arm Limited',
 
     # Document copyright date, default to year of 'date'
@@ -27,7 +27,7 @@ doc_info = {
     'quality': 'ALP',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 0,
+    'issue_no': 1,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     'release_candidate': 0,
@@ -43,7 +43,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    #'date': '10/06/2025',
+    'date': '29/09/2025',
 
     # Default header file for API definitions
     # default to None, and can be set in documentation source
