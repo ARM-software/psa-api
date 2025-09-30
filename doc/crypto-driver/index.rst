@@ -8,11 +8,11 @@
         This document describes an interface for cryptoprocessor drivers within an implementation of the PSA Certified Crypto API.
         This interface complements :cite-title:`PSA-CRYPT`, which describes the interface between a Crypto API implementation and an application.
 
-    .. banner:: **DRAFT**
+    .. banner:: **ALPHA**
 
-        This specification is work in progress and should be considered to be in at 'alpha' quality.
+        This specification is work in progress and should be considered to be in at Alpha quality.
 
-        See :secref:`current-status`.
+        See :secref:`current-status` for details.
 
 ..  front-matter::
 

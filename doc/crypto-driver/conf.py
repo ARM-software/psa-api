@@ -30,9 +30,9 @@ doc_info = {
     'issue_no': 1,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
-    'release_candidate': 0,
+    'release_candidate': 1,
     # Draft status - use this to indicate the document is not ready for publication
-    'draft': True,
+    #'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -43,7 +43,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '29/09/2025',
+    'date': '30/09/2025',
 
     # Default header file for API definitions
     # default to None, and can be set in documentation source
@@ -57,6 +57,13 @@ doc_info = {
 
     # Declare a watermark for the PDF output
     # 'watermark': 'DRAFT',
+
+# List of optional content that should be included in the build.
+    # Valid options are:
+    #   'rationale' : This enables output of ..rationale:: directives
+    #   'banner'    : This enables output of the title page banner
+    #   'todo'      : This enables output of ..todo:: directives
+    'include_content': ['banner','rationale'],
 
     # Optional ordering of return error values
     # This list is used to create a standard ordering of return value responses
