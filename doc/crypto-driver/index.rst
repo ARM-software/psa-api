@@ -24,7 +24,13 @@
 
 ..  maintoc::
 
-    body/driver-interface
+    body/introduction
+    body/overview
+    body/manifest
+    body/entry-points
+    body/transparent
+    body/opaque
+    body/using-drivers
 
 ..  appendix::
 
