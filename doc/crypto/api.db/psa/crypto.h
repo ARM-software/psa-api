@@ -392,7 +392,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_PAKE_ROLE_NONE ((psa_pake_role_t)0x00)
 #define PSA_PAKE_ROLE_SECOND ((psa_pake_role_t)0x02)
 #define PSA_PAKE_ROLE_SERVER ((psa_pake_role_t)0x12)
-#define PSA_PAKE_STEP_COMMIT_SCALAR ((psa_pake_step_t)0x06)
+#define PSA_PAKE_STEP_COMMIT ((psa_pake_step_t)0x06)
 #define PSA_PAKE_STEP_CONFIRM ((psa_pake_step_t)0x04)
 #define PSA_PAKE_STEP_CONFIRM_COUNT ((psa_pake_step_t)0x07)
 #define PSA_PAKE_STEP_KEY_ID ((psa_pake_step_t)0x08)
