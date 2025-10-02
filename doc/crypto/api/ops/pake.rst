@@ -576,16 +576,6 @@ PAKE step types
 
     For information regarding how the group is determined, consult the documentation `PSA_PAKE_PRIMITIVE()`.
 
-    .. todo::
-
-        Decide on how to handle COMMIT-ELEMENT format in WPA3-SAE.
-        This is an element in the group, using a big-endian scalar value for FFDH (== public key format (I think - no truncation)), and a big-endian encoding of the {x,y} coordinates for ECC. The latter is close to public key format, but there is no :code:```0x04``` prefix.
-
-        1. Use a WPA3-SAE-specific PAKE step for the COMMIT-ELEMENT, and specify the format (by reference to 802.11).
-        2. Make the format of KEY_SHARE step algorithm-specific, and describe it separately for J-PAKE, SPAKE2+, and WPA3-SAE.
-        3. Make a COMMIT step for WPA3-SAE that concatenates both the scalar and ELEMENT values (means application has to know the size of the scalar element to split/combine this correctly, and cannot read/write this directly from SAE frame structures in memory).
-        4. Stick with KEY_SHARE and the 'public key format', making the application deal with the extra prefix (prevents application directly reading from/writing to the SAE frame structures in memory).
-
 .. macro:: PSA_PAKE_STEP_ZK_PUBLIC
     :definition: ((psa_pake_step_t)0x02)
 
@@ -653,30 +643,25 @@ PAKE step types
     *   For a WPA3-SAE algorithm, a salt value must be provided as defined in `[IEEE-802.11]` §12.4.5.4.
         See :secref:`wpa3-sae-operation`.
 
-..
-    Oberon's approach
-
-    /** The WPA3-SAE commit step.
-    *
-    * The format for both input and output at this step is a 2 byte number
-    * specifying the group used followed by a scalar and an element of the
-    * specified group.
-    */
-    #define PSA_PAKE_STEP_COMMIT                    ((psa_pake_step_t)0x06)
-
-.. macro:: PSA_PAKE_STEP_COMMIT_SCALAR
+.. macro:: PSA_PAKE_STEP_COMMIT
     :definition: ((psa_pake_step_t)0x06)
 
     .. summary::
-        A scalar value being sent to or received from a PAKE participant.
+        A commitment value being sent to or received from a PAKE participant.
 
         .. versionadded:: 1.4
 
     This input and output is used during the key exchange phase of a PAKE protocol.
     The use of this step, and format of the value depends on the algorithm and cipher suite:
 
-    *   For a WPA3-SAE algorithm, the format for input at this step is a string that encodes the *commit-scalar* or *peer-commit-scalar* values, as defined in `[IEEE-802.11]` §12.4.7.3.
+    *   For a WPA3-SAE algorithm, the format for input and output at this step is a concatenation of the *commit-scalar* and *COMMIT-ELEMENT* values, as defined in `[IEEE-802.11]` §12.4.7.3.
+
         See :secref:`wpa3-sae-operation`.
+
+        .. note::
+
+            These values are adjacent in the WPA3-SAE Authentication frame defined in `[IEEE-802.11]` §9.3.3.11.
+            The concatenated value can be output directly to, or input directly from, the frame buffer.
 
 .. macro:: PSA_PAKE_STEP_CONFIRM_COUNT
     :definition: ((psa_pake_step_t)0x07)
@@ -830,7 +815,7 @@ Multi-part PAKE operations
     1.  Allocate a PAKE operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_pake_operation_t`.
         For example, using `PSA_PAKE_OPERATION_INIT`.
-    #.  Call `psa_pake_setup()` to specify the cipher suite.
+    #.  Call `psa_pake_setup()` to specify the cipher suite and provide the password or password-derived key.
     #.  Call ``psa_pake_set_xxx()`` functions on the operation to complete the setup.
         The exact sequence of ``psa_pake_set_xxx()`` functions that needs to be called depends on the algorithm in use.
 
@@ -2329,19 +2314,15 @@ Commit
 
     .. code-block:: xref
 
-        // Get commit-scalar
-        psa_pake_output(&wpa3_sae, PSA_PAKE_STEP_COMMIT_SCALAR, ...);
-        // Get COMMIT-ELEMENT
-        psa_pake_output(&wpa3_sae, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Get commit-scalar || COMMIT-ELEMENT
+        psa_pake_output(&wpa3_sae, PSA_PAKE_STEP_COMMIT, ...);
 
     To provide and validate the commitment values from STA-B, call:
 
     .. code-block:: xref
 
-        // Set peer-commit-scalar
-        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_COMMIT_SCALAR, ...);
-        // Set PEER-COMMIT-ELEMENT
-        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_KEY_SHARE, ...);
+        // Set peer-commit-scalar || PEER-COMMIT-ELEMENT
+        psa_pake_input(&wpa3_sae, PSA_PAKE_STEP_COMMIT, ...);
 
 3.  Provide the salt used for shared secret derivation, as described in `[IEEE-802.11]` §12.4.5.4.
     For Hash-to-element and Group-dependent-hash variants, this is the list of rejected groups.
@@ -2411,7 +2392,7 @@ Although it can be used directly as an encryption key, it is recommended to use 
 
 For more information about the format of the values which are passed for each step, see :secref:`pake-steps`.
 
-If the validation of a commitment value fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_KEY_SHARE` or `PSA_PAKE_STEP_COMMIT_SCALAR` step will return :code:`PSA_ERROR_INVALID_ARGUMENT`.
+If the validation of a commitment value fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_COMMIT` step will return :code:`PSA_ERROR_INVALID_ARGUMENT`.
 If the verification of a confirmation value fails, then the corresponding call to `psa_pake_input()` for the `PSA_PAKE_STEP_CONFIRM` step will return :code:`PSA_ERROR_INVALID_SIGNATURE`.
 
 .. _wpa3-sae-algorithms:
