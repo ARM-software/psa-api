@@ -18,6 +18,7 @@ Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
 *   Added `psa_attach_key()` to register existing key material as a volatile key within the implementation.
+*   Added `psa_check_key_usage()` to query a key's capabilities.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
