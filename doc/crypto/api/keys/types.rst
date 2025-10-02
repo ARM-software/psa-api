@@ -1005,18 +1005,28 @@ WPA3-SAE password tokens are defined for both elliptic curve and finite field gr
 
     .. subsection:: Key format
 
-        The data format for import and export of a WPA3-SAE password token is :scterm:`implementation defined`.
+        The password token is an element of the elliptic curve group, with value :math:`(x,y)`.
+
+        The data format for import and export of the password token is the concatenation of:
+
+        *   :math:`x` encoded as a big-endian :math:`m`-byte string;
+        *   :math:`y` encoded as a big-endian :math:`m`-byte string.
+
+        For an elliptic curve over :math:`\mathbb{F}_p`, :math:`m` is the integer for which :math:`2^{8m-1} \leq p < 2^{8m}`.
+
+        .. note::
+
+            This is the same format as the one used for group elements in the commit phase of the WPA3-SAE protocol, defined in `[IEEE-802.11]` §12.4.7.2.4.
 
         .. rationale::
 
-            :issue:`No export/import format is needed for this key type: password tokens should ALWAYS be derived from the password?`
-
-            .. todo:: Decide if we need to define the format for WPA3-SAE password token keys
+            There is no protocol use case for exporting or importing the password token.
+            However, the ability to extract a derived token, or import a known-value token, can help development and testing of an implementation.
 
     .. subsection:: Key derivation
 
         A elliptic curve-based WPA3-SAE password token can only be derived using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
-        The call to `psa_key_derivation_output_key()` uses the  method defined in :cite-title:`IEEE-802.11` §12.4.4.2.3 to generate the key value.
+        The call to `psa_key_derivation_output_key()` uses the  method defined in `[IEEE-802.11]` §12.4.4.2.3 to generate the key value.
 
 .. macro:: PSA_KEY_TYPE_WPA3_SAE_DH_PT
     :definition: /* specification-defined value */
@@ -1045,18 +1055,23 @@ WPA3-SAE password tokens are defined for both elliptic curve and finite field gr
 
     .. subsection:: Key format
 
-        The data format for import and export of a WPA3-SAE password token is :scterm:`implementation defined`.
+        The password token is a finite-field group element :math:`y \in [1, p - 1]`, where :math:`p` is the group's prime modulus.
+
+        The data format for import and export of the password token is :math:`y` encoded as a big-endian :math:`m`-byte string, where :math:`m` is the integer for which :math:`2^{8m-1} \leq p < 2^{8m}`.
+
+        .. note::
+
+            This is the same format as the one used for group elements in the commit phase of the WPA3-SAE protocol, defined in `[IEEE-802.11]` §12.4.7.2.4.
 
         .. rationale::
 
-            :issue:`No export/import format is needed for this key type: password tokens should ALWAYS be derived from the password?`
-
-        .. todo:: Decide if we need to define the format for WPA3-SAE password token keys
+            There is no protocol use case for exporting or importing the password token.
+            However, the ability to extract a derived token, or import a known-value token, can help development and testing of an implementation.
 
     .. subsection:: Key derivation
 
         A finite field-based WPA3-SAE password token can only be derived using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
-        The call to `psa_key_derivation_output_key()` uses the  method defined in :cite-title:`IEEE-802.11` §12.4.4.3.3 to generate the key value.
+        The call to `psa_key_derivation_output_key()` uses the  method defined in `[IEEE-802.11]` §12.4.4.3.3 to generate the key value.
 
 .. macro:: PSA_KEY_TYPE_IS_WPA3_SAE_ECC
     :definition: /* specification-defined value */
