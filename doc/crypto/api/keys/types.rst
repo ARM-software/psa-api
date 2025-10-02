@@ -956,8 +956,8 @@ Symmetric cryptographic keys
 
 .. _structured-keys:
 
-Structured keys
----------------
+Structured key types
+--------------------
 
 .. _wpa3-sae-keys:
 
@@ -1629,7 +1629,7 @@ Diffie Hellman keys
 .. _spake2p-keys:
 
 SPAKE2+ keys
-------------
+~~~~~~~~~~~~
 
 .. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
     :definition: /* specification-defined value */
