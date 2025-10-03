@@ -789,7 +789,7 @@ Multi-part PAKE operations
     .. retval:: PSA_ERROR_INVALID_HANDLE
         ``password_key`` is not a valid key identifier.
     .. retval:: PSA_ERROR_NOT_PERMITTED
-        ``psssword_key`` does not have the `PSA_KEY_USAGE_DERIVE` flag, or it does not permit the algorithm in ``cipher_suite``.
+        ``password_key`` does not have the `PSA_KEY_USAGE_DERIVE` flag, or it does not permit the algorithm in ``cipher_suite``.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -1974,7 +1974,7 @@ SPAKE2+ algorithms
         | `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY` (verification only)
 
 .. macro:: PSA_ALG_SPAKE2P_MATTER
-    :definition: ((psa_algoirithm_t)0x0A000609)
+    :definition: ((psa_algorithm_t)0x0A000609)
 
     .. summary::
         The SPAKE2+ algorithm, as used by the Matter v1 specification.
