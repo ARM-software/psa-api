@@ -2179,10 +2179,10 @@ WPA3-SAE defines the following two methods for deriving the password element (PW
             This derivation occurs as part of the authentication flow.
 
     *   -   Hash-to-element method
-        -   Derive a password token (PT) element from the password, using the hash-to-curve procedure for elliptic curve groups, and a direct method for finite field groups.
-            This derivation can be carried out when the network SSID and password is provisioned to the device, and the PT stored as part of the configuration.
+        -   Derive a password token element PT from the password, using the hash-to-curve procedure for elliptic curve groups, and a direct method for finite field groups.
+            This derivation can be carried out when the network SSID and password is provisioned to the device, and PT is stored as part of the configuration.
 
-            During authentication, the PWE is derived from the PT.
+            During authentication, PWE is derived from PT.
 
 The hash-to-element method is recommended, as it is less vulnerable to timing-based attacks, and reduces the authentication time.
 
@@ -2206,15 +2206,17 @@ To use the hash-to-element method:
 1.  Import the password into a key of type `PSA_KEY_TYPE_PASSWORD`.
     The password must be encoded as defined in `[IEEE-802.11]` §12.4.3.
 
-#.  A WPA3-SAE password token (PT) is derived from the WPA3-SAE password, using a key-derivation operation with the `PSA_ALG_WPA3_SAE_H2E()` algorithm.
+#.  A WPA3-SAE password token is derived from the WPA3-SAE password, using a key-derivation operation with the `PSA_ALG_WPA3_SAE_H2E()` algorithm.
     The `PSA_ALG_WPA3_SAE_H2E()` algorithm is parameterized by the hash used in the required WPA3-SAE cipher suite.
 
-    The PT is output from the key-derivation operation as a key of type `PSA_KEY_TYPE_WPA3_SAE_ECC()` or `PSA_KEY_TYPE_WPA3_SAE_DH()`.
+    The password token is output from the key-derivation operation as a key of type `PSA_KEY_TYPE_WPA3_SAE_ECC()` or `PSA_KEY_TYPE_WPA3_SAE_DH()`.
     The key type is parameterized by the elliptic curve or finite field Diffie-Hellman group used in the required WPA3-SAE cipher suite.
 
-    The PT key must be protected at least as well as the password.
+    The password token key must be protected at least as well as the password.
 
-#.  Pass the PT key to the WPA3-SAE PAKE operation in the call to `psa_pake_setup()`.
+#.  Pass the password token key to the WPA3-SAE PAKE operation in the call to `psa_pake_setup()`.
+
+The wildcard key policy `PSA_ALG_WPA3_SAE_ANY` permits a password token key to be used with both the `PSA_ALG_WPA3_SAE_FIXED()` and `PSA_ALG_WPA3_SAE_GDH()` PAKE algorithms.
 
 The following steps demonstrate the derivation of a password token for use with the group-dependent-hash variant of WPA3-SAE.
 The selected cipher suite in the example is IANA Group 20: ECC using secp384r1, hash function SHA-384.
@@ -2515,10 +2517,16 @@ WPA3-SAE algorithms
 
     WPA3-SAE algorithms with a group-dependent size for the output key, are constructed using :code:`PSA_ALG_WPA3_SAE_GDH(hash_alg)`.
 
-.. todo::
+.. macro:: PSA_ALG_WPA3_SAE_ANY
+    :definition: ((psa_algorithm_t)0x0a000800)
 
-    Wildcard algorithms are needed:
+    .. summary::
+        A wildcard algorithm that permits a WPA3-SAE password token key to be used in hash-to-element and group-dependent-hash variants of the WPA3-SAE PAKE algorithm.
 
-    1.  A WPA3-SAE password can be derived for use with different cipher suites (ECC vs DH, group size affects hash algorithm selection). Desirable to have a wildcard that does not constrain which WPA3-SAE key derivation algorithm is permitted, so that password can be persisted in key store.
-    2.  A WPA3-SAE password key to be used in both the key-derivation (to password token), and the `PSA_ALG_IS_WPA3_SAE_FIXED` algorithm (for looping). The same password can be used in different ways that is only discovered at runtime in the device - based on protocol interactions. Workaround: could make copies of the password?
-    3.  A SPA3-SAE password token key to be used in both the `PSA_ALG_IS_WPA3_SAE_FIXED` and `PSA_ALG_IS_WPA3_SAE_GDH` algorithms? - Less pressing as this differs in AKM selector, and device already has need to store multiple password tokens for a single password, based on cipher suite selection (cyclic group that is used): but GDH/FIXED does not affect PT derivation so wildcard could be helpful.
+        .. versionadded:: 1.4
+
+    If a WPA3-SAE password token key specifies `PSA_ALG_WPA3_SAE_ANY` as its permitted algorithm, then the key can be used with the `PSA_ALG_WPA3_SAE_FIXED()` and `PSA_ALG_WPA3_SAE_GDH()` PAKE algorithms.
+
+    .. todo::
+
+        We could extend this wildcard key policy to also cover the cases for password keys being used in the PAKE and KDF algorithms for WPA3-SAE?
