@@ -369,6 +369,7 @@ Key-derivation algorithms
 
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
+        This includes `PSA_ALG_ANY_HASH` when specifying the algorithm in a key policy.
 
     This KDF is defined in :cite-title:`IEEE-802.11` §12.4.4.
     This specifies the hash-to-element procedures for deriving a WPA3-SAE password token from a network SSID and password.
@@ -387,12 +388,13 @@ Key-derivation algorithms
 
     The ``hash_alg`` parameter to `PSA_ALG_WPA3_SAE_H2E()` determines the hash function used for the derivation.
     The key attributes of the output key indicate the elliptic curve or finite field group used for the derivation.
-    See :secref:`wpa3-sae-keys` for details of the derivation procedures.
 
-    .. note::
-        If the elliptic curve or finite field group specified in the key attributes is not compatible with the hash function used for the derivation, `psa_key_derivation_output_bytes()` returns :code:`PSA_ERROR_INVALID_ARGUMENT`.
+    If the elliptic curve or finite field group specified in the key attributes is not compatible with the hash function used for the derivation, `psa_key_derivation_output_bytes()` returns :code:`PSA_ERROR_INVALID_ARGUMENT`.
+    See :secref:`wpa3-sae-cipher-suites`.as specified by the
 
-        See also :secref:`wpa3-sae-cipher-suites`.
+    :secref:`wpa3-sae-keys` provides details of the derivation procedures.
+
+    The wildcard key policy :code:`PSA_ALG_WPA3_SAE_H2E(PSA_ALG_ANY_HASH)` permits a password key to be used with any WPA3-SAE cipher suite.
 
 .. macro:: PSA_ALG_PBKDF2_HMAC
     :definition: /* specification-defined value */
