@@ -16,7 +16,7 @@
             Participant -> Participant: ""psa_key_derivation_input_bytes(INFO = password-identifier)""
         end
 
-        Participant -> Participant: ""psa_key_derivation_output_key(WPA3_SAE_XX_PT)""
+        Participant -> Participant: ""psa_key_derivation_output_key(WPA3_SAE_XX)""
 
         note left: Compute password token //PT//
 
