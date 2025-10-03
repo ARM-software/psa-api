@@ -390,7 +390,7 @@ Key-derivation algorithms
     The key attributes of the output key indicate the elliptic curve or finite field group used for the derivation.
 
     If the elliptic curve or finite field group specified in the key attributes is not compatible with the hash function used for the derivation, `psa_key_derivation_output_bytes()` returns :code:`PSA_ERROR_INVALID_ARGUMENT`.
-    See :secref:`wpa3-sae-cipher-suites`.as specified by the
+    See :secref:`wpa3-sae-cipher-suites`.
 
     :secref:`wpa3-sae-keys` provides details of the derivation procedures.
 
