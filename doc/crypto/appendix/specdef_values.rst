@@ -190,9 +190,10 @@ Algorithm macros
         (((alg) & ~0x000000ff) == 0x08000300)
 
     #define PSA_ALG_IS_WILDCARD(alg) \
-        ((PSA_ALG_GET_HASH(alg) == PSA_ALG_ANY_HASH) || \
-         (((alg) & 0x7f008000) == 0x03008000) || \
-         (((alg) & 0x7f008000) == 0x05008000))
+        (PSA_ALG_GET_HASH(alg) == PSA_ALG_ANY_HASH || \
+         ((alg) & 0x7f008000) == 0x03008000 || \
+         ((alg) & 0x7f008000) == 0x05008000 || \
+         (alg) == PSA_ALG_CCM_STAR_ANY_TAG)
 
     #define PSA_ALG_IS_WPA3_SAE(alg) \
         (((alg) & ~0x000001ff) == 0x0a000800)
