@@ -676,7 +676,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-wpa3-sae-ecc
     SECP R1, 0x09, 0, `PSA_ECC_FAMILY_SECP_R1`, ``0x3292``
     Brainpool-P R1, 0x18, 0, `PSA_ECC_FAMILY_BRAINPOOL_P_R1`, ``0x32b0``
 
-a.  The elliptic curve family values defined in the API also include the parity bit. The password token key type value is constructed from the elliptic curve family using :code:`PSA_KEY_TYPE_WPA3_SAE_ECC_PT(family)`.
+a.  The elliptic curve family values defined in the API also include the parity bit. The password token key type value is constructed from the elliptic curve family using :code:`PSA_KEY_TYPE_WPA3_SAE_ECC(family)`.
 
 .. rubric:: WPA3-SAE password tokens using finite fields
 
@@ -700,7 +700,7 @@ RFC3526 defines a set of FF groups that are recommended for use with WPA3-SAE (t
     WPA3-SAE suite, DH-FAMILY, P, DH family :sup:`a`, Key value
     RFC3526, 0x02, 1, `PSA_DH_FAMILY_RFC3526`, ``0x3305``
 
-a.  The finite field Diffie Hellman family values defined in the API also include the parity bit. The password token key type value is constructed from the finite field Diffie Hellman family using :code:`PSA_KEY_TYPE_WPA3_SAE_DH_PT(family)`.
+a.  The finite field Diffie Hellman family values defined in the API also include the parity bit. The password token key type value is constructed from the finite field Diffie Hellman family using :code:`PSA_KEY_TYPE_WPA3_SAE_DH(family)`.
 
 .. _asymmetric-key-encoding:
 

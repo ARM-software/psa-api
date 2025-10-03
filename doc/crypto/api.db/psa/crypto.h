@@ -343,12 +343,12 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(curve) /* specification-defined value */
 #define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
     /* specification-defined value */
+#define PSA_KEY_TYPE_WPA3_SAE_DH(group) /* specification-defined value */
 #define PSA_KEY_TYPE_WPA3_SAE_DH_GET_FAMILY(type) \
     /* specification-defined value */
-#define PSA_KEY_TYPE_WPA3_SAE_DH_PT(group) /* specification-defined value */
+#define PSA_KEY_TYPE_WPA3_SAE_ECC(curve) /* specification-defined value */
 #define PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY(type) \
     /* specification-defined value */
-#define PSA_KEY_TYPE_WPA3_SAE_ECC_PT(curve) /* specification-defined value */
 #define PSA_KEY_TYPE_XCHACHA20 ((psa_key_type_t)0x2007)
 #define PSA_KEY_USAGE_CACHE ((psa_key_usage_t)0x00000004)
 #define PSA_KEY_USAGE_COPY ((psa_key_usage_t)0x00000002)

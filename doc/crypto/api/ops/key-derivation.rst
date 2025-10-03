@@ -382,7 +382,7 @@ Key-derivation algorithms
         It is optional.
 
     This key derivation algorithm can only be used to derive and output a single key, which is obtained by a call to `psa_key_derivation_output_key()`.
-    The output has to be read as a key of type `PSA_KEY_TYPE_WPA3_SAE_DH_PT` or `PSA_KEY_TYPE_WPA3_SAE_ECC_PT`.
+    The output has to be read as a key of type `PSA_KEY_TYPE_WPA3_SAE_DH` or `PSA_KEY_TYPE_WPA3_SAE_ECC`.
     Requesting any other key type, or calling `psa_key_derivation_output_bytes()`, returns an error status.
 
     The ``hash_alg`` parameter to `PSA_ALG_WPA3_SAE_H2E()` determines the hash function used for the derivation.

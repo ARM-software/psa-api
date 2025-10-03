@@ -371,13 +371,13 @@ Key type macros
     #define PSA_KEY_TYPE_WPA3_SAE_DH_GET_FAMILY(type) \
         ((psa_dh_family_t) ((type) & 0x007f))
 
-    #define PSA_KEY_TYPE_WPA3_SAE_DH_PT(family) \
+    #define PSA_KEY_TYPE_WPA3_SAE_DH(family) \
         ((psa_key_type_t) (0x3300 | ((family) & 0x007f)))
 
     #define PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY(type) \
         ((psa_ecc_family_t) ((type) & 0x007f))
 
-    #define PSA_KEY_TYPE_WPA3_SAE_ECC_PT(curve) \
+    #define PSA_KEY_TYPE_WPA3_SAE_ECC(curve) \
         ((psa_key_type_t) (0x3280 | ((curve) & 0x007f)))
 
 Hash suspend state macros

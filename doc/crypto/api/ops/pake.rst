@@ -2209,7 +2209,7 @@ To use the hash-to-element method:
 #.  A WPA3-SAE password token (PT) is derived from the WPA3-SAE password, using a key-derivation operation with the `PSA_ALG_WPA3_SAE_H2E()` algorithm.
     The `PSA_ALG_WPA3_SAE_H2E()` algorithm is parameterized by the hash used in the required WPA3-SAE cipher suite.
 
-    The PT is output from the key-derivation operation as a key of type `PSA_KEY_TYPE_WPA3_SAE_ECC_PT()` or `PSA_KEY_TYPE_WPA3_SAE_DH_PT()`.
+    The PT is output from the key-derivation operation as a key of type `PSA_KEY_TYPE_WPA3_SAE_ECC()` or `PSA_KEY_TYPE_WPA3_SAE_DH()`.
     The key type is parameterized by the elliptic curve or finite field Diffie-Hellman group used in the required WPA3-SAE cipher suite.
 
     The PT key must be protected at least as well as the password.
@@ -2244,7 +2244,7 @@ The selected cipher suite in the example is IANA Group 20: ECC using secp384r1, 
     .. code-block:: xref
 
         psa_set_key_type(&pt_att,
-                         PSA_KEY_TYPE_WPA3_SAE_ECC_PT(PSA_ECC_FAMILT_SECP_R1));
+                         PSA_KEY_TYPE_WPA3_SAE_ECC(PSA_ECC_FAMILY_SECP_R1));
         psa_set_key_bits(&pt_att, 384);
         psa_set_key_usage_flags(&pt_att, PSA_KEY_USAGE_DERIVE);
         psa_set_key_algorithm(&pt_att, PSA_ALG_WPA3_SAE_GDH(PSA_ALG_SHA_384));
@@ -2279,7 +2279,7 @@ Setup
 The type of keys used to set up a PAKE multi-part operation for WPA3-SAE depends on the variant of WPA3-SAE that is required:
 
 *   For the *Looping* variant, use a `PSA_KEY_TYPE_PASSWORD` key containing the secret password.
-*   For the *Hash-to-element* and *Group-dependent-hash* variants, use a `PSA_KEY_TYPE_WPA3_SAE_ECC_PT` or `PSA_KEY_TYPE_WPA3_SAE_DH_PT` key that is derived from the secret password, as described in :secref:`wpa3-sae-passwords`.
+*   For the *Hash-to-element* and *Group-dependent-hash* variants, use a `PSA_KEY_TYPE_WPA3_SAE_ECC` or `PSA_KEY_TYPE_WPA3_SAE_DH` key that is derived from the secret password, as described in :secref:`wpa3-sae-passwords`.
 
 WPA-SAE does not assign roles to the participants, so it is not necessary to call `psa_pake_set_role()`.
 
@@ -2430,8 +2430,8 @@ WPA3-SAE algorithms
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_PASSWORD`
-        | `PSA_KEY_TYPE_WPA3_SAE_ECC_PT`
-        | `PSA_KEY_TYPE_WPA3_SAE_DH_PT`
+        | `PSA_KEY_TYPE_WPA3_SAE_ECC`
+        | `PSA_KEY_TYPE_WPA3_SAE_DH`
 
 .. macro:: PSA_ALG_WPA3_SAE_GDH
     :definition: /* specification-defined value */
@@ -2461,8 +2461,8 @@ WPA3-SAE algorithms
 
     .. subsection:: Compatible key types
 
-        | `PSA_KEY_TYPE_WPA3_SAE_ECC_PT`
-        | `PSA_KEY_TYPE_WPA3_SAE_DH_PT`
+        | `PSA_KEY_TYPE_WPA3_SAE_ECC`
+        | `PSA_KEY_TYPE_WPA3_SAE_DH`
 
 .. macro:: PSA_ALG_IS_WPA3_SAE
     :definition: /* specification-defined value */

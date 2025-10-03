@@ -111,7 +111,7 @@ Elliptic curve families
         These keys are used in various asymmetric signature, key-encapsulation, and key-agreement algorithms.
     *   SPAKE2+ keys using the `PSA_KEY_TYPE_SPAKE2P_KEY_PAIR()` or `PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY()`.
         These keys are used in the SPAKE2+ PAKE algorithms.
-    *   WPA3-SAE password tokens using `PSA_KEY_TYPE_WPA3_SAE_ECC_PT()`.
+    *   WPA3-SAE password tokens using `PSA_KEY_TYPE_WPA3_SAE_ECC()`.
         These keys are used in the WPA3-SAE PAKE algorithms.
 
     Elliptic curve family identifiers are also used to construct PAKE primitives for cipher suites based on elliptic curve groups.
@@ -309,7 +309,7 @@ Finite field Diffie-Hellman families
 
     *   Diffie-Hellman keys using `PSA_KEY_TYPE_DH_KEY_PAIR()` or `PSA_KEY_TYPE_DH_PUBLIC_KEY()`.
         These keys are used in the FFDH key-agreement algorithm.
-    *   WPA3-SAE password tokens using `PSA_KEY_TYPE_WPA3_SAE_DH_PT()`.
+    *   WPA3-SAE password tokens using `PSA_KEY_TYPE_WPA3_SAE_DH()`.
         These keys are used in the WPA3-SAE PAKE algorithms.
 
     Finite field Diffie-Hellman group identifiers are also used to construct PAKE primitives for cipher suites based on finite field groups.
@@ -978,7 +978,7 @@ The password token can be stored as a key object, and later used in the PAKE ope
 
 WPA3-SAE password tokens are defined for both elliptic curve and finite field groups.
 
-.. macro:: PSA_KEY_TYPE_WPA3_SAE_ECC_PT
+.. macro:: PSA_KEY_TYPE_WPA3_SAE_ECC
     :definition: /* specification-defined value */
 
     .. summary::
@@ -988,8 +988,6 @@ WPA3-SAE password tokens are defined for both elliptic curve and finite field gr
 
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the elliptic curve family to be used.
-
-    .. todo:: Consider removing the _PT suffix from the WPA3-SAE key types - the only keys are the password token keys, so not sure the suffix is helpful?
 
     The bit-size of a WPA3-SAE password token is the bit size associated with the specific curve within the elliptic curve family.
     See the documentation of the elliptic curve family for details.
@@ -1028,7 +1026,7 @@ WPA3-SAE password tokens are defined for both elliptic curve and finite field gr
         A elliptic curve-based WPA3-SAE password token can only be derived using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
         The call to `psa_key_derivation_output_key()` uses the  method defined in `[IEEE-802.11]` §12.4.4.2.3 to generate the key value.
 
-.. macro:: PSA_KEY_TYPE_WPA3_SAE_DH_PT
+.. macro:: PSA_KEY_TYPE_WPA3_SAE_DH
     :definition: /* specification-defined value */
 
     .. summary::
@@ -1038,8 +1036,6 @@ WPA3-SAE password tokens are defined for both elliptic curve and finite field gr
 
     .. param:: group
         A value of type `psa_dh_family_t` that identifies the finite field Diffie-Hellman family to be used.
-
-    .. todo:: Consider removing the _PT suffix from the WPA3-SAE key types - the only keys are the password token keys, so not sure the suffix is helpful?
 
     The bit-size of the WPA3-SAE password token is the bit size associated with the specific group within the finite field Diffie-Hellman family.
     See the documentation of the selected Diffie-Hellman family for details.
