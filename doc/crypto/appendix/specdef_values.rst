@@ -217,25 +217,25 @@ Algorithm macros
         ((ka_alg) | (kdf_alg))
 
     #define PSA_ALG_KEY_AGREEMENT_GET_BASE(alg) \
-        ((psa_algorithm_t)((alg) & 0xff7f0000))
+        ((psa_algorithm_t) ((alg) & 0xff7f0000))
 
     #define PSA_ALG_KEY_AGREEMENT_GET_KDF(alg) \
-        ((psa_algorithm_t)((alg) & 0xfe80ffff))
+        ((psa_algorithm_t) ((alg) & 0xfe80ffff))
 
     #define PSA_ALG_PBKDF2_HMAC(hash_alg) \
-        ((psa_algorithm_t)(0x08800100 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x08800100 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_OAEP(hash_alg) \
-        ((psa_algorithm_t)(0x07000300 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x07000300 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_PKCS1V15_SIGN(hash_alg) \
-        ((psa_algorithm_t)(0x06000200 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x06000200 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_PSS(hash_alg) \
-        ((psa_algorithm_t)(0x06000300 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x06000300 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_PSS_ANY_SALT(hash_alg) \
-        ((psa_algorithm_t)(0x06001300 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x06001300 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
         ((psa_algorithm_t) (0x08000700 | ((hash_alg) & 0x000000ff)))

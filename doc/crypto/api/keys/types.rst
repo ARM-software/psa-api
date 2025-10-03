@@ -978,6 +978,8 @@ The password token can be stored as a key object, and later used in the PAKE ope
 
 WPA3-SAE password tokens are defined for both elliptic curve and finite field groups.
 
+See :secref:`wpa3-sae-passwords`.
+
 .. macro:: PSA_KEY_TYPE_WPA3_SAE_ECC
     :definition: /* specification-defined value */
 
