@@ -124,6 +124,9 @@ Algorithm macros
     #define PSA_ALG_IS_KEY_ENCAPSULATION(alg) \
         (((alg) & 0x7f000000) == 0x0c000000)
 
+    #define PSA_ALG_IS_KEY_WRAP(alg) \
+        (((alg) & 0x7f000000) == 0x0b000000)
+
     #define PSA_ALG_IS_MAC(alg) \
         (((alg) & 0x7f000000) == 0x03000000)
 
