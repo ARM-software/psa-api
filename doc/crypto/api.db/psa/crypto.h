@@ -183,7 +183,7 @@ typedef struct psa_custom_key_parameters_t {
     /* specification-defined value */
 #define PSA_ALG_SPAKE2P_CMAC(hash_alg) /* specification-defined value */
 #define PSA_ALG_SPAKE2P_HMAC(hash_alg) /* specification-defined value */
-#define PSA_ALG_SPAKE2P_MATTER ((psa_algoirithm_t)0x0A000609)
+#define PSA_ALG_SPAKE2P_MATTER ((psa_algorithm_t)0x0A000609)
 #define PSA_ALG_STREAM_CIPHER ((psa_algorithm_t)0x04800100)
 #define PSA_ALG_TLS12_ECJPAKE_TO_PMS ((psa_algorithm_t)0x08000609)
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */

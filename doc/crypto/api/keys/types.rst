@@ -17,7 +17,7 @@ Key type encoding
     .. summary::
         Encoding of a key type.
 
-    This is a structured bitfield that identifies the category and type of key. The range of key type values is divided as follows:
+    This is a structured bit field that identifies the category and type of key. The range of key type values is divided as follows:
 
     :code:`PSA_KEY_TYPE_NONE == 0`
         Reserved as an invalid key type.
@@ -973,7 +973,7 @@ WPA3-SAE password tokens
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 The WPA3-SAE PAKE defines two techniques for generating the password element used during the PAKE protocol.
-The recommended hash-2-curve method is used to generate an intermediate password token, which is an element of the cyclic group used in the PAKE ciphersuite.
+The recommended hash-2-curve method is used to generate an intermediate password token, which is an element of the cyclic group used in the PAKE cipher suite.
 The password token can be stored as a key object, and later used in the PAKE operation when performing the WPA3-SAE protocol.
 
 WPA3-SAE password tokens are defined for both elliptic curve and finite field groups.
