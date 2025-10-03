@@ -1,0 +1,55 @@
+' SPDX-FileCopyrightText: Copyright 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+    !include atg-spec.pumh
+
+    participant "STA-A" as STAA
+    participant "STA-B" as STAB
+
+    note over STAA, STAB
+        Shared information: cipher suite, //STA-A-MAC//, //STA-B-MAC//
+        If generating PWE by looping: //password//
+        If generating PWE by hash-to-element: //PT//
+    end note
+
+    STAA -> STAA: ""psa_pake_setup()""\n""psa_pake_set_user(STA-A-MAC)""\n""psa_pake_set_peer(STA-B-MAC)""
+    note left: Provide either //password// or //PT// to\n""psa_pake_setup()"" depending\non PWE generation method
+
+    STAA -> STAA: ""psa_pake_output()"" for //commit-scalar// || //COMMIT-ELEMENT//
+    note left: Generate //rand//, //mask//; compute\n//commit-scalar//, //COMMIT-ELEMENT//
+
+
+    STAA ->> STAB: //SAE Commit// frame //(commit-scalar, COMMIT-ELEMENT)//
+
+    STAB ->> STAA: //SAE Commit// frame //(peer-commit-scalar, PEER-COMMIT-ELEMENT)//
+
+    STAA -> STAA: ""psa_pake_input()"" for //peer-commit-scalar// || //PEER-COMMIT-ELEMENT//
+    note left: Validate inputs; compute //k//
+
+    STAA -> STAA: ""psa_pake_input()"" for //salt//
+    note left: Compute //SAE-KCK//, //PMK//
+
+    loop Until //SAE Confirm// frame is successfully delivered to STA-B
+        STAA -> STAA: ""psa_pake_input()"" for //send-confirm// counter
+
+        STAA -> STAA: ""psa_pake_output()"" for //send-confirm// || //confirm//
+        note left: Compute //confirm//
+
+        STAA ->> STAB: //SAE Confirm// frame //(send-confirm, confirm)//
+
+    end
+
+    STAB ->> STAA: //SAE Confirm// frame //(peer-send-confirm, peer-confirm)//
+
+    STAA -> STAA: ""psa_pake_input()"" for //peer-send-confirm// || //peer-confirm//
+    note left: Compute and validate\n//peer-verify// = //peer-confirm//
+
+    opt
+        STAA -> STAA: ""psa_pake_output()"" for //PMKID//
+    end
+
+    STAA -> STAA: ""psa_pake_get_shared_key()"" to extract //PMK//
+
+@enduml
