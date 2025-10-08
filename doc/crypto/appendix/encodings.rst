@@ -492,8 +492,13 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     SPAKE2+ for Matter, ``0x06``, :code:`PSA_ALG_SPAKE2P_MATTER`, ``0x0A000609``
     WPA3-SAE, ``0x08``, :code:`PSA_ALG_WPA3_SAE_FIXED(hash)`, ``0x0A0008hh`` :sup:`a`
     WPA3-SAE (GDH), ``0x09``, :code:`PSA_ALG_WPA3_SAE_GDH(hash)`, ``0x0A0009hh`` :sup:`a`
+    *WPA3-SAE wildcard* :sup:`b c`, ``0x88``, `PSA_ALG_WPA3_SAE_ANY`, ``0x0A0088FF``
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
+
+b.  The wildcard algorithm `PSA_ALG_WPA3_SAE_ANY` permits a password key to be used for any WPA3-SAE cipher suite with the `PSA_ALG_WPA3_SAE_H2E` key-derivation algorithm, and with the `PSA_ALG_WPA3_SAE_FIXED` PAKE algorithm.
+
+c.  The wildcard algorithm `PSA_ALG_WPA3_SAE_ANY` permits a WPA3-SAE password token key to be used for both the `PSA_ALG_WPA3_SAE_FIXED` and `PSA_ALG_WPA3_SAE_GDH` PAKE algorithms.
 
 .. _key-type-encoding:
 

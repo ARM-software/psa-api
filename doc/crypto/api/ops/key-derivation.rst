@@ -394,7 +394,9 @@ Key-derivation algorithms
 
     :secref:`wpa3-sae-keys` provides details of the derivation procedures.
 
-    The wildcard key policy :code:`PSA_ALG_WPA3_SAE_H2E(PSA_ALG_ANY_HASH)` permits a password key to be used with any WPA3-SAE cipher suite.
+    .. note::
+
+        To use a single password key with `PSA_ALG_WPA3_SAE_H2E` for any WPA3-SAE cipher suite, create the key with the wildcard `PSA_ALG_WPA3_SAE_ANY` permitted algorithm.
 
 .. macro:: PSA_ALG_PBKDF2_HMAC
     :definition: /* specification-defined value */

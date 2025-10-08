@@ -190,7 +190,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
 #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
     /* specification-defined value */
-#define PSA_ALG_WPA3_SAE_ANY ((psa_algorithm_t)0x0a000800)
+#define PSA_ALG_WPA3_SAE_ANY ((psa_algorithm_t)0x0a0088ff)
 #define PSA_ALG_WPA3_SAE_FIXED(hash_alg) /* specification-defined value */
 #define PSA_ALG_WPA3_SAE_GDH(hash_alg) /* specification-defined value */
 #define PSA_ALG_WPA3_SAE_H2E(hash_alg) /* specification-defined value */

@@ -32,6 +32,7 @@ Changes to the API
     -   Added the `PSA_ALG_WPA3_SAE_H2E()` KDF for generating a WPA3-SAE password token from a password.
     -   Added WPA3-SAE PAKE algorithms, `PSA_ALG_WPA3_SAE_FIXED()` and `PSA_ALG_WPA3_SAE_GDH()`.
     -   Added finite field Diffie-Hellman family `PSA_DH_FAMILY_RFC3526`, which provides cyclic groups used for WPA3-SAE.
+    -   Added wildcard key policy `PSA_ALG_WPA3_SAE_ANY` to permit password and password token keys to be used in any WPA3-SAE cipher suite.
 
     See :secref:`pake-wpa3-sae`.
 

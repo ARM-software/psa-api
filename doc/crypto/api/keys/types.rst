@@ -996,6 +996,10 @@ See :secref:`wpa3-sae-passwords`.
 
     To construct a WPA3-SAE password token, it must be output from key derivation operation using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
 
+    .. note::
+
+        To use a password token key with both `PSA_ALG_WPA3_SAE_FIXED` and `PSA_ALG_WPA3_SAE_GDH` algorithms, create the key with the wildcard `PSA_ALG_WPA3_SAE_ANY` permitted algorithm.
+
     .. subsection:: Compatible algorithms
 
         .. hlist::
@@ -1043,6 +1047,10 @@ See :secref:`wpa3-sae-passwords`.
     See the documentation of the selected Diffie-Hellman family for details.
 
     To construct a WPA3-SAE password token, it must be output from key derivation operation using the `PSA_ALG_WPA3_SAE_H2E` algorithm.
+
+    .. note::
+
+        To use a password token key with both `PSA_ALG_WPA3_SAE_FIXED` and `PSA_ALG_WPA3_SAE_GDH` algorithms, create the key with the wildcard `PSA_ALG_WPA3_SAE_ANY` permitted algorithm.
 
     .. subsection:: Compatible algorithms
 

@@ -37,7 +37,7 @@ The following algorithm policies are supported:
 *   An algorithm built from `PSA_ALG_AT_LEAST_THIS_LENGTH_MAC()` permits any MAC algorithm from the same base class (for example, CMAC) which computes or verifies a MAC length greater than or equal to the length encoded in the wildcard algorithm.
 *   An algorithm built from `PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG()` permits any AEAD algorithm from the same base class (for example, CCM) which computes or verifies a tag length greater than or equal to the length encoded in the wildcard algorithm.
 *   The `PSA_ALG_CCM_STAR_ANY_TAG` wildcard algorithm permits the `PSA_ALG_CCM_STAR_NO_TAG` cipher algorithm, the `PSA_ALG_CCM` AEAD algorithm, and the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` truncated-tag AEAD algorithm for ``tag_length`` equal to 4, 8 or 16.
-*   The wildcard key policy :code:`PSA_ALG_WPA3_SAE_H2E(PSA_ALG_ANY_HASH)` permits a password key to be used with any WPA3-SAE cipher suite.
+*   The wildcard key policy `PSA_ALG_WPA3_SAE_ANY` permits a password key or WPA3-SAE password token key to be used with any WPA3-SAE cipher suite.
 
 When a key is used in a cryptographic operation, the application must supply the algorithm to use for the operation. This algorithm is checked against the key's permitted-algorithm policy.
 
