@@ -800,10 +800,9 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a message.
-        *   ``alg`` does not support non-zero-length contexts, and ``context_length`` is not zero.
         *   ``key`` is not supported for use with ``alg``.
+        *   The implementation does not support this value of ``context_length`` for ``alg``.
         *   ``input_length`` is too large for the implementation.
-        *   ``context_length`` is too large for the implementation.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -924,10 +923,9 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a message.
-        *   ``alg`` does not support non-zero-length contexts, and ``context_length`` is not zero.
         *   ``key`` is not supported for use with ``alg``.
+        *   The implementation does not support this value of ``context_length`` for ``alg``.
         *   ``input_length`` is too large for the implementation.
-        *   ``context_length`` is too large for the implementation.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -1069,9 +1067,8 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a pre-computed hash.
-        *   ``alg`` does not support non-zero-length contexts, and ``context_length`` is not zero.
+        *   The implementation does not support this value of ``context_length`` for ``alg``.
         *   ``key`` is not supported for use with ``alg``.
-        *   ``context_length`` is too large for the implementation.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
@@ -1201,9 +1198,8 @@ Asymmetric signature functions
         The following conditions can result in this error:
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a pre-computed hash.
-        *   ``alg`` does not support non-zero-length contexts, and ``context_length`` is not zero.
+        *   The implementation does not support this value of ``context_length`` for ``alg``.
         *   ``key`` is not supported for use with ``alg``.
-        *   ``context_length`` is too large for the implementation.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
