@@ -112,6 +112,8 @@ RSA signature algorithms
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    RSA PKCS#1 v1.5 does not have a context parameter.
+    However, the sign or verify with context functions can be used with a zero-length context.
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
@@ -129,6 +131,8 @@ RSA signature algorithms
         The raw RSA PKCS#1 v1.5 signature algorithm, without hashing.
 
     This specialized signature algorithm can only be used with the `psa_sign_hash()` and `psa_verify_hash()` functions.
+    RSA PKCS#1 v1.5 does not have a context parameter.
+    However, `psa_sign_hash_with_context()` or `psa_verify_hash_with_context()` can be used with a zero-length context.
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
@@ -163,6 +167,8 @@ RSA signature algorithms
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    RSA PSS does not have a context parameter.
+    However, the sign or verify with context functions can be used with a zero-length context.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -202,6 +208,8 @@ RSA signature algorithms
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    RSA PSS does not have a context parameter.
+    However, the sign or verify with context functions can be used with a zero-length context.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -313,6 +321,8 @@ ECDSA signature algorithms
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    ECDSA does not have a context parameter.
+    However, the sign or verify with context functions can be used with a zero-length context.
 
     When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
 
@@ -347,6 +357,8 @@ ECDSA signature algorithms
         The randomized ECDSA signature scheme, without hashing.
 
     This specialized signature algorithm can only be used with the `psa_sign_hash()` and `psa_verify_hash()` functions.
+    ECDSA does not have a context parameter.
+    However, `psa_sign_hash_with_context()` or `psa_verify_hash_with_context()` can be used with a zero-length context.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -385,6 +397,8 @@ ECDSA signature algorithms
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    ECDSA does not have a context parameter.
+    However, the sign or verify with context functions can be used with a zero-length context.
 
     When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
 
@@ -469,6 +483,7 @@ They are used with the Edwards25519 and Edwards448 elliptic curve keys, see `PSA
 *   HashEdDSA is a pair of hash-and-sign algorithms, with a specified hash algorithm associated with each key size.
 
 Both PureEdDSA and HashEdDSA can be used with contexts, which enables domain-separation when signatures are made of different message structures with the same key.
+For EdDSA, the context is an arbitrary byte string between zero and 255 bytes in length.
 
 The development of EdDSA resulted in a total of five distinct algorithms:
 
@@ -504,7 +519,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
         .. versionadded:: 1.1
 
     This message-signature algorithm can be used with the `psa_sign_message()` and `psa_verify_message()` functions.
-    With a zero-length context, it can also be used with the `psa_sign_message_with_context()` and `psa_verify_message_with_context()` functions.
+    With a zero-length context, `PSA_ALG_PURE_EDDSA` can also be used with the `psa_sign_message_with_context()` and `psa_verify_message_with_context()` functions.
     It cannot be used to sign hashes.
 
     This is the PureEdDSA digital signature algorithm defined by :RFC-title:`8032`, with zero-length context.
@@ -544,6 +559,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
     It cannot be used to sign hashes.
 
     This is the PureEdDSA digital signature algorithm defined by :RFC-title:`8032`, with a context parameter.
+    The context parameter can be between zero and 255 bytes in length.
 
     PureEdDSA requires an elliptic curve key on a twisted Edwards curve (see `PSA_ECC_FAMILY_TWISTED_EDWARDS`).
     The following curves are supported:
@@ -590,11 +606,11 @@ The development of EdDSA resulted in a total of five distinct algorithms:
     This calculates the Ed25519ph algorithm as specified in :RFC-title:`8032#5.1`, and requires an Edwards25519 curve key.
 
     The pre-hash function is SHA-512, see `PSA_ALG_SHA_512`.
-
     When used to sign or verify a hash, the ``hash`` parameter is the SHA-512 message digest.
 
     The signature functions without a context parameter use a zero-length context when computing or verifying signatures.
     To use a non-zero-length context, use the signature functions that accept a context parameter, such as :code:`psa_sign_hash_with_context()` or :code:`psa_verify_message_with_context()`
+    The context parameter can be between zero and 255 bytes in length.
 
     .. subsection:: Usage
 
@@ -635,11 +651,11 @@ The development of EdDSA resulted in a total of five distinct algorithms:
     This calculates the Ed448ph algorithm as specified in :RFC-title:`8032#5.2`, and requires an Edwards448 curve key.
 
     The pre-hash function is the first 64 bytes of the output from SHAKE256, see `PSA_ALG_SHAKE256_512`.
-
     When used to sign or verify a hash, the ``hash`` parameter is the truncated SHAKE256 message digest.
 
     The signature functions without a context parameter use a zero-length context when computing or verifying signatures.
     To use a non-zero-length context, use the signature functions that accept a context parameter, for example, `psa_sign_hash_with_context()` or `psa_verify_message_with_context()`
+    The context parameter can be between zero and 255 bytes in length.
 
     .. subsection:: Usage
 
