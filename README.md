@@ -52,7 +52,7 @@ Status code API | [1.0.4][status-specs] | [doc/status-code/] |  [headers/status-
 [headers/fwu/1.0/]:         headers/fwu/1.0
 [headers/status-code/1.0/]: headers/status-code/1.0
 
-## Extensions
+### Extensions
 
 Extension specifications introduce new functionality that is not yet stable enough for inclusion in the main specification.
 
@@ -63,6 +63,17 @@ Crypto API | PQC | [1.3 Beta-3][crypto-specs] |  [doc/ext-pqc/] | [headers/crypt
 
 [doc/ext-pqc/]:        doc/ext-pqc
 
+### In development
+
+The following specifications are being developed towards an initial 1.0 version:
+
+Specification | Published | Document source | Reference headers | Dashboard
+-|-|-|-|-
+Crypto Driver Interface | [1.0 Alpha-1][crypto-driver-specs] | [doc/crypto-driver/] | *n/a* | [Project board][crypto-driver-dash]
+
+[crypto-driver-specs]:  https://arm-software.github.io/psa-api/crypto-driver/
+[crypto-driver-dash]:   https://github.com/orgs/ARM-software/projects/5/views/8
+[doc/crypto-driver/]:   doc/crypto-driver
 
 ## Reference header files
 
