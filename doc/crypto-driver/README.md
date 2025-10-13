@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: Copyright 2025 Arm Limited and/or its affiliates <open-s
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Cryptoprocessor Driver Interface &mdash; specification sources
+# PSA Crypto Driver Interface &mdash; specification sources
 
 The Crypto Driver Interface specification source files are organized as follows:
 
