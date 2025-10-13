@@ -21,6 +21,8 @@ Changes to the API
 *   Added `psa_check_key_usage()` to query a key's capabilities.
 *   Add support for extendable-output functions (XOF).
     See :secref:`xof`.
+*   Added support for key wrapping using key-wrapping algorithms.
+    See :secref:`key-wrapping`.
 
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -859,7 +861,6 @@ Future additions
 Major additions to the API will be defined in future drafts and editions of a 1.x or 2.x version of this specification. Features that are being considered include:
 
 *   Multi-part operations for hybrid cryptography. For example, this includes hash-and-sign for EdDSA, and hybrid encryption for ECIES.
-*   Key wrapping mechanisms to extract and import keys in an encrypted and authenticated form.
 *   Key discovery mechanisms. This would enable an application to locate a key by its name or attributes.
 *   Implementation capability description. This would enable an application to determine the algorithms, key types and storage lifetimes that the implementation provides.
 *   An ownership and access control mechanism allowing a multi-client implementation to have privileged clients that are able to manage keys of other clients.

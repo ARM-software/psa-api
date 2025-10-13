@@ -20,6 +20,7 @@ The specific algorithm identifiers are described alongside the cryptographic ope
 *   :secref:`mac-algorithms`
 *   :secref:`cipher-algorithms`
 *   :secref:`aead-algorithms`
+*   :secref:`key-wrapping-algorithms`
 *   :secref:`key-derivation-algorithms`
 *   :secref:`sign`
 *   :secref:`asymmetric-encryption-algorithms`
@@ -140,6 +141,20 @@ Algorithm categories
         ``1`` if ``alg`` is an AEAD algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     See :secref:`aead-algorithms` for a list of defined AEAD algorithms.
+
+.. macro:: PSA_ALG_IS_KEY_WRAP
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a key wrapping algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a key-wrapping algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`key-wrapping-algorithms` for a list of defined key-wrapping algorithms.
 
 .. macro:: PSA_ALG_IS_KEY_DERIVATION
     :definition: /* specification-defined value */

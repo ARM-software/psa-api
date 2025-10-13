@@ -322,6 +322,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
@@ -369,6 +371,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
@@ -463,6 +467,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
@@ -500,6 +506,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
