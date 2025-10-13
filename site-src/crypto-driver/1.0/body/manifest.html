@@ -1,0 +1,289 @@
+---
+---
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3 Driver description" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
+<meta property="og:site_name" content="PSA Certified Crypto Driver Interface 1.0" />
+<meta property="og:description" content="Alpha Driver description syntax: The concrete syntax for a driver description file is JSON. In addition to the properties described here, any JSON object may have a property called&quot;_comment&quot; of typ..." />
+<meta name="description" content="Alpha Driver description syntax: The concrete syntax for a driver description file is JSON. In addition to the properties described here, any JSON object may have a property called&quot;_comment&quot; of typ..." />
+
+    <title>3 Driver description &#8212; PSA Certified Crypto Driver Interface 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=d052748e"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4 Driver entry points" href="entry-points.html" />
+    <link rel="prev" title="2 Overview of drivers" href="overview.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto Driver Interface"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Crypto Driver Interface</a></h3>
+111106<br/>
+Non-confidential<br/>
+Version 1.0 Alpha (Issue 1)
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">2 Overview of drivers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3 Driver description</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#driver-description-syntax">3.1 Driver description syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#driver-description-top-level-element">3.2 Driver description top-level element</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#driver-description-capability">3.3 Driver description capability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#capability-syntax">3.3.1 Capability syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#capability-semantics">3.3.2 Capability semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#capability-examples">3.3.3 Capability examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#algorithm-and-key-specifications">3.4 Algorithm and key specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#algorithm-specifications">3.4.1 Algorithm specifications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-type-specifications">3.4.2 Key type specifications</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="entry-points.html">4 Driver entry points</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transparent.html">5 Transparent drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opaque.html">6 Opaque drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using-drivers.html">7 Using drivers from an application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/open-issues.html">A Open questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">B Changes to the API</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="watermark docutils container">
+<p>Alpha</p>
+</div>
+<section id="driver-description">
+<span id="id1"></span><h1><span class="section-number">3 </span>Driver description<a class="headerlink" href="#driver-description" title="Link to this heading">¶</a></h1>
+<section id="driver-description-syntax">
+<span id="id2"></span><h2><span class="section-number">3.1 </span>Driver description syntax<a class="headerlink" href="#driver-description-syntax" title="Link to this heading">¶</a></h2>
+<p>The concrete syntax for a driver description file is JSON.</p>
+<p>In addition to the properties described here, any JSON object may have a property called <code class="docutils literal notranslate"><span class="pre">&quot;_comment&quot;</span></code> of type string, which will be ignored.</p>
+<p>Crypto API core implementations may support additional properties.
+Such properties must use names consisting of the implementation’s name, a slash, and additional characters.
+For example, the Yoyodyne implementation may use property names such as <code class="docutils literal notranslate"><span class="pre">&quot;yoyodyne/foo&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;yoyodyne/widgets/girth&quot;</span></code>.</p>
+</section>
+<section id="driver-description-top-level-element">
+<span id="id3"></span><h2><span class="section-number">3.2 </span>Driver description top-level element<a class="headerlink" href="#driver-description-top-level-element" title="Link to this heading">¶</a></h2>
+<p>A driver description is a JSON object containing the following properties:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;prefix&quot;</span></code> (mandatory, string).
+This must be a valid, non-empty prefix for a C identifier.
+All the types and functions provided by the driver have a name that starts with this prefix unless overridden with a <code class="docutils literal notranslate"><span class="pre">&quot;name&quot;</span></code> element in the applicable capability as described below.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;type&quot;</span></code> (mandatory, string).
+One of <code class="docutils literal notranslate"><span class="pre">&quot;transparent&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;opaque&quot;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;headers&quot;</span></code> (optional, array of strings).
+A list of header files.
+These header files must define the types, macros and constants referenced by the driver description.
+They may declare the entry point functions, but this is not required.
+They may include other PSA headers and standard headers of the platform.
+Whether they may include other headers is implementation-specific.
+If omitted, the list of headers is empty.
+The header files must be present at the specified location relative to a directory on the compiler’s include path when compiling glue code between the core and the drivers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;capabilities&quot;</span></code> (mandatory, array of <a class="reference internal" href="#driver-description-capability"><span class="std std-ref">capabilities</span></a>).
+A list of <strong>capabilities</strong>.
+Each capability describes a family of functions that the driver implements for a certain class of cryptographic mechanisms.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;key_context&quot;</span></code> (not permitted for transparent drivers, mandatory for opaque drivers): information about the <a class="reference internal" href="opaque.html#key-format-for-opaque-drivers"><span class="std std-ref">representation of keys</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;persistent_state_size&quot;</span></code> (not permitted for transparent drivers, optional for opaque drivers, integer or string).
+The size in bytes of the <a class="reference internal" href="opaque.html#opaque-driver-persistent-state"><span class="std std-ref">persistent state of the driver</span></a>.
+This may be either a non-negative integer or a C constant expression of type <code class="docutils literal notranslate"><span class="pre">size_t</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;location&quot;</span></code> (not permitted for transparent drivers, optional for opaque drivers, integer or string).
+The <a class="reference internal" href="using-drivers.html#lifetimes-and-locations"><span class="std std-ref">location value</span></a> for which this driver is invoked.
+In other words, this determines the lifetimes for which the driver is invoked.
+This may be either a non-negative integer or a C constant expression of type <code class="docutils literal notranslate"><span class="pre">psa_key_location_t</span></code>.</p></li>
+</ul>
+</section>
+<section id="driver-description-capability">
+<span id="id4"></span><h2><span class="section-number">3.3 </span>Driver description capability<a class="headerlink" href="#driver-description-capability" title="Link to this heading">¶</a></h2>
+<section id="capability-syntax">
+<span id="id5"></span><h3><span class="section-number">3.3.1 </span>Capability syntax<a class="headerlink" href="#capability-syntax" title="Link to this heading">¶</a></h3>
+<p>A capability declares a family of functions that the driver implements for a certain class of cryptographic mechanisms.
+The capability specifies which key types and algorithms are covered and the names of the types and functions that implement it.</p>
+<p>A capability is a JSON object containing the following properties:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;entry_points&quot;</span></code> (mandatory, list of strings).
+Each element is the name of a <a class="reference internal" href="entry-points.html#driver-entry-points"><span class="std std-ref">driver entry point</span></a> or driver entry point family.
+An entry point is a function defined by the driver.
+If specified, the core will invoke this capability of the driver only when performing one of the specified operations.
+The driver must implement all the specified entry points, as well as the types if applicable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;algorithms&quot;</span></code> (optional, list of strings).
+Each element is an <a class="reference internal" href="#algorithm-specifications"><span class="std std-ref">algorithm specification</span></a>.
+If specified, the core will invoke this capability of the driver only when performing one of the specified algorithms.
+If omitted, the core will invoke this capability for all applicable algorithms.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;key_types&quot;</span></code> (optional, list of strings).
+Each element is a <a class="reference internal" href="#key-type-specifications"><span class="std std-ref">key type specification</span></a>.
+If specified, the core will invoke this capability of the driver only for operations involving a key with one of the specified key types.
+If omitted, the core will invoke this capability of the driver for all applicable key types.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;key_sizes&quot;</span></code> (optional, list of integers).
+If specified, the core will invoke this capability of the driver only for operations involving a key with one of the specified key sizes.
+If omitted, the core will invoke this capability of the driver for all applicable key sizes.
+Key sizes are expressed in bits.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;names&quot;</span></code> (optional, object).
+A mapping from entry point names described by the <code class="docutils literal notranslate"><span class="pre">&quot;entry_points&quot;</span></code> property, to the name of the C function in the driver that implements the corresponding function.
+If a function is not listed here, name of the driver function that implements it is the driver’s prefix followed by an underscore (<code class="docutils literal notranslate"><span class="pre">_</span></code>) followed by the function name.
+If this property is omitted, it is equivalent to an empty object (so each entry point <em>suffix</em> is implemented by a function called <em>prefix</em><code class="docutils literal notranslate"><span class="pre">_</span></code><em>suffix</em>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;fallback&quot;</span></code> (optional for transparent drivers, not permitted for opaque drivers, boolean).
+If present and true, the driver may return <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code>, in which case the core should call another driver or use built-in code to perform this operation.
+If absent or false, the driver is expected to fully support the mechanisms described by this capability.
+See the section <a class="reference internal" href="transparent.html#fallback"><span class="secref">Fallback</span></a> for more information.</p></li>
+</ul>
+</section>
+<section id="capability-semantics">
+<h3><span class="section-number">3.3.2 </span>Capability semantics<a class="headerlink" href="#capability-semantics" title="Link to this heading">¶</a></h3>
+<p>When the Crypto API implementation performs a cryptographic mechanism, it invokes available driver entry points as described in the section <a class="reference internal" href="entry-points.html#driver-entry-points"><span class="secref">Driver entry points</span></a>.</p>
+<p>A driver is considered available for a cryptographic mechanism that invokes a given entry point if all of the following conditions are met:</p>
+<ul class="simple">
+<li><p>The driver specification includes a capability whose <code class="docutils literal notranslate"><span class="pre">&quot;entry_points&quot;</span></code> list either includes the entry point or includes an entry point family that includes the entry point.</p></li>
+<li><p>If the mechanism involves an algorithm:</p>
+<ul>
+<li><p>either the capability does not have an <code class="docutils literal notranslate"><span class="pre">&quot;algorithms&quot;</span></code> property;</p></li>
+<li><p>or the value of the capability’s <code class="docutils literal notranslate"><span class="pre">&quot;algorithms&quot;</span></code> property includes an <a class="reference internal" href="#algorithm-specifications"><span class="std std-ref">algorithm specification</span></a> that matches this algorithm.</p></li>
+</ul>
+</li>
+<li><p>If the mechanism involves a key:</p>
+<ul>
+<li><p>either the key is transparent (its location is <code class="docutils literal notranslate"><span class="pre">PSA_KEY_LOCATION_LOCAL_STORAGE</span></code>) and the driver is transparent;</p></li>
+<li><p>or the key is opaque (its location is not <code class="docutils literal notranslate"><span class="pre">PSA_KEY_LOCATION_LOCAL_STORAGE</span></code>) and the driver is an opaque driver whose location is the key’s location.</p></li>
+</ul>
+</li>
+<li><p>If the mechanism involves a key:</p>
+<ul>
+<li><p>either the capability does not have a <code class="docutils literal notranslate"><span class="pre">&quot;key_types&quot;</span></code> property;</p></li>
+<li><p>or the value of the capability’s <code class="docutils literal notranslate"><span class="pre">&quot;key_types&quot;</span></code> property includes a <a class="reference internal" href="#key-type-specifications"><span class="std std-ref">key type specification</span></a> that matches this algorithm.</p></li>
+</ul>
+</li>
+<li><p>If the mechanism involves a key:</p>
+<ul>
+<li><p>either the capability does not have a <code class="docutils literal notranslate"><span class="pre">&quot;key_sizes&quot;</span></code> property;</p></li>
+<li><p>or the value of the capability’s <code class="docutils literal notranslate"><span class="pre">&quot;key_sizes&quot;</span></code> property includes the key’s size.</p></li>
+</ul>
+</li>
+</ul>
+<p>If a driver includes multiple applicable capabilities for a given combination of entry point, algorithm, key type and key size, and all the capabilities map the entry point to the same function name, the driver is considered available for this cryptographic mechanism.
+If a driver includes multiple applicable capabilities for a given combination of entry point, algorithm, key type and key size, and at least two of these capabilities map the entry point to the different function names, the driver specification is invalid.</p>
+<p>If multiple transparent drivers have applicable capabilities for a given combination of entry point, algorithm, key type and key size, the first matching driver in the <a class="reference internal" href="overview.html#driver-description-list"><span class="std std-ref">specification list</span></a> is invoked.
+If the capability has <a class="reference internal" href="transparent.html#fallback"><span class="std std-ref">fallback</span></a> enabled and the first driver returns <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_NOT_SUPPORTED</span></code>, the next matching driver is invoked, and so on.</p>
+<p>If multiple opaque drivers have the same location, the list of driver specifications is invalid.</p>
+</section>
+<section id="capability-examples">
+<h3><span class="section-number">3.3.3 </span>Capability examples<a class="headerlink" href="#capability-examples" title="Link to this heading">¶</a></h3>
+<p>Example 1: the following capability declares that the driver can perform deterministic ECDSA signatures (but not signature verification) using any hash algorithm and any curve that the core supports.
+If the prefix of this driver is <code class="docutils literal notranslate"><span class="pre">&quot;acme&quot;</span></code>, the function that performs the signature is called <code class="docutils literal notranslate"><span class="pre">acme_sign_hash</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{
+    &quot;entry_points&quot;: [&quot;sign_hash&quot;],
+    &quot;algorithms&quot;: [&quot;PSA_ALG_DETERMINISTIC_ECDSA(PSA_ALG_ANY_HASH)&quot;],
+}
+</pre></div>
+</div>
+<p>Example 2: the following capability declares that the driver can perform deterministic ECDSA signatures using SHA-256 or SHA-384 with a SECP256R1 or SECP384R1 private key (with either hash being possible in combination with either curve).
+If the prefix of this driver is <code class="docutils literal notranslate"><span class="pre">&quot;acme&quot;</span></code>, the function that performs the signature is called <code class="docutils literal notranslate"><span class="pre">acme_sign_hash</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{
+    &quot;entry_points&quot;: [&quot;sign_hash&quot;],
+    &quot;algorithms&quot;: [&quot;PSA_ALG_DETERMINISTIC_ECDSA(PSA_ALG_SHA_256)&quot;,
+                   &quot;PSA_ALG_DETERMINISTIC_ECDSA(PSA_ALG_SHA_384)&quot;],
+    &quot;key_types&quot;: [&quot;PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_SECP_R1)&quot;],
+    &quot;key_sizes&quot;: [256, 384]
+}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="algorithm-and-key-specifications">
+<h2><span class="section-number">3.4 </span>Algorithm and key specifications<a class="headerlink" href="#algorithm-and-key-specifications" title="Link to this heading">¶</a></h2>
+<section id="algorithm-specifications">
+<span id="id6"></span><h3><span class="section-number">3.4.1 </span>Algorithm specifications<a class="headerlink" href="#algorithm-specifications" title="Link to this heading">¶</a></h3>
+<p>An algorithm specification is a string consisting of a <code class="docutils literal notranslate"><span class="pre">PSA_ALG_xxx</span></code> macro that specifies a cryptographic algorithm or an algorithm wildcard policy defined by the Crypto API.
+If the macro takes arguments, the string must have the syntax of a C macro call and each argument must be an algorithm specification or a decimal or hexadecimal literal with no suffix, depending on the expected type of argument.</p>
+<p>Spaces are optional after commas.
+Whether other whitespace is permitted is implementation-specific.</p>
+<p>Valid examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PSA_ALG_SHA_256
+PSA_ALG_HMAC(PSA_ALG_SHA_256)
+PSA_ALG_KEY_AGREEMENT(PSA_ALG_ECDH, PSA_ALG_HKDF(PSA_ALG_SHA_256))
+PSA_ALG_RSA_PSS(PSA_ALG_ANY_HASH)
+</pre></div>
+</div>
+</section>
+<section id="key-type-specifications">
+<span id="id7"></span><h3><span class="section-number">3.4.2 </span>Key type specifications<a class="headerlink" href="#key-type-specifications" title="Link to this heading">¶</a></h3>
+<p>An algorithm specification is a string consisting of a <code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_xxx</span></code> macro that specifies a key type defined by the Crypto API.
+If the macro takes an argument, the string must have the syntax of a C macro call and each argument must be the name of a constant of suitable type (curve or group).</p>
+<p>The name <code class="docutils literal notranslate"><span class="pre">_</span></code> may be used instead of a curve or group to indicate that the capability concerns all curves or groups.</p>
+<p>Valid examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PSA_KEY_TYPE_AES
+PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_SECP_R1)
+PSA_KEY_TYPE_ECC_KEY_PAIR(_)
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169; 2020-2025 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

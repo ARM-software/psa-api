@@ -32,7 +32,7 @@ Attestation API | 1.0 | [HTML][attestation-html] | [&darr; PDF][attestation-pdf]
 Firmware Update API | 1.0 | [HTML][fwu-html] | [&darr; PDF][fwu-pdf] | [All versions](fwu/)
 Status code API | 1.0 | [HTML][status-code-html] | [&darr; PDF][status-code-pdf] | [All versions](status-code/)
 
-## Extensions
+### Extensions
 
 Extension specifications introduce new functionality that is not yet stable enough for inclusion in the main specification.
 
@@ -43,6 +43,14 @@ Crypto API | PQC | 1.3 Beta | [HTML][pqc-html] | [&darr; PDF][pqc-pdf] | [All ve
 
 Since Crypto API 1.3, the PAKE Extension is integrated into the Crypto API specification.
 Older versions of the PAKE Extension can be found on the [Crypto API](crypto/) page.
+
+### In development
+
+These specifications are being developed towards an initial 1.0 version:
+
+Specification | | | | |
+-|-|-|-|-|-
+Crypto Driver Interface | 1.0 Alpha 1 | [HTML][driver-html] | [&darr; PDF][driver-pdf] | [All versions](crypto-driver/)
 
 [status-code-html]:  status-code/1.0/
 [status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.4.pdf
@@ -56,6 +64,8 @@ Older versions of the PAKE Extension can be found on the [Crypto API](crypto/) p
 [fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.1.pdf
 [pqc-html]:          crypto/1.3/ext-pqc/
 [pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.3.pdf
+[driver-html]:       crypto-driver/1.0/
+[driver-pdf]:        crypto-driver/1.0/111106-PSA_Certified_Crypto_Driver_Interface-1.0-alp.1.pdf
 
 ## Feedback
 
