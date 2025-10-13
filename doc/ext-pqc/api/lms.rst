@@ -103,6 +103,8 @@ These algorithms extend those defined in :cite-title:`PSA-CRYPT` §10.7 *Asymmet
         .. versionadded:: 1.3
 
     This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    LMS does not have a context parameter.
+    However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
     This is the LMS stateful hash-based signature algorithm, defined by :rfc-title:`8554`.
     LMS requires an LMS key.
@@ -124,6 +126,8 @@ These algorithms extend those defined in :cite-title:`PSA-CRYPT` §10.7 *Asymmet
         .. versionadded:: 1.3
 
     This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    HSS does not have a context parameter.
+    However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
     This is the HSS stateful hash-based signature algorithm, defined by :rfc-title:`8554`.
     HSS requires an HSS key.

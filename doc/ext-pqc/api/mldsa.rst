@@ -210,6 +210,7 @@ A HashML-DSA signature can only be verified with a HashML-DSA algorithm.
 .. rubric:: Contexts
 
 All ML-DSA algorithms can be used with contexts, which enables domain-separation when signatures are made of different message structures with the same key.
+Context values are arbitrary strings between zero and 255 bytes in length.
 
 *   The signature functions without a context parameter provide a zero-length context when computing or verifying ML-DSA signatures.
 *   To provide a context, use the ``psa_xxxx_with_context()`` signature functions with a context parameter, such as :code:`psa_sign_message_with_context()`.

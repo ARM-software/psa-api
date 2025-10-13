@@ -317,9 +317,8 @@ A HashSLH-DSA signature can only be verified with a HashSLH-DSA algorithm.
 
 .. rubric:: Contexts
 
-Version 1.4 of the |API| introduced signature functions that accept a context parameter.
-
 All SLH-DSA algorithms can be used with contexts, which enables domain-separation when signatures are made of different message structures with the same key.
+Context values are arbitrary strings between zero and 255 bytes in length.
 
 *   The signature functions without a context parameter provide a zero-length context when computing or verifying SLH-DSA signatures.
 *   To provide a context, use the ``psa_xxxx_with_context()`` signature functions with a context parameter, such as :code:`psa_sign_message_with_context()`.
