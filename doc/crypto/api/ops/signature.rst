@@ -598,14 +598,20 @@ The development of EdDSA resulted in a total of five distinct algorithms:
 
     .. subsection:: Usage
 
-        This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:
+        This is a hash-and-sign algorithm.
+        To calculate a signature, use one of the following approaches:
 
         *   Call `psa_sign_message()` or `psa_sign_message_with_context()` with the message.
 
         *   Calculate the SHA-512 hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHA_512`.
             Then sign the calculated hash with `psa_sign_hash()` or `psa_sign_hash_with_context()`.
 
-        Verifying a signature is similar, using the appropriate verification function instead of the signature function.
+        Verifying a signature is similar, using one of the following approaches:
+
+        *   Call `psa_verify_message()`, or `psa_verify_message_with_context()` with the message.
+
+        *   Calculate the SHA-512 hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHA_512`.
+            Then sign the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
 
     .. subsection:: Compatible key types
 
@@ -637,14 +643,20 @@ The development of EdDSA resulted in a total of five distinct algorithms:
 
     .. subsection:: Usage
 
-        This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:
+        This is a hash-and-sign algorithm.
+        To calculate a signature, use one of the following approaches:
 
         *   Call `psa_sign_message()`, or `psa_sign_message_with_context()` with the message.
 
         *   Calculate the first 64 bytes of the SHAKE256 output of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHAKE256_512`.
             Then sign the calculated hash with `psa_sign_hash()` or `psa_sign_hash_with_context()`.
 
-        Verifying a signature is similar, using the appropriate verification function instead of the signature function.
+        Verifying a signature is similar, using one of the following approaches:
+
+        *   Call `psa_verify_message()`, or `psa_verify_message_with_context()` with the message.
+
+        *   Calculate the first 64 bytes of the SHAKE256 output of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHAKE256_512`.
+            Then sign the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
 
     .. subsection:: Compatible key types
 
