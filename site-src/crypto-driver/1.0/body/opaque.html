@@ -1,0 +1,409 @@
+---
+---
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6 Opaque drivers" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ page.url | absolute_url }}" />
+<link rel="canonical" href="{{ page.url | absolute_url }}" />
+<meta property="og:site_name" content="PSA Certified Crypto Driver Interface 1.0" />
+<meta property="og:description" content="Alpha Opaque drivers allow a Crypto API implementation to delegate cryptographic operations to a separate environment that might not allow exporting key material in cleartext. The opaque driver int..." />
+<meta name="description" content="Alpha Opaque drivers allow a Crypto API implementation to delegate cryptographic operations to a separate environment that might not allow exporting key material in cleartext. The opaque driver int..." />
+
+    <title>6 Opaque drivers &#8212; PSA Certified Crypto Driver Interface 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=d052748e"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7 Using drivers from an application" href="using-drivers.html" />
+    <link rel="prev" title="5 Transparent drivers" href="transparent.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto Driver Interface"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Crypto Driver Interface</a></h3>
+111106<br/>
+Non-confidential<br/>
+Version 1.0 Alpha (Issue 1)
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">2 Overview of drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manifest.html">3 Driver description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry-points.html">4 Driver entry points</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transparent.html">5 Transparent drivers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6 Opaque drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#key-format-for-opaque-drivers">6.1 Key format for opaque drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#size-of-a-dynamically-allocated-key-context">6.1.1 Size of a dynamically allocated key context</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#size-of-a-statically-allocated-key-context">6.1.2 Size of a statically allocated key context</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-context-size-for-a-secure-element-with-storage">6.1.3 Key context size for a secure element with storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-context-size-for-a-secure-element-without-storage">6.1.4 Key context size for a secure element without storage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#key-management-with-opaque-drivers">6.2 Key management with opaque drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-creation-in-a-secure-element-without-storage">6.2.1 Key creation in a secure element without storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-management-in-a-secure-element-with-storage">6.2.2 Key management in a secure element with storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-creation-entry-points-in-opaque-drivers">6.2.3 Key creation entry points in opaque drivers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-export-entry-points-in-opaque-drivers">6.2.4 Key export entry points in opaque drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#opaque-driver-persistent-state">6.3 Opaque driver persistent state</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#built-in-keys">6.3.1 Built-in keys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using-drivers.html">7 Using drivers from an application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/open-issues.html">A Open questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">B Changes to the API</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="watermark docutils container">
+<p>Alpha</p>
+</div>
+<section id="opaque-drivers">
+<h1><span class="section-number">6 </span>Opaque drivers<a class="headerlink" href="#opaque-drivers" title="Link to this heading">¶</a></h1>
+<p>Opaque drivers allow a Crypto API implementation to delegate cryptographic operations to a separate environment that might not allow exporting key material in cleartext.
+The opaque driver interface is designed so that the core never inspects the representation of a key.
+The opaque driver interface is designed to support two subtypes of cryptoprocessors:</p>
+<ul class="simple">
+<li><p>Some cryptoprocessors do not have persistent storage for individual keys.
+The representation of a key is the key material wrapped with a master key which is located in the cryptoprocessor and never exported from it.
+The core stores this wrapped key material on behalf of the cryptoprocessor.</p></li>
+<li><p>Some cryptoprocessors have persistent storage for individual keys.
+The representation of a key is an identifier such as label or slot number.
+The core stores this identifier.</p></li>
+</ul>
+<section id="key-format-for-opaque-drivers">
+<span id="id1"></span><h2><span class="section-number">6.1 </span>Key format for opaque drivers<a class="headerlink" href="#key-format-for-opaque-drivers" title="Link to this heading">¶</a></h2>
+<p>The format of a key for opaque drivers is an opaque blob.
+The content of this blob is fully up to the driver.
+The core merely stores this blob.</p>
+<p>Note that since the core stores the key context blob as it is in memory, it must only contain data that is meaningful after a reboot.
+In particular, it must not contain any pointers or transient handles.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;key_context&quot;</span></code> property in the <a class="reference internal" href="manifest.html#driver-description-top-level-element"><span class="std std-ref">driver description</span></a> specifies how to calculate the size of the key context as a function of the key type and size.
+This is an object with the following properties:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;base_size&quot;</span></code> (integer or string, optional): this many bytes are included in every key context.
+If omitted, this value defaults to 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;key_pair_size&quot;</span></code> (integer or string, optional): this many bytes are included in every key context for a key pair.
+If omitted, this value defaults to 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;public_key_size&quot;</span></code> (integer or string, optional): this many bytes are included in every key context for a public key.
+If omitted, this value defaults to 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;symmetric_factor&quot;</span></code> (integer or string, optional): every key context for a symmetric key includes this many times the key size.
+If omitted, this value defaults to 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;store_public_key&quot;</span></code> (boolean, optional): If specified and true, for a key pair, the key context includes space for the public key.
+If omitted or false, no additional space is added for the public key.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;size_function&quot;</span></code> (string, optional): the name of a function that returns the number of bytes that the driver needs in a key context for a key.
+This may be a pointer to function.
+This must be a C identifier; more complex expressions are not permitted.
+If the core uses this function, it supersedes all the other properties except for <code class="docutils literal notranslate"><span class="pre">&quot;builtin_key_size&quot;</span></code> (where applicable, if present).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;builtin_key_size&quot;</span></code> (integer or string, optional): If specified, this overrides all other methods (including the <code class="docutils literal notranslate"><span class="pre">&quot;size_function&quot;</span></code> entry point) to determine the size of the key context for <a class="reference internal" href="#built-in-keys"><span class="std std-ref">built-in keys</span></a>.
+This allows drivers to efficiently represent application keys as wrapped key material, but built-in keys by an internal identifier that takes up less space.</p></li>
+</ul>
+<p>The integer properties must be C language constants.
+A typical value for <code class="docutils literal notranslate"><span class="pre">&quot;base_size&quot;</span></code> is <code class="docutils literal notranslate"><span class="pre">sizeof(acme_key_context_t)</span></code> where <code class="docutils literal notranslate"><span class="pre">acme_key_context_t</span></code> is a type defined in a driver header file.</p>
+<section id="size-of-a-dynamically-allocated-key-context">
+<h3><span class="section-number">6.1.1 </span>Size of a dynamically allocated key context<a class="headerlink" href="#size-of-a-dynamically-allocated-key-context" title="Link to this heading">¶</a></h3>
+<p>If the core supports dynamic allocation for the key context and chooses to use it, and the driver specification includes the <code class="docutils literal notranslate"><span class="pre">&quot;size_function&quot;</span></code> property, the size of the key context is at least</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>size_function(key_type, key_bits)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">size_function</span></code> is the function named in the <code class="docutils literal notranslate"><span class="pre">&quot;size_function&quot;</span></code> property, <code class="docutils literal notranslate"><span class="pre">key_type</span></code> is the key type and <code class="docutils literal notranslate"><span class="pre">key_bits</span></code> is the key size in bits.
+The prototype of the size function is</p>
+<p>.   code-block:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>size_t size_function(psa_key_type_t key_type, size_t key_bits);
+</pre></div>
+</div>
+</section>
+<section id="size-of-a-statically-allocated-key-context">
+<h3><span class="section-number">6.1.2 </span>Size of a statically allocated key context<a class="headerlink" href="#size-of-a-statically-allocated-key-context" title="Link to this heading">¶</a></h3>
+<p>If the core does not support dynamic allocation for the key context or chooses not to use it, or if the driver specification does not include the <code class="docutils literal notranslate"><span class="pre">&quot;size_function&quot;</span></code> property, the size of the key context for a key of type <code class="docutils literal notranslate"><span class="pre">key_type</span></code> and of size <code class="docutils literal notranslate"><span class="pre">key_bits</span></code> bits is:</p>
+<ul>
+<li><p>For a key pair (<code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_KEY_PAIR(key_type)</span></code> is true):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>base_size + key_pair_size + public_key_overhead
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">public_key_overhead</span> <span class="pre">=</span> <span class="pre">PSA_EXPORT_PUBLIC_KEY_MAX_SIZE(key_type,</span> <span class="pre">key_bits)</span></code> if the <code class="docutils literal notranslate"><span class="pre">&quot;store_public_key&quot;</span></code> property is true and <code class="docutils literal notranslate"><span class="pre">public_key_overhead</span> <span class="pre">=</span> <span class="pre">0</span></code> otherwise.</p>
+</li>
+<li><p>For a public key (<code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_PUBLIC_KEY(key_type)</span></code> is true):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>base_size + public_key_size
+</pre></div>
+</div>
+</li>
+<li><p>For a symmetric key (not a key pair or public key):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>base_size + symmetric_factor * key_bytes
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">key_bytes</span> <span class="pre">=</span> <span class="pre">((key_bits</span> <span class="pre">+</span> <span class="pre">7)</span> <span class="pre">/</span> <span class="pre">8)</span></code> is the key size in bytes.</p>
+</li>
+</ul>
+</section>
+<section id="key-context-size-for-a-secure-element-with-storage">
+<h3><span class="section-number">6.1.3 </span>Key context size for a secure element with storage<a class="headerlink" href="#key-context-size-for-a-secure-element-with-storage" title="Link to this heading">¶</a></h3>
+<p>If the key is stored in the secure element and the driver only needs to store a label for the key, use <code class="docutils literal notranslate"><span class="pre">&quot;base_size&quot;</span></code> as the size of the label plus any other metadata that the driver needs to store, and omit the other properties.</p>
+<p>If the key is stored in the secure element, but the secure element does not store the public part of a key pair and cannot recompute it on demand, additionally use the <code class="docutils literal notranslate"><span class="pre">&quot;store_public_key&quot;</span></code> property with the value <code class="docutils literal notranslate"><span class="pre">true</span></code>.
+Note that this only influences the size of the key context: the driver code must copy the public key to the key context and retrieve it on demand in its <code class="docutils literal notranslate"><span class="pre">export_public_key</span></code> entry point.</p>
+</section>
+<section id="key-context-size-for-a-secure-element-without-storage">
+<h3><span class="section-number">6.1.4 </span>Key context size for a secure element without storage<a class="headerlink" href="#key-context-size-for-a-secure-element-without-storage" title="Link to this heading">¶</a></h3>
+<p>If the key is stored in wrapped form outside the secure element, and the wrapped form of the key plus any metadata has up to <em>N</em> bytes of overhead, use <em>N</em> as the value of the <code class="docutils literal notranslate"><span class="pre">&quot;base_size&quot;</span></code> property and set the <code class="docutils literal notranslate"><span class="pre">&quot;symmetric_factor&quot;</span></code> property to 1.
+Set the <code class="docutils literal notranslate"><span class="pre">&quot;key_pair_size&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;public_key_size&quot;</span></code> properties appropriately for the largest supported key pair and the largest supported public key respectively.</p>
+</section>
+</section>
+<section id="key-management-with-opaque-drivers">
+<span id="id2"></span><h2><span class="section-number">6.2 </span>Key management with opaque drivers<a class="headerlink" href="#key-management-with-opaque-drivers" title="Link to this heading">¶</a></h2>
+<p>Opaque drivers may provide the following key management entry points:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;export_key&quot;</span></code>: called by <code class="docutils literal notranslate"><span class="pre">psa_export_key()</span></code>, or by <code class="docutils literal notranslate"><span class="pre">psa_copy_key()</span></code> when copying a key from or to a different <a class="reference internal" href="using-drivers.html#lifetimes-and-locations"><span class="std std-ref">location</span></a>, or <a class="reference internal" href="entry-points.html#key-derivation-driver-dispatch-logic"><span class="std std-ref">as a fallback for key derivation</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;export_public_key&quot;</span></code>: called by the core to obtain the public key of a key pair.
+The core may call this entry point at any time to obtain the public key, which can be for <code class="docutils literal notranslate"><span class="pre">psa_export_public_key()</span></code> but also at other times, including during a cryptographic operation that requires the public key such as a call to <code class="docutils literal notranslate"><span class="pre">psa_verify_message()</span></code> on a key pair object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;import_key&quot;</span></code>: called by <code class="docutils literal notranslate"><span class="pre">psa_import_key()</span></code>, or by <code class="docutils literal notranslate"><span class="pre">psa_copy_key()</span></code> when copying a key from another location.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;generate_key&quot;</span></code>: called by <code class="docutils literal notranslate"><span class="pre">psa_generate_key()</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;key_derivation_output_key&quot;</span></code>: called by <code class="docutils literal notranslate"><span class="pre">psa_key_derivation_output_key()</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;copy_key&quot;</span></code>: called by <code class="docutils literal notranslate"><span class="pre">psa_copy_key()</span></code> when copying a key within the same <a class="reference internal" href="using-drivers.html#lifetimes-and-locations"><span class="std std-ref">location</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;get_builtin_key&quot;</span></code>: called by functions that access a key to retrieve information about a <a class="reference internal" href="#built-in-keys"><span class="std std-ref">built-in key</span></a>.</p></li>
+</ul>
+<p>In addition, secure elements that store the key material internally must provide the following two entry points:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code>: called by <code class="docutils literal notranslate"><span class="pre">psa_import_key()</span></code>, <code class="docutils literal notranslate"><span class="pre">psa_generate_key()</span></code>, <code class="docutils literal notranslate"><span class="pre">psa_key_derivation_output_key()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_copy_key()</span></code> before creating a key in the location of this driver.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;destroy_key&quot;</span></code>: called by <code class="docutils literal notranslate"><span class="pre">psa_destroy_key()</span></code>.</p></li>
+</ul>
+<section id="key-creation-in-a-secure-element-without-storage">
+<h3><span class="section-number">6.2.1 </span>Key creation in a secure element without storage<a class="headerlink" href="#key-creation-in-a-secure-element-without-storage" title="Link to this heading">¶</a></h3>
+<p>This section describes the key creation process for secure elements that do not store the key material.
+The driver must obtain a wrapped form of the key material which the core will store.
+A driver for such a secure element has no <code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;destroy_key&quot;</span></code> entry point.</p>
+<p>When creating a key with an opaque driver which does not have an <code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;destroy_key&quot;</span></code> entry point:</p>
+<ol class="arabic simple">
+<li><p>The core allocates memory for the key context.</p></li>
+<li><p>The core calls the driver’s import, generate, derive or copy entry point.</p></li>
+<li><p>The core saves the resulting wrapped key material and any other data that the key context may contain.</p></li>
+</ol>
+<p>To destroy a key, the core simply destroys the wrapped key material, without invoking driver code.</p>
+</section>
+<section id="key-management-in-a-secure-element-with-storage">
+<span id="id3"></span><h3><span class="section-number">6.2.2 </span>Key management in a secure element with storage<a class="headerlink" href="#key-management-in-a-secure-element-with-storage" title="Link to this heading">¶</a></h3>
+<p>This section describes the key creation and key destruction processes for secure elements that have persistent storage for the key material.
+A driver for such a secure element has two mandatory entry points:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code>: this function obtains an internal identifier for the key.
+This may be, for example, a unique label or a slot number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;destroy_key&quot;</span></code>: this function invalidates the internal identifier and destroys the associated key material.</p></li>
+</ul>
+<p>These functions have the following prototypes for a driver with the prefix <code class="docutils literal notranslate"><span class="pre">&quot;acme&quot;</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>psa_status_t acme_allocate_key(const psa_key_attributes_t *attributes,
+                               uint8_t *key_buffer,
+                               size_t key_buffer_size);
+psa_status_t acme_destroy_key(const psa_key_attributes_t *attributes,
+                              const uint8_t *key_buffer,
+                              size_t key_buffer_size);
+</pre></div>
+</div>
+<p>When creating a persistent key with an opaque driver which has an <code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code> entry point:</p>
+<ol class="arabic simple">
+<li><p>The core calls the driver’s <code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code> entry point.
+This function typically allocates an internal identifier for the key without modifying the state of the secure element and stores the identifier in the key context.
+This function should not modify the state of the secure element.
+It may modify the copy of the persistent state of the driver in memory.</p></li>
+<li><p>The core saves the key context to persistent storage.</p></li>
+<li><p>The core calls the driver’s key creation entry point.</p></li>
+<li><p>The core saves the updated key context to persistent storage.</p></li>
+</ol>
+<p>If a failure occurs after the <code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code> step but before the call to the second driver entry point, the core will do one of the following:</p>
+<ul class="simple">
+<li><p>Fail the creation of the key without indicating this to the driver.
+This can happen, in particular, if the device loses power immediately after the key allocation entry point returns.</p></li>
+<li><p>Call the driver’s <code class="docutils literal notranslate"><span class="pre">&quot;destroy_key&quot;</span></code> entry point.</p></li>
+</ul>
+<p>To destroy a key, the core calls the driver’s <code class="docutils literal notranslate"><span class="pre">&quot;destroy_key&quot;</span></code> entry point.</p>
+<p>Note that the key allocation and destruction entry points must not rely solely on the key identifier in the key attributes to identify a key.
+Some implementations of the Crypto API store keys on behalf of multiple clients, and different clients may use the same key identifier to designate different keys.
+The manner in which the core distinguishes keys that have the same identifier but are part of the key namespace for different clients is implementation-dependent and is not accessible to drivers.
+Some typical strategies to allocate an internal key identifier are:</p>
+<ul class="simple">
+<li><p>Maintain a set of free slot numbers which is stored either in the secure element or in the driver’s persistent storage.
+To allocate a key slot, find a free slot number, mark it as occupied and store the number in the key context.
+When the key is destroyed, mark the slot number as free.</p></li>
+<li><p>Maintain a monotonic counter with a practically unbounded range in the secure element or in the driver’s persistent storage.
+To allocate a key slot, increment the counter and store the current value in the key context.
+Destroying a key does not change the counter.</p></li>
+</ul>
+<p>TODO: explain constraints on how the driver updates its persistent state for resilience</p>
+<p>TODO: some of the above doesn’t apply to volatile keys</p>
+</section>
+<section id="key-creation-entry-points-in-opaque-drivers">
+<h3><span class="section-number">6.2.3 </span>Key creation entry points in opaque drivers<a class="headerlink" href="#key-creation-entry-points-in-opaque-drivers" title="Link to this heading">¶</a></h3>
+<p>The key creation entry points have the following prototypes for a driver with the prefix <code class="docutils literal notranslate"><span class="pre">&quot;acme&quot;</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>psa_status_t acme_import_key(const psa_key_attributes_t *attributes,
+                             const uint8_t *data,
+                             size_t data_length,
+                             uint8_t *key_buffer,
+                             size_t key_buffer_size,
+                             size_t *key_buffer_length,
+                             size_t *bits);
+psa_status_t acme_generate_key(const psa_key_attributes_t *attributes,
+                               uint8_t *key_buffer,
+                               size_t key_buffer_size,
+                               size_t *key_buffer_length);
+</pre></div>
+</div>
+<p>If the driver has an <a class="reference internal" href="#key-management-in-a-secure-element-with-storage"><span class="std std-ref">&quot;allocate_key&quot; entry point</span></a>, the core calls the <code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code> entry point with the same attributes on the same key buffer before calling the key creation entry point.</p>
+<p>TODO: derivation, copy</p>
+</section>
+<section id="key-export-entry-points-in-opaque-drivers">
+<h3><span class="section-number">6.2.4 </span>Key export entry points in opaque drivers<a class="headerlink" href="#key-export-entry-points-in-opaque-drivers" title="Link to this heading">¶</a></h3>
+<p>The key export entry points have the following prototypes for a driver with the prefix <code class="docutils literal notranslate"><span class="pre">&quot;acme&quot;</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>psa_status_t acme_export_key(const psa_key_attributes_t *attributes,
+                             const uint8_t *key_buffer,
+                             size_t key_buffer_size,
+                             uint8_t *data,
+                             size_t data_size,
+                             size_t *data_length);
+psa_status_t acme_export_public_key(const psa_key_attributes_t *attributes,
+                                    const uint8_t *key_buffer,
+                                    size_t key_buffer_size,
+                                    uint8_t *data,
+                                    size_t data_size,
+                                    size_t *data_length);
+</pre></div>
+</div>
+<p>The core will only call <code class="docutils literal notranslate"><span class="pre">acme_export_public_key</span></code> on a private key.
+Drivers implementers may choose to store the public key in the key context buffer or to recalculate it on demand.
+If the key context includes the public key, it needs to have an adequate size; see <a class="reference internal" href="#key-format-for-opaque-drivers"><span class="secref">Key format for opaque drivers</span></a>.</p>
+<p>The core guarantees that the size of the output buffer (<code class="docutils literal notranslate"><span class="pre">data_size</span></code>) is sufficient to export any key with the given attributes.
+The driver must set <code class="docutils literal notranslate"><span class="pre">*data_length</span></code> to the exact size of the exported key.</p>
+</section>
+</section>
+<section id="opaque-driver-persistent-state">
+<span id="id4"></span><h2><span class="section-number">6.3 </span>Opaque driver persistent state<a class="headerlink" href="#opaque-driver-persistent-state" title="Link to this heading">¶</a></h2>
+<p>The core maintains persistent state on behalf of an opaque driver.
+This persistent state consists of a single byte array whose size is given by the <code class="docutils literal notranslate"><span class="pre">&quot;persistent_state_size&quot;</span></code> property in the <a class="reference internal" href="manifest.html#driver-description-top-level-element"><span class="std std-ref">driver description</span></a>.</p>
+<p>The core loads the persistent state in memory before it calls the driver’s <a class="reference internal" href="entry-points.html#driver-initialization"><span class="std std-ref">init entry point</span></a>.
+It is adjusted to match the size declared by the driver, in case a driver upgrade changes the size:</p>
+<ul class="simple">
+<li><p>The first time the driver is loaded on a system, the persistent state is all-bits-zero.</p></li>
+<li><p>If the stored persistent state is smaller than the declared size, the core pads the persistent state with all-bits-zero at the end.</p></li>
+<li><p>If the stored persistent state is larger than the declared size, the core truncates the persistent state to the declared size.</p></li>
+</ul>
+<p>The core provides the following callback functions, which an opaque driver may call while it is processing a call from the driver:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>psa_status_t psa_crypto_driver_get_persistent_state(uint_8_t **persistent_state_ptr);
+psa_status_t psa_crypto_driver_commit_persistent_state(size_t from, size_t length);
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">psa_crypto_driver_get_persistent_state</span></code> sets <code class="docutils literal notranslate"><span class="pre">*persistent_state_ptr</span></code> to a pointer to the first byte of the persistent state.
+This pointer remains valid during a call to a driver entry point.
+Once the entry point returns, the pointer is no longer valid.
+The core guarantees that calls to <code class="docutils literal notranslate"><span class="pre">psa_crypto_driver_get_persistent_state</span></code> within the same entry point return the same address for the persistent state, but this address may change between calls to an entry point.</p>
+<p><code class="docutils literal notranslate"><span class="pre">psa_crypto_driver_commit_persistent_state</span></code> updates the persistent state in persistent storage.
+Only the portion at byte offsets <code class="docutils literal notranslate"><span class="pre">from</span></code> inclusive to <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">+</span> <span class="pre">length</span></code> exclusive is guaranteed to be updated; it is unspecified whether changes made to other parts of the state are taken into account.
+The driver must call this function after updating the persistent state in memory and before returning from the entry point, otherwise it is unspecified whether the persistent state is updated.</p>
+<p>The core will not update the persistent state in storage while an entry point is running except when the entry point calls <code class="docutils literal notranslate"><span class="pre">psa_crypto_driver_commit_persistent_state</span></code>.
+It may update the persistent state in storage after an entry point returns.</p>
+<p>In a multithreaded environment, the driver may only call these two functions from the thread that is executing the entry point.</p>
+<section id="built-in-keys">
+<span id="id5"></span><h3><span class="section-number">6.3.1 </span>Built-in keys<a class="headerlink" href="#built-in-keys" title="Link to this heading">¶</a></h3>
+<p>Opaque drivers may declare built-in keys.
+Built-in keys can be accessed, but not created, through the Crypto API.</p>
+<p>A built-in key is identified by its location and its <strong>slot number</strong>.
+Drivers that support built-in keys must provide a <code class="docutils literal notranslate"><span class="pre">&quot;get_builtin_key&quot;</span></code> entry point to retrieve the key data and metadata.
+The core calls this entry point when it needs to access the key, typically because the application requested an operation on the key.
+The core may keep information about the key in cache, and successive calls to access the same slot number should return the same data.
+This entry point has the following prototype:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>psa_status_t acme_get_builtin_key(psa_drv_slot_number_t slot_number,
+                                  psa_key_attributes_t *attributes,
+                                  uint8_t *key_buffer,
+                                  size_t key_buffer_size,
+                                  size_t *key_buffer_length);
+</pre></div>
+</div>
+<p>If this function returns <code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code> or <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BUFFER_TOO_SMALL</span></code>, it must fill <code class="docutils literal notranslate"><span class="pre">attributes</span></code> with the attributes of the key (except for the key identifier).
+On success, this function must also fill <code class="docutils literal notranslate"><span class="pre">key_buffer</span></code> with the key context.</p>
+<p>On entry, <code class="docutils literal notranslate"><span class="pre">psa_get_key_lifetime(attributes)</span></code> is the location at which the driver was declared and a persistence level with which the platform is attempting to register the key.
+The driver entry point may choose to change the lifetime (<code class="docutils literal notranslate"><span class="pre">psa_set_key_lifetime(attributes,</span> <span class="pre">lifetime)</span></code>) of the reported key attributes to one with the same location but a different persistence level, in case the driver has more specific knowledge about the actual persistence level of the key which is being retrieved.
+For example, if a driver knows it cannot delete a key, it may override the persistence level in the lifetime to <code class="docutils literal notranslate"><span class="pre">PSA_KEY_PERSISTENCE_READ_ONLY</span></code>.
+The standard attributes other than the key identifier and lifetime have the value conveyed by <code class="docutils literal notranslate"><span class="pre">PSA_KEY_ATTRIBUTES_INIT</span></code>.</p>
+<p>The output parameter <code class="docutils literal notranslate"><span class="pre">key_buffer</span></code> points to a writable buffer of <code class="docutils literal notranslate"><span class="pre">key_buffer_size</span></code> bytes.
+If the driver has a <a class="reference internal" href="#key-format-for-opaque-drivers"><span class="std std-ref">&quot;builtin_key_size&quot; property</span></a> property, <code class="docutils literal notranslate"><span class="pre">key_buffer_size</span></code> has this value, otherwise <code class="docutils literal notranslate"><span class="pre">key_buffer_size</span></code> has the value determined from the key type and size.</p>
+<p>Typically, for a built-in key, the key context is a reference to key material that is kept inside the secure element, similar to the format returned by <a class="reference internal" href="#key-management-in-a-secure-element-with-storage"><span class="std std-ref">&quot;allocate_key&quot;</span></a>.
+A driver may have built-in keys even if it doesn’t have an <code class="docutils literal notranslate"><span class="pre">&quot;allocate_key&quot;</span></code> entry point.</p>
+<p>This entry point may return the following status values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_SUCCESS</span></code>: the requested key exists, and the output parameters <code class="docutils literal notranslate"><span class="pre">attributes</span></code> and <code class="docutils literal notranslate"><span class="pre">key_buffer</span></code> contain the key metadata and key context respectively, and <code class="docutils literal notranslate"><span class="pre">*key_buffer_length</span></code> contains the length of the data written to <code class="docutils literal notranslate"><span class="pre">key_buffer</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_BUFFER_TOO_SMALL</span></code>: <code class="docutils literal notranslate"><span class="pre">key_buffer_size</span></code> is insufficient.
+In this case, the driver must pass the key’s attributes in <code class="docutils literal notranslate"><span class="pre">*attributes</span></code>.
+In particular, <code class="docutils literal notranslate"><span class="pre">get_builtin_key(slot_number,</span> <span class="pre">&amp;attributes,</span> <span class="pre">NULL,</span> <span class="pre">0)</span></code> is a way for the core to obtain the key’s attributes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_DOES_NOT_EXIST</span></code>: the requested key does not exist.</p></li>
+<li><p>Other error codes such as <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_COMMUNICATION_FAILURE</span></code> or <code class="docutils literal notranslate"><span class="pre">PSA_ERROR_HARDWARE_FAILURE</span></code> indicate a transient or permanent error.</p></li>
+</ul>
+<p>The core will pass authorized requests to destroy a built-in key to the <a class="reference internal" href="#key-management-in-a-secure-element-with-storage"><span class="std std-ref">&quot;destroy_key&quot;</span></a> entry point if there is one.
+If built-in keys must not be destroyed, it is up to the driver to reject such requests.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169; 2020-2025 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

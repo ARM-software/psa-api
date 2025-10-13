@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="PSA Certified  Crypto Driver Interface 1.0" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/crypto-driver/1.0/" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/crypto-driver/1.0/" />
+<meta property="og:site_name" content="PSA Certified Crypto Driver Interface 1.0" />
+<meta property="og:description" content="Alpha Arm PSA Certified Crypto Driver Interface 1.0:,, Document number:, 111106,, Release Quality:, Alpha,, Issue Number:, 1,, Confidentiality:, Non-confidential,, Date of Issue:, 30/09/2025,,,, AL..." />
+<meta name="description" content="Alpha Arm PSA Certified Crypto Driver Interface 1.0:,, Document number:, 111106,, Release Quality:, Alpha,, Issue Number:, 1,, Confidentiality:, Non-confidential,, Date of Issue:, 30/09/2025,,,, AL..." />
+
+    <title>PSA Certified Crypto Driver Interface 1.0 &#8212; PSA Certified Crypto Driver Interface 1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="_static/documentation_options.js?v=d052748e"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="About this document" href="about/about.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto Driver Interface"/>
+            </a></p><hr />
+<h3><a href="#">PSA Certified<br />Crypto Driver Interface</a></h3>
+111106<br/>
+Non-confidential<br/>
+Version 1.0 Alpha (Issue 1)
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about/about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="body/introduction.html">1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="body/overview.html">2 Overview of drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="body/manifest.html">3 Driver description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="body/entry-points.html">4 Driver entry points</a></li>
+<li class="toctree-l1"><a class="reference internal" href="body/transparent.html">5 Transparent drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="body/opaque.html">6 Opaque drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="body/using-drivers.html">7 Using drivers from an application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix/open-issues.html">A Open questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">B Changes to the API</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="watermark docutils container">
+<p>Alpha</p>
+</div>
+<img alt="Arm" class="titlelogo" src="_images/ARM_LOGO-2025_INK_RGB.svg" />
+<section id="docrsttitle-docversion">
+<h1>PSA Certified <br /> Crypto Driver Interface 1.0<a class="headerlink" href="#docrsttitle-docversion" title="Link to this heading">¶</a></h1>
+<table class="titletable borderless docutils align-left">
+<tbody>
+<tr class="row-odd"><td><p>Document number:</p></td>
+<td><p>111106</p></td>
+</tr>
+<tr class="row-even"><td><p>Release Quality:</p></td>
+<td><p>Alpha</p></td>
+</tr>
+<tr class="row-odd"><td><p>Issue Number:</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Confidentiality:</p></td>
+<td><p>Non-confidential</p></td>
+</tr>
+<tr class="row-odd"><td><p>Date of Issue:</p></td>
+<td><p>30/09/2025</p></td>
+</tr>
+</tbody>
+</table>
+<div class="banner admonition docutils container">
+<p><strong>ALPHA</strong></p>
+<p>This specification is work in progress and should be considered to be in at Alpha quality.</p>
+<p>See <a class="reference internal" href="about/about.html#current-status"><span class="secref">Current status and anticipated changes</span></a> for details.</p>
+</div>
+<p><span class="sectiontitle">Abstract</span></p>
+<p>This document describes an interface for cryptoprocessor drivers within an implementation of the PSA Certified Crypto API.
+This interface complements <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="about/about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span>, which describes the interface between a Crypto API implementation and an application.</p>
+<p><span class="sectiontitle">Contents</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about/about.html">About this document</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about/about.html#release-information">Release information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about/about.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about/about.html#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about/about.html#potential-for-change">Potential for change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about/about.html#current-status-and-anticipated-changes">Current status and anticipated changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about/about.html#feedback">Feedback</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="body/introduction.html">1 Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="body/introduction.html#purpose-of-the-driver-interface">1.1 Purpose of the driver interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/introduction.html#types-of-drivers">1.2 Types of drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/introduction.html#requirements">1.3 Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="body/overview.html">2 Overview of drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="body/overview.html#deliverables-for-a-driver">2.1 Deliverables for a driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/overview.html#driver-description-list">2.2 Driver description list</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="body/manifest.html">3 Driver description</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="body/manifest.html#driver-description-syntax">3.1 Driver description syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/manifest.html#driver-description-top-level-element">3.2 Driver description top-level element</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/manifest.html#driver-description-capability">3.3 Driver description capability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/manifest.html#capability-syntax">3.3.1 Capability syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/manifest.html#capability-semantics">3.3.2 Capability semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/manifest.html#capability-examples">3.3.3 Capability examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/manifest.html#algorithm-and-key-specifications">3.4 Algorithm and key specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/manifest.html#algorithm-specifications">3.4.1 Algorithm specifications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/manifest.html#key-type-specifications">3.4.2 Key type specifications</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="body/entry-points.html">4 Driver entry points</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#overview-of-driver-entry-points">4.1 Overview of driver entry points</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#general-considerations-on-driver-entry-point-parameters">4.1.1 General considerations on driver entry point parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#driver-entry-points-for-single-part-cryptographic-operations">4.2 Driver entry points for single-part cryptographic operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#driver-entry-points-for-multi-part-operations">4.3 Driver entry points for multi-part operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#general-considerations-on-multi-part-operations">4.3.1 General considerations on multi-part operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#multi-part-operation-entry-point-family-hash-multipart">4.3.2 Multi-part operation entry point family <code class="docutils literal notranslate"><span class="pre">&quot;hash_multipart&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#operation-family-mac-multipart">4.3.3 Operation family <code class="docutils literal notranslate"><span class="pre">&quot;mac_multipart&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#operation-family-mac-verify-multipart">4.3.4 Operation family <code class="docutils literal notranslate"><span class="pre">&quot;mac_verify_multipart&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#operation-family-cipher-encrypt-multipart">4.3.5 Operation family <code class="docutils literal notranslate"><span class="pre">&quot;cipher_encrypt_multipart&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#operation-family-cipher-decrypt-multipart">4.3.6 Operation family <code class="docutils literal notranslate"><span class="pre">&quot;cipher_decrypt_multipart&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#operation-family-aead-encrypt-multipart">4.3.7 Operation family <code class="docutils literal notranslate"><span class="pre">&quot;aead_encrypt_multipart&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#operation-family-aead-decrypt-multipart">4.3.8 Operation family <code class="docutils literal notranslate"><span class="pre">&quot;aead_decrypt_multipart&quot;</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#driver-entry-points-for-key-derivation">4.4 Driver entry points for key derivation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-derivation-driver-dispatch-logic">4.4.1 Key derivation driver dispatch logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#summary-of-entry-points-for-the-operation-family-key-derivation">4.4.2 Summary of entry points for the operation family <code class="docutils literal notranslate"><span class="pre">&quot;key_derivation&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-derivation-driver-initial-inputs">4.4.3 Key derivation driver initial inputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-derivation-driver-setup">4.4.4 Key derivation driver setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-derivation-driver-long-inputs">4.4.5 Key derivation driver long inputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-derivation-driver-operation-capacity">4.4.6 Key derivation driver operation capacity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-derivation-driver-outputs">4.4.7 Key derivation driver outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#transparent-cooked-key-derivation">4.4.8 Transparent cooked key derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-agreement">4.4.9 Key agreement</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#driver-entry-points-for-pake">4.5 Driver entry points for PAKE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#pake-driver-dispatch-logic">4.5.1 PAKE driver dispatch logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#summary-of-entry-points-for-pake">4.5.2 Summary of entry points for PAKE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#pake-driver-inputs">4.5.3 PAKE driver inputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#pake-driver-setup">4.5.4 PAKE driver setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#pake-driver-output">4.5.5 PAKE driver output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#pake-driver-input">4.5.6 PAKE driver input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#pake-driver-get-implicit-key">4.5.7 PAKE driver get implicit key</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#driver-entry-points-for-key-management">4.6 Driver entry points for key management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-size-determination-on-import">4.6.1 Key size determination on import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#key-validation">4.6.2 Key validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#entropy-collection-entry-point">4.7 Entropy collection entry point</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#entropy-collection-flags">4.7.1 Entropy collection flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#entropy-collection-and-blocking">4.7.2 Entropy collection and blocking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#miscellaneous-driver-entry-points">4.8 Miscellaneous driver entry points</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/entry-points.html#driver-initialization">4.8.1 Driver initialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/entry-points.html#combining-multiple-drivers">4.9 Combining multiple drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="body/transparent.html">5 Transparent drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="body/transparent.html#key-format-for-transparent-drivers">5.1 Key format for transparent drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/transparent.html#key-management-with-transparent-drivers">5.2 Key management with transparent drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/transparent.html#key-import-with-transparent-drivers">5.2.1 Key import with transparent drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/transparent.html#random-generation-entry-points">5.3 Random generation entry points</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/transparent.html#random-generator-initialization">5.3.1 Random generator initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/transparent.html#entropy-injection">5.3.2 Entropy injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/transparent.html#combining-entropy-sources-with-a-random-generation-driver">5.3.3 Combining entropy sources with a random generation driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/transparent.html#random-generator-drivers-without-entropy-injection">5.3.4 Random generator drivers without entropy injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/transparent.html#the-get-random-entry-point">5.3.5 The <code class="docutils literal notranslate"><span class="pre">&quot;get_random&quot;</span></code> entry point</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/transparent.html#fallback">5.4 Fallback</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="body/opaque.html">6 Opaque drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="body/opaque.html#key-format-for-opaque-drivers">6.1 Key format for opaque drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#size-of-a-dynamically-allocated-key-context">6.1.1 Size of a dynamically allocated key context</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#size-of-a-statically-allocated-key-context">6.1.2 Size of a statically allocated key context</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#key-context-size-for-a-secure-element-with-storage">6.1.3 Key context size for a secure element with storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#key-context-size-for-a-secure-element-without-storage">6.1.4 Key context size for a secure element without storage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/opaque.html#key-management-with-opaque-drivers">6.2 Key management with opaque drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#key-creation-in-a-secure-element-without-storage">6.2.1 Key creation in a secure element without storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#key-management-in-a-secure-element-with-storage">6.2.2 Key management in a secure element with storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#key-creation-entry-points-in-opaque-drivers">6.2.3 Key creation entry points in opaque drivers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#key-export-entry-points-in-opaque-drivers">6.2.4 Key export entry points in opaque drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="body/opaque.html#opaque-driver-persistent-state">6.3 Opaque driver persistent state</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/opaque.html#built-in-keys">6.3.1 Built-in keys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="body/using-drivers.html">7 Using drivers from an application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="body/using-drivers.html#using-transparent-drivers">7.1 Using transparent drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="body/using-drivers.html#using-opaque-drivers">7.2 Using opaque drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="body/using-drivers.html#lifetimes-and-locations">7.2.1 Lifetimes and locations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="body/using-drivers.html#creating-a-key-in-a-secure-element">7.2.2 Creating a key in a secure element</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix/open-issues.html">A Open questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/open-issues.html#value-representation">A.1 Value representation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#integers">A.1.1 Integers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/open-issues.html#driver-declarations">A.2 Driver declarations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#declaring-driver-entry-points">A.2.1 Declaring driver entry points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#driver-location-values">A.2.2 Driver location values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#multiple-transparent-drivers">A.2.3 Multiple transparent drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/open-issues.html#driver-function-interfaces">A.3 Driver function interfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#driver-function-parameter-conventions">A.3.1 Driver function parameter conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#key-derivation-inputs-and-buffer-ownership">A.3.2 Key derivation inputs and buffer ownership</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/open-issues.html#partial-computations-in-drivers">A.4 Partial computations in drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#substitution-points">A.4.1 Substitution points</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/open-issues.html#key-management">A.5 Key management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#mixing-drivers-in-key-derivation">A.5.1 Mixing drivers in key derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#public-key-calculation">A.5.2 Public key calculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#symmetric-key-validation-with-transparent-drivers">A.5.3 Symmetric key validation with transparent drivers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#support-for-custom-import-formats">A.5.4 Support for custom import formats</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/open-issues.html#opaque-drivers">A.6 Opaque drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#opaque-driver-persistent-state">A.6.1 Opaque driver persistent state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#open-questions-around-cooked-key-derivation">A.6.2 Open questions around cooked key derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#fallback-for-key-derivation-in-opaque-drivers">A.6.3 Fallback for key derivation in opaque drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appendix/open-issues.html#randomness">A.7 Randomness</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#input-to-add-entropy">A.7.1 Input to <code class="docutils literal notranslate"><span class="pre">&quot;add_entropy&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#flags-for-get-entropy">A.7.2 Flags for <code class="docutils literal notranslate"><span class="pre">&quot;get_entropy&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix/open-issues.html#random-generator-instantiations">A.7.3 Random generator instantiations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix/history.html">B Changes to the API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix/history.html#document-change-history">B.1 Document change history</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169; 2020-2025 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

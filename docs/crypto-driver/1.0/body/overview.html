@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="2 Overview of drivers" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/crypto-driver/1.0/body/overview.html" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/crypto-driver/1.0/body/overview.html" />
+<meta property="og:site_name" content="PSA Certified Crypto Driver Interface 1.0" />
+<meta property="og:description" content="Alpha Deliverables for a driver: To write a driver, you need to implement some functions with C linkage, and to declare these functions in a driver description file. The driver description file dec..." />
+<meta name="description" content="Alpha Deliverables for a driver: To write a driver, you need to implement some functions with C linkage, and to declare these functions in a driver description file. The driver description file dec..." />
+
+    <title>2 Overview of drivers &#8212; PSA Certified Crypto Driver Interface 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=d052748e"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3 Driver description" href="manifest.html" />
+    <link rel="prev" title="1 Introduction" href="introduction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto Driver Interface"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Crypto Driver Interface</a></h3>
+111106<br/>
+Non-confidential<br/>
+Version 1.0 Alpha (Issue 1)
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1 Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2 Overview of drivers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#deliverables-for-a-driver">2.1 Deliverables for a driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#driver-description-list">2.2 Driver description list</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manifest.html">3 Driver description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry-points.html">4 Driver entry points</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transparent.html">5 Transparent drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opaque.html">6 Opaque drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using-drivers.html">7 Using drivers from an application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/open-issues.html">A Open questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">B Changes to the API</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="watermark docutils container">
+<p>Alpha</p>
+</div>
+<section id="overview-of-drivers">
+<h1><span class="section-number">2 </span>Overview of drivers<a class="headerlink" href="#overview-of-drivers" title="Link to this heading">¶</a></h1>
+<section id="deliverables-for-a-driver">
+<h2><span class="section-number">2.1 </span>Deliverables for a driver<a class="headerlink" href="#deliverables-for-a-driver" title="Link to this heading">¶</a></h2>
+<p>To write a driver, you need to implement some functions with C linkage, and to declare these functions in a <strong>driver description file</strong>.
+The driver description file declares which functions the driver implements and what cryptographic mechanisms they support.
+If the driver description references custom types, macros or constants, you also need to provide C header files defining those elements.</p>
+<p>The concrete syntax for a driver description file is JSON.
+The structure of this JSON file is specified in the section <a class="reference internal" href="manifest.html#driver-description-syntax"><span class="secref">Driver description syntax</span></a>.</p>
+<p>A driver therefore consists of:</p>
+<ul class="simple">
+<li><p>A driver description file (in JSON format).</p></li>
+<li><p>C header files defining the types required by the driver description.
+The names of these header files are declared in the driver description file.</p></li>
+<li><p>An object file compiled for the target platform defining the entry point functions specified by the driver description.
+Implementations may allow drivers to be provided as source files and compiled with the core instead of being pre-compiled.</p></li>
+</ul>
+<p>How to provide the driver description file, the C header files and the object code is implementation-dependent.</p>
+</section>
+<section id="driver-description-list">
+<span id="id1"></span><h2><span class="section-number">2.2 </span>Driver description list<a class="headerlink" href="#driver-description-list" title="Link to this heading">¶</a></h2>
+<p>Crypto API core implementations should support multiple drivers.
+The driver description files are passed to the implementation as an ordered list in an unspecified manner.
+This may be, for example, a list of file names passed on a command line, or a JSON list whose elements are individual driver descriptions.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169; 2020-2025 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
