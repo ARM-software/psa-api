@@ -45,8 +45,8 @@
 .. reference:: LAMPS-MLDSA
     :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)
     :author: IETF
-    :publication: June 2025 (Draft 12)
-    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-dilithium-certificates-12
+    :publication: September 2025 (Draft 13)
+    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-dilithium-certificates-13
 
 .. reference:: LAMPS-SLHDSA
     :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA
@@ -78,11 +78,11 @@
     :publication: April 2019
     :url: tools.ietf.org/html/rfc8554
 
-.. reference:: CFRG-LMS
+.. reference:: RFC9858
     :title: Additional Parameter sets for HSS/LMS Hash-Based Signatures
     :author: IRTF
-    :publication: February 2025 (Draft 19)
-    :url: datatracker.ietf.org/doc/html/draft-fluhrer-lms-more-parm-sets-19
+    :publication: October 2025
+    :url: tools.ietf.org/html/rfc9858
 
 .. reference:: RFC9802
     :title: Use of the HSS and XMSS Hash-Based Signature Algorithms in Internet X.509 Public Key Infrastructure
