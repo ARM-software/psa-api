@@ -84,6 +84,12 @@ The |API| provides several functions for calculating and verifying signatures:
 
     If called with a zero-length context, these functions produce the same signature as the associated function without a context parameter.
 
+    .. note::
+
+        If a signature scheme treats the absence of a context parameter differently to a zero-length context, the |API| defines distinct algorithm identifiers for the two variants.
+        For example, when using a 255-bit key with EdDSA, `PSA_ALG_PURE_EDDSA` implements Ed25519 (without a context) and `PSA_ALG_EDDSA_CTX` implements Ed25519ctx (with a context, which can be zero-length).
+        See :secref:`eddsa-sign-algorithms`.
+
     It is an error to provide a non-zero-length context with an algorithm that does not accept contexts.
 
     Code written to be cryptographically agile can use the new functions, provided it guards against providing a non-zero-length context with an algorithm that does not support them.
