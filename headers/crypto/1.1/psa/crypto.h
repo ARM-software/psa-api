@@ -337,19 +337,19 @@ typedef uint8_t psa_dh_family_t;
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
 
 /**
- * @brief The key pair type corresponding to a public key type.
+ * @brief The key-pair type corresponding to a public key type.
  *
- * @param type A public key type or key pair type.
+ * @param type A public key type or key-pair type.
  *
- * @return The corresponding key pair type.
+ * @return The corresponding key-pair type.
  */
 #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
     /* specification-defined value */
 
 /**
- * @brief The public key type corresponding to a key pair type.
+ * @brief The public key type corresponding to a key-pair type.
  *
- * @param type A public key type or key pair type.
+ * @param type A public key type or key-pair type.
  *
  * @return The corresponding public key type.
  */
@@ -2199,22 +2199,22 @@ psa_status_t psa_aead_abort(psa_aead_operation_t * operation);
 #define PSA_ALG_HKDF_EXPAND(hash_alg) /* specification-defined value */
 
 /**
- * @brief Macro to build a TLS-1.
+ * @brief Macro to build a TLS-1.2 PRF algorithm.
  *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
  *
- * @return The corresponding TLS-1.
+ * @return The corresponding TLS-1.2 PRF algorithm.
  */
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */
 
 /**
- * @brief Macro to build a TLS-1.
+ * @brief Macro to build a TLS-1.2 PSK-to-MasterSecret algorithm.
  *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
  *
- * @return The corresponding TLS-1.
+ * @return The corresponding TLS-1.2 PSK to MS algorithm.
  */
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
 
@@ -2459,20 +2459,20 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 #define PSA_ALG_IS_HKDF_EXPAND(alg) /* specification-defined value */
 
 /**
- * @brief Whether the specified algorithm is a TLS-1.
+ * @brief Whether the specified algorithm is a TLS-1.2 PRF algorithm.
  *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
  *
- * @return 1 if alg is a TLS-1.
+ * @return 1 if alg is a TLS-1.2 PRF algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_TLS12_PRF(alg) /* specification-defined value */
 
 /**
- * @brief Whether the specified algorithm is a TLS-1.
+ * @brief Whether the specified algorithm is a TLS-1.2 PSK to MS algorithm.
  *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
  *
- * @return 1 if alg is a TLS-1.
+ * @return 1 if alg is a TLS-1.2 PSK to MS algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_TLS12_PSK_TO_MS(alg) /* specification-defined value */
 
@@ -2493,22 +2493,22 @@ psa_status_t psa_key_derivation_abort(psa_key_derivation_operation_t * operation
 
 /**
  * @brief This macro returns the maximum supported length of the PSK for the
- *        TLS-1.
+ *        TLS-1.2 PSK-to-MS key derivation.
  */
 #define PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE /* implementation-defined value */
 
 /**
- * @brief The RSA PKCS#1 v1.
+ * @brief The RSA PKCS#1 v1.5 message signature scheme, with hashing.
  *
  * @param hash_alg A hash algorithm: a value of type psa_algorithm_t such that
  *                 PSA_ALG_IS_HASH(hash_alg) is true.
  *
- * @return The corresponding RSA PKCS#1 v1.
+ * @return The corresponding RSA PKCS#1 v1.5 signature algorithm.
  */
 #define PSA_ALG_RSA_PKCS1V15_SIGN(hash_alg) /* specification-defined value */
 
 /**
- * @brief The raw RSA PKCS#1 v1.
+ * @brief The raw RSA PKCS#1 v1.5 signature algorithm, without hashing.
  */
 #define PSA_ALG_RSA_PKCS1V15_SIGN_RAW ((psa_algorithm_t) 0x06000200)
 
@@ -2680,11 +2680,12 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 #define PSA_ALG_IS_SIGN_HASH(alg) /* specification-defined value */
 
 /**
- * @brief Whether the specified algorithm is an RSA PKCS#1 v1.
+ * @brief Whether the specified algorithm is an RSA PKCS#1 v1.5 signature
+ *        algorithm.
  *
  * @param alg An algorithm identifier: a value of type psa_algorithm_t.
  *
- * @return 1 if alg is an RSA PKCS#1 v1.
+ * @return 1 if alg is an RSA PKCS#1 v1.5 signature algorithm, 0 otherwise.
  */
 #define PSA_ALG_IS_RSA_PKCS1V15_SIGN(alg) /* specification-defined value */
 
@@ -2794,7 +2795,7 @@ psa_status_t psa_verify_hash(psa_key_id_t key,
 #define PSA_SIGNATURE_MAX_SIZE /* implementation-defined value */
 
 /**
- * @brief The RSA PKCS#1 v1.
+ * @brief The RSA PKCS#1 v1.5 asymmetric encryption algorithm.
  */
 #define PSA_ALG_RSA_PKCS1V15_CRYPT ((psa_algorithm_t)0x07000200)
 

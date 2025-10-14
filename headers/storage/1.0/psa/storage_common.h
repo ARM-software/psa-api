@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file is a reference template for implementation of the
- * PSA Certified Secure Storage API v1.0.1
+ * PSA Certified Secure Storage API v1.0
  *
  * This file includes common definitions
  */

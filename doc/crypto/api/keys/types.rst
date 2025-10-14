@@ -1,8 +1,8 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
-    :seq: 13
+    :seq: 130
 
 .. _key-types:
 
@@ -21,11 +21,11 @@ Key type encoding
 
     :code:`PSA_KEY_TYPE_NONE == 0`
         Reserved as an invalid key type.
-    :code:`0x0001 – 0x7fff`
+    :code:`0x0001 - 0x7fff`
         Specification-defined key types.
         Key types defined by this standard always have bit 15 clear.
         Unallocated key type values in this range are reserved for future use.
-    :code:`0x8000 – 0xffff`
+    :code:`0x8000 - 0xffff`
         Implementation-defined key types.
         Implementations that define additional key types must use an encoding with bit 15 set.
         The related support macros will be easier to write if these key encodings also respect the bitwise structure used by standard encodings.
@@ -171,9 +171,9 @@ Symmetric keys
 
     This key type is for high-entropy secrets only. For low-entropy secrets, `PSA_KEY_TYPE_PASSWORD` should be used instead.
 
-    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key derivation algorithms.
+    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` or `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key-derivation algorithms.
 
-    The key policy determines which key derivation algorithm the key can be used for.
+    The key policy determines which key-derivation algorithm the key can be used for.
 
     The bit size of a secret for key derivation must be a non-zero multiple of 8. The maximum size of a secret for key derivation is :scterm:`IMPLEMENTATION DEFINED`.
 
@@ -203,16 +203,18 @@ Symmetric keys
     .. summary::
         A low-entropy secret for password hashing or key derivation.
 
+        .. versionadded:: 1.1
+
     This key type is suitable for passwords and passphrases which are typically intended to be memorizable by humans, and have a low entropy relative to their size.
     It can be used for randomly generated or derived keys with maximum or near-maximum entropy, but `PSA_KEY_TYPE_DERIVE` is more suitable for such keys.
     It is not suitable for passwords with extremely low entropy, such as numerical PINs.
 
-    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key derivation algorithms.
+    These keys can be used in the `PSA_KEY_DERIVATION_INPUT_PASSWORD` input step of key-derivation algorithms.
     Algorithms that accept such an input were designed to accept low-entropy secret and are known as *password hashing* or *key stretching* algorithms.
 
-    These keys cannot be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` input step of key derivation algorithms, as the algorithms expect such an input to have high entropy.
+    These keys cannot be used in the `PSA_KEY_DERIVATION_INPUT_SECRET` input step of key-derivation algorithms, as the algorithms expect such an input to have high entropy.
 
-    The key policy determines which key derivation algorithm the key can be used for, among the permissible subset defined above.
+    The key policy determines which key-derivation algorithm the key can be used for, among the permissible subset defined above.
 
     .. subsection:: Compatible algorithms
 
@@ -237,7 +239,9 @@ Symmetric keys
     .. summary::
         A secret value that can be used to verify a password hash.
 
-    The key policy determines which key derivation algorithm the key can be used for, among the same permissible subset as for `PSA_KEY_TYPE_PASSWORD`.
+        .. versionadded:: 1.1
+
+    The key policy determines which key-derivation algorithm the key can be used for, among the same permissible subset as for `PSA_KEY_TYPE_PASSWORD`.
 
     .. subsection:: Compatible algorithms
 
@@ -262,7 +266,9 @@ Symmetric keys
     .. summary::
         A secret value that can be used when computing a password hash.
 
-    The key policy determines which key derivation algorithm the key can be used for, among the subset of algorithms that can use pepper.
+        .. versionadded:: 1.1
+
+    The key policy determines which key-derivation algorithm the key can be used for, among the subset of algorithms that can use pepper.
 
     .. subsection:: Compatible algorithms
 
@@ -316,6 +322,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
@@ -331,6 +339,8 @@ Symmetric keys
 
     .. summary::
         Key for a cipher, AEAD or MAC algorithm based on the ARIA block cipher.
+
+        .. versionadded:: 1.1
 
     The size of the key is related to the ARIA algorithm variant. For algorithms except the XTS block cipher mode, the following key sizes are used:
 
@@ -361,6 +371,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
@@ -455,6 +467,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
@@ -492,6 +506,8 @@ Symmetric keys
             *   `PSA_ALG_ECB_NO_PADDING`
             *   `PSA_ALG_CCM`
             *   `PSA_ALG_GCM`
+            *   `PSA_ALG_KW`
+            *   `PSA_ALG_KWP`
             *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
@@ -561,6 +577,8 @@ Symmetric keys
 
     .. summary::
         Key for the XChaCha20 stream cipher or the XChaCha20-Poly1305 AEAD algorithm.
+
+        .. versionadded:: 1.2
 
     The XChaCha20 key size is 256 bits (32 bytes).
 
@@ -643,6 +661,23 @@ RSA keys
 
         See `PSA_KEY_TYPE_RSA_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
 
+    .. subsection:: Key generation
+
+        A call to `psa_generate_key()` will generate an RSA key-pair with the default public exponent of ``65537``. The modulus :math:`n=pq` is a product of two probabilistic primes :math:`p\ \text{and}\ q`, where :math:`2^{r-1} \le n < 2^r` and :math:`r` is the bit size specified in the attributes.
+
+        The exponent can be explicitly specified in non-default production parameters in a call to `psa_generate_key_custom()`. Use the following custom production parameters:
+
+        *   The production parameters structure, ``custom``, must have ``flags`` set to zero.
+
+        *   If ``custom_data_length == 0``, the default exponent value ``65537`` is used.
+
+        *   The additional production parameter buffer ``custom_data`` is the public exponent, in little-endian byte order.
+
+            The exponent must be an odd integer greater than ``1``.
+            An implementation must support an exponent of ``65537``, and is recommended to support an exponent of ``3``, and can support other values.
+
+            The maximum supported exponent value is :scterm:`implementation defined`.
+
     .. subsection:: Key derivation
 
         The method used by `psa_key_derivation_output_key()` to derive an RSA key-pair is :term:`implementation defined`.
@@ -695,7 +730,7 @@ Elliptic curve keys are grouped into families of related curves.
 A keys for a specific curve is specified by a combination of the elliptic curve family and the bit-size of the key.
 
 There are three categories of elliptic curve key, shown in :numref:`tab-ecc-groups`.
-The curve type affects the key format, the key derivation procedure, and the algorithms which the key can be used with.
+The curve type affects the key format, the key-derivation procedure, and the algorithms which the key can be used with.
 
 .. list-table:: Types of elliptic curve key
     :name: tab-ecc-groups
@@ -739,12 +774,21 @@ The curve type affects the key format, the key derivation procedure, and the alg
     The range of elliptic curve family identifier values is divided as follows:
 
     :code:`0x00`
-        Reserved. Not allocated to an ECC family.
-    :code:`0x01 – 0x7f`
+        Reserved.
+        Not allocated to an ECC family.
+    :code:`0x01 - 0x7f`
         ECC family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
-    :code:`0x80 – 0xff`
-        Implementations that define additional families must use an encoding in this range.
+    :code:`0x80 - 0xff`
+        Invalid.
+        Values in this range must not be used.
+
+    The least significant bit of a elliptic curve family identifier is a parity bit for the whole key type.
+    See :secref:`asymmetric-key-encoding` for details of the encoding of asymmetric key types.
+
+    .. admonition:: Implementation note
+
+        To provide other elliptic curve families, it is recommended that an implementation defines a key type with bit 15 set, which indicates an :scterm:`implementation defined` key type.
 
 .. macro:: PSA_KEY_TYPE_ECC_KEY_PAIR
     :definition: /* specification-defined value */
@@ -771,7 +815,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
             *   -   Curve type
                 -   Compatible algorithms
             *   -   Weierstrass
-                -   Weierstrass curve key-pairs can be used in asymmetric signature and key agreement algorithms.
+                -   Weierstrass curve key-pairs can be used in asymmetric signature, key-agreement, and key-encapsulation algorithms.
 
                     `PSA_ALG_DETERMINISTIC_ECDSA`
 
@@ -780,10 +824,16 @@ The curve type affects the key format, the key derivation procedure, and the alg
                     `PSA_ALG_ECDSA_ANY`
 
                     `PSA_ALG_ECDH`
+
+                    `PSA_ALG_ECIES_SEC1`
+
             *   -   Montgomery
-                -   Montgomery curve key-pairs can only be used in key agreement algorithms.
+                -   Montgomery curve key-pairs can be used in key-agreement and key-encapsulation algorithms.
 
                     `PSA_ALG_ECDH`
+
+                    `PSA_ALG_ECIES_SEC1`
+
             *   -   Twisted Edwards
                 -   Twisted Edwards curve key-pairs can only be used in asymmetric signature algorithms.
 
@@ -807,7 +857,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
             :header-rows: 1
 
             *   -   Curve type
-                -   Key pair format
+                -   Key-pair format
             *   -   Weierstrass
                 -   The key data is the content of the ``privateKey`` field of the ``ECPrivateKey`` format defined by :RFC-title:`5915`.
 
@@ -827,7 +877,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
 
     .. subsection:: Key derivation
 
-        The key derivation method used when calling `psa_key_derivation_output_key()` depends on the type of elliptic curve.
+        The key-derivation method used when calling `psa_key_derivation_output_key()` depends on the type of elliptic curve.
         :numref:`tab-ecc-key-derivation` shows the derivation method for each type of elliptic curve key.
 
         .. list-table:: Key derivation for elliptic curve keys
@@ -883,7 +933,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
         .. note::
 
             For key agreement, the public key of the peer is provided to the |API| as a buffer.
-            This avoids the need to import the public key data that is received from the peer, just to carry out the key agreement algorithm.
+            This avoids the need to import the public-key data that is received from the peer, just to carry out the key-agreement algorithm.
 
         .. list-table:: Compatible algorithms for elliptic curve public keys
             :name: tab-ecc-public-key-algorithms
@@ -894,7 +944,7 @@ The curve type affects the key format, the key derivation procedure, and the alg
             *   -   Curve type
                 -   Compatible algorithms
             *   -   Weierstrass
-                -   Weierstrass curve public keys can be used in asymmetric signature algorithms.
+                -   Weierstrass curve public keys can be used in asymmetric signature and key-encapsulation algorithms.
 
                     `PSA_ALG_DETERMINISTIC_ECDSA`
 
@@ -902,8 +952,15 @@ The curve type affects the key format, the key derivation procedure, and the alg
 
                     `PSA_ALG_ECDSA_ANY`
 
+                    `PSA_ALG_ECIES_SEC1`
+
+            *   -   Montgomery
+                -   Montgomery curve public keys can only be used in key-encapsulation algorithms.
+
+                    `PSA_ALG_ECIES_SEC1`
+
             *   -   Twisted Edwards
-                -   Twisted Edwards curve public key can only be used in asymmetric signature algorithms.
+                -   Twisted Edwards curve public keys can only be used in asymmetric signature algorithms.
 
                     `PSA_ALG_PURE_EDDSA`
 
@@ -916,14 +973,14 @@ The curve type affects the key format, the key derivation procedure, and the alg
         The data format for import and export of the public key depends on the type of elliptic curve.
         :numref:`tab-ecc-public-key-format` shows the format for each type of elliptic curve public key.
 
-        .. list-table:: Public key formats for elliptic curve keys
+        .. list-table:: Public-key formats for elliptic curve keys
             :name: tab-ecc-public-key-format
             :class: longtable
             :widths: 1,4
             :header-rows: 1
 
             *   -   Curve type
-                -   Public key format
+                -   Public-key format
             *   -   Weierstrass
                 -   The key data is the uncompressed representation of an elliptic curve point as an octet string defined in :cite-title:`SEC1` §2.3.3.
                     If :math:`m` is the bit size associated with the curve, i.e. the bit size of :math:`q` for a curve over :math:`\mathbb{F}_q`, then the representation of point :math:`P` consists of:
@@ -1093,6 +1150,8 @@ The curve type affects the key format, the key derivation procedure, and the alg
     .. summary::
         Twisted Edwards curves.
 
+        .. versionadded:: 1.1
+
     This family comprises the following twisted Edwards curves:
 
     *   Edwards25519 : ``key_bits = 255``. This curve is birationally equivalent to Curve25519.
@@ -1156,12 +1215,21 @@ Diffie Hellman keys
     The range of Diffie-Hellman group family identifier values is divided as follows:
 
     :code:`0x00`
-        Reserved. Not allocated to a DH group family.
-    :code:`0x01 – 0x7f`
+        Reserved.
+        Not allocated to a DH group family.
+    :code:`0x01 - 0x7f`
         DH group family identifiers defined by this standard.
         Unallocated values in this range are reserved for future use.
-    :code:`0x80 – 0xff`
-        Implementations that define additional families must use an encoding in this range.
+    :code:`0x80 - 0xff`
+        Invalid.
+        Values in this range must not be used.
+
+    The least significant bit of a Diffie-Hellman group family identifier is a parity bit for the whole key type.
+    See :secref:`asymmetric-key-encoding` for details of the encoding of asymmetric key types.
+
+    .. admonition:: Implementation note
+
+        To provide other Diffie-Hellman group families, it is recommended that an implementation defines a key type with bit 15 set, which indicates an :scterm:`implementation defined` key type.
 
 .. macro:: PSA_KEY_TYPE_DH_KEY_PAIR
     :definition: /* specification-defined value */
@@ -1180,8 +1248,8 @@ Diffie Hellman keys
 
     .. subsection:: Key format
 
-        The data format for import and export of the key-pair is the representation of the private key :math:`x` as a big-endian byte string.
-        The length of the byte string is the private key size in bytes, and leading zeroes are not stripped.
+        The data format for import and export of the key pair is the representation of the private key :math:`x` as a big-endian byte string.
+        The length of the byte string is the private key's size in bytes, and leading zeroes are not stripped.
 
         See `PSA_KEY_TYPE_DH_PUBLIC_KEY` for the data format used when exporting the public key with `psa_export_public_key()`.
 
@@ -1211,7 +1279,7 @@ Diffie Hellman keys
 
     .. subsection:: Compatible algorithms
 
-        None: Finite-field Diffie-Hellman public keys are exported to use in a key agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key agreement algorithm as a buffer of key data.
+        None: Finite-field Diffie-Hellman public keys are exported to use in a key-agreement algorithm, and the peer key is provided to the `PSA_ALG_FFDH` key-agreement algorithm as a buffer of key data.
 
     .. subsection:: Key format
 
@@ -1227,7 +1295,7 @@ Diffie Hellman keys
     This family includes groups with the following key sizes (in bits): 2048, 3072, 4096, 6144, 8192.
     An implementation can support all of these sizes or only a subset.
 
-    Keys is this group can only be used with the `PSA_ALG_FFDH` key agreement algorithm.
+    Keys is this group can only be used with the `PSA_ALG_FFDH` key-agreement algorithm.
 
     These groups are defined by :rfc-title:`7919#A`.
 
@@ -1235,29 +1303,29 @@ Diffie Hellman keys
     :definition: /* specification-defined value */
 
     .. summary::
-        The key pair type corresponding to a public key type.
+        The key-pair type corresponding to a public-key type.
 
     .. param:: type
-        A public key type or key pair type.
+        A public-key type or key-pair type.
 
     .. return::
-        The corresponding key pair type. If ``type`` is not a public key or a key pair, the return value is undefined.
+        The corresponding key-pair type. If ``type`` is not a public key or a key pair, the return value is undefined.
 
-    If ``type`` is a key pair type, it will be left unchanged.
+    If ``type`` is a key-pair type, it will be left unchanged.
 
 .. macro:: PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR
     :definition: /* specification-defined value */
 
     .. summary::
-        The public key type corresponding to a key pair type.
+        The public-key type corresponding to a key-pair type.
 
     .. param:: type
-        A public key type or key pair type.
+        A public-key type or key-pair type.
 
     .. return::
-        The corresponding public key type. If ``type`` is not a public key or a key pair, the return value is undefined.
+        The corresponding public-key type. If ``type`` is not a public key or a key pair, the return value is undefined.
 
-    If ``type`` is a public key type, it will be left unchanged.
+    If ``type`` is a public-key type, it will be left unchanged.
 
 .. macro:: PSA_KEY_TYPE_IS_DH
     :definition: /* specification-defined value */
@@ -1301,13 +1369,15 @@ Diffie Hellman keys
 .. _spake2p-keys:
 
 SPAKE2+ keys
-~~~~~~~~~~~~
+------------
 
 .. macro:: PSA_KEY_TYPE_SPAKE2P_KEY_PAIR
     :definition: /* specification-defined value */
 
     .. summary::
         SPAKE2+ key pair: both the prover and verifier key.
+
+        .. versionadded:: 1.2
 
     .. param:: curve
         A value of type :code:`psa_ecc_family_t` that identifies the elliptic curve family to be used.
@@ -1334,10 +1404,10 @@ SPAKE2+ keys
 
     .. subsection:: Key format
 
-        A SPAKE2+ key-pair consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
+        A SPAKE2+ key pair consists of the two values :math:`w0` and :math:`w1`, which result from the SPAKE2+ registration phase, see :secref:`spake2p-registration`.
         :math:`w0` and :math:`w1` are scalars in the same range as an elliptic curve private key from the group used as the SPAKE2+ primitive group.
 
-        The data format for import and export of the key-pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
+        The data format for import and export of the key pair is the concatenation of the formatted values for :math:`w0` and :math:`w1`, using the standard formats for elliptic curve keys used by the |API|.
         For example, for SPAKE2+ over P-256 (secp256r1), the output from :code:`psa_export_key()` would be the concatenation of:
 
         *   The P-256 private key :math:`w0`.
@@ -1373,6 +1443,8 @@ SPAKE2+ keys
 
     .. summary::
         SPAKE2+ public key: the verifier key.
+
+        .. versionadded:: 1.2
 
     .. param:: curve
         A value of type :code:`psa_ecc_family_t` that identifies the elliptic curve family to be used.
@@ -1414,6 +1486,8 @@ SPAKE2+ keys
     .. summary::
         Whether a key type is a SPAKE2+ key, either a key pair or a public key.
 
+        .. versionadded:: 1.2
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
 
@@ -1422,6 +1496,8 @@ SPAKE2+ keys
 
     .. summary::
         Whether a key type is a SPAKE2+ key pair.
+
+        .. versionadded:: 1.2
 
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
@@ -1432,6 +1508,8 @@ SPAKE2+ keys
     .. summary::
         Whether a key type is a SPAKE2+ public key.
 
+        .. versionadded:: 1.2
+
     .. param:: type
         A key type: a value of type :code:`psa_key_type_t`.
 
@@ -1440,6 +1518,8 @@ SPAKE2+ keys
 
     .. summary::
         Extract the curve family from a SPAKE2+ key type.
+
+        .. versionadded:: 1.2
 
     .. param:: type
         A SPAKE2+ key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SPAKE2P(type)` is true.

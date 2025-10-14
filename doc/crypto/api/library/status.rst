@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _status-codes:
@@ -12,29 +12,29 @@ The following elements are defined in :file:`psa/error.h` from :cite-title:`PSA-
 
 .. code-block:: xref
 
-   typedef int32_t psa_status_t;
+    typedef int32_t psa_status_t;
 
-   #define PSA_SUCCESS ((psa_status_t)0)
+    #define PSA_SUCCESS ((psa_status_t)0)
 
-   #define PSA_ERROR_GENERIC_ERROR         ((psa_status_t)-132)
-   #define PSA_ERROR_NOT_PERMITTED         ((psa_status_t)-133)
-   #define PSA_ERROR_NOT_SUPPORTED         ((psa_status_t)-134)
-   #define PSA_ERROR_INVALID_ARGUMENT      ((psa_status_t)-135)
-   #define PSA_ERROR_INVALID_HANDLE        ((psa_status_t)-136)
-   #define PSA_ERROR_BAD_STATE             ((psa_status_t)-137)
-   #define PSA_ERROR_BUFFER_TOO_SMALL      ((psa_status_t)-138)
-   #define PSA_ERROR_ALREADY_EXISTS        ((psa_status_t)-139)
-   #define PSA_ERROR_DOES_NOT_EXIST        ((psa_status_t)-140)
-   #define PSA_ERROR_INSUFFICIENT_MEMORY   ((psa_status_t)-141)
-   #define PSA_ERROR_INSUFFICIENT_STORAGE  ((psa_status_t)-142)
-   #define PSA_ERROR_INSUFFICIENT_DATA     ((psa_status_t)-143)
-   #define PSA_ERROR_COMMUNICATION_FAILURE ((psa_status_t)-145)
-   #define PSA_ERROR_STORAGE_FAILURE       ((psa_status_t)-146)
-   #define PSA_ERROR_HARDWARE_FAILURE      ((psa_status_t)-147)
-   #define PSA_ERROR_INVALID_SIGNATURE     ((psa_status_t)-149)
-   #define PSA_ERROR_CORRUPTION_DETECTED   ((psa_status_t)-151)
-   #define PSA_ERROR_DATA_CORRUPT          ((psa_status_t)-152)
-   #define PSA_ERROR_DATA_INVALID          ((psa_status_t)-153)
+    #define PSA_ERROR_GENERIC_ERROR         ((psa_status_t)-132)
+    #define PSA_ERROR_NOT_PERMITTED         ((psa_status_t)-133)
+    #define PSA_ERROR_NOT_SUPPORTED         ((psa_status_t)-134)
+    #define PSA_ERROR_INVALID_ARGUMENT      ((psa_status_t)-135)
+    #define PSA_ERROR_INVALID_HANDLE        ((psa_status_t)-136)
+    #define PSA_ERROR_BAD_STATE             ((psa_status_t)-137)
+    #define PSA_ERROR_BUFFER_TOO_SMALL      ((psa_status_t)-138)
+    #define PSA_ERROR_ALREADY_EXISTS        ((psa_status_t)-139)
+    #define PSA_ERROR_DOES_NOT_EXIST        ((psa_status_t)-140)
+    #define PSA_ERROR_INSUFFICIENT_MEMORY   ((psa_status_t)-141)
+    #define PSA_ERROR_INSUFFICIENT_STORAGE  ((psa_status_t)-142)
+    #define PSA_ERROR_INSUFFICIENT_DATA     ((psa_status_t)-143)
+    #define PSA_ERROR_COMMUNICATION_FAILURE ((psa_status_t)-145)
+    #define PSA_ERROR_STORAGE_FAILURE       ((psa_status_t)-146)
+    #define PSA_ERROR_HARDWARE_FAILURE      ((psa_status_t)-147)
+    #define PSA_ERROR_INVALID_SIGNATURE     ((psa_status_t)-149)
+    #define PSA_ERROR_CORRUPTION_DETECTED   ((psa_status_t)-151)
+    #define PSA_ERROR_DATA_CORRUPT          ((psa_status_t)-152)
+    #define PSA_ERROR_DATA_INVALID          ((psa_status_t)-153)
 
 These definitions must be available to an application that includes the :file:`psa/crypto.h` header file.
 
@@ -45,7 +45,7 @@ These definitions must be available to an application that includes the :file:`p
 Common error codes
 ^^^^^^^^^^^^^^^^^^
 
-Some of the common status codes have a more precise meaning when returned by a function in the |API|, compared to the definitions in `[PSA-STAT]`.
+Some of the common status codes have a more precise meaning when returned by a function in the |API|, compared to the definitions in `[PSA-STAT]`. See also :secref:`error-handling`.
 
 .. list-table::
     :class: longtable
@@ -54,6 +54,16 @@ Some of the common status codes have a more precise meaning when returned by a f
 
     * - Error code
       - Meaning in the |API|
+
+    * - :code:`PSA_ERROR_NOT_SUPPORTED`
+      - `[PSA-STAT]` recommends the use of :code:`PSA_ERROR_INVALID_ARGUMENT` for invalid parameter values.
+
+        In the |API|, this is relaxed for algorithm identifier and key type parameters. It is recommended to return :code:`PSA_ERROR_INVALID_ARGUMENT` for invalid values, but :code:`PSA_ERROR_NOT_SUPPORTED` is also allowed, to permit implementations to avoid having to recognize all the cryptographic mechanisms that are defined in the PSA specification but not provided by that particular implementation.
+
+    * - :code:`PSA_ERROR_INVALID_ARGUMENT`
+      - `[PSA-STAT]` recommends the use of :code:`PSA_ERROR_NOT_SUPPORTED` for unsupported parameter values.
+
+        In the |API|, either :code:`PSA_ERROR_INVALID_ARGUMENT` or :code:`PSA_ERROR_NOT_SUPPORTED` can be returned when unsupported algorithm identifier or key type parameters are used. This allows implementations to avoid having to recognize all the cryptographic mechanisms that are defined in the PSA specification but not provided by that particular implementation.
 
     * - :code:`PSA_ERROR_INVALID_HANDLE`
       - A key identifier does not refer to an existing key. See also :secref:`key-ids`.
@@ -79,10 +89,10 @@ Some of the common status codes have a more precise meaning when returned by a f
 .. _specific-errors:
 
 Error codes specific to the |API|
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. header:: psa/crypto
-    :seq: 2
+    :seq: 20
 
 The following elements are defined in the :file:`psa/crypto.h` header file.
 

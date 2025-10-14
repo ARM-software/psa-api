@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+# SPDX-FileCopyrightText: Copyright 2020-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 # PSA Certified API specification configuration
@@ -8,14 +8,14 @@
 
 doc_info = {
     # Document template
-    'template': 'psa-api-2022',
+    'template': 'psa-api-2025',
 
     # Document title, MANDATORY
     'title': 'PSA Certified\nFirmware Update API',
     'author': 'Arm Limited',
 
     # Document copyright date, default to year of 'date'
-    'copyright_date': '2020-2023',
+    'copyright_date': '2020-2025',
     'copyright': 'Arm Limited and/or its affiliates',
 
     # Arm document identifier, marked as open issue if not provided
@@ -27,7 +27,7 @@ doc_info = {
     'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 0,
+    'issue_no': 1,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     #'release_candidate': 2,
@@ -42,7 +42,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '1/8/2023',
+    'date': '23/9/2025',
 
 
     # psa_spec: default header file for API definitions

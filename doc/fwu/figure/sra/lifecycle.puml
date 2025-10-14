@@ -4,58 +4,41 @@
 @startuml
 
 !include atg-spec.pumh
-!include atg-dataflow.pumh
+!include atg-lifecycle.pumh
 
+stakeholder "SiP and OEM" as k1
+stakeholder "SiP, OEM,\nand/or Owner" as k2
+stakeholder "[everybody]" as k3
+stakeholder_skip as k4
+stakeholder_skip as k5
+stakeholder "SiP, OEM,\nand Owner" as k6
 
-skinparam rectangle {
-    backgroundColor #ArmMidBlue
-    borderColor darkred
-    borderThickness 0
-    fontColor white
+lifecycle_phase "Manufacturing" as p1{
+    lifecycle_state "System\nmanufacturing\nand initialization" as s1
+    lifecycle_state "Provision of\nauthorization\ncredentials" as s2
+}
+lifecycle_phase "Operation" as p3 {
+   lifecycle_state "Boot\n(Install update)" as s3
+   lifecycle_state "Operation\n(Prepare update)" as s4
+   lifecycle_state "Reset" as s5
+}
+lifecycle_phase "End of life" as p6 {
+   lifecycle_state "Return to\nManufacturer" as s6
 }
 
-skinparam rectangle {
-    backgroundColor<<Operational phase>> #0091BD20
-    borderColor<<Operational phase>> #ArmMidBlue
-    borderstyle<<Operational phase>> dashed
-    borderThickness<<Operational phase>> 1
-    fontColor<<Operational phase>> black
-}
+k1 -[hidden]l- s1
 
-left to right direction
+s1 --> s2
+s2 --> s3
+s3 --> s4
+s4 --> s5
+s3 <-- s5
+s5 --> s6
 
-note "SiP and OEM" as n1
-rectangle "System\nmanufacturing\nand initialization" as lc1
-n1 . lc1
-
-note "SiP, OEM,\nand/or Owner" as n2
-rectangle "Provision of\nauthorization\ncredentials" as lc2
-n2 . lc2
-
-   note "[everybody]" as n3
-
-rectangle " " as r3 <<Operational phase>> {
-   rectangle "Boot\n(Install update)" as lc31
-   rectangle "Operation\n(Prepare update)" as lc32
-   rectangle "Reset" as lc33
-}
-n3 -[hidden]r- lc31
-note "SiP, OEM,\nand Owner" as n4
-rectangle "Return to\nManufacturer" as lc4
-n4 . lc4
-
-n1 -[hidden]d- n2
-lc1 --> lc2
-
-n2 -[hidden]d- n3
-lc2 --> lc31
-
-n3 -[hidden]r- lc32
-lc31 --> lc32
-lc32 --> lc33
-lc31 <-- lc33
-
-n3 -[hidden]d- n4
-lc33 --> lc4
+k1 -[hidden]- k2
+k2 -[hidden]- k3
+k3 -[hidden]- k4
+k4 -[hidden]- k5
+k5 -[hidden]- k6
 
 @enduml

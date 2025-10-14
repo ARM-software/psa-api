@@ -1,8 +1,8 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
-    :seq: 24
+    :seq: 240
 
 .. _aead:
 
@@ -136,6 +136,8 @@ AEAD algorithms
     .. summary::
         The XChaCha20-Poly1305 AEAD algorithm.
 
+        .. versionadded:: 1.2
+
     XChaCha20-Poly1305 is a variation of the ChaCha20-Poly1305 AEAD algorithm, but uses a 192-bit nonce. The larger nonce provides much lower probability of nonce misuse.
 
     XChaCha20-Poly1305 requires a 24-byte nonce.
@@ -195,6 +197,8 @@ AEAD algorithms
 
     .. summary::
         Macro to build an AEAD minimum-tag-length wildcard algorithm.
+
+        .. versionadded:: 1.1
 
     .. param:: aead_alg
         An AEAD algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_AEAD(aead_alg)` is true.

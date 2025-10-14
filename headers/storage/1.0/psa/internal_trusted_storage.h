@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file is a reference template for implementation of the
- * PSA Certified Secure Storage API v1.0.1
+ * PSA Certified Secure Storage API v1.0
  *
  * This file describes the Internal Trusted Storage API
  */
@@ -33,12 +33,12 @@ extern "C" {
 
 /**
  * @brief Set the data associated with the specified uid.
- * 
+ *
  * @param uid          The identifier for the data.
  * @param data_length  The size in bytes of the data in p_data.
  * @param p_data       A buffer of data_length containing the data to store.
  * @param create_flags The flags that the data will be stored with.
- * 
+ *
  * @return A status indicating the success or failure of the operation.
  */
 psa_status_t psa_its_set(psa_storage_uid_t uid,
@@ -48,14 +48,14 @@ psa_status_t psa_its_set(psa_storage_uid_t uid,
 
 /**
  * @brief Retrieve data associated with a provided uid.
- * 
+ *
  * @param uid           The uid value.
  * @param data_offset   The starting offset of the data requested.
  * @param data_size     The amount of data requested.
  * @param p_data        On success, the buffer where the data will be placed.
  * @param p_data_length On success, this will contain size of the data placed in
  *                      p_data.
- * 
+ *
  * @return A status indicating the success or failure of the operation.
  */
 psa_status_t psa_its_get(psa_storage_uid_t uid,
@@ -66,11 +66,11 @@ psa_status_t psa_its_get(psa_storage_uid_t uid,
 
 /**
  * @brief Retrieve the metadata about the provided uid.
- * 
+ *
  * @param uid    The uid value.
  * @param p_info A pointer to the psa_storage_info_t struct that will be
  *               populated with the metadata.
- * 
+ *
  * @return A status indicating the success or failure of the operation.
  */
 psa_status_t psa_its_get_info(psa_storage_uid_t uid,
@@ -78,9 +78,9 @@ psa_status_t psa_its_get_info(psa_storage_uid_t uid,
 
 /**
  * @brief Remove the provided uid and its associated data from the storage.
- * 
+ *
  * @param uid The uid value.
- * 
+ *
  * @return A status indicating the success or failure of the operation.
  */
 psa_status_t psa_its_remove(psa_storage_uid_t uid);

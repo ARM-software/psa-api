@@ -1,0 +1,14 @@
+.. SPDX-FileCopyrightText: Copyright 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. release:: N/A
+    :date: 2020-2024
+    :confidentiality: Non-confidential
+
+    Developed as part of Mbed TLS.
+
+.. release:: 1.0 Alpha-1
+    :date: September 2025
+    :confidentiality: Non-confidential
+
+    Republished as part of the PSA Certified APIs.

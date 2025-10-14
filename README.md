@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -22,11 +22,11 @@ The following specifications are part of the PSA Certified API.
 
 Specification | Published | Document source | Reference headers | Dashboard
 -|-|-|-|-
-Crypto API | [1.2.1][crypto-specs] | [doc/crypto/] | [headers/crypto/1.2/] | [Project board][crypto-dash]
-Secure Storage API | [1.0.3][storage-specs] | [doc/storage/] |  [headers/storage/1.0/] | [Project board][storage-dash] |
-Attestation API | [1.0.3][attestation-specs] | [doc/attestation/] |  [headers/attestation/1.0/] | [Project board][attestation-dash] |
-Firmware Update API | [1.0.0][fwu-specs] | [doc/fwu/] |  [headers/fwu/1.0/] | [Project board][fwu-dash]
-Status code API | [1.0.3][status-specs] | [doc/status-code/] |  [headers/status-code/1.0/] | [Project board][status-code-dash] |
+Crypto API | [1.3.2][crypto-specs] | [doc/crypto/] | [headers/crypto/1.3/] | [Project board][crypto-dash]
+Secure Storage API | [1.0.4][storage-specs] | [doc/storage/] |  [headers/storage/1.0/] | [Project board][storage-dash] |
+Attestation API | [1.0.4][attestation-specs] | [doc/attestation/] |  [headers/attestation/1.0/] | [Project board][attestation-dash] |
+Firmware Update API | [1.0.1][fwu-specs] | [doc/fwu/] |  [headers/fwu/1.0/] | [Project board][fwu-dash]
+Status code API | [1.0.4][status-specs] | [doc/status-code/] |  [headers/status-code/1.0/] | [Project board][status-code-dash] |
 
 [crypto-specs]:         https://arm-software.github.io/psa-api/crypto/
 [storage-specs]:        https://arm-software.github.io/psa-api/storage/
@@ -46,22 +46,34 @@ Status code API | [1.0.3][status-specs] | [doc/status-code/] |  [headers/status-
 [doc/fwu/]:             doc/fwu
 [doc/status-code/]:     doc/status-code
 
-[headers/crypto/1.2/]:      headers/crypto/1.2
+[headers/crypto/1.3/]:      headers/crypto/1.3
 [headers/storage/1.0/]:     headers/storage/1.0
 [headers/attestation/1.0/]: headers/attestation/1.0
 [headers/fwu/1.0/]:         headers/fwu/1.0
 [headers/status-code/1.0/]: headers/status-code/1.0
 
-## Extensions
+### Extensions
 
 Extension specifications introduce new functionality that is not yet stable enough for inclusion in the main specification.
 
 API | Extension | Published | Document source | Reference headers | Dashboard
 -|-|-|-|-|-
-Crypto API | PAKE | [1.2 Final 1][crypto-specs] |  [doc/ext-pake/] | [headers/crypto/1.2/]  | [Project board][crypto-dash]
+Crypto API | PAKE | [*Integrated in 1.3.0*][crypto-specs] | *n/a* | *n/a* | *n/a*
+Crypto API | PQC | [1.3 Beta-3][crypto-specs] |  [doc/ext-pqc/] | [headers/crypto/1.3/]  | [Project board][crypto-dash]
 
-[doc/ext-pake/]:        doc/ext-pake
+[doc/ext-pqc/]:        doc/ext-pqc
 
+### In development
+
+The following specifications are being developed towards an initial 1.0 version:
+
+Specification | Published | Document source | Reference headers | Dashboard
+-|-|-|-|-
+Crypto Driver Interface | [1.0 Alpha-1][crypto-driver-specs] | [doc/crypto-driver/] | *n/a* | [Project board][crypto-driver-dash]
+
+[crypto-driver-specs]:  https://arm-software.github.io/psa-api/crypto-driver/
+[crypto-driver-dash]:   https://github.com/orgs/ARM-software/projects/5/views/8
+[doc/crypto-driver/]:   doc/crypto-driver
 
 ## Reference header files
 
@@ -102,7 +114,7 @@ The language in the additional patent license is largely identical to that in se
 
 2. The scope of the defensive termination clause is changed from "any patent licenses granted to You" to "any licenses granted to You". This change is intended to help maintain a healthy ecosystem by providing additional protection to the community against patent litigation claims.
 
-[CC-BY-SA-4.0]:     https://creativecommons.org/licenses/by/4.0
+[CC-BY-SA-4.0]:     https://creativecommons.org/licenses/by-sa/4.0
 [APACHE-2.0]:       https://www.apache.org/licenses/LICENSE-2.0
 [trademarks]:       https://www.arm.com/company/policies/trademarks
 
@@ -134,4 +146,4 @@ Anyone may contribute to the PSA Certified API. Discussion of changes and enhanc
 
 ----
 
-*Copyright 2022-2024 Arm Limited and/or its affiliates*
+*Copyright 2022-2025 Arm Limited and/or its affiliates*

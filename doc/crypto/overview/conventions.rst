@@ -116,6 +116,14 @@ of error code is considered an implementation quality issue. Different
 implementations can make different choices, for example to favor code size over
 ease of debugging or vice versa.
 
+In particular, in the |API|, there are many conditions where the specification permits a function to return either :code:`PSA_ERROR_INVALID_ARGUMENT` or :code:`PSA_ERROR_NOT_SUPPORTED`.
+For example, `psa_hash_compute()` is passed a hash algorithm that the implementation does not support, it is :scterm:`implementation defined` whether :code:`PSA_ERROR_INVALID_ARGUMENT` or :code:`PSA_ERROR_NOT_SUPPORTED` is returned.
+
+.. note::
+
+    This flexibility supports the `scalability design goal<scalable>`.
+    It permits implementations to not check whether unsupported algorithm identifier and key type values are valid or invalid.
+
 If the behavior is undefined, for example, if a function receives an invalid
 pointer as a parameter, this specification makes no guarantee that the function
 will return an error. Implementations are encouraged to return an error or halt
@@ -148,7 +156,7 @@ code. There are specific conditions that can result in different behavior:
 *   The status :code:`PSA_ERROR_INSUFFICIENT_DATA` indicates that a key
     derivation object has reached its maximum capacity. The key derivation
     operation might have been modified by the call. Any further attempt to obtain
-    output from the key derivation operation will return
+    output from the key-derivation operation will return
     :code:`PSA_ERROR_INSUFFICIENT_DATA`.
 *   The status :code:`PSA_ERROR_COMMUNICATION_FAILURE` indicates that the
     communication between the application and the cryptoprocessor has broken

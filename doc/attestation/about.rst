@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. Releases of this specification
@@ -52,6 +52,12 @@
     Example header file added to the appendices.
 
     Minor corrections and clarifications.
+
+.. release:: 1.0.4
+    :date: September 2025
+    :confidentiality: Non-confidential
+
+    GlobalPlatform governance of PSA Certified evaluation scheme.
 
 .. release:: 2.0.0
     :date: ? 2024

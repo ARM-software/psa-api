@@ -1,8 +1,8 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
-    :seq: 30
+    :seq: 310
 
 Other cryptographic services
 ============================
@@ -38,4 +38,4 @@ Random number generation
         This function **can** fail! Callers MUST check the return status and MUST NOT use the content of the output buffer if the return status is not :code:`PSA_SUCCESS`.
 
     .. note::
-        To generate a key, use `psa_generate_key()` instead.
+        To generate a random key, use `psa_generate_key()` or `psa_generate_key_custom()` instead.

@@ -1,13 +1,13 @@
 {
     "reg": [
         { "name": "P", "bits": 1 },
-        { "name": "FAMILY", "bits": 7 },
-        { "name": "ASYM-TYPE", "bits": 4 },
+        { "name": "FAMILY", "bits": 6 },
+        { "name": "ASYM-TYPE", "bits": 5 },
         { "name": "PAIR", "bits": 2 },
         { "name": "1", "bits": 1 },
         { "name": "0", "bits": 1 }
     ],
-    "options": {
+    "config": {
         "lanes": 1,
         "fontfamily": "lato",
         "fontsize": 11,

@@ -1,0 +1,18 @@
+{
+    "reg": [
+        { "name": "P", "bits": 1 },
+        { "name": "NP-FAMILY", "bits": 6 },
+        { "name": "0", "bits": 5 },
+        { "name": "PAIR", "bits": 2 },
+        { "name": "1", "bits": 1 },
+        { "name": "0", "bits": 1 }
+    ],
+    "config": {
+        "lanes": 1,
+        "fontfamily": "lato",
+        "fontsize": 11,
+        "bits": 16,
+        "vspace": 52,
+        "hspace": 300
+    }
+}

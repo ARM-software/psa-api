@@ -3,7 +3,9 @@
 
 .. title::
 
-   This document is part of the PSA Certified API specifications. It defines common interface elements relating to status and error codes.
+    .. abstract::
+
+        This document is part of the PSA Certified API specifications. It defines common interface elements relating to status and error codes.
 
 .. front-matter::
 

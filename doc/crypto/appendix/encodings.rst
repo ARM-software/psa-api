@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _appendix-encodings:
@@ -46,13 +46,15 @@ Algorithm identifiers are 32-bit integer values of the type `psa_algorithm_t`. A
         -   [23]
         -   For a cipher algorithm, this flag indicates a stream cipher when S=1.
 
-            For a key derivation algorithm, this flag indicates a key-stretching or password-hashing algorithm when S=1.
+            For a key-wrapping algorithm, this flag indicates an algorithm that accepts non-aligned input lengths when S=1.
+
+            For a key-derivation algorithm, this flag indicates a key-stretching or password-hashing algorithm when S=1.
     *   -   B
         -   [22]
         -   Flag to indicate an algorithm built on a block cipher, when B=1.
     *   -   LEN/T2
         -   [21:16]
-        -   LEN is the length of a MAC or AEAD tag, T2 is a key agreement algorithm sub-type.
+        -   LEN is the length of a MAC or AEAD tag, T2 is a key-agreement algorithm sub-type.
     *   -   T1
         -   [15:8]
         -   Algorithm sub-type for most algorithm categories.
@@ -76,20 +78,23 @@ The CAT field in an algorithm identifier takes the values shown in :numref:`tabl
     Algorithm category, CAT, Category details
     None, ``0x00``, See `PSA_ALG_NONE`
     Hash, ``0x02``, See :secref:`hash-encoding`
+    XOF, ``0x0D``, See :secref:`xof-encoding`
     MAC, ``0x03``, See :secref:`mac-encoding`
     Cipher, ``0x04``, See :secref:`cipher-encoding`
     AEAD, ``0x05``, See :secref:`aead-encoding`
+    Key wrapping, ``0x0B``, See :secref:`key-wrap-encoding`
     Key derivation, ``0x08``, See :secref:`kdf-encoding`
     Asymmetric signature, ``0x06``, See :secref:`sign-encoding`
     Asymmetric encryption, ``0x07``, See :secref:`pke-encoding`
     Key agreement, ``0x09``, See :secref:`ka-encoding`
+    Key encapsulation, ``0x0C``, See :secref:`key-encapsulation-encoding`
     PAKE, ``0x0A``, See :secref:`pake-encoding`
 
 .. rationale::
 
-    The values for the algorithm categories are chosen to support the composition of key agreement and key derivation algorithms.
+    The values for the algorithm categories are chosen to support the composition of key-agreement and key-derivation algorithms.
 
-    The only categories that can combine in a bitwise OR into a valid key agreement algorithm identifier are key derivation (``0x08``) and key agreement (``0x09``). This reduces the risk of a programming error resulting in the combination of other algorithm types using `PSA_ALG_KEY_AGREEMENT()` and ending up with a valid algorithm identifier that can be used in a key agreement operation.
+    The only categories that can combine in a bitwise OR into a valid key-agreement algorithm identifier are key derivation (``0x08``) and key agreement (``0x09``). This reduces the risk of a programming error resulting in the combination of other algorithm types using `PSA_ALG_KEY_AGREEMENT()` and ending up with a valid algorithm identifier that can be used in a key-agreement operation.
 
 .. _hash-encoding:
 
@@ -133,6 +138,30 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
     *wildcard* :sup:`a`, ``0xFF``, `PSA_ALG_ANY_HASH`, ``0x020000FF``
 
 a.  The wildcard hash `PSA_ALG_ANY_HASH` can be used to parameterize a signature algorithm which defines a key usage policy, permitting any hash algorithm to be specified in a signature operation using the key.
+
+.. _xof-encoding:
+
+XOF algorithm encoding
+~~~~~~~~~~~~~~~~~~~~~~
+
+The algorithm identifier for XOF algorithms defined in this specification are encoded as shown in :numref:`fig-xof-fields`.
+
+.. figure:: ../figure/encoding/xof.*
+    :name: fig-xof-fields
+
+    XOF algorithm encoding
+
+The defined values for XOF-TYPE are shown in :numref:`table-xof-type`.
+
+.. csv-table:: XOF algorithm sub-type values
+    :name: table-xof-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    XOF algorithm, XOF-TYPE, Algorithm identifier, Algorithm value
+    SHAKE128, ``0x01``, `PSA_ALG_SHAKE128`, ``0x0D000100``
+    SHAKE256, ``0x02``, `PSA_ALG_SHAKE256`, ``0x0D000200``
 
 .. _mac-encoding:
 
@@ -249,29 +278,53 @@ a.  This is an AEAD mode of an underlying block cipher. The block cipher is dete
 
 b.  This is the default algorithm identifier, specifying the default tag length for the algorithm. `PSA_ALG_AEAD_WITH_SHORTENED_TAG()` generates identifiers with alternative LEN values. `PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG()` generates wildcard permitted-algorithm policies with W = 1.
 
+.. _key-wrap-encoding:
+
+Key-wrapping algorithm encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The algorithm identifier for key-wrapping algorithms defined in this specification are encoded as shown in :numref:`fig-key-wrap-fields`.
+
+.. figure:: ../figure/encoding/key-wrap.*
+    :name: fig-key-wrap-fields
+
+    Key-wrapping algorithm encoding
+
+The defined values for S, B, and WRAP-TYPE are shown in :numref:`table-key-wrap-type`.
+
+.. csv-table:: Key-wrapping algorithm sub-type values
+    :name: table-key-wrap-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Key-wrapping algorithm, S, B,  WRAP-TYPE, Algorithm identifier, Algorithm value
+    AES-KW, 0, 1, ``0x01``, `PSA_ALG_KW`, ``0x0B400100``
+    AES-KWP, 1, 1, ``0x02``, `PSA_ALG_KWP`, ``0x0BC00200``
+
 .. _kdf-encoding:
 
-Key derivation algorithm encoding
+Key-derivation algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The algorithm identifier for key derivation algorithms defined in this specification are encoded as shown in :numref:`fig-kdf-fields`.
+The algorithm identifier for key-derivation algorithms defined in this specification are encoded as shown in :numref:`fig-kdf-fields`.
 
 .. figure:: ../figure/encoding/kdf.*
     :name: fig-kdf-fields
 
-    Key derivation algorithm encoding
+    Key-derivation algorithm encoding
 
 The defined values for S and KDF-TYPE are shown in :numref:`table-kdf-type`.
 
 The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the specific KDF algorithm.
 
-.. csv-table:: Key derivation algorithm sub-type values
+.. csv-table:: Key-derivation algorithm sub-type values
     :name: table-kdf-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    Key derivation algorithm, S, KDF-TYPE, Algorithm identifier, Algorithm value
+    Key-derivation algorithm, S, KDF-TYPE, Algorithm identifier, Algorithm value
     HKDF, 0, ``0x01``, :code:`PSA_ALG_HKDF(hash)`, ``0x080001hh`` :sup:`a`
     TLS-1.2 PRF, 0, ``0x02``, :code:`PSA_ALG_TLS12_PRF(hash)`, ``0x080002hh`` :sup:`a`
     TLS-1.2 PSK-to-MasterSecret, 0, ``0x03``, :code:`PSA_ALG_TLS12_PSK_TO_MS(hash)`, ``0x080003hh`` :sup:`a`
@@ -283,7 +336,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     PBKDF2-HMAC, 1, ``0x01``, :code:`PSA_ALG_PBKDF2_HMAC(hash)`, ``0x088001hh`` :sup:`a`
     PBKDF2-AES-CMAC-PRF-128, 1, ``0x02``, :code:`PSA_ALG_PBKDF2_AES_CMAC_PRF_128`, ``0x08800200``
 
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
 
 .. _sign-encoding:
 
@@ -315,8 +368,9 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for message signature algorithms t
     Randomized ECDSA, ``0x06``, :code:`PSA_ALG_ECDSA(hash_alg)`, ``0x060006hh`` :sup:`a`
     Randomized ECDSA no hash :sup:`b`, ``0x06``, `PSA_ALG_ECDSA_ANY`, ``0x06000600``
     Deterministic ECDSA, ``0x07``, :code:`PSA_ALG_DETERMINISTIC_ECDSA(hash_alg)`, ``0x060007hh`` :sup:`a`
-    PureEdDSA, ``0x08``, `PSA_ALG_PURE_EDDSA`, ``0x06000800``
+    PureEdDSA without context, ``0x08``, `PSA_ALG_PURE_EDDSA`, ``0x06000800``
     HashEdDSA, ``0x09``, `PSA_ALG_ED25519PH` and `PSA_ALG_ED448PH`, ``0x060009hh`` :sup:`c`
+    PureEdDSA with context, ``0x0a``, `PSA_ALG_EDDSA_CTX`, ``0x06000a00``
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to construct the signature algorithm.
 
@@ -354,37 +408,60 @@ a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to constr
 
 .. _ka-encoding:
 
-Key agreement algorithm encoding
+Key-agreement algorithm encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A key agreement algorithm identifier can either be for the standalone key agreement algorithm, or for a combined key agreement with key derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
+A key-agreement algorithm identifier can either be for the standalone key-agreement algorithm, or for a combined key-agreement with key-derivation algorithm. The former can only be used with `psa_key_agreement()` and `psa_raw_key_agreement()`, while the latter are used with `psa_key_derivation_key_agreement()`.
 
-The algorithm identifier for standalone key agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
+The algorithm identifier for standalone key-agreement algorithms defined in this specification are encoded as shown in :numref:`fig-ka-raw-fields`.
 
 .. figure:: ../figure/encoding/ka_raw.*
     :name: fig-ka-raw-fields
 
-    Standalone key agreement algorithm encoding
+    Standalone key-agreement algorithm encoding
 
 The defined values for KA-TYPE are shown in :numref:`table-ka-type`.
 
-.. csv-table:: Key agreement algorithm sub-type values
+.. csv-table:: Key-agreement algorithm sub-type values
     :name: table-ka-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    Key agreement algorithm, KA-TYPE, Algorithm identifier, Algorithm value
+    Key-agreement algorithm, KA-TYPE, Algorithm identifier, Algorithm value
     FFDH, ``0x01``, `PSA_ALG_FFDH`, ``0x09010000``
     ECDH, ``0x02``, `PSA_ALG_ECDH`, ``0x09020000``
 
-A combined key agreement is constructed by a bitwise OR of the standalone key agreement algorithm identifier and the key derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
+A combined key agreement is constructed by a bitwise OR of the standalone key-agreement algorithm identifier and the key-derivation algorithm identifier. This operation is provided by the `PSA_ALG_KEY_AGREEMENT()` macro.
 
 .. figure:: ../figure/encoding/ka_combined.*
 
-    Combined key agreement algorithm encoding
+    Combined key-agreement algorithm encoding
 
-The underlying standalone key agreement algorithm can be extracted from the KA-TYPE field, and the key derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
+The underlying standalone key-agreement algorithm can be extracted from the KA-TYPE field, and the key-derivation algorithm from the KDF-TYPE and HASH-TYPE fields.
+
+.. _key-encapsulation-encoding:
+
+Key-encapsulation algorithm encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The algorithm identifier for key-encapsulation algorithms defined in this specification are encoded as shown in :numref:`fig-key-encapsulation-encoding`.
+
+.. figure:: /figure/encoding/kem_encoding.*
+    :name: fig-key-encapsulation-encoding
+
+    Encapsulation algorithm encoding
+
+The defined values for ENCAPS-TYPE are shown in :numref:`table-key-encapsulation-type`.
+
+.. csv-table:: Encapsulation algorithm sub-type values
+    :name: table-key-encapsulation-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Encapsulation algorithm, ENCAPS-TYPE, Algorithm identifier, Algorithm value
+    ECIES (SEC1), ``0x01``, `PSA_ALG_ECIES_SEC1`, ``0x0C000100``
 
 .. _pake-encoding:
 
@@ -414,7 +491,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     SPAKE2+ with CMAC, ``0x05``, :code:`PSA_ALG_SPAKE2P_CMAC(hash)`, ``0x0A0005hh`` :sup:`a`
     SPAKE2+ for Matter, ``0x06``, :code:`PSA_ALG_SPAKE2P_MATTER`, ``0x0A000609``
 
-a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key derivation algorithm.
+a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
 
 .. _key-type-encoding:
 
@@ -558,6 +635,8 @@ PAIR is either 0 for a public key, or 3 for a key pair.
 
 The defined values for ASYM-TYPE are shown in :numref:`table-asymmetric-type`.
 
+The defined values for FAMILY depend on the ASYM-TYPE value. See the details for each asymmetric key sub-type.
+
 .. csv-table:: Asymmetric key sub-type values
     :name: table-asymmetric-type
     :header-rows: 1
@@ -565,48 +644,48 @@ The defined values for ASYM-TYPE are shown in :numref:`table-asymmetric-type`.
     :widths: auto
 
     Asymmetric key type, ASYM-TYPE, Details
-    RSA, 0, See :secref:`rsa-key-encoding`
-    Elliptic Curve, 1, See :secref:`ecc-key-encoding`
-    Diffie-Hellman, 2, See :secref:`dh-key-encoding`
-    SPAKE2+, 4, See :secref:`spakep2-key-encoding`
+    Non-parameterized, 0, See :secref:`simple-asymmetric-key-encoding`
+    Elliptic Curve, 2, See :secref:`ecc-key-encoding`
+    Diffie-Hellman, 4, See :secref:`dh-key-encoding`
+    SPAKE2+, 8, See :secref:`spakep2-key-encoding`
 
-.. _rsa-key-encoding:
+.. _simple-asymmetric-key-encoding:
 
-RSA key encoding
-^^^^^^^^^^^^^^^^
+Non-parameterized asymmetric key encoding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The key type for RSA keys defined in this specification are encoded as shown in :numref:`fig-rsa-key-fields`.
+The key type for non-parameterized asymmetric keys defined in this specification are encoded as shown in :numref:`fig-np-key-fields`.
 
-.. figure:: ../figure/encoding/rsa_key.*
-    :name: fig-rsa-key-fields
+.. figure:: ../figure/encoding/np_key.*
+    :name: fig-np-key-fields
 
-    RSA key encoding
+    Non-parameterized asymmetric keys encoding
 
 PAIR is either 0 for a public key, or 3 for a key pair.
 
-The defined values for RSA keys are shown in :numref:`table-rsa-type`.
+The defined values for NP-FAMILY and P are shown in :numref:`table-np-type`.
 
-.. csv-table:: RSA key values
-    :name: table-rsa-type
+.. csv-table:: Non-parameterized asymmetric key family values
+    :name: table-np-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    RSA key type, Key type, Key type value
-    Public key, `PSA_KEY_TYPE_RSA_PUBLIC_KEY`, ``0x4001``
-    Key pair, `PSA_KEY_TYPE_RSA_KEY_PAIR`, ``0x7001``
+    Key family, Public/pair, PAIR, NP-FAMILY, P, Key type, Key value
+    RSA, Public key, 0, 0, 1, `PSA_KEY_TYPE_RSA_PUBLIC_KEY`, ``0x4001``
+    , Key pair, 3, 0, 1, `PSA_KEY_TYPE_RSA_KEY_PAIR`, ``0x7001``
 
 .. _ecc-key-encoding:
 
-Elliptic Curve key encoding
+Elliptic curve key encoding
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The key type for Elliptic Curve keys defined in this specification are encoded as shown in :numref:`fig-ecc-key-fields`.
+The key type for elliptic curve keys defined in this specification are encoded as shown in :numref:`fig-ecc-key-fields`.
 
 .. figure:: ../figure/encoding/ecc_key.*
     :name: fig-ecc-key-fields
 
-    Elliptic Curve key encoding
+    Elliptic curve key encoding
 
 PAIR is either 0 for a public key, or 3 for a key pair.
 
@@ -618,7 +697,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
     :align: left
     :widths: auto
 
-    ECC key family, ECC-FAMILY, P, ECC family :sup:`a`, Public key value, Key pair value
+    ECC key family, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key-pair value
     SECP K1, 0x0B, 1, `PSA_ECC_FAMILY_SECP_K1`, ``0x4117``, ``0x7117``
     SECP R1, 0x09, 0, `PSA_ECC_FAMILY_SECP_R1`, ``0x4112``, ``0x7112``
     SECP R2, 0x0D, 1, `PSA_ECC_FAMILY_SECP_R2`, ``0x411B``, ``0x711B``
@@ -630,7 +709,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
     Montgomery, 0x20, 1, `PSA_ECC_FAMILY_MONTGOMERY`, ``0x4141``, ``0x7141``
     Twisted Edwards, 0x21, 0, `PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4142``, ``0x7142``
 
-a.  The key type value is constructed from the Elliptic Curve family using either :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)` as required.
+a.  The elliptic curve family values defined in the API also include the parity bit. The key type value is constructed from the elliptic curve family using either :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)` as required.
 
 .. _dh-key-encoding:
 
@@ -654,15 +733,15 @@ The defined values for DH-FAMILY and P are shown in :numref:`table-dh-type`.
     :align: left
     :widths: auto
 
-    DH key group, DH-FAMILY, P, DH group :sup:`a`, Public key value, Key pair value
+    DH key group, DH-FAMILY, P, DH group :sup:`a`, Public-key value, Key-pair value
     RFC7919, 0x01, 1, `PSA_DH_FAMILY_RFC7919`, ``0x4203``, ``0x7203``
 
-a.  The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
+a.  The Diffie Hellman family values defined in the API also include the parity bit. The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
 
 .. _spakep2-key-encoding:
 
 SPAKE2+ key encoding
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 The key type for SPAKE2+ keys defined in this specification are encoded as shown in :numref:`fig-spake2p-key-fields`.
 
@@ -681,8 +760,9 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type
     :align: left
     :widths: auto
 
-    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public key value, Key pair value
+    SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key-pair value
     SECP R1, 0x09, 0, :code:`PSA_ECC_FAMILY_SECP_R1`, ``0x4412``, ``0x7412``
     Twisted Edwards, 0x21, 0, :code:`PSA_ECC_FAMILY_TWISTED_EDWARDS`, ``0x4442``, ``0x7442``
 
-a.  The key type value is constructed from the Elliptic Curve family using either :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(family)` as required.
+a.  The elliptic curve family values defined in the API also include the parity bit.
+    The key type value is constructed from the elliptic curve family using either :code:`PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(family)` as required.

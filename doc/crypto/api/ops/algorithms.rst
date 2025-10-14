@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _algorithms:
@@ -16,13 +16,16 @@ Algorithm identifiers are used for two purposes in the |API|:
 The specific algorithm identifiers are described alongside the cryptographic operation functions to which they apply:
 
 *   :secref:`hash-algorithms`
+*   :secref:`xof-algorithms`
 *   :secref:`mac-algorithms`
 *   :secref:`cipher-algorithms`
 *   :secref:`aead-algorithms`
+*   :secref:`key-wrapping-algorithms`
 *   :secref:`key-derivation-algorithms`
-*   :secref:`sign-algorithms`
+*   :secref:`sign`
 *   :secref:`asymmetric-encryption-algorithms`
 *   :secref:`key-agreement-algorithms`
+*   :secref:`key-encapsulation`
 *   :secref:`pake`
 
 
@@ -30,7 +33,7 @@ Algorithm encoding
 ------------------
 
 .. header:: psa/crypto
-    :seq: 16
+    :seq: 160
 
 .. typedef:: uint32_t psa_algorithm_t
 
@@ -41,11 +44,11 @@ Algorithm encoding
 
     :code:`0x00000000`
         Reserved as an invalid algorithm identifier.
-    :code:`0x00000001 – 0x7fffffff`
+    :code:`0x00000001 - 0x7fffffff`
         Specification-defined algorithm identifiers.
         Algorithm identifiers defined by this standard always have bit 31 clear.
         Unallocated algorithm identifier values in this range are reserved for future use.
-    :code:`0x80000000 – 0xffffffff`
+    :code:`0x80000000 - 0xffffffff`
         Implementation-defined algorithm identifiers.
         Implementations that define additional algorithms must use an encoding with bit 31 set.
         The related support macros will be easier to write if these algorithm identifier encodings also respect the bitwise structure used by standard encodings.
@@ -55,7 +58,7 @@ Algorithm encoding
     The :secref:`appendix-encodings` appendix provides a full definition of the algorithm identifier encoding.
 
 .. header:: psa/crypto
-    :seq: 20
+    :seq: 200
 
 .. macro:: PSA_ALG_NONE
     :definition: ((psa_algorithm_t)0)
@@ -81,6 +84,21 @@ Algorithm categories
         ``1`` if ``alg`` is a hash algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     See :secref:`hash-algorithms` for a list of defined hash algorithms.
+
+.. macro:: PSA_ALG_IS_XOF
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is an XOF algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is an XOF algorithm, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`xof-algorithms` for a list of defined XOF algorithms.
 
 .. macro:: PSA_ALG_IS_MAC
     :definition: /* specification-defined value */
@@ -124,19 +142,33 @@ Algorithm categories
 
     See :secref:`aead-algorithms` for a list of defined AEAD algorithms.
 
-.. macro:: PSA_ALG_IS_KEY_DERIVATION
+.. macro:: PSA_ALG_IS_KEY_WRAP
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is a key derivation algorithm.
+        Whether the specified algorithm is a key wrapping algorithm.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a key derivation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+        ``1`` if ``alg`` is a key-wrapping algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    See :secref:`key-derivation-algorithms` for a list of defined key derivation algorithms.
+    See :secref:`key-wrapping-algorithms` for a list of defined key-wrapping algorithms.
+
+.. macro:: PSA_ALG_IS_KEY_DERIVATION
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a key-derivation algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a key-derivation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`key-derivation-algorithms` for a list of defined key-derivation algorithms.
 
 .. macro:: PSA_ALG_IS_SIGN
     :definition: /* specification-defined value */
@@ -150,7 +182,7 @@ Algorithm categories
     .. return::
         ``1`` if ``alg`` is an asymmetric signature algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    See :secref:`sign-algorithms` for a list of defined signature algorithms.
+    See :secref:`sign` for a list of defined signature algorithms.
 
 .. macro:: PSA_ALG_IS_ASYMMETRIC_ENCRYPTION
     :definition: /* specification-defined value */
@@ -170,15 +202,15 @@ Algorithm categories
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is a key agreement algorithm.
+        Whether the specified algorithm is a key-agreement algorithm.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
     .. return::
-        ``1`` if ``alg`` is a key agreement algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+        ``1`` if ``alg`` is a key-agreement algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
-    See :secref:`key-agreement-algorithms` for a list of defined key agreement algorithms.
+    See :secref:`key-agreement-algorithms` for a list of defined key-agreement algorithms.
 
 .. macro:: PSA_ALG_IS_PAKE
     :definition: /* specification-defined value */
@@ -186,12 +218,30 @@ Algorithm categories
     .. summary::
         Whether the specified algorithm is a password-authenticated key exchange.
 
+        .. versionadded:: 1.1
+
     .. param:: alg
         An algorithm identifier: a value of type :code:`psa_algorithm_t`.
 
     .. return::
         ``1`` if ``alg`` is a password-authenticated key exchange (PAKE) algorithm, ``0`` otherwise.
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+.. macro:: PSA_ALG_IS_KEY_ENCAPSULATION
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a key-encapsulation algorithm.
+
+        .. versionadded:: 1.3
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a key-encapsulation algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    See :secref:`key-encapsulation` for a list of defined key-encapsulation algorithms.
 
 Support macros
 --------------
