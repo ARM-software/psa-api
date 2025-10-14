@@ -11,7 +11,9 @@ Changes between *Beta 3* and *Final 0*
 
 .. rubric:: Clarifications and fixes
 
-:issue:`TBD`
+*   Finalized the key format specification for SLH-DSA, ML-KEM, and ML-DSA keys.
+    The formats are unchanged from the Beta version of this specification.
+    See :secref:`slh-dsa`, :secref:`ml-dsa`, and :secref:`ml-kem`.
 
 Changes between *Beta 2* and *Beta 3*
 -------------------------------------
@@ -19,10 +21,6 @@ Changes between *Beta 2* and *Beta 3*
 .. rubric:: Other changes
 
 *   Updated introduction to reflect GlobalPlatform assuming the governance of the PSA Certified evaluation scheme.
-
-*   Finalized the key format specification for SLH-DSA, ML-KEM, and ML-DSA keys.
-    The formats are unchanged from the Beta version of this specification.
-    See :secref:`slh-dsa`, :secref:`ml-dsa`, and :secref:`ml-kem`.
 
 Changes between *Beta 1* and *Beta 2*
 -------------------------------------
