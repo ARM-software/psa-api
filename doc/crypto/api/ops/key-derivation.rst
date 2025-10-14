@@ -31,7 +31,7 @@ An implementation with :term:`isolation` has the following properties:
 
 Applications use the `psa_key_derivation_operation_t` type to create key-derivation operations. The operation object is used as follows:
 
-1.  Initialize a `psa_key_derivation_operation_t` object to zero or to `PSA_KEY_DERIVATION_OPERATION_INIT`.
+1.  Initialize a `psa_key_derivation_operation_t` object to zero or to `PSA_KEY_DERIVATION_OPERATION_INIT`, call `psa_key_derivation_clone()` to duplicate the state of *active* .`psa_key_derivation_operation_t` object.
 #.  Call `psa_key_derivation_setup()` to select a key-derivation algorithm.
 #.  Call the functions `psa_key_derivation_input_key()` or `psa_key_derivation_key_agreement()` to provide the secret inputs, and `psa_key_derivation_input_bytes()` or `psa_key_derivation_input_integer()` to provide the non-secret inputs, to the key-derivation algorithm. Many key-derivation algorithms take multiple inputs; the ``step`` parameter to these functions indicates which input is being provided. The documentation for each key-derivation algorithm describes the expected inputs for that algorithm and in what order to pass them.
 #.  Optionally, call `psa_key_derivation_set_capacity()` to set a limit on the amount of data that can be output from the key-derivation operation.
@@ -345,7 +345,7 @@ Key-derivation algorithms
 
     This KDF is defined in :cite-title:`TLS-ECJPAKE` §8.7. This specifies the use of a KDF to derive the TLS 1.2 session secrets from the output of EC J-PAKE over the secp256r1 Elliptic curve (the 256-bit curve in `PSA_ECC_FAMILY_SECP_R1`). EC J-PAKE operations can be performed using a PAKE operation, see :secref:`pake`.
 
-    This KDF takes the shared secret :math:`K`` (an uncompressed EC point in case of EC J-PAKE) and calculates :math:`\text{SHA256}(K.x)`.
+    This KDF takes the shared secret :math:``K`` (an uncompressed EC point in case of EC J-PAKE) and calculates :math:`\text{SHA256}(K.x)`.
 
     This function takes a single input:
 
@@ -1246,6 +1246,32 @@ Key-derivation functions
     This function can be called at any time after the operation object has been initialized as described in `psa_key_derivation_operation_t`.
 
     In particular, it is valid to call `psa_key_derivation_abort()` twice, or to call `psa_key_derivation_abort()` on an operation that has not been set up.
+
+.. function:: psa_key_derivation_clone
+
+    .. summary::
+        Clone a key_derivation operation.
+
+    .. param:: const psa_key_derivation_operation_t * source_operation
+        The active key_derivation operation to clone.
+    .. param:: psa_key_derivation_operation_t * target_operation
+        The operation object to set up. It must be initialized but not active.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        ``target_operation`` is ready to continue the same key_derivation operation as ``source_operation``.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The ``source_operation`` state is not valid: it must be active.
+        *   The ``target_operation`` state is not valid: it must be inactive.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+
+    This function copies the state of an ongoing key_derivation operation to a new operation object. In other words, this function is equivalent to calling `psa_key_derivation_setup()` on ``target_operation`` with the same algorithm that ``source_operation`` was set up for, then `psa_key_derivation_update()` on ``target_operation`` with the same input that that was passed to ``source_operation``. After this function returns, the two objects are independent, i.e. subsequent calls involving one of the objects do not affect the other object.
 
 Support macros
 --------------

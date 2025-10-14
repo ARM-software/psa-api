@@ -1244,6 +1244,31 @@ Multi-part PAKE operations
 
     In particular, calling `psa_pake_abort()` after the operation has been terminated by a call to `psa_pake_abort()` or `psa_pake_get_shared_key()` is safe and has no effect.
 
+.. function:: psa_pake_clone
+
+    .. summary::
+        Clone a pake operation.
+
+    .. param:: const psa_pake_operation_t * source_operation
+        The active pake operation to clone.
+    .. param:: psa_pake_operation_t * target_operation
+        The operation object to set up. It must be initialized but not active.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        ``target_operation`` is ready to continue the same pake operation as ``source_operation``.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The ``source_operation`` state is not valid: it must be active.
+        *   The ``target_operation`` state is not valid: it must be inactive.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+
+    This function copies the state of an ongoing pake operation to a new operation object. In other words, this function is equivalent to calling `psa_pake_setup()` on ``target_operation`` with the same algorithm that ``source_operation`` was set up for, then `psa_pake_update()` on ``target_operation`` with the same input that that was passed to ``source_operation``. After this function returns, the two objects are independent, i.e. subsequent calls involving one of the objects do not affect the other object.
 
 .. _pake-support:
 
