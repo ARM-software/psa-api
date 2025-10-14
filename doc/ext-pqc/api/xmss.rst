@@ -114,6 +114,8 @@ These algorithms extend those defined in :cite-title:`PSA-CRYPT` §10.7 *Asymmet
         .. versionadded:: 1.3
 
     This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    XMSS does not have a context parameter.
+    However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
     This is the XMSS stateful hash-based signature algorithm, defined by :rfc-title:`8391`.
     XMSS requires an XMSS key.
@@ -135,6 +137,8 @@ These algorithms extend those defined in :cite-title:`PSA-CRYPT` §10.7 *Asymmet
         .. versionadded:: 1.3
 
     This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    |XMSS^MT| does not have a context parameter.
+    However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
     This is the |XMSS^MT| stateful hash-based signature algorithm, defined by :rfc-title:`8391`.
     |XMSS^MT| requires an |XMSS^MT| key.
