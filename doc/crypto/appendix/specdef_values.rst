@@ -190,9 +190,22 @@ Algorithm macros
         (((alg) & ~0x000000ff) == 0x08000300)
 
     #define PSA_ALG_IS_WILDCARD(alg) \
-        ((PSA_ALG_GET_HASH(alg) == PSA_ALG_ANY_HASH) || \
-         (((alg) & 0x7f008000) == 0x03008000) || \
-         (((alg) & 0x7f008000) == 0x05008000))
+        (PSA_ALG_GET_HASH(alg) == PSA_ALG_ANY_HASH || \
+         ((alg) & 0x7f008000) == 0x03008000 || \
+         ((alg) & 0x7f008000) == 0x05008000 || \
+         (alg) == PSA_ALG_CCM_STAR_ANY_TAG)
+
+    #define PSA_ALG_IS_WPA3_SAE(alg) \
+        (((alg) & ~0x000001ff) == 0x0a000800)
+
+    #define PSA_ALG_IS_WPA3_SAE_FIXED(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000800)
+
+    #define PSA_ALG_IS_WPA3_SAE_GDH(alg) \
+        (((alg) & ~0x000000ff) == 0x0a000900)
+
+    #define PSA_ALG_IS_WPA3_SAE_H2E(alg) \
+        (((alg) & ~0x000000ff) == 0x08800400)
 
     #define PSA_ALG_IS_XOF(alg) \
         (((alg) & 0x7f000000) == 0x0D000000)
@@ -204,25 +217,25 @@ Algorithm macros
         ((ka_alg) | (kdf_alg))
 
     #define PSA_ALG_KEY_AGREEMENT_GET_BASE(alg) \
-        ((psa_algorithm_t)((alg) & 0xff7f0000))
+        ((psa_algorithm_t) ((alg) & 0xff7f0000))
 
     #define PSA_ALG_KEY_AGREEMENT_GET_KDF(alg) \
-        ((psa_algorithm_t)((alg) & 0xfe80ffff))
+        ((psa_algorithm_t) ((alg) & 0xfe80ffff))
 
     #define PSA_ALG_PBKDF2_HMAC(hash_alg) \
-        ((psa_algorithm_t)(0x08800100 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x08800100 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_OAEP(hash_alg) \
-        ((psa_algorithm_t)(0x07000300 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x07000300 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_PKCS1V15_SIGN(hash_alg) \
-        ((psa_algorithm_t)(0x06000200 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x06000200 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_PSS(hash_alg) \
-        ((psa_algorithm_t)(0x06000300 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x06000300 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_RSA_PSS_ANY_SALT(hash_alg) \
-        ((psa_algorithm_t)(0x06001300 | ((hash_alg) & 0x000000ff)))
+        ((psa_algorithm_t) (0x06001300 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
         ((psa_algorithm_t) (0x08000700 | ((hash_alg) & 0x000000ff)))
@@ -241,6 +254,15 @@ Algorithm macros
 
     #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
         ((psa_algorithm_t) (((mac_alg) & ~0x003f8000) | (((mac_length) & 0x3f) << 16)))
+
+    #define PSA_ALG_WPA3_SAE_FIXED(hash_alg) \
+        ((psa_algorithm_t) (0x0a000800 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_WPA3_SAE_GDH(hash_alg) \
+        ((psa_algorithm_t) (0x0a000900 | ((hash_alg) & 0x000000ff)))
+
+    #define PSA_ALG_WPA3_SAE_H2E(hash_alg) \
+        ((psa_algorithm_t) (0x08800400 | ((hash_alg) & 0x000000ff)))
 
     #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
         ((pake_bits & 0xFFFF) != pake_bits) ? 0 :                 \
@@ -326,6 +348,12 @@ Key type macros
     #define PSA_KEY_TYPE_IS_UNSTRUCTURED(type) \
         (((type) & 0x7000) == 0x1000 || ((type) & 0x7000) == 0x2000)
 
+    #define PSA_KEY_TYPE_IS_WPA3_SAE_DH(type) \
+        (((type) & 0xff80) == 0x3300)
+
+    #define PSA_KEY_TYPE_IS_WPA3_SAE_ECC(type) \
+        (((type) & 0xff80) == 0x3280)
+
     #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
         ((psa_key_type_t) ((type) | 0x3000))
 
@@ -340,6 +368,18 @@ Key type macros
 
     #define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
         ((psa_key_type_t) (0x4400 | ((curve) & 0x007f)))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_DH_GET_FAMILY(type) \
+        ((psa_dh_family_t) ((type) & 0x007f))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_DH(family) \
+        ((psa_key_type_t) (0x3300 | ((family) & 0x007f)))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY(type) \
+        ((psa_ecc_family_t) ((type) & 0x007f))
+
+    #define PSA_KEY_TYPE_WPA3_SAE_ECC(curve) \
+        ((psa_key_type_t) (0x3280 | ((curve) & 0x007f)))
 
 Hash suspend state macros
 ~~~~~~~~~~~~~~~~~~~~~~~~~

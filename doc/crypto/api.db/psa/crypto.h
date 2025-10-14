@@ -137,6 +137,10 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_IS_TLS12_PRF(alg) /* specification-defined value */
 #define PSA_ALG_IS_TLS12_PSK_TO_MS(alg) /* specification-defined value */
 #define PSA_ALG_IS_WILDCARD(alg) /* specification-defined value */
+#define PSA_ALG_IS_WPA3_SAE(alg) /* specification-defined value */
+#define PSA_ALG_IS_WPA3_SAE_FIXED(alg) /* specification-defined value */
+#define PSA_ALG_IS_WPA3_SAE_GDH(alg) /* specification-defined value */
+#define PSA_ALG_IS_WPA3_SAE_H2E(alg) /* specification-defined value */
 #define PSA_ALG_IS_XOF(alg) /* specification-defined value */
 #define PSA_ALG_JPAKE(hash_alg) /* specification-defined value */
 #define PSA_ALG_KEY_AGREEMENT(ka_alg, kdf_alg) \
@@ -181,13 +185,17 @@ typedef struct psa_custom_key_parameters_t {
     /* specification-defined value */
 #define PSA_ALG_SPAKE2P_CMAC(hash_alg) /* specification-defined value */
 #define PSA_ALG_SPAKE2P_HMAC(hash_alg) /* specification-defined value */
-#define PSA_ALG_SPAKE2P_MATTER ((psa_algoirithm_t)0x0A000609)
+#define PSA_ALG_SPAKE2P_MATTER ((psa_algorithm_t)0x0A000609)
 #define PSA_ALG_STREAM_CIPHER ((psa_algorithm_t)0x04800100)
 #define PSA_ALG_TLS12_ECJPAKE_TO_PMS ((psa_algorithm_t)0x08000609)
 #define PSA_ALG_TLS12_PRF(hash_alg) /* specification-defined value */
 #define PSA_ALG_TLS12_PSK_TO_MS(hash_alg) /* specification-defined value */
 #define PSA_ALG_TRUNCATED_MAC(mac_alg, mac_length) \
     /* specification-defined value */
+#define PSA_ALG_WPA3_SAE_ANY ((psa_algorithm_t)0x0a0088ff)
+#define PSA_ALG_WPA3_SAE_FIXED(hash_alg) /* specification-defined value */
+#define PSA_ALG_WPA3_SAE_GDH(hash_alg) /* specification-defined value */
+#define PSA_ALG_WPA3_SAE_H2E(hash_alg) /* specification-defined value */
 #define PSA_ALG_XCHACHA20_POLY1305 ((psa_algorithm_t)0x05100600)
 #define PSA_ALG_XTS ((psa_algorithm_t)0x0440ff00)
 #define PSA_ASYMMETRIC_DECRYPT_OUTPUT_MAX_SIZE \
@@ -221,6 +229,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_CRYPTO_API_VERSION_MAJOR 1
 #define PSA_CRYPTO_API_VERSION_MINOR 4
 #define PSA_CUSTOM_KEY_PARAMETERS_INIT { 0 }
+#define PSA_DH_FAMILY_RFC3526 ((psa_dh_family_t) 0x05)
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
 #define PSA_ECC_FAMILY_BRAINPOOL_P_R1 ((psa_ecc_family_t) 0x30)
 #define PSA_ECC_FAMILY_FRP ((psa_ecc_family_t) 0x33)
@@ -319,6 +328,8 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_IS_SPAKE2P_PUBLIC_KEY(type) \
     /* specification-defined value */
 #define PSA_KEY_TYPE_IS_UNSTRUCTURED(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_WPA3_SAE_DH(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_WPA3_SAE_ECC(type) /* specification-defined value */
 #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
     /* specification-defined value */
 #define PSA_KEY_TYPE_NONE ((psa_key_type_t)0x0000)
@@ -334,6 +345,12 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) /* specification-defined value */
 #define PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(curve) /* specification-defined value */
 #define PSA_KEY_TYPE_SPAKE2P_PUBLIC_KEY(curve) \
+    /* specification-defined value */
+#define PSA_KEY_TYPE_WPA3_SAE_DH(group) /* specification-defined value */
+#define PSA_KEY_TYPE_WPA3_SAE_DH_GET_FAMILY(type) \
+    /* specification-defined value */
+#define PSA_KEY_TYPE_WPA3_SAE_ECC(curve) /* specification-defined value */
+#define PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY(type) \
     /* specification-defined value */
 #define PSA_KEY_TYPE_XCHACHA20 ((psa_key_type_t)0x2007)
 #define PSA_KEY_USAGE_CACHE ((psa_key_usage_t)0x00000004)
@@ -378,8 +395,12 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_PAKE_ROLE_NONE ((psa_pake_role_t)0x00)
 #define PSA_PAKE_ROLE_SECOND ((psa_pake_role_t)0x02)
 #define PSA_PAKE_ROLE_SERVER ((psa_pake_role_t)0x12)
+#define PSA_PAKE_STEP_COMMIT ((psa_pake_step_t)0x06)
 #define PSA_PAKE_STEP_CONFIRM ((psa_pake_step_t)0x04)
+#define PSA_PAKE_STEP_CONFIRM_COUNT ((psa_pake_step_t)0x07)
+#define PSA_PAKE_STEP_KEY_ID ((psa_pake_step_t)0x08)
 #define PSA_PAKE_STEP_KEY_SHARE ((psa_pake_step_t)0x01)
+#define PSA_PAKE_STEP_SALT ((psa_pake_step_t)0x05)
 #define PSA_PAKE_STEP_ZK_PROOF ((psa_pake_step_t)0x03)
 #define PSA_PAKE_STEP_ZK_PUBLIC ((psa_pake_step_t)0x02)
 #define PSA_PAKE_UNCONFIRMED_KEY 1

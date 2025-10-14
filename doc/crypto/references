@@ -425,3 +425,15 @@
     :author: NIST
     :publication: December 2012
     :url: doi.org/10.6028/NIST.SP.800-38F
+
+.. reference:: RFC3526
+    :title: More Modular Exponential (MODP) Diffie-Hellman groups for Internet Key Exchange (IKE)
+    :author: IETF
+    :publication: May 2003
+    :url: tools.ietf.org/html/rfc3526.html
+
+.. reference:: IEEE-802.11
+    :title: IEEE 802.11-2024: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications
+    :author: IEEE
+    :publication: 2024
+    :url: standards.ieee.org/ieee/802.11/10548/

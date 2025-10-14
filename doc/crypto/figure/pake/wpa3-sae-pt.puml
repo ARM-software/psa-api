@@ -1,0 +1,31 @@
+' SPDX-FileCopyrightText: Copyright 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+@startuml
+
+    !include atg-spec.pumh
+
+    participant "station (STA)" as Participant
+
+    note over Participant: Initial information : cipher suite, //SSID//, //password// [, //password-identifier//]
+
+    alt Hash-to-element generation of password element
+
+        Participant -> Participant: ""psa_key_derivation_setup(WPA3_SAE_H2E)""\n""psa_key_derivation_input_bytes(SALT = SSID)""\n""psa_key_derivation_input_key(PASSWORD = password)""
+        opt
+            Participant -> Participant: ""psa_key_derivation_input_bytes(INFO = password-identifier)""
+        end
+
+        Participant -> Participant: ""psa_key_derivation_output_key(WPA3_SAE_XX)""
+
+        note left: Compute password token //PT//
+
+        note over Participant: Use //PT// for authentication flow
+
+    else Generation of the password element by looping
+
+        note over Participant: Use //password// for authentication flow
+
+    end
+
+@enduml

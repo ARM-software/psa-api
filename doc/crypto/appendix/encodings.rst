@@ -335,6 +335,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     SP 800-108 Counter CMAC, 0, ``0x08``, :code:`PSA_ALG_SP800_108_COUNTER_CMAC`, ``0x08000800``
     PBKDF2-HMAC, 1, ``0x01``, :code:`PSA_ALG_PBKDF2_HMAC(hash)`, ``0x088001hh`` :sup:`a`
     PBKDF2-AES-CMAC-PRF-128, 1, ``0x02``, :code:`PSA_ALG_PBKDF2_AES_CMAC_PRF_128`, ``0x08800200``
+    WPA3-SAE Hash-to-element, 1, ``0x04``, :code:`PSA_ALG_WPA3_SAE_H2E(hash)`, ``0x088004hh`` :sup:`a`
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
 
@@ -490,8 +491,15 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
     SPAKE2+ with HMAC, ``0x04``, :code:`PSA_ALG_SPAKE2P_HMAC(hash)`, ``0x0A0004hh`` :sup:`a`
     SPAKE2+ with CMAC, ``0x05``, :code:`PSA_ALG_SPAKE2P_CMAC(hash)`, ``0x0A0005hh`` :sup:`a`
     SPAKE2+ for Matter, ``0x06``, :code:`PSA_ALG_SPAKE2P_MATTER`, ``0x0A000609``
+    WPA3-SAE, ``0x08``, :code:`PSA_ALG_WPA3_SAE_FIXED(hash)`, ``0x0A0008hh`` :sup:`a`
+    WPA3-SAE (GDH), ``0x09``, :code:`PSA_ALG_WPA3_SAE_GDH(hash)`, ``0x0A0009hh`` :sup:`a`
+    *WPA3-SAE wildcard* :sup:`b c`, ``0x88``, `PSA_ALG_WPA3_SAE_ANY`, ``0x0A0088FF``
 
 a.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash``, used to construct the key-derivation algorithm.
+
+b.  The wildcard algorithm `PSA_ALG_WPA3_SAE_ANY` permits a password key to be used for any WPA3-SAE cipher suite with the `PSA_ALG_WPA3_SAE_H2E` key-derivation algorithm, and with the `PSA_ALG_WPA3_SAE_FIXED` PAKE algorithm.
+
+c.  The wildcard algorithm `PSA_ALG_WPA3_SAE_ANY` permits a WPA3-SAE password token key to be used for both the `PSA_ALG_WPA3_SAE_FIXED` and `PSA_ALG_WPA3_SAE_GDH` PAKE algorithms.
 
 .. _key-type-encoding:
 
@@ -556,6 +564,7 @@ The A and CAT fields in a key type take the values shown in :numref:`table-key-t
     None, 0, 0, See `PSA_KEY_TYPE_NONE`
     Raw data, 0, 1, See :secref:`raw-key-encoding`
     Symmetric key, 0, 2, See :secref:`symmetric-key-encoding`
+    Structured key, 0, 3, See :secref:`structured-key-encoding`
     Asymmetric public key, 1, 0, See :secref:`asymmetric-key-encoding`
     Asymmetric key pair, 1, 3, See :secref:`asymmetric-key-encoding`
 
@@ -618,6 +627,86 @@ The defined values for BLK, SYM-TYPE and P are shown in :numref:`table-symmetric
     CAMELLIA, 4, 1, 1, `PSA_KEY_TYPE_CAMELLIA`, ``0x2403``
     SM4, 4, 2, 1, `PSA_KEY_TYPE_SM4`, ``0x2405``
     ARIA, 4, 3, 0, `PSA_KEY_TYPE_ARIA`, ``0x2406``
+
+.. _structured-key-encoding:
+
+Structured key encoding
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The key type for structured keys defined in this specification are encoded as shown in :numref:`fig-structured-key-fields`.
+
+.. figure:: ../figure/encoding/structured_key.*
+    :name: fig-structured-key-fields
+
+    Encoding of structured keys
+
+The defined values for STRUCT-TYPE are shown in :numref:`table-structured-type`.
+
+The defined values for FAMILY depend on the STRUCT-TYPE value. See the details for each structured key sub-type.
+
+.. csv-table:: Structured key sub-type values
+    :name: table-structured-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    Structured key type, STRUCT-TYPE, Details
+    WPA3-SAE password token, "5, 6", See :secref:`wpa3-sae-key-encoding`
+
+.. _wpa3-sae-key-encoding:
+
+WPA3-SAE password token encoding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+WPA3-SAE is defined to use either elliptic curve or finite field groups.
+These use distinct STRUCT-TYPE values, and use the same FAMILY values as elliptic curve and finite field Diffie-Hellman key types.
+
+.. rubric:: WPA3-SAE password tokens using elliptic curves
+
+The key type for WPA3-SAE password tokens using elliptic curves defined in this specification are encoded as shown in :numref:`fig-wpa3-sae-ecc-fields`.
+
+.. figure:: ../figure/encoding/wpa3_sae_ecc_key.*
+    :name: fig-wpa3-sae-ecc-fields
+
+    Encoding of WPA3-SAE password token using elliptic curves
+
+The defined values for ECC-FAMILY and P are shown in :numref:`table-wpa3-sae-ecc-type`.
+
+.. csv-table:: WPA3-SAE password token ECC family values
+    :name: table-wpa3-sae-ecc-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    WPA3-SAE suite, ECC-FAMILY, P, ECC family :sup:`a`, Key value
+    SECP R1, 0x09, 0, `PSA_ECC_FAMILY_SECP_R1`, ``0x3292``
+    Brainpool-P R1, 0x18, 0, `PSA_ECC_FAMILY_BRAINPOOL_P_R1`, ``0x32b0``
+
+a.  The elliptic curve family values defined in the API also include the parity bit. The password token key type value is constructed from the elliptic curve family using :code:`PSA_KEY_TYPE_WPA3_SAE_ECC(family)`.
+
+.. rubric:: WPA3-SAE password tokens using finite fields
+
+The key type for WPA3-SAE password tokens using finite fields defined in this specification are encoded as shown in :numref:`fig-wpa3-sae-dh-fields`.
+
+.. figure:: ../figure/encoding/wpa3_sae_dh_key.*
+    :name: fig-wpa3-sae-dh-fields
+
+    Encoding of WPA3-SAE password token using finite fields
+
+The defined values for DH-FAMILY and P are shown in :numref:`table-wpa3-sae-dh-type`.
+
+RFC3526 defines a set of FF groups that are recommended for use with WPA3-SAE (those with primes >=3072 bits)
+
+.. csv-table:: WPA3-SAE password token finite field Diffie-Hellman family values
+    :name: table-wpa3-sae-dh-type
+    :header-rows: 1
+    :align: left
+    :widths: auto
+
+    WPA3-SAE suite, DH-FAMILY, P, DH family :sup:`a`, Key value
+    RFC3526, 0x02, 1, `PSA_DH_FAMILY_RFC3526`, ``0x3305``
+
+a.  The finite field Diffie Hellman family values defined in the API also include the parity bit. The password token key type value is constructed from the finite field Diffie Hellman family using :code:`PSA_KEY_TYPE_WPA3_SAE_DH(family)`.
 
 .. _asymmetric-key-encoding:
 
@@ -713,30 +802,30 @@ a.  The elliptic curve family values defined in the API also include the parity 
 
 .. _dh-key-encoding:
 
-Diffie Hellman key encoding
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Finite field Diffie Hellman key encoding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The key type for Diffie Hellman keys defined in this specification are encoded as shown in :numref:`fig-dh-key-fields`.
+The key type for finite field Diffie Hellman keys defined in this specification are encoded as shown in :numref:`fig-dh-key-fields`.
 
 .. figure:: ../figure/encoding/dh_key.*
     :name: fig-dh-key-fields
 
-    Diffie Hellman key encoding
+    Finite field Diffie Hellman key encoding
 
 PAIR is either 0 for a public key, or 3 for a key pair.
 
 The defined values for DH-FAMILY and P are shown in :numref:`table-dh-type`.
 
-.. csv-table:: Diffie Hellman key group values
+.. csv-table:: Finite field Diffie Hellman key group values
     :name: table-dh-type
     :header-rows: 1
     :align: left
     :widths: auto
 
-    DH key group, DH-FAMILY, P, DH group :sup:`a`, Public-key value, Key-pair value
+    DH key group, DH-FAMILY, P, DH family :sup:`a`, Public-key value, Key-pair value
     RFC7919, 0x01, 1, `PSA_DH_FAMILY_RFC7919`, ``0x4203``, ``0x7203``
 
-a.  The Diffie Hellman family values defined in the API also include the parity bit. The key type value is constructed from the Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
+a.  The finite field Diffie Hellman group family values defined in the API also include the parity bit. The key type value is constructed from the finite field Diffie Hellman family using either :code:`PSA_KEY_TYPE_DH_PUBLIC_KEY(family)` or :code:`PSA_KEY_TYPE_DH_KEY_PAIR(family)` as required.
 
 .. _spakep2-key-encoding:
 
