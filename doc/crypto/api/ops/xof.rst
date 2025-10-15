@@ -367,7 +367,3 @@ Support macros
         ``1`` if ``alg`` is an XOF algorithm that has a context parameter.
         ``0`` if ``alg`` is an XOF algorithm that does not have a context parameter.
         This macro can return either ``0`` or ``1`` if ``alg`` is not a supported XOF algorithm identifier.
-
-    .. todo::
-        Is this definition OK? - we could require that it returns zero for any non-XOF algorithm, similar to some of the other support macros.
-        That will result in larger code: ``(((alg) & 0x7f008000) == 0x0d008000)`` instead of just ``(((alg) & 0x00008000) != 0)``.

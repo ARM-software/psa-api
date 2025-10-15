@@ -135,7 +135,7 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
     SHA3-512, ``0x13``, `PSA_ALG_SHA3_512`, ``0x02000013``
     SM3, ``0x14``, `PSA_ALG_SM3`, ``0x02000014``
     SHAKE256-512, ``0x15``, `PSA_ALG_SHAKE256_512`, ``0x02000015``
-    Ascon-Hash256, ``0x20``, `PSA_ALG_ASCON_HASH256`, ``0x02000020``
+    Ascon-Hash256, ``0x19``, `PSA_ALG_ASCON_HASH256`, ``0x02000019``
     *wildcard* :sup:`a`, ``0xFF``, `PSA_ALG_ANY_HASH`, ``0x020000FF``
 
 a.  The wildcard hash `PSA_ALG_ANY_HASH` can be used to parameterize a signature algorithm which defines a key usage policy, permitting any hash algorithm to be specified in a signature operation using the key.

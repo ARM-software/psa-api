@@ -62,7 +62,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_ANY_HASH ((psa_algorithm_t)0x020000ff)
 #define PSA_ALG_ASCON_AEAD128 ((psa_algorithm_t)0x05100700)
 #define PSA_ALG_ASCON_CXOF128 ((psa_algorithm_t)0x0D008300)
-#define PSA_ALG_ASCON_HASH256 ((psa_algorithm_t)0x02000020)
+#define PSA_ALG_ASCON_HASH256 ((psa_algorithm_t)0x02000019)
 #define PSA_ALG_ASCON_XOF128 ((psa_algorithm_t)0x0D000300)
 #define PSA_ALG_AT_LEAST_THIS_LENGTH_MAC(mac_alg, min_mac_length) \
     /* specification-defined value */

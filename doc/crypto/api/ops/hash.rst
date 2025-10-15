@@ -207,7 +207,7 @@ Hash algorithms
     SM3 is defined in :cite-title:`ISO10118`, and also in :cite-title:`CSTC0004`.
 
 .. macro:: PSA_ALG_ASCON_HASH256
-    :definition: ((psa_algorithm_t)0x02000020)
+    :definition: ((psa_algorithm_t)0x02000019)
 
     .. summary::
         The Ascon-Hash256 message-digest algorithm.
