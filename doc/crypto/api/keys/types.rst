@@ -1313,7 +1313,7 @@ The curve type affects the key format, the key-derivation procedure, and the alg
     .. param:: curve
         A value of type `psa_ecc_family_t` that identifies the ECC curve family to be used.
 
-    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q`` for a curve over a field :math:`\mathbb{F}_q`.
+    The size of an elliptic curve key is the bit size associated with the curve, that is, the bit size of :math:`q` for a curve over a field :math:`\mathbb{F}_q`.
     See the documentation of each elliptic curve family for details.
 
     .. subsection:: Compatible algorithms
@@ -1408,7 +1408,7 @@ The curve type affects the key format, the key-derivation procedure, and the alg
                     Let :math:`m` be the bit size of :math:`N`, such that :math:`2^{m-1} \leq N < 2^m`. This function generates the private key using the following process:
 
                     1.  Draw a byte string of length :math:`\lceil{m/8}\rceil` bytes.
-                    #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m`` bits of the first byte in the string to zero.
+                    #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m` bits of the first byte in the string to zero.
                     #.  Convert the string to integer :math:`k` by decoding it as a big-endian byte-string.
                     #.  If :math:`k > N-2`, discard the result and return to step 1.
                     #.  Output :math:`d = k + 1` as the private key.
@@ -1592,7 +1592,7 @@ Diffie Hellman keys
         This function generates the private key using the following process:
 
         1.  Draw a byte string of length :math:`\lceil{m/8}\rceil` bytes.
-        #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m`` bits of the first byte in the string to zero.
+        #.  If :math:`m` is not a multiple of 8, set the most significant :math:`8 * \lceil{m/8}\rceil - m` bits of the first byte in the string to zero.
         #.  Convert the string to integer :math:`k` by decoding it as a big-endian byte-string.
         #.  If :math:`k > p-2`, discard the result and return to step 1.
         #.  Output :math:`x = k + 1` as the private key.
