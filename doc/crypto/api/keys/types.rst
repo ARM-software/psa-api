@@ -1016,7 +1016,7 @@ See :secref:`wpa3-sae-passwords`.
         *   :math:`x` encoded as a big-endian :math:`m`-byte string;
         *   :math:`y` encoded as a big-endian :math:`m`-byte string.
 
-        For an elliptic curve over :math:`\mathbb{F}_p`, :math:`m` is the integer for which :math:`2^{8m-1} \leq p < 2^{8m}`.
+        For an elliptic curve over :math:`\mathbb{F}_p`, :math:`m` is the integer for which :math:`2^{8(m-1)} \leq p < 2^{8m}`.
 
         .. note::
 
@@ -1063,7 +1063,7 @@ See :secref:`wpa3-sae-passwords`.
 
         The password token is a finite-field group element :math:`y \in [1, p - 1]`, where :math:`p` is the group's prime modulus.
 
-        The data format for import and export of the password token is :math:`y` encoded as a big-endian :math:`m`-byte string, where :math:`m` is the integer for which :math:`2^{8m-1} \leq p < 2^{8m}`.
+        The data format for import and export of the password token is :math:`y` encoded as a big-endian :math:`m`-byte string, where :math:`m` is the integer for which :math:`2^{8(m-1)} \leq p < 2^{8m}`.
 
         .. note::
 
