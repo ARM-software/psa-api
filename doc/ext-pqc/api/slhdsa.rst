@@ -53,7 +53,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
 
-    The key attribute size of of an SLH-DSA key pair is the bit-size of each component in the SLH-DSA keys defined in `[FIPS205]`.
+    The bit size used in the attributes of an SLH-DSA key pair is the bit-size of each component in the SLH-DSA keys defined in `[FIPS205]`.
     That is, for a parameter set with security parameter :math:`n`, the bit-size in the key attributes is :math:`8n`.
     See the documentation of each SLH-DSA parameter-set family for details.
 
@@ -68,14 +68,6 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Key format
 
-        .. warning::
-
-            The key format may change in a final version of this API.
-            The standardization of exchange formats for SHL-DSA public and private keys is in progress, but final documents have not been published.
-            See :cite-title:`LAMPS-SLHDSA`.
-
-            The current proposed format is based on the expected outcome of that process.
-
         A SLH-DSA key pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
         In calls to :code:`psa_import_key()` and :code:`psa_export_key()`, the key-pair data format is the concatenation of the four octet strings:
@@ -83,6 +75,10 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
         .. math::
 
             SK\text{.seed}\ ||\ SK\text{.prf}\ ||\ PK\text{.seed}\ ||\ PK\text{.root}
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :cite-title:`LAMPS-SLHDSA`.
 
         See `PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
 
@@ -109,7 +105,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
     .. param:: set
         A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
 
-    The key attribute size of an SLH-DSA public key is the same as the corresponding private key.
+    The bit size used in the attributes of an SLH-DSA public key is the same as the corresponding private key.
     See `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()` and the documentation of each SLH-DSA parameter-set family for details.
 
     .. subsection:: Compatible algorithms
@@ -123,14 +119,6 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Key format
 
-        .. warning::
-
-            The key format may change in a final version of this API.
-            The standardization of exchange formats for SHL-DSA public and private keys is in progress, but final documents have not been published.
-            See :cite-title:`LAMPS-SLHDSA`.
-
-            The current proposed format is based on the expected outcome of that process.
-
         A SLH-DSA public key is defined in `[FIPS205]` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
 
         In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the concatenation of the two octet strings:
@@ -138,6 +126,10 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
         .. math::
 
             PK\text{.seed}\ ||\ PK\text{.root}
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :cite-title:`LAMPS-SLHDSA`.
 
 .. macro:: PSA_SLH_DSA_FAMILY_SHA2_S
     :definition: ((psa_slh_dsa_family_t) 0x02)
