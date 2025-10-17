@@ -26,20 +26,26 @@ Permitted algorithms
 
 The permitted algorithm is encoded using a algorithm identifier, as described in :secref:`algorithms`.
 
-This specification only defines policies that restrict keys to a single algorithm, which is consistent with both common practice and security good practice.
+For most algorithms, this specification only defines policies that restrict keys to a single algorithm, which is consistent with both common practice and security good practice.
 
-The following algorithm policies are supported:
+If the permitted algorithm is `PSA_ALG_NONE`, no cryptographic operation is permitted with the key.
+The key can still be used for non-cryptographic actions such as exporting, if permitted by the usage flags.
 
-*   `PSA_ALG_NONE` does not permit any cryptographic operation with the key. The key can still be used for non-cryptographic actions such as exporting, if permitted by the usage flags.
-*   A specific algorithm value permits exactly that particular algorithm.
-*   A signature algorithm constructed with `PSA_ALG_ANY_HASH` permits the specified signature scheme with any hash algorithm. In addition, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(PSA_ALG_ANY_HASH)` also permits the `PSA_ALG_RSA_PKCS1V15_SIGN_RAW` signature algorithm.
+For a cryptographic operation, the permitted algorithm value must exactly match the requested algorithm, except in the following cases:
+
+*   The following pairs of signature algorithms are considered equivalent for verification, but not for computing the signature:
+
+    -   `PSA_ALG_ECDSA` and `PSA_ALG_DETERMINISTIC_ECDSA`.
+*   A signature algorithm constructed with `PSA_ALG_ANY_HASH` permits the specified signature scheme with any hash algorithm.
+    In addition, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(PSA_ALG_ANY_HASH)` also permits the `PSA_ALG_RSA_PKCS1V15_SIGN_RAW` signature algorithm.
 *   A standalone key-agreement algorithm also permits the specified key-agreement scheme to be combined with any key-derivation algorithm.
 *   An algorithm built from `PSA_ALG_AT_LEAST_THIS_LENGTH_MAC()` permits any MAC algorithm from the same base class (for example, CMAC) which computes or verifies a MAC length greater than or equal to the length encoded in the wildcard algorithm.
 *   An algorithm built from `PSA_ALG_AEAD_WITH_AT_LEAST_THIS_LENGTH_TAG()` permits any AEAD algorithm from the same base class (for example, CCM) which computes or verifies a tag length greater than or equal to the length encoded in the wildcard algorithm.
 *   The `PSA_ALG_CCM_STAR_ANY_TAG` wildcard algorithm permits the `PSA_ALG_CCM_STAR_NO_TAG` cipher algorithm, the `PSA_ALG_CCM` AEAD algorithm, and the :code:`PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, tag_length)` truncated-tag AEAD algorithm for ``tag_length`` equal to 4, 8 or 16.
 *   The wildcard key policy `PSA_ALG_WPA3_SAE_ANY` permits a password key or WPA3-SAE password token key to be used with any WPA3-SAE cipher suite.
 
-When a key is used in a cryptographic operation, the application must supply the algorithm to use for the operation. This algorithm is checked against the key's permitted-algorithm policy.
+When a key is used in a cryptographic operation, the application supplies the algorithm to use for the operation.
+The algorithm and operation are checked against the key's permitted-algorithm policy.
 
 .. function:: psa_set_key_algorithm
 

@@ -39,6 +39,12 @@ Changes to the API
 
     See :secref:`pake-wpa3-sae`.
 
+Relaxations
+~~~~~~~~~~~
+
+*   Relaxed the permitted-key policy requirements for ECDSA verification, to be consistent with those for ML-DSA and SLH-DSA.
+    When verifying a signature, the `PSA_ALG_ECDSA` and `PSA_ALG_DETERMINISTIC_ECDSA` are considered equivalent when checking the key's permitted-algorithm policy.
+
 Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
