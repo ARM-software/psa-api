@@ -40,6 +40,8 @@ MAC algorithms
     .. param:: hash_alg
         A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_HASH(hash_alg)` is true.
 
+        See `below <hash-for-hmac_>`_ on selecting a hash algorithm for use with HMAC.
+
     .. return::
         The corresponding HMAC algorithm.
 
@@ -48,6 +50,46 @@ MAC algorithms
     For example, :code:`PSA_ALG_HMAC(PSA_ALG_SHA_256)` is HMAC-SHA-256.
 
     The HMAC construction is defined in :RFC-title:`2104`.
+
+    .. _hash-for-hmac:
+
+    .. subsection:: Choice of hash algorithm
+
+        HMAC was designed with hashes that use a Merkle-Damgård construction, for example, MD5, SHA-1, and SHA-2.
+        In particular, the input-block size of the hash must be at least as large as the output size.
+
+        Hash algorithms which have a small input-block size are not directly suitable for use with HMAC.
+        For example, Ascon (`PSA_ALG_ASCON_HASH256`) or Shake-based hashes (`PSA_ALG_SHAKE256_512`).
+
+        :numref:`tab-hmac-hash` lists the valid hash algorithms for use with HMAC, and their input and output byte-sizes.
+
+        .. csv-table:: Hash algorithms that can be used with HMAC
+            :name: tab-hmac-hash
+            :header-rows: 1
+            :widths: 3 2 2
+
+            Algorithm, Input block size, Output size
+            `PSA_ALG_MD2`, 16, 16
+            `PSA_ALG_MD4`, 64, 16
+            `PSA_ALG_MD5`, 64, 16
+            `PSA_ALG_RIPEMD160`, 64, 20
+            `PSA_ALG_SHA_1`, 64, 20
+            `PSA_ALG_SHA_224`, 64, 28
+            `PSA_ALG_SHA_256`, 64, 32
+            `PSA_ALG_SHA_384`, 128, 48
+            `PSA_ALG_SHA_512`, 128, 64
+            `PSA_ALG_SHA_512_224`, 128, 28
+            `PSA_ALG_SHA_512_256`, 128, 32
+            `PSA_ALG_SHA3_224`, 144, 28
+            `PSA_ALG_SHA3_256`, 136, 32
+            `PSA_ALG_SHA3_384`, 104, 48
+            `PSA_ALG_SHA3_512`, 72, 64
+            `PSA_ALG_SM3`, 64, 32
+
+        .. admonition:: Implementation note
+
+            It is recommended that short-block-length hash algorithms are not supported with `PSA_ALG_HMAC`.
+            Future versions of the |API| might specify support for these hash algorithms, and will define the input block size to use for each hash algorithm.
 
     .. subsection:: Compatible key types
 

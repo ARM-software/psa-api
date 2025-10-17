@@ -264,6 +264,9 @@ Algorithm macros
     #define PSA_ALG_WPA3_SAE_H2E(hash_alg) \
         ((psa_algorithm_t) (0x08800400 | ((hash_alg) & 0x000000ff)))
 
+    #define PSA_ALG_XOF_HAS_CONTEXT(alg) \
+        (((alg) & 0x00008000) != 0)
+
     #define PSA_PAKE_PRIMITIVE(pake_type, pake_family, pake_bits) \
         ((pake_bits & 0xFFFF) != pake_bits) ? 0 :                 \
         ((psa_pake_primitive_t) (((pake_type) << 24 |             \
