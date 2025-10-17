@@ -1414,7 +1414,7 @@ The following steps demonstrate the application code for 'User' in :numref:`fig-
     See :secref:`jpake-cipher-suites` and :secref:`jpake-passwords` for details on the requirements for the cipher suite and key.
 
     The key material is used as an array of bytes, which is converted to an integer as described in :cite-title:`SEC1` §2.3.8, before reducing it modulo :math:`q`.
-    Here, :math:`q`` is the order of the group defined by the cipher-suite primitive.
+    Here, :math:`q` is the order of the group defined by the cipher-suite primitive.
     `psa_pake_setup()` will return an error if the result of the conversion and reduction is ``0``.
 
 Key exchange
