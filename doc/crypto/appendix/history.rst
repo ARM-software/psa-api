@@ -48,6 +48,7 @@ Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 *   Corrected the example implementation of `PSA_ALG_IS_SIGN_HASH()` in :secref:`appendix-specdef-values`, to exclude PureEdDSA.
+*   Clarified the use of hash algorithms with `PSA_ALG_HMAC`.
 
 Other changes
 ~~~~~~~~~~~~~
