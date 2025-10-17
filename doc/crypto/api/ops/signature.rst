@@ -336,13 +336,14 @@ ECDSA signature algorithms
 
     The ECDSA signature scheme is defined by :cite-title:`SEC1`, and also by :cite-title:`X9-62`, with a random per-message secret number :math:`k`.
 
-    The representation of the signature as a byte string consists of the concatenation of the signature values :math:`r` and :math:`s`. Each of :math:`r` and :math:`s` is encoded as an :math:`N`-octet string, where :math:`N` is the length of the base point of the curve in octets. Each value is represented in big-endian order, with the most significant octet first.
+    The representation of the signature as a byte string consists of the concatenation of the signature values :math:`r` and :math:`s`.
+    Each of :math:`r` and :math:`s` is encoded as a big-endian :math:`m`-octet string, where :math:`m` is the integer for which :math:`2^{8(m-1)} \leq q < 2^{8m}`, and :math:`q` is the order of the elliptic curve.
 
     When based on the same hash algorithm, the verification operations for `PSA_ALG_ECDSA` and `PSA_ALG_DETERMINISTIC_ECDSA` are identical. A signature created using `PSA_ALG_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`. Similarly, a signature created using `PSA_ALG_DETERMINISTIC_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`.
 
     .. note::
 
-        It is impossible to determine whether a signature was produced with deterministic ECDSA or with randomized ECDSA: it is only possible to verify that a signature was made with ECDSA with the private key corresponding to the public key used for the verification.
+        A verifier cannot determine whether a signature was produced with deterministic ECDSA or with randomized ECDSA: it is only possible to verify that a signature was made with ECDSA with the private key corresponding to the public key used for the verification.
 
     When :code:`PSA_ALG_ECDSA(hash_alg)` is used as a permitted algorithm in a key policy, this permits:
 
@@ -373,7 +374,7 @@ ECDSA signature algorithms
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
-    This is the same signature scheme as `PSA_ALG_ECDSA()`, but without specifying a hash algorithm, and skipping the message hashing operation.
+    This is the same signature scheme as `PSA_ALG_ECDSA`, but without specifying a hash algorithm, and skipping the message hashing operation.
 
     .. warning::
 
@@ -415,13 +416,13 @@ ECDSA signature algorithms
 
     This is the deterministic ECDSA signature scheme defined by :RFC-title:`6979`.
 
-    The representation of a signature is the same as with `PSA_ALG_ECDSA()`.
+    The representation of a signature is the same as with `PSA_ALG_ECDSA`.
 
     When based on the same hash algorithm, the verification operations for `PSA_ALG_ECDSA` and `PSA_ALG_DETERMINISTIC_ECDSA` are identical. A signature created using `PSA_ALG_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`. Similarly, a signature created using `PSA_ALG_DETERMINISTIC_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`.
 
     .. note::
 
-        It is impossible to determine whether a signature was produced with deterministic ECDSA or with randomized ECDSA: it is only possible to verify that a signature was made with ECDSA with the private key corresponding to the public key used for the verification.
+        A verifier cannot determine whether a signature was produced with deterministic ECDSA or with randomized ECDSA: it is only possible to verify that a signature was made with ECDSA with the private key corresponding to the public key used for the verification.
 
     When :code:`PSA_ALG_DETERMINISTIC_ECDSA(hash_alg)` is used as a permitted algorithm in a key policy, this permits:
 
