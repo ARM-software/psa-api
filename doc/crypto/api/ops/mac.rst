@@ -55,20 +55,22 @@ MAC algorithms
 
     .. subsection:: Choice of hash algorithm
 
-        HMAC was designed with hashes that use a Merkle-Damgård construction, for example, MD5, SHA-1, and SHA-2.
-        In particular, the input-block size of the hash must be at least as large as the output size.
+        An HMAC block size must be defined for use with each hash algorithm, which is at least as large as the hash output size.
 
-        Hash algorithms which have a small input-block size are not directly suitable for use with HMAC.
+        HMAC was designed for hashes that use a Merkle-Damgård construction, for example, MD5, SHA-1, and SHA-2.
+        For these hash algorithms, the HMAC block size is defined to be the hash input-block size.
+
+        Some algorithms do not have a defined HMAC block size.
         For example, Ascon (`PSA_ALG_ASCON_HASH256`) or Shake-based hashes (`PSA_ALG_SHAKE256_512`).
 
-        :numref:`tab-hmac-hash` lists the valid hash algorithms for use with HMAC, and their input and output byte-sizes.
+        :numref:`tab-hmac-hash` lists the valid hash algorithms for use with HMAC, and their HMAC block and output sizes in bytes.
 
         .. csv-table:: Hash algorithms that can be used with HMAC
             :name: tab-hmac-hash
             :header-rows: 1
             :widths: 3 2 2
 
-            Algorithm, Input block size, Output size
+            Algorithm, HMAC block size, Output size
             `PSA_ALG_MD2`, 16, 16
             `PSA_ALG_MD4`, 64, 16
             `PSA_ALG_MD5`, 64, 16
@@ -88,8 +90,8 @@ MAC algorithms
 
         .. admonition:: Implementation note
 
-            It is recommended that short-block-length hash algorithms are not supported with `PSA_ALG_HMAC`.
-            Future versions of the |API| might specify support for these hash algorithms, and will define the input block size to use for each hash algorithm.
+            It is recommended that other hash algorithms are not supported with `PSA_ALG_HMAC`.
+            Future versions of the |API| might specify HMAC support for these hash algorithms, and will define the block size to use for HMAC.
 
     .. subsection:: Compatible key types
 
