@@ -979,7 +979,7 @@ Symmetric cryptographic keys
 
         .. hlist::
 
-        *   `PSA_ALG_ASCON_AEAD128`
+            *   `PSA_ALG_ASCON_AEAD128`
 
     .. subsection:: Key format
 
