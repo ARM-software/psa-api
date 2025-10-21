@@ -21,7 +21,7 @@ For the |API| to support signature verification, it is only necessary to define 
     Therefore, the |API| does not support LMS or HSS key pairs, or the associated signing operations.
 
 .. note::
-    A full set of NIST-approved parameter sets for LMS and HSS is defined in :cite-title:`SP800-208` §4, with the additional IANA identifiers defined in :cite-title:`CFRG-LMS`.
+    A full set of NIST-approved parameter sets for LMS and HSS is defined in :cite-title:`SP800-208` §4, with the additional IANA identifiers defined in :rfc-title:`9858`.
 
 .. _lms-keys:
 
