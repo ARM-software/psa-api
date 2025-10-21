@@ -7,14 +7,13 @@
 
         This document is part of the PSA Certified API specifications. It defines an extension to the Crypto API, to introduce support for Post-Quantum Cryptography (PQC) algorithms.
 
-    .. banner:: BETA RELEASE
+    .. banner::
 
-        This is a proposed update to the :cite-title:`PSA-CRYPT` specification.
+        **FINAL RELEASE**
 
-        This is a BETA release in order to enable wider review and feedback on the changes proposed to be included in a future version of the specification.
+        This is an extension to the :cite-title:`PSA-CRYPT` specification.
 
-        At this quality level, the proposed changes and interfaces are complete, and suitable for initial product development.
-        However, the specification is still subject to change.
+        This is a FINAL release: the proposed changes and interfaces are complete and finalized, and suitable for product development.
 
 ..  front-matter::
 

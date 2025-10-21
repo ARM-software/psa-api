@@ -38,7 +38,7 @@ XMSS and |XMSS^MT| keys
 
     The parameterization of an XMSS key is fully encoded in the key data.
 
-    The key attribute size of an XMSS public key is output length, in bits, of the hash function identified by the XMSS parameter set.
+    The bit size used in the attributes of an XMSS public key is output length, in bits, of the hash function identified by the XMSS parameter set.
 
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``
@@ -54,15 +54,11 @@ XMSS and |XMSS^MT| keys
 
     .. subsection:: Key format
 
-        .. warning::
-
-            The key format may change in a final version of this API.
-            The standardization of exchange formats for XMSS public keys is in progress, but final documents have not been published.
-            See :cite-title:`LAMPS-SHBS`.
-
-            The current proposed format is based on the expected outcome of that process.
-
         In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the encoded ``xmss_public_key`` structure, defined in :rfc:`8391#B.3`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9802`.
 
 .. macro:: PSA_KEY_TYPE_XMSS_MT_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x400D)
@@ -74,7 +70,7 @@ XMSS and |XMSS^MT| keys
 
     The parameterization of an |XMSS^MT| key is fully encoded in the key data.
 
-    The key attribute size of an |XMSS^MT| public key is output length, in bits, of the hash function identified by the |XMSS^MT| parameter set.
+    The bit size used in the attributes of an |XMSS^MT| public key is output length, in bits, of the hash function identified by the |XMSS^MT| parameter set.
 
     *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
     *   SHA-256, SHAKE256/256 : ``key_bits = 256``
@@ -87,15 +83,11 @@ XMSS and |XMSS^MT| keys
 
     .. subsection:: Key format
 
-        .. warning::
-
-            The key format may change in a final version of this API.
-            The standardization of exchange formats for |XMSS^MT| public keys is in progress, but final documents have not been published.
-            See :cite-title:`LAMPS-SHBS`.
-
-            The current proposed format is based on the expected outcome of that process.
-
         In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the encoded ``xmssmt_public_key`` structure, defined in :rfc:`8391#C.3`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9802`.
 
 
 .. _xmss-algorithms:

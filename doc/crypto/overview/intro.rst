@@ -26,11 +26,9 @@ This document includes:
 *   General considerations for implementers of this specification, and for applications that use the interface defined in this specification. See :secref:`implementation-considerations` and :secref:`usage-considerations`.
 *   A detailed definition of the API. See :secref:`library-management`, :secref:`key-management`, and :secref:`crypto-operations`.
 
-:cite-title:`PSA-PQC` is a companion document for version 1.3 of this specification.
+:cite-title:`PSA-PQC` is a companion document for version |docversion| of this specification.
 `[PSA-PQC]` defines an API for :term:`Post-Quantum Cryptography` (PQC) algorithms.
-The PQC API is a proposal at BETA status.
-The API defined by `[PSA-PQC]` is provided in a separate specification to reflect the different status of this API, and indicate that a future version can include incompatible changes to the PQC API.
-When the PQC API is stable, it will be included in a future version of the |API| specification.
+The PQC API is now at FINAL status, and will be included in a future version of the |API| specification.
 
 In future, companion documents will define *profiles* for this specification. A profile is
 a minimum mandatory subset of the interface that a compliant implementation must

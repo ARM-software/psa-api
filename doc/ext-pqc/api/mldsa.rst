@@ -24,7 +24,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. versionadded:: 1.3
 
-    The key attribute size of an ML-DSA key is a measure of the security strength of the ML-DSA parameter set in `[FIPS204]`:
+    The bit size used in the attributes of an ML-DSA key is a measure of the security strength of the ML-DSA parameter set in `[FIPS204]`:
 
     *   ML-DSA-44 : ``key_bits = 128``
     *   ML-DSA-65 : ``key_bits = 192``
@@ -43,37 +43,17 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
     .. subsection:: Key format
 
-        .. warning::
-
-            The key format may change in a final version of this API.
-            The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
-            See :cite-title:`LAMPS-MLDSA`.
-
-            The current proposed format is based on the expected outcome of that process.
-
         An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See `[FIPS204]` §5.1.
 
         In calls to :code:`psa_import_key()` and :code:`psa_export_key()`, the key-pair data format is the 32-byte seed :math:`\xi`.
 
         .. rationale::
 
-            The IETF working group responsible for defining the format of the ML-DSA keys in *SubjectPublicKeyInfo* and *OneAsymmetricKey* structures is discussing the formats at present (September 2024), with the current consensus to using just the seed value as the private key, for the following reasons:
+            The formats for X.509 handling of ML-DSA keys are specified in :cite-title:`LAMPS-MLDSA`.
+            This permits a choice of three formats for the decapsulation key material, incorporating one, or both, of the seed value :math:`\xi` and the expanded secret key :math:`sk`.
 
-            *   ML-DSA key pairs are several kB in size, but can be recomputed efficiently from the initial 32-byte seed.
-            *   There is no need to validate an imported ML-DSA private key --- every 32-byte seed values is valid.
-            *   The public key cannot be derived from the secret key, so a key pair must store both the secret key and the public key.
-                The size of the key pair depends on the ML-DSA parameter set as follows:
-
-                .. csv-table::
-                    :align: left
-                    :header-rows: 1
-
-                    Parameter set, Key-pair size in bytes
-                    ML-DSA-44, 3872
-                    ML-DSA-65, 5984
-                    ML-DSA-87, 7488
-
-            *   It is better for the standard to choose a single format to improve interoperability.
+            The |API| only supports the recommended format from `[LAMPS-MLDSA]`, which is the bytes of the seed :math:`\xi`, but without the ASN.1 encoding prefix.
+            This suits the constrained nature of |API| implementations, where interoperation with expanded secret-key formats is not required.
 
         See `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
 
@@ -89,7 +69,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. admonition:: Implementation note
 
-            It is :scterm:`implementation defined` whether the seed :math:`\xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
+            It is :an implementation choice whether the seed :math:`\xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
 
 .. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
     :definition: ((psa_key_type_t)0x4002)
@@ -99,7 +79,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. versionadded:: 1.3
 
-    The key attribute size of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
+    The bit size used in the attributes of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
 
     .. subsection:: Compatible algorithms
 
@@ -112,17 +92,13 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
     .. subsection:: Key format
 
-        .. warning::
-
-            The key format may change in a final version of this API.
-            The standardization of exchange formats for ML-DSA public and private keys is in progress, but final documents have not been published.
-            See :cite-title:`LAMPS-MLDSA`.
-
-            The current proposed format is based on the expected outcome of that process.
-
         An ML-DSA public key is the :math:`pk` output of ``ML-DSA.KeyGen()``, defined in `[FIPS204]` §5.1.
 
         In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is :math:`pk`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :cite-title:`LAMPS-MLDSA`.
 
         The size of the public key depends on the ML-DSA parameter set as follows:
 
