@@ -90,7 +90,9 @@
     GlobalPlatform governance of PSA Certified evaluation scheme.
 
 .. release:: 1.4.0 Final
-    :date: ? 2025
+    :date: October 2025
     :confidentiality: Non-confidential
 
-    Added new functions for signatures with context.
+    New algorithms for signatures with context, eXtended Output Functions, key wrapping, WPA3-SAE, and Ascon.
+
+    Added key query and key registration functions.
