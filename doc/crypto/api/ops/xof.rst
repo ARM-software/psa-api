@@ -19,6 +19,7 @@ A multi-part XOF operation is used as follows:
 
 1.  Initialize the `psa_xof_operation_t` object to zero, or by assigning the value of the associated macro `PSA_XOF_OPERATION_INIT`.
 #.  Call `psa_xof_setup()` to specify the required XOF algorithm.
+#.  If the algorithm has a context, call `psa_xof_set_context()` to provide the context value.
 #.  Call the `psa_xof_update()` function on successive chunks of the input data.
 #.  After input is complete, call `psa_xof_output()` one or more times to extract successive chunks of output.
 #.  When output is complete, call `psa_xof_abort()` to end the operation.
@@ -73,6 +74,30 @@ XOF algorithms
     *   :code:`PSA_ALG_SHAKE256_256` --- defined in `[PSA-PQC]`
     *   :code:`PSA_ALG_SHAKE256_512`
 
+.. macro:: PSA_ALG_ASCON_XOF128
+    :definition: ((psa_algorithm_t)0x0D000300)
+
+    .. summary::
+        The Ascon-XOF128 XOF algorithm.
+
+        .. versionadded:: 1.4
+
+    Ascon-XOF128 is defined in :cite-title:`SP800-232` §5.2.
+
+    .. note::
+        To use the Ascon-Hash256 hash algorithm, see `PSA_ALG_ASCON_HASH256`.
+
+.. macro:: PSA_ALG_ASCON_CXOF128
+    :definition: ((psa_algorithm_t)0x0D008300)
+
+    .. summary::
+        The Ascon-CXOF128 XOF algorithm, with context.
+
+        .. versionadded:: 1.4
+
+    Ascon-CXOF128 is defined in :cite-title:`SP800-232` §5.3.
+
+    The context value must be provided by calling `psa_xof_set_context()` on the XOF mluti-part operation, before providing any input data.
 
 Multi-part XOF operations
 -------------------------
@@ -166,6 +191,7 @@ Multi-part XOF operations
     1.  Allocate an XOF operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_xof_operation_t`, e.g. `PSA_XOF_OPERATION_INIT`.
     #.  Call `psa_xof_setup()` to specify the algorithm.
+    #.  For an XOF algorithm that has a context, call `psa_xof_set_context()` to provide the context.
     #.  Call `psa_xof_update()` zero, one, or more times, passing a fragment of the input each time.
     #.  To extract XOF output data, call `psa_xof_output()` one or more times.
 
@@ -177,6 +203,50 @@ Multi-part XOF operations
     To abandon an active operation, or reset an operation in an error state, call `psa_xof_abort()`.
 
     See :secref:`multi-part-operations`.
+
+.. function:: psa_xof_set_context
+
+    .. summary::
+        Provide a context for a multi-part XOF operation.
+
+        .. versionadded:: 1.4
+
+    .. param:: psa_xof_operation_t * operation
+        Active XOF operation.
+    .. param:: const uint8_t * context
+        Buffer containing the input fragment.
+    .. param:: size_t context_length
+        Size of the ``context`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active, and no call to `psa_xof_set_context()`, `psa_xof_output()`, or `psa_xof_output()` has been made.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   The algorithm does not support a context value.
+            See `PSA_ALG_XOF_HAS_CONTEXT()`.
+        *   The context value is not valid for the XOF algorithm.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The context value is not supported by this implementation.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    This function sets the context value in a multi-part XOF operation, when using an XOF algorithm that has a context parameter.
+
+    The application must call `psa_xof_setup()` before calling this function.
+    For an XOF algorithm with a context parameter, this function must be called immediately after `psa_xof_setup()`, before calling any other function on the XOF operation.
+
+    This function must not be called if the XOF algorithm does not have a context parameter.
+    The macro `PSA_ALG_XOF_HAS_CONTEXT()` can be used to determine if a context value is required for the XOF algorithm.
+
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_xof_abort()`.
 
 .. function:: psa_xof_update
 
@@ -277,3 +347,23 @@ Multi-part XOF operations
     This function can be called any time after the operation object has been initialized by one of the methods described in `psa_xof_operation_t`.
 
     In particular, calling `psa_xof_abort()` after the operation has been terminated by a call to `psa_xof_abort()` is safe and has no effect.
+
+
+Support macros
+--------------
+
+.. macro:: PSA_ALG_XOF_HAS_CONTEXT
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified XOF algorithm has a context parameter.
+
+        .. versionadded:: 1.4
+
+    .. param:: alg
+        An XOF algorithm identifier: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_XOF(alg)` is true.
+
+    .. return::
+        ``1`` if ``alg`` is an XOF algorithm that has a context parameter.
+        ``0`` if ``alg`` is an XOF algorithm that does not have a context parameter.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported XOF algorithm identifier.

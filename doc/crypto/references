@@ -148,6 +148,12 @@
     :publication: August 2022
     :url: doi.org/10.6028/NIST.SP.800-108r1
 
+.. reference:: SP800-232
+    :title: NIST Special Publication 800-232: Ascon-Based Lightweight Cryptography Standards for Constrained Devices
+    :author: NIST
+    :publication: August 2025
+    :url: doi.org/10.6028/NIST.SP.800-232
+
 .. reference:: RFC1319
     :title: The MD2 Message-Digest Algorithm
     :author: IETF

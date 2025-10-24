@@ -28,7 +28,6 @@ Changes to the API
 *   Added support for context parameters in signature algorithms.
 *   Added PureEdDSA algorithms with non-zero context.
     See :secref:`eddsa-sign-algorithms` and `PSA_ALG_EDDSA_CTX`.
-
 *   Added support for the WPA3-SAE PAKE:
 
     -   Add `PSA_KEY_TYPE_WPA3_SAE_ECC` and `PSA_KEY_TYPE_WPA3_SAE_DH` key types for WPA3-SAE password tokens.
@@ -38,6 +37,12 @@ Changes to the API
     -   Added wildcard key policy `PSA_ALG_WPA3_SAE_ANY` to permit password and password token keys to be used in any WPA3-SAE cipher suite.
 
     See :secref:`pake-wpa3-sae`.
+*   Add support for the Ascon family of light-weight algorithms:
+
+    -   `PSA_ALG_ASCON_AEAD128`
+    -   `PSA_ALG_ASCON_HASH256`
+    -   `PSA_ALG_ASCON_XOF128`
+    -   `PSA_ALG_ASCON_CXOF128`
 
 Relaxations
 ~~~~~~~~~~~
@@ -49,6 +54,7 @@ Clarifications and fixes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 *   Corrected the example implementation of `PSA_ALG_IS_SIGN_HASH()` in :secref:`appendix-specdef-values`, to exclude PureEdDSA.
+*   Clarified the use of hash algorithms with `PSA_ALG_HMAC`.
 
 Other changes
 ~~~~~~~~~~~~~
