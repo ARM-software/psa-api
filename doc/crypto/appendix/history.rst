@@ -14,8 +14,6 @@ This section provides the detailed changes made between published version of the
 Changes between *1.3.2* and *1.4.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:issue:`TBD`
-
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
@@ -25,7 +23,14 @@ Changes to the API
     See :secref:`xof`.
 *   Added support for key wrapping using key-wrapping algorithms.
     See :secref:`key-wrapping`.
-*   Added support for context parameters in signature algorithms.
+*   Added support for context parameters in signature algorithms:
+
+    -   `psa_sign_message_with_context()`
+    -   `psa_verify_message_with_context()`
+    -   `psa_sign_hash_with_context()`
+    -   `psa_verify_hash_with_context()`
+
+    See :secref:`sign`.
 *   Added PureEdDSA algorithms with non-zero context.
     See :secref:`eddsa-sign-algorithms` and `PSA_ALG_EDDSA_CTX`.
 *   Added support for the WPA3-SAE PAKE:
@@ -868,10 +873,12 @@ Other changes
 *   Document formatting improvements.
 
 
-Planned changes for version 1.2.x
----------------------------------
+Planned changes for version |docversion|.x
+------------------------------------------
 
-Future versions of this specification that use a 1.2.x version will describe the same API as this specification. Any changes will not affect application compatibility and will not introduce major features. These updates are intended to add minor requirements on implementations, introduce optional definitions, make corrections, clarify potential or actual ambiguities, or improve the documentation.
+Future versions of this specification that use a |docversion|.x version will describe the same API as this specification.
+Any changes will not affect application compatibility and will not introduce major features.
+These updates are intended to add minor requirements on implementations, introduce optional definitions, make corrections, clarify potential or actual ambiguities, or improve the documentation.
 
 These are the changes that might be included in a version 1.2.x:
 
@@ -880,7 +887,6 @@ These are the changes that might be included in a version 1.2.x:
 *   Specify the computation of algorithm and key type values.
 *   Further clarifications on API usage and implementation.
 
-
 .. _future:
 
 Future additions
@@ -888,7 +894,12 @@ Future additions
 
 Major additions to the API will be defined in future drafts and editions of a 1.x or 2.x version of this specification. Features that are being considered include:
 
-*   Multi-part operations for hybrid cryptography. For example, this includes hash-and-sign for EdDSA, and hybrid encryption for ECIES.
-*   Key discovery mechanisms. This would enable an application to locate a key by its name or attributes.
-*   Implementation capability description. This would enable an application to determine the algorithms, key types and storage lifetimes that the implementation provides.
+*   Integration of the PQC extension.
+*   Further PQC algorithms as they are standardized.
+*   Interruptible (incremental) operations for long-running computation in a constrained execution context.
+*   Import and export of additional key formats and wrapped key structures.
+*   Key discovery mechanisms.
+    This would enable an application to locate a key by its name or attributes.
+*   Implementation capability description.
+    This would enable an application to determine the algorithms, key types and storage lifetimes that the implementation provides.
 *   An ownership and access control mechanism allowing a multi-client implementation to have privileged clients that are able to manage keys of other clients.

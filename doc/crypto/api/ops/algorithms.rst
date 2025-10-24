@@ -91,6 +91,8 @@ Algorithm categories
     .. summary::
         Whether the specified algorithm is an XOF algorithm.
 
+        .. versionadded:: 1.4
+
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
 
@@ -147,6 +149,8 @@ Algorithm categories
 
     .. summary::
         Whether the specified algorithm is a key wrapping algorithm.
+
+        .. versionadded:: 1.4
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.

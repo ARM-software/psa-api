@@ -32,9 +32,9 @@ doc_info = {
     'issue_no': 0,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
-    'release_candidate': 0,
+    'release_candidate': 1,
     # Draft status - use this to indicate the document is not ready for publication
-    'draft': True,
+    #'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
@@ -45,7 +45,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '23/09/2025',
+    'date': '21/10/2025',
 
     # Default header file for API definitions
     # default to None, and can be set in documentation source
