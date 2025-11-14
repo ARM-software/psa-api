@@ -93,10 +93,11 @@
     :publication: December 1999
     :url: www.iso.org/standard/29237.html
 
-.. reference:: PSATOKEN
+.. reference:: RFC9783
     :title: Arm's Platform Security Architecture (PSA) Attestation Token
-    :publication: Draft
-    :url: datatracker.ietf.org/doc/draft-tschofenig-rats-psa-token
+    :author: H. Tschofenig, S. Frost, M. Brossard, A. Shaw, and T. Fossati
+    :publication: June 2025
+    :url: tools.ietf.org/html/rfc9783
 
 .. reference:: RFC2104
     :title: HMAC: Keyed-Hashing for Message Authentication

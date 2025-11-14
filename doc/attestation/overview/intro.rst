@@ -15,7 +15,7 @@ About the |API|
 
 The interface described in this document is a PSA Certified API, that provides a verifiable report of the state of the platform. The platform attestation service is provided by the :term:`Platform Root of Trust` and is described in :cite-title:`PSM`.
 
-The format of the attestation report that is produced by the |API| is specified in :cite-title:`PSATOKEN`.
+The format of the attestation report that is produced by the |API| is specified in :rfc-title:`9783`.
 
 This document includes:
 
