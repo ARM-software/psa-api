@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3 Example macro implementations" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/crypto/1.4/ext-pqc/appendix/specdef_values.html" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/crypto/1.4/ext-pqc/appendix/specdef_values.html" />
+<meta property="og:site_name" content="PSA Certified Crypto API 1.4 PQC Extension" />
+<meta property="og:description" content="This section provides example implementations of the function-like macros that have specification-defined values. The examples here provide correct results for the valid inputs defined by each API,..." />
+<meta name="description" content="This section provides example implementations of the function-like macros that have specification-defined values. The examples here provide correct results for the valid inputs defined by each API,..." />
+
+    <title>3 Example macro implementations &#8212; PSA Certified Crypto API 1.4 PQC Extension</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=de926398"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4 Document change history" href="history.html" />
+    <link rel="prev" title="2 Algorithm and key type encoding" href="encodings.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
+AES 0119<br/>
+Non-confidential<br/>
+Version 1.4 PQC Extension.0
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/pqc.html">2 API Reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example_header.html">A Example header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encodings.html">B Algorithm and key type encoding</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C Example macro implementations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#algorithm-macros">C.1 Algorithm macros</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#updated-macros">C.1.1 Updated macros</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#new-macros">C.1.2 New macros</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#key-type-macros">C.2 Key type macros</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">D Document change history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="example-macro-implementations">
+<span id="specification-defined-value"></span><h1><span class="section-number">C </span>Example macro implementations<a class="headerlink" href="#example-macro-implementations" title="Link to this heading">¶</a></h1>
+<p>This section provides example implementations of the function-like macros that have specification-defined values.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In a future version of this specification, these example implementations will be replaced with a pseudo-code representation of the macro’s computation in the macro description.</p>
+</div>
+<p>The examples here provide correct results for the valid inputs defined by each API, for an implementation that supports all of the defined algorithms and key types. An implementation can provide alternative definitions of these macros:</p>
+<section id="algorithm-macros">
+<h2><span class="section-number">C.1 </span>Algorithm macros<a class="headerlink" href="#algorithm-macros" title="Link to this heading">¶</a></h2>
+<section id="updated-macros">
+<h3><span class="section-number">C.1.1 </span>Updated macros<a class="headerlink" href="#updated-macros" title="Link to this heading">¶</a></h3>
+<pre class="literal-block">#define PSA_ALG_IS_HASH_AND_SIGN(alg) \
+    (PSA_ALG_IS_RSA_PSS(alg) || PSA_ALG_IS_RSA_PKCS1V15_SIGN(alg) || \
+     PSA_ALG_IS_ECDSA(alg) || PSA_ALG_IS_HASH_EDDSA(alg) || \
+     <a class="reference internal" href="../api/mldsa.html#c.PSA_ALG_IS_HASH_ML_DSA" title="PSA_ALG_IS_HASH_ML_DSA">PSA_ALG_IS_HASH_ML_DSA</a>(alg) || <a class="reference internal" href="../api/slhdsa.html#c.PSA_ALG_IS_HASH_SLH_DSA" title="PSA_ALG_IS_HASH_SLH_DSA">PSA_ALG_IS_HASH_SLH_DSA</a>(alg))
+
+#define PSA_ALG_IS_SIGN_HASH(alg) \
+    (PSA_ALG_IS_HASH_AND_SIGN(alg) ||
+    (alg) == PSA_ALG_RSA_PKCS1V15_SIGN_RAW ||
+    (alg) == PSA_ALG_ECDSA_ANY
+    )</pre>
+</section>
+<section id="new-macros">
+<h3><span class="section-number">C.1.2 </span>New macros<a class="headerlink" href="#new-macros" title="Link to this heading">¶</a></h3>
+<pre class="literal-block">#define <a class="reference internal" href="../api/mldsa.html#c.PSA_ALG_DETERMINISTIC_HASH_ML_DSA" title="PSA_ALG_DETERMINISTIC_HASH_ML_DSA">PSA_ALG_DETERMINISTIC_HASH_ML_DSA</a>(hash_alg) \
+    ((psa_algorithm_t) (0x06004700 | ((hash_alg) &amp; 0x000000ff)))
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA</a>(hash_alg) \
+    ((psa_algorithm_t) (0x06004300 | ((hash_alg) &amp; 0x000000ff)))
+
+#define <a class="reference internal" href="../api/mldsa.html#c.PSA_ALG_HASH_ML_DSA" title="PSA_ALG_HASH_ML_DSA">PSA_ALG_HASH_ML_DSA</a>(hash_alg) \
+    ((psa_algorithm_t) (0x06004600 | ((hash_alg) &amp; 0x000000ff)))
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA">PSA_ALG_HASH_SLH_DSA</a>(hash_alg) \
+    ((psa_algorithm_t) (0x06004200 | ((hash_alg) &amp; 0x000000ff)))
+
+#define <a class="reference internal" href="../api/mldsa.html#c.PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA" title="PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA">PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA</a>(alg) \
+    (((alg) &amp; ~0x000000ff) == 0x06004700)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA">PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA</a>(alg) \
+    (((alg) &amp; ~0x000000ff) == 0x06004300)
+
+#define <a class="reference internal" href="../api/mldsa.html#c.PSA_ALG_IS_HASH_ML_DSA" title="PSA_ALG_IS_HASH_ML_DSA">PSA_ALG_IS_HASH_ML_DSA</a>(alg) \
+    (((alg) &amp; ~0x000001ff) == 0x06004600)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_ALG_IS_HASH_SLH_DSA" title="PSA_ALG_IS_HASH_SLH_DSA">PSA_ALG_IS_HASH_SLH_DSA</a>(alg) \
+    (((alg) &amp; ~0x000001ff) == 0x06004200)
+
+#define <a class="reference internal" href="../api/mldsa.html#c.PSA_ALG_IS_HEDGED_HASH_ML_DSA" title="PSA_ALG_IS_HEDGED_HASH_ML_DSA">PSA_ALG_IS_HEDGED_HASH_ML_DSA</a>(alg) \
+    (((alg) &amp; ~0x000000ff) == 0x06004600)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_ALG_IS_HEDGED_HASH_SLH_DSA" title="PSA_ALG_IS_HEDGED_HASH_SLH_DSA">PSA_ALG_IS_HEDGED_HASH_SLH_DSA</a>(alg) \
+    (((alg) &amp; ~0x000000ff) == 0x06004200)
+
+#define <a class="reference internal" href="../api/mldsa.html#c.PSA_ALG_IS_ML_DSA" title="PSA_ALG_IS_ML_DSA">PSA_ALG_IS_ML_DSA</a>(alg) \
+    (((alg) &amp; ~0x00000100) == 0x06004400)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_ALG_IS_SLH_DSA" title="PSA_ALG_IS_SLH_DSA">PSA_ALG_IS_SLH_DSA</a>(alg) \
+    (((alg) &amp; ~0x00000100) == 0x06004000)</pre>
+</section>
+</section>
+<section id="key-type-macros">
+<h2><span class="section-number">C.2 </span>Key type macros<a class="headerlink" href="#key-type-macros" title="Link to this heading">¶</a></h2>
+<pre class="literal-block">#define <a class="reference internal" href="../api/mldsa.html#c.PSA_KEY_TYPE_IS_ML_DSA" title="PSA_KEY_TYPE_IS_ML_DSA">PSA_KEY_TYPE_IS_ML_DSA</a>(type) \
+    (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4002)
+
+#define <a class="reference internal" href="../api/mlkem.html#c.PSA_KEY_TYPE_IS_ML_KEM" title="PSA_KEY_TYPE_IS_ML_KEM">PSA_KEY_TYPE_IS_ML_KEM</a>(type) \
+    (PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) == 0x4004)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_KEY_TYPE_IS_SLH_DSA" title="PSA_KEY_TYPE_IS_SLH_DSA">PSA_KEY_TYPE_IS_SLH_DSA</a>(type) \
+    ((PSA_KEY_TYPE_PUBLIC_KEY_OF_KEY_PAIR(type) &amp; 0xff80) == 0x4180)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR">PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR</a>(type) \
+    (((type) &amp; 0xff80) == 0x7180)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY">PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY</a>(type) \
+    (((type) &amp; 0xff80) == 0x4180)
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_KEY_TYPE_SLH_DSA_GET_FAMILY" title="PSA_KEY_TYPE_SLH_DSA_GET_FAMILY">PSA_KEY_TYPE_SLH_DSA_GET_FAMILY</a>(type) \
+    ((<a class="reference internal" href="../api/slhdsa.html#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t">psa_slh_dsa_family_t</a>) ((type) &amp; 0x007f))
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR</a>(set) \
+    ((psa_key_type_t) (0x7180 | ((set) &amp; 0x007f)))
+
+#define <a class="reference internal" href="../api/slhdsa.html#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</a>(set) \
+    ((psa_key_type_t) (0x4180 | ((set) &amp; 0x007f)))</pre>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169; 2024-2025 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
