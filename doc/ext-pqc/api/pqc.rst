@@ -16,7 +16,7 @@ API Reference
     :license: Apache-2.0
 
     /* This file contains reference definitions for implementation of the
-     * PSA Certified Crypto API v1.3 PQC Extension
+     * PSA Certified Crypto API v1.4 PQC Extension
      *
      * These definitions must be embedded in, or included by, psa/crypto.h
      */
