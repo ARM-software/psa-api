@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="2.4 Stateless Hash-based signatures" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://arm-software.github.io/psa-api/crypto/1.4/ext-pqc/api/slhdsa.html" />
+<link rel="canonical" href="https://arm-software.github.io/psa-api/crypto/1.4/ext-pqc/api/slhdsa.html" />
+<meta property="og:site_name" content="PSA Certified Crypto API 1.4 PQC Extension" />
+<meta property="og:description" content="Stateless Hash-based signature keys: The Crypto API supports Stateless Hash-based digital signatures (SLH-DSA), as defined in FIPS Publication 205: Stateless Hash-Based Digital Signature Standard[F..." />
+<meta name="description" content="Stateless Hash-based signature keys: The Crypto API supports Stateless Hash-based digital signatures (SLH-DSA), as defined in FIPS Publication 205: Stateless Hash-Based Digital Signature Standard[F..." />
+
+    <title>2.4 Stateless Hash-based signatures &#8212; PSA Certified Crypto API 1.4 PQC Extension</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
+    <script src="../_static/documentation_options.js?v=de926398"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.5 Leighton-Micali Signatures" href="lms.html" />
+    <link rel="prev" title="2.3 Module Lattice-based signatures" href="mldsa.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ARM_LOGO-2025_INK_RGB.svg" alt="Logo of PSA Certified Crypto API"/>
+            </a></p><hr />
+<h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
+AES 0119<br/>
+Non-confidential<br/>
+Version 1.4 PQC Extension.0
+<hr />
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1 Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pqc.html">2 API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hash.html">2.1 Additional Hash algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mlkem.html">2.2 Module Lattice-based key encapsulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mldsa.html">2.3 Module Lattice-based signatures</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.4 Stateless Hash-based signatures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stateless-hash-based-signature-keys">2.4.1 Stateless Hash-based signature keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stateless-hash-based-signature-algorithms">2.4.2 Stateless Hash-based signature algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lms.html">2.5 Leighton-Micali Signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xmss.html">2.6 eXtended Merkle Signature Scheme</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/example_header.html">A Example header file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/encodings.html">B Algorithm and key type encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/specdef_values.html">C Example macro implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix/history.html">D Document change history</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../atg_c-identifiers.html">Index of API elements</a></li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="stateless-hash-based-signatures">
+<span id="slh-dsa"></span><h1><span class="section-number">2.4 </span>Stateless Hash-based signatures<a class="headerlink" href="#stateless-hash-based-signatures" title="Link to this heading">¶</a></h1>
+<section id="stateless-hash-based-signature-keys">
+<span id="slh-dsa-keys"></span><h2><span class="section-number">2.4.1 </span>Stateless Hash-based signature keys<a class="headerlink" href="#stateless-hash-based-signature-keys" title="Link to this heading">¶</a></h2>
+<p>The Crypto API supports Stateless Hash-based digital signatures (SLH-DSA), as defined in <span><em>FIPS Publication 205: Stateless Hash-Based Digital Signature Standard</em> <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite">[FIPS205]</span></a></span>.</p>
+<section id="c.psa_slh_dsa_family_t">
+<h3><code class="docutils literal notranslate"><span class="pre">psa_slh_dsa_family_t</span></code> (typedef)<a class="headerlink" href="#c.psa_slh_dsa_family_t" title="Link to this heading">¶</a></h3>
+<p>The type of identifiers of a Stateless hash-based DSA parameter set.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">typedef uint8_t <a class="reference internal" href="#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t">psa_slh_dsa_family_t</a>;</pre>
+<p>The parameter-set identifier is required to create an SLH-DSA key using the <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()</span></code></a> or <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()</span></code></a> macros.</p>
+<p>The specific SLH-DSA parameter set within a family is identified by the <code class="docutils literal notranslate"><span class="pre">key_bits</span></code> attribute of the key.</p>
+<p>The range of SLH-DSA family identifier values is divided as follows:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">0x00</span></code></dt><dd><p>Reserved.
+Not allocated to an SLH-DSA parameter-set family.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">0x01</span> <span class="pre">-</span> <span class="pre">0x7f</span></code></dt><dd><p>SLH-DSA parameter-set family identifiers defined by this standard.
+Unallocated values in this range are reserved for future use.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">0x80</span> <span class="pre">-</span> <span class="pre">0xff</span></code></dt><dd><p>Invalid.
+Values in this range must not be used.</p>
+</dd>
+</dl>
+<p>The least significant bit of an SLH-DSA family identifier is a parity bit for the whole key type.
+See <a class="reference internal" href="../appendix/encodings.html#slh-dsa-key-encoding"><span class="secref">SLH-DSA key encoding</span></a> for details of the encoding of asymmetric key types.</p>
+</section>
+<section id="c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="Link to this heading">¶</a></h3>
+<p>SLH-DSA key pair: both the private key and public key.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR</a>(set) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">set</span></code></p>
+</dt><dd><p>A value of type <a class="reference internal" href="#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_slh_dsa_family_t</span></code></a> that identifies the SLH-DSA parameter-set family to be used.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Description</p>
+<p>The bit size used in the attributes of an SLH-DSA key pair is the bit-size of each component in the SLH-DSA keys defined in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>.
+That is, for a parameter set with security parameter <span class="math notranslate nohighlight">\(n\)</span>, the bit-size in the key attributes is <span class="math notranslate nohighlight">\(8n\)</span>.
+See the documentation of each SLH-DSA parameter-set family for details.</p>
+<p class="rubric">Compatible algorithms</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA</span></code></a></p></li>
+</ul>
+</td></tr></table>
+<p class="rubric">Key format</p>
+<p>A SLH-DSA key pair is defined in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.1 as the four <span class="math notranslate nohighlight">\(n\)</span>-byte values, <span class="math notranslate nohighlight">\(SK\text{.seed}\)</span>, <span class="math notranslate nohighlight">\(SK\text{.prf}\)</span>, <span class="math notranslate nohighlight">\(PK\text{.seed}\)</span>, and <span class="math notranslate nohighlight">\(PK\text{.root}\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the security parameter.</p>
+<p>In calls to <code class="docutils literal notranslate"><span class="pre">psa_import_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_export_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, the key-pair data format is the concatenation of the four octet strings:</p>
+<div class="math notranslate nohighlight">
+\[SK\text{.seed}\ ||\ SK\text{.prf}\ ||\ PK\text{.seed}\ ||\ PK\text{.root}\]</div>
+<div class="rationale admonition docutils container">
+<p class="admonition-title"><strong>Rationale</strong></p>
+<p>This format is the same as that specified for X.509 in <span><em>Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA</em> <a class="reference internal" href="../about/about.html#cite-lamps-slhdsa"><span class="cite">[LAMPS-SLHDSA]</span></a></span>.</p>
+</div>
+<p>See <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</span></code></a> for the data format used when exporting the public key with <code class="docutils literal notranslate"><span class="pre">psa_export_public_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
+<p class="rubric">Key derivation</p>
+<p>A call to <code class="docutils literal notranslate"><span class="pre">psa_key_derivation_output_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> will draw output bytes as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n\)</span> bytes are drawn as <span class="math notranslate nohighlight">\(SK\text{.seed}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> bytes are drawn as <span class="math notranslate nohighlight">\(SK\text{.prf}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> bytes are drawn as <span class="math notranslate nohighlight">\(PK\text{.seed}\)</span>.</p></li>
+</ul>
+<p>Here, <span class="math notranslate nohighlight">\(n\)</span> is the security parameter for the selected SLH-DSA parameter set.</p>
+<p>The private key <span class="math notranslate nohighlight">\((SK\text{.seed},SK\text{.prf},PK\text{.seed},PK\text{.root})\)</span> is generated from these values as defined by <code class="docutils literal notranslate"><span class="pre">slh_keygen_internal()</span></code> in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.1.</p>
+</section>
+<section id="c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="Link to this heading">¶</a></h3>
+<p>SLH-DSA public key.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</a>(set) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">set</span></code></p>
+</dt><dd><p>A value of type <a class="reference internal" href="#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_slh_dsa_family_t</span></code></a> that identifies the SLH-DSA parameter-set family to be used.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Description</p>
+<p>The bit size used in the attributes of an SLH-DSA public key is the same as the corresponding private key.
+See <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()</span></code></a> and the documentation of each SLH-DSA parameter-set family for details.</p>
+<p class="rubric">Compatible algorithms</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA</span></code></a></p></li>
+</ul>
+</td><td><ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA</span></code></a></p></li>
+</ul>
+</td></tr></table>
+<p class="rubric">Key format</p>
+<p>A SLH-DSA public key is defined in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.1 as two <span class="math notranslate nohighlight">\(n\)</span>-byte values, <span class="math notranslate nohighlight">\(PK\text{.seed}\)</span> and <span class="math notranslate nohighlight">\(PK\text{.root}\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the security parameter.</p>
+<p>In calls to <code class="docutils literal notranslate"><span class="pre">psa_import_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, <code class="docutils literal notranslate"><span class="pre">psa_export_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, and <code class="docutils literal notranslate"><span class="pre">psa_export_public_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, the public-key data format is the concatenation of the two octet strings:</p>
+<div class="math notranslate nohighlight">
+\[PK\text{.seed}\ ||\ PK\text{.root}\]</div>
+<div class="rationale admonition docutils container">
+<p class="admonition-title"><strong>Rationale</strong></p>
+<p>This format is the same as that specified for X.509 in <span><em>Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA</em> <a class="reference internal" href="../about/about.html#cite-lamps-slhdsa"><span class="cite">[LAMPS-SLHDSA]</span></a></span>.</p>
+</div>
+</section>
+<section id="c.PSA_SLH_DSA_FAMILY_SHA2_S">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_SLH_DSA_FAMILY_SHA2_S</span></code> (macro)<a class="headerlink" href="#c.PSA_SLH_DSA_FAMILY_SHA2_S" title="Link to this heading">¶</a></h3>
+<p>SLH-DSA family for the SLH-DSA-SHA2-<em>NNN</em>s parameter sets.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_SLH_DSA_FAMILY_SHA2_S" title="PSA_SLH_DSA_FAMILY_SHA2_S">PSA_SLH_DSA_FAMILY_SHA2_S</a> ((<a class="reference internal" href="#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t">psa_slh_dsa_family_t</a>) 0x02)</pre>
+<p>This family comprises the following parameter sets:</p>
+<ul class="simple">
+<li><p>SLH-DSA-SHA2-128s : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">128</span></code></p></li>
+<li><p>SLH-DSA-SHA2-192s : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">192</span></code></p></li>
+<li><p>SLH-DSA-SHA2-256s : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">256</span></code></p></li>
+</ul>
+<p>They are defined in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>.</p>
+</section>
+<section id="c.PSA_SLH_DSA_FAMILY_SHA2_F">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_SLH_DSA_FAMILY_SHA2_F</span></code> (macro)<a class="headerlink" href="#c.PSA_SLH_DSA_FAMILY_SHA2_F" title="Link to this heading">¶</a></h3>
+<p>SLH-DSA family for the SLH-DSA-SHA2-<em>NNN</em>f parameter sets.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_SLH_DSA_FAMILY_SHA2_F" title="PSA_SLH_DSA_FAMILY_SHA2_F">PSA_SLH_DSA_FAMILY_SHA2_F</a> ((<a class="reference internal" href="#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t">psa_slh_dsa_family_t</a>) 0x04)</pre>
+<p>This family comprises the following parameter sets:</p>
+<ul class="simple">
+<li><p>SLH-DSA-SHA2-128f : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">128</span></code></p></li>
+<li><p>SLH-DSA-SHA2-192f : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">192</span></code></p></li>
+<li><p>SLH-DSA-SHA2-256f : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">256</span></code></p></li>
+</ul>
+<p>They are defined in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>.</p>
+</section>
+<section id="c.PSA_SLH_DSA_FAMILY_SHAKE_S">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_SLH_DSA_FAMILY_SHAKE_S</span></code> (macro)<a class="headerlink" href="#c.PSA_SLH_DSA_FAMILY_SHAKE_S" title="Link to this heading">¶</a></h3>
+<p>SLH-DSA family for the SLH-DSA-SHAKE-<em>NNN</em>s parameter sets.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_SLH_DSA_FAMILY_SHAKE_S" title="PSA_SLH_DSA_FAMILY_SHAKE_S">PSA_SLH_DSA_FAMILY_SHAKE_S</a> ((<a class="reference internal" href="#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t">psa_slh_dsa_family_t</a>) 0x0b)</pre>
+<p>This family comprises the following parameter sets:</p>
+<ul class="simple">
+<li><p>SLH-DSA-SHAKE-128s : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">128</span></code></p></li>
+<li><p>SLH-DSA-SHAKE-192s : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">192</span></code></p></li>
+<li><p>SLH-DSA-SHAKE-256s : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">256</span></code></p></li>
+</ul>
+<p>They are defined in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>.</p>
+</section>
+<section id="c.PSA_SLH_DSA_FAMILY_SHAKE_F">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_SLH_DSA_FAMILY_SHAKE_F</span></code> (macro)<a class="headerlink" href="#c.PSA_SLH_DSA_FAMILY_SHAKE_F" title="Link to this heading">¶</a></h3>
+<p>SLH-DSA family for the SLH-DSA-SHAKE-<em>NNN</em>f parameter sets.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_SLH_DSA_FAMILY_SHAKE_F" title="PSA_SLH_DSA_FAMILY_SHAKE_F">PSA_SLH_DSA_FAMILY_SHAKE_F</a> ((<a class="reference internal" href="#c.psa_slh_dsa_family_t" title="psa_slh_dsa_family_t">psa_slh_dsa_family_t</a>) 0x0d)</pre>
+<p>This family comprises the following parameter sets:</p>
+<ul class="simple">
+<li><p>SLH-DSA-SHAKE-128f : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">128</span></code></p></li>
+<li><p>SLH-DSA-SHAKE-192f : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">192</span></code></p></li>
+<li><p>SLH-DSA-SHAKE-256f : <code class="docutils literal notranslate"><span class="pre">key_bits</span> <span class="pre">=</span> <span class="pre">256</span></code></p></li>
+</ul>
+<p>They are defined in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>.</p>
+</section>
+<section id="c.PSA_KEY_TYPE_IS_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Whether a key type is an SLH-DSA key, either a key pair or a public key.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_SLH_DSA" title="PSA_KEY_TYPE_IS_SLH_DSA">PSA_KEY_TYPE_IS_SLH_DSA</a>(type) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <code class="docutils literal notranslate"><span class="pre">psa_key_type_t</span></code>.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="c.PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR" title="Link to this heading">¶</a></h3>
+<p>Whether a key type is an SLH-DSA key pair.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR">PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR</a>(type) \
+    <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <code class="docutils literal notranslate"><span class="pre">psa_key_type_t</span></code>.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="c.PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY" title="Link to this heading">¶</a></h3>
+<p>Whether a key type is an SLH-DSA public key.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY">PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY</a>(type) \
+    <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>A key type: a value of type <code class="docutils literal notranslate"><span class="pre">psa_key_type_t</span></code>.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="c.PSA_KEY_TYPE_SLH_DSA_GET_FAMILY">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_GET_FAMILY</span></code> (macro)<a class="headerlink" href="#c.PSA_KEY_TYPE_SLH_DSA_GET_FAMILY" title="Link to this heading">¶</a></h3>
+<p>Extract the parameter-set family from an SLH-DSA key type.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_GET_FAMILY" title="PSA_KEY_TYPE_SLH_DSA_GET_FAMILY">PSA_KEY_TYPE_SLH_DSA_GET_FAMILY</a>(type) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p>
+</dt><dd><p>An SLH-DSA key type: a value of type <code class="docutils literal notranslate"><span class="pre">psa_key_type_t</span></code> such that <a class="reference internal" href="#c.PSA_KEY_TYPE_IS_SLH_DSA" title="PSA_KEY_TYPE_IS_SLH_DSA"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_IS_SLH_DSA</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">type</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> is true.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Returns: <code class="docutils literal notranslate"><span class="pre">psa_dh_family_t</span></code></p>
+<p>The SLH-DSA parameter-set family id, if <code class="docutils literal notranslate"><span class="pre">type</span></code> is a supported SLH-DSA key. Unspecified if <code class="docutils literal notranslate"><span class="pre">type</span></code> is not a supported SLH-DSA key.</p>
+</section>
+</section>
+<section id="stateless-hash-based-signature-algorithms">
+<span id="slh-dsa-algorithms"></span><h2><span class="section-number">2.4.2 </span>Stateless Hash-based signature algorithms<a class="headerlink" href="#stateless-hash-based-signature-algorithms" title="Link to this heading">¶</a></h2>
+<p>These algorithms extend those defined in <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="../about/about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span> §10.7 <em>Asymmetric signature</em>, for use with the signature functions.</p>
+<p>The SLH-DSA signature and verification scheme is defined in <span><em>FIPS Publication 205: Stateless Hash-Based Digital Signature Standard</em> <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite">[FIPS205]</span></a></span>.
+SLH-DSA has twelve parameter sets which provide differing security strengths, trade-off between signature size and computation cost, and selection between SHA2 and SHAKE-based hashing.</p>
+<p>SLH-DSA keys are fairly compact, 32, 48, or 64 bytes for the public key, and double that for the key pair.
+SLH-DSA signatures are much larger than those for RSA and Elliptic curve schemes, between 7.8kB and 49kB depending on the selected parameter set.
+An SLH-DSA signature has the structure described in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.2, Figure 17.</p>
+<p>See <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §11 for details on the parameter sets, and the public key and generated signature sizes.</p>
+<p>The generation of an SLH-DSA key depends on the full parameter specification.
+The encoding of each parameter set into the key attributes is described in <a class="reference internal" href="#slh-dsa-keys"><span class="secref">Stateless Hash-based signature keys</span></a>.</p>
+<p><a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> defines pure and pre-hashed variants of the signature scheme, which can either be hedged (randomized) or deterministic.
+Four algorithms are defined to support these variants: <a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a>, <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code></a>, <a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a>, and <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()</span></code></a>.</p>
+<p class="rubric" id="slh-dsa-deterministic-signatures">Hedged and deterministic signatures</p>
+<p>Hedging incorporates fresh randomness in the signature computation, resulting in distinct signatures on every signing operation when given identical inputs.
+Deterministic signatures do not require additional random data, and result in an identical signature for the same inputs.</p>
+<p>Signature verification does not distinguish between a hedged and a deterministic signature.
+Either hedged or deterministic algorithms can be used when verifying a signature.</p>
+<p>When computing a signature, the key’s permitted-algorithm policy must match the requested algorithm, treating hedged and deterministic versions as distinct.
+When verifying a signature, the hedged and deterministic versions of each algorithm are considered equivalent when checking the key’s permitted-algorithm policy.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The hedged version provides message secrecy and some protection against side-channels.
+<a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> recommends that users should use the hedged version if either of these issues are a concern.
+The deterministic variant should only be used if the implementation does not include any source of randomness.</p>
+</div>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p><a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> recommends that implementations use an approved random number generator to provide the random value in the hedged version.
+However, it notes that use of the hedged variant with a weak RNG is generally preferable to the deterministic variant.</p>
+</div>
+<div class="rationale admonition docutils container">
+<p class="admonition-title"><strong>Rationale</strong></p>
+<p>The use of fresh randomness, or not, when computing a signature seems like an implementation decision based on the capability of the system, and its vulnerability to specific threats, following the recommendations in <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>.</p>
+<p>However, the Crypto API gives distinct algorithm identifiers for the hedged and deterministic variants for the following reasons:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §9.1 recommends that SLH-DSA signing keys are only used to compute either deterministic, or hedged, signatures, but not both.
+Supporting this recommendation requires separate algorithm identifiers, and requiring an exact policy match for signature computation.</p></li>
+<li><p>Enable an application use case to require a specific variant.</p></li>
+</ul>
+</div>
+<p class="rubric">Pure and pre-hashed algorithms</p>
+<p>The pre-hashed signature computation <em>HashSLH-DSA</em> generates distinct signatures to a pure signature <em>SLH-DSA</em>, with the same key and message hashing algorithm.</p>
+<p>An SLH-DSA signature can only be verified with an SLH-DSA algorithm.
+A HashSLH-DSA signature can only be verified with a HashSLH-DSA algorithm.</p>
+<p class="rubric" id="slh-dsa-contexts">Contexts</p>
+<p>All SLH-DSA algorithms can be used with contexts, which enables domain-separation when signatures are made of different message structures with the same key.
+Context values are arbitrary strings between zero and 255 bytes in length.</p>
+<ul class="simple">
+<li><p>The signature functions without a context parameter provide a zero-length context when computing or verifying SLH-DSA signatures.</p></li>
+<li><p>To provide a context, use the <code class="docutils literal notranslate"><span class="pre">psa_xxxx_with_context()</span></code> signature functions with a context parameter, such as <code class="docutils literal notranslate"><span class="pre">psa_sign_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+</ul>
+<section id="c.PSA_ALG_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA">PSA_ALG_SLH_DSA</a> ((psa_algorithm_t) 0x06004000)</pre>
+<p>This algorithm can only be used with the message signature functions.
+For example, <code class="docutils literal notranslate"><span class="pre">psa_sign_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_verify_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
+<p>This is the pure SLH-DSA digital signature algorithm, defined by <span><em>FIPS Publication 205: Stateless Hash-Based Digital Signature Standard</em> <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite">[FIPS205]</span></a></span>, using hedging.
+SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.</p>
+<p>This algorithm is randomized: each invocation returns a different, equally valid signature.
+See the <a class="reference internal" href="#slh-dsa-deterministic-signatures">notes on hedged signatures</a>.</p>
+<p>This algorithm has a context parameter.
+See the <a class="reference internal" href="#slh-dsa-contexts">notes on SLH-DSA contexts</a>.</p>
+<p>When <a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a> is used as a permitted algorithm in a key policy, this permits:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a> as the algorithm in a call to <code class="docutils literal notranslate"><span class="pre">psa_sign_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_sign_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a> or <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code></a> as the algorithm in a call to <code class="docutils literal notranslate"><span class="pre">psa_verify_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_verify_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (<a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> and <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()</span></code></a>) can also be used with <code class="docutils literal notranslate"><span class="pre">psa_sign_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_verify_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
+<p>The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.</p>
+</div>
+<p class="rubric">Compatible key types</p>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code></div>
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code> (signature verification only)</div>
+</div>
+</section>
+<section id="c.PSA_ALG_DETERMINISTIC_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Deterministic stateless hash-based digital signature algorithm without pre-hashing (SLH-DSA).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA">PSA_ALG_DETERMINISTIC_SLH_DSA</a> ((psa_algorithm_t) 0x06004100)</pre>
+<p>This algorithm can only be used with the message signature functions.
+For example, <code class="docutils literal notranslate"><span class="pre">psa_sign_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_verify_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
+<p>This is the pure SLH-DSA digital signature algorithm, defined by <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>, without hedging.
+SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.</p>
+<p>This algorithm is deterministic: each invocation with the same inputs returns an identical signature.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is recommended to use the hedged <a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a> algorithm instead, when supported by the implementation.
+See the <a class="reference internal" href="#slh-dsa-deterministic-signatures">notes on deterministic signatures</a>.</p>
+</div>
+<p>This algorithm has a context parameter.
+See the <a class="reference internal" href="#slh-dsa-contexts">notes on SLH-DSA contexts</a>.</p>
+<p>When <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code></a> is used as a permitted algorithm in a key policy, this permits:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code></a> as the algorithm in a call to <code class="docutils literal notranslate"><span class="pre">psa_sign_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_sign_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_SLH_DSA" title="PSA_ALG_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SLH_DSA</span></code></a> or <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_SLH_DSA" title="PSA_ALG_DETERMINISTIC_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_SLH_DSA</span></code></a> as the algorithm in a call to <code class="docutils literal notranslate"><span class="pre">psa_verify_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_verify_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (<a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> and <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()</span></code></a>) can also be used with <code class="docutils literal notranslate"><span class="pre">psa_sign_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_verify_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
+<p>The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.</p>
+</div>
+<p class="rubric">Compatible key types</p>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code></div>
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code> (signature verification only)</div>
+</div>
+</section>
+<section id="c.PSA_ALG_HASH_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_HASH_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA">PSA_ALG_HASH_SLH_DSA</a>(hash_alg) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code></p>
+</dt><dd><p>A hash algorithm: a value of type <code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code> such that <code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_HASH</span></code><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> is true.
+This includes <code class="docutils literal notranslate"><span class="pre">PSA_ALG_ANY_HASH</span></code> when specifying the algorithm in a key policy.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Returns</p>
+<p>The corresponding HashSLH-DSA signature algorithm, using <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> to pre-hash the message.</p>
+<p>Unspecified if <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> is not a supported hash algorithm.</p>
+<p class="rubric">Description</p>
+<p>This algorithm can be used with both the message and hash signature functions.</p>
+<p>This is the pre-hashed SLH-DSA digital signature algorithm, defined by <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>, using hedging.
+SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the pre-hashing, <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §10.2 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen SLH-DSA parameter set.</p>
+</div>
+<p>This algorithm is randomized: each invocation returns a different, equally valid signature.
+See the <a class="reference internal" href="#slh-dsa-deterministic-signatures">notes on hedged signatures</a>.</p>
+<p>This algorithm has a context parameter.
+See the <a class="reference internal" href="#slh-dsa-contexts">notes on SLH-DSA contexts</a>.</p>
+<p>When <a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> is used as a permitted algorithm in a key policy, this permits:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> as the algorithm in a call to a message or hash signing function, such as <code class="docutils literal notranslate"><span class="pre">psa_sign_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_sign_hash_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> or <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()</span></code></a> as the algorithm in a call to a signature verification function, such as <code class="docutils literal notranslate"><span class="pre">psa_verify_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_verify_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code><code class="docutils literal notranslate"><span class="pre">_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.</p>
+</div>
+<p class="rubric">Usage</p>
+<p>This is a hash-and-sign algorithm. To calculate a signature, use one of the following approaches:</p>
+<ul class="simple">
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">psa_sign_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_sign_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> with the message.</p></li>
+<li><p>Calculate the hash of the message with <code class="docutils literal notranslate"><span class="pre">psa_hash_compute</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, or with a multi-part hash operation, using the <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> hash algorithm.
+Note that <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> can be extracted from the signature algorithm using <code class="docutils literal notranslate"><span class="pre">PSA_ALG_GET_HASH</span></code><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">sig_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code>.
+Then sign the calculated hash either with <code class="docutils literal notranslate"><span class="pre">psa_sign_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or, if the protocol requires the use of a non-zero-length context, with <code class="docutils literal notranslate"><span class="pre">psa_sign_hash_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+</ul>
+<p>Verifying a signature is similar, using <code class="docutils literal notranslate"><span class="pre">psa_verify_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_verify_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> instead of the signature function, or <code class="docutils literal notranslate"><span class="pre">psa_verify_message_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> or <code class="docutils literal notranslate"><span class="pre">psa_verify_hash_with_context</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> if a non-zero-=length context has been used.</p>
+<p class="rubric">Compatible key types</p>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code></div>
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code> (signature verification only)</div>
+</div>
+</section>
+<section id="c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Deterministic stateless hash-based digital signature algorithm with pre-hashing (HashSLH-DSA).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA</a>(hash_alg) \
+    <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code></p>
+</dt><dd><p>A hash algorithm: a value of type <code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code> such that <code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_HASH</span></code><code class="docutils literal notranslate"><span class="pre">(</span></code><code class="docutils literal notranslate"><span class="pre">hash_alg</span></code><code class="docutils literal notranslate"><span class="pre">)</span></code> is true.
+This includes <code class="docutils literal notranslate"><span class="pre">PSA_ALG_ANY_HASH</span></code> when specifying the algorithm in a key policy.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Returns</p>
+<p>The corresponding deterministic HashSLH-DSA signature algorithm, using <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> to pre-hash the message.</p>
+<p>Unspecified if <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> is not a supported hash algorithm.</p>
+<p class="rubric">Description</p>
+<p>This algorithm can be used with both the message and hash signature functions.</p>
+<p>This is the pre-hashed SLH-DSA digital signature algorithm, defined by <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a>, without hedging.
+SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the pre-hashing, <a class="reference internal" href="../about/about.html#cite-fips205"><span class="cite atg_c atg_c-cite">[FIPS205]</span></a> §10.2 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen SLH-DSA parameter set.</p>
+</div>
+<p>This algorithm is deterministic: each invocation with the same inputs returns an identical signature.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is recommended to use the hedged <a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> algorithm instead, when supported by the implementation.
+See the <a class="reference internal" href="#slh-dsa-deterministic-signatures">notes on deterministic signatures</a>.</p>
+</div>
+<p>This algorithm has a context parameter.
+See the <a class="reference internal" href="#slh-dsa-contexts">notes on SLH-DSA contexts</a>.</p>
+<p>When <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()</span></code></a> is used as a permitted algorithm in a key policy, this permits:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()</span></code></a> as the algorithm in a call to <code class="docutils literal notranslate"><span class="pre">psa_sign_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_sign_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p><a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> or <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()</span></code></a> as the algorithm in a call to <code class="docutils literal notranslate"><span class="pre">psa_verify_message</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_verify_hash</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.</p>
+</div>
+<p class="rubric">Usage</p>
+<p>See <a class="reference internal" href="#c.PSA_ALG_HASH_SLH_DSA" title="PSA_ALG_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HASH_SLH_DSA()</span></code></a> for example usage.</p>
+<p class="rubric">Compatible key types</p>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_KEY_PAIR" title="PSA_KEY_TYPE_SLH_DSA_KEY_PAIR"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_KEY_PAIR</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code></div>
+<div class="line"><a class="reference internal" href="#c.PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY"><code class="docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY</span></code></a><code class="docutils literal notranslate"><span class="pre">()</span></code> (signature verification only)</div>
+</div>
+</section>
+<section id="c.PSA_ALG_IS_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Whether the specified algorithm is SLH-DSA.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_SLH_DSA" title="PSA_ALG_IS_SLH_DSA">PSA_ALG_IS_SLH_DSA</a>(alg) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code>.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Returns</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is an SLH-DSA algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.</p>
+<p>This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
+</section>
+<section id="c.PSA_ALG_IS_HASH_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_HASH_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_HASH_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Whether the specified algorithm is HashSLH-DSA.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_HASH_SLH_DSA" title="PSA_ALG_IS_HASH_SLH_DSA">PSA_ALG_IS_HASH_SLH_DSA</a>(alg) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code>.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Returns</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a HashSLH-DSA algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.</p>
+<p>This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
+</section>
+<section id="c.PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Whether the specified algorithm is deterministic HashSLH-DSA.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA">PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA</a>(alg) \
+    <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code>.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Returns</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a deterministic HashSLH-DSA algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.</p>
+<p>This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
+<p class="rubric">Description</p>
+<p>See also <a class="reference internal" href="#c.PSA_ALG_IS_HASH_SLH_DSA" title="PSA_ALG_IS_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_HASH_SLH_DSA()</span></code></a> and <a class="reference internal" href="#c.PSA_ALG_IS_HEDGED_HASH_SLH_DSA" title="PSA_ALG_IS_HEDGED_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_HEDGED_HASH_SLH_DSA()</span></code></a>.</p>
+</section>
+<section id="c.PSA_ALG_IS_HEDGED_HASH_SLH_DSA">
+<h3><code class="docutils literal notranslate"><span class="pre">PSA_ALG_IS_HEDGED_HASH_SLH_DSA</span></code> (macro)<a class="headerlink" href="#c.PSA_ALG_IS_HEDGED_HASH_SLH_DSA" title="Link to this heading">¶</a></h3>
+<p>Whether the specified algorithm is hedged HashSLH-DSA.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.3.</span></p>
+</div>
+<pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_IS_HEDGED_HASH_SLH_DSA" title="PSA_ALG_IS_HEDGED_HASH_SLH_DSA">PSA_ALG_IS_HEDGED_HASH_SLH_DSA</a>(alg) <em><a class="reference internal" href="../appendix/specdef_values.html#specification-defined-value"><span class="std std-ref">/* specification-defined value */</span></a></em></pre>
+<p class="rubric">Parameters</p>
+<div class="apisubitem docutils container">
+<dl class="simple">
+<dt><p><code class="docutils literal notranslate"><span class="pre">alg</span></code></p>
+</dt><dd><p>An algorithm identifier: a value of type <code class="docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code>.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Returns</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is a hedged HashSLH-DSA algorithm, <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise.</p>
+<p>This macro can return either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">alg</span></code> is not a supported algorithm identifier.</p>
+<p class="rubric">Description</p>
+<p>See also <a class="reference internal" href="#c.PSA_ALG_IS_HASH_SLH_DSA" title="PSA_ALG_IS_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_HASH_SLH_DSA()</span></code></a> and <a class="reference internal" href="#c.PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA" title="PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA()</span></code></a>.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169; 2024-2025 Arm Limited and/or its affiliates.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -26,7 +26,7 @@ The following specifications are part of the PSA Certified APIs:
 
 Specification | | | | |
 -|-|-|-|-
-Crypto API | 1.3 | [HTML][crypto-html] | [&darr; PDF][crypto-pdf] | [All versions](crypto/)
+Crypto API | 1.4 | [HTML][crypto-html] | [&darr; PDF][crypto-pdf] | [All versions](crypto/)
 Secure Storage API | 1.0 | [HTML][storage-html] | [&darr; PDF][storage-pdf] | [All versions](storage/)
 Attestation API | 1.0 | [HTML][attestation-html] | [&darr; PDF][attestation-pdf] | [All versions](attestation/)
 Firmware Update API | 1.0 | [HTML][fwu-html] | [&darr; PDF][fwu-pdf] | [All versions](fwu/)
@@ -39,7 +39,7 @@ Extension specifications introduce new functionality that is not yet stable enou
 Specification | Extension | | | | |
 -|-|-|-|-|-
 Crypto API | PAKE | 1.2 Final | | | *Superseded* |
-Crypto API | PQC | 1.3 Beta | [HTML][pqc-html] | [&darr; PDF][pqc-pdf] | [All versions](crypto/)
+Crypto API | PQC | 1.4 Final | [HTML][pqc-html] | [&darr; PDF][pqc-pdf] | [All versions](crypto/)
 
 Since Crypto API 1.3, the PAKE Extension is integrated into the Crypto API specification.
 Older versions of the PAKE Extension can be found on the [Crypto API](crypto/) page.
@@ -54,16 +54,16 @@ Crypto Driver Interface | 1.0 Alpha 1 | [HTML][driver-html] | [&darr; PDF][drive
 
 [status-code-html]:  status-code/1.0/
 [status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.4.pdf
-[crypto-html]:       crypto/1.3/
-[crypto-pdf]:        crypto/1.3/IHI0086-PSA_Certified_Crypto_API-1.3.2.pdf
+[crypto-html]:       crypto/1.4/
+[crypto-pdf]:        crypto/1.4/IHI0086-PSA_Certified_Crypto_API-1.4.0.pdf
 [storage-html]:      storage/1.0/
 [storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.4.pdf
 [attestation-html]:  attestation/1.0/
 [attestation-pdf]:   attestation/1.0/IHI0085-PSA_Certified_Attestation_API-1.0.4.pdf
 [fwu-html]:          fwu/1.0/
 [fwu-pdf]:           fwu/1.0/IHI0093-PSA_Certified_Firmware_Update_API-1.0.1.pdf
-[pqc-html]:          crypto/1.3/ext-pqc/
-[pqc-pdf]:           crypto/1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.3.pdf
+[pqc-html]:          crypto/1.4/ext-pqc/
+[pqc-pdf]:           crypto/1.4/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.4_PQC_Extension.0.pdf
 [driver-html]:       crypto-driver/1.0/
 [driver-pdf]:        crypto-driver/1.0/111106-PSA_Certified_Crypto_Driver_Interface-1.0-alp.1.pdf
 
