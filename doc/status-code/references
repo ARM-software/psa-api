@@ -4,7 +4,7 @@
 .. reference:: PSA-FFM
     :title: Arm® Platform Security Architecture Firmware Framework
     :doc_no: DEN 0063
-    :url: developer.arm.com/documentation/den0063.html
+    :url: https://developer.arm.com/documentation/den0063/a
 
 .. reference:: TF-M
     :title: Trusted Firmware-M
