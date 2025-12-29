@@ -443,3 +443,15 @@
     :author: IEEE
     :publication: 2024
     :url: standards.ieee.org/ieee/802.11/10548/
+
+.. reference:: MailTrusT
+    :title: MailTrusT Version 2 Algorithmen
+    :author: TeleTrusT
+    :publication: March 1999
+    :url: www.teletrust.de/fileadmin/files/ag8_mttv2-6.pdf
+
+.. reference:: SM3-draft
+    :title: The SM3 Cryptographic Hash Function (Draft 02)
+    :author: Sean Shen, XiaoDong Lee, Ronald Henry Tse, Wong Wai Kit, Paul Yang
+    :publication: July 2018
+    :url: datatracker.ietf.org/doc/html/draft-sca-cfrg-sm3-02
