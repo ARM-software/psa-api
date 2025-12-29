@@ -85,6 +85,10 @@ Hash algorithms
 
     This hash function can operate on input strings of up to :math:`2^{29} - 1` bytes.
 
+    .. admonition::
+       AES-MMO-Zigbee is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard |OID| and the short length of the hash.
+       It is recommended that these compound algorithms are not supported with `PSA_ALG_ASCON_HASH256`.
+
     .. note::
 
         The Zigbee keyed hash function from `[ZIGBEE]` §B.1.4 is :code:`PSA_ALG_HMAC(PSA_ALG_AES_MMO_ZIGBEE)`.

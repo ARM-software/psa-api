@@ -150,6 +150,17 @@ RSA signature algorithms
         `PSA_ALG_SHA3_512`, 2.16.840.1.101.3.4.2.10, ``60864801650304020a``, :RFC-title:`9688#2`
         `PSA_ALG_SM3`, 1.2.156.10197.1.504, ``2a811ccf55018378``, :cite-title:`SM3-draft` §8.1.3
 
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_RSA_PKCS1V15_SIGN` with hash algorithms that lack a standard |OID|, namely:
+
+        * `PSA_ALG_AES_MMO_ZIGBEE`
+        * `PSA_ALG_ASCON_HASH256`
+        * `PSA_ALG_SHAKE256_512`
+
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_RSA_PKCS1V15_SIGN`.
+        Future versions of the |API| might specify what OID to use.
+
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_RSA_KEY_PAIR`
