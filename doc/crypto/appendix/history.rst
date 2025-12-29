@@ -11,6 +11,11 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.4.0* and *1.4.1*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+*   Clarified that when a hash algorithm is unspecified and not recommended with HMAC, this also applies to algorithms based on HMAC. This affects `PSA_ALG_ASCON_HASH256` and `PSA_ALG_SHAKE256_512`.
+
 Changes between *1.3.2* and *1.4.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

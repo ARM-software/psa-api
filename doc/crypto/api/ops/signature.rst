@@ -420,6 +420,11 @@ ECDSA signature algorithms
 
     When based on the same hash algorithm, the verification operations for `PSA_ALG_ECDSA` and `PSA_ALG_DETERMINISTIC_ECDSA` are identical. A signature created using `PSA_ALG_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`. Similarly, a signature created using `PSA_ALG_DETERMINISTIC_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`.
 
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_DETERMINISTIC_ECDSA` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_DETERMINISTIC_ECDSA`, as discussed in the specification of `PSA_ALG_HMAC`.
+
     .. note::
 
         A verifier cannot determine whether a signature was produced with deterministic ECDSA or with randomized ECDSA: it is only possible to verify that a signature was made with ECDSA with the private key corresponding to the public key used for the verification.
