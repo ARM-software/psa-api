@@ -71,6 +71,7 @@ MAC algorithms
             :widths: 3 2 2
 
             Algorithm, HMAC block size, Output size
+            `PSA_ALG_AES_MMO_ZIGBEE`, 16, 16
             `PSA_ALG_MD2`, 16, 16
             `PSA_ALG_MD4`, 64, 16
             `PSA_ALG_MD5`, 64, 16
