@@ -83,7 +83,7 @@ Hash algorithms
 
     This is the cryptographic hash function based on the Merkle-Damgård construction over a Matyas-Meyer-Oseas one-way compression function and the AES-128 block cipher, with the parametrization defined in :cite-title:`ZIGBEE` §B.6.
 
-    This hash function can operate on input strings of up to :math:`2^{32} - 1` bits.
+    This hash function can operate on input strings of up to :math:`2^{29} - 1` bytes.
 
     .. note::
 
