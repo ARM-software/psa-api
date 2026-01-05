@@ -89,7 +89,7 @@ Hash algorithms
 
         The length of the hash is 128 bits, which makes brute-force attacks against collision resistance feasible. This algorithm is only recommended for use in the Zigbee protocol.
 
-    .. admonition::
+    .. note::
        AES-MMO-Zigbee is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard |OID| and the short length of the hash.
        It is recommended that this compound algorithm is not supported with `PSA_ALG_AES_MMO_ZIGBEE`.
 
@@ -206,7 +206,7 @@ Hash algorithms
     .. note::
         For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-512 is recommended. SHA3-512 has the same output size, and a theoretically higher security strength.
 
-    .. admonition::
+    .. note::
        The current version of this specification does not specify SHAKE256/512 in certain compound algorithms, due to the lack of standardization of some required parameters:
 
        * SHAKE256/512 is not specified with compounds algorithm based on HMAC, due to the lack of a standard HMAC block size. See `PSA_ALG_HMAC` for details.
@@ -236,7 +236,7 @@ Hash algorithms
         To use the Ascon XOF algorithms, see `PSA_ALG_ASCON_XOF128` and `PSA_ALG_ASCON_CXOF128`.
 
 
-    .. admonition::
+    .. note::
        The current version of this specification does not specify Ascon-Hash256 in certain compound algorithms, due to the lack of standardization of some required parameters:
 
        * Ascon-Hash256 is not specified with compounds algorithm based on HMAC, due to the lack of a standard HMAC block size. See `PSA_ALG_HMAC` for details.
