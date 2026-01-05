@@ -91,7 +91,7 @@ Hash algorithms
 
     .. admonition::
        AES-MMO-Zigbee is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard |OID| and the short length of the hash.
-       It is recommended that these compound algorithms are not supported with `PSA_ALG_ASCON_HASH256`.
+       It is recommended that this compound algorithm is not supported with `PSA_ALG_AES_MMO_ZIGBEE`.
 
     .. note::
 
