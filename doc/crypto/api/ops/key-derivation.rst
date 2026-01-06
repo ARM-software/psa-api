@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -83,6 +83,11 @@ Key-derivation algorithms
 
     Each input may only be passed once.
 
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_HKDF` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_HKDF`, as discussed in the specification of `PSA_ALG_HMAC`.
+
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_DERIVE` (for the secret key)
@@ -119,6 +124,11 @@ Key-derivation algorithms
     .. warning::
        HKDF processes the salt as follows: first hash it with ``hash_alg`` if the salt is longer than the block size of the hash algorithm; then pad with null bytes up to the block size. As a result, it is possible for distinct salt inputs to result in the same outputs. To ensure unique outputs, it is recommended to use a fixed length for salt values.
 
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_HKDF_EXTRACT` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_HKDF_EXTRACT`, as discussed in the specification of `PSA_ALG_HMAC`.
+
     .. subsection:: Compatible key types
 
         | `PSA_KEY_TYPE_DERIVE` (for the input keying material)
@@ -151,6 +161,11 @@ Key-derivation algorithms
 
     .. warning::
        HKDF-Expand is not meant to be used on its own. `PSA_ALG_HKDF` should be used instead if possible. `PSA_ALG_HKDF_EXPAND` is provided as a separate algorithm for the sake of protocols that use it as a building block. It may also be a slight performance optimization in applications that use HKDF with the same salt and key but many different info strings.
+
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_HKDF_EXPAND` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_HKDF_EXPAND`, as discussed in the specification of `PSA_ALG_HMAC`.
 
     .. subsection:: Compatible key types
 
@@ -200,6 +215,11 @@ Key-derivation algorithms
         :cite:`SP800-108` describes a set of general constructions for key-derivation algorithms, with flexibility for specific implementation requirements.
 
         The precise definition provided here enables compatibility between different implementations of the |API|.
+
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_SP800_108_COUNTER_HMAC` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_SP800_108_COUNTER_HMAC`, as discussed in the specification of `PSA_ALG_HMAC`.
 
     .. subsection:: Compatible key types
 
@@ -425,6 +445,11 @@ Key-derivation algorithms
         This can be used to build the final salt from multiple sources, both public and secret (also known as pepper).
     *   `PSA_KEY_DERIVATION_INPUT_PASSWORD` is the password to be hashed.
         This input step must be used exactly once.
+
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_PBKDF2_HMAC` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_PBKDF2_HMAC`, as discussed in the specification of `PSA_ALG_HMAC`.
 
     .. subsection:: Compatible key types
 

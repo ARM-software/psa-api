@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Changes to the API
@@ -10,6 +10,12 @@ Document change history
 -----------------------
 
 This section provides the detailed changes made between published version of the document.
+
+Changes between *1.4.0* and *1.4.1*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+*   Clarified that when a hash algorithm is unspecified and not recommended with HMAC, this also applies to algorithms based on HMAC. This affects `PSA_ALG_ASCON_HASH256` and `PSA_ALG_SHAKE256_512`.
+*   Noted that some hash algorithms are unspecified and not recommended with `PSA_ALG_RSA_PKCS1V15_SIGN` due to the lack of a standard OID. This affects `PSA_ALG_AES_MMO_ZIGBEE`, `PSA_ALG_ASCON_HASH256` and `PSA_ALG_SHAKE256_512`.
 
 Changes between *1.3.2* and *1.4.0*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

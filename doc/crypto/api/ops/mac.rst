@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -71,6 +71,7 @@ MAC algorithms
             :widths: 3 2 2
 
             Algorithm, HMAC block size, Output size
+            `PSA_ALG_AES_MMO_ZIGBEE`, 16, 16
             `PSA_ALG_MD2`, 16, 16
             `PSA_ALG_MD4`, 64, 16
             `PSA_ALG_MD5`, 64, 16
@@ -90,7 +91,8 @@ MAC algorithms
 
         .. admonition:: Implementation note
 
-            It is recommended that other hash algorithms are not supported with `PSA_ALG_HMAC`.
+            The current version of this specification does not specify the behavior of `PSA_ALG_HMAC` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+            It is recommended that these hash algorithms are not supported with `PSA_ALG_HMAC` as well as compound algorithms based on HMAC (`PSA_ALG_DETERMINISTIC_ECDSA`, `PSA_ALG_HKDF`, `PSA_ALG_HKDF_EXTRACT`, `PSA_ALG_HKDF_EXPAND`, `PSA_ALG_SP800_108_COUNTER_HMAC`, `PSA_ALG_PBKDF2_HMAC`).
             Future versions of the |API| might specify HMAC support for these hash algorithms, and will define the block size to use for HMAC.
 
     .. subsection:: Compatible key types

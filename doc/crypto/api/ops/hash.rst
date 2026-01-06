@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -83,7 +83,15 @@ Hash algorithms
 
     This is the cryptographic hash function based on the Merkle-Damgård construction over a Matyas-Meyer-Oseas one-way compression function and the AES-128 block cipher, with the parametrization defined in :cite-title:`ZIGBEE` §B.6.
 
-    This hash function can operate on input strings of up to :math:`2^{32} - 1` bits.
+    This hash function can operate on input strings of up to :math:`2^{29} - 1` bytes.
+
+    .. warning::
+
+        The length of the hash is 128 bits, which makes brute-force attacks against collision resistance feasible. This algorithm is only recommended for use in the Zigbee protocol.
+
+    .. note::
+       AES-MMO-Zigbee is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID and the short length of the hash.
+       It is recommended that this compound algorithm is not supported with `PSA_ALG_AES_MMO_ZIGBEE`.
 
     .. note::
 
@@ -198,6 +206,14 @@ Hash algorithms
     .. note::
         For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-512 is recommended. SHA3-512 has the same output size, and a theoretically higher security strength.
 
+    .. note::
+       The current version of this specification does not specify SHAKE256/512 in certain compound algorithms, due to the lack of standardization of some required parameters:
+
+       * SHAKE256/512 is not specified with compounds algorithm based on HMAC, due to the lack of a standard HMAC block size. See `PSA_ALG_HMAC` for details.
+       * SHAKE256/512 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID.
+
+       It is recommended that these compound algorithms are not supported with `PSA_ALG_SHAKE256_512`.
+
 .. macro:: PSA_ALG_SM3
     :definition: ((psa_algorithm_t)0x02000014)
 
@@ -218,6 +234,15 @@ Hash algorithms
 
     .. note::
         To use the Ascon XOF algorithms, see `PSA_ALG_ASCON_XOF128` and `PSA_ALG_ASCON_CXOF128`.
+
+
+    .. note::
+       The current version of this specification does not specify Ascon-Hash256 in certain compound algorithms, due to the lack of standardization of some required parameters:
+
+       * Ascon-Hash256 is not specified with compounds algorithm based on HMAC, due to the lack of a standard HMAC block size. See `PSA_ALG_HMAC` for details.
+       * Ascon-Hash256 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID.
+
+       It is recommended that these compound algorithms are not supported with `PSA_ALG_ASCON_HASH256`.
 
 Single-part hashing functions
 -----------------------------

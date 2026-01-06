@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -124,6 +124,42 @@ RSA signature algorithms
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
     When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is used as :math:`H` from step 2 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. :math:`H` is the message digest, computed using the ``hash_alg`` hash algorithm.
+
+    :numref:`tab-rsa-pkcs1v15-oid` lists the OID to use when formatting the hash.
+
+    .. csv-table:: OID to use for RSA PKCS#1 v1.5
+        :name: tab-rsa-pkcs1v15-oid
+        :header-rows: 1
+        :widths: 3 4 4 3
+
+        Hash algorithm, OID (dot notation), OID (ASN.1 hex), Reference
+        `PSA_ALG_MD2`, 1.2.840.113549.2.2, ``2a864886f70d0202``, :RFC-title:`8017#B.1`
+        `PSA_ALG_MD4`, 1.2.840.113549.2.4, ``2a864886f70d0204``, :RFC-title:`1320#1`
+        `PSA_ALG_MD5`, 1.2.840.113549.2.5, ``2a864886f70d0205``, :RFC-title:`8017#B.1`
+        `PSA_ALG_RIPEMD160`, 1.3.36.3.2.1, ``2b24030201``, :cite-title:`MailTrusT` §4.1.4
+        `PSA_ALG_SHA_1`, 1.3.14.3.2.26, ``2b0e03021a``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA_224`, 2.16.840.1.101.3.4.2.4, ``608648016503040204``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA_256`, 2.16.840.1.101.3.4.2.1, ``608648016503040201``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA_384`, 2.16.840.1.101.3.4.2.2, ``608648016503040202``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA_512`, 2.16.840.1.101.3.4.2.3, ``608648016503040203``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA_512_224`, 2.16.840.1.101.3.4.2.5, ``608648016503040205``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA_512_256`, 2.16.840.1.101.3.4.2.6, ``608648016503040206``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA3_224`, 2.16.840.1.101.3.4.2.7, ``608648016503040207``, :RFC-title:`9688#2`
+        `PSA_ALG_SHA3_256`, 2.16.840.1.101.3.4.2.8, ``608648016503040208``, :RFC-title:`9688#2`
+        `PSA_ALG_SHA3_384`, 2.16.840.1.101.3.4.2.9, ``608648016503040209``, :RFC-title:`9688#2`
+        `PSA_ALG_SHA3_512`, 2.16.840.1.101.3.4.2.10, ``60864801650304020a``, :RFC-title:`9688#2`
+        `PSA_ALG_SM3`, 1.2.156.10197.1.504, ``2a811ccf55018378``, :cite-title:`SM3-draft` §8.1.3
+
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_RSA_PKCS1V15_SIGN` with hash algorithms that lack a standard OID, namely:
+
+        * `PSA_ALG_AES_MMO_ZIGBEE`
+        * `PSA_ALG_ASCON_HASH256`
+        * `PSA_ALG_SHAKE256_512`
+
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_RSA_PKCS1V15_SIGN`.
+        Future versions of the |API| might specify what OID to use.
 
     .. subsection:: Compatible key types
 
@@ -419,6 +455,11 @@ ECDSA signature algorithms
     The representation of a signature is the same as with `PSA_ALG_ECDSA`.
 
     When based on the same hash algorithm, the verification operations for `PSA_ALG_ECDSA` and `PSA_ALG_DETERMINISTIC_ECDSA` are identical. A signature created using `PSA_ALG_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`. Similarly, a signature created using `PSA_ALG_DETERMINISTIC_ECDSA` can be verified with the same key using either `PSA_ALG_ECDSA` or `PSA_ALG_DETERMINISTIC_ECDSA`.
+
+    .. admonition:: Implementation note
+
+        The current version of this specification does not specify the behavior of `PSA_ALG_DETERMINISTIC_ECDSA` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
+        It is recommended that these hash algorithms are not supported with `PSA_ALG_DETERMINISTIC_ECDSA`, as discussed in the specification of `PSA_ALG_HMAC`.
 
     .. note::
 
