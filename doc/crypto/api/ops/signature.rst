@@ -125,9 +125,9 @@ RSA signature algorithms
 
     When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is used as :math:`H` from step 2 onwards in the message encoding algorithm ``EMSA-PKCS1-V1_5-ENCODE()`` in :RFC:`8017#9.2`. :math:`H` is the message digest, computed using the ``hash_alg`` hash algorithm.
 
-    :numref:`tab-rsa-pkcs1v15-oid` lists the |OID| to use when formatting the hash.
+    :numref:`tab-rsa-pkcs1v15-oid` lists the OID to use when formatting the hash.
 
-    .. csv-table:: |OID| to use for RSA PKCS#1 v1.5
+    .. csv-table:: OID to use for RSA PKCS#1 v1.5
         :name: tab-rsa-pkcs1v15-oid
         :header-rows: 1
         :widths: 3 4 4 3
@@ -152,7 +152,7 @@ RSA signature algorithms
 
     .. admonition:: Implementation note
 
-        The current version of this specification does not specify the behavior of `PSA_ALG_RSA_PKCS1V15_SIGN` with hash algorithms that lack a standard |OID|, namely:
+        The current version of this specification does not specify the behavior of `PSA_ALG_RSA_PKCS1V15_SIGN` with hash algorithms that lack a standard OID, namely:
 
         * `PSA_ALG_AES_MMO_ZIGBEE`
         * `PSA_ALG_ASCON_HASH256`

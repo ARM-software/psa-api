@@ -90,7 +90,7 @@ Hash algorithms
         The length of the hash is 128 bits, which makes brute-force attacks against collision resistance feasible. This algorithm is only recommended for use in the Zigbee protocol.
 
     .. note::
-       AES-MMO-Zigbee is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard |OID| and the short length of the hash.
+       AES-MMO-Zigbee is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID and the short length of the hash.
        It is recommended that this compound algorithm is not supported with `PSA_ALG_AES_MMO_ZIGBEE`.
 
     .. note::
@@ -210,7 +210,7 @@ Hash algorithms
        The current version of this specification does not specify SHAKE256/512 in certain compound algorithms, due to the lack of standardization of some required parameters:
 
        * SHAKE256/512 is not specified with compounds algorithm based on HMAC, due to the lack of a standard HMAC block size. See `PSA_ALG_HMAC` for details.
-       * SHAKE256/512 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard |OID|.
+       * SHAKE256/512 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID.
 
        It is recommended that these compound algorithms are not supported with `PSA_ALG_SHAKE256_512`.
 
@@ -240,7 +240,7 @@ Hash algorithms
        The current version of this specification does not specify Ascon-Hash256 in certain compound algorithms, due to the lack of standardization of some required parameters:
 
        * Ascon-Hash256 is not specified with compounds algorithm based on HMAC, due to the lack of a standard HMAC block size. See `PSA_ALG_HMAC` for details.
-       * Ascon-Hash256 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard |OID|.
+       * Ascon-Hash256 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID.
 
        It is recommended that these compound algorithms are not supported with `PSA_ALG_ASCON_HASH256`.
 
