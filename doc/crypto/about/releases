@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. release:: 1.0 Beta 1
@@ -96,3 +96,9 @@
     New algorithms for signatures with context, eXtended Output Functions, key wrapping, WPA3-SAE, and Ascon.
 
     Added key query and key registration functions.
+
+.. release:: 1.4.1 Final
+    :date: January 2026
+    :confidentiality: Non-confidential
+
+    Clarified hash algorithm usage in compound algorithms.
