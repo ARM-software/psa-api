@@ -53,7 +53,7 @@ Specification | | | | |
 Crypto Driver Interface | 1.0 Alpha 1 | [HTML][driver-html] | [&darr; PDF][driver-pdf] | [All versions](crypto-driver/)
 
 [status-code-html]:  status-code/1.0/
-[status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.4.pdf
+[status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.5.pdf
 [crypto-html]:       crypto/1.4/
 [crypto-pdf]:        crypto/1.4/IHI0086-PSA_Certified_Crypto_API-1.4.1.pdf
 [storage-html]:      storage/1.0/
