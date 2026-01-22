@@ -455,3 +455,10 @@
     :author: Sean Shen, XiaoDong Lee, Ronald Henry Tse, Wong Wai Kit, Paul Yang
     :publication: July 2018
     :url: datatracker.ietf.org/doc/html/draft-sca-cfrg-sm3-02
+
+.. reference:: RFC9688
+    :title: Use of the SHA3 One-Way Hash Functions in the Cryptographic Message Syntax (CMS)
+    :author: IETF
+    :publication: November 2024
+    :url: tools.ietf.org/html/rfc9688.html
+
