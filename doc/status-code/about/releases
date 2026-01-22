@@ -27,4 +27,10 @@
     :date: September 2025
     :confidentiality: Non-confidential
 
-    GlobalPlatform governance of PSA Certified evaluation scheme.
+    GlobalPlatform governance of PSA Certified evaluation scheme
+
+.. release:: 1.0.5
+    :date: January 2026
+    :confidentiality: Non-confidential
+
+    Fix link to PSA FF-M specification
