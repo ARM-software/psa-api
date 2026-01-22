@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright 2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022, 2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -9,11 +9,12 @@ The Status code API specification source files are organized as follows:
 
 Folder | Content
 -- | --
-Current directory | Configuration and front-matter
+Current directory | Configuration and Table of contents
+`about` | Front matter
 `overview` | Informative chapter 1
 `api` | API reference chapter 2
 `appendix` | Appendix chapters
 
 ----
 
-*Copyright 2022, Arm Limited and/or its affiliates*
+*Copyright 2022, 2026, Arm Limited and/or its affiliates*

@@ -7,6 +7,12 @@
 Change history
 ==============
 
+
+Changes between version 1.0.4 and version 1.0.5
+-----------------------------------------------
+
+*  Fixed the link in the :cite-title:`PSA-FFM` document reference.
+
 Changes between version 1.0.3 and version 1.0.4
 -----------------------------------------------
 
