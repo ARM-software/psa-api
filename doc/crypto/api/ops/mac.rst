@@ -68,7 +68,7 @@ MAC algorithms
         .. csv-table:: Hash algorithms that can be used with HMAC
             :name: tab-hmac-hash
             :header-rows: 1
-            :widths: 3 2 2
+            :class: longtable
 
             Algorithm, HMAC block size, Output size
             `PSA_ALG_AES_MMO_ZIGBEE`, 16, 16
@@ -91,8 +91,11 @@ MAC algorithms
 
         .. admonition:: Implementation note
 
-            The current version of this specification does not specify the behavior of `PSA_ALG_HMAC` with hash algorithms that are not listed in :numref:`tab-hmac-hash`.
-            It is recommended that these hash algorithms are not supported with `PSA_ALG_HMAC` as well as compound algorithms based on HMAC (`PSA_ALG_DETERMINISTIC_ECDSA`, `PSA_ALG_HKDF`, `PSA_ALG_HKDF_EXTRACT`, `PSA_ALG_HKDF_EXPAND`, `PSA_ALG_SP800_108_COUNTER_HMAC`, `PSA_ALG_PBKDF2_HMAC`).
+            The current version of this specification does not specify the behavior of `PSA_ALG_HMAC` with hash algorithms that are absent from :numref:`tab-hmac-hash`.
+
+            It is recommended that these hash algorithms are not supported with `PSA_ALG_HMAC`, or with other compound algorithms based on HMAC.
+            The other compound algorithms include `PSA_ALG_DETERMINISTIC_ECDSA`, `PSA_ALG_HKDF`, `PSA_ALG_HKDF_EXTRACT`, `PSA_ALG_HKDF_EXPAND`, `PSA_ALG_SP800_108_COUNTER_HMAC`, `PSA_ALG_PBKDF2_HMAC`.
+
             Future versions of the |API| might specify HMAC support for these hash algorithms, and will define the block size to use for HMAC.
 
     .. subsection:: Compatible key types

@@ -130,33 +130,34 @@ RSA signature algorithms
     .. csv-table:: OID to use for RSA PKCS#1 v1.5
         :name: tab-rsa-pkcs1v15-oid
         :header-rows: 1
-        :widths: 3 4 4 3
+        :class: longtable
+        :widths: 6 7 6 9
 
         Hash algorithm, OID (dot notation), OID (ASN.1 hex), Reference
         `PSA_ALG_MD2`, 1.2.840.113549.2.2, ``2a864886f70d0202``, :RFC-title:`8017#B.1`
         `PSA_ALG_MD4`, 1.2.840.113549.2.4, ``2a864886f70d0204``, :RFC-title:`1320#1`
-        `PSA_ALG_MD5`, 1.2.840.113549.2.5, ``2a864886f70d0205``, :RFC-title:`8017#B.1`
+        `PSA_ALG_MD5`, 1.2.840.113549.2.5, ``2a864886f70d0205``, :RFC:`8017#B.1`
         `PSA_ALG_RIPEMD160`, 1.3.36.3.2.1, ``2b24030201``, :cite-title:`MailTrusT` §4.1.4
-        `PSA_ALG_SHA_1`, 1.3.14.3.2.26, ``2b0e03021a``, :RFC-title:`8017#B.1`
-        `PSA_ALG_SHA_224`, 2.16.840.1.101.3.4.2.4, ``608648016503040204``, :RFC-title:`8017#B.1`
-        `PSA_ALG_SHA_256`, 2.16.840.1.101.3.4.2.1, ``608648016503040201``, :RFC-title:`8017#B.1`
-        `PSA_ALG_SHA_384`, 2.16.840.1.101.3.4.2.2, ``608648016503040202``, :RFC-title:`8017#B.1`
-        `PSA_ALG_SHA_512`, 2.16.840.1.101.3.4.2.3, ``608648016503040203``, :RFC-title:`8017#B.1`
-        `PSA_ALG_SHA_512_224`, 2.16.840.1.101.3.4.2.5, ``608648016503040205``, :RFC-title:`8017#B.1`
-        `PSA_ALG_SHA_512_256`, 2.16.840.1.101.3.4.2.6, ``608648016503040206``, :RFC-title:`8017#B.1`
+        `PSA_ALG_SHA_1`, 1.3.14.3.2.26, ``2b0e03021a``, :RFC:`8017#B.1`
+        `PSA_ALG_SHA_224`, 2.16.840.1.101.3.4.2.4, ``608648016503040204``, :RFC:`8017#B.1`
+        `PSA_ALG_SHA_256`, 2.16.840.1.101.3.4.2.1, ``608648016503040201``, :RFC:`8017#B.1`
+        `PSA_ALG_SHA_384`, 2.16.840.1.101.3.4.2.2, ``608648016503040202``, :RFC:`8017#B.1`
+        `PSA_ALG_SHA_512`, 2.16.840.1.101.3.4.2.3, ``608648016503040203``, :RFC:`8017#B.1`
+        `PSA_ALG_SHA_512_224`, 2.16.840.1.101.3.4.2.5, ``608648016503040205``, :RFC:`8017#B.1`
+        `PSA_ALG_SHA_512_256`, 2.16.840.1.101.3.4.2.6, ``608648016503040206``, :RFC:`8017#B.1`
         `PSA_ALG_SHA3_224`, 2.16.840.1.101.3.4.2.7, ``608648016503040207``, :RFC-title:`9688#2`
-        `PSA_ALG_SHA3_256`, 2.16.840.1.101.3.4.2.8, ``608648016503040208``, :RFC-title:`9688#2`
-        `PSA_ALG_SHA3_384`, 2.16.840.1.101.3.4.2.9, ``608648016503040209``, :RFC-title:`9688#2`
-        `PSA_ALG_SHA3_512`, 2.16.840.1.101.3.4.2.10, ``60864801650304020a``, :RFC-title:`9688#2`
+        `PSA_ALG_SHA3_256`, 2.16.840.1.101.3.4.2.8, ``608648016503040208``, :RFC:`9688#2`
+        `PSA_ALG_SHA3_384`, 2.16.840.1.101.3.4.2.9, ``608648016503040209``, :RFC:`9688#2`
+        `PSA_ALG_SHA3_512`, 2.16.840.1.101.3.4.2.10, ``60864801650304020a``, :RFC:`9688#2`
         `PSA_ALG_SM3`, 1.2.156.10197.1.504, ``2a811ccf55018378``, :cite-title:`SM3-draft` §8.1.3
 
     .. admonition:: Implementation note
 
         The current version of this specification does not specify the behavior of `PSA_ALG_RSA_PKCS1V15_SIGN` with hash algorithms that lack a standard OID, namely:
 
-        * `PSA_ALG_AES_MMO_ZIGBEE`
-        * `PSA_ALG_ASCON_HASH256`
-        * `PSA_ALG_SHAKE256_512`
+        *   `PSA_ALG_AES_MMO_ZIGBEE`
+        *   `PSA_ALG_ASCON_HASH256`
+        *   `PSA_ALG_SHAKE256_512`
 
         It is recommended that these hash algorithms are not supported with `PSA_ALG_RSA_PKCS1V15_SIGN`.
         Future versions of the |API| might specify what OID to use.
