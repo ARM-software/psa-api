@@ -24,7 +24,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../../_static/documentation_options.js?v=ea36c55f"></script>
+    <script src="../../_static/documentation_options.js?v=8ef9151b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
@@ -51,7 +51,7 @@
 <h3><a href="../../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.4.0
+Version 1.4.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about/about.html">About this document</a></li>
@@ -189,6 +189,11 @@ Version 1.4.0
 <p>HKDF processes the salt as follows: first hash it with <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> if the salt is longer than the block size of the hash algorithm; then pad with null bytes up to the block size. As a result, it is possible for distinct salt inputs to result in the same outputs. To ensure unique outputs, it is recommended to use a fixed length for salt values.</p>
 </div>
 <p>Each input may only be passed once.</p>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_HKDF" title="PSA_ALG_HKDF"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF</span></code></a> with hash algorithms that are not listed in <span><a class="reference internal" href="mac.html#tab-hmac-hash"><span class="numref">Table 14</span></a></span>.
+It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_HKDF" title="PSA_ALG_HKDF"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF</span></code></a>, as discussed in the specification of <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>.</p>
+</div>
 <p class="rubric">Compatible key types</p>
 <div class="line-block">
 <div class="line"><a class="reference internal" href="../keys/types.html#c.PSA_KEY_TYPE_DERIVE" title="PSA_KEY_TYPE_DERIVE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DERIVE</span></code></a> (for the secret key)</div>
@@ -229,6 +234,11 @@ Version 1.4.0
 <p class="admonition-title">Warning</p>
 <p>HKDF processes the salt as follows: first hash it with <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> if the salt is longer than the block size of the hash algorithm; then pad with null bytes up to the block size. As a result, it is possible for distinct salt inputs to result in the same outputs. To ensure unique outputs, it is recommended to use a fixed length for salt values.</p>
 </div>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_HKDF_EXTRACT" title="PSA_ALG_HKDF_EXTRACT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXTRACT</span></code></a> with hash algorithms that are not listed in <span><a class="reference internal" href="mac.html#tab-hmac-hash"><span class="numref">Table 14</span></a></span>.
+It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_HKDF_EXTRACT" title="PSA_ALG_HKDF_EXTRACT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXTRACT</span></code></a>, as discussed in the specification of <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>.</p>
+</div>
 <p class="rubric">Compatible key types</p>
 <div class="line-block">
 <div class="line"><a class="reference internal" href="../keys/types.html#c.PSA_KEY_TYPE_DERIVE" title="PSA_KEY_TYPE_DERIVE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DERIVE</span></code></a> (for the input keying material)</div>
@@ -264,6 +274,11 @@ Version 1.4.0
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>HKDF-Expand is not meant to be used on its own. <a class="reference internal" href="#c.PSA_ALG_HKDF" title="PSA_ALG_HKDF"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF</span></code></a> should be used instead if possible. <a class="reference internal" href="#c.PSA_ALG_HKDF_EXPAND" title="PSA_ALG_HKDF_EXPAND"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXPAND</span></code></a> is provided as a separate algorithm for the sake of protocols that use it as a building block. It may also be a slight performance optimization in applications that use HKDF with the same salt and key but many different info strings.</p>
+</div>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_HKDF_EXPAND" title="PSA_ALG_HKDF_EXPAND"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXPAND</span></code></a> with hash algorithms that are not listed in <span><a class="reference internal" href="mac.html#tab-hmac-hash"><span class="numref">Table 14</span></a></span>.
+It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_HKDF_EXPAND" title="PSA_ALG_HKDF_EXPAND"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXPAND</span></code></a>, as discussed in the specification of <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>.</p>
 </div>
 <p class="rubric">Compatible key types</p>
 <div class="line-block">
@@ -305,6 +320,11 @@ Version 1.4.0
 <div class="math notranslate nohighlight">
 \[K_i = \text{HMAC}( K_{IN}, [i]_4\ ||\ Label\ ||\ \texttt{0x00}\ ||\ Context\ ||\ [L]_4 ),\quad\text{for }i = 1, 2, 3, ...\]</div>
 <p>Where <span class="math notranslate nohighlight">\([x]_n\)</span> is the big-endian, <span class="math notranslate nohighlight">\(n\)</span>-byte encoding of the integer <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_SP800_108_COUNTER_HMAC" title="PSA_ALG_SP800_108_COUNTER_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SP800_108_COUNTER_HMAC</span></code></a> with hash algorithms that are not listed in <span><a class="reference internal" href="mac.html#tab-hmac-hash"><span class="numref">Table 14</span></a></span>.
+It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_SP800_108_COUNTER_HMAC" title="PSA_ALG_SP800_108_COUNTER_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SP800_108_COUNTER_HMAC</span></code></a>, as discussed in the specification of <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>.</p>
+</div>
 <p class="rubric">Compatible key types</p>
 <div class="line-block">
 <div class="line"><a class="reference internal" href="../keys/types.html#c.PSA_KEY_TYPE_HMAC" title="PSA_KEY_TYPE_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_HMAC</span></code></a> (for the secret key)</div>
@@ -519,6 +539,11 @@ This can be used to build the final salt from multiple sources, both public and 
 <li><p><a class="reference internal" href="#c.PSA_KEY_DERIVATION_INPUT_PASSWORD" title="PSA_KEY_DERIVATION_INPUT_PASSWORD"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_DERIVATION_INPUT_PASSWORD</span></code></a> is the password to be hashed.
 This input step must be used exactly once.</p></li>
 </ul>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_PBKDF2_HMAC" title="PSA_ALG_PBKDF2_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_PBKDF2_HMAC</span></code></a> with hash algorithms that are not listed in <span><a class="reference internal" href="mac.html#tab-hmac-hash"><span class="numref">Table 14</span></a></span>.
+It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_PBKDF2_HMAC" title="PSA_ALG_PBKDF2_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_PBKDF2_HMAC</span></code></a>, as discussed in the specification of <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>.</p>
+</div>
 <p class="rubric">Compatible key types</p>
 <div class="line-block">
 <div class="line"><a class="reference internal" href="../keys/types.html#c.PSA_KEY_TYPE_DERIVE" title="PSA_KEY_TYPE_DERIVE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_DERIVE</span></code></a> (for password input)</div>
@@ -1760,7 +1785,7 @@ This macro can return either <code class="docutils literal notranslate"><span cl
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &#169; 2018-2025 Arm Limited and/or its affiliates.
+      &#169; 2018-2026 Arm Limited and/or its affiliates.
       
     </div>
 

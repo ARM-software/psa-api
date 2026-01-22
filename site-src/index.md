@@ -4,7 +4,7 @@ description: The official place for the latest published documents of the PSA Ce
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -55,7 +55,7 @@ Crypto Driver Interface | 1.0 Alpha 1 | [HTML][driver-html] | [&darr; PDF][drive
 [status-code-html]:  status-code/1.0/
 [status-code-pdf]:   status-code/1.0/IHI0097-PSA_Certified_Status_code_API-1.0.4.pdf
 [crypto-html]:       crypto/1.4/
-[crypto-pdf]:        crypto/1.4/IHI0086-PSA_Certified_Crypto_API-1.4.0.pdf
+[crypto-pdf]:        crypto/1.4/IHI0086-PSA_Certified_Crypto_API-1.4.1.pdf
 [storage-html]:      storage/1.0/
 [storage-pdf]:       storage/1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.4.pdf
 [attestation-html]:  attestation/1.0/
@@ -89,4 +89,4 @@ Refer to individual documents for license details.
 
 ----
 
-*Copyright 2022-2025, Arm Limited and/or its affiliates*
+*Copyright 2022-2026, Arm Limited and/or its affiliates*

@@ -24,7 +24,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../_static/documentation_options.js?v=ea36c55f"></script>
+    <script src="../_static/documentation_options.js?v=8ef9151b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -49,7 +49,7 @@
 <h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.4.0
+Version 1.4.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
@@ -136,9 +136,9 @@ Version 1.4.0
 <p><span class="caption-number">Figure 8 </span><span class="caption-text">Encoding of <a class="reference internal" href="../api/ops/algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_algorithm_t</span></code></a></span><a class="headerlink" href="#fig-algorithm-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p><span><a class="reference internal" href="#table-algorithm-fields"><span class="numref">Table 17</span></a></span> describes the meaning of the bit-fields — some of the bit-fields are used in different ways by different algorithm categories.</p>
+<p><span><a class="reference internal" href="#table-algorithm-fields"><span class="numref">Table 18</span></a></span> describes the meaning of the bit-fields — some of the bit-fields are used in different ways by different algorithm categories.</p>
 <table class="docutils align-default" id="table-algorithm-fields">
-<caption><span class="caption-number">Table 17 </span><span class="caption-text">Bit fields in an algorithm identifier</span><a class="headerlink" href="#table-algorithm-fields" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 18 </span><span class="caption-text">Bit fields in an algorithm identifier</span><a class="headerlink" href="#table-algorithm-fields" title="Link to this table">¶</a></caption>
 <colgroup>
 <col style="width: 9.5%" />
 <col style="width: 9.5%" />
@@ -188,9 +188,9 @@ Version 1.4.0
 </table>
 <section id="algorithm-categories">
 <span id="algorithm-category"></span><h3><span class="section-number">B.1.1 </span>Algorithm categories<a class="headerlink" href="#algorithm-categories" title="Link to this heading">¶</a></h3>
-<p>The CAT field in an algorithm identifier takes the values shown in <span><a class="reference internal" href="#table-algorithm-category"><span class="numref">Table 18</span></a></span>.</p>
+<p>The CAT field in an algorithm identifier takes the values shown in <span><a class="reference internal" href="#table-algorithm-category"><span class="numref">Table 19</span></a></span>.</p>
 <table class="docutils align-left" id="table-algorithm-category">
-<caption><span class="caption-number">Table 18 </span><span class="caption-text">Algorithm identifier categories</span><a class="headerlink" href="#table-algorithm-category" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 19 </span><span class="caption-text">Algorithm identifier categories</span><a class="headerlink" href="#table-algorithm-category" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Algorithm category</p></th>
 <th class="head"><p>CAT</p></th>
@@ -262,9 +262,9 @@ Version 1.4.0
 <p><span class="caption-number">Figure 9 </span><span class="caption-text">Hash algorithm encoding</span><a class="headerlink" href="#fig-hash-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for HASH-TYPE are shown in <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 19</span></a></span>.</p>
+<p>The defined values for HASH-TYPE are shown in <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 20</span></a></span>.</p>
 <table class="docutils align-left" id="table-hash-type">
-<caption><span class="caption-number">Table 19 </span><span class="caption-text">Hash algorithm sub-type values</span><a class="headerlink" href="#table-hash-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 20 </span><span class="caption-text">Hash algorithm sub-type values</span><a class="headerlink" href="#table-hash-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Hash algorithm</p></th>
 <th class="head"><p>HASH-TYPE</p></th>
@@ -389,9 +389,9 @@ Version 1.4.0
 </figcaption>
 </figure>
 <p>A C value of <code class="docutils literal notranslate"><span class="pre">1</span></code> indicates that the XOF algorithm has a context parameter.
-The defined values for C and XOF-TYPE are shown in <span><a class="reference internal" href="#table-xof-type"><span class="numref">Table 20</span></a></span>.</p>
+The defined values for C and XOF-TYPE are shown in <span><a class="reference internal" href="#table-xof-type"><span class="numref">Table 21</span></a></span>.</p>
 <table class="docutils align-left" id="table-xof-type">
-<caption><span class="caption-number">Table 20 </span><span class="caption-text">XOF algorithm sub-type values</span><a class="headerlink" href="#table-xof-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 21 </span><span class="caption-text">XOF algorithm sub-type values</span><a class="headerlink" href="#table-xof-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>XOF algorithm</p></th>
 <th class="head"><p>C</p></th>
@@ -437,16 +437,16 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 11 </span><span class="caption-text">MAC algorithm encoding</span><a class="headerlink" href="#fig-mac-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for B and MAC-TYPE are shown in <span><a class="reference internal" href="#table-mac-type"><span class="numref">Table 21</span></a></span>.</p>
+<p>The defined values for B and MAC-TYPE are shown in <span><a class="reference internal" href="#table-mac-type"><span class="numref">Table 22</span></a></span>.</p>
 <p>LEN = 0 specifies a default length output MAC, other values for LEN specify a truncated MAC.</p>
 <p>W is a flag to indicate a wildcard permitted-algorithm policy:</p>
 <ul class="simple">
 <li><p>W = 0 indicates a specific MAC algorithm and MAC length.</p></li>
 <li><p>W = 1 indicates a wildcard key usage policy, which permits the MAC algorithm with a MAC length of at least LEN to be specified in a MAC operation using the key. LEN must not be zero.</p></li>
 </ul>
-<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 19</span></a></span>) for hash-based MAC algorithms, otherwise H = 0.</p>
+<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 20</span></a></span>) for hash-based MAC algorithms, otherwise H = 0.</p>
 <table class="docutils align-left" id="table-mac-type">
-<caption><span class="caption-number">Table 21 </span><span class="caption-text">MAC algorithm sub-type values</span><a class="headerlink" href="#table-mac-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 22 </span><span class="caption-text">MAC algorithm sub-type values</span><a class="headerlink" href="#table-mac-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>MAC algorithm</p></th>
 <th class="head"><p>B</p></th>
@@ -491,9 +491,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 12 </span><span class="caption-text">CIPHER algorithm encoding</span><a class="headerlink" href="#fig-cipher-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for S, B, and CIPHER-TYPE are shown in <span><a class="reference internal" href="#table-cipher-type"><span class="numref">Table 22</span></a></span>.</p>
+<p>The defined values for S, B, and CIPHER-TYPE are shown in <span><a class="reference internal" href="#table-cipher-type"><span class="numref">Table 23</span></a></span>.</p>
 <table class="docutils align-left" id="table-cipher-type">
-<caption><span class="caption-number">Table 22 </span><span class="caption-text">Cipher algorithm sub-type values</span><a class="headerlink" href="#table-cipher-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 23 </span><span class="caption-text">Cipher algorithm sub-type values</span><a class="headerlink" href="#table-cipher-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Cipher algorithm</p></th>
 <th class="head"><p>S</p></th>
@@ -591,7 +591,7 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 13 </span><span class="caption-text">AEAD algorithm encoding</span><a class="headerlink" href="#fig-aead-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for B and AEAD-TYPE are shown in <span><a class="reference internal" href="#table-aead-type"><span class="numref">Table 23</span></a></span>.</p>
+<p>The defined values for B and AEAD-TYPE are shown in <span><a class="reference internal" href="#table-aead-type"><span class="numref">Table 24</span></a></span>.</p>
 <p>LEN = 1..31 specifies the output tag length.</p>
 <p>W is a flag to indicate a wildcard permitted-algorithm policy:</p>
 <ul class="simple">
@@ -599,7 +599,7 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <li><p>W = 1 indicates a wildcard key usage policy, which permits the AEAD algorithm with a tag length of at least LEN to be specified in an AEAD operation using the key.</p></li>
 </ul>
 <table class="docutils align-left" id="table-aead-type">
-<caption><span class="caption-number">Table 23 </span><span class="caption-text">AEAD algorithm sub-type values</span><a class="headerlink" href="#table-aead-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 24 </span><span class="caption-text">AEAD algorithm sub-type values</span><a class="headerlink" href="#table-aead-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>AEAD algorithm</p></th>
 <th class="head"><p>B</p></th>
@@ -655,9 +655,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 14 </span><span class="caption-text">Key-wrapping algorithm encoding</span><a class="headerlink" href="#fig-key-wrap-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for S, B, and WRAP-TYPE are shown in <span><a class="reference internal" href="#table-key-wrap-type"><span class="numref">Table 24</span></a></span>.</p>
+<p>The defined values for S, B, and WRAP-TYPE are shown in <span><a class="reference internal" href="#table-key-wrap-type"><span class="numref">Table 25</span></a></span>.</p>
 <table class="docutils align-left" id="table-key-wrap-type">
-<caption><span class="caption-number">Table 24 </span><span class="caption-text">Key-wrapping algorithm sub-type values</span><a class="headerlink" href="#table-key-wrap-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 25 </span><span class="caption-text">Key-wrapping algorithm sub-type values</span><a class="headerlink" href="#table-key-wrap-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key-wrapping algorithm</p></th>
 <th class="head"><p>S</p></th>
@@ -694,10 +694,10 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 15 </span><span class="caption-text">Key-derivation algorithm encoding</span><a class="headerlink" href="#fig-kdf-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for S and KDF-TYPE are shown in <span><a class="reference internal" href="#table-kdf-type"><span class="numref">Table 25</span></a></span>.</p>
-<p>The permitted values of HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 19</span></a></span>) depend on the specific KDF algorithm.</p>
+<p>The defined values for S and KDF-TYPE are shown in <span><a class="reference internal" href="#table-kdf-type"><span class="numref">Table 26</span></a></span>.</p>
+<p>The permitted values of HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 20</span></a></span>) depend on the specific KDF algorithm.</p>
 <table class="docutils align-left" id="table-kdf-type">
-<caption><span class="caption-number">Table 25 </span><span class="caption-text">Key-derivation algorithm sub-type values</span><a class="headerlink" href="#table-kdf-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 26 </span><span class="caption-text">Key-derivation algorithm sub-type values</span><a class="headerlink" href="#table-kdf-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key-derivation algorithm</p></th>
 <th class="head"><p>S</p></th>
@@ -788,10 +788,10 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 16 </span><span class="caption-text">Asymmetric signature algorithm encoding</span><a class="headerlink" href="#fig-sign-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for SIGN-TYPE are shown in <span><a class="reference internal" href="#table-sign-type"><span class="numref">Table 26</span></a></span>.</p>
-<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 19</span></a></span>) for message signature algorithms that are parameterized by a hash algorithm, otherwise H = 0.</p>
+<p>The defined values for SIGN-TYPE are shown in <span><a class="reference internal" href="#table-sign-type"><span class="numref">Table 27</span></a></span>.</p>
+<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 20</span></a></span>) for message signature algorithms that are parameterized by a hash algorithm, otherwise H = 0.</p>
 <table class="docutils align-left" id="table-sign-type">
-<caption><span class="caption-number">Table 26 </span><span class="caption-text">Asymmetric signature algorithm sub-type values</span><a class="headerlink" href="#table-sign-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 27 </span><span class="caption-text">Asymmetric signature algorithm sub-type values</span><a class="headerlink" href="#table-sign-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Signature algorithm</p></th>
 <th class="head"><p>SIGN-TYPE</p></th>
@@ -867,10 +867,10 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 17 </span><span class="caption-text">Asymmetric encryption algorithm encoding</span><a class="headerlink" href="#fig-pke-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for ENCRYPT-TYPE are shown in <span><a class="reference internal" href="#table-pke-type"><span class="numref">Table 27</span></a></span>.</p>
-<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 19</span></a></span>) for asymmetric encryption algorithms that are parameterized by a hash algorithm, otherwise H = 0.</p>
+<p>The defined values for ENCRYPT-TYPE are shown in <span><a class="reference internal" href="#table-pke-type"><span class="numref">Table 28</span></a></span>.</p>
+<p>H = HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 20</span></a></span>) for asymmetric encryption algorithms that are parameterized by a hash algorithm, otherwise H = 0.</p>
 <table class="docutils align-left" id="table-pke-type">
-<caption><span class="caption-number">Table 27 </span><span class="caption-text">Asymmetric encryption algorithm sub-type values</span><a class="headerlink" href="#table-pke-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 28 </span><span class="caption-text">Asymmetric encryption algorithm sub-type values</span><a class="headerlink" href="#table-pke-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Asymmetric encryption algorithm</p></th>
 <th class="head"><p>ENCRYPT-TYPE</p></th>
@@ -905,9 +905,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 18 </span><span class="caption-text">Standalone key-agreement algorithm encoding</span><a class="headerlink" href="#fig-ka-raw-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for KA-TYPE are shown in <span><a class="reference internal" href="#table-ka-type"><span class="numref">Table 28</span></a></span>.</p>
+<p>The defined values for KA-TYPE are shown in <span><a class="reference internal" href="#table-ka-type"><span class="numref">Table 29</span></a></span>.</p>
 <table class="docutils align-left" id="table-ka-type">
-<caption><span class="caption-number">Table 28 </span><span class="caption-text">Key-agreement algorithm sub-type values</span><a class="headerlink" href="#table-ka-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 29 </span><span class="caption-text">Key-agreement algorithm sub-type values</span><a class="headerlink" href="#table-ka-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key-agreement algorithm</p></th>
 <th class="head"><p>KA-TYPE</p></th>
@@ -946,9 +946,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 20 </span><span class="caption-text">Encapsulation algorithm encoding</span><a class="headerlink" href="#fig-key-encapsulation-encoding" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for ENCAPS-TYPE are shown in <span><a class="reference internal" href="#table-key-encapsulation-type"><span class="numref">Table 29</span></a></span>.</p>
+<p>The defined values for ENCAPS-TYPE are shown in <span><a class="reference internal" href="#table-key-encapsulation-type"><span class="numref">Table 30</span></a></span>.</p>
 <table class="docutils align-left" id="table-key-encapsulation-type">
-<caption><span class="caption-number">Table 29 </span><span class="caption-text">Encapsulation algorithm sub-type values</span><a class="headerlink" href="#table-key-encapsulation-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 30 </span><span class="caption-text">Encapsulation algorithm sub-type values</span><a class="headerlink" href="#table-key-encapsulation-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Encapsulation algorithm</p></th>
 <th class="head"><p>ENCAPS-TYPE</p></th>
@@ -974,10 +974,10 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 21 </span><span class="caption-text">PAKE algorithm encoding</span><a class="headerlink" href="#fig-pake-encoding" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for PAKE-TYPE are shown in <span><a class="reference internal" href="#table-pake-type"><span class="numref">Table 30</span></a></span>.</p>
-<p>The permitted values of HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 19</span></a></span>) depend on the specific PAKE algorithm.</p>
+<p>The defined values for PAKE-TYPE are shown in <span><a class="reference internal" href="#table-pake-type"><span class="numref">Table 31</span></a></span>.</p>
+<p>The permitted values of HASH-TYPE (see <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 20</span></a></span>) depend on the specific PAKE algorithm.</p>
 <table class="docutils align-left" id="table-pake-type">
-<caption><span class="caption-number">Table 30 </span><span class="caption-text">PAKE algorithm sub-type values</span><a class="headerlink" href="#table-pake-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 31 </span><span class="caption-text">PAKE algorithm sub-type values</span><a class="headerlink" href="#table-pake-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>PAKE algorithm</p></th>
 <th class="head"><p>PAKE-TYPE</p></th>
@@ -1039,9 +1039,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 22 </span><span class="caption-text">Encoding of <a class="reference internal" href="../api/keys/types.html#c.psa_key_type_t" title="psa_key_type_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_key_type_t</span></code></a></span><a class="headerlink" href="#fig-key-type-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p><span><a class="reference internal" href="#table-key-type-fields"><span class="numref">Table 31</span></a></span> describes the meaning of the bit-fields — some of bit-fields are used in different ways by different key type categories.</p>
+<p><span><a class="reference internal" href="#table-key-type-fields"><span class="numref">Table 32</span></a></span> describes the meaning of the bit-fields — some of bit-fields are used in different ways by different key type categories.</p>
 <table class="docutils align-default" id="table-key-type-fields">
-<caption><span class="caption-number">Table 31 </span><span class="caption-text">Bit fields in a key type</span><a class="headerlink" href="#table-key-type-fields" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 32 </span><span class="caption-text">Bit fields in a key type</span><a class="headerlink" href="#table-key-type-fields" title="Link to this table">¶</a></caption>
 <colgroup>
 <col style="width: 23.8%" />
 <col style="width: 9.5%" />
@@ -1080,9 +1080,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 </table>
 <section id="key-type-categories">
 <span id="id2"></span><h3><span class="section-number">B.2.1 </span>Key type categories<a class="headerlink" href="#key-type-categories" title="Link to this heading">¶</a></h3>
-<p>The A and CAT fields in a key type take the values shown in <span><a class="reference internal" href="#table-key-type-category"><span class="numref">Table 32</span></a></span>.</p>
+<p>The A and CAT fields in a key type take the values shown in <span><a class="reference internal" href="#table-key-type-category"><span class="numref">Table 33</span></a></span>.</p>
 <table class="docutils align-left" id="table-key-type-category">
-<caption><span class="caption-number">Table 32 </span><span class="caption-text">Key type categories</span><a class="headerlink" href="#table-key-type-category" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 33 </span><span class="caption-text">Key type categories</span><a class="headerlink" href="#table-key-type-category" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key type category</p></th>
 <th class="head"><p>A</p></th>
@@ -1133,9 +1133,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 23 </span><span class="caption-text">Raw key encoding</span><a class="headerlink" href="#fig-raw-key-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for RAW-TYPE, SUB-TYPE, and P are shown in <span><a class="reference internal" href="#table-raw-type"><span class="numref">Table 33</span></a></span>.</p>
+<p>The defined values for RAW-TYPE, SUB-TYPE, and P are shown in <span><a class="reference internal" href="#table-raw-type"><span class="numref">Table 34</span></a></span>.</p>
 <table class="docutils align-left" id="table-raw-type">
-<caption><span class="caption-number">Table 33 </span><span class="caption-text">Raw key sub-type values</span><a class="headerlink" href="#table-raw-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 34 </span><span class="caption-text">Raw key sub-type values</span><a class="headerlink" href="#table-raw-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Raw key type</p></th>
 <th class="head"><p>RAW-TYPE</p></th>
@@ -1201,9 +1201,9 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 </figcaption>
 </figure>
 <p>For block-based cipher keys, the block size for the cipher algorithm is 2<sup>BLK</sup>.</p>
-<p>The defined values for BLK, SYM-TYPE and P are shown in <span><a class="reference internal" href="#table-symmetric-type"><span class="numref">Table 34</span></a></span>.</p>
+<p>The defined values for BLK, SYM-TYPE and P are shown in <span><a class="reference internal" href="#table-symmetric-type"><span class="numref">Table 35</span></a></span>.</p>
 <table class="docutils align-left" id="table-symmetric-type">
-<caption><span class="caption-number">Table 34 </span><span class="caption-text">Symmetric key sub-type values</span><a class="headerlink" href="#table-symmetric-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 35 </span><span class="caption-text">Symmetric key sub-type values</span><a class="headerlink" href="#table-symmetric-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Symmetric key type</p></th>
 <th class="head"><p>BLK</p></th>
@@ -1289,10 +1289,10 @@ The defined values for C and XOF-TYPE are shown in <span><a class="reference int
 <p><span class="caption-number">Figure 25 </span><span class="caption-text">Encoding of structured keys</span><a class="headerlink" href="#fig-structured-key-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for STRUCT-TYPE are shown in <span><a class="reference internal" href="#table-structured-type"><span class="numref">Table 35</span></a></span>.</p>
+<p>The defined values for STRUCT-TYPE are shown in <span><a class="reference internal" href="#table-structured-type"><span class="numref">Table 36</span></a></span>.</p>
 <p>The defined values for FAMILY depend on the STRUCT-TYPE value. See the details for each structured key sub-type.</p>
 <table class="docutils align-left" id="table-structured-type">
-<caption><span class="caption-number">Table 35 </span><span class="caption-text">Structured key sub-type values</span><a class="headerlink" href="#table-structured-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 36 </span><span class="caption-text">Structured key sub-type values</span><a class="headerlink" href="#table-structured-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Structured key type</p></th>
 <th class="head"><p>STRUCT-TYPE</p></th>
@@ -1318,9 +1318,9 @@ These use distinct STRUCT-TYPE values, and use the same FAMILY values as ellipti
 <p><span class="caption-number">Figure 26 </span><span class="caption-text">Encoding of WPA3-SAE password token using elliptic curves</span><a class="headerlink" href="#fig-wpa3-sae-ecc-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for ECC-FAMILY and P are shown in <span><a class="reference internal" href="#table-wpa3-sae-ecc-type"><span class="numref">Table 36</span></a></span>.</p>
+<p>The defined values for ECC-FAMILY and P are shown in <span><a class="reference internal" href="#table-wpa3-sae-ecc-type"><span class="numref">Table 37</span></a></span>.</p>
 <table class="docutils align-left" id="table-wpa3-sae-ecc-type">
-<caption><span class="caption-number">Table 36 </span><span class="caption-text">WPA3-SAE password token ECC family values</span><a class="headerlink" href="#table-wpa3-sae-ecc-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 37 </span><span class="caption-text">WPA3-SAE password token ECC family values</span><a class="headerlink" href="#table-wpa3-sae-ecc-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>WPA3-SAE suite</p></th>
 <th class="head"><p>ECC-FAMILY</p></th>
@@ -1355,10 +1355,10 @@ These use distinct STRUCT-TYPE values, and use the same FAMILY values as ellipti
 <p><span class="caption-number">Figure 27 </span><span class="caption-text">Encoding of WPA3-SAE password token using finite fields</span><a class="headerlink" href="#fig-wpa3-sae-dh-fields" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>The defined values for DH-FAMILY and P are shown in <span><a class="reference internal" href="#table-wpa3-sae-dh-type"><span class="numref">Table 37</span></a></span>.</p>
+<p>The defined values for DH-FAMILY and P are shown in <span><a class="reference internal" href="#table-wpa3-sae-dh-type"><span class="numref">Table 38</span></a></span>.</p>
 <p>RFC3526 defines a set of FF groups that are recommended for use with WPA3-SAE (those with primes &gt;=3072 bits)</p>
 <table class="docutils align-left" id="table-wpa3-sae-dh-type">
-<caption><span class="caption-number">Table 37 </span><span class="caption-text">WPA3-SAE password token finite field Diffie-Hellman family values</span><a class="headerlink" href="#table-wpa3-sae-dh-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 38 </span><span class="caption-text">WPA3-SAE password token finite field Diffie-Hellman family values</span><a class="headerlink" href="#table-wpa3-sae-dh-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>WPA3-SAE suite</p></th>
 <th class="head"><p>DH-FAMILY</p></th>
@@ -1391,10 +1391,10 @@ These use distinct STRUCT-TYPE values, and use the same FAMILY values as ellipti
 </figcaption>
 </figure>
 <p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
-<p>The defined values for ASYM-TYPE are shown in <span><a class="reference internal" href="#table-asymmetric-type"><span class="numref">Table 38</span></a></span>.</p>
+<p>The defined values for ASYM-TYPE are shown in <span><a class="reference internal" href="#table-asymmetric-type"><span class="numref">Table 39</span></a></span>.</p>
 <p>The defined values for FAMILY depend on the ASYM-TYPE value. See the details for each asymmetric key sub-type.</p>
 <table class="docutils align-left" id="table-asymmetric-type">
-<caption><span class="caption-number">Table 38 </span><span class="caption-text">Asymmetric key sub-type values</span><a class="headerlink" href="#table-asymmetric-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 39 </span><span class="caption-text">Asymmetric key sub-type values</span><a class="headerlink" href="#table-asymmetric-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Asymmetric key type</p></th>
 <th class="head"><p>ASYM-TYPE</p></th>
@@ -1430,9 +1430,9 @@ These use distinct STRUCT-TYPE values, and use the same FAMILY values as ellipti
 </figcaption>
 </figure>
 <p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
-<p>The defined values for NP-FAMILY and P are shown in <span><a class="reference internal" href="#table-np-type"><span class="numref">Table 39</span></a></span>.</p>
+<p>The defined values for NP-FAMILY and P are shown in <span><a class="reference internal" href="#table-np-type"><span class="numref">Table 40</span></a></span>.</p>
 <table class="docutils align-left" id="table-np-type">
-<caption><span class="caption-number">Table 39 </span><span class="caption-text">Non-parameterized asymmetric key family values</span><a class="headerlink" href="#table-np-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 40 </span><span class="caption-text">Non-parameterized asymmetric key family values</span><a class="headerlink" href="#table-np-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key family</p></th>
 <th class="head"><p>Public/pair</p></th>
@@ -1473,9 +1473,9 @@ These use distinct STRUCT-TYPE values, and use the same FAMILY values as ellipti
 </figcaption>
 </figure>
 <p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
-<p>The defined values for ECC-FAMILY and P are shown in <span><a class="reference internal" href="#table-ecc-type"><span class="numref">Table 40</span></a></span>.</p>
+<p>The defined values for ECC-FAMILY and P are shown in <span><a class="reference internal" href="#table-ecc-type"><span class="numref">Table 41</span></a></span>.</p>
 <table class="docutils align-left" id="table-ecc-type">
-<caption><span class="caption-number">Table 40 </span><span class="caption-text">ECC key family values</span><a class="headerlink" href="#table-ecc-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 41 </span><span class="caption-text">ECC key family values</span><a class="headerlink" href="#table-ecc-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>ECC key family</p></th>
 <th class="head"><p>ECC-FAMILY</p></th>
@@ -1572,9 +1572,9 @@ These use distinct STRUCT-TYPE values, and use the same FAMILY values as ellipti
 </figcaption>
 </figure>
 <p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
-<p>The defined values for DH-FAMILY and P are shown in <span><a class="reference internal" href="#table-dh-type"><span class="numref">Table 41</span></a></span>.</p>
+<p>The defined values for DH-FAMILY and P are shown in <span><a class="reference internal" href="#table-dh-type"><span class="numref">Table 42</span></a></span>.</p>
 <table class="docutils align-left" id="table-dh-type">
-<caption><span class="caption-number">Table 41 </span><span class="caption-text">Finite field Diffie Hellman key group values</span><a class="headerlink" href="#table-dh-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 42 </span><span class="caption-text">Finite field Diffie Hellman key group values</span><a class="headerlink" href="#table-dh-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>DH key group</p></th>
 <th class="head"><p>DH-FAMILY</p></th>
@@ -1608,9 +1608,9 @@ These use distinct STRUCT-TYPE values, and use the same FAMILY values as ellipti
 </figcaption>
 </figure>
 <p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
-<p>The defined values for ECC-FAMILY and P are shown in <span><a class="reference internal" href="#table-spake2p-type"><span class="numref">Table 42</span></a></span>.</p>
+<p>The defined values for ECC-FAMILY and P are shown in <span><a class="reference internal" href="#table-spake2p-type"><span class="numref">Table 43</span></a></span>.</p>
 <table class="docutils align-left" id="table-spake2p-type">
-<caption><span class="caption-number">Table 42 </span><span class="caption-text">SPAKE2+ key family values</span><a class="headerlink" href="#table-spake2p-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 43 </span><span class="caption-text">SPAKE2+ key family values</span><a class="headerlink" href="#table-spake2p-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>SPAKE2+ group</p></th>
 <th class="head"><p>ECC-FAMILY</p></th>
@@ -1654,7 +1654,7 @@ The key type value is constructed from the elliptic curve family using either <a
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &#169; 2018-2025 Arm Limited and/or its affiliates.
+      &#169; 2018-2026 Arm Limited and/or its affiliates.
       
     </div>
 

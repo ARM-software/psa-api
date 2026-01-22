@@ -4,7 +4,7 @@ description: The Crypto API provides symmetric and asymmetric cryptography, hash
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -26,7 +26,8 @@ Test suites to verify a correct implementation can be found in the [PSA Certifie
 
 Version | | | Publication
 -|-|-|-:
-1.4.0 | [HTML][1-4-html] | [&darr; PDF][1-4-0-pdf] | November 2025
+1.4.1 | [HTML][1-4-html] | [&darr; PDF][1-4-1-pdf] | January 2026
+1.4.0 | | [&darr; PDF][1-4-0-pdf] | November 2025
 1.3.2 | [HTML][1-3-html] | [&darr; PDF][1-3-2-pdf] | September 2025
 1.3.1 | | [&darr; PDF][1-3-1-pdf] | June 2025
 1.3.0 | | [&darr; PDF][1-3-0-pdf] | March 2025
@@ -54,6 +55,7 @@ PAKE | 1.1 Beta 1 | [HTML][pake-beta-html] | [&darr; PDF][pake-beta-1-pdf] | Oct
 PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 
 [1-4-html]:             1.4/
+[1-4-1-pdf]:            1.4/IHI0086-PSA_Certified_Crypto_API-1.4.1.pdf
 [1-4-0-pdf]:            1.4/IHI0086-PSA_Certified_Crypto_API-1.4.0.pdf
 
 [1-3-html]:             1.3/
@@ -91,4 +93,4 @@ PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 [pqc-beta-1-pdf]:       1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.1.pdf
 [pqc-beta-0-pdf]:       1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.0.pdf
 
-*Copyright 2022-2025, Arm Limited and/or its affiliates*
+*Copyright 2022-2026, Arm Limited and/or its affiliates*
