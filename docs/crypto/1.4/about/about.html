@@ -21,7 +21,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../_static/documentation_options.js?v=ea36c55f"></script>
+    <script src="../_static/documentation_options.js?v=8ef9151b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -46,7 +46,7 @@
 <h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.4.0
+Version 1.4.1
 <hr />
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">About this document</a><ul>
@@ -202,12 +202,17 @@ Version 1.4.0
 <p>Added key query and key registration functions.</p>
 </td>
 </tr>
+<tr class="row-even"><td><p>January 2026</p></td>
+<td><p>1.4.1 Final</p></td>
+<td><p>Non-confidential</p></td>
+<td><p>Clarified hash algorithm usage in compound algorithms.</p></td>
+</tr>
 </tbody>
 </table>
 <p>The detailed changes in each release are described in <a class="reference internal" href="../appendix/history.html#changes"><span class="secref">Document change history</span></a>.</p>
 </section>
 <p><span class="sectiontitle">PSA Certified Crypto API</span></p>
-<p>Copyright © 2018-2025 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
+<p>Copyright © 2018-2026 Arm Limited and/or its affiliates. The copyright statement reflects the fact that some
 draft issues of this document have been released, to a limited circulation.</p>
 <section id="license">
 <span id="id2"></span><h2>License<a class="headerlink" href="#license" title="Link to this heading">¶</a></h2>
@@ -333,104 +338,110 @@ draft issues of this document have been released, to a limited circulation.</p>
 <tr class="row-even"><td><p><span class="target" id="cite-iso9797"></span>[ISO9797]</p></td>
 <td><p>ISO/IEC, <em>ISO/IEC 9797-1:2011 Information technology — Security techniques — Message Authentication Codes (MACs) — Part 1: Mechanisms using a block cipher</em>, March 2011. <a class="reference external" href="https://www.iso.org/standard/50375.html">www.iso.org/standard/50375.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-matter"></span>[MATTER]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-mailtrust"></span>[MailTrusT]</p></td>
+<td><p>TeleTrusT, <em>MailTrusT Version 2 Algorithmen</em>, March 1999. <a class="reference external" href="https://www.teletrust.de/fileadmin/files/ag8_mttv2-6.pdf">www.teletrust.de/fileadmin/files/ag8_mttv2-6.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="target" id="cite-matter"></span>[MATTER]</p></td>
 <td><p>CSA, <em>Matter Specification, Version 1.2</em>, October 2023. <a class="reference external" href="https://csa-iot.org/all-solutions/matter/">csa-iot.org/all-solutions/matter/</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-ntt-cam"></span>[NTT-CAM]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-ntt-cam"></span>[NTT-CAM]</p></td>
 <td><p>NTT Corporation and Mitsubishi Electric Corporation, <em>Specification of Camellia — a 128-bit Block Cipher</em>, September 2001. <a class="reference external" href="https://info.isl.ntt.co.jp/crypt/eng/camellia/specifications">info.isl.ntt.co.jp/crypt/eng/camellia/specifications</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc1319"></span>[RFC1319]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc1319"></span>[RFC1319]</p></td>
 <td><p>IETF, <em>The MD2 Message-Digest Algorithm</em>, April 1992. <a class="reference external" href="https://tools.ietf.org/html/rfc1319.html">tools.ietf.org/html/rfc1319.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc1320"></span>[RFC1320]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc1320"></span>[RFC1320]</p></td>
 <td><p>IETF, <em>The MD4 Message-Digest Algorithm</em>, April 1992. <a class="reference external" href="https://tools.ietf.org/html/rfc1320.html">tools.ietf.org/html/rfc1320.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc1321"></span>[RFC1321]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc1321"></span>[RFC1321]</p></td>
 <td><p>IETF, <em>The MD5 Message-Digest Algorithm</em>, April 1992. <a class="reference external" href="https://tools.ietf.org/html/rfc1321.html">tools.ietf.org/html/rfc1321.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc2104"></span>[RFC2104]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc2104"></span>[RFC2104]</p></td>
 <td><p>IETF, <em>HMAC: Keyed-Hashing for Message Authentication</em>, February 1997. <a class="reference external" href="https://tools.ietf.org/html/rfc2104.html">tools.ietf.org/html/rfc2104.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc2315"></span>[RFC2315]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc2315"></span>[RFC2315]</p></td>
 <td><p>IETF, <em>PKCS #7: Cryptographic Message Syntax Version 1.5</em>, March 1998. <a class="reference external" href="https://tools.ietf.org/html/rfc2315.html">tools.ietf.org/html/rfc2315.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc3279"></span>[RFC3279]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc3279"></span>[RFC3279]</p></td>
 <td><p>IETF, <em>Algorithms and Identifiers for the Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</em>, April 2002. <a class="reference external" href="https://tools.ietf.org/html/rfc3279.html">tools.ietf.org/html/rfc3279.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc3394"></span>[RFC3394]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc3394"></span>[RFC3394]</p></td>
 <td><p>IETF, <em>Advanced Encryption Standard (AES) Key Wrap Algorithm</em>, September 2002. <a class="reference external" href="https://tools.ietf.org/html/rfc3394.html">tools.ietf.org/html/rfc3394.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc3526"></span>[RFC3526]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc3526"></span>[RFC3526]</p></td>
 <td><p>IETF, <em>More Modular Exponential (MODP) Diffie-Hellman groups for Internet Key Exchange (IKE)</em>, May 2003. <a class="reference external" href="https://tools.ietf.org/html/rfc3526.html">tools.ietf.org/html/rfc3526.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc3610"></span>[RFC3610]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc3610"></span>[RFC3610]</p></td>
 <td><p>IETF, <em>Counter with CBC-MAC (CCM)</em>, September 2003. <a class="reference external" href="https://tools.ietf.org/html/rfc3610">tools.ietf.org/html/rfc3610</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc3713"></span>[RFC3713]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc3713"></span>[RFC3713]</p></td>
 <td><p>IETF, <em>A Description of the Camellia Encryption Algorithm</em>, April 2004. <a class="reference external" href="https://tools.ietf.org/html/rfc3713">tools.ietf.org/html/rfc3713</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc4279"></span>[RFC4279]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc4279"></span>[RFC4279]</p></td>
 <td><p>IETF, <em>Pre-Shared Key Ciphersuites for Transport Layer Security (TLS)</em>, December 2005. <a class="reference external" href="https://tools.ietf.org/html/rfc4279.html">tools.ietf.org/html/rfc4279.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc4615"></span>[RFC4615]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc4615"></span>[RFC4615]</p></td>
 <td><p>IETF, <em>The Advanced Encryption Standard-Cipher-based Message Authentication Code-Pseudo-Random Function-128 (AES-CMAC-PRF-128) Algorithm for the Internet Key Exchange Protocol (IKE)</em>, August 2006. <a class="reference external" href="https://tools.ietf.org/html/rfc4615.html">tools.ietf.org/html/rfc4615.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc5116"></span>[RFC5116]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc5116"></span>[RFC5116]</p></td>
 <td><p>IETF, <em>An Interface and Algorithms for Authenticated Encryption</em>, January 2008. <a class="reference external" href="https://tools.ietf.org/html/rfc5116.html">tools.ietf.org/html/rfc5116.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc5246"></span>[RFC5246]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc5246"></span>[RFC5246]</p></td>
 <td><p>IETF, <em>The Transport Layer Security (TLS) Protocol Version 1.2</em>, August 2008. <a class="reference external" href="https://tools.ietf.org/html/rfc5246.html">tools.ietf.org/html/rfc5246.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc5489"></span>[RFC5489]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc5489"></span>[RFC5489]</p></td>
 <td><p>IETF, <em>ECDHE_PSK Cipher Suites for Transport Layer Security (TLS)</em>, March 2009. <a class="reference external" href="https://tools.ietf.org/html/rfc5489.html">tools.ietf.org/html/rfc5489.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc5639"></span>[RFC5639]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc5639"></span>[RFC5639]</p></td>
 <td><p>IETF, <em>Elliptic Curve Cryptography (ECC) Brainpool Standard Curves and Curve Generation</em>, March 2010. <a class="reference external" href="https://tools.ietf.org/html/rfc5639.html">tools.ietf.org/html/rfc5639.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc5649"></span>[RFC5649]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc5649"></span>[RFC5649]</p></td>
 <td><p>IETF, <em>Advanced Encryption Standard (AES) Key Wrap with Padding Algorithm</em>, August 2009. <a class="reference external" href="https://tools.ietf.org/html/rfc5649.html">tools.ietf.org/html/rfc5649.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc5794"></span>[RFC5794]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc5794"></span>[RFC5794]</p></td>
 <td><p>IETF, <em>A Description of the ARIA Encryption Algorithm</em>, March 2010. <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc5794">datatracker.ietf.org/doc/html/rfc5794</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc5869"></span>[RFC5869]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc5869"></span>[RFC5869]</p></td>
 <td><p>IETF, <em>HMAC-based Extract-and-Expand Key Derivation Function (HKDF)</em>, May 2010. <a class="reference external" href="https://tools.ietf.org/html/rfc5869.html">tools.ietf.org/html/rfc5869.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc5915"></span>[RFC5915]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc5915"></span>[RFC5915]</p></td>
 <td><p>IETF, <em>Elliptic Curve Private Key Structure</em>, June 2010. <a class="reference external" href="https://tools.ietf.org/html/rfc5915.html">tools.ietf.org/html/rfc5915.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc5958"></span>[RFC5958]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc5958"></span>[RFC5958]</p></td>
 <td><p>IETF, <em>Asymmetric Key Packages</em>, August 2010. <a class="reference external" href="https://tools.ietf.org/html/rfc5958.html">tools.ietf.org/html/rfc5958.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc6979"></span>[RFC6979]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc6979"></span>[RFC6979]</p></td>
 <td><p>IETF, <em>Deterministic Usage of the Digital Signature Algorithm (DSA) and Elliptic Curve Digital Signature Algorithm (ECDSA)</em>, August 2013. <a class="reference external" href="https://tools.ietf.org/html/rfc6979.html">tools.ietf.org/html/rfc6979.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc7748"></span>[RFC7748]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc7748"></span>[RFC7748]</p></td>
 <td><p>IETF, <em>Elliptic Curves for Security</em>, January 2016. <a class="reference external" href="https://tools.ietf.org/html/rfc7748.html">tools.ietf.org/html/rfc7748.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc7919"></span>[RFC7919]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc7919"></span>[RFC7919]</p></td>
 <td><p>IETF, <em>Negotiated Finite Field Diffie-Hellman Ephemeral Parameters for Transport Layer Security (TLS)</em>, August 2016. <a class="reference external" href="https://tools.ietf.org/html/rfc7919.html">tools.ietf.org/html/rfc7919.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc8017"></span>[RFC8017]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc8017"></span>[RFC8017]</p></td>
 <td><p>IETF, <em>PKCS #1: RSA Cryptography Specifications Version 2.2</em>, November 2016. <a class="reference external" href="https://tools.ietf.org/html/rfc8017.html">tools.ietf.org/html/rfc8017.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc8018"></span>[RFC8018]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc8018"></span>[RFC8018]</p></td>
 <td><p>IETF, <em>PKCS #5: Password-Based Cryptography Specification Version 2.1</em>, January 2017. <a class="reference external" href="https://tools.ietf.org/html/rfc8018.html">tools.ietf.org/html/rfc8018.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc8032"></span>[RFC8032]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc8032"></span>[RFC8032]</p></td>
 <td><p>IRTF, <em>Edwards-Curve Digital Signature Algorithm (EdDSA)</em>, January 2017. <a class="reference external" href="https://tools.ietf.org/html/rfc8032.html">tools.ietf.org/html/rfc8032.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc8235"></span>[RFC8235]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc8235"></span>[RFC8235]</p></td>
 <td><p>IETF, <em>Schnorr Non-interactive Zero-Knowledge Proof</em>, September 2017. <a class="reference external" href="https://tools.ietf.org/html/rfc8235.html">tools.ietf.org/html/rfc8235.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc8236"></span>[RFC8236]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc8236"></span>[RFC8236]</p></td>
 <td><p>IETF, <em>J-PAKE: Password-Authenticated Key Exchange by Juggling</em>, September 2017. <a class="reference external" href="https://tools.ietf.org/html/rfc8236.html">tools.ietf.org/html/rfc8236.html</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-rfc8439"></span>[RFC8439]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc8439"></span>[RFC8439]</p></td>
 <td><p>IRTF, <em>ChaCha20 and Poly1305 for IETF Protocols</em>, June 2018. <a class="reference external" href="https://tools.ietf.org/html/rfc8439.html">tools.ietf.org/html/rfc8439.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-rfc9383"></span>[RFC9383]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-rfc9383"></span>[RFC9383]</p></td>
 <td><p>IETF, <em>SPAKE2+, an Augmented Password-Authenticated Key Exchange (PAKE) Protocol</em>, September 2023. <a class="reference external" href="https://tools.ietf.org/html/rfc9383.html">tools.ietf.org/html/rfc9383.html</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="target" id="cite-rfc9688"></span>[RFC9688]</p></td>
+<td><p>IETF, <em>Use of the SHA3 One-Way Hash Functions in the Cryptographic Message Syntax (CMS)</em>, November 2024. <a class="reference external" href="https://tools.ietf.org/html/rfc9688.html">tools.ietf.org/html/rfc9688.html</a></p></td>
 </tr>
 <tr class="row-even"><td><p><span class="target" id="cite-ripemd"></span>[RIPEMD]</p></td>
 <td><p>Dobbertin, Bosselaers and Preneel, <em>RIPEMD-160: A Strengthened Version of RIPEMD</em>, April 1996. <a class="reference external" href="https://homes.esat.kuleuven.be/~bosselae/ripemd160.html">homes.esat.kuleuven.be/~bosselae/ripemd160.html</a></p></td>
@@ -444,49 +455,52 @@ draft issues of this document have been released, to a limited circulation.</p>
 <tr class="row-odd"><td><p><span class="target" id="cite-sec2v1"></span>[SEC2v1]</p></td>
 <td><p>Standards for Efficient Cryptography, <em>SEC 2: Recommended Elliptic Curve Domain Parameters, Version 1.0</em>, September 2000. <a class="reference external" href="https://www.secg.org/SEC2-Ver-1.0.pdf">www.secg.org/SEC2-Ver-1.0.pdf</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-sp800-108"></span>[SP800-108]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-sm3-draft"></span>[SM3-draft]</p></td>
+<td><p>Sean Shen, XiaoDong Lee, Ronald Henry Tse, Wong Wai Kit, Paul Yang, <em>The SM3 Cryptographic Hash Function (Draft 02)</em>, July 2018. <a class="reference external" href="https://datatracker.ietf.org/doc/html/draft-sca-cfrg-sm3-02">datatracker.ietf.org/doc/html/draft-sca-cfrg-sm3-02</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="target" id="cite-sp800-108"></span>[SP800-108]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-108r1: Recommendation for Key Derivation Using Pseudorandom Functions</em>, August 2022. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-108r1">doi.org/10.6028/NIST.SP.800-108r1</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-sp800-232"></span>[SP800-232]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-sp800-232"></span>[SP800-232]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-232: Ascon-Based Lightweight Cryptography Standards for Constrained Devices</em>, August 2025. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-232">doi.org/10.6028/NIST.SP.800-232</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-sp800-30"></span>[SP800-30]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-sp800-30"></span>[SP800-30]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-30 Revision 1: Guide for Conducting Risk Assessments</em>, September 2012. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-30r1">doi.org/10.6028/NIST.SP.800-30r1</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-sp800-38a"></span>[SP800-38A]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-sp800-38a"></span>[SP800-38A]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-38A: Recommendation for Block Cipher Modes of Operation: Methods and Techniques</em>, December 2001. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-38A">doi.org/10.6028/NIST.SP.800-38A</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-sp800-38b"></span>[SP800-38B]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-sp800-38b"></span>[SP800-38B]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-38B: Recommendation for Block Cipher Modes of Operation: the CMAC Mode for Authentication</em>, May 2005. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-38B">doi.org/10.6028/NIST.SP.800-38B</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-sp800-38d"></span>[SP800-38D]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-sp800-38d"></span>[SP800-38D]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-38D: Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC</em>, November 2007. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-38D">doi.org/10.6028/NIST.SP.800-38D</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-sp800-38f"></span>[SP800-38F]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-sp800-38f"></span>[SP800-38F]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-38F: Recommendation for Block Cipher Modes of Operation: Methods for Key Wrapping</em>, December 2012. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-38F">doi.org/10.6028/NIST.SP.800-38F</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-sp800-56a"></span>[SP800-56A]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-sp800-56a"></span>[SP800-56A]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-56A: Recommendation for Pair-Wise Key-Establishment Schemes Using Discrete Logarithm Cryptography</em>, April 2018. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-56Ar3">doi.org/10.6028/NIST.SP.800-56Ar3</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-sp800-67"></span>[SP800-67]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-sp800-67"></span>[SP800-67]</p></td>
 <td><p>NIST, <em>NIST Special Publication 800-67: Recommendation for the Triple Data Encryption Algorithm (TDEA) Block Cipher</em>, November 2017. <a class="reference external" href="https://doi.org/10.6028/NIST.SP.800-67r2">doi.org/10.6028/NIST.SP.800-67r2</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-spake2p-2"></span>[SPAKE2P-2]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-spake2p-2"></span>[SPAKE2P-2]</p></td>
 <td><p>IETF, <em>SPAKE2+, an Augmented PAKE (Draft 02)</em>, December 2020. <a class="reference external" href="https://datatracker.ietf.org/doc/draft-bar-cfrg-spake2plus-02">datatracker.ietf.org/doc/draft-bar-cfrg-spake2plus-02</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-thread"></span>[THREAD]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-thread"></span>[THREAD]</p></td>
 <td><p>Thread Group, <em>Thread Specification 1.3.0</em>, July 2022. <a class="reference external" href="https://www.threadgroup.org/ThreadSpec">www.threadgroup.org/ThreadSpec</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-tls-ecjpake"></span>[TLS-ECJPAKE]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-tls-ecjpake"></span>[TLS-ECJPAKE]</p></td>
 <td><p>Cragie, Hao, <em>Elliptic Curve J-PAKE Cipher Suites for Transport Layer Security (TLS)</em>, June 2016. <a class="reference external" href="https://datatracker.ietf.org/doc/html/draft-cragie-tls-ecjpake-01">datatracker.ietf.org/doc/html/draft-cragie-tls-ecjpake-01</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-x9-62"></span>[X9-62]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-x9-62"></span>[X9-62]</p></td>
 <td><p>ANSI, <em>Public Key Cryptography For The Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)</em>. <a class="reference external" href="https://standards.globalspec.com/std/1955141/ANSI%20X9.62">standards.globalspec.com/std/1955141/ANSI%20X9.62</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="target" id="cite-xchacha"></span>[XCHACHA]</p></td>
+<tr class="row-even"><td><p><span class="target" id="cite-xchacha"></span>[XCHACHA]</p></td>
 <td><p>Arciszewski, <em>XChaCha: eXtended-nonce ChaCha and AEAD_XChaCha20_Poly1305</em>, January 2020. <a class="reference external" href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-xchacha-03">datatracker.ietf.org/doc/html/draft-irtf-cfrg-xchacha-03</a></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="target" id="cite-zigbee"></span>[ZIGBEE]</p></td>
+<tr class="row-odd"><td><p><span class="target" id="cite-zigbee"></span>[ZIGBEE]</p></td>
 <td><p>zigbee alliance, <em>zigbee Specification</em>, April 2017. <a class="reference external" href="https://csa-iot.org/wp-content/uploads/2022/01/docs-05-3474-22-0csg-zigbee-specification-1.pdf">csa-iot.org/wp-content/uploads/2022/01/docs-05-3474-22-0csg-zigbee-specification-1.pdf</a></p></td>
 </tr>
 </tbody>
@@ -727,7 +741,7 @@ a number.</p>
 <p>If you have comments on the content of this book, visit <a class="reference external" href="https://github.com/arm-software/psa-api/issues">github.com/arm-software/psa-api/issues</a> to create a new issue at the PSA Certified API GitHub project. Give:</p>
 <ul class="simple">
 <li><p>The title (Crypto API).</p></li>
-<li><p>The number and issue (IHI 0086 1.4.0).</p></li>
+<li><p>The number and issue (IHI 0086 1.4.1).</p></li>
 <li><p>The location in the document to which your comments apply.</p></li>
 <li><p>A concise explanation of your comments.</p></li>
 </ul>
@@ -743,7 +757,7 @@ a number.</p>
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &#169; 2018-2025 Arm Limited and/or its affiliates.
+      &#169; 2018-2026 Arm Limited and/or its affiliates.
       
     </div>
 

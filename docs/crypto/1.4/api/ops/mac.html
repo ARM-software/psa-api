@@ -21,7 +21,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../../_static/documentation_options.js?v=ea36c55f"></script>
+    <script src="../../_static/documentation_options.js?v=8ef9151b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -46,7 +46,7 @@
 <h3><a href="../../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.4.0
+Version 1.4.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about/about.html">About this document</a></li>
@@ -161,13 +161,8 @@ For these hash algorithms, the HMAC block size is defined to be the hash input-b
 <p>Some algorithms do not have a defined HMAC block size.
 For example, Ascon (<a class="reference internal" href="hash.html#c.PSA_ALG_ASCON_HASH256" title="PSA_ALG_ASCON_HASH256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ASCON_HASH256</span></code></a>) or Shake-based hashes (<a class="reference internal" href="hash.html#c.PSA_ALG_SHAKE256_512" title="PSA_ALG_SHAKE256_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHAKE256_512</span></code></a>).</p>
 <p><span><a class="reference internal" href="#tab-hmac-hash"><span class="numref">Table 14</span></a></span> lists the valid hash algorithms for use with HMAC, and their HMAC block and output sizes in bytes.</p>
-<table class="docutils align-default" id="tab-hmac-hash">
+<table class="longtable docutils align-default" id="tab-hmac-hash">
 <caption><span class="caption-number">Table 14 </span><span class="caption-text">Hash algorithms that can be used with HMAC</span><a class="headerlink" href="#tab-hmac-hash" title="Link to this table">¶</a></caption>
-<colgroup>
-<col style="width: 42.9%" />
-<col style="width: 28.6%" />
-<col style="width: 28.6%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Algorithm</p></th>
 <th class="head"><p>HMAC block size</p></th>
@@ -175,67 +170,71 @@ For example, Ascon (<a class="reference internal" href="hash.html#c.PSA_ALG_ASCO
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD2" title="PSA_ALG_MD2"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD2</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_AES_MMO_ZIGBEE" title="PSA_ALG_AES_MMO_ZIGBEE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_AES_MMO_ZIGBEE</span></code></a></p></td>
 <td><p>16</p></td>
 <td><p>16</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD4" title="PSA_ALG_MD4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD4</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD2" title="PSA_ALG_MD2"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD2</span></code></a></p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD4" title="PSA_ALG_MD4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD4</span></code></a></p></td>
 <td><p>64</p></td>
 <td><p>16</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD5" title="PSA_ALG_MD5"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD5</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD5" title="PSA_ALG_MD5"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD5</span></code></a></p></td>
 <td><p>64</p></td>
 <td><p>16</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_RIPEMD160" title="PSA_ALG_RIPEMD160"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RIPEMD160</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_RIPEMD160" title="PSA_ALG_RIPEMD160"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RIPEMD160</span></code></a></p></td>
 <td><p>64</p></td>
 <td><p>20</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_1" title="PSA_ALG_SHA_1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_1</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_1" title="PSA_ALG_SHA_1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_1</span></code></a></p></td>
 <td><p>64</p></td>
 <td><p>20</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_224" title="PSA_ALG_SHA_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_224</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_224" title="PSA_ALG_SHA_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_224</span></code></a></p></td>
 <td><p>64</p></td>
 <td><p>28</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_256" title="PSA_ALG_SHA_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_256</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_256" title="PSA_ALG_SHA_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_256</span></code></a></p></td>
 <td><p>64</p></td>
 <td><p>32</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_384" title="PSA_ALG_SHA_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_384</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_384" title="PSA_ALG_SHA_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_384</span></code></a></p></td>
 <td><p>128</p></td>
 <td><p>48</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512" title="PSA_ALG_SHA_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512" title="PSA_ALG_SHA_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512</span></code></a></p></td>
 <td><p>128</p></td>
 <td><p>64</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512_224" title="PSA_ALG_SHA_512_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_224</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512_224" title="PSA_ALG_SHA_512_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_224</span></code></a></p></td>
 <td><p>128</p></td>
 <td><p>28</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512_256" title="PSA_ALG_SHA_512_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_256</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512_256" title="PSA_ALG_SHA_512_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_256</span></code></a></p></td>
 <td><p>128</p></td>
 <td><p>32</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_224" title="PSA_ALG_SHA3_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_224</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_224" title="PSA_ALG_SHA3_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_224</span></code></a></p></td>
 <td><p>144</p></td>
 <td><p>28</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_256" title="PSA_ALG_SHA3_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_256</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_256" title="PSA_ALG_SHA3_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_256</span></code></a></p></td>
 <td><p>136</p></td>
 <td><p>32</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_384" title="PSA_ALG_SHA3_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_384</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_384" title="PSA_ALG_SHA3_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_384</span></code></a></p></td>
 <td><p>104</p></td>
 <td><p>48</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_512" title="PSA_ALG_SHA3_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_512</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_512" title="PSA_ALG_SHA3_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_512</span></code></a></p></td>
 <td><p>72</p></td>
 <td><p>64</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SM3" title="PSA_ALG_SM3"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SM3</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SM3" title="PSA_ALG_SM3"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SM3</span></code></a></p></td>
 <td><p>64</p></td>
 <td><p>32</p></td>
 </tr>
@@ -243,8 +242,10 @@ For example, Ascon (<a class="reference internal" href="hash.html#c.PSA_ALG_ASCO
 </table>
 <div class="admonition-implementation-note admonition">
 <p class="admonition-title">Implementation note</p>
-<p>It is recommended that other hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>.
-Future versions of the Crypto API might specify HMAC support for these hash algorithms, and will define the block size to use for HMAC.</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a> with hash algorithms that are absent from <span><a class="reference internal" href="#tab-hmac-hash"><span class="numref">Table 14</span></a></span>.</p>
+<p>It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>, or with other compound algorithms based on HMAC.
+The other compound algorithms include <a class="reference internal" href="signature.html#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a>, <a class="reference internal" href="key-derivation.html#c.PSA_ALG_HKDF" title="PSA_ALG_HKDF"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF</span></code></a>, <a class="reference internal" href="key-derivation.html#c.PSA_ALG_HKDF_EXTRACT" title="PSA_ALG_HKDF_EXTRACT"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXTRACT</span></code></a>, <a class="reference internal" href="key-derivation.html#c.PSA_ALG_HKDF_EXPAND" title="PSA_ALG_HKDF_EXPAND"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HKDF_EXPAND</span></code></a>, <a class="reference internal" href="key-derivation.html#c.PSA_ALG_SP800_108_COUNTER_HMAC" title="PSA_ALG_SP800_108_COUNTER_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SP800_108_COUNTER_HMAC</span></code></a>, <a class="reference internal" href="key-derivation.html#c.PSA_ALG_PBKDF2_HMAC" title="PSA_ALG_PBKDF2_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_PBKDF2_HMAC</span></code></a>.</p>
+<p>Future versions of the Crypto API might specify HMAC support for these hash algorithms, and will define the block size to use for HMAC.</p>
 </div>
 <p class="rubric">Compatible key types</p>
 <div class="line-block">
@@ -1065,7 +1066,7 @@ The operation object can now be discarded or reused.</p>
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &#169; 2018-2025 Arm Limited and/or its affiliates.
+      &#169; 2018-2026 Arm Limited and/or its affiliates.
       
     </div>
 
