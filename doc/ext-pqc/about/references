@@ -42,17 +42,17 @@
     :publication: July 2025 (Draft 11)
     :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-kyber-certificates-11
 
-.. reference:: LAMPS-MLDSA
-    :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)
+.. reference:: RFC9881
+    :title: Internet X.509 Public Key Infrastructure --- Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)
     :author: IETF
-    :publication: September 2025 (Draft 13)
-    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-dilithium-certificates-13
+    :publication: October 2025
+    :url: tools.ietf.org/html/rfc9881
 
-.. reference:: LAMPS-SLHDSA
-    :title: Internet X.509 Public Key Infrastructure: Algorithm Identifiers for SLH-DSA
+.. reference:: RFC9909
+    :title: Internet X.509 Public Key Infrastructure --- Algorithm Identifiers for the Stateless Hash-Based Digital Signature Algorithm (SLH-DSA)
     :author: IETF
-    :publication: June 2025 (Draft 09)
-    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-x509-slhdsa-09
+    :publication: December 2025
+    :url: tools.ietf.org/html/rfc9909
 
 .. reference:: NIST-PQC
     :title: Post-Quantum Cryptography

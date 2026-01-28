@@ -49,10 +49,10 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. rationale::
 
-            The formats for X.509 handling of ML-DSA keys are specified in :cite-title:`LAMPS-MLDSA`.
+            The formats for X.509 handling of ML-DSA keys are specified in :rfc-title:`9881`.
             This permits a choice of three formats for the decapsulation key material, incorporating one, or both, of the seed value :math:`\xi` and the expanded secret key :math:`sk`.
 
-            The |API| only supports the recommended format from `[LAMPS-MLDSA]`, which is the bytes of the seed :math:`\xi`, but without the ASN.1 encoding prefix.
+            The |API| only supports the recommended format from :rfc:`9881`, which is the bytes of the seed :math:`\xi`, but without the ASN.1 encoding prefix.
             This suits the constrained nature of |API| implementations, where interoperation with expanded secret-key formats is not required.
 
         See `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
@@ -98,7 +98,7 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
         .. rationale::
 
-            This format is the same as that specified for X.509 in :cite-title:`LAMPS-MLDSA`.
+            This format is the same as that specified for X.509 in :rfc-title:`9881`.
 
         The size of the public key depends on the ML-DSA parameter set as follows:
 

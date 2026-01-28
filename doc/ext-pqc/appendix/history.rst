@@ -1,10 +1,17 @@
-.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _changes:
 
 Document change history
 =======================
+
+Changes between *Final 0* and *Final 1*
+---------------------------------------
+
+.. rubric:: Clarifications and fixes
+
+*   Updated citations for ML-DSA and SLH-DSA key formats.
 
 Changes between *Beta 3* and *Final 0*
 --------------------------------------

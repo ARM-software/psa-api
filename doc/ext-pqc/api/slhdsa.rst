@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto-pqc
@@ -78,7 +78,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
         .. rationale::
 
-            This format is the same as that specified for X.509 in :cite-title:`LAMPS-SLHDSA`.
+            This format is the same as that specified for X.509 in :rfc-title:`9909`.
 
         See `PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
 
@@ -129,7 +129,7 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
         .. rationale::
 
-            This format is the same as that specified for X.509 in :cite-title:`LAMPS-SLHDSA`.
+            This format is the same as that specified for X.509 in :rfc-title:`9909`.
 
 .. macro:: PSA_SLH_DSA_FAMILY_SHA2_S
     :definition: ((psa_slh_dsa_family_t) 0x02)
