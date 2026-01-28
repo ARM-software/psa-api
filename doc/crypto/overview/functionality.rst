@@ -229,9 +229,11 @@ This specification defines interfaces for the following types of symmetric
 cryptographic operation:
 
 *   Message digests, commonly known as hash functions. See :secref:`hashes`.
+*   Extendable-output functions (XOF). See :secref:`xof`.
 *   Message authentication codes (MAC). See :secref:`macs`.
 *   Symmetric ciphers. See :secref:`ciphers`.
 *   Authenticated encryption with associated data (AEAD). See :secref:`aead`.
+*   Key wrapping. See :secref:`key-wrapping`.
 *   Key derivation. See :secref:`kdf`.
 
 Key derivation only provides multi-part operation, to support the flexibility required by these type of algorithms.
@@ -269,15 +271,15 @@ Asymmetric cryptography
 
 This specification defines interfaces for the following types of asymmetric cryptographic operation:
 
-*   Asymmetric encryption (also known as public-key encryption). See :secref:`pke`.
 *   Asymmetric signature. See :secref:`sign`.
+*   Asymmetric encryption (also known as public-key encryption). See :secref:`pke`.
 *   Two-way key agreement (also known as key establishment). See :secref:`key-agreement`.
 *   Key encapsulation. See :secref:`key-encapsulation`.
 *   Password-authenticated key exchange (PAKE). See :secref:`pake`.
 
-For asymmetric encryption, the API provides *single-part* functions.
+For asymmetric signature, the API provides *single-part* functions.
 
-For asymmetric signature, the API provides single-part functions.
+For asymmetric encryption, the API provides single-part functions.
 
 For key agreement, the API provides single-part functions and an additional input method for a key-derivation operation.
 
