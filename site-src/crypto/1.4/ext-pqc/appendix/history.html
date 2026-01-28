@@ -12,8 +12,8 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}" />
 <link rel="canonical" href="{{ page.url | absolute_url }}" />
 <meta property="og:site_name" content="PSA Certified Crypto API 1.4 PQC Extension" />
-<meta property="og:description" content="Changes between Beta 3 and Final 0: Clarifications and fixes Finalized the key format specification for SLH-DSA, ML-KEM, and ML-DSA keys. The formats are unchanged from the Beta version of this spe..." />
-<meta name="description" content="Changes between Beta 3 and Final 0: Clarifications and fixes Finalized the key format specification for SLH-DSA, ML-KEM, and ML-DSA keys. The formats are unchanged from the Beta version of this spe..." />
+<meta property="og:description" content="Changes between Final 0 and Final 1: Clarifications and fixes Updated citations for ML-DSA and SLH-DSA key formats., Provided a table of hash algorithm OIDs for use with the HashML-DSA and HashSLH-..." />
+<meta name="description" content="Changes between Final 0 and Final 1: Clarifications and fixes Updated citations for ML-DSA and SLH-DSA key formats., Provided a table of hash algorithm OIDs for use with the HashML-DSA and HashSLH-..." />
 
     <title>4 Document change history &#8212; PSA Certified Crypto API 1.4 PQC Extension</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
@@ -24,7 +24,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../_static/documentation_options.js?v=de926398"></script>
+    <script src="../_static/documentation_options.js?v=ba5db3dc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -48,7 +48,7 @@
 <h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 AES 0119<br/>
 Non-confidential<br/>
-Version 1.4 PQC Extension.0
+Version 1.4 PQC Extension.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
@@ -62,11 +62,12 @@ Version 1.4 PQC Extension.0
 <li class="toctree-l1"><a class="reference internal" href="encodings.html">B Algorithm and key type encoding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="specdef_values.html">C Example macro implementations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">D Document change history</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-3-and-final-0">D.1 Changes between <em>Beta 3</em> and <em>Final 0</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-2-and-beta-3">D.2 Changes between <em>Beta 2</em> and <em>Beta 3</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-1-and-beta-2">D.3 Changes between <em>Beta 1</em> and <em>Beta 2</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-0-and-beta-1">D.4 Changes between <em>Beta 0</em> and <em>Beta 1</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#beta-release">D.5 Beta release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-final-0-and-final-1">D.1 Changes between <em>Final 0</em> and <em>Final 1</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-3-and-final-0">D.2 Changes between <em>Beta 3</em> and <em>Final 0</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-2-and-beta-3">D.3 Changes between <em>Beta 2</em> and <em>Beta 3</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-1-and-beta-2">D.4 Changes between <em>Beta 1</em> and <em>Beta 2</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-between-beta-0-and-beta-1">D.5 Changes between <em>Beta 0</em> and <em>Beta 1</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#beta-release">D.6 Beta release</a></li>
 </ul>
 </li>
 </ul>
@@ -93,8 +94,17 @@ Version 1.4 PQC Extension.0
             
   <section id="document-change-history">
 <span id="changes"></span><h1><span class="section-number">D </span>Document change history<a class="headerlink" href="#document-change-history" title="Link to this heading">¶</a></h1>
+<section id="changes-between-final-0-and-final-1">
+<h2><span class="section-number">D.1 </span>Changes between <em>Final 0</em> and <em>Final 1</em><a class="headerlink" href="#changes-between-final-0-and-final-1" title="Link to this heading">¶</a></h2>
+<p class="rubric">Clarifications and fixes</p>
+<ul class="simple">
+<li><p>Updated citations for ML-DSA and SLH-DSA key formats.</p></li>
+<li><p>Provided a table of hash algorithm OIDs for use with the HashML-DSA and HashSLH-DSA algorithms.
+See <a class="reference internal" href="../api/slhdsa.html#slh-dsa"><span class="secref">Stateless Hash-based signatures</span></a> and <a class="reference internal" href="../api/mldsa.html#ml-dsa"><span class="secref">Module Lattice-based signatures</span></a>.</p></li>
+</ul>
+</section>
 <section id="changes-between-beta-3-and-final-0">
-<h2><span class="section-number">D.1 </span>Changes between <em>Beta 3</em> and <em>Final 0</em><a class="headerlink" href="#changes-between-beta-3-and-final-0" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">D.2 </span>Changes between <em>Beta 3</em> and <em>Final 0</em><a class="headerlink" href="#changes-between-beta-3-and-final-0" title="Link to this heading">¶</a></h2>
 <p class="rubric">Clarifications and fixes</p>
 <ul class="simple">
 <li><p>Finalized the key format specification for SLH-DSA, ML-KEM, and ML-DSA keys.
@@ -103,14 +113,14 @@ See <a class="reference internal" href="../api/slhdsa.html#slh-dsa"><span class=
 </ul>
 </section>
 <section id="changes-between-beta-2-and-beta-3">
-<h2><span class="section-number">D.2 </span>Changes between <em>Beta 2</em> and <em>Beta 3</em><a class="headerlink" href="#changes-between-beta-2-and-beta-3" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">D.3 </span>Changes between <em>Beta 2</em> and <em>Beta 3</em><a class="headerlink" href="#changes-between-beta-2-and-beta-3" title="Link to this heading">¶</a></h2>
 <p class="rubric">Other changes</p>
 <ul class="simple">
 <li><p>Updated introduction to reflect GlobalPlatform assuming the governance of the PSA Certified evaluation scheme.</p></li>
 </ul>
 </section>
 <section id="changes-between-beta-1-and-beta-2">
-<h2><span class="section-number">D.3 </span>Changes between <em>Beta 1</em> and <em>Beta 2</em><a class="headerlink" href="#changes-between-beta-1-and-beta-2" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">D.4 </span>Changes between <em>Beta 1</em> and <em>Beta 2</em><a class="headerlink" href="#changes-between-beta-1-and-beta-2" title="Link to this heading">¶</a></h2>
 <p class="rubric">Clarifications and fixes</p>
 <ul class="simple">
 <li><p>Fixed the derivation of SLH-DSA key pairs to extract the correct number of bytes from the key derivation operation.
@@ -119,14 +129,14 @@ See <a class="reference internal" href="../api/slhdsa.html#c.PSA_KEY_TYPE_SLH_DS
 </ul>
 </section>
 <section id="changes-between-beta-0-and-beta-1">
-<h2><span class="section-number">D.4 </span>Changes between <em>Beta 0</em> and <em>Beta 1</em><a class="headerlink" href="#changes-between-beta-0-and-beta-1" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">D.5 </span>Changes between <em>Beta 0</em> and <em>Beta 1</em><a class="headerlink" href="#changes-between-beta-0-and-beta-1" title="Link to this heading">¶</a></h2>
 <p class="rubric">Clarifications and fixes</p>
 <ul class="simple">
 <li><p>Added references from each section to the relevant APIs in <span><em>PSA Certified Crypto API</em> <a class="reference internal" href="../about/about.html#cite-psa-crypt"><span class="cite">[PSA-CRYPT]</span></a></span>.</p></li>
 </ul>
 </section>
 <section id="beta-release">
-<h2><span class="section-number">D.5 </span>Beta release<a class="headerlink" href="#beta-release" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">D.6 </span>Beta release<a class="headerlink" href="#beta-release" title="Link to this heading">¶</a></h2>
 <p>First release of the PQC Extension.</p>
 <ul class="simple">
 <li><p>Added support for FIPS 203 ML-KEM key-encapsulation algorithm and keys.

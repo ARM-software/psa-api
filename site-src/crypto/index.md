@@ -43,7 +43,8 @@ Version | | | Publication
 
 Extension | Version | | | Publication
 -|-|-|-|-:
-PQC | 1.4 Final 0 | [HTML][pqc-rel-html] | [&darr; PDF][pqc-rel-0-pdf] | November 2025
+PQC | 1.4 Final 1 | [HTML][pqc-rel-html] | [&darr; PDF][pqc-rel-1-pdf] | January 2026
+PQC | 1.4 Final 0 | | [&darr; PDF][pqc-rel-0-pdf] | November 2025
 PQC | 1.3 Beta 3 | [HTML][pqc-beta-html] | [&darr; PDF][pqc-beta-3-pdf] | September 2025
 PQC | 1.3 Beta 2 | | [&darr; PDF][pqc-beta-2-pdf] | July 2025
 PQC | 1.3 Beta 1 | | [&darr; PDF][pqc-beta-1-pdf] | June 2025
@@ -85,6 +86,7 @@ PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 [pake-beta-0-pdf]:      1.1/ext-pake/AES0058-PSA_Cryptography_API-1.1_PAKE_Extension-bet.0.pdf
 
 [pqc-rel-html]:         1.4/ext-pqc/
+[pqc-rel-1-pdf]:        1.4/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.4_PQC_Extension.1.pdf
 [pqc-rel-0-pdf]:        1.4/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.4_PQC_Extension.0.pdf
 
 [pqc-beta-html]:        1.3/ext-pqc/
