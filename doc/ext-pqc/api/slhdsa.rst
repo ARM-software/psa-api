@@ -306,7 +306,7 @@ An SLH-DSA signature can only be verified with an SLH-DSA algorithm.
 A HashSLH-DSA signature can only be verified with a HashSLH-DSA algorithm.
 
 :numref:`tab-slh-dsa-oid` lists the hash algorithm OIDs to use with the HashSLH-DSA algorithm.
-Note that for HashML-DSA the DER-encoded OID includes the tag and length.
+Note that for HashSLH-DSA the DER-encoded OID includes the tag and length.
 
 .. csv-table:: Hash algorithm OID to use in HashSLH-DSA
     :name: tab-slh-dsa-oid
