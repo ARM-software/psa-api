@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _functionality-overview:
@@ -277,7 +277,7 @@ This specification defines interfaces for the following types of asymmetric cryp
 *   Key encapsulation. See :secref:`key-encapsulation`.
 *   Password-authenticated key exchange (PAKE). See :secref:`pake`.
 
-For asymmetric signature, the API provides *single-part* functions.
+For asymmetric signature, the API provides *single-part* functions and *multi-part* operations.
 
 For asymmetric encryption, the API provides single-part functions.
 
@@ -285,7 +285,7 @@ For key agreement, the API provides single-part functions and an additional inpu
 
 For key encapsulation, the API provides single-part functions.
 
-For PAKE, the API provides a *multi-part* operation.
+For PAKE, the API provides a multi-part operation.
 
 
 Randomness and key generation
