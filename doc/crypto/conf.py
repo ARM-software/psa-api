@@ -22,17 +22,17 @@ doc_info = {
     'doc_id': 'IHI 0086',
 
     # The short X.Y version. MANDATORY
-    'version': '1.4',
+    'version': '1.5',
     # Arm document quality status, marked as open issue if not provided
     'quality': 'REL',
     # Arm document issue number (within that version and quality status)
     # Marked as open issue if not provided
-    'issue_no': 1,
+    'issue_no': 0,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
     #'release_candidate': 1,
     # Draft status - use this to indicate the document is not ready for publication
-    'draft': False,
+    'draft': True,
 
     # Arm document confidentiality. Must be either Non-confidential or Confidential
     # Marked as open issue if not provided
