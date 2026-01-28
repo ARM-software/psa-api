@@ -12,6 +12,8 @@ Changes between *Final 0* and *Final 1*
 .. rubric:: Clarifications and fixes
 
 *   Updated citations for ML-DSA and SLH-DSA key formats.
+*   Provided a table of hash algorithm OIDs for use with the HashML-DSA and HashSLH-DSA algorithms.
+    See :secref:`slh-dsa` and :secref:`ml-dsa`.
 
 Changes between *Beta 3* and *Final 0*
 --------------------------------------

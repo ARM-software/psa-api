@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto-pqc
@@ -181,6 +181,27 @@ The pre-hashed signature computation *HashML-DSA* generates distinct signatures 
 An ML-DSA signature can only be verified with an ML-DSA algorithm.
 A HashML-DSA signature can only be verified with a HashML-DSA algorithm.
 
+:numref:`tab-ml-dsa-oid` lists the hash algorithm OIDs to use with the HashML-DSA algorithm.
+Note that for HashML-DSA the DER-encoded OID includes the tag and length.
+
+.. csv-table:: Hash algorithm OID to use in HashML-DSA
+    :name: tab-ml-dsa-oid
+    :header-rows: 1
+    :class: longtable
+    :widths: 6 7 7 8
+
+    Hash algorithm, OID (dot notation), OID (ASN.1 hex), Reference
+    :code:`PSA_ALG_SHA_256`, 2.16.840.1.101.3.4.2.1, ``0609608648016503040201``, :RFC-title:`8017#B.1`
+    :code:`PSA_ALG_SHA_512_256`, 2.16.840.1.101.3.4.2.6, ``0609608648016503040206``, :RFC:`8017#B.1`
+    :code:`PSA_ALG_SHA_384`, 2.16.840.1.101.3.4.2.2, ``0609608648016503040202``, :RFC:`8017#B.1`
+    :code:`PSA_ALG_SHA_512`, 2.16.840.1.101.3.4.2.3, ``0609608648016503040203``, :RFC:`8017#B.1`
+    :code:`PSA_ALG_SHA3_256`, 2.16.840.1.101.3.4.2.8, ``0609608648016503040208``, :RFC-title:`9688#2`
+    :code:`PSA_ALG_SHA3_384`, 2.16.840.1.101.3.4.2.9, ``0609608648016503040209``, :RFC:`9688#2`
+    :code:`PSA_ALG_SHA3_512`, 2.16.840.1.101.3.4.2.10, ``060960864801650304020a``, :RFC:`9688#2`
+    :code:`PSA_ALG_SHAKE128_256`, 2.16.840.1.101.3.4.2.11, ``060960864801650304020b``, :RFC-title:`8702#2`
+    :code:`PSA_ALG_SHAKE256_512`, 2.16.840.1.101.3.4.2.12, ``060960864801650304020c``, :RFC:`8702#2`
+    :code:`PSA_ALG_SM3`, 1.2.156.10197.1.504, ``06082a811ccf55018378``, :cite-title:`SM3-draft` §8.1.3
+
 .. _ml-dsa-contexts:
 
 .. rubric:: Contexts
@@ -289,6 +310,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
     .. note::
         For the pre-hashing, `[FIPS204]` §5.4 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen ML-DSA parameter set.
 
+        :numref:`tab-ml-dsa-oid` lists the hash algorithm OID values to use when implementing HashML-DSA.
+
     This algorithm is randomized: each invocation returns a different, equally valid signature.
     See the `notes on hedged signatures <ml-dsa-deterministic-signatures_>`_.
 
@@ -347,6 +370,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     .. note::
         For the pre-hashing, `[FIPS204]` §5.4 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen ML-DSA parameter set.
+
+        :numref:`tab-ml-dsa-oid` lists the hash algorithm OID values to use when implementing HashML-DSA.
 
     This algorithm is deterministic: each invocation with the same inputs returns an identical signature.
 

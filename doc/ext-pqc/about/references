@@ -89,3 +89,27 @@
     :author: IETF
     :publication: June 2025
     :url: tools.ietf.org/html/rfc9802
+
+.. reference:: SM3-draft
+    :title: The SM3 Cryptographic Hash Function (Draft 02)
+    :author: Sean Shen, XiaoDong Lee, Ronald Henry Tse, Wong Wai Kit, Paul Yang
+    :publication: July 2018
+    :url: datatracker.ietf.org/doc/html/draft-sca-cfrg-sm3-02
+
+.. reference:: RFC9688
+    :title: Use of the SHA3 One-Way Hash Functions in the Cryptographic Message Syntax (CMS)
+    :author: IETF
+    :publication: November 2024
+    :url: tools.ietf.org/html/rfc9688.html
+
+.. reference:: RFC8017
+    :title: PKCS #1: RSA Cryptography Specifications Version 2.2
+    :author: IETF
+    :publication: November 2016
+    :url: tools.ietf.org/html/rfc8017.html
+
+.. reference:: RFC8702
+    :title: Use of the SHAKE One-Way Hash Functions in the Cryptographic Message Syntax (CMS)
+    :author: IETF
+    :publication: January 2020
+    :url: tools.ietf.org/html/rfc8702.html
