@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Introduction
@@ -25,10 +25,6 @@ This document includes:
 *   A description of typical architectures of implementations for this specification. See :secref:`architectures`.
 *   General considerations for implementers of this specification, and for applications that use the interface defined in this specification. See :secref:`implementation-considerations` and :secref:`usage-considerations`.
 *   A detailed definition of the API. See :secref:`library-management`, :secref:`key-management`, and :secref:`crypto-operations`.
-
-:cite-title:`PSA-PQC` is a companion document for version |docversion| of this specification.
-`[PSA-PQC]` defines an API for :term:`Post-Quantum Cryptography` (PQC) algorithms.
-The PQC API is now at FINAL status, and will be included in a future version of the |API| specification.
 
 In future, companion documents will define *profiles* for this specification. A profile is
 a minimum mandatory subset of the interface that a compliant implementation must

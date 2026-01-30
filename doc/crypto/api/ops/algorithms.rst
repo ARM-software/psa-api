@@ -286,20 +286,24 @@ Support macros
 
     The following composite algorithms require a hash algorithm:
 
-    *   `PSA_ALG_DETERMINISTIC_ECDSA()`
-    *   `PSA_ALG_ECDSA()`
-    *   `PSA_ALG_HKDF()`
-    *   `PSA_ALG_HKDF_EXPAND()`
-    *   `PSA_ALG_HKDF_EXTRACT()`
-    *   `PSA_ALG_HMAC()`
-    *   `PSA_ALG_JPAKE()`
-    *   `PSA_ALG_PBKDF2_HMAC()`
-    *   `PSA_ALG_RSA_OAEP()`
-    *   `PSA_ALG_RSA_PKCS1V15_SIGN()`
-    *   `PSA_ALG_RSA_PSS()`
-    *   `PSA_ALG_RSA_PSS_ANY_SALT()`
-    *   `PSA_ALG_SP800_108_COUNTER_HMAC()`
-    *   `PSA_ALG_SPAKE2P_CMAC()`
-    *   `PSA_ALG_SPAKE2P_HMAC()`
-    *   `PSA_ALG_TLS12_PRF()`
-    *   `PSA_ALG_TLS12_PSK_TO_MS()`
+    *   `PSA_ALG_DETERMINISTIC_ECDSA`
+    *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+    *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
+    *   `PSA_ALG_ECDSA`
+    *   `PSA_ALG_HASH_ML_DSA`
+    *   `PSA_ALG_HASH_SLH_DSA`
+    *   `PSA_ALG_HKDF`
+    *   `PSA_ALG_HKDF_EXPAND`
+    *   `PSA_ALG_HKDF_EXTRACT`
+    *   `PSA_ALG_HMAC`
+    *   `PSA_ALG_JPAKE`
+    *   `PSA_ALG_PBKDF2_HMAC`
+    *   `PSA_ALG_RSA_OAEP`
+    *   `PSA_ALG_RSA_PKCS1V15_SIGN`
+    *   `PSA_ALG_RSA_PSS`
+    *   `PSA_ALG_RSA_PSS_ANY_SALT`
+    *   `PSA_ALG_SP800_108_COUNTER_HMAC`
+    *   `PSA_ALG_SPAKE2P_CMAC`
+    *   `PSA_ALG_SPAKE2P_HMAC`
+    *   `PSA_ALG_TLS12_PRF`
+    *   `PSA_ALG_TLS12_PSK_TO_MS`

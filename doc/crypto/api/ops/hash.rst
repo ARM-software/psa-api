@@ -156,6 +156,17 @@ Hash algorithms
 
     SHA-512/256 is defined in :cite:`FIPS180-4`.
 
+.. macro:: PSA_ALG_SHA_256_192
+    :definition: ((psa_algorithm_t)0x0200000E)
+
+    .. summary::
+        The SHA-256/192 message digest algorithm.
+
+        .. versionadded:: 1.3
+
+    SHA-256/192 is the first 192 bits (24 bytes) of the SHA-256 output.
+    SHA-256 is defined in :cite:`FIPS180-4`.
+
 .. macro:: PSA_ALG_SHA3_224
     :definition: ((psa_algorithm_t)0x02000010)
 
@@ -192,13 +203,14 @@ Hash algorithms
     :definition: ((psa_algorithm_t)0x02000015)
 
     .. summary::
-        The first 512 bits (64 bytes) of the output from SHAKE256.
+        The SHAKE256/512 message digest algorithm.
 
         .. versionadded:: 1.1
 
-    This is used for pre-hashing in Ed448ph, see `PSA_ALG_ED448PH`.
-
+    SHAKE256/512 is the first 512 bits (64 bytes) of the SHAKE256 output.
     The SHAKE256 XOF is defined in :cite:`FIPS202`.
+
+    This is the pre-hashing for Ed448ph, see `PSA_ALG_ED448PH`, and can be used as pre-hashing for ML-DSA or SLH-DSA, see `PSA_ALG_HASH_ML_DSA` and `PSA_ALG_HASH_SLH_DSA`.
 
     .. note::
         To use SHAKE256 as an XOF, see :secref:`xof` and `PSA_ALG_SHAKE256`.
@@ -215,6 +227,48 @@ Hash algorithms
         *   SHAKE256/512 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID.
 
         It is recommended that these compound algorithms are not supported with `PSA_ALG_SHAKE256_512`.
+
+.. macro:: PSA_ALG_SHAKE128_256
+    :definition: ((psa_algorithm_t)0x02000016)
+
+    .. summary::
+        The SHAKE128/256 message digest algorithm.
+
+        .. versionadded:: 1.3
+
+    SHAKE128/256 is the first 256 bits (32 bytes) of the SHAKE128 output.
+    The SHAKE128 XOF is defined in :cite:`FIPS202`.
+
+    This can be used as pre-hashing for ML-DSA or SLH-DSA, see `PSA_ALG_HASH_ML_DSA` and `PSA_ALG_HASH_SLH_DSA`.
+
+    .. note::
+        To use SHAKE128 as an XOF, see :secref:`xof` and `PSA_ALG_SHAKE128`.
+
+    .. note::
+        For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-256 is recommended.
+        SHA3-256 has the same output size, and a theoretically higher security strength.
+
+.. macro:: PSA_ALG_SHAKE256_192
+    :definition: ((psa_algorithm_t)0x02000017)
+
+    .. summary::
+        The SHAKE256/192 message digest algorithm.
+
+        .. versionadded:: 1.3
+
+    SHAKE256/192 is the first 192 bits (24 bytes) of the SHAKE256 output.
+    SHAKE256 is defined in :cite:`FIPS202`.
+
+.. macro:: PSA_ALG_SHAKE256_256
+    :definition: ((psa_algorithm_t)0x02000018)
+
+    .. summary::
+        The SHAKE256/256 message digest algorithm.
+
+        .. versionadded:: 1.3
+
+    SHAKE256/256 is the first 256 bits (32 bytes) of the SHAKE256 output.
+    SHAKE256 is defined in :cite:`FIPS202`.
 
 .. macro:: PSA_ALG_SM3
     :definition: ((psa_algorithm_t)0x02000014)

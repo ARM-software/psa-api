@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2024-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2024-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -107,6 +107,49 @@ The key derivation, encryption, and authentication steps are left to the applica
         *   `PSA_ECC_FAMILY_FRP`
         *   `PSA_ECC_FAMILY_BRAINPOOL_P_R1`
         *   `PSA_ECC_FAMILY_MONTGOMERY`
+
+.. _ml-kem-algorithms:
+
+Module Lattice-based key-encapsulation algorithm
+------------------------------------------------
+
+ML-KEM is defined in :cite-title:`FIPS203`.
+ML-KEM has three parameter sets which provide differing security strengths.
+
+The generation of an ML-KEM key depends on the full parameter specification.
+The encoding of each parameter set into the key attributes is described in :secref:`ml-kem-keys`.
+
+See `[FIPS203]` §8 for details on the parameter sets.
+
+.. macro:: PSA_ALG_ML_KEM
+    :definition: ((psa_algorithm_t)0x0c000200)
+
+    .. summary::
+        Module Lattice-based key-encapsulation mechanism (ML-KEM).
+
+        .. versionadded:: 1.3
+
+    This is the ML-KEM key-encapsulation algorithm, defined by `[FIPS203]`.
+    ML-KEM requires an ML-KEM key, which determines the ML-KEM parameter set for the operation.
+
+    When using ML-KEM, the size of the encapsulation data returned by a call to :code:`psa_encapsulate()` is as follows:
+
+    .. csv-table::
+        :align: left
+        :header-rows: 1
+
+        Parameter set, Encapsulation data size in bytes
+        ML-KEM-512, 768
+        ML-KEM-768, 1088
+        ML-KEM-1024, 1568
+
+    The 32-byte shared output key that is produced by ML-KEM is pseudorandom.
+    Although it can be used directly as an encryption key, it is recommended to use the output key as an input to a key-derivation operation to produce additional cryptographic keys.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`
+        | `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY` (encapsulation only)
 
 Key-encapsulation functions
 ---------------------------

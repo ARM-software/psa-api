@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2025-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -54,7 +54,7 @@ XOF algorithms
 
     Some fixed output-length hash algorithms based on SHAKE128 are also provided in the |API|:
 
-    *   :code:`PSA_ALG_SHAKE128_256` --- defined in :cite-title:`PSA-PQC`
+    *   `PSA_ALG_SHAKE128_256`
 
 .. macro:: PSA_ALG_SHAKE256
     :definition: ((psa_algorithm_t)0x0D000200)
@@ -70,9 +70,9 @@ XOF algorithms
 
     Some fixed output-length hash algorithms based on SHAKE256 are also provided in the |API|:
 
-    *   :code:`PSA_ALG_SHAKE256_192` --- defined in `[PSA-PQC]`
-    *   :code:`PSA_ALG_SHAKE256_256` --- defined in `[PSA-PQC]`
-    *   :code:`PSA_ALG_SHAKE256_512`
+    *   `PSA_ALG_SHAKE256_192`
+    *   `PSA_ALG_SHAKE256_256`
+    *   `PSA_ALG_SHAKE256_512`
 
 .. macro:: PSA_ALG_ASCON_XOF128
     :definition: ((psa_algorithm_t)0x0D000300)
