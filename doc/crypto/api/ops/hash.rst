@@ -289,7 +289,7 @@ Single-part hashing functions
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     .. note::
         To verify the hash of a message against an expected value, use `psa_hash_compare()` instead.
@@ -330,7 +330,7 @@ Single-part hashing functions
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
 .. _hash-mp:
 
@@ -406,7 +406,7 @@ Multi-part hashing operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be inactive.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing. See :secref:`library-init`.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -449,7 +449,7 @@ Multi-part hashing operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing. See :secref:`library-init`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The total input for the operation is too large for the hash algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
@@ -484,7 +484,7 @@ Multi-part hashing operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing. See :secref:`library-init`.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
         The size of the ``hash`` buffer is too small.
         `PSA_HASH_LENGTH()` can be used to determine a sufficient buffer size.
@@ -523,7 +523,7 @@ Multi-part hashing operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing. See :secref:`library-init`.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -550,7 +550,7 @@ Multi-part hashing operations
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     Aborting an operation frees all associated resources except for the ``operation`` object itself. Once aborted, the operation object can be reused for another operation by calling `psa_hash_setup()` again.
 
@@ -585,7 +585,7 @@ Multi-part hashing operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be active.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing. See :secref:`library-init`.
     .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
         The size of the ``hash_state`` buffer is too small.
         `PSA_HASH_SUSPEND_OUTPUT_SIZE()` or `PSA_HASH_SUSPEND_OUTPUT_MAX_SIZE` can be used to determine a sufficient buffer size.
@@ -651,7 +651,7 @@ Multi-part hashing operations
         The following conditions can result in this error:
 
         *   The operation state is not valid: it must be inactive.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing. See :secref:`library-init`.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -682,7 +682,7 @@ Multi-part hashing operations
 
         *   The ``source_operation`` state is not valid: it must be active.
         *   The ``target_operation`` state is not valid: it must be inactive.
-        *   The library requires initializing by a call to `psa_crypto_init()`.
+        *   The library requires initializing. See :secref:`library-init`.
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY

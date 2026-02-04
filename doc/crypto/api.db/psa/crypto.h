@@ -1,9 +1,10 @@
-// SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 typedef /* implementation-defined type */ psa_aead_operation_t;
 typedef uint32_t psa_algorithm_t;
 typedef /* implementation-defined type */ psa_cipher_operation_t;
+typedef uint32_t psa_crypto_subsystem_t;
 typedef uint8_t psa_dh_family_t;
 typedef uint8_t psa_ecc_family_t;
 typedef /* implementation-defined type */ psa_hash_operation_t;
@@ -231,8 +232,16 @@ typedef struct psa_custom_key_parameters_t {
     /* implementation-defined value */
 #define PSA_CIPHER_UPDATE_OUTPUT_SIZE(key_type, alg, input_length) \
     /* implementation-defined value */
+#define PSA_CRYPTO_ALL_SUBSYSTEMS /* implementation-defined value */
 #define PSA_CRYPTO_API_VERSION_MAJOR 1
-#define PSA_CRYPTO_API_VERSION_MINOR 4
+#define PSA_CRYPTO_API_VERSION_MINOR 5
+#define PSA_CRYPTO_SUBSYSTEM_ACCELERATORS /* implementation-defined value */
+#define PSA_CRYPTO_SUBSYSTEM_BUILTIN_KEYS /* implementation-defined value */
+#define PSA_CRYPTO_SUBSYSTEM_COMMUNICATION /* implementation-defined value */
+#define PSA_CRYPTO_SUBSYSTEM_KEYS /* implementation-defined value */
+#define PSA_CRYPTO_SUBSYSTEM_RANDOM /* implementation-defined value */
+#define PSA_CRYPTO_SUBSYSTEM_SECURE_ELEMENTS /* implementation-defined value */
+#define PSA_CRYPTO_SUBSYSTEM_STORAGE /* implementation-defined value */
 #define PSA_CUSTOM_KEY_PARAMETERS_INIT { 0 }
 #define PSA_DH_FAMILY_RFC3526 ((psa_dh_family_t) 0x05)
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
@@ -553,6 +562,7 @@ psa_status_t psa_copy_key(psa_key_id_t source_key,
                           const psa_key_attributes_t * attributes,
                           psa_key_id_t * target_key);
 psa_status_t psa_crypto_init(void);
+psa_status_t psa_crypto_init_subsystem(psa_crypto_subsystem_t subsystem);
 psa_status_t psa_decapsulate(psa_key_id_t key,
                              psa_algorithm_t alg,
                              const uint8_t * ciphertext,

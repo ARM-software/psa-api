@@ -821,7 +821,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     If the algorithm has a context parameter, a zero-length context is used.
     To provide a context value, use `psa_sign_message_with_context()` instead.
@@ -951,7 +951,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     If the algorithm has a context parameter, a zero-length context is used.
     To provide a context value, use `psa_verify_message_with_context()` instead.
@@ -1083,7 +1083,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     For hash-and-sign signature algorithms, the ``hash`` input to this function is the hash of the message to sign.
     The algorithm used to calculate this hash is encoded in the signature algorithm.
@@ -1222,7 +1222,7 @@ Asymmetric signature functions
     .. retval:: PSA_ERROR_DATA_CORRUPT
     .. retval:: PSA_ERROR_DATA_INVALID
     .. retval:: PSA_ERROR_BAD_STATE
-        The library requires initializing by a call to `psa_crypto_init()`.
+        The library requires initializing. See :secref:`library-init`.
 
     For hash-and-sign signature algorithms, the ``hash`` input to this function is the hash of the message to verify.
     The algorithm used to calculate this hash is encoded in the signature algorithm.
