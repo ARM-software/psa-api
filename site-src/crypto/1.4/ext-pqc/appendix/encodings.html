@@ -24,7 +24,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../_static/documentation_options.js?v=de926398"></script>
+    <script src="../_static/documentation_options.js?v=ba5db3dc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -49,7 +49,7 @@
 <h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 AES 0119<br/>
 Non-confidential<br/>
-Version 1.4 PQC Extension.0
+Version 1.4 PQC Extension.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
@@ -110,10 +110,10 @@ This information should be read in conjunction with <a class="reference internal
 <span id="pqc-algorithm-encoding"></span><h2><span class="section-number">B.1 </span>Algorithm encoding<a class="headerlink" href="#algorithm-encoding" title="Link to this heading">¶</a></h2>
 <section id="hash-algorithm-encoding">
 <span id="hash-encoding"></span><h3><span class="section-number">B.1.1 </span>Hash algorithm encoding<a class="headerlink" href="#hash-algorithm-encoding" title="Link to this heading">¶</a></h3>
-<p>Additional hash algorithms defined by this extension are shown in <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 4</span></a></span>.
+<p>Additional hash algorithms defined by this extension are shown in <span><a class="reference internal" href="#table-hash-type"><span class="numref">Table 6</span></a></span>.
 See also <em>Hash algorithm encoding</em> in <a class="reference internal" href="../about/about.html#cite-psa-crypt"><span class="cite atg_c atg_c-cite">[PSA-CRYPT]</span></a> Appendix B.</p>
 <table class="docutils align-left" id="table-hash-type">
-<caption><span class="caption-number">Table 4 </span><span class="caption-text">Hash algorithm sub-type values</span><a class="headerlink" href="#table-hash-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Hash algorithm sub-type values</span><a class="headerlink" href="#table-hash-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Hash algorithm</p></th>
 <th class="head"><p>HASH-TYPE</p></th>
@@ -147,10 +147,10 @@ See also <em>Hash algorithm encoding</em> in <a class="reference internal" href=
 </section>
 <section id="asymmetric-signature-algorithm-encoding">
 <span id="sign-encoding"></span><h3><span class="section-number">B.1.2 </span>Asymmetric signature algorithm encoding<a class="headerlink" href="#asymmetric-signature-algorithm-encoding" title="Link to this heading">¶</a></h3>
-<p>Additional signature algorithms defined by this extension are shown in <span><a class="reference internal" href="#table-sign-type"><span class="numref">Table 5</span></a></span>.
+<p>Additional signature algorithms defined by this extension are shown in <span><a class="reference internal" href="#table-sign-type"><span class="numref">Table 7</span></a></span>.
 See also <em>Asymmetric signature algorithm encoding</em> in <a class="reference internal" href="../about/about.html#cite-psa-crypt"><span class="cite atg_c atg_c-cite">[PSA-CRYPT]</span></a> Appendix B.</p>
 <table class="docutils align-left" id="table-sign-type">
-<caption><span class="caption-number">Table 5 </span><span class="caption-text">Asymmetric signature algorithm sub-type values</span><a class="headerlink" href="#table-sign-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 7 </span><span class="caption-text">Asymmetric signature algorithm sub-type values</span><a class="headerlink" href="#table-sign-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Signature algorithm</p></th>
 <th class="head"><p>SIGN-TYPE</p></th>
@@ -227,9 +227,9 @@ See also <em>Asymmetric signature algorithm encoding</em> in <a class="reference
 </section>
 <section id="key-encapsulation-algorithm-encoding">
 <span id="encapsulation-encoding"></span><h3><span class="section-number">B.1.3 </span>Key-encapsulation algorithm encoding<a class="headerlink" href="#key-encapsulation-algorithm-encoding" title="Link to this heading">¶</a></h3>
-<p>Additional key-encapsulation algorithms defined by this extension are shown in <span><a class="reference internal" href="#table-encapsulation-type"><span class="numref">Table 6</span></a></span>.</p>
+<p>Additional key-encapsulation algorithms defined by this extension are shown in <span><a class="reference internal" href="#table-encapsulation-type"><span class="numref">Table 8</span></a></span>.</p>
 <table class="docutils align-left" id="table-encapsulation-type">
-<caption><span class="caption-number">Table 6 </span><span class="caption-text">Encapsulation algorithm sub-type values</span><a class="headerlink" href="#table-encapsulation-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 8 </span><span class="caption-text">Encapsulation algorithm sub-type values</span><a class="headerlink" href="#table-encapsulation-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Encapsulation algorithm</p></th>
 <th class="head"><p>ENCAPS-TYPE</p></th>
@@ -249,10 +249,10 @@ See also <em>Asymmetric signature algorithm encoding</em> in <a class="reference
 </section>
 <section id="key-encoding">
 <span id="pqc-key-encoding"></span><h2><span class="section-number">B.2 </span>Key encoding<a class="headerlink" href="#key-encoding" title="Link to this heading">¶</a></h2>
-<p>Additional asymmetric key types defined by this extension are shown in <span><a class="reference internal" href="#table-asymmetric-type"><span class="numref">Table 7</span></a></span>.
+<p>Additional asymmetric key types defined by this extension are shown in <span><a class="reference internal" href="#table-asymmetric-type"><span class="numref">Table 9</span></a></span>.
 See also <em>Asymmetric key encoding</em> in <a class="reference internal" href="../about/about.html#cite-psa-crypt"><span class="cite atg_c atg_c-cite">[PSA-CRYPT]</span></a> Appendix B.</p>
 <table class="docutils align-left" id="table-asymmetric-type">
-<caption><span class="caption-number">Table 7 </span><span class="caption-text">Asymmetric key sub-type values</span><a class="headerlink" href="#table-asymmetric-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 9 </span><span class="caption-text">Asymmetric key sub-type values</span><a class="headerlink" href="#table-asymmetric-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Asymmetric key type</p></th>
 <th class="head"><p>ASYM-TYPE</p></th>
@@ -268,10 +268,10 @@ See also <em>Asymmetric key encoding</em> in <a class="reference internal" href=
 </table>
 <section id="non-parameterized-asymmetric-key-encoding">
 <span id="simple-asymmetric-key-encoding"></span><h3><span class="section-number">B.2.1 </span>Non-parameterized asymmetric key encoding<a class="headerlink" href="#non-parameterized-asymmetric-key-encoding" title="Link to this heading">¶</a></h3>
-<p>Additional non-parameterized asymmetric key types defined by this extension are shown in <span><a class="reference internal" href="#table-np-type"><span class="numref">Table 8</span></a></span>.
+<p>Additional non-parameterized asymmetric key types defined by this extension are shown in <span><a class="reference internal" href="#table-np-type"><span class="numref">Table 10</span></a></span>.
 See also <em>Non-parameterized asymmetric key encoding</em> in <a class="reference internal" href="../about/about.html#cite-psa-crypt"><span class="cite atg_c atg_c-cite">[PSA-CRYPT]</span></a> Appendix B.</p>
 <table class="docutils align-left" id="table-np-type">
-<caption><span class="caption-number">Table 8 </span><span class="caption-text">Non-parameterized asymmetric key family values</span><a class="headerlink" href="#table-np-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 10 </span><span class="caption-text">Non-parameterized asymmetric key family values</span><a class="headerlink" href="#table-np-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key family</p></th>
 <th class="head"><p>Public/pair</p></th>
@@ -360,9 +360,9 @@ See also <em>Non-parameterized asymmetric key encoding</em> in <a class="referen
 </figcaption>
 </figure>
 <p>PAIR is either 0 for a public key, or 3 for a key pair.</p>
-<p>The defined values for FAMILY and P are shown in <span><a class="reference internal" href="#table-slh-dsa-type"><span class="numref">Table 9</span></a></span>.</p>
+<p>The defined values for FAMILY and P are shown in <span><a class="reference internal" href="#table-slh-dsa-type"><span class="numref">Table 11</span></a></span>.</p>
 <table class="docutils align-left" id="table-slh-dsa-type">
-<caption><span class="caption-number">Table 9 </span><span class="caption-text">SLH-DSA key family values</span><a class="headerlink" href="#table-slh-dsa-type" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 11 </span><span class="caption-text">SLH-DSA key family values</span><a class="headerlink" href="#table-slh-dsa-type" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>SLH-DSA key family</p></th>
 <th class="head"><p>FAMILY</p></th>

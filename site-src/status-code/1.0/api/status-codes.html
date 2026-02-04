@@ -24,10 +24,9 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../_static/documentation_options.js?v=e9607266"></script>
+    <script src="../_static/documentation_options.js?v=8dafa222"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="1 Reference header file" href="../appendix/reference-headers.html" />
@@ -50,10 +49,10 @@
 <h3><a href="../index.html">PSA Certified<br />Status code API</a></h3>
 IHI 0097<br/>
 Non-confidential<br/>
-Version 1.0.4
+Version 1.0.5
 <hr />
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/intro.html">1 Introduction</a></li>
@@ -96,7 +95,7 @@ Version 1.0.4
 <h1><span class="section-number">2 </span>Status codes<a class="headerlink" href="#status-codes" title="Link to this heading">¶</a></h1>
 <section id="overview">
 <span id="error-codes"></span><h2><span class="section-number">2.1 </span>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
-<p>The PSA Certified APIs are often implemented together in a larger framework. For example, the <span><em>Trusted Firmware-M</em> <a class="reference internal" href="../about.html#cite-tf-m"><span class="cite">[TF-M]</span></a></span> project implements all of the PSA functional APIs as Root of Trust Services within the Secure Processing Environment that it provides. Using a common definition for status and error codes enables easier integration and inter-operation of these APIs.</p>
+<p>The PSA Certified APIs are often implemented together in a larger framework. For example, the <span><em>Trusted Firmware-M</em> <a class="reference internal" href="../about/about.html#cite-tf-m"><span class="cite">[TF-M]</span></a></span> project implements all of the PSA functional APIs as Root of Trust Services within the Secure Processing Environment that it provides. Using a common definition for status and error codes enables easier integration and inter-operation of these APIs.</p>
 <p>The PSA Certified APIs use the convention that status codes that are negative indicate an error, and zero or positive values indicate success. These are identified in the API by the <a class="reference internal" href="#c.psa_status_t" title="psa_status_t"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_status_t</span></code></a> type.</p>
 <p>Status codes <code class="docutils literal notranslate"><span class="pre">-129</span></code> to <code class="docutils literal notranslate"><span class="pre">-248</span></code> are for use by PSA Certified API specifications. These codes are defined in the current PSA specifications, or are reserved for future PSA specifications. Status codes in this range are used in the following ways:</p>
 <ul class="simple">
@@ -104,10 +103,10 @@ Version 1.0.4
 <li><p>Error codes that are specific to an individual PSA Certified API.</p></li>
 </ul>
 <p>Status codes in this range must only be used as defined in a PSA specification.</p>
-<p>In the context of an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>:</p>
+<p>In the context of an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about/about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>:</p>
 <ul class="simple">
-<li><p>The <a class="reference internal" href="../about.html#term-secure-partition-manager"><span class="term">Secure Partition Manager</span></a> (SPM) implementation can define error codes in the range <code class="docutils literal notranslate"><span class="pre">-249</span></code> to <code class="docutils literal notranslate"><span class="pre">-256</span></code> for <span class="sc">IMPLEMENTATION DEFINED</span> purposes.</p></li>
-<li><p>A <a class="reference internal" href="../about.html#term-root-of-trust-service"><span class="term">Root of Trust Service</span></a> (RoT Service) can define additional error codes in the ranges <code class="docutils literal notranslate"><span class="pre">-1</span></code> to <code class="docutils literal notranslate"><span class="pre">-128</span></code> and <code class="docutils literal notranslate"><span class="pre">-257</span></code> to <code class="docutils literal notranslate"><span class="pre">MIN_INT32</span></code> for RoT Service-specific error conditions.</p></li>
+<li><p>The <a class="reference internal" href="../about/about.html#term-secure-partition-manager"><span class="term">Secure Partition Manager</span></a> (SPM) implementation can define error codes in the range <code class="docutils literal notranslate"><span class="pre">-249</span></code> to <code class="docutils literal notranslate"><span class="pre">-256</span></code> for <span class="sc">IMPLEMENTATION DEFINED</span> purposes.</p></li>
+<li><p>A <a class="reference internal" href="../about/about.html#term-root-of-trust-service"><span class="term">Root of Trust Service</span></a> (RoT Service) can define additional error codes in the ranges <code class="docutils literal notranslate"><span class="pre">-1</span></code> to <code class="docutils literal notranslate"><span class="pre">-128</span></code> and <code class="docutils literal notranslate"><span class="pre">-257</span></code> to <code class="docutils literal notranslate"><span class="pre">MIN_INT32</span></code> for RoT Service-specific error conditions.</p></li>
 </ul>
 <p><span><a class="reference internal" href="#tab-error-codes"><span class="numref">Table 4</span></a></span> defines the common error codes and reserved ranges for the PSA Certified APIs. See the error code macros and function definitions in <a class="reference internal" href="#api"><span class="secref">API Reference</span></a> for details on their usage.</p>
 <table class="docutils align-default" id="tab-error-codes">
@@ -138,7 +137,7 @@ Version 1.0.4
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_PROGRAMMER_ERROR</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">-129</span></code></p></td>
-<td><p>Connection dropped due to <a class="reference internal" href="../about.html#term-programmer-error"><span class="scterm">PROGRAMMER ERROR</span></a>.</p></td>
+<td><p>Connection dropped due to <a class="reference internal" href="../about/about.html#term-programmer-error"><span class="scterm">PROGRAMMER ERROR</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CONNECTION_REFUSED</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">-130</span></code></p></td>
@@ -299,22 +298,22 @@ typedef int32_t <a class="reference internal" href="#c.psa_status_t" title="psa_
 <span id="id2"></span><h3><span class="section-number">2.2.3 </span>Error codes<a class="headerlink" href="#status-errors" title="Link to this heading">¶</a></h3>
 <section id="c.PSA_ERROR_PROGRAMMER_ERROR">
 <h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_PROGRAMMER_ERROR</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_PROGRAMMER_ERROR" title="Link to this heading">¶</a></h4>
-<p>A status code that indicates a <a class="reference internal" href="../about.html#term-programmer-error"><span class="scterm">PROGRAMMER ERROR</span></a> in the client.</p>
+<p>A status code that indicates a <a class="reference internal" href="../about/about.html#term-programmer-error"><span class="scterm">PROGRAMMER ERROR</span></a> in the client.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_PROGRAMMER_ERROR" title="PSA_ERROR_PROGRAMMER_ERROR">PSA_ERROR_PROGRAMMER_ERROR</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>)-129)</pre>
 <p>This error indicates that the function has detected an abnormal call, which typically indicates a programming error in the caller, or an abuse of the API.</p>
-<p>This error has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
+<p>This error has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about/about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
 </section>
 <section id="c.PSA_ERROR_CONNECTION_REFUSED">
 <h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CONNECTION_REFUSED</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_CONNECTION_REFUSED" title="Link to this heading">¶</a></h4>
 <p>A status code that indicates that the caller is not permitted to connect to a Service.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_CONNECTION_REFUSED" title="PSA_ERROR_CONNECTION_REFUSED">PSA_ERROR_CONNECTION_REFUSED</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>)-130)</pre>
-<p>This message has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
+<p>This message has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about/about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
 </section>
 <section id="c.PSA_ERROR_CONNECTION_BUSY">
 <h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_CONNECTION_BUSY</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_CONNECTION_BUSY" title="Link to this heading">¶</a></h4>
 <p>A status code that indicates that the caller cannot connect to a service.</p>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ERROR_CONNECTION_BUSY" title="PSA_ERROR_CONNECTION_BUSY">PSA_ERROR_CONNECTION_BUSY</a> ((<a class="reference internal" href="#c.psa_status_t" title="psa_status_t">psa_status_t</a>)-131)</pre>
-<p>This message has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
+<p>This message has a specific meaning in an implementation of <span><em>Arm® Platform Security Architecture Firmware Framework</em> <a class="reference internal" href="../about/about.html#cite-psa-ffm"><span class="cite">[PSA-FFM]</span></a></span>.</p>
 </section>
 <section id="c.PSA_ERROR_GENERIC_ERROR">
 <h4><code class="docutils literal notranslate"><span class="pre">PSA_ERROR_GENERIC_ERROR</span></code> (macro)<a class="headerlink" href="#c.PSA_ERROR_GENERIC_ERROR" title="Link to this heading">¶</a></h4>
@@ -519,7 +518,7 @@ if (r == <a class="reference internal" href="#c.PSA_SUCCESS" title="PSA_SUCCESS"
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &#169; 2017-2022, 2024-2025 Arm Limited and/or its affiliates.
+      &#169; 2017-2022, 2024-2026 Arm Limited and/or its affiliates.
       
     </div>
 

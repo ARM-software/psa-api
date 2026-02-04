@@ -24,7 +24,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../../_static/documentation_options.js?v=ea36c55f"></script>
+    <script src="../../_static/documentation_options.js?v=8ef9151b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
@@ -51,7 +51,7 @@
 <h3><a href="../../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.4.0
+Version 1.4.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about/about.html">About this document</a></li>
@@ -186,7 +186,17 @@ Version 1.4.0
 </div>
 <pre class="literal-block">#define <a class="reference internal" href="#c.PSA_ALG_AES_MMO_ZIGBEE" title="PSA_ALG_AES_MMO_ZIGBEE">PSA_ALG_AES_MMO_ZIGBEE</a> ((<a class="reference internal" href="algorithms.html#c.psa_algorithm_t" title="psa_algorithm_t">psa_algorithm_t</a>)0x02000007)</pre>
 <p>This is the cryptographic hash function based on the Merkle-Damgård construction over a Matyas-Meyer-Oseas one-way compression function and the AES-128 block cipher, with the parametrization defined in <span><em>zigbee Specification</em> <a class="reference internal" href="../../about/about.html#cite-zigbee"><span class="cite">[ZIGBEE]</span></a></span> §B.6.</p>
-<p>This hash function can operate on input strings of up to <span class="math notranslate nohighlight">\(2^{32} - 1\)</span> bits.</p>
+<p>This hash function can operate on input strings of up to <span class="math notranslate nohighlight">\(2^{29} - 1\)</span> bytes.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The length of the hash is 128 bits, which makes brute-force attacks against collision resistance feasible.
+This algorithm is only recommended for use in the Zigbee protocol.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>AES-MMO-Zigbee is not specified with <a class="reference internal" href="signature.html#c.PSA_ALG_RSA_PKCS1V15_SIGN" title="PSA_ALG_RSA_PKCS1V15_SIGN"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_SIGN</span></code></a>, due to the lack of a standard OID and the short length of the hash.</p>
+<p>It is recommended that this compound algorithm is not supported with <a class="reference internal" href="#c.PSA_ALG_AES_MMO_ZIGBEE" title="PSA_ALG_AES_MMO_ZIGBEE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_AES_MMO_ZIGBEE</span></code></a>.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The Zigbee keyed hash function from <a class="reference internal" href="../../about/about.html#cite-zigbee"><span class="cite atg_c atg_c-cite">[ZIGBEE]</span></a> §B.1.4 is <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a><code class="docutils literal notranslate"><span class="pre">(</span></code><a class="reference internal" href="#c.PSA_ALG_AES_MMO_ZIGBEE" title="PSA_ALG_AES_MMO_ZIGBEE"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_AES_MMO_ZIGBEE</span></code></a><code class="docutils literal notranslate"><span class="pre">)</span></code>.</p>
@@ -277,7 +287,18 @@ Version 1.4.0
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-512 is recommended. SHA3-512 has the same output size, and a theoretically higher security strength.</p>
+<p>For other scenarios where a hash function based on SHA3 or SHAKE is required, SHA3-512 is recommended.
+SHA3-512 has the same output size, and a theoretically higher security strength.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current version of this specification does not specify SHAKE256/512 in certain compound algorithms, due to the lack of standardization of some required parameters:</p>
+<ul class="simple">
+<li><p>SHAKE256/512 is not specified with compound algorithms based on HMAC, due to the lack of a standard HMAC block size.
+See <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a> for details.</p></li>
+<li><p>SHAKE256/512 is not specified with <a class="reference internal" href="signature.html#c.PSA_ALG_RSA_PKCS1V15_SIGN" title="PSA_ALG_RSA_PKCS1V15_SIGN"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_SIGN</span></code></a>, due to the lack of a standard OID.</p></li>
+</ul>
+<p>It is recommended that these compound algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_SHAKE256_512" title="PSA_ALG_SHAKE256_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHAKE256_512</span></code></a>.</p>
 </div>
 </section>
 <section id="c.PSA_ALG_SM3">
@@ -297,6 +318,16 @@ Version 1.4.0
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To use the Ascon XOF algorithms, see <a class="reference internal" href="xof.html#c.PSA_ALG_ASCON_XOF128" title="PSA_ALG_ASCON_XOF128"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ASCON_XOF128</span></code></a> and <a class="reference internal" href="xof.html#c.PSA_ALG_ASCON_CXOF128" title="PSA_ALG_ASCON_CXOF128"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ASCON_CXOF128</span></code></a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current version of this specification does not specify Ascon-Hash256 in certain compound algorithms, due to the lack of standardization of some required parameters:</p>
+<ul class="simple">
+<li><p>Ascon-Hash256 is not specified with compound algorithms based on HMAC, due to the lack of a standard HMAC block size.
+See <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a> for details.</p></li>
+<li><p>Ascon-Hash256 is not specified with <a class="reference internal" href="signature.html#c.PSA_ALG_RSA_PKCS1V15_SIGN" title="PSA_ALG_RSA_PKCS1V15_SIGN"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_SIGN</span></code></a>, due to the lack of a standard OID.</p></li>
+</ul>
+<p>It is recommended that these compound algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_ASCON_HASH256" title="PSA_ALG_ASCON_HASH256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ASCON_HASH256</span></code></a>.</p>
 </div>
 </section>
 </section>
@@ -1188,7 +1219,7 @@ See <a class="reference internal" href="#hash-suspend-state-constants"><span cla
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &#169; 2018-2025 Arm Limited and/or its affiliates.
+      &#169; 2018-2026 Arm Limited and/or its affiliates.
       
     </div>
 

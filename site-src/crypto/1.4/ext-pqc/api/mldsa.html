@@ -24,7 +24,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../_static/documentation_options.js?v=de926398"></script>
+    <script src="../_static/documentation_options.js?v=ba5db3dc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
@@ -51,7 +51,7 @@
 <h3><a href="../index.html">PSA Certified<br />Crypto API</a></h3>
 AES 0119<br/>
 Non-confidential<br/>
-Version 1.4 PQC Extension.0
+Version 1.4 PQC Extension.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../about/about.html">About this document</a></li>
@@ -133,9 +133,9 @@ Version 1.4 PQC Extension.0
 <p>In calls to <code class="docutils literal notranslate"><span class="pre">psa_import_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code> and <code class="docutils literal notranslate"><span class="pre">psa_export_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, the key-pair data format is the 32-byte seed <span class="math notranslate nohighlight">\(\xi\)</span>.</p>
 <div class="rationale admonition docutils container">
 <p class="admonition-title"><strong>Rationale</strong></p>
-<p>The formats for X.509 handling of ML-DSA keys are specified in <span><em>Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)</em> <a class="reference internal" href="../about/about.html#cite-lamps-mldsa"><span class="cite">[LAMPS-MLDSA]</span></a></span>.
+<p>The formats for X.509 handling of ML-DSA keys are specified in <span><em>Internet X.509 Public Key Infrastructure --- Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)</em> <a class="reference internal" href="../about/about.html#cite-rfc9881"><span class="cite">[RFC9881]</span></a></span>.
 This permits a choice of three formats for the decapsulation key material, incorporating one, or both, of the seed value <span class="math notranslate nohighlight">\(\xi\)</span> and the expanded secret key <span class="math notranslate nohighlight">\(sk\)</span>.</p>
-<p>The Crypto API only supports the recommended format from <a class="reference internal" href="../about/about.html#cite-lamps-mldsa"><span class="cite atg_c atg_c-cite">[LAMPS-MLDSA]</span></a>, which is the bytes of the seed <span class="math notranslate nohighlight">\(\xi\)</span>, but without the ASN.1 encoding prefix.
+<p>The Crypto API only supports the recommended format from <a class="reference internal" href="../about/about.html#cite-rfc9881"><span class="cite">[RFC9881]</span></a>, which is the bytes of the seed <span class="math notranslate nohighlight">\(\xi\)</span>, but without the ASN.1 encoding prefix.
 This suits the constrained nature of Crypto API implementations, where interoperation with expanded secret-key formats is not required.</p>
 </div>
 <p>See <a class="reference internal" href="#c.PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY" title="PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY</span></code></a> for the data format used when exporting the public key with <code class="docutils literal notranslate"><span class="pre">psa_export_public_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
@@ -175,7 +175,7 @@ The key pair <span class="math notranslate nohighlight">\((pk, sk)\)</span> is g
 <p>In calls to <code class="docutils literal notranslate"><span class="pre">psa_import_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, <code class="docutils literal notranslate"><span class="pre">psa_export_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, and <code class="docutils literal notranslate"><span class="pre">psa_export_public_key</span></code><code class="docutils literal notranslate"><span class="pre">()</span></code>, the public-key data format is <span class="math notranslate nohighlight">\(pk\)</span>.</p>
 <div class="rationale admonition docutils container">
 <p class="admonition-title"><strong>Rationale</strong></p>
-<p>This format is the same as that specified for X.509 in <span><em>Internet X.509 Public Key Infrastructure - Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)</em> <a class="reference internal" href="../about/about.html#cite-lamps-mldsa"><span class="cite">[LAMPS-MLDSA]</span></a></span>.</p>
+<p>This format is the same as that specified for X.509 in <span><em>Internet X.509 Public Key Infrastructure --- Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)</em> <a class="reference internal" href="../about/about.html#cite-rfc9881"><span class="cite">[RFC9881]</span></a></span>.</p>
 </div>
 <p>The size of the public key depends on the ML-DSA parameter set as follows:</p>
 <table class="docutils align-left">
@@ -253,6 +253,76 @@ However, it notes that use of the hedged variant with a weak RNG is generally pr
 <p>The pre-hashed signature computation <em>HashML-DSA</em> generates distinct signatures to a pure signature <em>ML-DSA</em>, with the same key and message hashing algorithm.</p>
 <p>An ML-DSA signature can only be verified with an ML-DSA algorithm.
 A HashML-DSA signature can only be verified with a HashML-DSA algorithm.</p>
+<p><span><a class="reference internal" href="#tab-ml-dsa-oid"><span class="numref">Table 4</span></a></span> lists the hash algorithm OIDs to use with the HashML-DSA algorithm.
+Note that for HashML-DSA the DER-encoded OID includes the tag and length.</p>
+<table class="longtable docutils align-default" id="tab-ml-dsa-oid">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Hash algorithm OID to use in HashML-DSA</span><a class="headerlink" href="#tab-ml-dsa-oid" title="Link to this table">¶</a></caption>
+<colgroup>
+<col style="width: 21.4%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 28.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Hash algorithm</p></th>
+<th class="head"><p>OID (dot notation)</p></th>
+<th class="head"><p>OID (ASN.1 hex)</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHA_256</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0609608648016503040201</span></code></p></td>
+<td><p><span><em>PKCS #1: RSA Cryptography Specifications Version 2.2</em> <a class="reference internal" href="../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_256</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.6</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0609608648016503040206</span></code></p></td>
+<td><p><a class="reference internal" href="../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHA_384</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0609608648016503040202</span></code></p></td>
+<td><p><a class="reference internal" href="../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0609608648016503040203</span></code></p></td>
+<td><p><a class="reference internal" href="../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_256</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0609608648016503040208</span></code></p></td>
+<td><p><span><em>Use of the SHA3 One-Way Hash Functions in the Cryptographic Message Syntax (CMS)</em> <a class="reference internal" href="../about/about.html#cite-rfc9688"><span class="cite">[RFC9688]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc9688.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_384</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0609608648016503040209</span></code></p></td>
+<td><p><a class="reference internal" href="../about/about.html#cite-rfc9688"><span class="cite">[RFC9688]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc9688.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_512</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">060960864801650304020a</span></code></p></td>
+<td><p><a class="reference internal" href="../about/about.html#cite-rfc9688"><span class="cite">[RFC9688]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc9688.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHAKE128_256" title="PSA_ALG_SHAKE128_256"><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHAKE128_256</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">060960864801650304020b</span></code></p></td>
+<td><p><span><em>Use of the SHAKE One-Way Hash Functions in the Cryptographic Message Syntax (CMS)</em> <a class="reference internal" href="../about/about.html#cite-rfc8702"><span class="cite">[RFC8702]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8702.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SHAKE256_512</span></code></p></td>
+<td><p>2.16.840.1.101.3.4.2.12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">060960864801650304020c</span></code></p></td>
+<td><p><a class="reference internal" href="../about/about.html#cite-rfc8702"><span class="cite">[RFC8702]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8702.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PSA_ALG_SM3</span></code></p></td>
+<td><p>1.2.156.10197.1.504</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">06082a811ccf55018378</span></code></p></td>
+<td><p><span><em>The SM3 Cryptographic Hash Function (Draft 02)</em> <a class="reference internal" href="../about/about.html#cite-sm3-draft"><span class="cite">[SM3-draft]</span></a></span> §8.1.3</p></td>
+</tr>
+</tbody>
+</table>
 <p class="rubric" id="ml-dsa-contexts">Contexts</p>
 <p>All ML-DSA algorithms can be used with contexts, which enables domain-separation when signatures are made of different message structures with the same key.
 Context values are arbitrary strings between zero and 255 bytes in length.</p>
@@ -352,6 +422,7 @@ ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For the pre-hashing, <a class="reference internal" href="../about/about.html#cite-fips204"><span class="cite atg_c atg_c-cite">[FIPS204]</span></a> §5.4 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen ML-DSA parameter set.</p>
+<p><span><a class="reference internal" href="#tab-ml-dsa-oid"><span class="numref">Table 4</span></a></span> lists the hash algorithm OID values to use when implementing HashML-DSA.</p>
 </div>
 <p>This algorithm is randomized: each invocation returns a different, equally valid signature.
 See the <a class="reference internal" href="#ml-dsa-deterministic-signatures">notes on hedged signatures</a>.</p>
@@ -408,6 +479,7 @@ ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For the pre-hashing, <a class="reference internal" href="../about/about.html#cite-fips204"><span class="cite atg_c atg_c-cite">[FIPS204]</span></a> §5.4 recommends the use of an approved hash function with an equivalent, or better, security strength than the chosen ML-DSA parameter set.</p>
+<p><span><a class="reference internal" href="#tab-ml-dsa-oid"><span class="numref">Table 4</span></a></span> lists the hash algorithm OID values to use when implementing HashML-DSA.</p>
 </div>
 <p>This algorithm is deterministic: each invocation with the same inputs returns an identical signature.</p>
 <div class="admonition warning">

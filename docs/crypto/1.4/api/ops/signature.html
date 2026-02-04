@@ -21,7 +21,7 @@
     <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,300;0,400;1,300&display=swap" />
-    <script src="../../_static/documentation_options.js?v=ea36c55f"></script>
+    <script src="../../_static/documentation_options.js?v=8ef9151b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>window.MathJax = {"chtml": {"mtextInheritFont": false, "mtextFont": "Lato-Light"}}</script>
@@ -48,7 +48,7 @@
 <h3><a href="../../index.html">PSA Certified<br />Crypto API</a></h3>
 IHI 0086<br/>
 Non-confidential<br/>
-Version 1.4.0
+Version 1.4.1
 <hr />
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../about/about.html">About this document</a></li>
@@ -217,6 +217,117 @@ RSA PKCS#1 v1.5 does not have a context parameter.
 However, the sign or verify with context functions can be used with a zero-length context.</p>
 <p>This signature scheme is defined by <span><em>PKCS #1: RSA Cryptography Specifications Version 2.2</em> <a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#section-8.2">§8.2</a> under the name RSASSA-PKCS1-v1_5.</p>
 <p>When used with <a class="reference internal" href="#c.psa_sign_hash" title="psa_sign_hash"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_sign_hash()</span></code></a> or <a class="reference internal" href="#c.psa_verify_hash" title="psa_verify_hash"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">psa_verify_hash()</span></code></a>, the provided <code class="docutils literal notranslate"><span class="pre">hash</span></code> parameter is used as <span class="math notranslate nohighlight">\(H\)</span> from step 2 onwards in the message encoding algorithm <code class="docutils literal notranslate"><span class="pre">EMSA-PKCS1-V1_5-ENCODE()</span></code> in <a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#section-9.2">§9.2</a>. <span class="math notranslate nohighlight">\(H\)</span> is the message digest, computed using the <code class="docutils literal notranslate"><span class="pre">hash_alg</span></code> hash algorithm.</p>
+<p><span><a class="reference internal" href="#tab-rsa-pkcs1v15-oid"><span class="numref">Table 15</span></a></span> lists the OID to use when formatting the hash.
+Note that the DER-encoded OID in the table is just the data value, without the OID tag and length.</p>
+<table class="longtable docutils align-default" id="tab-rsa-pkcs1v15-oid">
+<caption><span class="caption-number">Table 15 </span><span class="caption-text">OID to use for RSA PKCS#1 v1.5</span><a class="headerlink" href="#tab-rsa-pkcs1v15-oid" title="Link to this table">¶</a></caption>
+<colgroup>
+<col style="width: 21.4%" />
+<col style="width: 25.0%" />
+<col style="width: 21.4%" />
+<col style="width: 32.1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Hash algorithm</p></th>
+<th class="head"><p>OID (dot notation)</p></th>
+<th class="head"><p>OID (ASN.1 hex)</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD2" title="PSA_ALG_MD2"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD2</span></code></a></p></td>
+<td><p>1.2.840.113549.2.2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2a864886f70d0202</span></code></p></td>
+<td><p><span><em>PKCS #1: RSA Cryptography Specifications Version 2.2</em> <a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD4" title="PSA_ALG_MD4"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD4</span></code></a></p></td>
+<td><p>1.2.840.113549.2.4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2a864886f70d0204</span></code></p></td>
+<td><p><span><em>The MD4 Message-Digest Algorithm</em> <a class="reference internal" href="../../about/about.html#cite-rfc1320"><span class="cite">[RFC1320]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc1320.html#section-1">§1</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_MD5" title="PSA_ALG_MD5"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_MD5</span></code></a></p></td>
+<td><p>1.2.840.113549.2.5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2a864886f70d0205</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_RIPEMD160" title="PSA_ALG_RIPEMD160"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RIPEMD160</span></code></a></p></td>
+<td><p>1.3.36.3.2.1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2b24030201</span></code></p></td>
+<td><p><span><em>MailTrusT Version 2 Algorithmen</em> <a class="reference internal" href="../../about/about.html#cite-mailtrust"><span class="cite">[MailTrusT]</span></a></span> §4.1.4</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_1" title="PSA_ALG_SHA_1"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_1</span></code></a></p></td>
+<td><p>1.3.14.3.2.26</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2b0e03021a</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_224" title="PSA_ALG_SHA_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_224</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040204</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_256" title="PSA_ALG_SHA_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_256</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040201</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_384" title="PSA_ALG_SHA_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_384</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040202</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512" title="PSA_ALG_SHA_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040203</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512_224" title="PSA_ALG_SHA_512_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_224</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040205</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA_512_256" title="PSA_ALG_SHA_512_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA_512_256</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.6</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040206</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc8017"><span class="cite">[RFC8017]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8017.html#appendix-B.1">Appendix B.1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_224" title="PSA_ALG_SHA3_224"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_224</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040207</span></code></p></td>
+<td><p><span><em>Use of the SHA3 One-Way Hash Functions in the Cryptographic Message Syntax (CMS)</em> <a class="reference internal" href="../../about/about.html#cite-rfc9688"><span class="cite">[RFC9688]</span></a></span> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc9688.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_256" title="PSA_ALG_SHA3_256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_256</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040208</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc9688"><span class="cite">[RFC9688]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc9688.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_384" title="PSA_ALG_SHA3_384"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_384</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">608648016503040209</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc9688"><span class="cite">[RFC9688]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc9688.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHA3_512" title="PSA_ALG_SHA3_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHA3_512</span></code></a></p></td>
+<td><p>2.16.840.1.101.3.4.2.10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">60864801650304020a</span></code></p></td>
+<td><p><a class="reference internal" href="../../about/about.html#cite-rfc9688"><span class="cite">[RFC9688]</span></a> <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc9688.html#section-2">§2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="hash.html#c.PSA_ALG_SM3" title="PSA_ALG_SM3"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SM3</span></code></a></p></td>
+<td><p>1.2.156.10197.1.504</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2a811ccf55018378</span></code></p></td>
+<td><p><span><em>The SM3 Cryptographic Hash Function (Draft 02)</em> <a class="reference internal" href="../../about/about.html#cite-sm3-draft"><span class="cite">[SM3-draft]</span></a></span> §8.1.3</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_RSA_PKCS1V15_SIGN" title="PSA_ALG_RSA_PKCS1V15_SIGN"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_SIGN</span></code></a> with hash algorithms that lack a standard OID, namely:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="hash.html#c.PSA_ALG_AES_MMO_ZIGBEE" title="PSA_ALG_AES_MMO_ZIGBEE"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_AES_MMO_ZIGBEE</span></code></a></p></li>
+<li><p><a class="reference internal" href="hash.html#c.PSA_ALG_ASCON_HASH256" title="PSA_ALG_ASCON_HASH256"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ASCON_HASH256</span></code></a></p></li>
+<li><p><a class="reference internal" href="hash.html#c.PSA_ALG_SHAKE256_512" title="PSA_ALG_SHAKE256_512"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_SHAKE256_512</span></code></a></p></li>
+</ul>
+<p>It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_RSA_PKCS1V15_SIGN" title="PSA_ALG_RSA_PKCS1V15_SIGN"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_RSA_PKCS1V15_SIGN</span></code></a>.
+Future versions of the Crypto API might specify what OID to use.</p>
+</div>
 <p class="rubric">Compatible key types</p>
 <div class="line-block">
 <div class="line"><a class="reference internal" href="../keys/types.html#c.PSA_KEY_TYPE_RSA_KEY_PAIR" title="PSA_KEY_TYPE_RSA_KEY_PAIR"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_KEY_TYPE_RSA_KEY_PAIR</span></code></a></div>
@@ -497,6 +608,11 @@ However, the sign or verify with context functions can be used with a zero-lengt
 <p>This is the deterministic ECDSA signature scheme defined by <span><em>Deterministic Usage of the Digital Signature Algorithm (DSA) and Elliptic Curve Digital Signature Algorithm (ECDSA)</em> <a class="reference internal" href="../../about/about.html#cite-rfc6979"><span class="cite">[RFC6979]</span></a></span>.</p>
 <p>The representation of a signature is the same as with <a class="reference internal" href="#c.PSA_ALG_ECDSA" title="PSA_ALG_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDSA</span></code></a>.</p>
 <p>When based on the same hash algorithm, the verification operations for <a class="reference internal" href="#c.PSA_ALG_ECDSA" title="PSA_ALG_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDSA</span></code></a> and <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a> are identical. A signature created using <a class="reference internal" href="#c.PSA_ALG_ECDSA" title="PSA_ALG_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDSA</span></code></a> can be verified with the same key using either <a class="reference internal" href="#c.PSA_ALG_ECDSA" title="PSA_ALG_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDSA</span></code></a> or <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a>. Similarly, a signature created using <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a> can be verified with the same key using either <a class="reference internal" href="#c.PSA_ALG_ECDSA" title="PSA_ALG_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_ECDSA</span></code></a> or <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a>.</p>
+<div class="admonition-implementation-note admonition">
+<p class="admonition-title">Implementation note</p>
+<p>The current version of this specification does not specify the behavior of <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a> with hash algorithms that are not listed in <span><a class="reference internal" href="mac.html#tab-hmac-hash"><span class="numref">Table 14</span></a></span>.
+It is recommended that these hash algorithms are not supported with <a class="reference internal" href="#c.PSA_ALG_DETERMINISTIC_ECDSA" title="PSA_ALG_DETERMINISTIC_ECDSA"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_DETERMINISTIC_ECDSA</span></code></a>, as discussed in the specification of <a class="reference internal" href="mac.html#c.PSA_ALG_HMAC" title="PSA_ALG_HMAC"><code class="xref any atg_c atg_c-ref docutils literal notranslate"><span class="pre">PSA_ALG_HMAC</span></code></a>.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A verifier cannot determine whether a signature was produced with deterministic ECDSA or with randomized ECDSA: it is only possible to verify that a signature was made with ECDSA with the private key corresponding to the public key used for the verification.</p>
@@ -590,9 +706,9 @@ For EdDSA, the context is an arbitrary byte string between zero and 255 bytes in
 <li><p>Ed25519ph: the HashEdDSA algorithm for the Edwards25519 curve, with a context parameter.</p></li>
 <li><p>Ed448ph: the HashEdDSA algorithm for the Edwards448 curve, with a context parameter.</p></li>
 </ul>
-<p><span><a class="reference internal" href="#table-eddsa-algs"><span class="numref">Table 15</span></a></span> shows the algorithm identifiers in the Crypto API, and how they are used to select the appropriate EdDSA algorithm.</p>
+<p><span><a class="reference internal" href="#table-eddsa-algs"><span class="numref">Table 16</span></a></span> shows the algorithm identifiers in the Crypto API, and how they are used to select the appropriate EdDSA algorithm.</p>
 <table class="docutils align-default" id="table-eddsa-algs">
-<caption><span class="caption-number">Table 15 </span><span class="caption-text">EdDSA algorithm identifiers</span><a class="headerlink" href="#table-eddsa-algs" title="Link to this table">¶</a></caption>
+<caption><span class="caption-number">Table 16 </span><span class="caption-text">EdDSA algorithm identifiers</span><a class="headerlink" href="#table-eddsa-algs" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Algorithm identifier</p></th>
 <th class="head"><p>With 255-bit key</p></th>
@@ -1792,7 +1908,7 @@ A signature algorithm created using this macro is a wildcard algorithm, and <a c
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &#169; 2018-2025 Arm Limited and/or its affiliates.
+      &#169; 2018-2026 Arm Limited and/or its affiliates.
       
     </div>
 
