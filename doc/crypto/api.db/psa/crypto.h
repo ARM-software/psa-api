@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 // SPDX-License-Identifier: Apache-2.0
 
 typedef /* implementation-defined type */ psa_aead_operation_t;
@@ -24,6 +24,7 @@ typedef uint32_t psa_pake_primitive_t;
 typedef uint8_t psa_pake_primitive_type_t;
 typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
+typedef uint8_t psa_slh_dsa_family_t;
 typedef /* implementation-defined type */ psa_xof_operation_t;
 typedef struct psa_custom_key_parameters_t {
     uint32_t flags;
@@ -77,6 +78,12 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_CMAC ((psa_algorithm_t)0x03c00200)
 #define PSA_ALG_CTR ((psa_algorithm_t)0x04c01000)
 #define PSA_ALG_DETERMINISTIC_ECDSA(hash_alg) /* specification-defined value */
+#define PSA_ALG_DETERMINISTIC_HASH_ML_DSA(hash_alg) \
+    /* specification-defined value */
+#define PSA_ALG_DETERMINISTIC_HASH_SLH_DSA(hash_alg) \
+    /* specification-defined value */
+#define PSA_ALG_DETERMINISTIC_ML_DSA ((psa_algorithm_t) 0x06004500)
+#define PSA_ALG_DETERMINISTIC_SLH_DSA ((psa_algorithm_t) 0x06004100)
 #define PSA_ALG_ECB_NO_PADDING ((psa_algorithm_t)0x04404400)
 #define PSA_ALG_ECDH ((psa_algorithm_t)0x09020000)
 #define PSA_ALG_ECDSA(hash_alg) /* specification-defined value */
@@ -89,22 +96,33 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_FULL_LENGTH_MAC(mac_alg) /* specification-defined value */
 #define PSA_ALG_GCM ((psa_algorithm_t)0x05500200)
 #define PSA_ALG_GET_HASH(alg) /* specification-defined value */
+#define PSA_ALG_HASH_ML_DSA(hash_alg) /* specification-defined value */
+#define PSA_ALG_HASH_SLH_DSA(hash_alg) /* specification-defined value */
 #define PSA_ALG_HKDF(hash_alg) /* specification-defined value */
 #define PSA_ALG_HKDF_EXPAND(hash_alg) /* specification-defined value */
 #define PSA_ALG_HKDF_EXTRACT(hash_alg) /* specification-defined value */
 #define PSA_ALG_HMAC(hash_alg) /* specification-defined value */
+#define PSA_ALG_HSS ((psa_algorithm_t) 0x06004900)
 #define PSA_ALG_IS_AEAD(alg) /* specification-defined value */
 #define PSA_ALG_IS_AEAD_ON_BLOCK_CIPHER(alg) /* specification-defined value */
 #define PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg) /* specification-defined value */
 #define PSA_ALG_IS_BLOCK_CIPHER_MAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_CIPHER(alg) /* specification-defined value */
 #define PSA_ALG_IS_DETERMINISTIC_ECDSA(alg) /* specification-defined value */
+#define PSA_ALG_IS_DETERMINISTIC_HASH_ML_DSA(alg) \
+    /* specification-defined value */
+#define PSA_ALG_IS_DETERMINISTIC_HASH_SLH_DSA(alg) \
+    /* specification-defined value */
 #define PSA_ALG_IS_ECDH(alg) /* specification-defined value */
 #define PSA_ALG_IS_ECDSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_FFDH(alg) /* specification-defined value */
 #define PSA_ALG_IS_HASH(alg) /* specification-defined value */
 #define PSA_ALG_IS_HASH_AND_SIGN(alg) /* specification-defined value */
 #define PSA_ALG_IS_HASH_EDDSA(alg) /* specification-defined value */
+#define PSA_ALG_IS_HASH_ML_DSA(alg) /* specification-defined value */
+#define PSA_ALG_IS_HASH_SLH_DSA(alg) /* specification-defined value */
+#define PSA_ALG_IS_HEDGED_HASH_ML_DSA(alg) /* specification-defined value */
+#define PSA_ALG_IS_HEDGED_HASH_SLH_DSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_HKDF(alg) /* specification-defined value */
 #define PSA_ALG_IS_HKDF_EXPAND(alg) /* specification-defined value */
 #define PSA_ALG_IS_HKDF_EXTRACT(alg) /* specification-defined value */
@@ -117,6 +135,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_IS_KEY_ENCAPSULATION(alg) /* specification-defined value */
 #define PSA_ALG_IS_KEY_WRAP(alg) /* specification-defined value */
 #define PSA_ALG_IS_MAC(alg) /* specification-defined value */
+#define PSA_ALG_IS_ML_DSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_PAKE(alg) /* specification-defined value */
 #define PSA_ALG_IS_PBKDF2_HMAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_RANDOMIZED_ECDSA(alg) /* specification-defined value */
@@ -130,6 +149,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_IS_SIGN(alg) /* specification-defined value */
 #define PSA_ALG_IS_SIGN_HASH(alg) /* specification-defined value */
 #define PSA_ALG_IS_SIGN_MESSAGE(alg) /* specification-defined value */
+#define PSA_ALG_IS_SLH_DSA(alg) /* specification-defined value */
 #define PSA_ALG_IS_SP800_108_COUNTER_HMAC(alg) \
     /* specification-defined value */
 #define PSA_ALG_IS_SPAKE2P(alg) /* specification-defined value */
@@ -153,9 +173,12 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_KEY_AGREEMENT_GET_KDF(alg) /* specification-defined value */
 #define PSA_ALG_KW ((psa_algorithm_t)0x0B400100)
 #define PSA_ALG_KWP ((psa_algorithm_t)0x0BC00200)
+#define PSA_ALG_LMS ((psa_algorithm_t) 0x06004800)
 #define PSA_ALG_MD2 ((psa_algorithm_t)0x02000001)
 #define PSA_ALG_MD4 ((psa_algorithm_t)0x02000002)
 #define PSA_ALG_MD5 ((psa_algorithm_t)0x02000003)
+#define PSA_ALG_ML_DSA ((psa_algorithm_t) 0x06004400)
+#define PSA_ALG_ML_KEM ((psa_algorithm_t)0x0c000200)
 #define PSA_ALG_NONE ((psa_algorithm_t)0)
 #define PSA_ALG_OFB ((psa_algorithm_t)0x04c01200)
 #define PSA_ALG_PBKDF2_AES_CMAC_PRF_128 ((psa_algorithm_t)0x08800200)
@@ -173,16 +196,21 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_SHA3_384 ((psa_algorithm_t)0x02000012)
 #define PSA_ALG_SHA3_512 ((psa_algorithm_t)0x02000013)
 #define PSA_ALG_SHAKE128 ((psa_algorithm_t)0x0D000100)
+#define PSA_ALG_SHAKE128_256 ((psa_algorithm_t)0x02000016)
 #define PSA_ALG_SHAKE256 ((psa_algorithm_t)0x0D000200)
+#define PSA_ALG_SHAKE256_192 ((psa_algorithm_t)0x02000017)
+#define PSA_ALG_SHAKE256_256 ((psa_algorithm_t)0x02000018)
 #define PSA_ALG_SHAKE256_512 ((psa_algorithm_t)0x02000015)
 #define PSA_ALG_SHA_1 ((psa_algorithm_t)0x02000005)
 #define PSA_ALG_SHA_224 ((psa_algorithm_t)0x02000008)
 #define PSA_ALG_SHA_256 ((psa_algorithm_t)0x02000009)
+#define PSA_ALG_SHA_256_192 ((psa_algorithm_t)0x0200000E)
 #define PSA_ALG_SHA_384 ((psa_algorithm_t)0x0200000a)
 #define PSA_ALG_SHA_512 ((psa_algorithm_t)0x0200000b)
 #define PSA_ALG_SHA_512_224 ((psa_algorithm_t)0x0200000c)
 #define PSA_ALG_SHA_512_256 ((psa_algorithm_t)0x0200000d)
 #define PSA_ALG_SIGN_SUPPORTS_CONTEXT(alg) /* implementation-defined value */
+#define PSA_ALG_SLH_DSA ((psa_algorithm_t) 0x06004000)
 #define PSA_ALG_SM3 ((psa_algorithm_t)0x02000014)
 #define PSA_ALG_SP800_108_COUNTER_CMAC ((psa_algorithm_t)0x08000800)
 #define PSA_ALG_SP800_108_COUNTER_HMAC(hash_alg) \
@@ -201,6 +229,8 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_WPA3_SAE_GDH(hash_alg) /* specification-defined value */
 #define PSA_ALG_WPA3_SAE_H2E(hash_alg) /* specification-defined value */
 #define PSA_ALG_XCHACHA20_POLY1305 ((psa_algorithm_t)0x05100600)
+#define PSA_ALG_XMSS ((psa_algorithm_t) 0x06004A00)
+#define PSA_ALG_XMSS_MT ((psa_algorithm_t) 0x06004B00)
 #define PSA_ALG_XOF_HAS_CONTEXT(alg) /* specification-defined value */
 #define PSA_ALG_XTS ((psa_algorithm_t)0x0440ff00)
 #define PSA_ASYMMETRIC_DECRYPT_OUTPUT_MAX_SIZE \
@@ -232,7 +262,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_CIPHER_UPDATE_OUTPUT_SIZE(key_type, alg, input_length) \
     /* implementation-defined value */
 #define PSA_CRYPTO_API_VERSION_MAJOR 1
-#define PSA_CRYPTO_API_VERSION_MINOR 4
+#define PSA_CRYPTO_API_VERSION_MINOR 5
 #define PSA_CUSTOM_KEY_PARAMETERS_INIT { 0 }
 #define PSA_DH_FAMILY_RFC3526 ((psa_dh_family_t) 0x05)
 #define PSA_DH_FAMILY_RFC7919 ((psa_dh_family_t) 0x03)
@@ -318,6 +348,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_ECC_KEY_PAIR(curve) /* specification-defined value */
 #define PSA_KEY_TYPE_ECC_PUBLIC_KEY(curve) /* specification-defined value */
 #define PSA_KEY_TYPE_HMAC ((psa_key_type_t)0x1100)
+#define PSA_KEY_TYPE_HSS_PUBLIC_KEY ((psa_key_type_t)0x4008)
 #define PSA_KEY_TYPE_IS_ASYMMETRIC(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_DH(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_DH_KEY_PAIR(type) /* specification-defined value */
@@ -326,8 +357,15 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_IS_ECC_KEY_PAIR(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_ECC_PUBLIC_KEY(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_KEY_PAIR(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_ML_DSA(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_ML_KEM(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_PUBLIC_KEY(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_RSA(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SLH_DSA(type) /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR(type) \
+    /* specification-defined value */
+#define PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY(type) \
+    /* specification-defined value */
 #define PSA_KEY_TYPE_IS_SPAKE2P(type) /* specification-defined value */
 #define PSA_KEY_TYPE_IS_SPAKE2P_KEY_PAIR(type) \
     /* specification-defined value */
@@ -338,6 +376,11 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_IS_WPA3_SAE_ECC(type) /* specification-defined value */
 #define PSA_KEY_TYPE_KEY_PAIR_OF_PUBLIC_KEY(type) \
     /* specification-defined value */
+#define PSA_KEY_TYPE_LMS_PUBLIC_KEY ((psa_key_type_t)0x4007)
+#define PSA_KEY_TYPE_ML_DSA_KEY_PAIR ((psa_key_type_t)0x7002)
+#define PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY ((psa_key_type_t)0x4002)
+#define PSA_KEY_TYPE_ML_KEM_KEY_PAIR ((psa_key_type_t)0x7004)
+#define PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY ((psa_key_type_t)0x4004)
 #define PSA_KEY_TYPE_NONE ((psa_key_type_t)0x0000)
 #define PSA_KEY_TYPE_PASSWORD ((psa_key_type_t)0x1203)
 #define PSA_KEY_TYPE_PASSWORD_HASH ((psa_key_type_t)0x1205)
@@ -347,6 +390,9 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_RAW_DATA ((psa_key_type_t)0x1001)
 #define PSA_KEY_TYPE_RSA_KEY_PAIR ((psa_key_type_t)0x7001)
 #define PSA_KEY_TYPE_RSA_PUBLIC_KEY ((psa_key_type_t)0x4001)
+#define PSA_KEY_TYPE_SLH_DSA_GET_FAMILY(type) /* specification-defined value */
+#define PSA_KEY_TYPE_SLH_DSA_KEY_PAIR(set) /* specification-defined value */
+#define PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY(set) /* specification-defined value */
 #define PSA_KEY_TYPE_SM4 ((psa_key_type_t)0x2405)
 #define PSA_KEY_TYPE_SPAKE2P_GET_FAMILY(type) /* specification-defined value */
 #define PSA_KEY_TYPE_SPAKE2P_KEY_PAIR(curve) /* specification-defined value */
@@ -359,6 +405,8 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_WPA3_SAE_ECC_GET_FAMILY(type) \
     /* specification-defined value */
 #define PSA_KEY_TYPE_XCHACHA20 ((psa_key_type_t)0x2007)
+#define PSA_KEY_TYPE_XMSS_MT_PUBLIC_KEY ((psa_key_type_t)0x400D)
+#define PSA_KEY_TYPE_XMSS_PUBLIC_KEY ((psa_key_type_t)0x400B)
 #define PSA_KEY_USAGE_CACHE ((psa_key_usage_t)0x00000004)
 #define PSA_KEY_USAGE_COPY ((psa_key_usage_t)0x00000002)
 #define PSA_KEY_USAGE_DECRYPT ((psa_key_usage_t)0x00000200)
@@ -417,6 +465,10 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_SIGNATURE_MAX_SIZE /* implementation-defined value */
 #define PSA_SIGN_OUTPUT_SIZE(key_type, key_bits, alg) \
     /* implementation-defined value */
+#define PSA_SLH_DSA_FAMILY_SHA2_F ((psa_slh_dsa_family_t) 0x04)
+#define PSA_SLH_DSA_FAMILY_SHA2_S ((psa_slh_dsa_family_t) 0x02)
+#define PSA_SLH_DSA_FAMILY_SHAKE_F ((psa_slh_dsa_family_t) 0x0d)
+#define PSA_SLH_DSA_FAMILY_SHAKE_S ((psa_slh_dsa_family_t) 0x0b)
 #define PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE 32
 #define PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE /* implementation-defined value */
 #define PSA_WRAP_KEY_OUTPUT_SIZE(wrap_key_type, alg, key_type, key_bits) \

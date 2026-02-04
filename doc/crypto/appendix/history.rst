@@ -17,7 +17,6 @@ Changes between *1.4.1* and *1.5.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
-
 Relaxations
 ~~~~~~~~~~~
 
@@ -29,6 +28,16 @@ Clarifications and fixes
 Other changes
 ~~~~~~~~~~~~~
 
+*   Integrated the PQC algorithms and key types from :cite-title:`PSA-PQC`.
+
+    This provides support for LMS, HSS, XMSS, |XMSS^MT|, ML-DSA, SLH-DSA, and ML-KEM.
+
+    -   For LMS and HSS, see :secref:`lms-keys` and :secref:`lms-algorithms`.
+    -   For XMSS and |XMSS^MT|, see :secref:`xmss-keys` and :secref:`xmss-algorithms`.
+    -   For ML-DSA, see :secref:`ml-dsa-keys` and :secref:`ml-dsa-algorithms`.
+    -   For SLH-DSA, see :secref:`slh-dsa-keys` and :secref:`slh-dsa-algorithms`.
+    -   For ML-KEM, see :secref:`ml-kem-keys` and :secref:`ml-kem-algorithms`.
+    -   Additional hash algorithms: `PSA_ALG_SHAKE128_256`, `PSA_ALG_SHAKE256_192`, `PSA_ALG_SHAKE256_256`, and `PSA_ALG_SHA_256_192`.
 
 Changes between *1.4.0* and *1.4.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

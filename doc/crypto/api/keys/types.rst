@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. header:: psa/crypto
@@ -1170,10 +1170,15 @@ The other is a public key, which is meant to be shared with other participants i
 
 The |API| defines the following types of asymmetric key:
 
-* :secref:`rsa-keys`
-* :secref:`ecc-keys`
-* :secref:`dh-keys`
-* :secref:`spake2p-keys`
+*   :secref:`rsa-keys`
+*   :secref:`ecc-keys`
+*   :secref:`dh-keys`
+*   :secref:`lms-keys`
+*   :secref:`xmss-keys`
+*   :secref:`ml-dsa-keys`
+*   :secref:`slh-dsa-keys`
+*   :secref:`ml-kem-keys`
+*   :secref:`spake2p-keys`
 
 In the |API|, key objects can either be a key pair, providing both the private and public key, or just a public key.
 The difference in the key type values for a key pair and a public key for the same scheme is common across all asymmetric keys.
@@ -1681,6 +1686,591 @@ Diffie Hellman keys
     .. return:: psa_dh_family_t
         The finite field Diffie-Hellman group family id, if ``type`` is a supported finite field Diffie-Hellman key. Unspecified if ``type`` is not a supported finite field Diffie-Hellman key.
 
+.. _lms-keys:
+
+Leighton-Micali Signature keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. macro:: PSA_KEY_TYPE_LMS_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4007)
+
+    .. summary::
+        Leighton-Micali Signatures (LMS) public key.
+
+        .. versionadded:: 1.3
+
+    The parameterization of an LMS key is fully encoded in the key data.
+
+    The bit size used in the attributes of an LMS public key is output length, in bits, of the hash function identified by the LMS parameter set.
+
+    *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
+    *   SHA-256, SHAKE256/256 : ``key_bits = 256``
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_LMS`
+
+    .. subsection:: Key format
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the encoded ``lms_public_key`` structure, defined in :rfc:`8554#3`.
+
+.. macro:: PSA_KEY_TYPE_HSS_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4008)
+
+    .. summary::
+        Hierarchical Signature Scheme (HSS) public key.
+
+        .. versionadded:: 1.3
+
+    The parameterization of an HSS key is fully encoded in the key data.
+
+    The bit size used in the attributes of an HSS public key is output length, in bits, of the hash function identified by the HSS parameter set.
+
+    *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
+    *   SHA-256, SHAKE256/256 : ``key_bits = 256``
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_HSS`
+
+    .. subsection:: Key format
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the encoded ``hss_public_key`` structure, defined in :rfc:`8554#3`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9802`.
+
+.. _xmss-keys:
+
+XMSS and |XMSS^MT| keys
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. macro:: PSA_KEY_TYPE_XMSS_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x400B)
+
+    .. summary::
+        eXtended Merkle Signature Scheme (XMSS) public key.
+
+        .. versionadded:: 1.3
+
+    The parameterization of an XMSS key is fully encoded in the key data.
+
+    The bit size used in the attributes of an XMSS public key is output length, in bits, of the hash function identified by the XMSS parameter set.
+
+    *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
+    *   SHA-256, SHAKE256/256 : ``key_bits = 256``
+
+    .. note::
+        For a multi-tree XMSS key, see `PSA_KEY_TYPE_XMSS_MT_PUBLIC_KEY`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_XMSS`
+
+    .. subsection:: Key format
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the encoded ``xmss_public_key`` structure, defined in :rfc:`8391#B.3`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9802`.
+
+.. macro:: PSA_KEY_TYPE_XMSS_MT_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x400D)
+
+    .. summary::
+        Multi-tree eXtended Merkle Signature Scheme (|XMSS^MT|) public key.
+
+        .. versionadded:: 1.3
+
+    The parameterization of an |XMSS^MT| key is fully encoded in the key data.
+
+    The bit size used in the attributes of an |XMSS^MT| public key is output length, in bits, of the hash function identified by the |XMSS^MT| parameter set.
+
+    *   SHA-256/192, SHAKE256/192 : ``key_bits = 192``
+    *   SHA-256, SHAKE256/256 : ``key_bits = 256``
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_XMSS_MT`
+
+    .. subsection:: Key format
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the encoded ``xmssmt_public_key`` structure, defined in :rfc:`8391#C.3`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9802`.
+
+.. _ml-dsa-keys:
+
+Module Lattice-based signature keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined in :cite-title:`FIPS204`.
+
+.. macro:: PSA_KEY_TYPE_ML_DSA_KEY_PAIR
+    :definition: ((psa_key_type_t)0x7002)
+
+    .. summary::
+        ML-DSA key pair: both the private and public key.
+
+        .. versionadded:: 1.3
+
+    The bit size used in the attributes of an ML-DSA key is a measure of the security strength of the ML-DSA parameter set in `[FIPS204]`:
+
+    *   ML-DSA-44 : ``key_bits = 128``
+    *   ML-DSA-65 : ``key_bits = 192``
+    *   ML-DSA-87 : ``key_bits = 256``
+
+    See also §4 in `[FIPS204]`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_DSA`
+            *   `PSA_ALG_HASH_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+
+    .. subsection:: Key format
+
+        An ML-DSA key pair is the :math:`(pk,sk)` pair of public key and secret key, which are generated from a secret 32-byte seed, :math:`\xi`. See `[FIPS204]` §5.1.
+
+        In calls to :code:`psa_import_key()` and :code:`psa_export_key()`, the key-pair data format is the 32-byte seed :math:`\xi`.
+
+        .. rationale::
+
+            The formats for X.509 handling of ML-DSA keys are specified in :rfc-title:`9881`.
+            This permits a choice of three formats for the decapsulation key material, incorporating one, or both, of the seed value :math:`\xi` and the expanded secret key :math:`sk`.
+
+            The |API| only supports the recommended format from :rfc:`9881`, which is the bytes of the seed :math:`\xi`, but without the ASN.1 encoding prefix.
+            This suits the constrained nature of |API| implementations, where interoperation with expanded secret-key formats is not required.
+
+        See `PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
+
+        .. admonition:: Implementation note
+
+            An implementation can optionally compute and store the :math:`(pk,sk)` values, to accelerate operations that use the key.
+            It is recommended that an implementation retains the seed :math:`\xi` with the key pair, in order to export the key, or copy the key to a different location.
+
+    .. subsection:: Key derivation
+
+        A call to :code:`psa_key_derivation_output_key()` will draw 32 bytes of output and use these as the 32-byte ML-DSA key-pair seed, :math:`\xi`.
+        The key pair :math:`(pk, sk)` is generated from the seed as defined by ``ML-DSA.KeyGen_internal()`` in `[FIPS204]` §6.1.
+
+        .. admonition:: Implementation note
+
+            It is :an implementation choice whether the seed :math:`\xi` is expanded to :math:`(pk, sk)` at the point of derivation, or only just before the key is used.
+
+.. macro:: PSA_KEY_TYPE_ML_DSA_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4002)
+
+    .. summary::
+        ML-DSA public key.
+
+        .. versionadded:: 1.3
+
+    The bit size used in the attributes of an ML-DSA public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_DSA_KEY_PAIR`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_DSA`
+            *   `PSA_ALG_HASH_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+
+    .. subsection:: Key format
+
+        An ML-DSA public key is the :math:`pk` output of ``ML-DSA.KeyGen()``, defined in `[FIPS204]` §5.1.
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is :math:`pk`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9881`.
+
+        The size of the public key depends on the ML-DSA parameter set as follows:
+
+        .. csv-table::
+            :align: left
+            :header-rows: 1
+
+            Parameter set, Public-key size in bytes
+            ML-DSA-44, 1312
+            ML-DSA-65, 1952
+            ML-DSA-87, 2592
+
+.. macro:: PSA_KEY_TYPE_IS_ML_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an ML-DSA key, either a key pair or a public key.
+
+        .. versionadded:: 1.3
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. _slh-dsa-keys:
+
+Stateless Hash-based signature keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined in :cite-title:`FIPS205`.
+
+.. typedef:: uint8_t psa_slh_dsa_family_t
+
+    .. summary::
+        The type of identifiers of a Stateless hash-based DSA parameter set.
+
+        .. versionadded:: 1.3
+
+    The parameter-set identifier is required to create an SLH-DSA key using the `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()` or `PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY()` macros.
+
+    The specific SLH-DSA parameter set within a family is identified by the ``key_bits`` attribute of the key.
+
+    The range of SLH-DSA family identifier values is divided as follows:
+
+    :code:`0x00`
+        Reserved.
+        Not allocated to an SLH-DSA parameter-set family.
+    :code:`0x01 - 0x7f`
+        SLH-DSA parameter-set family identifiers defined by this standard.
+        Unallocated values in this range are reserved for future use.
+    :code:`0x80 - 0xff`
+        Invalid.
+        Values in this range must not be used.
+
+    The least significant bit of an SLH-DSA family identifier is a parity bit for the whole key type.
+    See :secref:`slh-dsa-key-encoding` for details of the encoding of asymmetric key types.
+
+.. macro:: PSA_KEY_TYPE_SLH_DSA_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SLH-DSA key pair: both the private key and public key.
+
+        .. versionadded:: 1.3
+
+    .. param:: set
+        A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
+
+    The bit size used in the attributes of an SLH-DSA key pair is the bit-size of each component in the SLH-DSA keys defined in `[FIPS205]`.
+    That is, for a parameter set with security parameter :math:`n`, the bit-size in the key attributes is :math:`8n`.
+    See the documentation of each SLH-DSA parameter-set family for details.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_SLH_DSA`
+            *   `PSA_ALG_HASH_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
+
+    .. subsection:: Key format
+
+        A SLH-DSA key pair is defined in `[FIPS205]` §9.1 as the four :math:`n`\ -byte values, :math:`SK\text{.seed}`, :math:`SK\text{.prf}`, :math:`PK\text{.seed}`, and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
+
+        In calls to :code:`psa_import_key()` and :code:`psa_export_key()`, the key-pair data format is the concatenation of the four octet strings:
+
+        .. math::
+
+            SK\text{.seed}\ ||\ SK\text{.prf}\ ||\ PK\text{.seed}\ ||\ PK\text{.root}
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9909`.
+
+        See `PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
+
+    .. subsection:: Key derivation
+
+        A call to :code:`psa_key_derivation_output_key()` will draw output bytes as follows:
+
+        *   :math:`n` bytes are drawn as :math:`SK\text{.seed}`.
+        *   :math:`n` bytes are drawn as :math:`SK\text{.prf}`.
+        *   :math:`n` bytes are drawn as :math:`PK\text{.seed}`.
+
+        Here, :math:`n` is the security parameter for the selected SLH-DSA parameter set.
+
+        The private key :math:`(SK\text{.seed},SK\text{.prf},PK\text{.seed},PK\text{.root})` is generated from these values as defined by ``slh_keygen_internal()`` in `[FIPS205]` §9.1.
+
+.. macro:: PSA_KEY_TYPE_SLH_DSA_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        SLH-DSA public key.
+
+        .. versionadded:: 1.3
+
+    .. param:: set
+        A value of type `psa_slh_dsa_family_t` that identifies the SLH-DSA parameter-set family to be used.
+
+    The bit size used in the attributes of an SLH-DSA public key is the same as the corresponding private key.
+    See `PSA_KEY_TYPE_SLH_DSA_KEY_PAIR()` and the documentation of each SLH-DSA parameter-set family for details.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_SLH_DSA`
+            *   `PSA_ALG_HASH_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_SLH_DSA`
+            *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
+
+    .. subsection:: Key format
+
+        A SLH-DSA public key is defined in `[FIPS205]` §9.1 as two :math:`n`\ -byte values, :math:`PK\text{.seed}` and :math:`PK\text{.root}`, where :math:`n` is the security parameter.
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is the concatenation of the two octet strings:
+
+        .. math::
+
+            PK\text{.seed}\ ||\ PK\text{.root}
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :rfc-title:`9909`.
+
+.. macro:: PSA_SLH_DSA_FAMILY_SHA2_S
+    :definition: ((psa_slh_dsa_family_t) 0x02)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHA2-\ *NNN*\ s parameter sets.
+
+        .. versionadded:: 1.3
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHA2-128s : ``key_bits = 128``
+    *   SLH-DSA-SHA2-192s : ``key_bits = 192``
+    *   SLH-DSA-SHA2-256s : ``key_bits = 256``
+
+    They are defined in `[FIPS205]`.
+
+.. macro:: PSA_SLH_DSA_FAMILY_SHA2_F
+    :definition: ((psa_slh_dsa_family_t) 0x04)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHA2-\ *NNN*\ f parameter sets.
+
+        .. versionadded:: 1.3
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHA2-128f : ``key_bits = 128``
+    *   SLH-DSA-SHA2-192f : ``key_bits = 192``
+    *   SLH-DSA-SHA2-256f : ``key_bits = 256``
+
+    They are defined in `[FIPS205]`.
+
+.. macro:: PSA_SLH_DSA_FAMILY_SHAKE_S
+    :definition: ((psa_slh_dsa_family_t) 0x0b)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHAKE-\ *NNN*\ s parameter sets.
+
+        .. versionadded:: 1.3
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHAKE-128s : ``key_bits = 128``
+    *   SLH-DSA-SHAKE-192s : ``key_bits = 192``
+    *   SLH-DSA-SHAKE-256s : ``key_bits = 256``
+
+    They are defined in `[FIPS205]`.
+
+.. macro:: PSA_SLH_DSA_FAMILY_SHAKE_F
+    :definition: ((psa_slh_dsa_family_t) 0x0d)
+
+    .. summary::
+        SLH-DSA family for the SLH-DSA-SHAKE-\ *NNN*\ f parameter sets.
+
+        .. versionadded:: 1.3
+
+    This family comprises the following parameter sets:
+
+    *   SLH-DSA-SHAKE-128f : ``key_bits = 128``
+    *   SLH-DSA-SHAKE-192f : ``key_bits = 192``
+    *   SLH-DSA-SHAKE-256f : ``key_bits = 256``
+
+    They are defined in `[FIPS205]`.
+
+.. macro:: PSA_KEY_TYPE_IS_SLH_DSA
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an SLH-DSA key, either a key pair or a public key.
+
+        .. versionadded:: 1.3
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SLH_DSA_KEY_PAIR
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an SLH-DSA key pair.
+
+        .. versionadded:: 1.3
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_IS_SLH_DSA_PUBLIC_KEY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an SLH-DSA public key.
+
+        .. versionadded:: 1.3
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
+
+.. macro:: PSA_KEY_TYPE_SLH_DSA_GET_FAMILY
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Extract the parameter-set family from an SLH-DSA key type.
+
+        .. versionadded:: 1.3
+
+    .. param:: type
+        An SLH-DSA key type: a value of type :code:`psa_key_type_t` such that :code:`PSA_KEY_TYPE_IS_SLH_DSA(type)` is true.
+
+    .. return:: psa_dh_family_t
+        The SLH-DSA parameter-set family id, if ``type`` is a supported SLH-DSA key. Unspecified if ``type`` is not a supported SLH-DSA key.
+
+.. _ml-kem-keys:
+
+Module Lattice-based key-encapsulation keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The |API| supports Module Lattice-based key encapsulation (ML-KEM) as defined in :cite-title:`FIPS203`.
+
+.. macro:: PSA_KEY_TYPE_ML_KEM_KEY_PAIR
+    :definition: ((psa_key_type_t)0x7004)
+
+    .. summary::
+        ML-KEM key pair: both the decapsulation and encapsulation key.
+
+        .. versionadded:: 1.3
+
+    The |API| treats decapsulation keys as private keys and encapsulation keys as public keys.
+
+    The bit size used in the attributes of an ML-KEM key is specified by the numeric part of the parameter-set identifier defined in `[FIPS203]`.
+    The parameter-set identifier refers to the key strength, and not to the actual size of the key.
+    The following values for the ``key_bits`` key attribute are used to select a specific ML-KEM parameter set:
+
+    *   ML-KEM-512 : ``key_bits = 512``
+    *   ML-KEM-768 : ``key_bits = 768``
+    *   ML-KEM-1024 : ``key_bits = 1024``
+
+    See also §8 in `[FIPS203]`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_KEM`
+
+    .. subsection:: Key format
+
+        An ML-KEM key pair is the :math:`(ek,dk)` pair of encapsulation key and decapsulation key, which are generated from two secret 32-byte seeds, :math:`d` and :math:`z`. See `[FIPS203]` §7.1.
+
+        In calls to :code:`psa_import_key()` and :code:`psa_export_key()`, the key-pair data format is the concatenation of the two seed values: :math:`d\ ||\ z`.
+
+        .. rationale::
+
+            The formats for X.509 handling of ML-KEM keys are specified in :cite-title:`LAMPS-MLKEM`.
+            This permits a choice of three formats for the decapsulation key material, incorporating one, or both, of the seed values :math:`d\ ||\ z` and the expanded decapsulation key :math:`dk`.
+
+            The |API| only supports the recommended format from `[LAMPS-MLKEM]`, which is the concatenated bytes of the seed values :math:`d\ ||\ z`, but without the ASN.1 encoding prefix.
+            This suits the constrained nature of |API| implementations, where interoperation with expanded decapsulation-key formats is not required.
+
+        See `PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY` for the data format used when exporting the public key with :code:`psa_export_public_key()`.
+
+        .. admonition:: Implementation note
+
+            An implementation can optionally compute and store the :math:`dk` value, which also contains the encapsulation key :math:`ek`, to accelerate operations that use the key.
+            It is recommended that an implementation retains the seed pair :math:`(d,z)` with the decapsulation key, in order to export the key, or copy the key to a different location.
+
+    .. subsection:: Key derivation
+
+        A call to :code:`psa_key_derivation_output_key()` will construct an ML-KEM key pair using the following process:
+
+        1.  Draw 32 bytes of output as the seed value :math:`d`.
+        #.  Draw 32 bytes of output as the seed value :math:`z`.
+
+        The key pair :math:`(ek,dk)` is generated from the seed as defined by ``ML-KEM.KeyGen_internal()`` in `[FIPS203]` §6.1.
+
+        .. admonition:: Implementation note
+
+            It is an implementation choice whether the seed-pair :math:`(d,z)` is expanded to :math:`(ek,dk)` at the point of derivation, or only just before the key is used.
+
+.. macro:: PSA_KEY_TYPE_ML_KEM_PUBLIC_KEY
+    :definition: ((psa_key_type_t)0x4004)
+
+    .. summary::
+        ML-KEM public (encapsulation) key.
+
+        .. versionadded:: 1.3
+
+    The bit size used in the attributes of an ML-KEM public key is the same as the corresponding private key. See `PSA_KEY_TYPE_ML_KEM_KEY_PAIR`.
+
+    .. subsection:: Compatible algorithms
+
+        .. hlist::
+
+            *   `PSA_ALG_ML_KEM` (encapsulation only)
+
+    .. subsection:: Key format
+
+        An ML-KEM public key is the :math:`ek` output of ``ML-KEM.KeyGen()``, defined in `[FIPS203]` §7.1.
+
+        In calls to :code:`psa_import_key()`, :code:`psa_export_key()`, and :code:`psa_export_public_key()`, the public-key data format is :math:`ek`.
+
+        .. rationale::
+
+            This format is the same as that specified for X.509 in :cite-title:`LAMPS-MLKEM`.
+
+        The size of the public key depends on the ML-KEM parameter set as follows:
+
+        .. csv-table::
+            :align: left
+            :header-rows: 1
+
+            Parameter set, Public-key size in bytes
+            ML-KEM-512, 800
+            ML-KEM-768, 1184
+            ML-KEM-1024, 1568
+
+.. macro:: PSA_KEY_TYPE_IS_ML_KEM
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether a key type is an ML-DSA key, either a key pair or a public key.
+
+        .. versionadded:: 1.3
+
+    .. param:: type
+        A key type: a value of type :code:`psa_key_type_t`.
 
 .. _spake2p-keys:
 
