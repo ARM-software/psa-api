@@ -11,6 +11,25 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
+Changes between *1.4.1* and *1.5.0*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changes to the API
+~~~~~~~~~~~~~~~~~~
+
+
+Relaxations
+~~~~~~~~~~~
+
+
+Clarifications and fixes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Other changes
+~~~~~~~~~~~~~
+
+
 Changes between *1.4.0* and *1.4.1*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
