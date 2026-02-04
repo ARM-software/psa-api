@@ -17,6 +17,9 @@ Changes between *1.4.1* and *1.5.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
+*   Provide multi-part operations for asymmetric signatures.
+    This enables many message-signature algorithms to be used for fragmented messages.
+    See :secref:`multi-part-signature`.
 
 Relaxations
 ~~~~~~~~~~~
