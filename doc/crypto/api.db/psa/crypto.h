@@ -861,11 +861,12 @@ psa_status_t psa_sign_message_with_context(psa_key_id_t key,
                                            size_t signature_size,
                                            size_t * signature_length);
 psa_sign_operation_t psa_sign_operation_init(void);
+psa_status_t psa_sign_set_context(psa_sign_operation_t * operation,
+                                  const uint8_t * context,
+                                  size_t context_length);
 psa_status_t psa_sign_setup(psa_sign_operation_t * operation,
                             psa_key_id_t key,
-                            psa_algorithm_t alg,
-                            const uint8_t * context,
-                            size_t context_length);
+                            psa_algorithm_t alg);
 psa_status_t psa_sign_update(psa_sign_operation_t * operation,
                              const uint8_t * input,
                              size_t input_length);
@@ -906,11 +907,12 @@ psa_status_t psa_verify_message_with_context(psa_key_id_t key,
                                              const uint8_t * signature,
                                              size_t signature_length);
 psa_verify_operation_t psa_verify_operation_init(void);
+psa_status_t psa_verify_set_context(psa_verify_operation_t * operation,
+                                    const uint8_t * context,
+                                    size_t context_length);
 psa_status_t psa_verify_setup(psa_verify_operation_t * operation,
                               psa_key_id_t key,
                               psa_algorithm_t alg,
-                              const uint8_t * context,
-                              size_t context_length,
                               const uint8_t * signature,
                               size_t signature_length);
 psa_status_t psa_verify_update(psa_verify_operation_t * operation,

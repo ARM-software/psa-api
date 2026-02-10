@@ -2273,10 +2273,6 @@ Multi-part asymmetric signature operations
         The key must permit the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_MESSAGE(alg)` is true.
-    .. param:: const uint8_t * context
-        The context to use for this signature.
-    .. param:: size_t context_length
-        Size of the ``context`` buffer in bytes.
 
     .. return:: psa_status_t
     .. retval:: PSA_SUCCESS
@@ -2291,14 +2287,11 @@ Multi-part asymmetric signature operations
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a message.
         *   ``key`` is not supported for use with ``alg``.
-        *   The implementation does not support this value of ``context_length`` for ``alg``.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
         *   ``alg`` is not an asymmetric signature algorithm that permits signing a message with a non-zero-length context.
         *   ``key`` is not an asymmetric key pair, that is compatible with ``alg``.
-        *   ``context_length`` is not valid for the algorithm and key type.
-        *   ``context`` is not a valid input value for the algorithm and key type.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -2312,13 +2305,12 @@ Multi-part asymmetric signature operations
         *   The operation state is not valid: it must be inactive.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    If a context parameter is not required or not supported by the algorithm, a zero-length context must be provided.
-
-    The sequence of operations to sign a message is as follows:
+    The sequence of operations to sign a message using a multi-part sign operation is as follows:
 
     1.  Allocate a sign operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_sign_operation_t`, for example `PSA_SIGN_OPERATION_INIT`.
-    #.  Call `psa_sign_setup()` to specify the key-pair, algorithm, and optional context value.
+    #.  Call `psa_sign_setup()` to specify the key pair and algorithm.
+    #.  Optionally, call `psa_sign_set_context()` to provide a context.
     #.  Call `psa_sign_update()` zero, one or more times, passing a fragment of the message each time.
         The signature that is calculated is the signature of the concatenation of these messages in order.
     #.  To extract the signature the hash, call `psa_sign_finish()`.
@@ -2335,6 +2327,49 @@ Multi-part asymmetric signature operations
     To abandon an active operation, or reset an operation in an error state, call `psa_sign_abort()`.
 
     See :secref:`multi-part-operations`.
+
+.. function:: psa_sign_set_context
+
+    .. summary::
+        Provide a context for a multi-part sign operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_sign_operation_t * operation
+        Active sign operation.
+    .. param:: const uint8_t * context
+        Buffer containing the context value.
+    .. param:: size_t context_length
+        Size of the ``context`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active, and no call to `psa_sign_set_context()` or `psa_sign_update()` has been made.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``context_length`` is not valid for the algorithm and key type.
+        *   ``context`` is not a valid input value for the algorithm and key type.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The context value is not supported by this implementation.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    This function sets the context value in a multi-part sign operation.
+
+    The application must call `psa_sign_setup()` before calling this function.
+    For a signature algorithm with a context parameter, this function is called immediately after `psa_sign_setup()`, before calling any other function on the sign operation.
+
+    If a context parameter is not required or not supported by the algorithm, either call `psa_sign_set_context()` with a zero-length context, or do not call this function.
+    The macro `PSA_ALG_SIGN_SUPPORTS_CONTEXT()` can be used to determine if a signature algorithm supports non-zero-length context values.
+
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_sign_abort()`.
 
 .. function:: psa_sign_update
 
@@ -2511,10 +2546,6 @@ Multi-part asymmetric signature operations
         The key must permit the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
     .. param:: psa_algorithm_t alg
         An asymmetric signature algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_MESSAGE(alg)` is true.
-    .. param:: const uint8_t * context
-        The context to use for this signature.
-    .. param:: size_t context_length
-        Size of the ``context`` buffer in bytes.
     .. param:: const uint8_t * signature
         Buffer containing the signature to verify.
     .. param:: size_t signature_length
@@ -2533,14 +2564,11 @@ Multi-part asymmetric signature operations
 
         *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a message.
         *   ``key`` is not supported for use with ``alg``.
-        *   The implementation does not support this value of ``context_length`` for ``alg``.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
         *   ``alg`` is not an asymmetric signature algorithm that permits verifying a message with a non-zero-length context.
         *   ``key`` is not a public key or an asymmetric key pair, that is compatible with ``alg``.
-        *   ``context_length`` is not valid for the algorithm and key type.
-        *   ``context`` is not a valid input value for the algorithm and key type.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
     .. retval:: PSA_ERROR_CORRUPTION_DETECTED
@@ -2554,15 +2582,14 @@ Multi-part asymmetric signature operations
         *   The operation state is not valid: it must be inactive.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    If a context parameter is not required or not supported by the algorithm, a zero-length context must be provided.
-
-    The sequence of operations to verify a message signature is as follows:
+    The sequence of operations to verify a message signature using a multi-part sign operation is as follows:
 
     1.  Allocate a verify operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_verify_operation_t`, for example `PSA_VERIFY_OPERATION_INIT`.
-    #.  Call `psa_verify_setup()` to specify the key-pair, algorithm, context value, and signature to verify.
+    #.  Call `psa_verify_setup()` to specify the key, algorithm, and signature to verify.
+    #.  Optionally, call `psa_verify_set_context()` to provide a context.
     #.  Call `psa_verify_update()` zero, one or more times, passing a fragment of the message each time.
-        The signature tis verified against the concatenation of these messages in order.
+        The signature is verified against the concatenation of these messages in order.
     #.  To determine the validity of the signature, call `psa_verify_finish()`.
 
     After a successful call to `psa_verify_setup()`, the operation is active, and the application must eventually terminate the operation.
@@ -2577,6 +2604,49 @@ Multi-part asymmetric signature operations
     To abandon an active operation, or reset an operation in an error state, call `psa_verify_abort()`.
 
     See :secref:`multi-part-operations`.
+
+.. function:: psa_verify_set_context
+
+    .. summary::
+        Provide a context for a multi-part verify operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_verify_operation_t * operation
+        Active verify operation.
+    .. param:: const uint8_t * context
+        Buffer containing the context value.
+    .. param:: size_t context_length
+        Size of the ``context`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active, and no call to `psa_verify_set_context()` or `psa_verify_update()` has been made.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``context_length`` is not valid for the algorithm and key type.
+        *   ``context`` is not a valid input value for the algorithm and key type.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The context value is not supported by this implementation.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    This function sets the context value in a multi-part verify operation.
+
+    The application must call `psa_verify_setup()` before calling this function.
+    For a signature algorithm with a context parameter, this function is called immediately after `psa_verify_setup()`, before calling any other function on the verify operation.
+
+    If a context parameter is not required or not supported by the algorithm, either call `psa_verify_set_context()` with a zero-length context, or do not call this function.
+    The macro `PSA_ALG_SIGN_SUPPORTS_CONTEXT()` can be used to determine if a signature algorithm supports non-zero-length context values.
+
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_verify_abort()`.
 
 .. function:: psa_verify_update
 
