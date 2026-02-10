@@ -59,7 +59,7 @@ There are three categories of asymmetric signature algorithm in the |API|:
 
     For these algorithms, it is not possible to inject a pre-computed hash into the middle of the algorithm. An application can choose to calculate a message hash, and sign that instead of the message --- but this is not functionally equivalent to signing the message, and eliminates the security benefits of signing the message directly.
 
-    Some of these algorithms still permit the signature of a large message to be calculated, or verified, by providing the message data in fragments. This is possible when the algorithm only processes the message data once. See the individual algorithm descriptions for details.
+    Some of these algorithms still permit the signature of a large message to be calculated, or verified, by providing the message data in fragments. This is possible when the algorithm only processes the message data once. See :secref:`multi-part-signature` and the individual algorithm descriptions for details.
 
     The following algorithms are in this category:
 
@@ -123,7 +123,7 @@ For large or streamed messages, it might be necessary to compute or verify a sig
 
     .. note::
         Message signature algorithms that require the message data to be processed more than once cannot be used in a multi-part operation, and can only be used with the single-part functions.
-        For example, the PureEdDSA algorithms cannot be used with multi-part sign operation, but can be used with a multi-part verify operation.
+        For example, the PureEdDSA and SLH-DSA algorithms cannot be used with multi-part sign operation, but can be used with a multi-part verify operation.
 
         See the individual algorithm descriptions for details.
 
@@ -908,8 +908,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part verify operation, but not with the multi-part sign operation.
 
     This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -943,8 +944,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part verify operation, but not with the multi-part sign operation.
 
     This is the pure SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -990,7 +992,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, using hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -1024,7 +1027,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
             Note that ``hash_alg`` can be extracted from the signature algorithm using :code:`PSA_ALG_GET_HASH(sig_alg)`.
             Then sign the calculated hash either with :code:`psa_sign_hash()` or, if the protocol requires the use of a non-zero-length context, with :code:`psa_sign_hash_with_context()`.
 
-        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, or :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-=length context has been used.
+        *   Use a multi-part sign operation, `psa_sign_operation_t`, to process the message in one or more fragments before extracting the signature.
+
+        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, using :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-length context has been used, or using a multi-part verify operation, `psa_verify_operation_t`.
 
     .. subsection:: Compatible key types
 
@@ -1048,7 +1053,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -1247,8 +1253,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature and verify functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1282,8 +1289,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature and verify functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1329,7 +1337,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1363,7 +1372,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
             Note that ``hash_alg`` can be extracted from the signature algorithm using :code:`PSA_ALG_GET_HASH(sig_alg)`.
             Then sign the calculated hash either with :code:`psa_sign_hash()` or, if the protocol requires the use of a non-zero-length context, with :code:`psa_sign_hash_with_context()`.
 
-        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, or :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-=length context has been used.
+        *   Use a multi-part sign operation, `psa_sign_operation_t`, to process the message in one or more fragments before extracting the signature.
+
+        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, using :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-length context has been used, or using a multi-part verify operation, `psa_verify_operation_t`.
 
     .. subsection:: Compatible key types
 
@@ -1387,7 +1398,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1523,7 +1535,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     LMS does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
@@ -1546,7 +1559,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     HSS does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
@@ -1587,7 +1601,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     XMSS does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
@@ -1610,7 +1625,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     |XMSS^MT| does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
