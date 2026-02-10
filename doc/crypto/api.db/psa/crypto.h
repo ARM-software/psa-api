@@ -24,7 +24,9 @@ typedef uint32_t psa_pake_primitive_t;
 typedef uint8_t psa_pake_primitive_type_t;
 typedef uint8_t psa_pake_role_t;
 typedef uint8_t psa_pake_step_t;
+typedef /* implementation-defined type */ psa_sign_operation_t;
 typedef uint8_t psa_slh_dsa_family_t;
+typedef /* implementation-defined type */ psa_verify_operation_t;
 typedef /* implementation-defined type */ psa_xof_operation_t;
 typedef struct psa_custom_key_parameters_t {
     uint32_t flags;
@@ -463,6 +465,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_RAW_KEY_AGREEMENT_OUTPUT_SIZE(key_type, key_bits) \
     /* implementation-defined value */
 #define PSA_SIGNATURE_MAX_SIZE /* implementation-defined value */
+#define PSA_SIGN_OPERATION_INIT /* implementation-defined value */
 #define PSA_SIGN_OUTPUT_SIZE(key_type, key_bits, alg) \
     /* implementation-defined value */
 #define PSA_SLH_DSA_FAMILY_SHA2_F ((psa_slh_dsa_family_t) 0x04)
@@ -471,6 +474,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_SLH_DSA_FAMILY_SHAKE_S ((psa_slh_dsa_family_t) 0x0b)
 #define PSA_TLS12_ECJPAKE_TO_PMS_OUTPUT_SIZE 32
 #define PSA_TLS12_PSK_TO_MS_PSK_MAX_SIZE /* implementation-defined value */
+#define PSA_VERIFY_OPERATION_INIT /* implementation-defined value */
 #define PSA_WRAP_KEY_OUTPUT_SIZE(wrap_key_type, alg, key_type, key_bits) \
     /* implementation-defined value */
 #define PSA_WRAP_KEY_PAIR_MAX_SIZE /* implementation-defined value */
@@ -819,6 +823,11 @@ void psa_set_key_type(psa_key_attributes_t * attributes,
                       psa_key_type_t type);
 void psa_set_key_usage_flags(psa_key_attributes_t * attributes,
                              psa_key_usage_t usage_flags);
+psa_status_t psa_sign_abort(psa_sign_operation_t * operation);
+psa_status_t psa_sign_finish(psa_sign_operation_t * operation,
+                             uint8_t * signature,
+                             size_t signature_size,
+                             size_t * signature_length);
 psa_status_t psa_sign_hash(psa_key_id_t key,
                            psa_algorithm_t alg,
                            const uint8_t * hash,
@@ -851,12 +860,24 @@ psa_status_t psa_sign_message_with_context(psa_key_id_t key,
                                            uint8_t * signature,
                                            size_t signature_size,
                                            size_t * signature_length);
+psa_sign_operation_t psa_sign_operation_init(void);
+psa_status_t psa_sign_set_context(psa_sign_operation_t * operation,
+                                  const uint8_t * context,
+                                  size_t context_length);
+psa_status_t psa_sign_setup(psa_sign_operation_t * operation,
+                            psa_key_id_t key,
+                            psa_algorithm_t alg);
+psa_status_t psa_sign_update(psa_sign_operation_t * operation,
+                             const uint8_t * input,
+                             size_t input_length);
 psa_status_t psa_unwrap_key(const psa_key_attributes_t * attributes,
                             psa_key_id_t wrapping_key,
                             psa_algorithm_t alg,
                             const uint8_t * data,
                             size_t data_length,
                             psa_key_id_t * key);
+psa_status_t psa_verify_abort(psa_verify_operation_t * operation);
+psa_status_t psa_verify_finish(psa_verify_operation_t * operation);
 psa_status_t psa_verify_hash(psa_key_id_t key,
                              psa_algorithm_t alg,
                              const uint8_t * hash,
@@ -885,6 +906,18 @@ psa_status_t psa_verify_message_with_context(psa_key_id_t key,
                                              size_t context_length,
                                              const uint8_t * signature,
                                              size_t signature_length);
+psa_verify_operation_t psa_verify_operation_init(void);
+psa_status_t psa_verify_set_context(psa_verify_operation_t * operation,
+                                    const uint8_t * context,
+                                    size_t context_length);
+psa_status_t psa_verify_setup(psa_verify_operation_t * operation,
+                              psa_key_id_t key,
+                              psa_algorithm_t alg,
+                              const uint8_t * signature,
+                              size_t signature_length);
+psa_status_t psa_verify_update(psa_verify_operation_t * operation,
+                               const uint8_t * input,
+                               size_t input_length);
 psa_status_t psa_wrap_key(psa_key_id_t wrapping_key,
                           psa_algorithm_t alg,
                           psa_key_id_t key,
