@@ -214,7 +214,7 @@ Multi-part XOF operations
     .. param:: psa_xof_operation_t * operation
         Active XOF operation.
     .. param:: const uint8_t * context
-        Buffer containing the input fragment.
+        Buffer containing the context value.
     .. param:: size_t context_length
         Size of the ``context`` buffer in bytes.
 
@@ -224,7 +224,7 @@ Multi-part XOF operations
     .. retval:: PSA_ERROR_BAD_STATE
         The following conditions can result in this error:
 
-        *   The operation state is not valid: it must be active, and no call to `psa_xof_set_context()`, `psa_xof_output()`, or `psa_xof_output()` has been made.
+        *   The operation state is not valid: it must be active, and no call to `psa_xof_set_context()`, `psa_xof_update()`, or `psa_xof_output()` has been made.
         *   The library requires initializing by a call to `psa_crypto_init()`.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
