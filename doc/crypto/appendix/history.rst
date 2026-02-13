@@ -17,6 +17,11 @@ Changes between *1.4.1* and *1.5.0*
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
 
+*   Added support for BLAKE2:
+
+    -   BLAKE2s cryptographic hash and MAC, `PSA_ALG_BLAKE2S_HASH256` and `PSA_ALG_BLAKE2S_MAC`.
+    -   BLAKE2b cryptographic hash and MAC, `PSA_ALG_BLAKE2B_HASH512` and `PSA_ALG_BLAKE2B_MAC`.
+
 Relaxations
 ~~~~~~~~~~~
 

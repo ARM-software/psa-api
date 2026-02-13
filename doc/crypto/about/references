@@ -539,3 +539,9 @@
     :author: IETF
     :publication: January 2020
     :url: tools.ietf.org/html/rfc8702.html
+
+.. reference:: RFC7693
+    :title: The BLAKE2 Cryptographic Hash and Message Authentication Code (MAC)
+    :author: IETF
+    :publication: November 2015
+    :url: tools.ietf.org/html/rfc7693.html

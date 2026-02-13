@@ -88,6 +88,8 @@ MAC algorithms
             `PSA_ALG_SHA3_384`, 104, 48
             `PSA_ALG_SHA3_512`, 72, 64
             `PSA_ALG_SM3`, 64, 32
+            `PSA_ALG_BLAKE2S_HASH256`, 64, 32
+            `PSA_ALG_BLAKE2B_HASH512`, 128, 64
 
         .. admonition:: Implementation note
 
@@ -140,6 +142,60 @@ MAC algorithms
         | `PSA_KEY_TYPE_DES`
         | `PSA_KEY_TYPE_CAMELLIA`
         | `PSA_KEY_TYPE_SM4`
+
+.. macro:: PSA_ALG_BLAKE2S_MAC
+    :definition: ((psa_algorithm_t)0x03800300)
+
+    .. summary::
+        The BLAKE2s message-authentication-code algorithm (BLAKE2s-MAC).
+
+        .. versionadded:: 1.5
+
+    BLAKE2s-MAC is the BLAKE2s keyed-hash with a non-zero-length key.
+    BLAKE2s is defined in :rfc-title:`7693`.
+
+    The BLAKE2s-MAC algorithm must be used with a `PSA_KEY_TYPE_BLAKE2` key, that is no more than 256 bits in length.
+
+    The default tag length for `PSA_ALG_BLAKE2S_MAC` is 32 bytes, which is the maximum output length of BLAKE2s.
+    BLAKE2s permits any output length from 1 to 32 bytes.
+    To select a non-default tag length ``tag_len``, use :code:`PSA_ALG_TRUNCATED_MAC(PSA_ALG_BLAKE2S_MAC, tag_len)` as the algorithm.
+
+    .. note::
+        When BLAKE2s is used as general MAC algorithm, it is recommended to use an output tag of at least 64 bits (8 bytes).
+
+    .. note::
+        To use BLAKE2s as a cryptographic hash, see `PSA_ALG_BLAKE2S_HASH256`.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_BLAKE2` (with ``key_bits <= 256``)
+
+.. macro:: PSA_ALG_BLAKE2B_MAC
+    :definition: ((psa_algorithm_t)0x03800400)
+
+    .. summary::
+        The BLAKE2b message-authentication-code algorithm (BLAKE2b-MAC).
+
+        .. versionadded:: 1.5
+
+    BLAKE2b-MAC is the BLAKE2b keyed-hash with a non-zero-length key.
+    BLAKE2b is defined in :rfc:`7693`.
+
+    The BLAKE2b-MAC algorithm must be used with a `PSA_KEY_TYPE_BLAKE2` key.
+
+    The default tag length for `PSA_ALG_BLAKE2B_MAC` is 64 bytes, which is the maximum output length of BLAKE2b.
+    BLAKE2b permits any output length from 1 to 64 bytes.
+    To select a non-default tag length ``tag_len``, use :code:`PSA_ALG_TRUNCATED_MAC(PSA_ALG_BLAKE2B_MAC, tag_len)` as the algorithm.
+
+    .. note::
+        When BLAKE2b is used as general MAC algorithm, it is recommended to use an output tag of at least 64 bits (8 bytes).
+
+    .. note::
+        To use BLAKE2b as a cryptographic hash, see `PSA_ALG_BLAKE2B_HASH512`.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_BLAKE2`
 
 .. macro:: PSA_ALG_TRUNCATED_MAC
     :definition: /* specification-defined value */

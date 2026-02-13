@@ -300,6 +300,51 @@ Hash algorithms
 
         It is recommended that these compound algorithms are not supported with `PSA_ALG_ASCON_HASH256`.
 
+.. macro:: PSA_ALG_BLAKE2S_HASH256
+    :definition: ((psa_algorithm_t)0x0200001A)
+
+    .. summary::
+        The BLAKE2s cryptographic hash with 256 bits of output (BLAKE2s-256).
+
+        .. versionadded:: 1.5
+
+    The BLAKE2s-256 hash is BLAKE2s with a zero-length key, and a 256 bit (32 byte) output.
+    BLAKE2s is defined in :rfc-title:`7693`.
+
+    .. note::
+        To use BLAKE2s as a MAC, see `PSA_ALG_BLAKE2S_MAC`.
+
+        Where a protocol requires the use of HMAC or HKDF-HMAC, BLAKE2s-256 can be used with HMAC.
+        See `PSA_ALG_HMAC`.
+
+    .. note::
+        BLAKE2s-256 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID.
+
+        It is recommended that this compound algorithm is not supported with `PSA_ALG_BLAKE2S_HASH256`.
+
+.. macro:: PSA_ALG_BLAKE2B_HASH512
+    :definition: ((psa_algorithm_t)0x0200001B)
+
+    .. summary::
+        The BLAKE2b cryptographic hash with 512 bits of output (BLAKE2b-512).
+
+        .. versionadded:: 1.5
+
+    The BLAKE2b-512 hash is BLAKE2b with a zero-length key, and a 512 bit (64 byte) output.
+    BLAKE2b is defined in :rfc:`7693`.
+
+    .. note::
+        To use BLAKE2b as a MAC, see `PSA_ALG_BLAKE2B_MAC`.
+
+        Where a protocol requires the use of HMAC or HKDF-HMAC, BLAKE2b-512 can be used with HMAC.
+        See `PSA_ALG_HMAC`.
+
+    .. note::
+        BLAKE2b-512 is not specified with `PSA_ALG_RSA_PKCS1V15_SIGN`, due to the lack of a standard OID.
+
+        It is recommended that this compound algorithm is not supported with `PSA_ALG_BLAKE2B_HASH512`.
+
+
 Single-part hashing functions
 -----------------------------
 
