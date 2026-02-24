@@ -36,6 +36,9 @@ Algorithm macros
     #define PSA_ALG_AT_LEAST_THIS_LENGTH_MAC(mac_alg, min_mac_length) \
         ( PSA_ALG_TRUNCATED_MAC(mac_alg, min_mac_length) | 0x00008000 )
 
+    #define PSA_ALG_BLAKE2_MAC(hash_alg) \
+        ((psa_algorithm_t) (0x03800300 | ((hash_alg) & 0x000000ff)))
+
     #define PSA_ALG_DETERMINISTIC_ECDSA(hash_alg) \
         ((psa_algorithm_t) (0x06000700 | ((hash_alg) & 0x000000ff)))
 
@@ -80,6 +83,12 @@ Algorithm macros
 
     #define PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg) \
         (((alg) & 0x7f000000) == 0x07000000)
+
+    #define PSA_ALG_IS_BLAKE2_HASH(alg) \
+        (((alg) & 0x7ffffffc) == 0x0200001c)
+
+    #define PSA_ALG_IS_BLAKE2_MAC(alg) \
+        (((alg) & 0x7fc0ff00) == 0x03800300)
 
     #define PSA_ALG_IS_BLOCK_CIPHER_MAC(alg) \
         (((alg) & 0x7fc00000) == 0x03c00000)

@@ -2,9 +2,9 @@
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. reference:: PSM
-   :title: Platform Security Model
-   :doc_no: ARM DEN 0128
-   :url: developer.arm.com/documentation/den0128
+    :title: Platform Security Model
+    :doc_no: ARM DEN 0128
+    :url: developer.arm.com/documentation/den0128
 
 .. reference:: PSA-FFM
     :title: Arm® Platform Security Architecture Firmware Framework
@@ -542,6 +542,12 @@
 
 .. reference:: RFC7693
     :title: The BLAKE2 Cryptographic Hash and Message Authentication Code (MAC)
-    :author: IETF
+    :author: J-P. Aumasson, M-J. Saarinen
     :publication: November 2015
     :url: tools.ietf.org/html/rfc7693.html
+
+.. reference:: BLAKE2
+    :title: BLAKE2: simpler, smaller, fast as MD5
+    :author: Jean-Philippe Aumasson, Samuel Neves, Zooko Wilcox-O’Hearn, Christian Winnerlein
+    :publication: January 2013
+    :url: blake2.net/blake2.pdf

@@ -990,27 +990,23 @@ Symmetric cryptographic keys
         A call to `psa_key_derivation_output_key()` will draw :math:`m/8` bytes of output and use these as the key data, where :math:`m` is the bit-size of the key.
 
 .. macro:: PSA_KEY_TYPE_BLAKE2
-    :definition: ((psa_key_type_t)0x200B)
+    :definition: ((psa_key_type_t)0x1103)
 
     .. summary::
-        Key for the BLAKE2s and BLAKE2b MAC algorithms.
+        Key for a BLAKE2 MAC algorithm.
 
         .. versionadded:: 1.5
 
     The bit size of a BLAKE2 key must be a non-zero multiple of 8, that is, a whole number of bytes.
-    Keys for BLAKE2s cannot be greater than 256 bits, and keys for BLAKE2b cannot be greater than 512 bits.
+    Keys for BLAKE2s and BLAKE2sp cannot be greater than 256 bits, and keys for BLAKE2b and BLAKE2bp cannot be greater than 512 bits.
 
-    .. note::
-        When BLAKE2s or BLAKE2b are used as general MAC algorithms, it is recommended to have a key size of at least 128 bits.
-
-    See `PSA_ALG_BLAKE2S_MAC` and `PSA_ALG_BLAKE2B_MAC` for details of the BLAKE2 algorithms.
+    See `PSA_ALG_BLAKE2_MAC` for details of the BLAKE2 algorithms.
 
     .. subsection:: Compatible algorithms
 
         .. hlist::
 
-            *   `PSA_ALG_BLAKE2S_MAC`
-            *   `PSA_ALG_BLAKE2B_MAC`
+            *   `PSA_ALG_BLAKE2_MAC`
 
     .. subsection:: Key format
 
