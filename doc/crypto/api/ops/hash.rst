@@ -308,7 +308,7 @@ Hash algorithms
 
         .. versionadded:: 1.5
 
-    The BLAKE2s-256 hash is BLAKE2s with a zero-length key, and a 256 bit (32 byte) output.
+    The BLAKE2s-256 hash is BLAKE2s with a zero-length key, and a 256-bit (32-byte) output.
     BLAKE2s is defined in :rfc-title:`7693`.
 
     .. note::
@@ -330,7 +330,7 @@ Hash algorithms
 
         .. versionadded:: 1.5
 
-    The BLAKE2sp-256 hash is the parallel version of BLAKE2s with a zero-length key, and a 256 bit (32 byte) output.
+    The BLAKE2sp-256 hash is the parallel version of BLAKE2s with a zero-length key, and a 256-bit (32-byte) output.
     BLAKE2sp is defined in :cite-title:`BLAKE2`.
 
     .. note::
@@ -349,7 +349,7 @@ Hash algorithms
 
         .. versionadded:: 1.5
 
-    The BLAKE2b-512 hash is BLAKE2b with a zero-length key, and a 512 bit (64 byte) output.
+    The BLAKE2b-512 hash is BLAKE2b with a zero-length key, and a 512-bit (64-byte) output.
     BLAKE2b is defined in :rfc:`7693`.
 
     .. note::
@@ -371,7 +371,7 @@ Hash algorithms
 
         .. versionadded:: 1.5
 
-    The BLAKE2bp-512 hash is the parallel version of BLAKE2b with a zero-length key, and a 512 bit (64 byte) output.
+    The BLAKE2bp-512 hash is the parallel version of BLAKE2b with a zero-length key, and a 512-bit (64-byte) output.
     BLAKE2bp is defined in :cite-title:`BLAKE2`.
 
     .. note::

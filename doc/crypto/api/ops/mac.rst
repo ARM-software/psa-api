@@ -176,7 +176,7 @@ MAC algorithms
     *   For BLAKE2s and BLAKE2sp, the default and maximum tag length is 32 bytes.
     *   For BLAKE2b and BLAKE2bp, the default and maximum tag length is 64 bytes.
 
-    BLAKE2 permits any non-zero tag length from 1 to the maximum tag size.
+    BLAKE2 permits any non-zero tag length from one to the maximum tag size.
     To select a non-default tag length ``tag_len``, use :code:`PSA_ALG_TRUNCATED_MAC(PSA_ALG_BLAKE2_MAC(blake2_hash), tag_len)` as the algorithm.
 
     .. note::
