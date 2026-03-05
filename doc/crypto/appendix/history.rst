@@ -109,7 +109,7 @@ Clarifications and fixes
 Other changes
 ~~~~~~~~~~~~~
 
-*   Reorganised the chapter on key types.
+*   Reorganized the chapter on key types.
     See :secref:`key-types`.
 
 Changes between *1.3.1* and *1.3.2*
