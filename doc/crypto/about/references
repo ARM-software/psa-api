@@ -480,11 +480,11 @@
     :publication: August 2024
     :url: doi.org/10.6028/NIST.FIPS.205
 
-.. reference:: LAMPS-MLKEM
+.. reference:: RFC9935
     :title: Internet X.509 Public Key Infrastructure - Algorithm Identifiers for Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM)
     :author: IETF
-    :publication: July 2025 (Draft 11)
-    :url: datatracker.ietf.org/doc/html/draft-ietf-lamps-kyber-certificates-11
+    :publication: March 2026
+    :url: tools.ietf.org/html/rfc9935
 
 .. reference:: RFC9881
     :title: Internet X.509 Public Key Infrastructure --- Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)
