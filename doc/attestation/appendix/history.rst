@@ -57,14 +57,14 @@ Document history
         * Fix CBOR type of ``arm_psa_origination`` to text string. Spec and example were in conflict, and the example was correct.
         * Added CDDL definition to the appendices, which can be helpful to developers.
         * Instance ID definition for symmetric keys has been improved. The specific constructions are now recommended rather than normative.
-        * Clarified the optionality of map entries in the Software Components claim. See :secref:`custom-claims`.
+        * Clarified the optionality of map entries in the Software Components claim.
 
     * - 2025-09-23
       - *1.0.4*
 
         * Updated introduction to reflect GlobalPlatform assuming the governance of the PSA Certified evaluation scheme.
 
-    * - 2024-??-??
+    * - 2025-??-??
       - *2.0.0*
 
-        * Update the API to use the PSA attestation token, defined in :cite-title:`PSATOKEN`. The token and report format, CDDL definition, and example token are no longer required in this specification.
+        * Update the API to use the PSA attestation token, defined in :rfc-title:`9783`. The token and report format, CDDL definition, and example token are no longer required in this specification.

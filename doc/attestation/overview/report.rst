@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2023 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _report:
@@ -6,11 +6,11 @@
 Initial Attestation report
 ==========================
 
-The attestation report returned by the |API| is formatted and encoded as a signed PSA Attestation Token. This is defined in :cite-title:`PSATOKEN`.
+The attestation report returned by the |API| is formatted and encoded as a signed PSA Attestation Token. This is defined in :rfc-title:`9783`.
 
 The PSA Attestation Token is an incompatible evolution of the original attestation format, that was specified in version 1.0 of the |API|.
 
-To comply with version |docversion| of the |API|, an implementation must only produce attestation reports that conform to :cite:`PSATOKEN`.
+To comply with version |docversion| of the |API|, an implementation must only produce attestation reports that conform to :rfc:`9783`.
 
 :numref:`tab-psa-token-notes` provides specific recommendations for the construction of some of the token claims.
 
@@ -31,7 +31,7 @@ To comply with version |docversion| of the |API|, an implementation must only pr
          *  When using a symmetric key for the IAK, it is recommended that the Instance ID is a *double* hash of the key --- ``InstanceID = H(H(IAK))``.
 
          .. rationale::
-           
+
             According to :rfc-title:`2104`, if a HMAC key is longer than the HMAC block size, the key will be first hashed. The hash output is used as the key in HMAC computation.
 
             When HMAC is used to authenticate the token, and IAK is longer than the HMAC block size, then ``HMAC(IAK, token) == HMAC(H(IAK), token)``. If Instance ID is defined to be ``H(IAK)``, then an attacker can use the Instance ID value in an attestation token to fake malicious reports by using Instance ID as the HMAC key.
