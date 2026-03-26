@@ -140,6 +140,10 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
     SHAKE256/192, ``0x17``, `PSA_ALG_SHAKE256_192`, ``0x02000017``
     SHAKE256/256, ``0x18``, `PSA_ALG_SHAKE256_256`, ``0x02000018``
     Ascon-Hash256, ``0x19``, `PSA_ALG_ASCON_HASH256`, ``0x02000019``
+    BLAKE2s-256, ``0x1C``, `PSA_ALG_BLAKE2S_HASH256`, ``0x0200001C``
+    BLAKE2sp-256, ``0x1D``, `PSA_ALG_BLAKE2SP_HASH256`, ``0x0200001D``
+    BLAKE2b-512, ``0x1E``, `PSA_ALG_BLAKE2B_HASH512`, ``0x0200001E``
+    BLAKE2bp-512, ``0x1F``, `PSA_ALG_BLAKE2BP_HASH512`, ``0x0200001F``
     *wildcard* :sup:`a`, ``0xFF``, `PSA_ALG_ANY_HASH`, ``0x020000FF``
 
 a.  The wildcard hash `PSA_ALG_ANY_HASH` can be used to parameterize a signature algorithm which defines a key usage policy, permitting any hash algorithm to be specified in a signature operation using the key.
@@ -204,12 +208,15 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for hash-based MAC algorithms, oth
     HMAC, 0, ``0x00``, :code:`PSA_ALG_HMAC(hash_alg)`, ``0x038000hh`` :sup:`a b`
     CBC-MAC :sup:`c`, 1, ``0x01``, `PSA_ALG_CBC_MAC`, ``0x03c00100`` :sup:`a`
     CMAC :sup:`c`, 1, ``0x02``, `PSA_ALG_CMAC`, ``0x03c00200`` :sup:`a`
+    BLAKE2 MAC, 0, ``0x03``, :code:`PSA_ALG_BLAKE2_MAC(blake2_hash)`, ``0x038003hh`` :sup:`a d`
 
 a.  This is the default algorithm identifier, specifying a standard length tag. `PSA_ALG_TRUNCATED_MAC()` generates identifiers with non-default LEN values. `PSA_ALG_AT_LEAST_THIS_LENGTH_MAC()` generates permitted-algorithm policies with W = 1.
 
 b.  ``hh`` is the HASH-TYPE for the hash algorithm, ``hash_alg``, used to construct the MAC algorithm.
 
 c.  This is a MAC constructed using an underlying block cipher. The block cipher is determined by the key type that is provided to the MAC operation.
+
+d.  ``hh`` is the HASH-TYPE for a BLAKE2 hash algorithm, ``blake2_hash``, used to construct the MAC algorithm.
 
 .. _cipher-encoding:
 
@@ -613,6 +620,7 @@ The defined values for RAW-TYPE, SUB-TYPE, and P are shown in :numref:`table-raw
     Raw key type, RAW-TYPE, SUB-TYPE, P, Key type, Key type value
     Raw data, 0, 0, 1, `PSA_KEY_TYPE_RAW_DATA`, ``0x1001``
     HMAC, 1, 0, 0, `PSA_KEY_TYPE_HMAC`, ``0x1100``
+    BLAKE2, 1, 1, 1, `PSA_KEY_TYPE_BLAKE2`, ``0x1103``
     Derivation secret, 2, 0, 0, `PSA_KEY_TYPE_DERIVE`, ``0x1200``
     Password, 2, 1, 1, `PSA_KEY_TYPE_PASSWORD`, ``0x1203``
     Password hash, 2, 2, 1, `PSA_KEY_TYPE_PASSWORD_HASH`, ``0x1205``

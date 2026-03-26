@@ -88,6 +88,8 @@ MAC algorithms
             `PSA_ALG_SHA3_384`, 104, 48
             `PSA_ALG_SHA3_512`, 72, 64
             `PSA_ALG_SM3`, 64, 32
+            `PSA_ALG_BLAKE2S_HASH256`, 64, 32
+            `PSA_ALG_BLAKE2B_HASH512`, 128, 64
 
         .. admonition:: Implementation note
 
@@ -140,6 +142,49 @@ MAC algorithms
         | `PSA_KEY_TYPE_DES`
         | `PSA_KEY_TYPE_CAMELLIA`
         | `PSA_KEY_TYPE_SM4`
+
+.. macro:: PSA_ALG_BLAKE2_MAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Macro to build an BLAKE2 message-authentication-code algorithm from a BLAKE2 hash algorithm.
+
+        .. versionadded:: 1.5
+
+    .. param:: hash_alg
+        A hash algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_BLAKE2_HASH(hash_alg)` is true.
+
+    .. return::
+        The corresponding BLAKE2 MAC algorithm.
+
+        Unspecified if ``hash_alg`` is not a supported BLAKE2 hash algorithm.
+
+    For example, :code:`PSA_ALG_BLAKE2_MAC(PSA_ALG_BLAKE2S_HASH256)` is BLAKE2s-MAC.
+
+    BLAKE2 MAC is a BLAKE2 keyed-hash with a non-zero-length key.
+    This macro is used to construct the BLAKE2 MAC for BLAKE2s, BLAKE2sp, BLAKE2b, and BLAKE2bp, by passing the appropriate BLAKE2 hash algorithm identifier as ``hash_alg``.
+
+    BLAKE2s and BLAKE2b are defined in :rfc-title:`7693`. BLAKE2sp and BLAKE2bp are defined in :cite-title:`BLAKE2`.
+
+    The BLAKE2 MAC algorithms must be used with a `PSA_KEY_TYPE_BLAKE2` key:
+
+    *   For BLAKE2s and BLAKE2sp, the key must not be more than 256 bits (32 bytes) in length.
+    *   For BLAKE2b and BLAKE2bp, the key must not be more than 512 bits (64 bytes) in length.
+
+    The default tag length for BLAKE2 MACs is the output length of the underlying BLAKE2 hash:
+
+    *   For BLAKE2s and BLAKE2sp, the default and maximum tag length is 32 bytes.
+    *   For BLAKE2b and BLAKE2bp, the default and maximum tag length is 64 bytes.
+
+    BLAKE2 permits any non-zero tag length from one to the maximum tag size.
+    To select a non-default tag length ``tag_len``, use :code:`PSA_ALG_TRUNCATED_MAC(PSA_ALG_BLAKE2_MAC(blake2_hash), tag_len)` as the algorithm.
+
+    .. note::
+        To use BLAKE2 as a cryptographic hash, see `PSA_ALG_BLAKE2S_HASH256`, `PSA_ALG_BLAKE2SP_HASH256`, `PSA_ALG_BLAKE2B_HASH512`, and `PSA_ALG_BLAKE2BP_HASH512`.
+
+    .. subsection:: Compatible key types
+
+        | `PSA_KEY_TYPE_BLAKE2`
 
 .. macro:: PSA_ALG_TRUNCATED_MAC
     :definition: /* specification-defined value */
@@ -669,6 +714,21 @@ Support macros
         ``1`` if ``alg`` is an HMAC algorithm, ``0`` otherwise. This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
 
     HMAC is a family of MAC algorithms that are based on a hash function.
+
+.. macro:: PSA_ALG_IS_BLAKE2_MAC
+    :definition: /* specification-defined value */
+
+    .. summary::
+        Whether the specified algorithm is a BLAKE2 MAC algorithm.
+
+    .. param:: alg
+        An algorithm identifier: a value of type `psa_algorithm_t`.
+
+    .. return::
+        ``1`` if ``alg`` is a BLAKE2 MAC algorithm, ``0`` otherwise.
+        This macro can return either ``0`` or ``1`` if ``alg`` is not a supported algorithm identifier.
+
+    BLAKE2 is a family of hash and MAC algorithms.
 
 .. macro:: PSA_ALG_IS_BLOCK_CIPHER_MAC
     :definition: /* specification-defined value */

@@ -67,6 +67,11 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_ASCON_XOF128 ((psa_algorithm_t)0x0D000300)
 #define PSA_ALG_AT_LEAST_THIS_LENGTH_MAC(mac_alg, min_mac_length) \
     /* specification-defined value */
+#define PSA_ALG_BLAKE2BP_HASH512 ((psa_algorithm_t)0x0200001F)
+#define PSA_ALG_BLAKE2B_HASH512 ((psa_algorithm_t)0x0200001E)
+#define PSA_ALG_BLAKE2SP_HASH256 ((psa_algorithm_t)0x0200001D)
+#define PSA_ALG_BLAKE2S_HASH256 ((psa_algorithm_t)0x0200001C)
+#define PSA_ALG_BLAKE2_MAC(hash_alg) /* specification-defined value */
 #define PSA_ALG_CBC_MAC ((psa_algorithm_t)0x03c00100)
 #define PSA_ALG_CBC_NO_PADDING ((psa_algorithm_t)0x04404000)
 #define PSA_ALG_CBC_PKCS7 ((psa_algorithm_t)0x04404100)
@@ -106,6 +111,8 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_ALG_IS_AEAD(alg) /* specification-defined value */
 #define PSA_ALG_IS_AEAD_ON_BLOCK_CIPHER(alg) /* specification-defined value */
 #define PSA_ALG_IS_ASYMMETRIC_ENCRYPTION(alg) /* specification-defined value */
+#define PSA_ALG_IS_BLAKE2_HASH(alg) /* specification-defined value */
+#define PSA_ALG_IS_BLAKE2_MAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_BLOCK_CIPHER_MAC(alg) /* specification-defined value */
 #define PSA_ALG_IS_CIPHER(alg) /* specification-defined value */
 #define PSA_ALG_IS_DETERMINISTIC_ECDSA(alg) /* specification-defined value */
@@ -337,6 +344,7 @@ typedef struct psa_custom_key_parameters_t {
 #define PSA_KEY_TYPE_ARC4 ((psa_key_type_t)0x2002)
 #define PSA_KEY_TYPE_ARIA ((psa_key_type_t)0x2406)
 #define PSA_KEY_TYPE_ASCON ((psa_key_type_t)0x2008)
+#define PSA_KEY_TYPE_BLAKE2 ((psa_key_type_t)0x1103)
 #define PSA_KEY_TYPE_CAMELLIA ((psa_key_type_t)0x2403)
 #define PSA_KEY_TYPE_CHACHA20 ((psa_key_type_t)0x2004)
 #define PSA_KEY_TYPE_DERIVE ((psa_key_type_t)0x1200)
