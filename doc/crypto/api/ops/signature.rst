@@ -59,7 +59,7 @@ There are three categories of asymmetric signature algorithm in the |API|:
 
     For these algorithms, it is not possible to inject a pre-computed hash into the middle of the algorithm. An application can choose to calculate a message hash, and sign that instead of the message --- but this is not functionally equivalent to signing the message, and eliminates the security benefits of signing the message directly.
 
-    Some of these algorithms still permit the signature of a large message to be calculated, or verified, by providing the message data in fragments. This is possible when the algorithm only processes the message data once. See the individual algorithm descriptions for details.
+    Some of these algorithms still permit the signature of a large message to be calculated, or verified, by providing the message data in fragments. This is possible when the algorithm only processes the message data once. See :secref:`multi-part-signature` and the individual algorithm descriptions for details.
 
     The following algorithms are in this category:
 
@@ -114,6 +114,21 @@ The |API| provides several functions for calculating and verifying signatures:
 
 See :secref:`single-part-signature`.
 
+.. rubric:: Signature multi-part operations
+
+For large or streamed messages, it might be necessary to compute or verify a signature without having the entire message available at once.
+
+*   For hash-and-sign signature algorithms, this has been possible since version 1.0 of the |API| by using a multi-part hash operation followed by a call to `psa_sign_hash()` or `psa_verify_hash()`.
+*   Version 1.5 of the |API| introduces multi-part signature operations, `psa_sign_operation_t` and `psa_verify_operation_t`, that enable many more signature algorithms to be used with a fragmented message, including some of the message signature algorithms.
+
+    .. note::
+        Message signature algorithms that require the message data to be processed more than once cannot be used in a multi-part operation, and can only be used with the single-part functions.
+        For example, the PureEdDSA and SLH-DSA algorithms cannot be used with multi-part sign operation, but can be used with a multi-part verify operation.
+
+        See the individual algorithm descriptions for details.
+
+See :secref:`multi-part-signature`.
+
 .. _rsa-sign-algorithms:
 
 RSA signature algorithms
@@ -136,6 +151,7 @@ RSA signature algorithms
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
     RSA PKCS#1 v1.5 does not have a context parameter.
     However, the sign or verify with context functions can be used with a zero-length context.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This signature scheme is defined by :RFC-title:`8017#8.2` under the name RSASSA-PKCS1-v1_5.
 
@@ -229,6 +245,7 @@ RSA signature algorithms
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
     RSA PSS does not have a context parameter.
     However, the sign or verify with context functions can be used with a zero-length context.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -270,6 +287,7 @@ RSA signature algorithms
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
     RSA PSS does not have a context parameter.
     However, the sign or verify with context functions can be used with a zero-length context.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This algorithm is randomized: each invocation returns a different, equally valid signature.
 
@@ -383,6 +401,7 @@ ECDSA signature algorithms
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
     ECDSA does not have a context parameter.
     However, the sign or verify with context functions can be used with a zero-length context.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
 
@@ -465,6 +484,7 @@ ECDSA signature algorithms
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
     ECDSA does not have a context parameter.
     However, the sign or verify with context functions can be used with a zero-length context.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     When used with `psa_sign_hash()` or `psa_verify_hash()`, the provided ``hash`` parameter is the message digest, computed using the ``hash_alg`` hash algorithm.
 
@@ -597,6 +617,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
     This message-signature algorithm can be used with the `psa_sign_message()` and `psa_verify_message()` functions.
     With a zero-length context, `PSA_ALG_PURE_EDDSA` can also be used with the `psa_sign_message_with_context()` and `psa_verify_message_with_context()` functions.
     It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part verify operation, but not with the multi-part sign operation.
 
     This is the PureEdDSA digital signature algorithm defined by :RFC-title:`8032`, with zero-length context.
 
@@ -633,6 +654,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
 
     This message-signature algorithm can be used with both the message and message with context signature functions.
     It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part verify operation, but not with the multi-part sign operation.
 
     This is the PureEdDSA digital signature algorithm defined by :RFC-title:`8032`, with a context parameter.
     The context parameter can be between zero and 255 bytes in length.
@@ -663,6 +685,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
         *   Call `psa_sign_message()` or `psa_sign_message_with_context()` with the message.
 
         Verifying a signature is similar, using `psa_verify_message()` or `psa_verify_message_with_context()`.
+        A signature of a fragmented message can be verified using a `psa_verify_operation_t` multi-part verify operation.
 
     .. subsection:: Compatible key types
 
@@ -678,6 +701,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
         .. versionadded:: 1.1
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This calculates the Ed25519ph algorithm as specified in :RFC-title:`8032#5.1`, and requires an Edwards25519 curve key.
 
@@ -695,12 +719,16 @@ The development of EdDSA resulted in a total of five distinct algorithms:
 
         *   Call `psa_sign_message()` or `psa_sign_message_with_context()` with the message.
 
+        *   Use a `psa_sign_operation_t` multi-part sign operation.
+
         *   Calculate the SHA-512 hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHA_512`.
             Then sign the calculated hash with `psa_sign_hash()` or `psa_sign_hash_with_context()`.
 
         Verifying a signature is similar, using one of the following approaches:
 
         *   Call `psa_verify_message()`, or `psa_verify_message_with_context()` with the message.
+
+        *   Use a `psa_verify_operation_t` multi-part verify operation.
 
         *   Calculate the SHA-512 hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHA_512`.
             Then sign the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
@@ -723,6 +751,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
         .. versionadded:: 1.1
 
     This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This calculates the Ed448ph algorithm as specified in :RFC-title:`8032#5.2`, and requires an Edwards448 curve key.
 
@@ -740,12 +769,16 @@ The development of EdDSA resulted in a total of five distinct algorithms:
 
         *   Call `psa_sign_message()`, or `psa_sign_message_with_context()` with the message.
 
+        *   Use a `psa_sign_operation_t` multi-part sign operation.
+
         *   Calculate the first 64 bytes of the SHAKE256 output of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHAKE256_512`.
             Then sign the calculated hash with `psa_sign_hash()` or `psa_sign_hash_with_context()`.
 
         Verifying a signature is similar, using one of the following approaches:
 
         *   Call `psa_verify_message()`, or `psa_verify_message_with_context()` with the message.
+
+        *   Use a `psa_verify_operation_t` multi-part verify operation.
 
         *   Calculate the first 64 bytes of the SHAKE256 output of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHAKE256_512`.
             Then sign the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
@@ -875,8 +908,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part verify operation, but not with the multi-part sign operation.
 
     This is the pure SLH-DSA digital signature algorithm, defined by :cite-title:`FIPS205`, using hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -910,8 +944,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part verify operation, but not with the multi-part sign operation.
 
     This is the pure SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -957,7 +992,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, using hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -991,7 +1027,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
             Note that ``hash_alg`` can be extracted from the signature algorithm using :code:`PSA_ALG_GET_HASH(sig_alg)`.
             Then sign the calculated hash either with :code:`psa_sign_hash()` or, if the protocol requires the use of a non-zero-length context, with :code:`psa_sign_hash_with_context()`.
 
-        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, or :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-=length context has been used.
+        *   Use a multi-part sign operation, `psa_sign_operation_t`, to process the message in one or more fragments before extracting the signature.
+
+        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, using :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-length context has been used, or using a multi-part verify operation, `psa_verify_operation_t`.
 
     .. subsection:: Compatible key types
 
@@ -1015,7 +1053,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed SLH-DSA digital signature algorithm, defined by `[FIPS205]`, without hedging.
     SLH-DSA requires an SLH-DSA key, which determines the SLH-DSA parameter set for the operation.
@@ -1214,8 +1253,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature and verify functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1249,8 +1289,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         .. versionadded:: 1.3
 
-    This algorithm can only be used with the message signature and verify functions.
-    For example, :code:`psa_sign_message()` or :code:`psa_verify_message_with_context()`.
+    This message-signature algorithm can be used with both the message and message with context signature functions.
+    It cannot be used to sign hashes.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pure ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1296,7 +1337,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, using hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1330,7 +1372,9 @@ Context values are arbitrary strings between zero and 255 bytes in length.
             Note that ``hash_alg`` can be extracted from the signature algorithm using :code:`PSA_ALG_GET_HASH(sig_alg)`.
             Then sign the calculated hash either with :code:`psa_sign_hash()` or, if the protocol requires the use of a non-zero-length context, with :code:`psa_sign_hash_with_context()`.
 
-        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, or :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-=length context has been used.
+        *   Use a multi-part sign operation, `psa_sign_operation_t`, to process the message in one or more fragments before extracting the signature.
+
+        Verifying a signature is similar, using :code:`psa_verify_message()` or :code:`psa_verify_hash()` instead of the signature function, using :code:`psa_verify_message_with_context()` or :code:`psa_verify_hash_with_context()` if a non-zero-length context has been used, or using a multi-part verify operation, `psa_verify_operation_t`.
 
     .. subsection:: Compatible key types
 
@@ -1354,7 +1398,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
         Unspecified if ``hash_alg`` is not a supported hash algorithm.
 
-    This algorithm can be used with both the message and hash signature functions.
+    This hash-and-sign signature algorithm can be used with both the message and hash signature functions.
+    This algorithm can be used with the multi-part sign and verify operations.
 
     This is the pre-hashed ML-DSA digital signature algorithm, defined by :cite-title:`FIPS204`, without hedging.
     ML-DSA requires an ML-DSA key, which determines the ML-DSA parameter set for the operation.
@@ -1490,7 +1535,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     LMS does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
@@ -1513,7 +1559,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     HSS does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
@@ -1554,7 +1601,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     XMSS does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
@@ -1577,7 +1625,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
         .. versionadded:: 1.3
 
-    This message-signature algorithm can only be used with the :code:`psa_verify_message()` function.
+    This message-signature algorithm can be used with the :code:`psa_verify_message()` function, or with the multi-part verify operation, `psa_verify_operation_t`.
+    It cannot be used to sign messages, or sign or verify hashes.
     |XMSS^MT| does not have a context parameter.
     However, :code:`psa_verify_message_with_context()` can be used with a zero-length context.
 
@@ -1594,8 +1643,8 @@ For the |API| to support signature verification, it is only necessary to define 
 
 .. _single-part-signature:
 
-Asymmetric signature functions
-------------------------------
+Single-part asymmetric signature functions
+------------------------------------------
 
 .. function:: psa_sign_message
 
@@ -1659,8 +1708,11 @@ Asymmetric signature functions
     To provide a context value, use `psa_sign_message_with_context()` instead.
 
     ..  note::
-        To perform a multi-part hash-and-sign signature algorithm, first use a :ref:`multi-part hash operation <hash-mp>` and then pass the resulting hash to `psa_sign_hash()`.
-        :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
+        To calculate a signature for a fragmented message, either:
+
+        *   From version 1.5 of the |API|, use a `psa_sign_operation_t` multi-part sign operation.
+        *   For a hash-and-sign signature algorithm, use a `psa_hash_operation_t` multi-part hash operation and then pass the resulting hash to `psa_sign_hash()`.
+            :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
 
 .. function:: psa_sign_message_with_context
 
@@ -1732,8 +1784,11 @@ Asymmetric signature functions
     If a context parameter is not required, `psa_sign_message()` can be used instead.
 
     ..  note::
-        To perform a multi-part hash-and-sign signature algorithm, first use a :ref:`multi-part hash operation <hash-mp>` and then pass the resulting hash to `psa_sign_hash_with_context()`.
-        :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
+        To calculate a signature for a fragmented message, either:
+
+        *   From version 1.5 of the |API|, use a `psa_sign_operation_t` multi-part sign operation.
+        *   For a hash-and-sign signature algorithm, use a `psa_hash_operation_t` multi-part hash operation and then pass the resulting hash to `psa_sign_hash_with_context()`.
+            :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
 
 .. function:: psa_verify_message
 
@@ -1789,8 +1844,11 @@ Asymmetric signature functions
     To provide a context value, use `psa_verify_message_with_context()` instead.
 
     ..  note::
-        To perform a multi-part hash-and-sign signature verification algorithm, first use a :ref:`multi-part hash operation <hash-mp>` to hash the message and then pass the resulting hash to `psa_verify_hash()`.
-        :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
+        To verify a signature for a fragmented message, either:
+
+        *   From version 1.5 of the |API|, use a `psa_verify_operation_t` multi-part verify operation.
+        *   For a hash-and-sign signature algorithm, use a `psa_hash_operation_t` multi-part hash operation and then pass the resulting hash to `psa_verify_hash()`.
+            :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
 
 .. function:: psa_verify_message_with_context
 
@@ -1854,8 +1912,11 @@ Asymmetric signature functions
     If a context parameter is not required, `psa_verify_message()` can be used instead.
 
     ..  note::
-        To perform a multi-part hash-and-sign signature verification algorithm, first use a :ref:`multi-part hash operation <hash-mp>` to hash the message and then pass the resulting hash to `psa_verify_hash_with_context()`.
-        :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
+        To verify a signature for a fragmented message, either:
+
+        *   From version 1.5 of the |API|, use a `psa_verify_operation_t` multi-part verify operation.
+        *   For a hash-and-sign signature algorithm, use a `psa_hash_operation_t` multi-part hash operation and then pass the resulting hash to `psa_verify_hash_with_context()`.
+            :code:`PSA_ALG_GET_HASH(alg)` can be used to determine the hash algorithm to use.
 
 .. function:: psa_sign_hash
 
@@ -2134,6 +2195,550 @@ Asymmetric signature functions
     In such cases, the encoded hash must be passed to this function. For example, see `PSA_ALG_RSA_PKCS1V15_SIGN_RAW`.
 
     If a context parameter is not required, `psa_verify_hash()` can be used instead.
+
+.. _multi-part-signature:
+
+Multi-part asymmetric signature operations
+------------------------------------------
+
+.. typedef:: /* implementation-defined type */ psa_sign_operation_t
+
+    .. summary::
+        The type of the state object for multi-part sign operations.
+
+        .. versionadded:: 1.5
+
+    Before calling any function on a sign operation object, the application must initialize it by any of the following means:
+
+    *   Set the object to all-bits-zero, for example:
+
+        .. code-block:: xref
+
+            psa_sign_operation_t operation;
+            memset(&operation, 0, sizeof(operation));
+
+    *   Initialize the object to logical zero values by declaring the object as static or global without an explicit initializer, for example:
+
+        .. code-block:: xref
+
+            static psa_sign_operation_t operation;
+
+    *   Initialize the object to the initializer `PSA_SIGN_OPERATION_INIT`, for example:
+
+        .. code-block:: xref
+
+            psa_sign_operation_t operation = PSA_SIGN_OPERATION_INIT;
+
+    *   Assign the result of the function `psa_sign_operation_init()` to the object, for example:
+
+        .. code-block:: xref
+
+            psa_sign_operation_t operation;
+            operation = psa_sign_operation_init();
+
+    This is an implementation-defined type.
+    Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
+
+.. macro:: PSA_SIGN_OPERATION_INIT
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        This macro returns a suitable initializer for a sign operation object of type `psa_sign_operation_t`.
+
+        .. versionadded:: 1.5
+
+.. function:: psa_sign_operation_init
+
+    .. summary::
+        Return an initial value for a sign operation object.
+
+        .. versionadded:: 1.5
+
+    .. return:: psa_sign_operation_t
+
+.. function:: psa_sign_setup
+
+    .. summary::
+        Set up a multi-part sign operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_sign_operation_t * operation
+        The operation object to set up.
+        It must have been initialized as per the documentation for `psa_sign_operation_t` and not yet in use.
+    .. param:: psa_key_id_t key
+        Identifier of the key to use for the operation.
+        It must be an asymmetric key pair.
+        It must remain valid until the operation terminates.
+        The key must permit the usage `PSA_KEY_USAGE_SIGN_MESSAGE`.
+    .. param:: psa_algorithm_t alg
+        An asymmetric signature algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_MESSAGE(alg)` is true.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The operation is now active.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The key does not have the `PSA_KEY_USAGE_SIGN_MESSAGE` flag, or it does not permit the requested algorithm.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The following conditions can result in this error:
+
+        *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a message.
+        *   ``key`` is not supported for use with ``alg``.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``alg`` is not an asymmetric signature algorithm that permits signing a message with a non-zero-length context.
+        *   ``key`` is not an asymmetric key pair, that is compatible with ``alg``.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be inactive.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+
+    The sequence of operations to sign a message using a multi-part sign operation is as follows:
+
+    1.  Allocate a sign operation object which will be passed to all the functions listed here.
+    #.  Initialize the operation object with one of the methods described in the documentation for `psa_sign_operation_t`, for example `PSA_SIGN_OPERATION_INIT`.
+    #.  Call `psa_sign_setup()` to specify the key pair and algorithm.
+    #.  Optionally, call `psa_sign_set_context()` to provide a context.
+    #.  Call `psa_sign_update()` zero, one or more times, passing a fragment of the message each time.
+        The signature that is calculated is the signature of the concatenation of these messages in order.
+    #.  To extract the signature the hash, call `psa_sign_finish()`.
+
+    After a successful call to `psa_sign_setup()`, the operation is active, and the application must eventually terminate the operation.
+    The following events terminate an operation:
+
+    *   A successful call to `psa_sign_finish()`.
+    *   A call to `psa_sign_abort()`.
+
+    If `psa_sign_setup()` returns an error, the operation object is unchanged.
+    If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_sign_abort()`.
+
+    See :secref:`multi-part-operations`.
+
+.. function:: psa_sign_set_context
+
+    .. summary::
+        Provide a context for a multi-part sign operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_sign_operation_t * operation
+        Active sign operation.
+    .. param:: const uint8_t * context
+        Buffer containing the context value.
+    .. param:: size_t context_length
+        Size of the ``context`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active, and no call to `psa_sign_set_context()` or `psa_sign_update()` has been made.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``context_length`` is not valid for the algorithm and key type.
+        *   ``context`` is not a valid input value for the algorithm and key type.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The context value is not supported by this implementation.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    This function sets the context value in a multi-part sign operation.
+
+    The application must call `psa_sign_setup()` before calling this function.
+    For a signature algorithm with a context parameter, this function is called immediately after `psa_sign_setup()`, before calling any other function on the sign operation.
+
+    If a context parameter is not required or not supported by the algorithm, either call `psa_sign_set_context()` with a zero-length context, or do not call this function.
+    The macro `PSA_ALG_SIGN_SUPPORTS_CONTEXT()` can be used to determine if a signature algorithm supports non-zero-length context values.
+
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_sign_abort()`.
+
+.. function:: psa_sign_update
+
+    .. summary::
+        Add a message fragment to a multi-part sign operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_sign_operation_t * operation
+        Active sign operation.
+    .. param:: const uint8_t * input
+        Buffer containing the message fragment to sign.
+    .. param:: size_t input_length
+        Size of the ``input`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The total input for the operation is too large for the signature algorithm.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The total input for the operation is too large for the implementation.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    The application must call `psa_sign_setup()` before calling this function.
+
+    When the last fragment of the message has been input to the multi-part sign operation, call `psa_sign_finish()` to calculate and extract the signature.
+
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_sign_abort()`.
+
+.. function:: psa_sign_finish
+
+    .. summary::
+        Finish the calculation of an asymmetric signature of a message.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_sign_operation_t * operation
+        Active sign operation.
+    .. param:: uint8_t * signature
+        Buffer where the signature is to be written.
+    .. param:: size_t signature_size
+        Size of the ``signature`` buffer in bytes.
+        This must be appropriate for the selected algorithm and key:
+
+        *   The required signature size is :code:`PSA_SIGN_OUTPUT_SIZE(key_type, key_bits, alg)`  where ``key_type`` and ``key_bits`` are the type and bit-size of the key, and ``alg`` is the algorithm that were used in the call to `psa_sign_setup()`.
+        *   `PSA_SIGNATURE_MAX_SIZE` evaluates to the maximum signature size of any supported signature algorithm.
+    .. param:: size_t * signature_length
+        On success, the number of bytes that make up the returned signature value.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The first ``(*signature_length)`` bytes of ``signature`` contain the signature value.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_BUFFER_TOO_SMALL
+        The size of the ``signature`` buffer is too small.
+        `PSA_SIGN_OUTPUT_SIZE()` or `PSA_SIGNATURE_MAX_SIZE` can be used to determine a sufficient buffer size.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    The application must call `psa_sign_setup()` before calling this function.
+    This function calculates the asymmetric signature of the message formed by concatenating the inputs passed to preceding calls to `psa_sign_update()`.
+
+    When this function returns successfully, the operation becomes inactive.
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_sign_abort()`.
+
+.. function:: psa_sign_abort
+
+    .. summary::
+        Abort a sign operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_sign_operation_t * operation
+        Initialized sign operation.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The operation object can now be discarded or reused.
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_BAD_STATE
+        The library requires initializing by a call to `psa_crypto_init()`.
+
+    Aborting an operation frees all associated resources except for the ``operation`` object itself. Once aborted, the operation object can be reused for another operation by calling `psa_sign_setup()` again.
+
+    This function can be called any time after the operation object has been initialized by one of the methods described in `psa_sign_operation_t`.
+
+    In particular, calling `psa_sign_abort()` after the operation has been terminated by a call to `psa_sign_abort()` or `psa_sign_finish()` is safe and has no effect.
+
+.. typedef:: /* implementation-defined type */ psa_verify_operation_t
+
+    .. summary::
+        The type of the state object for multi-part asymmetric signature verification operations.
+
+        .. versionadded:: 1.5
+
+    Before calling any function on a verify operation object, the application must initialize it by any of the following means:
+
+    *   Set the object to all-bits-zero, for example:
+
+        .. code-block:: xref
+
+            psa_verify_operation_t operation;
+            memset(&operation, 0, sizeof(operation));
+
+    *   Initialize the object to logical zero values by declaring the object as static or global without an explicit initializer, for example:
+
+        .. code-block:: xref
+
+            static psa_verify_operation_t operation;
+
+    *   Initialize the object to the initializer `PSA_VERIFY_OPERATION_INIT`, for example:
+
+        .. code-block:: xref
+
+            psa_verify_operation_t operation = PSA_VERIFY_OPERATION_INIT;
+
+    *   Assign the result of the function `psa_verify_operation_init()` to the object, for example:
+
+        .. code-block:: xref
+
+            psa_verify_operation_t operation;
+            operation = psa_verify_operation_init();
+
+    This is an implementation-defined type.
+    Applications that make assumptions about the content of this object will result in implementation-specific behavior, and are non-portable.
+
+.. macro:: PSA_VERIFY_OPERATION_INIT
+    :definition: /* implementation-defined value */
+
+    .. summary::
+        This macro returns a suitable initializer for a verify operation object of type `psa_verify_operation_t`.
+
+        .. versionadded:: 1.5
+
+.. function:: psa_verify_operation_init
+
+    .. summary::
+        Return an initial value for a verify operation object.
+
+        .. versionadded:: 1.5
+
+    .. return:: psa_verify_operation_t
+
+.. function:: psa_verify_setup
+
+    .. summary::
+        Set up a multi-part verify operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_verify_operation_t * operation
+        The operation object to set up.
+        It must have been initialized as per the documentation for `psa_verify_operation_t` and not yet in use.
+    .. param:: psa_key_id_t key
+        Identifier of the key to use for the operation.
+        It must be a public key or an asymmetric key pair.
+        It must remain valid until the operation terminates.
+        The key must permit the usage `PSA_KEY_USAGE_VERIFY_MESSAGE`.
+    .. param:: psa_algorithm_t alg
+        An asymmetric signature algorithm: a value of type `psa_algorithm_t` such that :code:`PSA_ALG_IS_SIGN_MESSAGE(alg)` is true.
+    .. param:: const uint8_t * signature
+        Buffer containing the signature to verify.
+    .. param:: size_t signature_length
+        Size of the ``signature`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The operation is now active.
+    .. retval:: PSA_ERROR_INVALID_HANDLE
+        ``key`` is not a valid key identifier.
+    .. retval:: PSA_ERROR_NOT_PERMITTED
+        The key does not have the `PSA_KEY_USAGE_VERIFY_MESSAGE` flag, or it does not permit the requested algorithm.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The following conditions can result in this error:
+
+        *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a message.
+        *   ``key`` is not supported for use with ``alg``.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``alg`` is not an asymmetric signature algorithm that permits verifying a message with a non-zero-length context.
+        *   ``key`` is not a public key or an asymmetric key pair, that is compatible with ``alg``.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_STORAGE_FAILURE
+    .. retval:: PSA_ERROR_DATA_CORRUPT
+    .. retval:: PSA_ERROR_DATA_INVALID
+    .. retval:: PSA_ERROR_INSUFFICIENT_ENTROPY
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be inactive.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+
+    The sequence of operations to verify a message signature using a multi-part sign operation is as follows:
+
+    1.  Allocate a verify operation object which will be passed to all the functions listed here.
+    #.  Initialize the operation object with one of the methods described in the documentation for `psa_verify_operation_t`, for example `PSA_VERIFY_OPERATION_INIT`.
+    #.  Call `psa_verify_setup()` to specify the key, algorithm, and signature to verify.
+    #.  Optionally, call `psa_verify_set_context()` to provide a context.
+    #.  Call `psa_verify_update()` zero, one or more times, passing a fragment of the message each time.
+        The signature is verified against the concatenation of these messages in order.
+    #.  To determine the validity of the signature, call `psa_verify_finish()`.
+
+    After a successful call to `psa_verify_setup()`, the operation is active, and the application must eventually terminate the operation.
+    The following events terminate an operation:
+
+    *   A successful call to `psa_verify_finish()`.
+    *   A call to `psa_verify_abort()`.
+
+    If `psa_verify_setup()` returns an error, the operation object is unchanged.
+    If a subsequent function call with an active operation returns an error, the operation enters an error state.
+
+    To abandon an active operation, or reset an operation in an error state, call `psa_verify_abort()`.
+
+    See :secref:`multi-part-operations`.
+
+.. function:: psa_verify_set_context
+
+    .. summary::
+        Provide a context for a multi-part verify operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_verify_operation_t * operation
+        Active verify operation.
+    .. param:: const uint8_t * context
+        Buffer containing the context value.
+    .. param:: size_t context_length
+        Size of the ``context`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active, and no call to `psa_verify_set_context()` or `psa_verify_update()` has been made.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The following conditions can result in this error:
+
+        *   ``context_length`` is not valid for the algorithm and key type.
+        *   ``context`` is not a valid input value for the algorithm and key type.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The context value is not supported by this implementation.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    This function sets the context value in a multi-part verify operation.
+
+    The application must call `psa_verify_setup()` before calling this function.
+    For a signature algorithm with a context parameter, this function is called immediately after `psa_verify_setup()`, before calling any other function on the verify operation.
+
+    If a context parameter is not required or not supported by the algorithm, either call `psa_verify_set_context()` with a zero-length context, or do not call this function.
+    The macro `PSA_ALG_SIGN_SUPPORTS_CONTEXT()` can be used to determine if a signature algorithm supports non-zero-length context values.
+
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_verify_abort()`.
+
+.. function:: psa_verify_update
+
+    .. summary::
+        Add a message fragment to a multi-part verify operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_verify_operation_t * operation
+        Active verify operation.
+    .. param:: const uint8_t * input
+        Buffer containing the message fragment to verify.
+    .. param:: size_t input_length
+        Size of the ``input`` buffer in bytes.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INVALID_ARGUMENT
+        The total input for the operation is too large for the signature algorithm.
+    .. retval:: PSA_ERROR_NOT_SUPPORTED
+        The total input for the operation is too large for the implementation.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    The application must call `psa_verify_setup()` before calling this function.
+
+    When the last fragment of the message has been input to the multi-part verify operation, call `psa_verify_finish()` to determine the validity of the signature.
+
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_verify_abort()`.
+
+.. function:: psa_verify_finish
+
+    .. summary::
+        Report the validity of the message signature.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_verify_operation_t * operation
+        Active verify operation.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The signature is valid.
+    .. retval:: PSA_ERROR_INVALID_SIGNATURE
+        The signature being verified by the operation is not the result of signing the concatenated message with the operation's algorithm using the private key corresponding to the operation's key.
+    .. retval:: PSA_ERROR_BAD_STATE
+        The following conditions can result in this error:
+
+        *   The operation state is not valid: it must be active.
+        *   The library requires initializing by a call to `psa_crypto_init()`.
+    .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+
+    The application must call `psa_verify_setup()` before calling this function.
+    This function verifies the asymmetric signature with the message formed by concatenating the inputs passed to preceding calls to `psa_verify_update()`.
+
+    When this function returns successfully, the operation becomes inactive.
+    If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_verify_abort()`.
+
+.. function:: psa_verify_abort
+
+    .. summary::
+        Abort a verify operation.
+
+        .. versionadded:: 1.5
+
+    .. param:: psa_verify_operation_t * operation
+        Initialized verify operation.
+
+    .. return:: psa_status_t
+    .. retval:: PSA_SUCCESS
+        Success.
+        The operation object can now be discarded or reused.
+    .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
+    .. retval:: PSA_ERROR_CORRUPTION_DETECTED
+    .. retval:: PSA_ERROR_BAD_STATE
+        The library requires initializing by a call to `psa_crypto_init()`.
+
+    Aborting an operation frees all associated resources except for the ``operation`` object itself. Once aborted, the operation object can be reused for another operation by calling `psa_verify_setup()` again.
+
+    This function can be called any time after the operation object has been initialized by one of the methods described in `psa_verify_operation_t`.
+
+    In particular, calling `psa_verify_abort()` after the operation has been terminated by a call to `psa_verify_abort()` or `psa_verify_finish()` is safe and has no effect.
 
 Support macros
 --------------
