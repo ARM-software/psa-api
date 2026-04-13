@@ -386,9 +386,9 @@ The usage flags are encoded in a bitmask, which has the type `psa_key_usage_t`. 
             A 'specific algorithm' is one that is neither `PSA_ALG_NONE` nor a wildcard algorithm.
         *   ``usage`` is not a valid role for algorithm ``alg``.
         *   ``key`` is not compatible with ``alg`` and ``usage``.
-    .. retval: PSA_ERROR_INVALID_HANDLE:
+    .. retval:: PSA_ERROR_INVALID_HANDLE:
         ``key`` is not a valid key identifier.
-    .. retval: PSA_ERROR_NOT_PERMITTED
+    .. retval:: PSA_ERROR_NOT_PERMITTED
         ``key`` does not permit the requested usage or algorithm.
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:

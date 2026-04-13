@@ -97,7 +97,7 @@ The key derivation, encryption, and authentication steps are left to the applica
     .. subsection:: Compatible key types
 
         | :code:`PSA_KEY_TYPE_ECC_KEY_PAIR(family)`
-        | :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` (encapsulaton only)
+        | :code:`PSA_KEY_TYPE_ECC_PUBLIC_KEY(family)` (encapsulation only)
 
         where ``family`` is a Weierstrass or Montgomery Elliptic curve family.
         That is, one of the following values:
@@ -389,7 +389,7 @@ Key-encapsulation functions
             Manipulated or corrupted ciphertext will not be detected during decapsulation.
         *   The key-encapsulation algorithm reports authentication failure implicitly, by returning a pseudorandom key value.
             This is done to prevent disclosing information to an attacker that has manipulated the ciphertext.
-        *   The key-encapsulation algorithm is probablistic, and will *extremely* rarely result in non-identical key values.
+        *   The key-encapsulation algorithm is probabilistic, and will *extremely* rarely result in non-identical key values.
 
         It is strongly recommended that the application uses the output key in a way that will confirm that the shared secret keys are identical.
 

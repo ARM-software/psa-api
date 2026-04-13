@@ -97,7 +97,7 @@ XOF algorithms
 
     Ascon-CXOF128 is defined in :cite-title:`SP800-232` §5.3.
 
-    The context value must be provided by calling `psa_xof_set_context()` on the XOF mluti-part operation, before providing any input data.
+    The context value must be provided by calling `psa_xof_set_context()` on the XOF multi-part operation, before providing any input data.
 
 Multi-part XOF operations
 -------------------------

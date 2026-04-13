@@ -99,7 +99,7 @@ In summary, there are three types of implementation:
 *   :term:`Caller isolation`: there are multiple application instances, with a security
     boundary between the application instances among themselves, as well as
     between the cryptoprocessor and the application instances. For example, a
-    cryptography service in a multiprocess environment is an implementation with
+    cryptography service in a multi-process environment is an implementation with
     caller and cryptoprocessor isolation.
 
 .. _algorithm-agility:
