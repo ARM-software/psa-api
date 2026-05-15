@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. _api:
@@ -7,7 +7,7 @@ API reference
 =============
 
 .. header:: psa/initial_attestation
-    :copyright: Copyright 2018-2020, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2018-2020, 2022-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
     :license: Apache-2.0
     :c++:
     :guard:
@@ -182,7 +182,7 @@ Attestation
 
    .. output:: *token_size
 
-      On success, the maximum size of an attestation token in bytes when using the specified ``challenge_size``
+      On success, the size of an attestation token in bytes when using the specified ``challenge_size``
 
    .. return:: psa_status_t
 
