@@ -915,7 +915,7 @@ Other changes
 *   Document formatting improvements.
 
 
-Planned changes for version |docversion|.x
+Planned changes for version |APIversion|.x
 ------------------------------------------
 
 Future versions of this specification that use a |docversion|.x version will describe the same API as this specification.

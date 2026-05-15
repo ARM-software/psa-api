@@ -110,3 +110,8 @@
     Integrated the PQC extension.
 
     New algorithms for BLAKE2 and multi-part asymmetric signature operations.
+
+.. release-info::
+    :extend:
+
+    The detailed changes in each release are described in :secref:`changes`.
