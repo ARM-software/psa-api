@@ -10,3 +10,13 @@ Document change history
 -----------------------
 
 This section provides the detailed changes made between published version of the document.
+
+Changes in the draft GlobalPlatform publication revision
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Other changes
+~~~~~~~~~~~~~
+
+*   Migrated the document to the 2026 PSA Certified API template.
+
+    This changes the document front matter structure and publication styling, without changing the API.

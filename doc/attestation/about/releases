@@ -60,7 +60,7 @@
     GlobalPlatform governance of PSA Certified evaluation scheme.
 
 .. release:: 2.0.0
-    :date: ?
+    :date: May 2026
     :confidentiality: Non-confidential
 
     Updated attestation token format to the PSA attestation token.

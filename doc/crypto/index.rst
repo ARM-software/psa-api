@@ -3,17 +3,9 @@
 
 ..  title::
 
-    .. abstract::
-
-        This document is part of the PSA Certified API specifications. It defines interfaces to provide cryptographic operations and key storage services.
-
-..  front-matter::
-
-    about/about
-
 ..  maintoc::
 
-    overview/intro
+    about/about
     overview/goals
     overview/functionality
     overview/sample-arch
