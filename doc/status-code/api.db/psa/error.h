@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2017-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2017-2022 Arm Limited and/or its affiliates
 // SPDX-License-Identifier: Apache-2.0
 
 /* Prevent multiple definitions of psa_status_t, if PSA_SUCCESS is already

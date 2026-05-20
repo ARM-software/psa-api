@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2017-2022, 2024 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2017-2022, 2024 Arm Limited and/or its affiliates
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 Status codes
@@ -73,7 +73,7 @@ API Reference
 -------------
 
 .. header:: psa/error
-   :copyright: Copyright 2017-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+   :copyright: Copyright 2017-2022 Arm Limited and/or its affiliates
    :license: Apache-2.0
    :guard:
    :c++:

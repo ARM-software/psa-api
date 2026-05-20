@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2020-2022 Arm Limited and/or its affiliates
 // SPDX-License-Identifier: Apache-2.0
 
 #include <psa/update.h>

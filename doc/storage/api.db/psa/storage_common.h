@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2019 Arm Limited and/or its affiliates
 // SPDX-License-Identifier: Apache-2.0
 
 typedef uint32_t psa_storage_create_flags_t;
