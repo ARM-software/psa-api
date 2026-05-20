@@ -1,27 +1,13 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2020, 2022-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 .. Releases of this specification
-
-.. release:: 1.0 beta 0
-    :date: February 2019
-    :confidentiality: Non-confidential
-
-    Initial publication.
 
 .. release:: 1.0.0
     :date: June 2019
     :confidentiality: Non-confidential
 
-    First stable release with 1.0 API finalized.
-
-    Uses the PSA Certified API common error status codes.
-
-    Modified the API parameters to align with other PSA Certified APIs.
-
-    Updated the claims and lifecycle to match the latest Platform Security Model.
-
-    Updated CBOR example in the appendix.
+    First stable release with finalized 1.0 API.
 
 .. release:: 1.0.1
     :date: August 2019
@@ -60,7 +46,7 @@
     GlobalPlatform governance of PSA Certified evaluation scheme.
 
 .. release:: 2.0.0
-    :date: ? 2024
+    :date: May 2026
     :confidentiality: Non-confidential
 
     Updated attestation token format to the PSA attestation token.

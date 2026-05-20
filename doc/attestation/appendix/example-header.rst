@@ -16,7 +16,7 @@ This appendix provides a example of the :file:`psa/initial_attestation.h` header
 
    The header will not compile without these missing definitions, and might require reordering to satisfy C compilation rules.
 
-psa/inital_attestation.h
-~~~~~~~~~~~~~~~~~~~~~~~~
+psa/initial_attestation.h
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. insert-header:: psa/initial_attestation

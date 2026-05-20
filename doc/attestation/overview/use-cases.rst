@@ -8,7 +8,7 @@ Use cases and rationale
 
 The following subsections describe the primary use cases that this version of |API| aims to support. Other use cases are also possible.
 
-The :term:`Platform Root of Trust` (PRoT) reports information, known as claims, that can be used to determine the exact implementation of the PRoT and its security state. If the PRoT loads other components then it also includes information about what it has loaded. Other components outside of the PRoT can add additional information to the report by calling the provided API, which will include and sign the additional information. The PRoT signs attestation reports using the :term:`Initial Attestation Key` (IAK).
+The :term:`Platform Root of Trust` (PRoT) reports information, known as claims, that can be used to determine the exact implementation of the PRoT and its security state. If the PRoT loads other components then it also includes information about what it has loaded. Other components outside of the PRoT can bind additional information to the report by incorporating that information, or a hash of it, into the challenge passed to the attestation API. The PRoT signs attestation reports using the :term:`Initial Attestation Key` (IAK).
 
 Device enrolment
 ----------------
