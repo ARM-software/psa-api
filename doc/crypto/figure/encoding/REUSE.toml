@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: Copyright 2026 Arm Limited and/or its affiliates
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+version = 1
+
+[[annotations]]
+path = ["aead.*", "algorithm.*", "cipher.*", "hash.*", "ka_combined.*", "ka_raw.*", "kdf.*", "key_type.*", "mac.*", "pke.*", "raw_key.*", "sign.*", "symmetric_key.*"]
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright 2022 Arm Limited and/or its affiliates"
+SPDX-License-Identifier = "CC-BY-SA-4.0 AND LicenseRef-Patent-license"
+
+[[annotations]]
+path = ["asymmetric_key.*", "dh_key.*", "ecc_key.*", "np_key.*"]
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright 2022, 2024 Arm Limited and/or its affiliates"
+SPDX-License-Identifier = "CC-BY-SA-4.0 AND LicenseRef-Patent-license"
+
+[[annotations]]
+path = "pake_encoding.*"
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright 2022-2023 Arm Limited and/or its affiliates"
+SPDX-License-Identifier = "CC-BY-SA-4.0 AND LicenseRef-Patent-license"
+
+[[annotations]]
+path = "spake2p_key.*"
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright 2023-2024 Arm Limited and/or its affiliates"
+SPDX-License-Identifier = "CC-BY-SA-4.0 AND LicenseRef-Patent-license"
+
+[[annotations]]
+path = ["kem_encoding.*", "slh_dsa_key.*"]
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright 2024 Arm Limited and/or its affiliates"
+SPDX-License-Identifier = "CC-BY-SA-4.0 AND LicenseRef-Patent-license"
+
+[[annotations]]
+path = "key-wrap.*"
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright 2024-2025 Arm Limited and/or its affiliates"
+SPDX-License-Identifier = "CC-BY-SA-4.0 AND LicenseRef-Patent-license"
+
+[[annotations]]
+path = ["structured_key.*", "wpa3_sae_dh_key.*", "wpa3_sae_ecc_key.*", "xof.*"]
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright 2025 Arm Limited and/or its affiliates"
+SPDX-License-Identifier = "CC-BY-SA-4.0 AND LicenseRef-Patent-license"

@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited and/or its affiliates
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 |API| library
@@ -6,7 +6,7 @@
 
 .. header:: psa/crypto
     :seq: 10
-    :copyright: Copyright 2018-2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2018-2026 Arm Limited and/or its affiliates
     :license: Apache-2.0
     :c++:
     :guard:

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2018-2022 Arm Limited and/or its affiliates
 // SPDX-License-Identifier: Apache-2.0
 
 /* This file contains reference definitions for implementation of the

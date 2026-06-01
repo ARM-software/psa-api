@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 Arm Limited and/or its affiliates <open-source-office@arm.com>
+// SPDX-FileCopyrightText: Copyright 2019 Arm Limited and/or its affiliates
 // SPDX-License-Identifier: Apache-2.0
 
 #define PSA_ITS_API_VERSION_MAJOR 1

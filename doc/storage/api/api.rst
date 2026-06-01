@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2025 Arm Limited and/or its affiliates <open-source-office@arm.com>
+.. SPDX-FileCopyrightText: Copyright 2018-2019, 2022-2025 Arm Limited and/or its affiliates
 .. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
 
 API Reference
@@ -37,7 +37,7 @@ General Definitions
 -------------------
 
 .. header:: psa/storage_common
-    :copyright: Copyright 2019 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2019 Arm Limited and/or its affiliates
     :license: Apache-2.0
     :c++:
     :guard:
@@ -108,7 +108,7 @@ Internal Trusted Storage API
 ----------------------------
 
 .. header:: psa/internal_trusted_storage
-    :copyright: Copyright 2019 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2019 Arm Limited and/or its affiliates
     :license: Apache-2.0
     :c++:
     :guard:
@@ -319,7 +319,7 @@ Protected Storage API
 ---------------------
 
 .. header:: psa/protected_storage
-    :copyright: Copyright 2019 Arm Limited and/or its affiliates <open-source-office@arm.com>
+    :copyright: Copyright 2019 Arm Limited and/or its affiliates
     :license: Apache-2.0
     :c++:
     :guard:
