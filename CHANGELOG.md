@@ -20,19 +20,19 @@ with the following specifications / software:
 ## Features
 
 - Common PSA Certified Crypto API features
-  - Hashing, key agreement, signatures, encryption, DRBG
+  - Hashing, key agreement, signatures, encryption, DRBG, KDF
 - Recent PSA Certified Crypto API features
   - Ascon-AEAD, Ascon-Hash, Ascon-XOF
   - Password-authenticated key exchange (PAKE)
     - EC-JPAKE, SPAKE2+, WPA3-SAE
-    - PAKE is compatible with the driver interface proposal
+    - PAKE is compatible with current PSA Crypto API and corresponding driver interface
   - Key Wrap
   - PQC support
     - LMS, HSS, XMSS, XMSS^MT
     - ML-KEM, ML-DSA
   - Extendable-output functions (XOF)
 - PSA Driver Interface 1.0 alpha 1 support
-  - With KDF proposal with buffering to enable opaque drivers
+  - including Oberon's KDF proposal with buffering to enable opaque drivers
 - Driver wrapper example for dispatch
 - Example drivers (proof-of-concept only, not intended for production)
   - SHA, AES, HMAC, HKDF, RNG
