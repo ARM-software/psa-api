@@ -23,6 +23,11 @@ Changes to the API
     -   BLAKE2b and BLAKE2bp cryptographic hashes, `PSA_ALG_BLAKE2B_HASH512` and `PSA_ALG_BLAKE2BP_HASH512`.
     -   A BLAKE2 MAC based on a BLAKE2 hash, `PSA_ALG_BLAKE2_MAC()`.
 
+*   Provide multi-part operations for asymmetric signatures.
+    This enables many message-signature algorithms to be used for fragmented messages.
+    See :secref:`multi-part-signature`.
+
+
 Relaxations
 ~~~~~~~~~~~
 
