@@ -123,7 +123,7 @@ For large or streamed messages, it might be necessary to compute or verify a sig
 
     .. note::
         Message signature algorithms that require the message data to be processed more than once cannot be used in a multi-part operation, and can only be used with the single-part functions.
-        For example, the PureEdDSA and SLH-DSA algorithms cannot be used with multi-part sign operation, but can be used with a multi-part verify operation.
+        For example, the PureEdDSA and SLH-DSA algorithms cannot be used with a multi-part sign operation, but can be used with a multi-part verify operation.
 
         See the individual algorithm descriptions for details.
 
@@ -731,7 +731,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
         *   Use a `psa_verify_operation_t` multi-part verify operation.
 
         *   Calculate the SHA-512 hash of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHA_512`.
-            Then sign the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
+            Then verify the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
 
     .. subsection:: Compatible key types
 
@@ -781,7 +781,7 @@ The development of EdDSA resulted in a total of five distinct algorithms:
         *   Use a `psa_verify_operation_t` multi-part verify operation.
 
         *   Calculate the first 64 bytes of the SHAKE256 output of the message with `psa_hash_compute()`, or with a multi-part hash operation, using the hash algorithm `PSA_ALG_SHAKE256_512`.
-            Then sign the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
+            Then verify the calculated hash with `psa_verify_hash()` or `psa_verify_hash_with_context()`.
 
     .. subsection:: Compatible key types
 
@@ -923,8 +923,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_SLH_DSA` as the algorithm in a call to :code:`psa_sign_message()` or :code:`psa_sign_message_with_context()`.
-    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to :code:`psa_verify_message()` or :code:`psa_verify_message_with_context()`.
+    *   `PSA_ALG_SLH_DSA` as the algorithm in a call to any single-part message signing function.
+    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to any message signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (`PSA_ALG_HASH_SLH_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`) can also be used with :code:`psa_sign_hash()` and :code:`psa_verify_hash()`.
@@ -962,8 +962,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_DETERMINISTIC_SLH_DSA` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to :code:`psa_sign_message()` or :code:`psa_sign_message_with_context()`.
-    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to :code:`psa_verify_message()` or :code:`psa_verify_message_with_context()`.
+    *   `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to any single-part message signing function.
+    *   `PSA_ALG_SLH_DSA` or `PSA_ALG_DETERMINISTIC_SLH_DSA` as the algorithm in a call to any message signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         To sign or verify the pre-computed hash of a message using SLH-DSA, the HashSLH-DSA algorithms (`PSA_ALG_HASH_SLH_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()`) can also be used with :code:`psa_sign_hash()` and :code:`psa_verify_hash()`.
@@ -1011,8 +1011,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_HASH_SLH_DSA()` as the algorithm in a call to a message or hash signing function, such as :code:`psa_sign_message()` or :code:`psa_sign_hash_with_context()`.
-    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to a signature verification function, such as :code:`psa_verify_message()` or :code:`psa_verify_hash()_with_context()`.
+    *   `PSA_ALG_HASH_SLH_DSA()` as the algorithm in a call to any signing function or when setting up a multi-part sign operation.
+    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to any signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
@@ -1075,8 +1075,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to :code:`psa_sign_message()` and :code:`psa_sign_hash()`.
-    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to :code:`psa_verify_message()` and :code:`psa_verify_hash()`.
+    *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to any signing function or when setting up a multi-part sign operation.
+    *   `PSA_ALG_HASH_SLH_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA()` as the algorithm in a call to any signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         The signature produced by HashSLH-DSA is distinct from that produced by SLH-DSA.
@@ -1268,8 +1268,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_ML_DSA` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_ML_DSA` as the algorithm in a call to :code:`psa_sign_message()` or :code:`psa_sign_message_with_context()`.
-    *   `PSA_ALG_ML_DSA` or `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to :code:`psa_verify_message()` or :code:`psa_verify_message_with_context()`.
+    *   `PSA_ALG_ML_DSA` as the algorithm in a call to any message signing function or when setting up a multi-part sign operation.
+    *   `PSA_ALG_ML_DSA` or `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to any message signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         To sign or verify the pre-computed hash of a message using ML-DSA, the HashML-DSA algorithms (`PSA_ALG_HASH_ML_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`) can also be used with :code:`psa_sign_hash()` and :code:`psa_verify_hash()`.
@@ -1307,8 +1307,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_DETERMINISTIC_ML_DSA` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to :code:`psa_sign_message()` or :code:`psa_sign_message_with_context()`.
-    *   `PSA_ALG_ML_DSA` or `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to :code:`psa_verify_message()` or :code:`psa_verify_message_with_context()`.
+    *   `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to any message signing function or when setting up a multi-part sign operation.
+    *   `PSA_ALG_ML_DSA` or `PSA_ALG_DETERMINISTIC_ML_DSA` as the algorithm in a call to any message signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         To sign or verify the pre-computed hash of a message using ML-DSA, the HashML-DSA algorithms (`PSA_ALG_HASH_ML_DSA()` and `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()`) can also be used with :code:`psa_sign_hash()` and :code:`psa_verify_hash()`.
@@ -1356,8 +1356,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_HASH_ML_DSA()` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_HASH_ML_DSA()` as the algorithm in a call to a message or hash signing function, such as :code:`psa_sign_message()` or :code:`psa_sign_hash_with_context()`.
-    *   `PSA_ALG_HASH_ML_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to a signature verification function, such as :code:`psa_verify_message()` or :code:`psa_verify_hash()_with_context()`.
+    *   `PSA_ALG_HASH_ML_DSA()` as the algorithm in a call to any signing function or when setting up a multi-part sign operation.
+    *   `PSA_ALG_HASH_ML_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to any signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
@@ -1420,8 +1420,8 @@ Context values are arbitrary strings between zero and 255 bytes in length.
 
     When `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` is used as a permitted algorithm in a key policy, this permits:
 
-    *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to a message or hash signing function, such as :code:`psa_sign_message()` or :code:`psa_sign_hash_with_context()`.
-    *   `PSA_ALG_HASH_ML_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to a signature verification function, such as :code:`psa_verify_message()` or :code:`psa_verify_hash()_with_context()`.
+    *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to any signing function or when setting up a multi-part sign operation.
+    *   `PSA_ALG_HASH_ML_DSA()` or `PSA_ALG_DETERMINISTIC_HASH_ML_DSA()` as the algorithm in a call to any signature verification function or when setting up a multi-part verify operation.
 
     .. note::
         The signature produced by HashML-DSA is distinct from that produced by ML-DSA.
@@ -2285,12 +2285,12 @@ Multi-part asymmetric signature operations
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
-        *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a message.
+        *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits signing a fragmented message.
         *   ``key`` is not supported for use with ``alg``.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   ``alg`` is not an asymmetric signature algorithm that permits signing a message with a non-zero-length context.
+        *   ``alg`` is not an asymmetric signature algorithm that permits signing a fragmented message.
         *   ``key`` is not an asymmetric key pair, that is compatible with ``alg``.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
@@ -2313,7 +2313,7 @@ Multi-part asymmetric signature operations
     #.  Optionally, call `psa_sign_set_context()` to provide a context.
     #.  Call `psa_sign_update()` zero, one or more times, passing a fragment of the message each time.
         The signature that is calculated is the signature of the concatenation of these messages in order.
-    #.  To extract the signature the hash, call `psa_sign_finish()`.
+    #.  To calculate and extract the signature, call `psa_sign_finish()`.
 
     After a successful call to `psa_sign_setup()`, the operation is active, and the application must eventually terminate the operation.
     The following events terminate an operation:
@@ -2364,9 +2364,14 @@ Multi-part asymmetric signature operations
     This function sets the context value in a multi-part sign operation.
 
     The application must call `psa_sign_setup()` before calling this function.
-    For a signature algorithm with a context parameter, this function is called immediately after `psa_sign_setup()`, before calling any other function on the sign operation.
 
-    If a context parameter is not required or not supported by the algorithm, either call `psa_sign_set_context()` with a zero-length context, or do not call this function.
+    For a signature algorithm that has a context parameter:
+
+    *   If this function is not called, the operation uses the algorithm with a zero-length or empty context.
+    *   To set a non-zero-length context, call this function after `psa_sign_setup()` and before calling any other function on the sign operation.
+
+    If a context parameter is not supported by the algorithm, this function call can be omitted, or can be called with a zero-length context.
+
     The macro `PSA_ALG_SIGN_SUPPORTS_CONTEXT()` can be used to determine if a signature algorithm supports non-zero-length context values.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_sign_abort()`.
@@ -2562,12 +2567,12 @@ Multi-part asymmetric signature operations
     .. retval:: PSA_ERROR_NOT_SUPPORTED
         The following conditions can result in this error:
 
-        *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a message.
+        *   ``alg`` is not supported, or is not an asymmetric signature algorithm that permits verifying a fragmented message.
         *   ``key`` is not supported for use with ``alg``.
     .. retval:: PSA_ERROR_INVALID_ARGUMENT
         The following conditions can result in this error:
 
-        *   ``alg`` is not an asymmetric signature algorithm that permits verifying a message with a non-zero-length context.
+        *   ``alg`` is not an asymmetric signature algorithm that permits verifying a fragmented message.
         *   ``key`` is not a public key or an asymmetric key pair, that is compatible with ``alg``.
     .. retval:: PSA_ERROR_INSUFFICIENT_MEMORY
     .. retval:: PSA_ERROR_COMMUNICATION_FAILURE
@@ -2582,7 +2587,7 @@ Multi-part asymmetric signature operations
         *   The operation state is not valid: it must be inactive.
         *   The library requires initializing by a call to `psa_crypto_init()`.
 
-    The sequence of operations to verify a message signature using a multi-part sign operation is as follows:
+    The sequence of operations to verify a message signature using a multi-part verify operation is as follows:
 
     1.  Allocate a verify operation object which will be passed to all the functions listed here.
     #.  Initialize the operation object with one of the methods described in the documentation for `psa_verify_operation_t`, for example `PSA_VERIFY_OPERATION_INIT`.
@@ -2641,9 +2646,14 @@ Multi-part asymmetric signature operations
     This function sets the context value in a multi-part verify operation.
 
     The application must call `psa_verify_setup()` before calling this function.
-    For a signature algorithm with a context parameter, this function is called immediately after `psa_verify_setup()`, before calling any other function on the verify operation.
 
-    If a context parameter is not required or not supported by the algorithm, either call `psa_verify_set_context()` with a zero-length context, or do not call this function.
+    For a signature algorithm that has a context parameter:
+
+    *   If this function is not called, the operation uses the algorithm with a zero-length or empty context.
+    *   To set a non-zero-length context, call this function after `psa_verify_setup()` and before calling any other function on the verify operation.
+
+    If a context parameter is not supported by the algorithm, this function call can be omitted, or can be called with a zero-length context.
+
     The macro `PSA_ALG_SIGN_SUPPORTS_CONTEXT()` can be used to determine if a signature algorithm supports non-zero-length context values.
 
     If this function returns an error status, the operation enters an error state and must be aborted by calling `psa_verify_abort()`.
@@ -2747,7 +2757,7 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is a signature algorithm that can be used with `psa_sign_message()` and `psa_verify_message()`.
+        Whether the specified algorithm is a signature algorithm that can be used with message signature and verification functions, and with sign and verify multi-part operations.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
@@ -2761,7 +2771,7 @@ Support macros
     :definition: /* specification-defined value */
 
     .. summary::
-        Whether the specified algorithm is a signature algorithm that can be used with `psa_sign_hash()` and `psa_verify_hash()`.
+        Whether the specified algorithm is a signature algorithm that can be used with hash signature and verification functions.
 
     .. param:: alg
         An algorithm identifier: a value of type `psa_algorithm_t`.
