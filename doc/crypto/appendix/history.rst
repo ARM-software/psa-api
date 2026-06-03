@@ -28,14 +28,6 @@ Changes to the API
     See :secref:`multi-part-signature`.
 
 
-Relaxations
-~~~~~~~~~~~
-
-
-Clarifications and fixes
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 Other changes
 ~~~~~~~~~~~~~
 

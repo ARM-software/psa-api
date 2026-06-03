@@ -102,3 +102,11 @@
     :confidentiality: Non-confidential
 
     Clarifications.
+
+.. release:: 1.5.0 Final
+    :date: June 2026
+    :confidentiality: Non-confidential
+
+    Integrated the PQC extension.
+
+    New algorithms for BLAKE2 and multi-part asymmetric signature operations.
