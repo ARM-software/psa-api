@@ -20,3 +20,11 @@
    If there are no :term:`Application Root of Trust` (ARoT) services that rely on it, the Protected Storage API can be implemented in the :term:`NSPE`. Otherwise, the Protected Storage API must be implemented in an ARoT within the :term:`SPE`.
 
    You can find additional resources relating to the |API| here at :url:`arm-software.github.io/psa-api/storage`, and find other PSA Certified APIs here at :url:`arm-software.github.io/psa-api`.
+
+.. audience::
+
+   This document is intended primarily for the use of developers of:
+
+   *  Root of Trust Services and security frameworks that implement the |API|.
+   *  Root of Trust Services and Trusted Applications that use the |API| to access storage services.
+   *  Client applications that use the |API| to access storage services.

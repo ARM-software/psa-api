@@ -15,12 +15,17 @@
 
    This document includes:
 
-   *   A rationale for the design. See :secref:`design-goals`.
-   *   A high-level overview of the functionality provided by the interface. See :secref:`functionality-overview`.
-   *   A description of typical architectures of implementations for this specification. See :secref:`architectures`.
-   *   General considerations for implementers of this specification, and for applications that use the interface defined in this specification. See :secref:`implementation-considerations` and :secref:`usage-considerations`.
-   *   A detailed definition of the API. See :secref:`library-management`, :secref:`key-management`, and :secref:`crypto-operations`.
+   *  A rationale for the design. See :secref:`design-goals`.
+   *  A high-level overview of the functionality provided by the interface. See :secref:`functionality-overview`.
+   *  A description of typical architectures of implementations for this specification. See :secref:`architectures`.
+   *  General considerations for implementers of this specification, and for applications that use the interface defined in this specification. See :secref:`implementation-considerations` and :secref:`usage-considerations`.
+   *  A detailed definition of the API. See :secref:`library-management`, :secref:`key-management`, and :secref:`crypto-operations`.
 
-   In future, companion documents will define *profiles* for this specification. A profile is
-   a minimum mandatory subset of the interface that a compliant implementation must
-   provide.
+.. audience::
+
+   This document is intended primarily for the use of developers of:
+
+   *  Cryptographic libraries that implement the |API|.
+   *  Root of Trust Services that implement the |API|.
+   *  Root of Trust Services and Trusted Applications within a Secure Processing Environment or Trusted Execution Environment which use the |API| to access cryptographic and key management services.
+   *  Client applications which use the |API| to access cryptographic and key management services.

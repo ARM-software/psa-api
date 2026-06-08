@@ -31,3 +31,11 @@
    There are several projects currently implementing the |API|, see :url:`github.com/arm-software/psa-api/blob/main/related-projects.md`.
 
    For a practical guide, with a description of the current state of drivers in Mbed TLS, see the examples in :url:`github.com/Mbed-TLS/TF-PSA-Crypto/blob/development/docs/psa-driver-example-and-guide.md`.
+
+.. audience::
+
+   This document is intended primarily for the use of developers of:
+
+   *  Software cryptographic drivers to be integrated into a framework that uses the |API|.
+   *  Software drivers for cryptographic hardware to be integrated into a framework that uses the |API|.
+   *  Frameworks that use the |API| to integrate software and hardware providers of cryptographic services. This includes implementations of the PSA Certified Crypto API that provide extensibility via the |API|.
