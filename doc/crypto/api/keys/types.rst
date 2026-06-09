@@ -461,15 +461,13 @@ Non-key data
 
         A key of this type can also be used as a non-secret input to the following key-derivation algorithms:
 
-        .. hlist::
-
-            *   `PSA_ALG_HKDF`
-            *   `PSA_ALG_HKDF_EXPAND`
-            *   `PSA_ALG_HKDF_EXTRACT`
-            *   `PSA_ALG_SP800_108_COUNTER_HMAC`
-            *   `PSA_ALG_SP800_108_COUNTER_CMAC`
-            *   `PSA_ALG_TLS12_PRF`
-            *   `PSA_ALG_TLS12_PSK_TO_MS`
+        | `PSA_ALG_HKDF`
+        | `PSA_ALG_HKDF_EXPAND`
+        | `PSA_ALG_HKDF_EXTRACT`
+        | `PSA_ALG_SP800_108_COUNTER_HMAC`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC`
+        | `PSA_ALG_TLS12_PRF`
+        | `PSA_ALG_TLS12_PSK_TO_MS`
 
     .. subsection:: Key format
 
@@ -497,13 +495,11 @@ Non-key data
 
         A key of this type can be used as the secret input to the following key-derivation algorithms:
 
-        .. hlist::
-
-            *   `PSA_ALG_HKDF`
-            *   `PSA_ALG_HKDF_EXPAND`
-            *   `PSA_ALG_HKDF_EXTRACT`
-            *   `PSA_ALG_TLS12_PRF`
-            *   `PSA_ALG_TLS12_PSK_TO_MS`
+        | `PSA_ALG_HKDF`
+        | `PSA_ALG_HKDF_EXPAND`
+        | `PSA_ALG_HKDF_EXTRACT`
+        | `PSA_ALG_TLS12_PRF`
+        | `PSA_ALG_TLS12_PSK_TO_MS`
 
     .. subsection:: Key format
 
@@ -536,10 +532,8 @@ Non-key data
 
         A key of this type can be used as the password input to the following key-stretching algorithms:
 
-        .. hlist::
-
-            *   `PSA_ALG_PBKDF2_HMAC`
-            *   `PSA_ALG_PBKDF2_AES_CMAC_PRF_128`
+        | `PSA_ALG_PBKDF2_HMAC`
+        | `PSA_ALG_PBKDF2_AES_CMAC_PRF_128`
 
     .. subsection:: Key format
 
@@ -563,10 +557,8 @@ Non-key data
 
         A key of this type can be used to output or verify the result of the following key-stretching algorithms:
 
-        .. hlist::
-
-            *   `PSA_ALG_PBKDF2_HMAC`
-            *   `PSA_ALG_PBKDF2_AES_CMAC_PRF_128`
+        | `PSA_ALG_PBKDF2_HMAC`
+        | `PSA_ALG_PBKDF2_AES_CMAC_PRF_128`
 
     .. subsection:: Key format
 
@@ -590,10 +582,8 @@ Non-key data
 
         A key of this type can be used as the salt input to the following key-stretching algorithms:
 
-        .. hlist::
-
-            *   `PSA_ALG_PBKDF2_HMAC`
-            *   `PSA_ALG_PBKDF2_AES_CMAC_PRF_128`
+        | `PSA_ALG_PBKDF2_HMAC`
+        | `PSA_ALG_PBKDF2_AES_CMAC_PRF_128`
 
     .. subsection:: Key format
 
@@ -633,10 +623,8 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_HMAC`
-            *   `PSA_ALG_SP800_108_COUNTER_HMAC` (secret input)
+        | `PSA_ALG_HMAC`
+        | `PSA_ALG_SP800_108_COUNTER_HMAC` (secret input)
 
     .. subsection:: Key format
 
@@ -669,22 +657,20 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_CBC_MAC`
-            *   `PSA_ALG_CMAC`
-            *   `PSA_ALG_CTR`
-            *   `PSA_ALG_CFB`
-            *   `PSA_ALG_OFB`
-            *   `PSA_ALG_XTS`
-            *   `PSA_ALG_CBC_NO_PADDING`
-            *   `PSA_ALG_CBC_PKCS7`
-            *   `PSA_ALG_ECB_NO_PADDING`
-            *   `PSA_ALG_CCM`
-            *   `PSA_ALG_GCM`
-            *   `PSA_ALG_KW`
-            *   `PSA_ALG_KWP`
-            *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
+        | `PSA_ALG_CBC_MAC`
+        | `PSA_ALG_CMAC`
+        | `PSA_ALG_CTR`
+        | `PSA_ALG_CFB`
+        | `PSA_ALG_OFB`
+        | `PSA_ALG_XTS`
+        | `PSA_ALG_CBC_NO_PADDING`
+        | `PSA_ALG_CBC_PKCS7`
+        | `PSA_ALG_ECB_NO_PADDING`
+        | `PSA_ALG_CCM`
+        | `PSA_ALG_GCM`
+        | `PSA_ALG_KW`
+        | `PSA_ALG_KWP`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
 
@@ -718,22 +704,20 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_CBC_MAC`
-            *   `PSA_ALG_CMAC`
-            *   `PSA_ALG_CTR`
-            *   `PSA_ALG_CFB`
-            *   `PSA_ALG_OFB`
-            *   `PSA_ALG_XTS`
-            *   `PSA_ALG_CBC_NO_PADDING`
-            *   `PSA_ALG_CBC_PKCS7`
-            *   `PSA_ALG_ECB_NO_PADDING`
-            *   `PSA_ALG_CCM`
-            *   `PSA_ALG_GCM`
-            *   `PSA_ALG_KW`
-            *   `PSA_ALG_KWP`
-            *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
+        | `PSA_ALG_CBC_MAC`
+        | `PSA_ALG_CMAC`
+        | `PSA_ALG_CTR`
+        | `PSA_ALG_CFB`
+        | `PSA_ALG_OFB`
+        | `PSA_ALG_XTS`
+        | `PSA_ALG_CBC_NO_PADDING`
+        | `PSA_ALG_CBC_PKCS7`
+        | `PSA_ALG_ECB_NO_PADDING`
+        | `PSA_ALG_CCM`
+        | `PSA_ALG_GCM`
+        | `PSA_ALG_KW`
+        | `PSA_ALG_KWP`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
 
@@ -764,17 +748,15 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_CBC_MAC`
-            *   `PSA_ALG_CMAC`
-            *   `PSA_ALG_CTR`
-            *   `PSA_ALG_CFB`
-            *   `PSA_ALG_OFB`
-            *   `PSA_ALG_XTS`
-            *   `PSA_ALG_CBC_NO_PADDING`
-            *   `PSA_ALG_CBC_PKCS7`
-            *   `PSA_ALG_ECB_NO_PADDING`
+        | `PSA_ALG_CBC_MAC`
+        | `PSA_ALG_CMAC`
+        | `PSA_ALG_CTR`
+        | `PSA_ALG_CFB`
+        | `PSA_ALG_OFB`
+        | `PSA_ALG_XTS`
+        | `PSA_ALG_CBC_NO_PADDING`
+        | `PSA_ALG_CBC_PKCS7`
+        | `PSA_ALG_ECB_NO_PADDING`
 
     .. subsection:: Key format
 
@@ -814,22 +796,20 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_CBC_MAC`
-            *   `PSA_ALG_CMAC`
-            *   `PSA_ALG_CTR`
-            *   `PSA_ALG_CFB`
-            *   `PSA_ALG_OFB`
-            *   `PSA_ALG_XTS`
-            *   `PSA_ALG_CBC_NO_PADDING`
-            *   `PSA_ALG_CBC_PKCS7`
-            *   `PSA_ALG_ECB_NO_PADDING`
-            *   `PSA_ALG_CCM`
-            *   `PSA_ALG_GCM`
-            *   `PSA_ALG_KW`
-            *   `PSA_ALG_KWP`
-            *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
+        | `PSA_ALG_CBC_MAC`
+        | `PSA_ALG_CMAC`
+        | `PSA_ALG_CTR`
+        | `PSA_ALG_CFB`
+        | `PSA_ALG_OFB`
+        | `PSA_ALG_XTS`
+        | `PSA_ALG_CBC_NO_PADDING`
+        | `PSA_ALG_CBC_PKCS7`
+        | `PSA_ALG_ECB_NO_PADDING`
+        | `PSA_ALG_CCM`
+        | `PSA_ALG_GCM`
+        | `PSA_ALG_KW`
+        | `PSA_ALG_KWP`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
 
@@ -853,22 +833,20 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_CBC_MAC`
-            *   `PSA_ALG_CMAC`
-            *   `PSA_ALG_CTR`
-            *   `PSA_ALG_CFB`
-            *   `PSA_ALG_OFB`
-            *   `PSA_ALG_XTS`
-            *   `PSA_ALG_CBC_NO_PADDING`
-            *   `PSA_ALG_CBC_PKCS7`
-            *   `PSA_ALG_ECB_NO_PADDING`
-            *   `PSA_ALG_CCM`
-            *   `PSA_ALG_GCM`
-            *   `PSA_ALG_KW`
-            *   `PSA_ALG_KWP`
-            *   `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
+        | `PSA_ALG_CBC_MAC`
+        | `PSA_ALG_CMAC`
+        | `PSA_ALG_CTR`
+        | `PSA_ALG_CFB`
+        | `PSA_ALG_OFB`
+        | `PSA_ALG_XTS`
+        | `PSA_ALG_CBC_NO_PADDING`
+        | `PSA_ALG_CBC_PKCS7`
+        | `PSA_ALG_ECB_NO_PADDING`
+        | `PSA_ALG_CCM`
+        | `PSA_ALG_GCM`
+        | `PSA_ALG_KW`
+        | `PSA_ALG_KWP`
+        | `PSA_ALG_SP800_108_COUNTER_CMAC` (secret input)
 
     .. subsection:: Key format
 
@@ -893,9 +871,7 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_STREAM_CIPHER`
+        | `PSA_ALG_STREAM_CIPHER`
 
     .. subsection:: Key format
 
@@ -919,10 +895,8 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_STREAM_CIPHER`
-            *   `PSA_ALG_CHACHA20_POLY1305`
+        | `PSA_ALG_STREAM_CIPHER`
+        | `PSA_ALG_CHACHA20_POLY1305`
 
     .. subsection:: Key format
 
@@ -948,10 +922,8 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_STREAM_CIPHER`
-            *   `PSA_ALG_XCHACHA20_POLY1305`
+        | `PSA_ALG_STREAM_CIPHER`
+        | `PSA_ALG_XCHACHA20_POLY1305`
 
     .. subsection:: Key format
 
@@ -977,9 +949,7 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_ASCON_AEAD128`
+        | `PSA_ALG_ASCON_AEAD128`
 
     .. subsection:: Key format
 
@@ -1004,9 +974,7 @@ Symmetric cryptographic keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_BLAKE2_MAC`
+        | `PSA_ALG_BLAKE2_MAC`
 
     .. subsection:: Key format
 
@@ -1056,10 +1024,8 @@ See :secref:`wpa3-sae-passwords`.
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_WPA3_SAE_FIXED`
-            *   `PSA_ALG_WPA3_SAE_GDH`
+        | `PSA_ALG_WPA3_SAE_FIXED`
+        | `PSA_ALG_WPA3_SAE_GDH`
 
     .. subsection:: Key format
 
@@ -1108,10 +1074,8 @@ See :secref:`wpa3-sae-passwords`.
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_WPA3_SAE_FIXED`
-            *   `PSA_ALG_WPA3_SAE_GDH`
+        | `PSA_ALG_WPA3_SAE_FIXED`
+        | `PSA_ALG_WPA3_SAE_GDH`
 
     .. subsection:: Key format
 
@@ -1228,14 +1192,12 @@ RSA keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_RSA_OAEP`
-            *   `PSA_ALG_RSA_PKCS1V15_CRYPT`
-            *   `PSA_ALG_RSA_PKCS1V15_SIGN`
-            *   `PSA_ALG_RSA_PKCS1V15_SIGN_RAW`
-            *   `PSA_ALG_RSA_PSS`
-            *   `PSA_ALG_RSA_PSS_ANY_SALT`
+        | `PSA_ALG_RSA_OAEP`
+        | `PSA_ALG_RSA_PKCS1V15_CRYPT`
+        | `PSA_ALG_RSA_PKCS1V15_SIGN`
+        | `PSA_ALG_RSA_PKCS1V15_SIGN_RAW`
+        | `PSA_ALG_RSA_PSS`
+        | `PSA_ALG_RSA_PSS_ANY_SALT`
 
     .. subsection:: Key format
 
@@ -1292,15 +1254,12 @@ RSA keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-            :columns: 1
-
-            *   `PSA_ALG_RSA_OAEP` (encryption only)
-            *   `PSA_ALG_RSA_PKCS1V15_CRYPT` (encryption only)
-            *   `PSA_ALG_RSA_PKCS1V15_SIGN` (signature verification only)
-            *   `PSA_ALG_RSA_PKCS1V15_SIGN_RAW` (signature verification only)
-            *   `PSA_ALG_RSA_PSS` (signature verification only)
-            *   `PSA_ALG_RSA_PSS_ANY_SALT` (signature verification only)
+        | `PSA_ALG_RSA_OAEP` (encryption only)
+        | `PSA_ALG_RSA_PKCS1V15_CRYPT` (encryption only)
+        | `PSA_ALG_RSA_PKCS1V15_SIGN` (signature verification only)
+        | `PSA_ALG_RSA_PKCS1V15_SIGN_RAW` (signature verification only)
+        | `PSA_ALG_RSA_PSS` (signature verification only)
+        | `PSA_ALG_RSA_PSS_ANY_SALT` (signature verification only)
 
     .. subsection:: Key format
 
@@ -1343,25 +1302,18 @@ The curve type affects the key format, the key-derivation procedure, and the alg
         -   Curve families
 
     *   -   Weierstrass
-        -   `PSA_ECC_FAMILY_SECP_K1`
-
-            `PSA_ECC_FAMILY_SECP_R1`
-
-            `PSA_ECC_FAMILY_SECP_R2`
-
-            `PSA_ECC_FAMILY_SECT_K1`
-
-            `PSA_ECC_FAMILY_SECT_R1`
-
-            `PSA_ECC_FAMILY_SECT_R2`
-
-            `PSA_ECC_FAMILY_BRAINPOOL_P_R1`
-
-            `PSA_ECC_FAMILY_FRP`
+        -   | `PSA_ECC_FAMILY_SECP_K1`
+            | `PSA_ECC_FAMILY_SECP_R1`
+            | `PSA_ECC_FAMILY_SECP_R2`
+            | `PSA_ECC_FAMILY_SECT_K1`
+            | `PSA_ECC_FAMILY_SECT_R1`
+            | `PSA_ECC_FAMILY_SECT_R2`
+            | `PSA_ECC_FAMILY_BRAINPOOL_P_R1`
+            | `PSA_ECC_FAMILY_FRP`
     *   -   Montgomery
-        -   `PSA_ECC_FAMILY_MONTGOMERY`
+        -   | `PSA_ECC_FAMILY_MONTGOMERY`
     *   -   Twisted Edwards
-        -   `PSA_ECC_FAMILY_TWISTED_EDWARDS`
+        -   | `PSA_ECC_FAMILY_TWISTED_EDWARDS`
 
 .. macro:: PSA_KEY_TYPE_ECC_KEY_PAIR
     :definition: /* specification-defined value */
@@ -1390,31 +1342,24 @@ The curve type affects the key format, the key-derivation procedure, and the alg
             *   -   Weierstrass
                 -   Weierstrass curve key-pairs can be used in asymmetric signature, key-agreement, and key-encapsulation algorithms.
 
-                    `PSA_ALG_DETERMINISTIC_ECDSA`
-
-                    `PSA_ALG_ECDSA`
-
-                    `PSA_ALG_ECDSA_ANY`
-
-                    `PSA_ALG_ECDH`
-
-                    `PSA_ALG_ECIES_SEC1`
+                    | `PSA_ALG_DETERMINISTIC_ECDSA`
+                    | `PSA_ALG_ECDSA`
+                    | `PSA_ALG_ECDSA_ANY`
+                    | `PSA_ALG_ECDH`
+                    | `PSA_ALG_ECIES_SEC1`
 
             *   -   Montgomery
                 -   Montgomery curve key-pairs can be used in key-agreement and key-encapsulation algorithms.
 
-                    `PSA_ALG_ECDH`
-
-                    `PSA_ALG_ECIES_SEC1`
+                    | `PSA_ALG_ECDH`
+                    | `PSA_ALG_ECIES_SEC1`
 
             *   -   Twisted Edwards
                 -   Twisted Edwards curve key-pairs can only be used in asymmetric signature algorithms.
 
-                    `PSA_ALG_PURE_EDDSA`
-
-                    `PSA_ALG_ED25519PH` (Edwards25519 only)
-
-                    `PSA_ALG_ED448PH` (Edwards448 only)
+                    | `PSA_ALG_PURE_EDDSA`
+                    | `PSA_ALG_ED25519PH` (Edwards25519 only)
+                    | `PSA_ALG_ED448PH` (Edwards448 only)
 
     .. subsection:: Key format
 
@@ -1519,27 +1464,22 @@ The curve type affects the key format, the key-derivation procedure, and the alg
             *   -   Weierstrass
                 -   Weierstrass curve public keys can be used in asymmetric signature and key-encapsulation algorithms.
 
-                    `PSA_ALG_DETERMINISTIC_ECDSA`
-
-                    `PSA_ALG_ECDSA`
-
-                    `PSA_ALG_ECDSA_ANY`
-
-                    `PSA_ALG_ECIES_SEC1`
+                    | `PSA_ALG_DETERMINISTIC_ECDSA`
+                    | `PSA_ALG_ECDSA`
+                    | `PSA_ALG_ECDSA_ANY`
+                    | `PSA_ALG_ECIES_SEC1`
 
             *   -   Montgomery
                 -   Montgomery curve public keys can only be used in key-encapsulation algorithms.
 
-                    `PSA_ALG_ECIES_SEC1`
+                    | `PSA_ALG_ECIES_SEC1`
 
             *   -   Twisted Edwards
                 -   Twisted Edwards curve public keys can only be used in asymmetric signature algorithms.
 
-                    `PSA_ALG_PURE_EDDSA`
-
-                    `PSA_ALG_ED25519PH` (Edwards25519 only)
-
-                    `PSA_ALG_ED448PH` (Edwards448 only)
+                    | `PSA_ALG_PURE_EDDSA`
+                    | `PSA_ALG_ED25519PH` (Edwards25519 only)
+                    | `PSA_ALG_ED448PH` (Edwards448 only)
 
     .. subsection:: Key format
 
@@ -1630,9 +1570,7 @@ Diffie Hellman keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_FFDH`
+        | `PSA_ALG_FFDH`
 
     .. subsection:: Key format
 
@@ -1735,9 +1673,7 @@ Leighton-Micali Signature keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_LMS`
+        | `PSA_ALG_LMS`
 
     .. subsection:: Key format
 
@@ -1760,9 +1696,7 @@ Leighton-Micali Signature keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_HSS`
+        | `PSA_ALG_HSS`
 
     .. subsection:: Key format
 
@@ -1797,9 +1731,7 @@ XMSS and |XMSS^MT| keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_XMSS`
+        | `PSA_ALG_XMSS`
 
     .. subsection:: Key format
 
@@ -1826,9 +1758,7 @@ XMSS and |XMSS^MT| keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_XMSS_MT`
+        | `PSA_ALG_XMSS_MT`
 
     .. subsection:: Key format
 
@@ -1863,12 +1793,10 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_ML_DSA`
-            *   `PSA_ALG_HASH_ML_DSA`
-            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
-            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+        | `PSA_ALG_ML_DSA`
+        | `PSA_ALG_HASH_ML_DSA`
+        | `PSA_ALG_DETERMINISTIC_ML_DSA`
+        | `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
 
     .. subsection:: Key format
 
@@ -1912,12 +1840,10 @@ The |API| supports Module Lattice-based digital signatures (ML-DSA), as defined 
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_ML_DSA`
-            *   `PSA_ALG_HASH_ML_DSA`
-            *   `PSA_ALG_DETERMINISTIC_ML_DSA`
-            *   `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
+        | `PSA_ALG_ML_DSA`
+        | `PSA_ALG_HASH_ML_DSA`
+        | `PSA_ALG_DETERMINISTIC_ML_DSA`
+        | `PSA_ALG_DETERMINISTIC_HASH_ML_DSA`
 
     .. subsection:: Key format
 
@@ -2001,12 +1927,10 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_SLH_DSA`
-            *   `PSA_ALG_HASH_SLH_DSA`
-            *   `PSA_ALG_DETERMINISTIC_SLH_DSA`
-            *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
+        | `PSA_ALG_SLH_DSA`
+        | `PSA_ALG_HASH_SLH_DSA`
+        | `PSA_ALG_DETERMINISTIC_SLH_DSA`
+        | `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
 
     .. subsection:: Key format
 
@@ -2052,12 +1976,10 @@ The |API| supports Stateless Hash-based digital signatures (SLH-DSA), as defined
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_SLH_DSA`
-            *   `PSA_ALG_HASH_SLH_DSA`
-            *   `PSA_ALG_DETERMINISTIC_SLH_DSA`
-            *   `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
+        | `PSA_ALG_SLH_DSA`
+        | `PSA_ALG_HASH_SLH_DSA`
+        | `PSA_ALG_DETERMINISTIC_SLH_DSA`
+        | `PSA_ALG_DETERMINISTIC_HASH_SLH_DSA`
 
     .. subsection:: Key format
 
@@ -2213,9 +2135,7 @@ The |API| supports Module Lattice-based key encapsulation (ML-KEM) as defined in
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_ML_KEM`
+        | `PSA_ALG_ML_KEM`
 
     .. subsection:: Key format
 
@@ -2263,9 +2183,7 @@ The |API| supports Module Lattice-based key encapsulation (ML-KEM) as defined in
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_ML_KEM` (encapsulation only)
+        | `PSA_ALG_ML_KEM` (encapsulation only)
 
     .. subsection:: Key format
 
@@ -2329,11 +2247,9 @@ SPAKE2+ keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_SPAKE2P_HMAC`
-            *   `PSA_ALG_SPAKE2P_CMAC`
-            *   `PSA_ALG_SPAKE2P_MATTER`
+        | `PSA_ALG_SPAKE2P_HMAC`
+        | `PSA_ALG_SPAKE2P_CMAC`
+        | `PSA_ALG_SPAKE2P_MATTER`
 
     .. subsection:: Key format
 
@@ -2389,11 +2305,9 @@ SPAKE2+ keys
 
     .. subsection:: Compatible algorithms
 
-        .. hlist::
-
-            *   `PSA_ALG_SPAKE2P_HMAC` (verification only)
-            *   `PSA_ALG_SPAKE2P_CMAC` (verification only)
-            *   `PSA_ALG_SPAKE2P_MATTER` (verification only)
+        | `PSA_ALG_SPAKE2P_HMAC` (verification only)
+        | `PSA_ALG_SPAKE2P_CMAC` (verification only)
+        | `PSA_ALG_SPAKE2P_MATTER` (verification only)
 
     .. subsection:: Key format
 
