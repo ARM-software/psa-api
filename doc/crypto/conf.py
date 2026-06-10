@@ -30,7 +30,7 @@ doc_info = {
     'issue_no': 0,
     # Identifies the sequence number of a release candidate of the same issue
     # default to None
-    'release_candidate': 1,
+    #'release_candidate': 1,
     # Draft status - use this to indicate the document is not ready for publication
     #'draft': True,
 
@@ -43,7 +43,7 @@ doc_info = {
     'license': 'psa-certified-api-license',
 
     # Document date, default to build date
-    'date': '03/06/2026',
+    'date': 'June 2026',
 
     # Default header file for API definitions
     # default to None, and can be set in documentation source
