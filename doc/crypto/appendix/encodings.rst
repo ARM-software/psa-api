@@ -29,6 +29,7 @@ Algorithm identifiers are 32-bit integer values of the type `psa_algorithm_t`. A
 .. list-table:: Bit fields in an algorithm identifier
     :name: table-algorithm-fields
     :header-rows: 1
+    :align: right
     :widths: 2,2,17
 
     *   -   Field
@@ -72,7 +73,7 @@ The CAT field in an algorithm identifier takes the values shown in :numref:`tabl
 .. csv-table:: Algorithm identifier categories
     :name: table-algorithm-category
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Algorithm category, CAT, Category details
@@ -113,7 +114,7 @@ The defined values for HASH-TYPE are shown in :numref:`table-hash-type`.
 .. csv-table:: Hash algorithm sub-type values
     :name: table-hash-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Hash algorithm, HASH-TYPE, Algorithm identifier, Algorithm value
@@ -166,7 +167,7 @@ The defined values for C and XOF-TYPE are shown in :numref:`table-xof-type`.
 .. csv-table:: XOF algorithm sub-type values
     :name: table-xof-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     XOF algorithm, C, XOF-TYPE, Algorithm identifier, Algorithm value
@@ -201,7 +202,7 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for hash-based MAC algorithms, oth
 .. csv-table:: MAC algorithm sub-type values
     :name: table-mac-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     MAC algorithm, B, MAC-TYPE, Algorithm identifier, Algorithm value
@@ -235,7 +236,7 @@ The defined values for S, B, and CIPHER-TYPE are shown in :numref:`table-cipher-
 .. csv-table:: Cipher algorithm sub-type values
     :name: table-cipher-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Cipher algorithm, S, B, CIPHER-TYPE, Algorithm identifier, Algorithm value
@@ -280,7 +281,7 @@ W is a flag to indicate a wildcard permitted-algorithm policy:
 .. csv-table:: AEAD algorithm sub-type values
     :name: table-aead-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     AEAD algorithm, B, AEAD-TYPE, Algorithm identifier, Algorithm value
@@ -311,7 +312,7 @@ The defined values for S, B, and WRAP-TYPE are shown in :numref:`table-key-wrap-
 .. csv-table:: Key-wrapping algorithm sub-type values
     :name: table-key-wrap-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Key-wrapping algorithm, S, B,  WRAP-TYPE, Algorithm identifier, Algorithm value
@@ -337,8 +338,8 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
 .. csv-table:: Key-derivation algorithm sub-type values
     :name: table-kdf-type
     :header-rows: 1
-    :align: left
-    :widths: auto
+    :align: right
+    :widths: 9 1 2 10 4
 
     Key-derivation algorithm, S, KDF-TYPE, Algorithm identifier, Algorithm value
     HKDF, 0, ``0x01``, :code:`PSA_ALG_HKDF(hash)`, ``0x080001hh`` :sup:`a`
@@ -374,8 +375,8 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for message signature algorithms t
 .. csv-table:: Asymmetric signature algorithm sub-type values
     :name: table-sign-type
     :header-rows: 1
-    :align: left
-    :widths: auto
+    :align: right
+    :widths: 9 2 12 4
 
     Signature algorithm, SIGN-TYPE, Algorithm identifier, Algorithm value
     RSA PKCS#1 v1.5, ``0x02``, :code:`PSA_ALG_RSA_PKCS1V15_SIGN(hash_alg)`, ``0x060002hh`` :sup:`a`
@@ -426,7 +427,7 @@ H = HASH-TYPE (see :numref:`table-hash-type`) for asymmetric encryption algorith
 .. csv-table:: Asymmetric encryption algorithm sub-type values
     :name: table-pke-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Asymmetric encryption algorithm, ENCRYPT-TYPE, Algorithm identifier, Algorithm value
@@ -454,7 +455,7 @@ The defined values for KA-TYPE are shown in :numref:`table-ka-type`.
 .. csv-table:: Key-agreement algorithm sub-type values
     :name: table-ka-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Key-agreement algorithm, KA-TYPE, Algorithm identifier, Algorithm value
@@ -486,7 +487,7 @@ The defined values for ENCAPS-TYPE are shown in :numref:`table-key-encapsulation
 .. csv-table:: Encapsulation algorithm sub-type values
     :name: table-key-encapsulation-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Encapsulation algorithm, ENCAPS-TYPE, Algorithm identifier, Algorithm value
@@ -512,7 +513,7 @@ The permitted values of HASH-TYPE (see :numref:`table-hash-type`) depend on the 
 .. csv-table:: PAKE algorithm sub-type values
     :name: table-pake-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     PAKE algorithm, PAKE-TYPE, Algorithm identifier, Algorithm value
@@ -547,6 +548,7 @@ Key types are 16-bit integer values of the type `psa_key_type_t`. Key type value
 .. list-table:: Bit fields in a key type
     :name: table-key-type-fields
     :header-rows: 1
+    :align: right
     :widths: 5,2,14
 
     *   -   Field
@@ -586,7 +588,7 @@ The A and CAT fields in a key type take the values shown in :numref:`table-key-t
 .. csv-table:: Key type categories
     :name: table-key-type-category
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Key type category, A, CAT, Category details
@@ -614,7 +616,7 @@ The defined values for RAW-TYPE, SUB-TYPE, and P are shown in :numref:`table-raw
 .. csv-table:: Raw key sub-type values
     :name: table-raw-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Raw key type, RAW-TYPE, SUB-TYPE, P, Key type, Key type value
@@ -645,7 +647,7 @@ The defined values for BLK, SYM-TYPE and P are shown in :numref:`table-symmetric
 .. csv-table:: Symmetric key sub-type values
     :name: table-symmetric-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Symmetric key type, BLK, SYM-TYPE, P, Key type, Key type value
@@ -678,7 +680,7 @@ The defined values for FAMILY depend on the STRUCT-TYPE value. See the details f
 .. csv-table:: Structured key sub-type values
     :name: table-structured-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Structured key type, STRUCT-TYPE, Details
@@ -706,7 +708,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-wpa3-sae-ecc
 .. csv-table:: WPA3-SAE password token ECC family values
     :name: table-wpa3-sae-ecc-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     WPA3-SAE suite, ECC-FAMILY, P, ECC family :sup:`a`, Key value
@@ -731,7 +733,7 @@ RFC3526 defines a set of FF groups that are recommended for use with WPA3-SAE (t
 .. csv-table:: WPA3-SAE password token finite field Diffie-Hellman family values
     :name: table-wpa3-sae-dh-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     WPA3-SAE suite, DH-FAMILY, P, DH family :sup:`a`, Key value
@@ -760,7 +762,7 @@ The defined values for FAMILY depend on the ASYM-TYPE value. See the details for
 .. csv-table:: Asymmetric key sub-type values
     :name: table-asymmetric-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Asymmetric key type, ASYM-TYPE, Details
@@ -789,7 +791,7 @@ The defined values for NP-FAMILY and P are shown in :numref:`table-np-type`.
 .. csv-table:: Non-parameterized asymmetric key family values
     :name: table-np-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     Key family, Public/pair, PAIR, NP-FAMILY, P, Key type, Key value
@@ -823,7 +825,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-ecc-type`.
 .. csv-table:: ECC key family values
     :name: table-ecc-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     ECC key family, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key-pair value
@@ -859,7 +861,7 @@ The defined values for FAMILY and P are shown in :numref:`table-slh-dsa-type`.
 .. csv-table:: SLH-DSA key family values
     :name: table-slh-dsa-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     SLH-DSA key family, FAMILY, P, SLH-DSA family :sup:`a`, Public-key value, Key-pair value
@@ -889,7 +891,7 @@ The defined values for DH-FAMILY and P are shown in :numref:`table-dh-type`.
 .. csv-table:: Finite field Diffie Hellman key group values
     :name: table-dh-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     DH key group, DH-FAMILY, P, DH family :sup:`a`, Public-key value, Key-pair value
@@ -916,7 +918,7 @@ The defined values for ECC-FAMILY and P are shown in :numref:`table-spake2p-type
 .. csv-table:: SPAKE2+ key family values
     :name: table-spake2p-type
     :header-rows: 1
-    :align: left
+    :align: right
     :widths: auto
 
     SPAKE2+ group, ECC-FAMILY, P, ECC family :sup:`a`, Public-key value, Key-pair value

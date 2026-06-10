@@ -11,8 +11,8 @@ Document change history
 
 This section provides the detailed changes made between published version of the document.
 
-Changes between *1.4.1* and *1.5.0*
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changes between *1.4.1* and *1.5*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Changes to the API
 ~~~~~~~~~~~~~~~~~~
@@ -26,14 +26,6 @@ Changes to the API
 *   Provide multi-part operations for asymmetric signatures.
     This enables many message-signature algorithms to be used for fragmented messages.
     See :secref:`multi-part-signature`.
-
-
-Relaxations
-~~~~~~~~~~~
-
-
-Clarifications and fixes
-~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Other changes
@@ -927,15 +919,8 @@ Planned changes for version |docversion|.x
 ------------------------------------------
 
 Future versions of this specification that use a |docversion|.x version will describe the same API as this specification.
-Any changes will not affect application compatibility and will not introduce major features.
+Any changes will not affect application compatibility and will not introduce new features.
 These updates are intended to add minor requirements on implementations, introduce optional definitions, make corrections, clarify potential or actual ambiguities, or improve the documentation.
-
-These are the changes that might be included in a version 1.2.x:
-
-*   Declare identifiers for additional cryptographic algorithms.
-*   Mandate certain checks when importing some types of asymmetric keys.
-*   Specify the computation of algorithm and key type values.
-*   Further clarifications on API usage and implementation.
 
 .. _future:
 
@@ -944,7 +929,6 @@ Future additions
 
 Major additions to the API will be defined in future drafts and editions of a 1.x or 2.x version of this specification. Features that are being considered include:
 
-*   Integration of the PQC extension.
 *   Further PQC algorithms as they are standardized.
 *   Interruptible (incremental) operations for long-running computation in a constrained execution context.
 *   Import and export of additional key formats and wrapped key structures.
