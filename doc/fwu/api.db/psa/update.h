@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020-2023 Arm Limited and/or its affiliates
+// SPDX-FileCopyrightText: Copyright 2020-2025 Arm Limited and/or its affiliates
 // SPDX-License-Identifier: Apache-2.0
 
 typedef uint8_t psa_fwu_component_t;
