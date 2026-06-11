@@ -1,0 +1,594 @@
+% SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited
+% SPDX-License-Identifier: Apache-2.0
+
+% Hide the warning when multiple inkscape-generated PDF [image] files are
+% rendered on the same page
+\pdfsuppresswarningpagegroup=1
+
+% Set the ToC depth to include sub-section headings
+\setcounter{tocdepth}{2}
+
+% Set the PDF bookmark depth to include sub-sub-section headings (API elements)
+% The final level is not in the TOC
+\def\psabookmarkdepth{3}
+
+\usepackage{apptools}
+\usepackage{titletoc}
+\usepackage[titles]{tocloft}
+\usepackage{enumitem}
+\usepackage[depth=\psabookmarkdepth, numbered]{bookmark}
+\usepackage{caption}
+\usepackage{ifthen}
+\usepackage{xstring}
+\usepackage[section]{placeins}
+\usepackage{scalefnt}
+\usepackage{calc}
+\usepackage{changepage}
+\usepackage[figure,table]{totalcount}
+\usepackage{zref-totpages}
+
+% The Sphinx DUrole command fails when multiple classes are defined
+% This version splits the roles, and creates a nested set of calls to
+% the sphinx command,
+\let\sphinxDUrole\DUrole
+\renewcommand{\DUrole}[2]{%
+    \IfSubStr{\detokenize{#1}}{,}{%
+        \StrBefore[1]{\detokenize{#1}}{,}[\myhead]%
+        \StrBehind[1]{\detokenize{#1}}{,}[\mytail]%
+        \expandafter\sphinxDUrole\expandafter{\myhead}{\expandafter\DUrole\expandafter{\mytail}{#2}}%
+    }{\sphinxDUrole{#1}{#2}}%
+}
+\MakeRobust\DUrole
+
+% PSA document styling
+\def\psaht       {\normalfont\fontsize{30pt}{36pt}\fontseries{m}\selectfont\color{gnavy}}
+\def\psah        {\normalfont\fontsize{20pt}{24pt}\fontseries{m}\selectfont\color{gnavy}}
+\def\psahh       {\normalfont\fontsize{16pt}{19.2pt}\fontseries{m}\selectfont\color{gnavy}}
+\def\psahhh      {\normalfont\fontsize{14pt}{16.8pt}\fontseries{m}\selectfont\color{gnavy}}
+\def\psahhhh     {\normalfont\fontsize{12.5pt}{15pt}\fontseries{m}\selectfont\color{gnavy}}
+\def\psabody     {\normalfont\fontsize{11pt}{13.2pt}\fontseries{l}\selectfont}
+\def\psasmall    {\normalfont\fontsize{10pt}{12pt}\fontseries{l}\selectfont}
+\def\psafootnote {\normalfont\fontsize{9pt}{10.8pt}\fontseries{l}\selectfont}
+\def\psascript   {\normalfont\fontsize{8pt}{9.6pt}\fontseries{l}\selectfont}
+\def\psasc       {\scalefont{0.75}}
+\def\psacitation {\itshape}
+\def\psalicense  {\psabody}
+\def\psasubtext  {\psascript}
+\def\psasubtitle {\psabody\mdseries\color{gnavy}}
+\def\psathead    {\psasmall\mdseries}
+\def\psalabel    {\psasmall\mdseries}
+\def\psacaption  {\psasmall}
+\def\psalegend   {\psafootnote}
+\def\psacontd    {\psafootnote\mdseries}
+
+\definecolor{psaissue}{RGB}{240,70,101}
+\definecolor{psaink}{rgb}{0.03,0.01,0.145}
+\definecolor{gnavy}{rgb}{0,0.14,0.33}
+\definecolor{gblue}{rgb}{0.02,0.53,1}
+\definecolor{gplum}{rgb}{0.5,0,0.59}
+\definecolor{ggrey}{rgb}{0.63,0.71,0.71}
+
+% Set up PSA style spacing rules
+\frenchspacing
+% remove justification on main text
+\raggedright
+% the line leading already gives us 2pt (in LaTeX spacing model)
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+
+% Define the heading styles for level 1-4
+\ifdefined\docchapterbreak
+    \titleclass{\chapter}{top}
+\else
+    \titleclass{\chapter}{straight}
+\fi
+\titleformat{\chapter}
+    {\psah}
+    {\IfAppendix{Annex \thechapter:}{\thechapter}}
+    {0.5em}{}{}
+\titlespacing{\chapter}{0pt}{*4}{*1}
+
+\titleformat{\section}
+    {\psahh}
+    {\thesection}
+    {0.5em}{}{}
+\titlespacing{\section}{0pt}{*3}{*1}
+
+\titleformat{\subsection}
+    {\psahhh}
+    {\thesubsection}
+    {0.5em}{}{}
+\titlespacing{\subsection}{0pt}{*3}{*1}
+
+\titleformat{\subsubsection}
+    {\psahhhh}
+    {\thesubsubsection}
+    {0.5em}{}{}
+\titlespacing{\subsubsection}{0pt}{*3}{*1}
+
+% Add a watermark if requested
+\ifdefined\docwatermark
+    \usepackage{draftwatermark}
+    \SetWatermarkText{\mdseries\docwatermark}
+    \SetWatermarkScale{0.8}
+    \SetWatermarkColor[gray]{0.93}
+\fi
+
+% remove emphasis on cross references
+\def\sphinxcrossref#1{#1}
+
+% define a macro to provide a hyperlinked page reference, if on another page
+% this is used for Section, Figure and Table references
+\newcounter{testpagecount}
+\DeclareRobustCommand\ifrefthispage[3]{%
+    \refstepcounter{testpagecount}\label{tpc\thetestpagecount}%
+    \ifthenelse{\equal{\pageref{#1}}{\pageref{tpc\thetestpagecount}}}{#2}{#3}%
+}
+
+\newcommand\psapageref[1]{\ifrefthispage{#1}{}{\hyperref[#1]{{} on page~\pageref{#1}}}}
+
+% Define the format for the index sub-headings
+\def\sphinxstyleindexlettergroup #1{{\psahhhh#1}\nopagebreak\vspace{4pt}}
+
+% set the size of API element names in subsubsection titles
+\def\sphinxstyleliteralintitle#1{{\scalefont{1.1}\texttt{#1}}}
+
+\def\sphinxstylestrong#1{{\fontseries{m}\selectfont{#1}}}
+\def\sphinxstrong#1{{\fontseries{m}\selectfont{#1}}}
+
+\raggedright
+
+% define the specification rule color
+\definecolor{psarulecolor}{rgb}{0.63,0.71,0.71}
+\def\psarulewidth{.8pt}
+
+% Layout and style for tables
+
+\arrayrulecolor{psarulecolor}
+\heavyrulewidth=.8pt
+
+% Set the table header rows font style
+\def\sphinxstyletheadfamily    {\psathead}
+
+% Set the table continuation style
+\def\sphinxtablecontinued{\psacontd}
+
+% Table row spacing
+\renewcommand{\arraystretch}{1.4}
+
+% Table captions
+\captionsetup[table]{position=top}
+\DeclareCaptionFormat{custom}
+{%
+    \psalabel{#1#2}\psacaption{#3}
+}
+\captionsetup{%
+	format=custom,
+    margin={2cm,0cm}, justification=raggedleft, singlelinecheck=false,
+	labelsep=space
+}
+
+% Formatting for table cells
+% * default paragraph spacing is 0pt, use a smaller (non-zero) spacing
+% * reduced item spacing
+% * left aligned text
+\def\psacellformat{%
+    \setlength\parskip{3pt plus 1pt minus 1pt}%
+    \setlist[1]{topsep=2pt, partopsep=0pt, itemsep=1pt, parsep=2pt minus 1pt}%
+    \raggedright\arraybackslash%
+    }
+
+% redefine sphinx column types to be left aligned, with adjusted spacing
+\makeatletter
+\newcolumntype{\X}[2]{>{\psacellformat}p{\dimexpr
+      (\linewidth-\spx@arrayrulewidth)*#1/#2-\tw@\tabcolsep-\spx@arrayrulewidth\relax}}
+\newcolumntype{\Y}[1]{>{\psacellformat}p{\dimexpr
+      #1\dimexpr\linewidth-\spx@arrayrulewidth\relax-\tw@\tabcolsep-\spx@arrayrulewidth\relax}}
+\newcolumntype{T}{>{\psacellformat}L}%
+\makeatother
+
+% Figure legend formatting comes after caption and may contain arbitrary body elements
+\renewenvironment{sphinxlegend}{\par\medskip\psalegend}{\par}
+
+% format Notes to have a wider left margin
+\renewenvironment{sphinxnote}[1]
+  {\list{}{\leftmargin1cm}\item[]\begin{sphinxlightbox}\sphinxstrong{#1}\par }{\end{sphinxlightbox}\endlist}
+
+% format for banner box. Use the environment defined for attention admonitions
+\makeatletter
+\newenvironment{sphinxclassbanner}
+ {% set parameters of heavybox
+  \def\spx@noticetype {attention}%
+  \sphinxcolorlet{spx@notice@bordercolor}{sphinxattentionBorderColor}%
+  \sphinxcolorlet{spx@notice@bgcolor}{sphinxattentionBgColor}%
+  \spx@notice@border \dimexpr1pt\relax
+  \begin{sphinxheavybox}
+  }
+ {\end{sphinxheavybox}}
+\makeatother
+
+% format for rationale boxes. Use the environment defined for error admonitions
+\makeatletter
+\newenvironment{sphinxclassrationale}
+ {% set parameters of heavybox
+  \def\spx@noticetype {error}%
+  \sphinxcolorlet{spx@notice@bordercolor}{sphinxerrorBorderColor}%
+  \sphinxcolorlet{spx@notice@bgcolor}{sphinxerrorBgColor}%
+  \spx@notice@border \dimexpr1pt\relax
+  \begin{sphinxheavybox}
+  }
+ {\end{sphinxheavybox}}
+\makeatother
+
+% format for comment boxes. Use the environment defined for error admonitions
+\makeatletter
+\newenvironment{sphinxclasscomment}
+ {% set parameters of heavybox
+  \def\spx@noticetype {hint}%
+  \sphinxcolorlet{spx@notice@bordercolor}{sphinxhintBorderColor}%
+  \sphinxcolorlet{spx@notice@bgcolor}{sphinxhintBgColor}%
+  \spx@notice@border \dimexpr0pt\relax
+  \begin{sphinxheavybox}%
+  \color{sphinxhintTextColor}%
+  \psasmall
+  }
+ {\end{sphinxheavybox}}
+\makeatother
+
+% Set up the PSA specification header/footer
+\geometry{head=1cm,headsep=0.22cm,foot=1.73cm}
+\usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \fancyhf{}
+    \fancyhead[L]{\psasmall\docfulltitle}
+    \fancyhead[C]{\psasmall\docstatus}
+    \fancyhead[R]{\psasmall{}v\docrelease}
+    \renewcommand{\headrulewidth}{\psarulewidth}
+    \renewcommand{\headrule}{{\color{psarulecolor}\vskip -8pt\rule{\headwidth}{\headrulewidth}}}
+    \renewcommand{\footrulewidth}{\psarulewidth}
+    \renewcommand{\footrule}{{\color{psarulecolor} \rule{\headwidth}{\footrulewidth} \vskip -\footrulewidth}}
+    \fancyfoot[L]{\psasmall\textcolor{psaissue}{Unofficial publication}}
+    \fancyfoot[C]{\psascript\selectfont{\textit{Copyright \textcopyright \doccopyright}}}
+    \fancyfoot[R]{\psasmall{}Page \thepage}
+
+\fancypagestyle{normal}{}
+\fancypagestyle{plain}{}
+
+% Prevent the change of page number style from resetting the page number itself
+\newcounter{savepage}
+\let\oldpagenumbering\pagenumbering
+\renewcommand{\pagenumbering}[1]{\setcounter{savepage}{\value{page}} \oldpagenumbering{#1} \setcounter{page}{\value{savepage}}}
+
+% A frontmatter environment, which continues roman page numbers,
+%   does not number titles, but includes them in the TOC.
+\newcommand{\psafrontmatter}[1]%
+  {\setcounter{secnumdepth}{#1}}
+
+\newcommand{\psamain}[2]
+  {\clearpage%
+   \setcounter{secnumdepth}{#1}
+   \renewcommand{\thetable}{#2\arabic{table}}
+   \renewcommand{\thefigure}{#2\arabic{figure}}
+  }
+
+\newcommand{\psaappendix}[2]
+  {\ifdefined\docappendixbreak \clearpage\fi%
+   \setcounter{secnumdepth}{#1}
+   \appendix%
+   \renewcommand{\thetable}{#2\arabic{table}}
+   \renewcommand{\thefigure}{#2\arabic{figure}}
+  }
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+% Remove the page numbering changes from the default Sphinx manual document
+\makeatletter
+\renewcommand{\sphinxtableofcontents}{%
+  \begingroup
+    \parskip \z@skip
+    \sphinxtableofcontentshook
+    \tableofcontents
+  \endgroup
+  \if@openright\cleardoublepage\else\clearpage\fi
+}
+\makeatother
+
+% List of tables and figures
+\newcommand{\psalistoftables}{
+    \renewcommand{\listtablename}{Tables}
+    \cftsetindents{tab}{0cm}{2cm}
+    \renewcommand{\cfttabfont}{\psabody}
+    \renewcommand{\cfttabpresnum}{Table }
+    \renewcommand{\cfttabaftersnum}{:}
+    \renewcommand{\cfttabdotsep}{\cftnodots}
+    \renewcommand{\cfttabpagefont}{\psabody}
+    \listoftables
+}
+\newcommand{\psalistoffigures}{
+    \renewcommand{\listfigurename}{Figures}
+    \cftsetindents{fig}{0cm}{2cm}
+    \renewcommand{\cftfigfont}{\psabody}
+    \renewcommand{\cftfigpresnum}{Figure }
+    \renewcommand{\cftfigaftersnum}{:}
+    \renewcommand{\cftfigdotsep}{\cftnodots}
+    \renewcommand{\cftfigpagefont}{\psabody}
+    \listoffigures
+}
+
+% The title page command
+\newenvironment{psatitle}%
+{
+    \thispagestyle{empty}
+    \setlength{\parindent}{0pt}
+
+    % PDF information dictionary
+    \begingroup
+        \def\endgraf{ }\def\and{\& }%
+        \pdfstringdefDisableCommands{\def\\{, }}% overwrite hyperref setup
+        \hypersetup{%
+            pdfauthor={\docauthor},%
+            pdftitle={\docfulltitle},%
+            pdfsubject={\docrelease}%
+        }%
+    \endgroup
+
+    % Placeholder logo
+    \noindent\begin{minipage}[t]{5.2cm}
+        \vspace{0pt}% required to get top-alignment of image and text
+        \sphinxlogo
+    \end{minipage}
+    \hfill\begin{minipage}[t]{0.67\textwidth}\raggedleft%
+        \vspace{0pt}% required to get top-alignment of image and text
+        {\psah \doclatextitle{} \par}
+    \end{minipage}
+
+    \bigskip\bigskip\bigskip
+
+    \newcommand{\psatitlecopyright}{
+        \medskip
+
+        \begingroup\raggedleft
+            \scriptsize{Copyright \textcopyright \doccopyright}\\\par
+        \endgroup
+
+        \bigskip\bigskip\bigskip\bigskip
+    }
+    % Title page information table, copyright and banner will follow
+}
+{
+    \clearpage
+
+    % Contents tables
+    \pagestyle{plain}
+    \pagenumbering{arabic}
+    \begingroup
+        \sphinxtableofcontents
+        \iftotaltables\psalistoftables\fi
+        \let\clearpage\relax    % prevent page break between tables
+        \iftotalfigures\psalistoffigures\fi
+    \endgroup
+
+    \pagestyle{normal}
+}
+
+% emulate small-caps:
+\newcommand{\DUrolesc}[1]
+    {{\psasc\uppercase{#1}}}
+
+% small caps for special term references
+\newcommand{\DUrolescterm}[1]
+    {{\psasc\uppercase{#1}}}
+
+% Other glossary term references are emphasized
+\newcommand{\DUroleterm}[1]
+    {{\sphinxstyleemphasis{#1}}}
+
+% Define issue role as red color
+\newcommand{\DUroleissue}[1]
+    {\textcolor{psaissue}{#1}}
+
+% Emphasise section and title-text references
+\newcommand{\DUrolesecref}[1]
+    {{\sphinxstyleemphasis{#1}}}
+
+% SRA definition style
+\newcommand{\DUrolesradef}[1]
+    {{\scalefont{.9}\sphinxstylestrong{#1}}}
+
+% SRA reference style
+\newcommand{\DUrolesraref}[1]
+    {{\scalefont{.9}#1}}
+
+% SRA threat card label style
+\newcommand{\DUrolesralabel}[1]
+    {{\psathead{#1}}}
+
+% associate anchor role with the InnerlinkColor
+\newcommand{\DUroleanchor}[1]
+    {\textcolor{InnerLinkColor}{#1}}
+
+% Provide sectiontitle role for frontmatter titles that are not in TOC
+\newcommand{\DUrolesectiontitle}[1]
+    {{\psahh #1}}
+
+\newcommand{\DUroleversionmodified}[1]
+    {{\psasmall\sphinxstyleemphasis{#1}}}
+
+% define class environment for the license text (much smaller font)
+\newenvironment{sphinxclasslicense}
+    {\psalicense\setlist[enumerate,1]{label=\mdseries(\roman*)}%
+     \renewcommand{\DUrolesectiontitle}[1]
+         {{\psahhh ##1}}%
+    }
+    {}
+
+% If running in a high enough version of sphinx, also
+% Divert use of the sphinxalltt environment to use Verbatim. This requires
+% setting a default config for Verbatim, which does not work in some earlier
+% versions of Sphinx.
+%
+% This ensures that all literal blocks are rendered using the Verbatim
+% configuration below, whether or not sphinx runs the highlighting engine on
+% the block.
+\newcommand{\useverbatimfortt}{%
+    \let\sphinxalltt\sphinxVerbatim%
+    \let\endsphinxalltt\endsphinxVerbatim%
+    \fvset{commandchars=\\\{\}}%
+    }
+
+% Set up the style for the Table of Contents
+
+\renewcommand{\contentsname}{Contents}
+\contentsmargin{1cm}
+\titlecontents{chapter}[1cm]
+    {\addvspace{12pt}}
+    {\psahhh\contentslabel{1cm}}
+    {\psahhh}
+    {\titlerule[0pt]\contentspage}
+\titlecontents{section}[2cm]
+    {\addvspace{2pt}}
+    {\psahhhh\contentslabel{2cm}}
+    {\psahhhh}
+    {\titlerule[0pt]\contentspage}
+\titlecontents{subsection}[2cm]
+    {}
+    {\psabody\contentslabel{1.5cm}}
+    {\psabody}
+    {\titlerule[0pt]\contentspage}
+
+% and remove sphinx's ToC overrides
+\let\sphinxtableofcontentshook\relax
+
+% Sphinx/pdflatex does not pick up the chpater title format from titlesec
+% So hook the environment to insert formatting in the index title
+\renewenvironment{sphinxtheindex}{%
+    \clearpage
+    \let\ixtitle\indexname%
+    \renewcommand{\indexname}{\psahh \ixtitle}%
+    \phantomsection % needed as no chapter, section, ... created
+    \begin{theindex}%
+    \addcontentsline{toc}{chapter}{\ixtitle}%
+    }{\end{theindex}}
+
+% This is something of a hack to get consistent, and differentiated API element
+% subtitles in the specification. Simple specs might have API elements at
+% level 3 headings (subsections), and complex ones at level 4 (subsubsection).
+% So using a section level for the subtitles will yield inconsistent results.
+%
+% psa-api-tool.py uses `rubric` nodes for these sections (so don't use rubric in
+% API reference for other things?). Unfortunately, Sphinx does not copy
+% docutils and emit a \rubric{} command, it just emits \subsubsection*{}.
+%
+% As that [starred] command is not used for other elements, we replaced the
+% \subsubsection command to intercept these uses and divert them to \rubric{}.
+% We can then define \rubric{} as we wish - A bold 10pt runin for the main
+% document text, and the original \subsubsection*{} in the appendix.
+%
+% Older versions of Sphinx directly use \paragraph{} for rubric, so
+% also intercept level 5 headings and treat as rubric
+%
+% Heading 5 is used for all api subtitles
+\newcommand{\subtitlett}[1]{{\normalfont\ttfamily #1}}
+\newcommand{\apisubtitle}[1]{{\let\sphinxstyleliteralintitle\subtitlett #1}}
+\titleformat{\paragraph}
+    {\psasubtitle}
+    {}
+    {0.5em}{\apisubtitle}{}
+\titlespacing{\paragraph}{0pt}{*2}{4pt}
+
+\makeatletter
+\let\oldsubsubsection\subsubsection
+\renewcommand{\subsubsection}
+    % Only intercept rubrics in the main section
+    {\@ifstar{\IfAppendix{\oldsubsubsection*}{\paragraph*}}{\oldsubsubsection}}
+\makeatother
+
+% Format lineblock text (consecutive lines prefixed with |) as a paragraph
+% with forced line breaks
+\renewenvironment{DUlineblock}[1]{%
+    \renewcommand{\item}[1][]{\par \renewcommand{\item}[1][]{\\}}%
+    \setlength{\leftmargin}{#1}%
+    \raggedright%
+}{}
+
+% Set up item lists, enumerations and definition lists
+
+% Define spacing for lists
+\setlist[1]{topsep=2pt, partopsep=0pt, itemsep=2pt, parsep=3pt plus 1pt minus 1pt}
+\setlist[2]{topsep=2pt, partopsep=0pt, itemsep=1pt, parsep=1pt}
+\setlist[3]{topsep=2pt, partopsep=0pt, itemsep=1pt, parsep=1pt}
+
+% Do not use multicols environment for hlist directive, but keep the compactness
+\renewenvironment{multicols}[1]{\begingroup}{\endgroup}
+
+% Arabic, alpha, roman for level 1-3
+% New versions of sphinx ignore this and set the formatting based on the
+% source text
+\setlist[enumerate,1]{label=\arabic*.}
+\setlist[enumerate,2]{label=\alph*.}
+\setlist[enumerate,3]{label=\roman*.}
+
+% Bullet, em-dash, and circle for level 1-3
+\setlist[itemize,1]{label=$\bullet$}
+\setlist[itemize,2]{label=---}
+\setlist[itemize,3]{label=$\circ$}
+
+% Remove Sphinx hack for formatting multiple terms in definition list
+% It forces the list formatting, and breaks the styling done with enumitem
+\renewcommand\sphinxlineitem[2]{\item[#1]\leavevmode#2}%
+
+% Define standard definition list format
+\def\termmargin {13ex}
+\def\termindent {2ex}
+\def\termspace  {1ex}
+
+\setlist[description]{%
+    style=nextline,%
+    labelindent=\termindent, labelwidth=!, labelsep=\termspace,%
+    itemindent=0ex, leftmargin=\termmargin,%
+    font=\psabody,%
+    topsep=3pt, partopsep=0pt, itemsep=2pt, parsep=3pt%
+}
+
+% Define API subitem definition list format
+% This displays as a grid definition list, almost table-like
+% psa-api-tool.py wraps the subitem lists in a apisubitem environment - so
+% we can define that environment to set the description format
+\def\apiitemwidth  {30ex}
+\def\apiitemindent { 0ex}
+\def\apiitemspace  {.5ex}
+
+\newenvironment{sphinxclassapisubitem}
+    {\setlist[description]{%
+        style=nextline,%
+        labelindent=\apiitemindent, labelwidth=\apiitemwidth,%
+        labelsep=\apiitemspace, itemindent=0ex, leftmargin=!,%
+        font=\psabody,%
+        topsep=3pt, partopsep=0pt, itemsep=2pt, parsep=3pt%
+    }}
+    {}
+
+% Define Threat card definition list format
+\def\threatlabelwidth  {20ex}
+\def\threatlabelindent { 0ex}
+\def\threatlabelspace  {.5ex}
+
+\newenvironment{sphinxclassthreat}
+    {\setlist[description]{%
+        style=nextline,%
+        labelindent=\threatlabelindent, labelwidth=\threatlabelwidth,%
+        labelsep=\threatlabelspace, itemindent=0ex, leftmargin=!,%
+        font=\sphinxstylestrong,%
+        topsep=6pt plus 2pt minus 1pt, partopsep=0pt,%
+        itemsep=2pt, parsep=6pt plus 2pt minus 1pt%
+    }}
+    {}
+
+\newenvironment{sphinxclassriskrow}
+    {\renewcommand{\arraystretch}{1.2}%
+    \setlength\tabcolsep{0pt}%
+    \def\sphinxattableend{}%
+    \vskip\dimexpr-\parskip-\baselineskip\relax%
+    }
+    {}
