@@ -11,6 +11,7 @@ This GitHub repository contains:
 *  Specification source files
 *  Reference copies of the PSA Certified API header files
 *  Examples of usage and implementation of the PSA Certified APIs
+*  Build tooling for rendering the specifications
 *  Discussions of updates to the specifications
 *  Proposed changes to the specifications
 
@@ -76,6 +77,32 @@ Crypto Driver Interface | [1.0 Alpha-1][crypto-driver-specs] | [doc/crypto-drive
 ## Reference header files
 
 Reference header files for each minor version of each API are provided in the [headers/](headers) folder.
+
+## Building the specifications
+
+This repository includes the documentation build tooling in [tools/](tools). The top-level `Makefile` uses that local tool copy by default, so a normal build does not require a separate checkout of the build tools.
+
+The core HTML build path requires Python, Sphinx, and `make`. PDF output also requires a LaTeX toolchain with `pdflatex`. Regenerating figures can require additional tools, depending on the figure source format, including Graphviz, `wavedrompy`, PlantUML, Java, and `rsvg-convert`.
+
+Build one specification from the repository root with:
+
+```sh
+make doc/crypto/html
+make doc/crypto/pdf
+make doc/crypto/headers
+make doc/crypto/api-diff
+```
+
+Replace `doc/crypto` with another specification directory, such as `doc/attestation`, `doc/storage`, `doc/fwu`, `doc/status-code`, or `doc/crypto-driver`.
+
+Build one output format for every specification with:
+
+```sh
+make html
+make pdf
+```
+
+Generated output is written under [build/](build). The build guide in [tools/docs/using-psa-api-tool.md](tools/docs/using-psa-api-tool.md) describes the available targets, dependencies, and validation flow. The editing reference in [tools/docs/psa-api-tool-notes.md](tools/docs/psa-api-tool-notes.md) describes the custom directives, roles, and source conventions used by the specifications.
 
 ## Test Suite
 
