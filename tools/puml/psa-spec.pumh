@@ -1,0 +1,191 @@
+' SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+hide footbox
+hide empty description
+skinparam {
+    style strictuml
+
+    defaultFontName roboto
+    defaultFontSize 12
+    defaultMonospacedFontName roboto mono
+
+    ArrowColor Black
+
+    BackgroundColor ffffff55
+
+    RoundCorner 8
+}
+
+!define PSAGreen     95D600
+!define PSAMidBlue   0091BD
+!define PSADarkBlue  002B49
+!define PSAMidGray   7D868C
+!define PSALightGray E5ECEB
+
+skinparam legend {
+    backgroundColor e8e8e8
+    fontSize 12
+}
+
+skinparam sequenceLifeLine {
+    backgroundColor White
+    borderColor Gray
+    borderThickness 1
+}
+
+skinparam sequenceGroup {
+    bodyBackgroundColor #ffffff80
+    borderColor Gray
+    borderThickness 1
+    backgroundColor #f0f0f0
+    headerFontStyle normal
+    fontSize 11
+}
+
+skinparam sequenceBox {
+    borderColor none
+    backgroundColor #e0e0e0c0
+    borderThickness 1
+}
+
+skinparam note {
+    backgroundColor #e8e8e8
+    borderColor PSAMidGray
+    borderThickness 1
+}
+
+skinparam participant {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam actor {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam boundary {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam control {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam database {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam entity{
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam collections {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam queue {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam storage {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam rectangle {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam interface {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam condition {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam state {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam usecase {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam cloud {
+    backgroundColor #White
+    borderColor PSAMidGray
+    borderThickness 1
+}
+
+skinparam component {
+    backgroundColor #White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam node {
+    backgroundColor #White
+    borderColor PSAMidGray
+    borderThickness 1
+}
+
+skinparam frame {
+    backgroundColor #White
+    borderColor PSAMidGray
+    borderThickness 1
+}
+
+skinparam folder {
+    backgroundColor #White
+    borderColor PSAMidGray
+    borderThickness 1
+}
+
+skinparam ConditionEndStyle hline
+
+skinparam partition {
+   borderThickness 0
+   borderColor f0f0f0
+   backgroundColor #f0f0f0
+   fontSize 11
+}
+
+skinparam activity {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+
+skinparam card {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}

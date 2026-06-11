@@ -1,13 +1,14 @@
 # SPDX-FileCopyrightText: Copyright 2026 Arm Limited and/or its affiliates
 # SPDX-License-Identifier: CC-BY-SA-4.0
 
-# lock down the main branch files, against rogue Writers merging PRs
-# and any future branches from main
+# lock down the main branch files, against Writers accidently merging PRs
+# and any future main-derived branches
 /design/         @athoelke
 /doc/            @athoelke
 /examples/       @athoelke
 /headers/        @athoelke
 /LICENSES/       @athoelke
+/tools/          @athoelke
 /*.md            @athoelke
 
 # protect future potential folders
