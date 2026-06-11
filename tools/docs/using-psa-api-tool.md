@@ -42,11 +42,15 @@ sets `psa_api_tool_path` to the repository `tools/` directory, allows the `PSA_A
 environment variable to override that path, then executes `psa-api-conf.py` from the
 selected tool copy.
 
-Older PSA API source revisions used the former `atg-sphinx-spec` name. The
-shared makefile exports `ATG_SPHINX_SPEC` as an alias for `PSA_API_TOOL`, and
-the tool provides `atg-sphinx-conf.py` as a compatibility wrapper around
-`psa-api-conf.py`. This allows older source trees to be built with the newer
-tool by invoking:
+Each specification directory also contains a minimal `pyproject.toml` file. These files
+act as project-boundary markers for editor integrations such as Esbonio, allowing each
+specification to have a separate Sphinx session and live preview while using the same
+checked-in tool copy. They are not used by the repository make targets.
+
+Older PSA API source revisions used the former `atg-sphinx-spec` name. The shared
+makefile exports `ATG_SPHINX_SPEC` as an alias for `PSA_API_TOOL`, and the tool provides
+`atg-sphinx-conf.py` as a compatibility wrapper around `psa-api-conf.py`. This allows
+older source trees to be built with the newer tool by invoking:
 
 ```sh
 make -f /path/to/psa-api-tool/make doc/crypto/html

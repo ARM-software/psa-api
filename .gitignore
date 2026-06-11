@@ -3,6 +3,11 @@
 
 # IDE settings
 /.vscode
+# Local OS files
+.DS_Store
+# Python cache
+__pycache__/
+*.py[cod]
 # Generated documentation
 _build
 build
