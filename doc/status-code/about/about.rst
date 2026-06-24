@@ -3,22 +3,10 @@
 
 .. include:: releases
 
-.. release-info::
-    :replace:
-
-    Prior to version 1.0.1, the definitions in this specification were released as part of :cite-title:`PSA-FFM`.
-
-    The change history table lists the changes that have been made to this document.
-
-    .. release-table:: Document revision history
-
-    For a detailed list of changes, see :secref:`change-history`.
-
 .. include:: references
 
 .. include:: terms
 
-.. potential-for-change::
-    :hide:
+.. include:: intro
 
 .. about::

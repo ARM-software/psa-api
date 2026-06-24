@@ -15,13 +15,19 @@ Document history
       - Release
       - Details
 
+    * - TBD
+      - *Draft GlobalPlatform publication revision*
+      - Migrated the document to the 2026 PSA Certified API template.
+
+        This changes the document front matter structure and publication styling, without changing the API.
+
     * - 2019-02-25
       - *1.0 Beta 2*
       - First Release
 
     * - 2019-06-12
       - *1.0 Rel*
-      - Final 1.0 API
+      - 1.0 API finalized
 
         The protected storage API now supports flags `PSA_STORAGE_FLAG_NO_CONFIDENTIALITY` and `PSA_STORAGE_FLAG_NO_REPLAY_PROTECTION`.
 

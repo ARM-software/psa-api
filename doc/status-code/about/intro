@@ -1,0 +1,21 @@
+.. SPDX-FileCopyrightText: Copyright 2022, 2025-2026 Arm Limited and/or its affiliates
+.. SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+.. introduction::
+
+   This document is one of a set of resources that can help organizations develop products that meet the security requirements of GlobalPlatform's PSA Certified evaluation scheme. The PSA Certified scheme provides a framework and methodology that helps silicon manufacturers, system software providers and OEMs to develop more secure products. You can read more about PSA Certified here at :url:`www.psacertified.org`.
+
+   .. rubric:: About the |API|
+
+   The interface described in this document is a PSA Certified API, that provides a shared set of interface definitions used by other PSA Certified APIs.
+
+   You can find additional resources relating to the |API| here at :url:`arm-software.github.io/psa-api/status-code`, and find other PSA Certified APIs here at :url:`arm-software.github.io/psa-api`.
+
+.. audience::
+
+   This document is intended primarily for the use of developers of:
+
+   *  PSA Certified API specifications.
+   *  Implementations of PSA Certified APIs.
+   *  Frameworks that provide access to security services via the PSA Certified APIs.
+   *  Client applications and Root of Trust Services that use any of the PSA Certified APIs.

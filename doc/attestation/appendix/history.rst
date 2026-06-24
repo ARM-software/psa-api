@@ -14,6 +14,12 @@ Document history
     * - Date
       - Changes
 
+    * - TBD
+      - *Draft GlobalPlatform publication revision*
+
+        * Migrated the document to the 2026 PSA Certified API template.
+        * Changed the document front matter structure and publication styling, without changing the API.
+
     * - June 2019
       - *1.0.0*
 

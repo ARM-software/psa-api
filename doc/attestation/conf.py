@@ -8,7 +8,7 @@
 
 doc_info = {
     # Document template
-    'template': 'psa-api-2025',
+    'template': 'psa-api-2026',
 
     # Document title, MANDATORY
     'title': 'PSA Certified\nAttestation API',
@@ -18,28 +18,21 @@ doc_info = {
     'copyright_date': '2018-2020, 2022-2026',
     'copyright': 'Arm Limited and/or its affiliates',
 
-    # Arm document identifier, marked as open issue if not provided
-    'doc_id': 'IHI 0085',
+    # Document identifier, marked as open issue if not provided
+    'doc_id': 'GPD_SPE_085',
 
     # The short X.Y version. MANDATORY
     'version': '2.0',
-    # Arm document quality status, marked as open issue if not provided
-    'quality': 'REL',
-    # Arm document issue number (within that version and quality status)
-    # Marked as open issue if not provided
+    # Document maintenance revision
     'issue_no': 0,
-    # Identifies the sequence number of a release candidate of the same issue
-    # default to None
-    'release_candidate': None,
-    #'draft': True,
-
-    # Arm document confidentiality. Must be either Non-confidential or Confidential
-    # Marked as open issue if not provided
-    'confidentiality': 'Non-confidential',
+    # Document draft revision
+    'draft': 1,
+    # Document status
+    'status': 'DFT',
 
     # Id of the legal notice for this document
     # Marked as open issue if not provided
-    'license': 'psa-certified-api-license',
+    #'license': 'psa-certified-api-license',
 
     # Document date, default to build date
     'date': 'May 2026',

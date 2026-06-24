@@ -11,7 +11,7 @@
     ],
     "config": {
         "lanes": 1,
-        "fontfamily": "lato",
+        "fontfamily": "roboto",
         "fontsize": 11,
         "vspace": 52,
         "hspace": 600
