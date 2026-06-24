@@ -1,0 +1,21 @@
+' SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+skinparam rectangle {
+    backgroundColor #PSAMidBlue
+    borderThickness 0
+    fontColor white
+}
+
+skinparam card {
+    backgroundColor #0091BD20
+    borderThickness 0
+    fontColor black
+}
+
+!define lifecycle_phase card
+!define lifecycle_state rectangle
+!define stakeholder note
+!define stakeholder_skip label " "
+
+left to right direction

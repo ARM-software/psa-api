@@ -1,0 +1,29 @@
+' SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited
+' SPDX-License-Identifier: CC-BY-SA-4.0 AND LicenseRef-Patent-license
+
+!define dfd_process storage
+!define dfd_store database
+!define dfd_agent rectangle
+!procedure dfd_tb($type = "trust boundary", $label="")
+    skinparam rectangle {
+        backgroundColor<<$type>> #FFFFFF90
+        borderColor<<$type>> darkred
+        borderstyle<<$type>> dashed
+        borderThickness<<$type>> 1
+        fontColor<<$type>> black
+    }
+    !if ($label == "")
+    rectangle <<$type>>
+    !else
+    rectangle "$label" <<$type>>
+    !endif
+!endprocedure
+!procedure dfd_align($type = "i b")
+    skinparam rectangle {
+        backgroundColor<<$type>> none
+        borderColor<<$type>> none
+        borderThickness<<$type>> 1
+        fontColor<<$type>> none
+    }
+    rectangle <<$type>>
+!endprocedure

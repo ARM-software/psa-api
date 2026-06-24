@@ -1,0 +1,267 @@
+# SPDX-FileCopyrightText: Copyright 2018-2026 Arm Limited
+# SPDX-License-Identifier: Apache-2.0
+
+# Common top level include-makefile for building a suite of documents
+#
+# This should be included from the specification project makefile,
+# with the following variables defined:
+
+# OUTPUT    optional  - it specifies the output directory, default to 'build'
+OUTPUT ?= build
+# INTERNAL  optional  - boolean, if non-empty this sets the 'internal' tag on the documentation build
+
+# Use the directory containing this makefile for the psa-api-tool tools
+override PSA_API_TOOL := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+export PSA_API_TOOL
+# Compatibility for older specification sources that still load
+# atg-sphinx-conf.py using ATG_SPHINX_SPEC.
+override ATG_SPHINX_SPEC := $(PSA_API_TOOL)
+export ATG_SPHINX_SPEC
+# For recursive invokation we need to know which makefile is used
+THIS_MAKE := -f $(firstword $(MAKEFILE_LIST))
+
+ifeq ($(wildcard conf.py),)
+
+###############################
+# Document project make rules #
+###############################
+
+# There is no conf.py - this is a project directory
+
+# The set of valid format targets for individual documents
+TARGETS := clean html latex pdf xml headers api-db api-diff api-update images
+TARGETS_ALL := $(TARGETS) all
+
+# The set of document Sphinx configuration files
+DOCS := $(patsubst ./%/conf.py,%,$(shell find . -name conf.py))
+# compile the set of directories containing documents, and their parents
+DOCS2 := $(patsubst %/,%,$(subst ./,,$(dir $(DOCS))))
+DOCS3 := $(patsubst %/,%,$(subst ./,,$(dir $(DOCS2))))
+DOCS4 := $(patsubst %/,%,$(subst ./,,$(dir $(DOCS3))))
+DOCS_ALL := $(sort $(DOCS) $(DOCS2) $(DOCS3) $(DOCS4))
+
+# The full combination of all documents and targets
+ALL_TARGETS := $(foreach DOC,$(DOCS_ALL),$(addprefix $(DOC)/,$(TARGETS_ALL)))
+
+MAKE_VARS := INTERNAL=$(INTERNAL)
+
+.PHONY: all
+all: $(addsuffix /all,$(DOCS))
+
+# Building all target types for a specific document
+.PHONY: $(DOCS_ALL)
+$(DOCS_ALL):
+	@"$(MAKE)" $(THIS_MAKE) $@/all \
+		OUTPUT=$(OUTPUT) $(MAKE_VARS)
+
+# Building a specific target type for each document
+.PHONY: $(TARGETS)
+$(TARGETS):
+	@"$(MAKE)" $(THIS_MAKE) $(addsuffix /$@,$(DOCS)) \
+		OUTPUT=$(OUTPUT) $(MAKE_VARS)
+
+# Explicitly using all/* to build a certain target type
+.PHONY: all/%
+all/%: %;
+
+# Building a single target type for a single document
+
+.PHONY: $(ALL_TARGETS)
+$(ALL_TARGETS):
+	@if [ -e $(@D)/Makefile ]; then						\
+		MAKEFILE="Makefile" ;							\
+	else												\
+		MAKEFILE="$(PSA_API_TOOL)/make" ;		\
+	fi;													\
+	"$(MAKE)" -C $(@D) $(@F) -f $$MAKEFILE	\
+		OUTPUT=$(abspath $(OUTPUT))/$(@D) $(MAKE_VARS)
+
+else
+
+##############################
+# Single document make rules #
+##############################
+
+# There is a conf.py - this is a document directory
+
+# SOURCE  optional - specifies the source directory, default .
+SOURCE ?= .
+
+# FIGURES optional - a set of directories containing images to generate/transform. Default 'figure'
+FIGURES ?= figure
+
+# Support for maintaining API compatibility (optional)
+# Can be overriden by a value in the makefile that includes this
+API_PATH ?= api.db
+
+# You can set these variables from the command line.
+SPHINXOPTS    =
+SPHINXBUILD   = sphinx-build
+
+# User-friendly check for sphinx-build
+ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
+$(error The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed, then set the SPHINXBUILD environment variable to point to the full path of the '$(SPHINXBUILD)' executable. Alternatively you can add the directory with the executable to your PATH. If you don't have Sphinx installed, grab it from http://sphinx-doc.org/)
+endif
+
+# Internal builds output to the .../internal path and set the "internal" tag
+ifneq ($(strip $(INTERNAL)),)
+override OUTPUT := $(OUTPUT)/internal
+SPHINXOPTS      += -t internal
+endif
+
+# Internal variables.
+ALLSPHINXOPTS   := -d $(OUTPUT)/doctrees $(SPHINXOPTS) -T $(SOURCE)
+
+.PHONY: all
+all: html latex pdf xml headers
+
+ifneq ($(wildcard $(FIGURES)),)
+# Rebuild converted and generated images if graphic sources are modified
+.PHONY: images
+images:
+	@"$(MAKE)" -f $(PSA_API_TOOL)/images.mk IMAGE=$(FIGURES)
+else
+.PHONY: images
+images:
+	@echo "No images in this document"
+endif
+
+# Assume all content under SOURCE and PSA_API_TOOL tooling affects the output
+PRUNE := .* __* skeleton guide build docs
+PRUNE := $(patsubst %,-name "%" -prune -or,$(PRUNE))
+PSA_API_TOOL_FILES := $(shell find $(PSA_API_TOOL) $(PRUNE) -type f -print)
+SPHINX_INPUTS := $(shell find $(SOURCE) -type f -print) $(PSA_API_TOOL_FILES)
+
+.PHONY: html
+html: $(OUTPUT)/html/done
+$(OUTPUT)/html/done: $(SPHINX_INPUTS)
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(@D)
+	@pushd $(@D); python3 $(PSA_API_TOOL)/rewrite-html-for-jekyll.py; popd; \
+	touch $@; echo; echo "Build finished. The HTML pages are in $(@D)."
+
+.PHONY: latex
+latex: $(OUTPUT)/latex/done
+$(OUTPUT)/latex/done: $(OUTPUT)/latex/donetex
+	@touch $@; echo; echo "Build finished; the LaTeX files are in $(OUTPUT)/latex."; \
+	echo "Run \`make' in that directory to run these through (pdf)latex" \
+	     "(use \`make pdf' here to do that automatically)."
+$(OUTPUT)/latex/donetex: $(SPHINX_INPUTS)
+	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(@D)
+	@touch $@
+
+.PHONY: pdf
+pdf: $(OUTPUT)/latex/donepdf
+$(OUTPUT)/latex/donepdf : $(OUTPUT)/latex/donetex
+	@echo "Running LaTeX files through pdflatex..."; \
+	"$(MAKE)" -C $(OUTPUT)/latex all-pdf; \
+	if command -v qpdf >/dev/null 2>&1; then \
+		for pdf in "$(@D)"/*.pdf; do \
+			[ -e "$$pdf" ] || continue; \
+			qpdf --linearize --object-streams=generate --compress-streams=y --replace-input "$$pdf"; \
+		done; \
+	fi; \
+	touch $@; echo ; echo "Build finished; the PDF files are in $(@D)."
+
+.PHONY: xml
+xml: $(OUTPUT)/xml/done
+$(OUTPUT)/xml/done: $(SPHINX_INPUTS)
+	$(SPHINXBUILD) -b xml $(ALLSPHINXOPTS) $(@D)
+	@touch $@; echo; echo "Build finished. The XML files are in $(@D)."
+
+API_REF_BUILD_PATH = $(OUTPUT)/headers
+API_DB_BUILD_PATH = $(OUTPUT)/api.db
+API_DIFF = $(OUTPUT)/api.diff
+
+.PHONY: headers
+headers: $(API_REF_BUILD_PATH)
+$(API_REF_BUILD_PATH): $(SPHINX_INPUTS)
+	@rm -rf $@
+	$(SPHINXBUILD) -b headers $(ALLSPHINXOPTS) $@
+# Deal with graphviz extension stupidity of copying .css into every target
+	@rm -rf $@/_static; \
+	echo ; echo "Build finished. The reference header files are in $@."
+
+.PHONY: api-db
+api-db: $(API_DB_BUILD_PATH)
+$(API_DB_BUILD_PATH): $(SPHINX_INPUTS)
+	@rm -rf $@
+	$(SPHINXBUILD) -b api-db $(ALLSPHINXOPTS) $@
+# Deal with graphviz extension stupidity of copying .css into every target
+	@rm -rf $@/_static; \
+	echo ; echo "Build finished. The reference header files are in $@."
+
+.PHONY: api-diff
+api-diff: $(API_DIFF)
+	@if [ -s $(API_DIFF) ]; then \
+		echo ; \
+		echo "WARNING: API changes detected."; \
+		echo ""; \
+		cat $(API_DIFF); \
+		exit 1; \
+	else \
+		echo "No API changes detected."; \
+	fi
+
+ifeq (,$(wildcard $(API_PATH)))
+# Handle the bootstrap case when there is no reference API
+# If there is no API, create an empty diff
+$(API_DIFF): $(API_DB_BUILD_PATH)
+	@if [[ 0 -eq `find $(API_DB_BUILD_PATH) -type f | wc -l` ]]; \
+	then \
+		>$@; \
+	else \
+		echo "** No reference API **" > $@; \
+	fi
+else
+$(API_DIFF): $(API_DB_BUILD_PATH) $(API_PATH)
+	@diff --strip-trailing-cr -x .DS_Store -r $(API_PATH) $(API_DB_BUILD_PATH) 1>$@ || exit 0
+endif
+
+.PHONY: api-update
+api-update: $(API_DIFF)
+	@if [ -s $(API_DIFF) ]; then \
+		echo "Copying header files"; \
+		mkdir -p $(API_PATH) && cp -r $(API_DB_BUILD_PATH)/* $(API_PATH)/; \
+		>$(API_DIFF); \
+	fi
+
+.PHONY: clean
+clean::
+	rm -rf $(OUTPUT)/*
+
+endif
+
+.PHONY: help
+help::
+ifeq ($(wildcard conf.py),)
+	@echo "Please use \`make <document>/<target>' where <document> is one of"; \
+	echo "  $(DOCS)"; \
+	echo "and <target> is one of:"
+else
+	@echo "Please use \`make <target>' where <target> is one of"
+endif
+	@echo "  html       to make standalone HTML files"; \
+	echo "  xml        to make an XML document structure"; \
+	echo "  latex      to make LaTeX files"; \
+	echo "  pdf        to make LaTeX files and run them through pdflatex"; \
+	echo "  headers    to make the API reference header files"; \
+	echo ""; \
+	echo "  all        to make all of the above targets"; \
+	echo "  clean      to remove build output for all targets"; \
+	echo ""; \
+	echo "  api-db     to generate the API definition"; \
+	echo "  api-diff   to compare the API definition against a reference"; \
+	echo "  api-update to update the reference API definition"; \
+	echo ""
+ifneq ($(wildcard conf.py)$(wildcard $(FIGURES)),conf.py)
+	@echo "  images     to update generated and converted image files"; \
+	echo ""
+endif
+ifeq ($(wildcard conf.py),)
+	@echo "Shortcuts:"; \
+	echo "  \`make <target>' builds <target> for all documents"; \
+	echo "  \`make <document>' builds all targets for <document>"; \
+	echo ""
+endif
+	@echo "Specifying \`INTERNAL=1' to make will build an internal version"; \
+	echo "of the documents"
