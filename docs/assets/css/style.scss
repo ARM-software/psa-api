@@ -1,0 +1,16 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Copyright 2022 Arm Limited and/or its affiliates
+ * SPDX-License-Identifier: CC-BY-SA-4.0
+ */
+
+ header img {
+   width: 120px;
+   margin: auto;
+   display: block;
+   padding-top: 20px;
+   padding-bottom: 40px;
+}

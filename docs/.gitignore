@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright 2022, 2024 Arm Limited and/or its affiliates
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+# Ruby stuff
+Gemfile.lock
+.jekyll-cache
