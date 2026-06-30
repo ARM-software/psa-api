@@ -94,6 +94,6 @@ template_info['page_break'] = 'chapter'
 
 doc_info.setdefault('author', 'The PSA Certified API contributors')
 doc_info.setdefault('copyright', 'The PSA Certified API contributors')
-doc_info.setdefault('feedback', 'visit :url:`github.com/arm-software/psa-api/issues`' +
+doc_info.setdefault('feedback', 'visit :url:`github.com/globalplatform/psa-api/issues`' +
                                 ' to create a new issue at the PSA Certified API GitHub project')
 doc_info.setdefault('license', 'psa-certified-api-license')

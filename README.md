@@ -160,14 +160,14 @@ Please indicate which specification the issue applies to. This can be done by:
 * Providing a link to the section of the specification on this website.
 * Providing the document name, full version, and section or page number in the PDF.
 
-[psa-api-issue]:    https://github.com/arm-software/psa-api/issues/new
+[psa-api-issue]:    https://github.com/globalplatform/psa-api/issues/new
 
 ## Contributing
 
 Anyone may contribute to the PSA Certified API. Discussion of changes and enhancement happens in this repository's [Issues][issues] and [Pull requests][pulls]. See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-[issues]:           https://github.com/arm-software/psa-api/issues
-[pulls]:            https://github.com/arm-software/psa-api/pulls
+[issues]:           https://github.com/globalplatform/psa-api/issues
+[pulls]:            https://github.com/globalplatform/psa-api/pulls
 
 ----
 

@@ -26,9 +26,9 @@
 
       At ALPHA quality, any aspect of the interface might be changed in a future version of the document.
 
-   The current planned scope for v1.0 is found here at :url:`github.com/ARM-software/psa-api/discussions/306`.
+   The current planned scope for v1.0 is found here at :url:`github.com/globalplatform/psa-api/discussions/306`.
 
-   There are several projects currently implementing the |API|, see :url:`github.com/arm-software/psa-api/blob/main/related-projects.md`.
+   There are several projects currently implementing the |API|, see :url:`github.com/globalplatform/psa-api/blob/main/related-projects.md`.
 
    For a practical guide, with a description of the current state of drivers in Mbed TLS, see the examples in :url:`github.com/Mbed-TLS/TF-PSA-Crypto/blob/development/docs/psa-driver-example-and-guide.md`.
 
