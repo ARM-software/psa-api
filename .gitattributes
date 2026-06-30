@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright 2026 Arm Limited and/or its affiliates
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+*.pdf binary
+*.png binary
+*.inv binary

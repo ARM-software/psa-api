@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright 2026 Arm Limited and/or its affiliates
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+# IDE settings
+/.vscode
+# Generated documentation
+build
+_build
+# Ruby stuff
+Gemfile.lock
+.jekyll-cache
