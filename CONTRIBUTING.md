@@ -5,7 +5,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # Contributing
 
-The main copy of this project is hosted on GitHub: https://github.com/ARM-software/psa-api.
+The main copy of this project is hosted on GitHub: https://github.com/globalplatform/psa-api.
 
 Anyone may contribute to the PSA Certified API project. Contributions are licensed under the same license that is used for distibution, and must be made with a [Developer Certificate of Origin][DCO] (DCO) attestation as described below. See the [LICENSE][license] file for details of the license.
 
@@ -47,6 +47,6 @@ d) I understand and agree that this project and the contribution
 
 [license]:      LICENSE.md
 [DCO]:          https://developercertificate.org/
-[issues]:       https://github.com/arm-software/psa-api/issues
-[prs]:          https://github.com/arm-software/psa-api/pulls
-[spec-list]:    https://github.com/ARM-software/psa-api#specifications
+[issues]:       https://github.com/globalplatform/psa-api/issues
+[prs]:          https://github.com/globalplatform/psa-api/pulls
+[spec-list]:    https://github.com/globalplatform/psa-api#specifications
