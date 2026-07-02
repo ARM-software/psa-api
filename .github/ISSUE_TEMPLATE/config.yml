@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: PSA API feedback or request
+  - name: Feedback on the PSA API
     url: https://github.com/globalplatform/psa-api/issues
-    about: For bug reports, enhancement requests, or other feedback on the PSA APIs, please create an issue in GlobalPlatform's upstream **psa-api** repository.
+    about: Raise an issue in GlobalPlatform's upstream psa-api repository to report bugs, ask questions, or request features on the PSA APIs
