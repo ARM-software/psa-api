@@ -1,6 +1,6 @@
 ---
-title: PSA Certified APIs
-description: The official place for the latest published documents of the PSA Certified APIs
+title: PSA API Specifications
+description: PSA API documents published by Arm
 ---
 
 <!--
@@ -8,21 +8,21 @@ SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Certified APIs
+# PSA API Specifications
 
-This is the official place for the latest published documents of the PSA Certified APIs.
+This website hosts the PSA API documents that are published by Arm.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
+PSA API development is now governed by [GlobalPlatform](https://globalplatform.org).
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the GlobalPlatform [PSA API GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA API Test suites][psa-api-ats].
 
-[psa-api-gh]:       https://github.com/arm-software/psa-api
+[psa-api-gh]:       https://github.com/globalplatform/psa-api
 [psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
-
 
 ## Specifications
 
-The following specifications are part of the PSA Certified APIs:
+The following specifications are part of the PSA APIs:
 
 Specification | | | | |
 -|-|-|-|-
@@ -68,18 +68,18 @@ Crypto Driver Interface | 1.0 Alpha 1 | [HTML][driver-html] | [&darr; PDF][drive
 
 ## Feedback
 
-If you have questions or comments on any of the specifications, or suggestions for enhancements, please [raise a new issue][psa-api-issue] in the PSA Certified APIs GitHub project.
+If you have questions or comments on any of the specifications, or suggestions for enhancements, please [raise a new issue][psa-api-issue] in the PSA API GitHub project.
 
 Please indicate which specification the issue applies to. This can be done by:
 
 * Providing a link to the section of the specification on this website.
 * Providing the document name, full version, and section or page number in the PDF.
 
-[psa-api-issue]:    https://github.com/arm-software/psa-api/issues/new
+[psa-api-issue]:    https://github.com/globalplatform/psa-api/issues/new
 
 ## License
 
-The latest versions of the PSA Certified APIs that are hosted on this website are licensed under the Creative Commons [Attribution–Share Alike 4.0 International license][CC-BY-SA-4.0] and [Apache License, Version 2.0][APACHE-2.0]. Some earlier versions of the specifications are licensed under a non-confidential license from Arm.
+The latest versions of the PSA APIs that are hosted on this website are licensed under the Creative Commons [Attribution–Share Alike 4.0 International license][CC-BY-SA-4.0] and [Apache License, Version 2.0][APACHE-2.0]. Some earlier versions of the specifications are licensed under a non-confidential license from Arm.
 
 Refer to individual documents for license details.
 
@@ -88,4 +88,4 @@ Refer to individual documents for license details.
 
 ----
 
-*Copyright 2022-2026, Arm Limited and/or its affiliates*
+*Copyright 2022-2026 Arm Limited and/or its affiliates*

@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates
 # SPDX-License-Identifier: CC-BY-SA-4.0
 
-title: PSA Certified APIs
-description: The official place for the latest published documents of the PSA Certified APIs
+title: PSA API Specifications
+description: PSA API documents published by Arm
 logo: assets/img/ARM_LOGO-2025_INK_RGB.svg
 
 remote_theme: pages-themes/minimal@v0.2.0
@@ -10,3 +10,9 @@ plugins:
 - jekyll-remote-theme # add this line to the plugins list if you already have one
 
 include: _static, _images
+
+github:
+  owner_name: GlobalPlatform
+  owner_url: https://github.com/GlobalPlatform
+  repository_url: https://github.com/GlobalPlatform/psa-api
+  repository_nwo: GlobalPlatform/psa-api

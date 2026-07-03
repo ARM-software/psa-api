@@ -1,5 +1,5 @@
 ---
-title: PSA Certified Attestation API
+title: PSA Attestation API
 description: The Attestation API provides a way to obtain a health-check token from a device, attesting to its components and serial numbers
 ---
 
@@ -8,18 +8,18 @@ SPDX-FileCopyrightText: Copyright 2022, 2025-2026 Arm Limited and/or its affilia
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Certified<br />Attestation API
+# PSA Attestation API
 
 The Attestation API provides a way to obtain a health-check token from a device, attesting to its components and serial numbers.
 
-See the [PSA Certified APIs][psa-api] page for other PSA Certified APIs.
+See the [PSA API][psa-api] page for other PSA APIs.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA API GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA API Test suites][psa-api-ats].
 
 [psa-api]:          ../
-[psa-api-gh]:       https://github.com/arm-software/psa-api
+[psa-api-gh]:       https://github.com/globalplatform/psa-api
 [psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
 
 ## Specifications
@@ -43,4 +43,4 @@ Version | | | Publication
 [1-0-1-pdf]:            1.0/IHI0085-PSA_Attestation_API-1.0.1.pdf
 [1-0-0-pdf]:            1.0/IHI0085-PSA_Attestation_API-1.0.0.pdf
 
-*Copyright 2022, 2025-2026, Arm Limited and/or its affiliates*
+*Copyright 2022, 2025-2026 Arm Limited and/or its affiliates*
