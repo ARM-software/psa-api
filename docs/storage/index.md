@@ -18,6 +18,10 @@ Specification source files, updates, and discussions, as well as reference heade
 
 Test suites to verify a correct implementation can be found in the [PSA API Test suites][psa-api-ats].
 
+[psa-api]:          ../
+[psa-api-gh]:       https://github.com/globalplatform/psa-api
+[psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
+
 ## Specifications
 
 Version | | | Publication
