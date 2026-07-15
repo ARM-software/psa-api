@@ -1,25 +1,25 @@
 ---
-title: PSA Certified Secure Storage API
+title: PSA Secure Storage API
 description: The Secure Storage API supports data protection services on the device, providing integrity and confidentiality protection
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its affiliates
+SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Certified<br />Secure Storage API
+# PSA Secure Storage API
 
 The Secure Storage API supports data protection services on the device, providing integrity and confidentiality protection.
 
-See the [PSA Certified APIs][psa-api] page for other PSA Certified APIs.
+See the [PSA API][psa-api] page for other PSA APIs.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA API GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA API Test suites][psa-api-ats].
 
 [psa-api]:          ../
-[psa-api-gh]:       https://github.com/arm-software/psa-api
+[psa-api-gh]:       https://github.com/globalplatform/psa-api
 [psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
 
 ## Specifications
@@ -39,4 +39,4 @@ Version | | | Publication
 [1-0-1-pdf]:            1.0/IHI0087-PSA_Certified_Secure_Storage_API-1.0.1.pdf
 [1-0-0-pdf]:            1.0/IHI0087-PSA_Storage_API-1.0.0.pdf
 
-*Copyright 2022-2025, Arm Limited and/or its affiliates*
+*Copyright 2022-2026 Arm Limited and/or its affiliates*

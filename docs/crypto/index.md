@@ -1,5 +1,5 @@
 ---
-title: PSA Certified Crypto API
+title: PSA Crypto API
 description: The Crypto API provides symmetric and asymmetric cryptography, hash, RNG, and key storage services with support for different key lifetime policies
 ---
 
@@ -8,18 +8,18 @@ SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Certified<br />Crypto API
+# PSA Crypto API
 
 The Crypto API provides symmetric and asymmetric cryptography, hash, RNG, and key storage services with support for different key lifetime policies.
 
-See the [PSA Certified APIs][psa-api] page for other PSA Certified APIs.
+See the [PSA APIs][psa-api] page for other PSA APIs.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA API GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA API Test suites][psa-api-ats].
 
 [psa-api]:          ../
-[psa-api-gh]:       https://github.com/arm-software/psa-api
+[psa-api-gh]:       https://github.com/globalplatform/psa-api
 [psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
 
 ## Specifications
@@ -100,4 +100,4 @@ PAKE | 1.1 Beta 0 | | [&darr; PDF][pake-beta-0-pdf] | February 2022
 [pqc-beta-1-pdf]:       1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.1.pdf
 [pqc-beta-0-pdf]:       1.3/ext-pqc/AES0119-PSA_Certified_Crypto_API-1.3_PQC_Extension-bet.0.pdf
 
-*Copyright 2022-2026, Arm Limited and/or its affiliates*
+*Copyright 2022-2026 Arm Limited and/or its affiliates*

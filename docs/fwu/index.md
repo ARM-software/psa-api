@@ -1,25 +1,25 @@
 ---
-title: PSA Certified Firmware Update API
+title: PSA Firmware Update API
 description: The Firmware Update API defines a standard firmware interface for installing firmware updates
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022-2023, 2025 Arm Limited and/or its affiliates
+SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Certified<br />Firmware Update API
+# PSA Firmware Update API
 
 The Firmware Update API defines a standard firmware interface for installing firmware updates.
 
-See the [PSA Certified APIs][psa-api] page for other PSA Certified APIs.
+See the [PSA API][psa-api] page for other PSA APIs.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA API GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA API Test suites][psa-api-ats].
 
 [psa-api]:          ../
-[psa-api-gh]:       https://github.com/arm-software/psa-api
+[psa-api-gh]:       https://github.com/globalplatform/psa-api
 [psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
 
 ## Specifications
@@ -39,4 +39,4 @@ Version | | | Publication
 [0-7-html]:           0.7/
 [0-7-beta-pdf]:       0.7/IHI0093-PSA_FWU_API-0.7-beta0.pdf
 
-*Copyright 2022-2023, 2025, Arm Limited and/or its affiliates*
+*Copyright 2022-2026 Arm Limited and/or its affiliates*

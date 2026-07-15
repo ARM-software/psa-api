@@ -1,25 +1,25 @@
 ---
-title: PSA Certified Status code API
-description: The Status code API provides common status and error codes for the PSA Certified API
+title: PSA Status code API
+description: The Status code API provides common status and error codes for the PSA APIs
 ---
 
 <!--
-SPDX-FileCopyrightText: Copyright 2022, 2024-2026 Arm Limited and/or its affiliates
+SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its affiliates
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# PSA Certified<br />Status code API
+# PSA Status code API
 
-The Status code API provides common status and error codes for the PSA Certified APIs.
+The Status code API provides common status and error codes for the PSA APIs.
 
-See the [PSA Certified APIs][psa-api] page for other PSA Certified APIs.
+See the [PSA API][psa-api] page for other PSA APIs.
 
-Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA Certified APIs GitHub project][psa-api-gh].
+Specification source files, updates, and discussions, as well as reference headers and example code, can be found in the associated [PSA API GitHub project][psa-api-gh].
 
-Test suites to verify a correct implementation can be found in the [PSA Certified APIs Test suites][psa-api-ats].
+Test suites to verify a correct implementation can be found in the [PSA API Test suites][psa-api-ats].
 
 [psa-api]:          ../
-[psa-api-gh]:       https://github.com/arm-software/psa-api
+[psa-api-gh]:       https://github.com/globalplatform/psa-api
 [psa-api-ats]:      https://github.com/ARM-software/psa-arch-tests/tree/main/api-tests/dev_apis
 
 ## Specifications
@@ -43,4 +43,4 @@ Prior to version 1.0.1, the PSA status codes were defined as part of the *PSA Fi
 
 [ffm-1-0-pdf]:          https://developer.arm.com/documentation/den0063/a
 
-*Copyright 2022, 2024-2026 Arm Limited and/or its affiliates*
+*Copyright 2022-2026 Arm Limited and/or its affiliates*
