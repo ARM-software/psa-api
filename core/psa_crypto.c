@@ -2781,9 +2781,13 @@ psa_status_t psa_asymmetric_decrypt(mbedtls_svc_key_id_t key,
         output, output_size, output_length);
 
 exit:
+    // constant-time error handling to avoid padding oracle attacks
     unlock_status = psa_unregister_read_under_mutex(slot);
-
-    return (status == PSA_SUCCESS) ? unlock_status : status;
+    if (unlock_status != PSA_SUCCESS) {
+        status = unlock_status;
+    }
+    *output_length &= ~(status >> 31);
+    return status;
 }
 
 /****************************************************************/
@@ -3383,7 +3387,8 @@ static psa_algorithm_t psa_aead_get_base_algorithm(psa_algorithm_t alg)
 
 /* Helper function to perform common nonce length checks. */
 static psa_status_t psa_aead_check_nonce_length(psa_algorithm_t alg,
-                                                size_t nonce_length)
+                                                size_t nonce_length,
+                                                size_t pt_length)
 {
     psa_algorithm_t base_alg = psa_aead_get_base_algorithm(alg);
 
@@ -3403,7 +3408,14 @@ static psa_status_t psa_aead_check_nonce_length(psa_algorithm_t alg,
 #endif /* PSA_WANT_ALG_GCM */
 #if defined(PSA_WANT_ALG_CCM)
         case PSA_ALG_CCM:
-            if (nonce_length >= 7 && nonce_length <= 13) {
+            if (nonce_length >= 7 && nonce_length <= 13 &&
+#if SIZE_MAX > UINT32_MAX
+                (nonce_length == 7 ||
+                 pt_length >> (8 * (15 - nonce_length)) == 0)) {
+#else
+                (nonce_length <= 11 ||
+                 pt_length >> (8 * (15 - nonce_length)) == 0)) {
+#endif
                 return PSA_SUCCESS;
             }
             break;
@@ -3433,6 +3445,7 @@ static psa_status_t psa_aead_check_nonce_length(psa_algorithm_t alg,
 #endif /* PSA_WANT_ALG_ASCON_AEAD128 */
         default:
             (void) nonce_length;
+            (void) pt_length;
             return PSA_ERROR_NOT_SUPPORTED;
     }
 
@@ -3476,7 +3489,7 @@ psa_status_t psa_aead_encrypt(mbedtls_svc_key_id_t key,
         return status;
     }
 
-    status = psa_aead_check_nonce_length(alg, nonce_length);
+    status = psa_aead_check_nonce_length(alg, nonce_length, plaintext_length);
     if (status != PSA_SUCCESS) {
         goto exit;
     }
@@ -3527,7 +3540,7 @@ psa_status_t psa_aead_decrypt(mbedtls_svc_key_id_t key,
         return status;
     }
 
-    status = psa_aead_check_nonce_length(alg, nonce_length);
+    status = psa_aead_check_nonce_length(alg, nonce_length, ciphertext_length);
     if (status != PSA_SUCCESS) {
         goto exit;
     }
@@ -3706,6 +3719,9 @@ psa_status_t psa_aead_generate_nonce(psa_aead_operation_t *operation,
     psa_status_t status = PSA_ERROR_CORRUPTION_DETECTED;
     uint8_t local_nonce[PSA_AEAD_NONCE_MAX_SIZE];
     size_t required_nonce_size = 0;
+#if defined(PSA_WANT_ALG_CCM)
+    size_t plenbytes;
+#endif
 
     *nonce_length = 0;
 
@@ -3720,23 +3736,23 @@ psa_status_t psa_aead_generate_nonce(psa_aead_operation_t *operation,
     }
 
 #if defined(PSA_WANT_ALG_CCM)
-    if (operation->alg == PSA_ALG_CCM && !operation->lengths_set) {
-        status = PSA_ERROR_BAD_STATE;
-        goto exit;
-    }
+    if (operation->alg == PSA_ALG_CCM) {
+        if (!operation->lengths_set) {
+            status = PSA_ERROR_BAD_STATE;
+            goto exit;
+        }
+        // space needed to encode the plaintext length
+        plenbytes = 2;
+        while (operation->body_remaining >> (8 * plenbytes) != 0) plenbytes *= 2;
+        required_nonce_size = 15u - plenbytes;
+    } else
 #endif /* PSA_WANT_ALG_CCM */
+    {
+        // use default nonce length
+        required_nonce_size = PSA_AEAD_NONCE_LENGTH(operation->key_type,
+                                                    operation->alg);
+    }
 
-    /* For CCM, this size may not be correct according to the PSA
-     * specification. The PSA Crypto 1.0.1 specification states:
-     *
-     * CCM encodes the plaintext length pLen in L octets, with L the smallest
-     * integer >= 2 where pLen < 2^(8L). The nonce length is then 15 - L bytes.
-     *
-     * However this restriction that L has to be the smallest integer is not
-     * applied in practice, and it is not implementable here since the
-     * plaintext length may or may not be known at this time. */
-    required_nonce_size = PSA_AEAD_NONCE_LENGTH(operation->key_type,
-                                                operation->alg);
     if (nonce_size < required_nonce_size) {
         status = PSA_ERROR_BUFFER_TOO_SMALL;
         goto exit;
@@ -3785,9 +3801,8 @@ psa_status_t psa_aead_set_nonce(psa_aead_operation_t *operation,
     }
 #endif /* PSA_WANT_ALG_CCM */
 
-    status = psa_aead_check_nonce_length(operation->alg, nonce_length);
+    status = psa_aead_check_nonce_length(operation->alg, nonce_length, operation->body_remaining);
     if (status != PSA_SUCCESS) {
-        status = PSA_ERROR_INVALID_ARGUMENT;
         goto exit;
     }
 
@@ -3839,18 +3854,29 @@ psa_status_t psa_aead_set_lengths(psa_aead_operation_t *operation,
 #endif /* PSA_WANT_ALG_GCM */
 #if defined(PSA_WANT_ALG_CCM)
         case PSA_ALG_CCM:
-            if (ad_length > 0xFF00) {
-                status = PSA_ERROR_INVALID_ARGUMENT;
-                goto exit;
-            }
             break;
 #endif /* PSA_WANT_ALG_CCM */
 #if defined(PSA_WANT_ALG_CHACHA20_POLY1305) || defined(PSA_WANT_ALG_XCHACHA20_POLY1305)
         case PSA_ALG_CHACHA20_POLY1305:
         case PSA_ALG_XCHACHA20_POLY1305:
-            /* No length restrictions for ChaChaPoly. */
+#if SIZE_MAX > UINT32_MAX
+            if (plaintext_length >= (1ull << 38) - 64) {
+                status = PSA_ERROR_INVALID_ARGUMENT;
+                goto exit;
+            }
+#endif
             break;
 #endif /* PSA_WANT_ALG_CHACHA20_POLY1305 || PSA_WANT_ALG_XCHACHA20_POLY1305 */
+#if defined(PSA_ALG_ASCON_AEAD128)
+        case PSA_ALG_ASCON_AEAD128:
+#if SIZE_MAX > UINT32_MAX
+            if ((ad_length + plaintext_length) >> 54 != 0) {
+                status = PSA_ERROR_INVALID_ARGUMENT;
+                goto exit;
+            }
+#endif
+            break;
+#endif /* PSA_ALG_ASCON_AEAD128 */
         default:
             break;
     }
@@ -3901,12 +3927,6 @@ psa_status_t psa_aead_update_ad(psa_aead_operation_t *operation,
 
         operation->ad_remaining -= input_length;
     }
-#if defined(PSA_WANT_ALG_CCM)
-    else if (operation->alg == PSA_ALG_CCM) {
-        status = PSA_ERROR_BAD_STATE;
-        goto exit;
-    }
-#endif /* PSA_WANT_ALG_CCM */
 
     status = psa_driver_wrapper_aead_update_ad(operation, input,
                                                input_length);
@@ -3960,12 +3980,6 @@ psa_status_t psa_aead_update(psa_aead_operation_t *operation,
 
         operation->body_remaining -= input_length;
     }
-#if defined(PSA_WANT_ALG_CCM)
-    else if (operation->alg == PSA_ALG_CCM) {
-        status = PSA_ERROR_BAD_STATE;
-        goto exit;
-    }
-#endif /* PSA_WANT_ALG_CCM */
 
     status = psa_driver_wrapper_aead_update(operation, input, input_length,
                                             output, output_size,
@@ -4112,16 +4126,16 @@ static psa_status_t psa_key_derivation_insert_input(
     uint32_t len = operation->input_len;
     uint32_t idx = len / 4;
 
-    len += 4 + data_length;
+    len += 4 + (uint32_t)data_length;
     if (attributes->type != PSA_KEY_TYPE_NONE) {
         len += sizeof *attributes;
         type = KEY_DERIVATION_BUFFER_TYPE_KEY;
     }
     if (data_length > 0xFFFF || len > sizeof operation->input) return PSA_ERROR_INSUFFICIENT_MEMORY;
 
-    operation->input[idx++] = type << 28 | step << 16 | data_length;
+    operation->input[idx++] = type << 28 | step << 16 | (uint32_t)data_length;
     memcpy(&operation->input[idx], data, data_length);
-    idx += (data_length + 3) / 4;
+    idx += ((uint32_t)data_length + 3) / 4;
     if (type == KEY_DERIVATION_BUFFER_TYPE_KEY) {
         memcpy(&operation->input[idx], attributes, sizeof *attributes);
         idx += sizeof *attributes / 4;
@@ -4212,16 +4226,16 @@ psa_status_t psa_key_derivation_setup(psa_key_derivation_operation_t *operation,
      * all of its members. */
     memset(&operation->ctx, 0, sizeof(operation->ctx));
 
-#ifdef PSA_NEED_OBERON_PBKDF2_AES_CMAC_PRF_128
+#ifdef PSA_WANT_ALG_PBKDF2_AES_CMAC_PRF_128
     if (alg == PSA_ALG_PBKDF2_AES_CMAC_PRF_128) {
         // ok
     } else
-#endif /* PSA_NEED_OBERON_PBKDF2_AES_CMAC_PRF_128 */
-#ifdef PSA_NEED_OBERON_SP800_108_COUNTER_CMAC
+#endif /* PSA_WANT_ALG_PBKDF2_AES_CMAC_PRF_128 */
+#ifdef PSA_WANT_ALG_SP800_108_COUNTER_CMAC
     if (alg == PSA_ALG_SP800_108_COUNTER_CMAC) {
         // ok
     } else
-#endif /* PSA_NEED_OBERON_SP800_108_COUNTER_CMAC */
+#endif /* PSA_WANT_ALG_SP800_108_COUNTER_CMAC */
 #if defined(PSA_WANT_ALG_TLS12_PRF) || defined(PSA_WANT_ALG_TLS12_PSK_TO_MS)
     if (PSA_ALG_IS_TLS12_PRF(kdf_alg) || PSA_ALG_IS_TLS12_PSK_TO_MS(kdf_alg)) {
         psa_algorithm_t hash_alg = PSA_ALG_HKDF_GET_HASH(kdf_alg);
@@ -5144,6 +5158,9 @@ static psa_status_t psa_key_agreement_internal(psa_key_derivation_operation_t *o
                                                &shared_secret_attributes,
                                                shared_secret,
                                                shared_secret_length);
+    if (status != PSA_SUCCESS) {
+        goto exit;
+    }
 
     /* Step 3: the temporary key must be destroyed at the end of the operation */
     if (step != PSA_KEY_DERIVATION_INPUT_SECRET && step != PSA_KEY_DERIVATION_INPUT_OTHER_SECRET) {

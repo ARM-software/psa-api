@@ -13,7 +13,7 @@
  *    - the version of the Oberon PSA Crypto Core,
  *    - and that the Oberon drivers have been tested for compatibility with this
  *      version of the PSA Core,
- *    - and that the provided dispatch logic, while only a template, has been
+ *    - and that the provided dispatch layer, while only a template, has been
  *      tested with that version of the PSA Core.
  */
 
@@ -23,7 +23,7 @@
  */
 #define OBERON_PSA_CRYPTO_VERSION_MAJOR  2
 #define OBERON_PSA_CRYPTO_VERSION_MINOR  1
-#define OBERON_PSA_CRYPTO_VERSION_PATCH  0
+#define OBERON_PSA_CRYPTO_VERSION_PATCH  1
 
 /**
  * The single version number has the following structure:

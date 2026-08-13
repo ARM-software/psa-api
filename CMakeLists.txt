@@ -71,7 +71,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE dispatch)
 target_include_directories(${PROJECT_NAME} PRIVATE platform)
 
 # poc dispatch, acme driver, and driver config includes
-target_include_directories(${PROJECT_NAME} PRIVATE targets/acme/poc/dispatch)
+target_include_directories(${PROJECT_NAME} PRIVATE targets/acme/poc/dispatch/include)
 target_include_directories(${PROJECT_NAME} PRIVATE drivers/acme)
 
 # poc psa-crypto library with config and other headers from default locations
@@ -91,7 +91,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
         $<INSTALL_INTERFACE:include>)
 target_include_directories(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/targets/acme/poc/dispatch>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/targets/acme/poc/dispatch/include>
         $<INSTALL_INTERFACE:include>)
 
 target_include_directories(${PROJECT_NAME} PRIVATE core)
@@ -118,7 +118,7 @@ if (DEFINED PSA_ARCH_TESTS)
 
     set(PSA_INCLUDE_PATHS_RELATIVE
         include
-        targets/acme/poc/dispatch # use psa/crypto_config.h from poc
+        targets/acme/poc/dispatch/include # use psa/crypto_config.h from poc
         drivers/acme
     )  
     set(PSA_CRYPTO_POC psa-crypto-poc)

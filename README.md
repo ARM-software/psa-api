@@ -3,29 +3,30 @@
 ## Summary
 
 For implementers of a PSA Crypto Core or of a PSA Crypto Driver, this sandbox
-provides early access to an up-to-date PSA Certified Crypto API implementation
-that already supports the most advanced concepts of the emerging
-PSA Crypto Driver Interface standard.
+provides early access to an up-to-date PSA Crypto API implementation. It already
+supports the most advanced concepts of the emerging PSA Crypto Driver Interface
+and related standards.
 It thus gives a head start to anyone interested in, or actively involved in, the
-standardization effort. This implementation of the PSA Certified Crypto API is
+standardization effort. This implementation of the PSA Crypto API is free and
 open source and comes with several software PSA Crypto Drivers as examples, along
-with example configuration and dispatch logic. The purpose of this sandbox is to
-speed up the development of the new standard, and to enable effective discussions
-in the community by contributing working code.
+with example configuration and example dispatch layer. The purpose of this
+sandbox is to speed up the development of the new standard, and to enable
+effective discussions in the community by contributing working code.
 
 ## The PSA Driver Interface Initiative
 
-This document assumes that you know about the industry initiative to develop,
+This document assumes that you know about the industry initiative to design,
 validate, and standardize the PSA Crypto Driver Interface, as a complementary
-specification to the PSA Certified Crypto API.
+specification to the PSA Crypto API.
 Otherwise, please first consult the following references:
 
-- [PSA Crypto Driver Interface (Scope and Plan)](https://github.com/ARM-software/psa-api/discussions/306)
-- [PSA Crypto Driver Interface (Open Issues)](https://github.com/ARM-software/psa-api/issues?q=state%3Aopen%20label%3A%22Crypto%20Driver%22)
-- [PSA Crypto Driver Interface (Draft Spec)](https://arm-software.github.io/psa-api/crypto-driver/1.0/111106-PSA_Certified_Crypto_Driver_Interface-1.0-alp.1.pdf)
-- [PSA Certified APIs (PSA Spec Links)](https://arm-software.github.io/psa-api/)
+- [PSA Crypto Driver Interface (Scope and Plan)](https://github.com/GlobalPlatform/psa-api/discussions/306)
+- [PSA Crypto Driver Interface (Draft Spec Publication)](https://arm-software.github.io/psa-api/crypto-driver/1.0/)
+- [PSA Crypto Driver Interface (Spec Sources, Issues and Discussions)](https://github.com/GlobalPlatform/psa-api)
+111106-PSA_Certified_Crypto_Driver_Interface-1.0-alp.1.pdf)
+- [PSA API Spec Publications](https://arm-software.github.io/psa-api/)
 
-## Disclaimer: Open Source Sandbox, not Open Source Project
+## Open Source Sandbox, not Open Source Project
 
 The purpose for this repo branch is to facilitate the creation of standards that
 make it possible for any PSA Crypto Core to work with any set of PSA Crypto
@@ -35,38 +36,41 @@ In other words, the goal is a mature "contract" between PSA cores and drivers.
 
 Oberon microsystems uses this code for prototyping new driver interface features
 and contributes it to the community as a sandbox for demonstration,
-experimentation, and standardization purposes. It is NOT intended for use in
-production systems; it is provided as is and without warranties.
-
-There may be occasional updates, time and resources permitting, but don't be
-disappointed if it doesn't happen.
+experimentation, and standardization purposes.
 
 Everyone is free to use this code, according to its Apache 2.0 license.
 
 No pull requests will be accepted.
 
+There may be occasional updates, time and resources permitting, but don't be
+disappointed if they don't happen.
+
+As the sandbox code is not intended for production purposes, there is no
+vulnerability handling for the sandbox.
+
 The starting point for this software was Arm's TF-PSA-Crypto (or rather, the
-code within Mbed TLS before the two were split into different repos) and
-Oberon microsystems' derivative thereof. The software is a subset of the
+PSA Crypto Core within Mbed TLS before the two were split into different repos)
+and Oberon microsystems' derivative thereof. The software is a subset of the
 commercial product
 [Oberon PSA Crypto](https://www.oberon.ch/products/oberon-psa-crypto/).
 
 Currently, the main topics of interest where this sandbox should be helpful are:
 
 - Revised KDF driver interface
-  [Issue 340](https://github.com/ARM-software/psa-api/issues/340):
-  This implementation is a proof of concept that shows that the new interface
-  works for transparent and opaque drivers.
+  [Issue 340](https://github.com/GlobalPlatform/psa-api/issues/340):
+  This implementation is a proof of concept showing that the new interface
+  works for transparent and also for opaque drivers.
 
 - Revised PAKE driver interface
-  [Issue 342](https://github.com/ARM-software/psa-api/issues/342):
+  [Issue 342](https://github.com/GlobalPlatform/psa-api/issues/342):
   This implementation shows the revised PAKE API (since PSA Crypto API 1.3) and
   corresponding driver interface for EC-JPAKE, SPAKE2+, and even SRP and WPA3. It
   was tested with Oberon's commercial drivers (which are not part of this repo).
 
 - Parameter validation responsibilities
-  [Issue 332](https://github.com/ARM-software/psa-api/issues/332):
-  Division of responsibilities between core, dispatch logic, and drivers.
+  [Issue 332](https://github.com/GlobalPlatform/psa-api/issues/332):
+  Division of responsibilities between core, dispatch layer, and drivers.
+  The devil's in the details.
 
 - Optional overhead reduction, especially in the core, for key managemement. In
   particular, for bootloaders that use built-in keys.
@@ -78,20 +82,23 @@ Currently, the main topics of interest where this sandbox should be helpful are:
   hardware-protected environment. This requires some form of "semi-opaque"
   drivers.
 
-- Some additional interfaces that a driver can use to make their development
+- Some additional interfaces that drivers can use to make their development
   easier, or to make their code more secure or more portable.
 
 - A software driver should be able to delegate some of its processing to a
   hardware driver in a systematic way. This is called driver chaining.
   The provided ACME drivers demonstrate driver chaining.
 
+- Alignment of the directory structure of a PSA Crypto implementation, to make it
+  easier to reuse drivers with different PSA Crypto Cores.
+
 ### Architecture of PSA Crypto
 
 ![Figure 1 - Architecture of PSA Crypto](figure_01_architecture.png "Figure 1 - Architecture of PSA Crypto")
 
 Figure 1 shows an architecture overview of this PSA Crypto sandbox
-implementation. The "Certified" in "PSA Certified Crypto API", and the "PSA" in
-the component names, are omitted for brevity.
+implementation. The "PSA" in "PSA Crypto API" and in the component names are
+omitted for brevity.
 
 All path names mentioned below are relative to the root of this sandbox.
 
@@ -118,7 +125,29 @@ The core itself is platform-independent and located in the following directories
 - `core` (complete implementation, same code as in commercial Oberon PSA Crypto)
 
 The core exposes the
-[PSA Certified Crypto API 1.4.1](https://arm-software.github.io/psa-api/crypto/1.4/IHI0086-PSA_Certified_Crypto_API-1.4.1.pdf).
+[PSA Crypto API 1.5.0](https://arm-software.github.io/psa-api/crypto/1.5/IHI0086-PSA_Certified_Crypto_API-1.5.0.pdf)
+except for the following (optional) functions:
+
+- The new multipart asymmetric signature operations
+  - `psa_sign_operation_init`
+  - `psa_sign_setup`
+  - `psa_sign_set_context`
+  - `psa_sign_update`
+  - `psa_sign_finish`
+  - `psa_sign_abort`
+  - `psa_verify_operation_init`
+  - `psa_verify_setup`
+  - `psa_verify_set_context`
+  - `psa_verify_update`
+  - `psa_verify_finish`
+  - `psa_verify_abort`
+- `psa_attach_key()`
+- `psa_check_key_usage()`
+- `psa_generate_key_custom()`
+- `psa_hash_resume()`
+- `psa_hash_suspend()`
+- `psa_key_derivation_output_key_custom()`
+
 
 The core uses the PSA Crypto Dispatch Interface.
 
@@ -132,43 +161,44 @@ Assuming the availability of corresponding drivers, the core supports
 - password-authenticated key exchange (PAKE, e.g., EC-JPAKE, SPAKE2+, SRP, WPA3-SAE)
 - key agreement (e.g., ECDH with P-256)
 - key encapsulation (KEM, e.g., ML-KEM)
-- digital signatures (e.g., ML-DSA)
+- digital signatures (DSA, e.g., ML-DSA)
 - AES Key Wrap
 
-This core does not support interruptible functions.
+This core does not support interruptible functions, which are an exploratory
+extension of the PSA Crypto API provided by TF-PSA-Crypto.
 
-### PSA Crypto Dispatch Logic
+### PSA Crypto Dispatch Layer
 
-The PSA Dispatch Logic (formerly called Driver Wrappers) is a configuration-
+The PSA Dispatch Layer (formerly called Driver Wrappers) is a configuration-
 dependent adapter that connects the platform-independent core with a set of
 potentially platform-specific drivers. Some or all drivers may depend on
 specific crypto hardware. In this sandbox branch, a set of drivers is provided
 from a ficticious company ACME. The drivers are functional software crypto
 implementations but only intended for demonstration purposes.
 
-The proof-of-concept dispatch logic is located in the following directories:
+The proof-of-concept dispatch layer is located in the following directories:
 
 - `dispatch` (header files representing the dispatch interface)
-- `targets/acme/poc/dispatch/psa` (header files defining operation contexts specific to the ACME drivers)
-- `targets/acme/poc/dispatch` (example implementation of dispatch logic for demonstration purposes)
+- `targets/acme/poc/dispatch/include/psa` (header files defining operation contexts specific to the ACME drivers)
+- `targets/acme/poc/dispatch` (example implementation of dispatch layer for demonstration purposes)
 
-The dispatch logic exposes the platform-independent PSA Crypto Dispatch Interface.
+The dispatch layer exposes the platform-independent PSA Crypto Dispatch Interface.
 
-The dispatch logic uses the PSA Crypto Driver Interface.
+The dispatch layer uses the PSA Crypto Driver Interface.
 
-The dispatch logic supports the `acme` demonstration drivers (see below).
+The dispatch layer supports the `acme` demonstration drivers (see below).
 
-In particular, this proof-of-concept dispatch logic implementation demonstrates
+In particular, this proof-of-concept dispatch layer implementation demonstrates
 dispatching to SHA, AES, HMAC, and KDF drivers. It sketches how to support the
 new PAKE and XOF driver interfaces and demonstrates driver chaining, e.g., KDF
 chains to HMAC, which in turn chains to SHA.
 
-Note that core and dispatch logic eliminate code that is unnecessary for a given
-configuration by using `# ifdefs` based on `PSA_WANT_XXX` directives defined for
+Note that core and dispatch layer eliminate code that is unnecessary for a given
+configuration by using `#ifdefs` based on `PSA_WANT_XXX` directives defined for
 example in the crypto configuration file
-`targets/acme/poc/dispatch/psa/crypto_config.h`.
+`targets/acme/poc/dispatch/include/psa/crypto_config.h`.
 
-Dispatch logic follows systematic design patterns and naming rules, and can be
+Dispatch layer follows systematic design patterns and naming rules, and can be
 adapted as needed for the target hardware.
 
 ### PSA Crypto Drivers by ACME
@@ -209,7 +239,7 @@ The utilities are located in the following directory:
 
 - `utilities` (header files and implementation)
 
-The files are copies from TF-PSA-Crypto 4.1.
+The files are copies from TF-PSA-Crypto 1.1.
 
 ### PSA Crypto Platform
 
@@ -221,7 +251,7 @@ The platform is located in the following directory:
 
 - `platform` (header files and implementation)
 
-The files are copies from TF-PSA-Crypto 4.1, with minor modifications.
+The files are copies from TF-PSA-Crypto 1.1, with minor modifications.
 
 ### PSA Crypto Configuration
 
@@ -232,7 +262,8 @@ included in the built firmware images.
 The `#define PSA_WANT_<xxx>` directives define what the application "wants" — the
 algorithms, key types, and key sizes that an application uses. This allows to
 avoid the inclusion of unnecessary drivers, or even of unnecessary code within
-drivers or within the platform component.
+drivers, within the core, within the dispatch layer, or within the platform
+component.
 
 The `#define PSA_USE_<xxx>` directives select which drivers to include, as there
 may be multiple candidates available for the same cryptographic feature.
